@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.annaru.upms.mapper.CallMapper">
+	<!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.annaru.upms.entity.Call" >
+        <result column="KSDM" property="ksdm" />
+        <result column="KSMC" property="ksmc" />
+        <result column="GHHM" property="ghhm" />
+        <result column="GHSJ" property="ghsj" />
+        <result column="THBZ" property="thbz" />
+        <result column="YSDM" property="ysdm" />
+        <result column="YSXM" property="ysxm" />
+        <result column="BRDM" property="brdm" />
+        <result column="BRXM" property="brxm" />
+        <result column="CLBZ" property="clbz" />
+        <result column="JZHM" property="jzhm" />
+        <result column="CSNY" property="csny" />
+        <result column="YYBZ" property="yybz" />
+        <result column="MZH" property="mzh" />
+        <result column="XB" property="xb" />
+        <result column="SFZH" property="sfzh" />
+        <result column="YYSJ" property="yysj" />
+    </resultMap>
+
+    <!-- 查询全部 -->
+
+    <select id="findAll" resultMap="BaseResultMap">
+            select * from jiaohao
+    </select>
+
+
+
+
+</mapper>
