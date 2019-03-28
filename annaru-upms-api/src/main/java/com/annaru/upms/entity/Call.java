@@ -16,7 +16,7 @@ import java.util.Date;
  * @date 2019-03-26 09:58:57
  */
 @ApiModel(value = "叫号表")
-@TableName("wj")
+@TableName("V_ZYJH_MZ")
 public class Call extends Model<Call> implements Serializable {
 	private static final long serialVersionUID = 1L;
 

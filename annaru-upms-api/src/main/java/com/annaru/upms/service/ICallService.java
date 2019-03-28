@@ -13,10 +13,10 @@ import java.util.List;
 public interface ICallService extends IService<Call> {
 
     //查询主表
-    List<Call> findAll();
+    List<Call> getCallListByMysql();
 
     //查询从表
-    List<Call> selectAll();
+    List<Call> getCallListByOracle();
 
 
 }

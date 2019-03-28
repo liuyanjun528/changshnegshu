@@ -17,13 +17,13 @@ public class CallServiceImpl extends ServiceImpl<CallMapper, Call> implements IC
 
 
     @Override
-    public List<Call> findAll() {
-        return this.baseMapper.findAll();
+    public List<Call> getCallListByMysql() {
+        return this.baseMapper.selectCallByMysql();
     }
 
     @Override
-    public List<Call> selectAll() {
-        return null;
+    public List<Call> getCallListByOracle() {
+        return this.baseMapper.selectCallByOracle();
     }
 
 

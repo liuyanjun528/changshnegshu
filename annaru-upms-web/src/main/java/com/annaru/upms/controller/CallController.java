@@ -7,6 +7,7 @@ import com.annaru.upms.entity.Call;
 import com.annaru.upms.service.ICallService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,7 +18,7 @@ import java.util.List;
  * @author wh
  * @date 2019-03-26 09:58:57
  */
-@Api(tags = {"管理"}, description = "管理")
+@Api(tags = {"叫号管理"}, description = "叫号管理")
 @RestController
 @RequestMapping("/call")
 public class CallController extends BaseController {
@@ -25,21 +26,18 @@ public class CallController extends BaseController {
     @Reference
     private ICallService callService;
 
-    /**
-     * 查询主表
-     */
-    @ApiOperation(value = "查询")
-    @RequestMapping("/find")
-    public ResultMap findAll(){
-        List<Call> jiaohaoList= callService.findAll();
-        return ResultMap.ok().put("jiaohaoList",jiaohaoList);
+    @ApiOperation(value = "mysql查询")
+    @GetMapping("/mysql")
+    public ResultMap mysqlAll(){
+        List<Call> callList= callService.getCallListByMysql();
+        return ResultMap.ok().put("mysql",callList);
     }
 
-    //查询从表
-    @RequestMapping("/select")
-    public ResultMap selectAll(){
-        List<Call> calls= callService.selectAll();
-        return ResultMap.ok().put("calls",calls);
+    @ApiOperation(value = "oracle查询")
+    @GetMapping("/oracle")
+    public ResultMap oracleAll(){
+        List<Call> callList= callService.getCallListByOracle();
+        return ResultMap.ok().put("oracle",callList);
     }
 
 

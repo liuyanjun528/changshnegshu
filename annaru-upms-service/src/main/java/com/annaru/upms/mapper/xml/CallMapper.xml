@@ -23,13 +23,14 @@
         <result column="YYSJ" property="yysj" />
     </resultMap>
 
-    <!-- 查询全部 -->
-
-    <select id="findAll" resultMap="BaseResultMap">
-            select * from jiaohao
+    <select id="selectCallByMysql" resultMap="BaseResultMap">
+        select * from V_ZYJH_MZ
     </select>
 
 
+    <select id="selectCallByOracle" resultMap="BaseResultMap">
+        select * from V_ZYJH_MZ
+    </select>
 
 
 </mapper>
