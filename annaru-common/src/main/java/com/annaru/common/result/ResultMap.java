@@ -11,6 +11,7 @@ import java.util.Map;
  * @Date 2018/6/12 15:13
  */
 public class ResultMap extends HashMap<String, Object> {
+
     public ResultMap() {
         put("code", 0);
         put("msg", "success");
