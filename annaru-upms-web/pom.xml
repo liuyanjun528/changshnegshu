@@ -74,13 +74,6 @@
         </dependency>
         <!-- websocket end -->
 
-        <!-- Netty  begin-->
-        <dependency>
-            <groupId>io.netty</groupId>
-            <artifactId>netty-all</artifactId>
-            <version>5.0.0.Alpha2</version>
-        </dependency>
-        <!-- Netty end -->
 
         <!-- spring-boot-admin begin -->
         <dependency>
