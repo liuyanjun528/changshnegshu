@@ -1,10 +1,9 @@
-package com.annaru.upms.netty;
+package com.annaru.upms.handle.netty;
 
 import io.netty.channel.socket.SocketChannel;
 import lombok.Data;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 

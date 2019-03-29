@@ -1,4 +1,4 @@
-package com.annaru.upms.job.utils;
+package com.annaru.upms.handle.job.utils;
 
 import com.annaru.common.exception.GlobalException;
 import com.annaru.common.util.SpringContextUtils;

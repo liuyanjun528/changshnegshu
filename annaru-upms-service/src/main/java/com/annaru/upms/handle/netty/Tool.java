@@ -1,4 +1,4 @@
-package com.annaru.upms.netty;
+package com.annaru.upms.handle.netty;
 
 public class Tool {
     public static String subRemoteAddr(String remoteAddr){

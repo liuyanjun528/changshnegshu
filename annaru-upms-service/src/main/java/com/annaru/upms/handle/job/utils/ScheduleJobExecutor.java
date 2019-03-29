@@ -1,5 +1,5 @@
 
-package com.annaru.upms.job.utils;
+package com.annaru.upms.handle.job.utils;
 
 import com.annaru.common.util.SpringContextUtils;
 import com.annaru.upms.entity.ScheduleJob;

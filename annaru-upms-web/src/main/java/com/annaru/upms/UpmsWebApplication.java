@@ -1,10 +1,7 @@
 package com.annaru.upms;
 
-import com.annaru.upms.netty.NettyServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
@@ -28,12 +25,8 @@ import org.springframework.session.data.redis.config.annotation.web.http.EnableR
 @EnableScheduling
 @EnableRedisHttpSession(maxInactiveIntervalInSeconds = 1800)
 @ComponentScan("com.annaru")
-public class UpmsWebApplication extends SpringBootServletInitializer implements CommandLineRunner {
+public class UpmsWebApplication extends SpringBootServletInitializer {
     protected final static Logger logger = LoggerFactory.getLogger(UpmsWebApplication.class);
-
-    @Autowired
-    private NettyServer server;
-
 
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
@@ -45,12 +38,6 @@ public class UpmsWebApplication extends SpringBootServletInitializer implements 
     public static void main(String[] args) {
         SpringApplication.run(UpmsWebApplication.class, args);
         logger.info("----UpmsWebApplication 启动----");
-    }
-
-    @Override
-    public void run(String... args) throws Exception {
-        server.start();
-        System.out.println("Netty =======》run  .... . ... ");
     }
 
 }

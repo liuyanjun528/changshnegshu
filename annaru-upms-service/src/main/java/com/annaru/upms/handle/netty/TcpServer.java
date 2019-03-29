@@ -1,4 +1,4 @@
-package com.annaru.upms.netty;
+package com.annaru.upms.handle.netty;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;

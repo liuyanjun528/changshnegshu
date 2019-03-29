@@ -1,4 +1,4 @@
-package com.annaru.upms.job.task;
+package com.annaru.upms.handle.job.task;
 
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;

@@ -1,4 +1,4 @@
-package com.annaru.upms.netty;
+package com.annaru.upms.handle.netty;
 
 import com.alibaba.fastjson.JSON;
 import io.netty.buffer.ByteBuf;

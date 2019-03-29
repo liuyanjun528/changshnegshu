@@ -1,4 +1,4 @@
-package com.annaru.upms.job.config;
+package com.annaru.upms.handle.job.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
