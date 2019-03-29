@@ -29,7 +29,6 @@ public interface CallMapper extends BaseMapper<Call> {
      * @Date: 2019/3/28
      * @return 
      */
-    @DS("oracle")
     List<Call> selectCallByOracle();
 
 }

@@ -49,10 +49,6 @@ public final class TcpServer {
             @Override
             protected void initChannel(SocketChannel ch) throws Exception {
                 iAddNettyChannelMap.execute(ch);
-
-
-
-
                 ch.pipeline().addLast(channelHandlerAdapter);
             }
         });

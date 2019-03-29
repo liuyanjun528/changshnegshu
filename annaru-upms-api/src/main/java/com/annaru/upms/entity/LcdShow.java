@@ -54,7 +54,7 @@ public class LcdShow extends Model<LcdShow> implements Serializable {
 	 * 病人姓名
 	 */
     @ApiModelProperty(value = "病人姓名")
-	private String brxxm;
+	private String brxm;
 
     /**
      * 获取：小屏地址
@@ -131,14 +131,14 @@ public class LcdShow extends Model<LcdShow> implements Serializable {
     /**
      * 获取：病人姓名
      */
-    public String getBrxxm() {
-        return brxxm;
+    public String getBxm() {
+        return brxm;
     }
 	/**
 	 * 设置：病人姓名
 	 */
-	public void setBrxxm(String brxxm) {
-		this.brxxm = brxxm;
+	public void setBrxm(String brxm) {
+		this.brxm = brxm;
 	}
 
     @Override

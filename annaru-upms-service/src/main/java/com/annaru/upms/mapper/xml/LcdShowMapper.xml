@@ -11,12 +11,19 @@
         <result column="fjmc" property="fjmc" />
         <result column="ysgy" property="ysgy" />
         <result column="pdhm" property="pdhm" />
-        <result column="brxxm" property="brxxm" />
+        <result column="brxm" property="brxm" />
     </resultMap>
 
-    <!-- 多表页面信息查询分页 -->
-    <select id="selectDataPage" parameterType="map" resultMap="BaseResultMap">
 
+
+    <select id="selectLcdShowByMysql" resultMap="BaseResultMap">
+        select * from lcd_show
+    </select>
+
+
+
+    <select id="selectLcdShowBySqlServer" resultMap="BaseResultMap">
+        select xpdz,ysxm,ysgh,fjmc,ysgy,pdhm,brxm from lcd_show
     </select>
 
 </mapper>
