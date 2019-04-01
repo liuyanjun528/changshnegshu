@@ -81,8 +81,16 @@
         <!-- sqlserver begin-->
         <dependency>
             <groupId>com.microsoft.sqlserver</groupId>
-            <artifactId>sqljdbc</artifactId>
-            <version>4.1.5605</version>
+            <artifactId>sqljdbc8</artifactId>
+            <version>8.0</version>
+            <scope>8.0</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.microsoft.sqlserver</groupId>
+            <artifactId>mssql-jdbc</artifactId>
+            <version>6.2.0.jre8</version>
+            <scope>runtime</scope>
         </dependency>
         <!-- sqlserver end -->
 
