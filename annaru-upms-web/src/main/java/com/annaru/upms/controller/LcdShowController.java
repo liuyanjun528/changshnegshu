@@ -1,15 +1,16 @@
 package com.annaru.upms.controller;
 
-import com.alibaba.dubbo.config.annotation.Reference;
-import com.annaru.common.base.BaseController;
-import com.annaru.common.result.ResultMap;
-import com.annaru.upms.entity.LcdShow;
-import com.annaru.upms.service.ILcdShowService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import org.springframework.web.bind.annotation.GetMapping;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.GetMapping;
+import com.alibaba.dubbo.config.annotation.Reference;
+import com.annaru.upms.service.ILcdShowService;
+import com.annaru.common.base.BaseController;
+import io.swagger.annotations.ApiOperation;
+import com.annaru.common.result.ResultMap;
+import com.annaru.upms.entity.LcdShow;
+import io.swagger.annotations.Api;
 import java.util.List;
 
 

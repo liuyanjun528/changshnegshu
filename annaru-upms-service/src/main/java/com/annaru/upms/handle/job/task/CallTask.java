@@ -1,14 +1,13 @@
 package com.annaru.upms.handle.job.task;
 
-import com.annaru.upms.entity.Call;
-import com.annaru.upms.service.ICallService;
+import com.annaru.upms.entity.LcdShow;
+import com.annaru.upms.service.ILcdShowService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Map;
 
 
 @Component("callTask")
@@ -16,7 +15,7 @@ public class CallTask {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    private ICallService callService;
+    private ILcdShowService callService;
 
     /**
      * 检查主从数据库 进行比较
@@ -26,11 +25,11 @@ public class CallTask {
      */
     public void checkUpdateDb() {
         //获取本地数据库
-        List<Call> localList = callService.getCallListByMysql();
+        List<LcdShow> localList = callService.getLcdShowListByMysql();
         //获取创业数据库
-        List<Call> cyList = callService.getCallListByOracle();
+        List<LcdShow> cyList = callService.getLcdShowListBySqlServer();
         //循环对比
-        for (Call cyCall : cyList) {
+        for (LcdShow cyCall : cyList) {
             if (localList.contains(cyCall)){
                 // 相同跳过 不同则继续往下对比
                 continue;

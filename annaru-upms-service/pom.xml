@@ -82,9 +82,10 @@
         <dependency>
             <groupId>com.microsoft.sqlserver</groupId>
             <artifactId>sqljdbc</artifactId>
-            <version>4.1.5605</version>
         </dependency>
+
         <!-- sqlserver end -->
+
 
     </dependencies>
 

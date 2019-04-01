@@ -86,6 +86,7 @@
 
         <!-- oracle -->
         <cn.easyproject.version>12.1.0.2.0</cn.easyproject.version>
+
     </properties>
 
     <dependencies>
@@ -284,6 +285,12 @@
                 <version>${cn.easyproject.version}</version>
             </dependency>
             <!-- oracle end -->
+
+            <dependency>
+                <groupId>com.microsoft.sqlserver</groupId>
+                <artifactId>sqljdbc</artifactId>
+                <version>4.1.5605</version>
+            </dependency>
 
             <!-- mybatis-plus begin -->
             <dependency>

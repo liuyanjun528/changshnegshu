@@ -2,13 +2,12 @@ package com.annaru.upms.handle.netty;
 
 import com.alibaba.fastjson.JSON;
 import com.annaru.common.result.ResultMap;
-import com.annaru.upms.entity.Call;
+import com.annaru.upms.entity.LcdShow;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
-
 import java.util.Date;
 
 
@@ -22,7 +21,7 @@ public class NettyChannelHandler extends SimpleChannelInboundHandler<Object> {
         buf.readBytes(req);
         String body = new String(req,"UTF-8");
 
-        System.out.println("连接=============");
+        System.out.println("连接以后我就出现=============");
 
         String remoteAddr = Tool.subRemoteAddr(ctx.channel().remoteAddress().toString());
         ChannelMsgModel cmm = new ChannelMsgModel();
@@ -32,9 +31,9 @@ public class NettyChannelHandler extends SimpleChannelInboundHandler<Object> {
 
         try {
             // TODO  待定
-            Call call = new Call();
-            call.setBrxm("你吃饭了吗");
-            ResultMap resultMap = ResultMap.ok("我是msg").put("call", call);
+            LcdShow lcd = new LcdShow();
+            lcd.setBrxm("你吃饭了吗");
+            ResultMap resultMap = ResultMap.ok("我是msg").put("lcd", lcd);
             String patientPdStr = JSON.toJSONString(resultMap);
             patientPdStr+="\n";
             byte[] bytes = patientPdStr.getBytes("UTF-8");
