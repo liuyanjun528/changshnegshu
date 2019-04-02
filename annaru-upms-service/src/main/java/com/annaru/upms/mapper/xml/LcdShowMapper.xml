@@ -14,16 +14,47 @@
         <result column="brxm" property="brxm" />
     </resultMap>
 
-
-
-    <select id="selectLcdShowByMysql" resultMap="BaseResultMap">
-        select * from lcd_show
+    <!--通过小屏地址查询mysql数据库-->
+    <select id="selectByXpdz" resultMap="BaseResultMap">
+        select
+            xpdz,
+            ysxm,
+            ysgh,
+            fjmc,
+            ysgy,
+            pdhm,
+            brxm
+        from
+            lcd_show
+        where
+            xpdz=#{xpdz}
+        LIMIT 1
     </select>
 
+    <!--查询mysql数据库-->
+    <select id="selectLcdShowByMysql" resultMap="BaseResultMap">
+        select xpdz,ysxm,ysgh,fjmc,ysgy,pdhm,brxm from lcd_show
+    </select>
 
-
+    <!--查询sqlserver数据库-->
     <select id="selectLcdShowBySqlServer" resultMap="BaseResultMap">
         select xpdz,ysxm,ysgh,fjmc,ysgy,pdhm,brxm from lcd_show
+    </select>
+
+    <!--根据xpdz更新数据-->
+    <select id="updateByXpdz" parameterType="com.annaru.upms.entity.LcdShow">
+        UPDATE
+            lcd_show
+        SET
+            xpdz = #{xpdz} ,
+            ysxm = #{ysxm} ,
+            ysgh = #{ysgh} ,
+            fjmc = #{fjmc} ,
+            ysgy = #{ysgy} ,
+            pdhm = #{pdhm} ,
+            brxm = #{brxm}
+        WHERE
+            xpdz = #{xpdz}
     </select>
 
 </mapper>

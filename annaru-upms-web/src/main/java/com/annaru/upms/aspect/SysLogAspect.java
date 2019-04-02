@@ -108,34 +108,34 @@ public class SysLogAspect {
 
     }
 
-    @After("cutController()")
-    public void doAfter() {
-        endTime = System.currentTimeMillis();
-        long totalMillis = endTime - startTime;
-        if (isWriteLog(strMethodName)) {
-            try {
-                ShiroUser shiroUser = ShiroKit.getUser();
-                if (null != shiroUser) {
-                    String loginName = shiroUser.getLoginName();
-                    SysLog sysLog = new SysLog();
-                    sysLog.setLoginName(loginName);
-                    sysLog.setRoleName(shiroUser.getRoles().get(0));
-                    sysLog.setClassName(strClassName);
-                    sysLog.setMethod(strMethodName);
-                    if (StringUtils.isNotBlank(args)&&!args.equals("null")) {
-                        sysLog.setParams(args);
-                    }
-                    sysLog.setTime(totalMillis);
-                    sysLog.setCreateTime(new Date());
-                    sysLog.setClientIp(clientIp);
-                    sysLogService.save(sysLog);
-                }
-            } catch (Exception e) {
-                logger.error(e.getMessage(), e);
-            }
-        }
-        logger.info("----" + "执行时间：" + totalMillis + "毫秒" + "----");
-    }
+//    @After("cutController()")
+//    public void doAfter() {
+//        endTime = System.currentTimeMillis();
+//        long totalMillis = endTime - startTime;
+//        if (isWriteLog(strMethodName)) {
+//            try {
+//                ShiroUser shiroUser = ShiroKit.getUser();
+//                if (null != shiroUser) {
+//                    String loginName = shiroUser.getLoginName();
+//                    SysLog sysLog = new SysLog();
+//                    sysLog.setLoginName(loginName);
+//                    sysLog.setRoleName(shiroUser.getRoles().get(0));
+//                    sysLog.setClassName(strClassName);
+//                    sysLog.setMethod(strMethodName);
+//                    if (StringUtils.isNotBlank(args)&&!args.equals("null")) {
+//                        sysLog.setParams(args);
+//                    }
+//                    sysLog.setTime(totalMillis);
+//                    sysLog.setCreateTime(new Date());
+//                    sysLog.setClientIp(clientIp);
+//                    sysLogService.save(sysLog);
+//                }
+//            } catch (Exception e) {
+//                logger.error(e.getMessage(), e);
+//            }
+//        }
+//        logger.info("----" + "执行时间：" + totalMillis + "毫秒" + "----");
+//    }
 
     private boolean isWriteLog(String method) {
         String[] pattern = {"login", "logout", "save", "update", "delete","list","dataGrid","edit","grant"};

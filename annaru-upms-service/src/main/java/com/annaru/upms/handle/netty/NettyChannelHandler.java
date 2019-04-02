@@ -32,7 +32,7 @@ public class NettyChannelHandler extends SimpleChannelInboundHandler<Object> {
         try {
             // TODO  待定
             LcdShow lcd = new LcdShow();
-            lcd.setBrxm("你吃饭了吗");
+            lcd.setXpdz("小屏地址：");
             ResultMap resultMap = ResultMap.ok("我是msg").put("lcd", lcd);
             String patientPdStr = JSON.toJSONString(resultMap);
             patientPdStr+="\n";

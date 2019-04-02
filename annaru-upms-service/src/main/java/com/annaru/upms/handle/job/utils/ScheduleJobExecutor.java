@@ -7,6 +7,7 @@ import com.annaru.upms.entity.ScheduleJobLog;
 import com.annaru.upms.service.IScheduleJobLogService;
 import com.annaru.upms.service.IScheduleJobService;
 import org.apache.commons.lang3.StringUtils;
+import org.quartz.DisallowConcurrentExecution;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.quartz.JobKey;
@@ -25,6 +26,7 @@ import java.util.concurrent.Future;
  * @Author TuMinglong
  * @Date 2019/1/18 15:59
  **/
+@DisallowConcurrentExecution
 public class ScheduleJobExecutor extends QuartzJobBean {
 	private Logger logger = LoggerFactory.getLogger(getClass());
 	private ExecutorService service = Executors.newSingleThreadExecutor(); 

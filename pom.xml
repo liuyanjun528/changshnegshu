@@ -286,12 +286,6 @@
             </dependency>
             <!-- oracle end -->
 
-            <dependency>
-                <groupId>com.microsoft.sqlserver</groupId>
-                <artifactId>sqljdbc</artifactId>
-                <version>4.1.5605</version>
-            </dependency>
-
             <!-- mybatis-plus begin -->
             <dependency>
                 <groupId>com.alibaba</groupId>

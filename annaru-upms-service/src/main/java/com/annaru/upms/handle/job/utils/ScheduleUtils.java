@@ -106,7 +106,7 @@ public class ScheduleUtils {
             //参数
             JobDataMap dataMap = new JobDataMap();
             dataMap.put(ScheduleJob.JOB_PARAM_KEY, scheduleJob);
-        	
+
             scheduler.triggerJob(getJobKey(scheduleJob.getJobId()), dataMap);
         } catch (SchedulerException e) {
             throw new GlobalException("立即执行定时任务失败", e);
