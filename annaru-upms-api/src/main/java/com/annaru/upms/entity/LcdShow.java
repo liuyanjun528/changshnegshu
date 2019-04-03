@@ -64,6 +64,20 @@ public class LcdShow extends Model<LcdShow> implements Serializable {
     @TableField(exist = false)
     private String yszc;
 
+    public LcdShow() {
+
+    }
+
+    public LcdShow(String xpdz, String ysxm, String ysgh, String fjmc, String ysgy, String pdhm, String brxm) {
+        this.xpdz = xpdz;
+        this.ysxm = ysxm;
+        this.ysgh = ysgh;
+        this.fjmc = fjmc;
+        this.ysgy = ysgy;
+        this.pdhm = pdhm;
+        this.brxm = brxm;
+    }
+
     /**
      * 获取：小屏地址
      */

@@ -38,3 +38,9 @@
 > 开发环境
 
  clean install -D profileActive=dev -D maven.test.skip=true -f pom.xml
+ 
+ 
+ ## 线上服务器部署信息
+ - 服务器地址：mhybms.cn:10039 里面的虚拟机部署
+ - 管理员账号：administrator
+ - 密码：Admin123

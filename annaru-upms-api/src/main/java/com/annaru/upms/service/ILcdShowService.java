@@ -33,5 +33,9 @@ public interface ILcdShowService extends IService<LcdShow> {
      */
     List<LcdShow> getLcdShowListBySqlServer();
 
+    /**
+     * 清空数据库所有数据
+     */
+    void clearEmpty();
 }
 

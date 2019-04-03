@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.annaru.upms.mapper.LcdBigConfigMapper">
+
+	<!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.annaru.upms.entity.LcdBigConfig" >
+        <result column="id" property="id" />
+        <result column="parent_ip" property="parentIp" />
+        <result column="children_ip" property="childrenIp" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+
+    <!-- 多表页面信息查询分页 -->
+    <select id="selectDataPage" parameterType="map" resultMap="BaseResultMap">
+
+        SELECT
+              id,
+              parent_ip,
+              children_ip,
+              create_time,
+              update_time
+        FROM
+            lcd_big_config
+    </select>
+
+</mapper>

@@ -1,4 +1,4 @@
-package com.annaru.upms.handle.netty;
+package com.annaru.upms.handle.netty.model;
 
 import io.netty.channel.Channel;
 

@@ -1,18 +1,25 @@
-package com.annaru.upms.handle.netty;
+package com.annaru.upms.handle.netty.handler;
 
 import com.alibaba.fastjson.JSON;
 import com.annaru.common.result.ResultMap;
 import com.annaru.upms.entity.LcdShow;
+import com.annaru.upms.handle.netty.Tool;
+import com.annaru.upms.handle.netty.model.ChannelMsgModel;
+import com.annaru.upms.handle.netty.model.SmallNettyChannelMap;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.Date;
 
 
 @ChannelHandler.Sharable
-public class NettyChannelHandler extends SimpleChannelInboundHandler<Object> {
+public class SmallNettyChannelHandler extends SimpleChannelInboundHandler<Object> {
+    private final static Logger logger = LoggerFactory.getLogger(SmallNettyChannelHandler.class);
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, Object msg) throws Exception {
@@ -21,27 +28,26 @@ public class NettyChannelHandler extends SimpleChannelInboundHandler<Object> {
         buf.readBytes(req);
         String body = new String(req,"UTF-8");
 
-        System.out.println("连接以后我就出现=============");
 
         String remoteAddr = Tool.subRemoteAddr(ctx.channel().remoteAddress().toString());
         ChannelMsgModel cmm = new ChannelMsgModel();
         cmm.setChannel(ctx.channel());
         cmm.setLastChange(new Date());
-        NettyChannelMap.add(remoteAddr,cmm);
+        SmallNettyChannelMap.add(remoteAddr,cmm);
 
         try {
-            // TODO  待定
-            LcdShow lcd = new LcdShow();
-            lcd.setXpdz("小屏地址：");
-            ResultMap resultMap = ResultMap.ok("我是msg").put("lcd", lcd);
+            LcdShow lcdShow = new LcdShow(" ", "xxx", "0000", "诊室", "格言", "0000", "停诊");
+            lcdShow.setYszc("主任医生");
+            ResultMap resultMap = ResultMap.ok().put("data", lcdShow);
             String patientPdStr = JSON.toJSONString(resultMap);
             patientPdStr+="\n";
             byte[] bytes = patientPdStr.getBytes("UTF-8");
             ByteBuf resp = Unpooled.copiedBuffer(bytes);
-            NettyChannelMap.get(remoteAddr).getChannel().writeAndFlush(resp);
+            SmallNettyChannelMap.get(remoteAddr).getChannel().writeAndFlush(resp);
         } catch (Exception e) {
             e.printStackTrace();
         }
+        logger.info("成功连接一个叫号小屏：" + remoteAddr);
     }
 
 

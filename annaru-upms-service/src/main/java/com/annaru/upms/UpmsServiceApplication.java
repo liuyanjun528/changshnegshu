@@ -31,7 +31,7 @@ public class UpmsServiceApplication extends SpringBootServletInitializer impleme
     protected final static Logger logger = LoggerFactory.getLogger(UpmsServiceApplication.class);
 
     @Autowired
-    private NettyServer server;
+    private NettyServer nettyServer;
 
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
@@ -47,8 +47,8 @@ public class UpmsServiceApplication extends SpringBootServletInitializer impleme
 
     @Override
     public void run(String... args) throws Exception {
-        server.start();
-        System.out.println("Netty =======》run  .... . ... ");
+        nettyServer.start();
+        logger.info("----Netty 启动----");
     }
 
 }

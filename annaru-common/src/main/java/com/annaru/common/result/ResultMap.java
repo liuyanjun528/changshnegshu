@@ -11,14 +11,15 @@ import java.util.Map;
  * @Date 2018/6/12 15:13
  */
 public class ResultMap extends HashMap<String, Object> {
-
     public ResultMap() {
+        put("state", true);
         put("code", 0);
         put("msg", "success");
     }
 
     public static ResultMap error(int code, String msg) {
         ResultMap r = new ResultMap();
+        r.put("state", false);
         r.put("code", code);
         r.put("msg", msg);
         return r;

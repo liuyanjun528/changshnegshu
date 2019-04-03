@@ -24,7 +24,6 @@ public class LcdShowServiceImpl extends ServiceImpl<LcdShowMapper, LcdShow> impl
             return;
         }
         this.baseMapper.updateByXpdz(lcdShow);
-        System.out.println("=====================>我更新了");
     }
 
     @Override
@@ -43,6 +42,11 @@ public class LcdShowServiceImpl extends ServiceImpl<LcdShowMapper, LcdShow> impl
     @Override
     public List<LcdShow> getLcdShowListBySqlServer() {
         return this.baseMapper.selectLcdShowBySqlServer();
+    }
+
+    @Override
+    public void clearEmpty() {
+        this.baseMapper.delete(null);
     }
 
 
