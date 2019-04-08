@@ -2,11 +2,13 @@ package com.annaru.upms.handle.job.task;
 
 import com.alibaba.fastjson.JSON;
 import com.annaru.common.result.ResultMap;
+import com.annaru.upms.entity.DoctorPhoto;
 import com.annaru.upms.entity.LcdBigConfig;
 import com.annaru.upms.entity.LcdShow;
 import com.annaru.upms.handle.netty.model.BigNettyChannelMap;
 import com.annaru.upms.handle.netty.model.ChannelMsgModel;
 import com.annaru.upms.handle.netty.model.SmallNettyChannelMap;
+import com.annaru.upms.service.IDoctorPhotoService;
 import com.annaru.upms.service.ILcdBigConfigService;
 import com.annaru.upms.service.ILcdShowService;
 import io.netty.buffer.ByteBuf;
@@ -32,6 +34,9 @@ public class CallTask {
 
     @Autowired
     private ILcdBigConfigService lcdBigConfigService;
+
+    @Autowired
+    private IDoctorPhotoService doctorPhotoService;
 
     /**
      * 检查主从数据库 进行比较
@@ -77,7 +82,9 @@ public class CallTask {
                 if (lcdShow == null) {
                     lcdShow = new LcdShow(remoteAddress, "xxx", "0000", "诊室", "格言", "0000", "停诊");
                 }
+                DoctorPhoto doctorPhoto = doctorPhotoService.getByDoctorName(lcdShow.getYsxm());
                 lcdShow.setYszc("主任医生");
+                lcdShow.setYstx(doctorPhoto.getDoctorImg());
                 if (StringUtils.isBlank(lcdShow.getBrxm()) || "停诊".equals(lcdShow.getBrxm().trim())) {
                     lcdShow.setYszt("停诊");
                 } else {

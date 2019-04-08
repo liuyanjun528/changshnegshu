@@ -64,6 +64,10 @@ public class LcdShow extends Model<LcdShow> implements Serializable {
     @TableField(exist = false)
     private String yszc;
 
+    @ApiModelProperty(value = "医生头像")
+    @TableField(exist = false)
+    private String ystx;
+
     public LcdShow() {
 
     }
@@ -190,6 +194,14 @@ public class LcdShow extends Model<LcdShow> implements Serializable {
 
     public void setYszc(String yszc) {
         this.yszc = yszc;
+    }
+
+    public String getYstx() {
+        return ystx;
+    }
+
+    public void setYstx(String ystx) {
+        this.ystx = ystx;
     }
 
     @Override
