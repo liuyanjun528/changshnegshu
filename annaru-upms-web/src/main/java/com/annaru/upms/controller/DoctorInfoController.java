@@ -14,40 +14,40 @@ import com.annaru.common.result.PageUtils;
 import com.annaru.upms.shiro.ShiroKit;
 import com.annaru.common.result.ResultMap;
 
-import com.annaru.upms.entity.LcdBigConfig;
-import com.annaru.upms.service.ILcdBigConfigService;
+import com.annaru.upms.entity.DoctorInfo;
+import com.annaru.upms.service.IDoctorInfoService;
 import javax.validation.Valid;
 
 
 
 /**
- * 叫号大屏ip配置
+ * 医生信息
  *
  * @author xck
- * @date 2019-04-02 17:31:23
+ * @date 2019-04-08 18:34:08
  */
-@Api(tags = {"叫号大屏ip配置管理"}, description = "叫号大屏ip配置管理")
+@Api(tags = {"医生信息管理"}, description = "医生信息管理")
 @RestController
-@RequestMapping("/lcdBigConfig")
-public class LcdBigConfigController extends BaseController {
+@RequestMapping("doctorInfo")
+public class DoctorInfoController extends BaseController {
     @Reference
-    private ILcdBigConfigService lcdBigConfigService;
+    private IDoctorInfoService doctorInfoService;
 
     /**
      * 列表
      */
     @ApiOperation(value = "列表")
     @GetMapping("/list")
-    @RequiresPermissions("lcdBigConfig/list")
-    public ResultMap list(@ApiParam(value = "当前页")@RequestParam(required = false, defaultValue = "1") Integer page,
+    @RequiresPermissions("doctorInfo/list")
+    public ResultMap list(@ApiParam(value = "当前页")@RequestParam(required = false, defaultValue="1") Integer page,
                        @ApiParam(value = "每页数量")@RequestParam(required = false, defaultValue = "10") Integer limit,
-                       @ApiParam(value = "关键字")@RequestParam(required = false)String key){
+                       @ApiParam(value = "关键字")@RequestParam(required = false)String name){
 
         Map<String, Object> params = new HashMap<>();
         params.put("page",page);
         params.put("limit", limit);
-        params.put("key", key);
-        PageUtils<Map<String, Object>> pageList = lcdBigConfigService.getDataPage(params);
+        params.put("name", name);
+        PageUtils<Map<String, Object>> pageList = doctorInfoService.getDataPage(params);
         return ResultMap.ok().put("page",pageList);
     }
 
@@ -57,10 +57,10 @@ public class LcdBigConfigController extends BaseController {
      */
     @ApiOperation(value = "查看详情", notes = "查看upms详情")
     @GetMapping("/info/{id}")
-    @RequiresPermissions("lcdBigConfig/info")
+    @RequiresPermissions("doctorInfo/info")
     public ResultMap info(@PathVariable("id") String id){
-        LcdBigConfig lcdBigConfig = lcdBigConfigService.getById(id);
-        return ResultMap.ok().put("lcdBigConfig",lcdBigConfig);
+        DoctorInfo doctorInfo = doctorInfoService.getById(id);
+        return ResultMap.ok().put("doctorInfo",doctorInfo);
     }
 
     /**
@@ -68,13 +68,14 @@ public class LcdBigConfigController extends BaseController {
      */
     @ApiOperation(value = "保存")
     @PostMapping("/save")
-    @RequiresPermissions("lcdBigConfig/save")
-    public ResultMap save(@Valid @RequestBody LcdBigConfig lcdBigConfig) {
+    @RequiresPermissions("doctorInfo/save")
+    public ResultMap save(@Valid @RequestBody DoctorInfo doctorInfo) {
         try {
 
-            lcdBigConfig.setCreateTime(new Date());
-            lcdBigConfig.setUpdateTime(new Date());
-            lcdBigConfigService.save(lcdBigConfig);
+            doctorInfo.setCreateUser(ShiroKit.getUser().getId());
+            doctorInfo.setCreateTime(new Date());
+            doctorInfo.setUpdateTime(new Date());
+            doctorInfoService.save(doctorInfo);
             return ResultMap.ok("添加成功");
         } catch (Exception e) {
             logger.error(e.getMessage());
@@ -87,11 +88,11 @@ public class LcdBigConfigController extends BaseController {
      */
     @ApiOperation(value = "修改")
     @PostMapping("/update")
-    @RequiresPermissions("lcdBigConfig/update")
-    public ResultMap update(@Valid @RequestBody LcdBigConfig lcdBigConfig) {
+    @RequiresPermissions("doctorInfo/update")
+    public ResultMap update(@Valid @RequestBody DoctorInfo doctorInfo) {
         try {
-            lcdBigConfig.setUpdateTime(new Date());
-            lcdBigConfigService.updateById(lcdBigConfig);
+            doctorInfo.setUpdateTime(new Date());
+            doctorInfoService.updateById(doctorInfo);
             return ResultMap.ok("修改成功");
         } catch (Exception e) {
             logger.error(e.getMessage());
@@ -105,10 +106,10 @@ public class LcdBigConfigController extends BaseController {
      */
     @ApiOperation(value = "删除")
     @PostMapping("/delete")
-    @RequiresPermissions("lcdBigConfig/delete")
-    public ResultMap delete(@RequestBody String[]ids) {
+    @RequiresPermissions("doctorInfo/delete")
+    public ResultMap delete(@RequestBody String[] ids) {
         try {
-            lcdBigConfigService.removeByIds(Arrays.asList(ids));
+            doctorInfoService.removeByIds(Arrays.asList(ids));
             return ResultMap.ok("删除成功！");
         } catch (Exception e) {
             logger.error(e.getMessage());

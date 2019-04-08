@@ -11,6 +11,7 @@ import com.annaru.common.csrf.CsrfInterceptor;
 import com.annaru.common.interceptor.FileUploadTypeInterceptor;
 import org.apache.commons.codec.Charsets;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.*;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
@@ -42,6 +43,7 @@ public class WebConfig extends WebMvcConfigurationSupport {
         registry.addResourceHandler("swagger-ui.html").addResourceLocations("classpath:/META-INF/resources/");
         registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
         registry.addResourceHandler("static/**").addResourceLocations("classpath:/static/");
+        registry.addResourceHandler("/upload/**").addResourceLocations("file:C://upload/temp-rainy/");
     }
 
     @Override

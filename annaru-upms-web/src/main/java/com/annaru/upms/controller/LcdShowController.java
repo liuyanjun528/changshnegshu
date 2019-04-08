@@ -22,7 +22,7 @@ import java.util.List;
  * @author wh
  * @date 2019-03-29 11:33:31
  */
-@Api(tags = {"叫号管理"}, description = "叫号管理")
+@Api(tags = "叫号管理", description = "叫号管理")
 @RestController
 @RequestMapping("/lcdShow")
 public class LcdShowController extends BaseController {

@@ -2,19 +2,17 @@ package com.annaru.upms.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.annaru.common.result.PageUtils;
-import com.annaru.upms.entity.DoctorPhoto;
-import org.apache.ibatis.annotations.Param;
-
+import com.annaru.upms.entity.DoctorInfo;
 import java.util.List;
 import java.util.Map;
 
 /**
- * 医生照片
+ * 医生信息
  *
  * @author xck
- * @date 2019-04-08 16:20:08
+ * @date 2019-04-08 18:34:08
  */
-public interface IDoctorPhotoService extends IService<DoctorPhoto> {
+public interface IDoctorInfoService extends IService<DoctorInfo> {
 
     /**
     * 多表页面信息查询
@@ -24,9 +22,10 @@ public interface IDoctorPhotoService extends IService<DoctorPhoto> {
     PageUtils getDataPage(Map<String, Object> params);
 
     /**
-     * 查询照片 通过医生姓名
+     * 根据医生姓名获取医生信息
+     * @param name 医生姓名
+     * @return
      */
-    DoctorPhoto getByDoctorName(@Param("doctorName") String doctorName);
-
+    DoctorInfo getDoctorInfoByName(String name);
 }
 
