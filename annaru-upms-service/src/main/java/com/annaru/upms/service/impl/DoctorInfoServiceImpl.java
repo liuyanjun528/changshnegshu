@@ -21,6 +21,7 @@ import java.util.Map;
  * @author xck
  * @date 2019-04-08 18:34:08
  */
+@org.springframework.stereotype.Service("doctorInfoService")
 @Service
 public class DoctorInfoServiceImpl extends ServiceImpl<DoctorInfoMapper, DoctorInfo> implements IDoctorInfoService {
 

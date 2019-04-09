@@ -18,6 +18,7 @@ import java.util.Map;
  * @author xck
  * @date 2019-04-02 17:31:23
  */
+@org.springframework.stereotype.Service("lcdBigConfigService")
 @Service
 public class LcdBigConfigServiceImpl extends ServiceImpl<LcdBigConfigMapper, LcdBigConfig> implements ILcdBigConfigService {
 

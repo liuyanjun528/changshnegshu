@@ -29,11 +29,12 @@ import java.util.Map;
 public class CallTask {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @Autowired
-    private ILcdShowService lcdShowService;
 
     @Autowired
     private ILcdBigConfigService lcdBigConfigService;
+
+    @Autowired
+    private ILcdShowService lcdShowService;
 
     @Autowired
     private IDoctorInfoService doctorInfoService;
