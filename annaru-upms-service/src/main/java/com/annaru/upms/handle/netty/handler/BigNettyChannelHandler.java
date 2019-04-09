@@ -6,7 +6,6 @@ import com.annaru.upms.entity.LcdShow;
 import com.annaru.upms.handle.netty.Tool;
 import com.annaru.upms.handle.netty.model.BigNettyChannelMap;
 import com.annaru.upms.handle.netty.model.ChannelMsgModel;
-import com.annaru.upms.handle.netty.model.SmallNettyChannelMap;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandler;

@@ -14,7 +14,6 @@ import java.util.List;
  * @author wh
  * @date 2019-03-29 11:33:31
  */
-@org.springframework.stereotype.Service("lcdShowService")
 @Service
 public class LcdShowServiceImpl extends ServiceImpl<LcdShowMapper, LcdShow> implements ILcdShowService {
 

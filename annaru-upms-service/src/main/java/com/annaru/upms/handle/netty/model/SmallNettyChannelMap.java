@@ -1,6 +1,5 @@
 package com.annaru.upms.handle.netty.model;
 
-import com.annaru.upms.handle.netty.model.ChannelMsgModel;
 import io.netty.channel.Channel;
 
 import java.util.Map;
