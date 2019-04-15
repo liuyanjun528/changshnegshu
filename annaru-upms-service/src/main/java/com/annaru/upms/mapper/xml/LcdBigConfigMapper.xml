@@ -23,6 +23,7 @@
               update_time
         FROM
             lcd_big_config
+        ORDER BY create_time ASC
     </select>
 
 </mapper>

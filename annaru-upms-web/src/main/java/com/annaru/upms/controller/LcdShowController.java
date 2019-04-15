@@ -1,7 +1,6 @@
 package com.annaru.upms.controller;
 
 
-import org.apache.ibatis.annotations.Param;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,9 +12,8 @@ import com.annaru.common.result.ResultMap;
 import com.annaru.upms.entity.LcdShow;
 import io.swagger.annotations.Api;
 
-import java.util.Date;
 import java.util.List;
-
+import java.util.Map;
 
 
 /**
@@ -29,18 +27,18 @@ public class LcdShowController extends BaseController {
     @Reference
     private ILcdShowService lcdShowService;
 
-    @ApiOperation(value = "mysql查询")
-    @GetMapping("/mysql")
-    public ResultMap mysqlAll(){
-        List<LcdShow> LcdShowListByMysql = lcdShowService.getLcdShowListByMysql();
-        return ResultMap.ok().put("mysql",LcdShowListByMysql);
+    @ApiOperation(value = "小屏当前连接设备信息")
+    @GetMapping("/lcdSmallList")
+    public ResultMap lcdSmallList(){
+        List<Map<String, String>> mapList = lcdShowService.getLcdSmallList();
+        return ResultMap.ok().put("list",mapList);
     }
 
-    @ApiOperation(value = "sqlServer查询")
-    @GetMapping("/sqlServer")
-    public ResultMap sqlServerAll(){
-        List<LcdShow> LcdShowListBySqlServer = lcdShowService.getLcdShowListBySqlServer();
-        return ResultMap.ok().put("sqlServer",LcdShowListBySqlServer);
+    @ApiOperation(value = "大屏当前连接设备信息")
+    @GetMapping("/lcdBigList")
+    public ResultMap lcdBigList(){
+        List<Map<String, String>> mapList = lcdShowService.getLcdBigList();
+        return ResultMap.ok().put("list",mapList);
     }
 
 

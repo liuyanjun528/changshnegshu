@@ -32,6 +32,7 @@
                 name LIKE CONCAT('%', #{params.name}, '%')
             </if>
         </where>
+        ORDER BY create_time DESC
     </select>
 
     <select id="selectDoctorInfoByName" resultMap="BaseResultMap">

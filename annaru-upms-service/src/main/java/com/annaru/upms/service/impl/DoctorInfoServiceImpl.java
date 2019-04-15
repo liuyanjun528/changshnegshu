@@ -22,7 +22,7 @@ import java.util.Map;
 public class DoctorInfoServiceImpl extends ServiceImpl<DoctorInfoMapper, DoctorInfo> implements IDoctorInfoService {
 
     @Override
-    public PageUtils getDataPage(Map<String, Object> params){
+    public PageUtils getDataPage(Map<String, Object> params) {
         Page<DoctorInfo> page = new PageUtils<DoctorInfo>(params).getPage();
         IPage<DoctorInfo> iPage = this.baseMapper.selectDataPage(page, params);
         return new PageUtils<DoctorInfo>(iPage);
@@ -30,10 +30,13 @@ public class DoctorInfoServiceImpl extends ServiceImpl<DoctorInfoMapper, DoctorI
 
     @Override
     public DoctorInfo getDoctorInfoByName(String name) {
-        if(StringUtils.isBlank(name)){
-            return new DoctorInfo();
+        if (StringUtils.isNotBlank(name)) {
+            DoctorInfo doctorInfo = this.baseMapper.selectDoctorInfoByName(name);
+            if (doctorInfo != null) {
+                return doctorInfo;
+            }
         }
-        return this.baseMapper.selectDoctorInfoByName(name);
+        return new DoctorInfo();
     }
 
 }

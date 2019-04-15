@@ -28,18 +28,18 @@ public class SmallNettyChannelHandler extends SimpleChannelInboundHandler<Object
         buf.readBytes(req);
         String body = new String(req,"UTF-8");
 
-
         String remoteAddr = Tool.subRemoteAddr(ctx.channel().remoteAddress().toString());
         ChannelMsgModel cmm = new ChannelMsgModel();
         cmm.setChannel(ctx.channel());
+        cmm.setMsg(body);
         cmm.setLastChange(new Date());
         SmallNettyChannelMap.add(remoteAddr,cmm);
 
         try {
-            LcdShow lcdShow = new LcdShow(" ", "xxx", "0000", "诊室", "格言", "0000", "停诊");
-            lcdShow.setYszc("主任医生");
-            ResultMap resultMap = ResultMap.ok().put("data", lcdShow);
+
+            ResultMap resultMap = ResultMap.ok();
             String patientPdStr = JSON.toJSONString(resultMap);
+
             patientPdStr+="\n";
             byte[] bytes = patientPdStr.getBytes("UTF-8");
             ByteBuf resp = Unpooled.copiedBuffer(bytes);
