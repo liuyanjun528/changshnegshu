@@ -9,6 +9,7 @@ import io.swagger.annotations.ApiModelProperty;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.Serializable;
+import java.util.Date;
 
 
 /**
@@ -56,6 +57,17 @@ public class LcdShow extends Model<LcdShow> implements Serializable {
     @ApiModelProperty(value = "病人姓名")
     private String brxm;
 
+    @ApiModelProperty(value = "创建时间")
+    @TableField("create_time")
+    private Date createTime;
+
+    @ApiModelProperty(value = "修改时间")
+    @TableField("update_time")
+    private Date updateTime;
+
+    @ApiModelProperty(value = "状态")
+    private Integer status;
+
     @ApiModelProperty(value = "医生状态")
     @TableField(exist = false)
     private String yszt;
@@ -72,7 +84,7 @@ public class LcdShow extends Model<LcdShow> implements Serializable {
 
     }
 
-    public LcdShow(String xpdz, String ysxm, String ysgh, String fjmc, String ysgy, String pdhm, String brxm) {
+    public LcdShow(String xpdz, String ysxm, String ysgh, String fjmc, String ysgy, String pdhm, String brxm, Date createTime, Date updateTime, Integer status) {
         this.xpdz = xpdz;
         this.ysxm = ysxm;
         this.ysgh = ysgh;
@@ -80,7 +92,16 @@ public class LcdShow extends Model<LcdShow> implements Serializable {
         this.ysgy = ysgy;
         this.pdhm = pdhm;
         this.brxm = brxm;
+        this.createTime = createTime;
+        this.updateTime = updateTime;
+        this.status = status;
     }
+
+    public LcdShow(String xpdz, Integer status) {
+        this.xpdz = xpdz;
+        this.status = status;
+    }
+
 
     /**
      * 获取：小屏地址
@@ -178,6 +199,30 @@ public class LcdShow extends Model<LcdShow> implements Serializable {
      */
     public void setBrxm(String brxm) {
         this.brxm = brxm;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 
     public String getYszt() {

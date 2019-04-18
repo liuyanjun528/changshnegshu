@@ -223,4 +223,36 @@ public final class DateUtil {
         }
         return n;
     }
+
+    /**
+     * 间隔小时
+     *
+     * @param startDate
+     * @param endDate
+     * @return
+     */
+    public static final Integer getHourBetween(Date startDate, Date endDate) {
+        Calendar start = Calendar.getInstance();
+        start.setTime(startDate);
+        Calendar end = Calendar.getInstance();
+        end.setTime(endDate);
+        long n = end.getTimeInMillis() - start.getTimeInMillis();
+        return (int) (n / (60 * 60 * 1000l));
+    }
+
+    /**
+     * 间隔分钟
+     *
+     * @param startDate
+     * @param endDate
+     * @return
+     */
+    public static final Integer getMinuteBetween(Date startDate, Date endDate) {
+        Calendar start = Calendar.getInstance();
+        start.setTime(startDate);
+        Calendar end = Calendar.getInstance();
+        end.setTime(endDate);
+        long n = end.getTimeInMillis() - start.getTimeInMillis();
+        return (int) (n / (60 * 1000l));
+    }
 }

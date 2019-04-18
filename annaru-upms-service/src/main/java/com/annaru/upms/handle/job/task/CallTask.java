@@ -2,6 +2,8 @@ package com.annaru.upms.handle.job.task;
 
 import com.alibaba.fastjson.JSON;
 import com.annaru.common.result.ResultMap;
+import com.annaru.common.util.Constant;
+import com.annaru.common.util.DateUtil;
 import com.annaru.upms.entity.DoctorInfo;
 import com.annaru.upms.entity.LcdBigConfig;
 import com.annaru.upms.entity.LcdShow;
@@ -21,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.UnsupportedEncodingException;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -59,9 +62,13 @@ public class CallTask {
             }
             //判断数据库是否已存在对应ip的叫号信息，若存在则更新数据
             LcdShow lcdShow = lcdShowService.getByXpdz(cyCall.getXpdz());
+            cyCall.setStatus(Constant.StatusType.LOGIC_NOT_DELETE.getValue());
+            cyCall.setUpdateTime(new Date());
             if (lcdShow != null) {
+                cyCall.setCreateTime(lcdShow.getCreateTime());
                 lcdShowService.updateByXpdz(cyCall);
             } else {
+                cyCall.setCreateTime(new Date());
                 lcdShowService.save(cyCall);
             }
         }
@@ -80,17 +87,19 @@ public class CallTask {
             for (String remoteAddress : allChannelMap.keySet()) {
                 //查询ip地址对应的叫号数据
                 LcdShow lcdShow = lcdShowService.getByXpdz(remoteAddress);
-                if (lcdShow == null) {
-                    lcdShow = new LcdShow(remoteAddress, "xxx", "0000", "诊室", "格言", "0000", "停诊");
+
+                if (lcdShow == null || StringUtils.isBlank(lcdShow.getXpdz())) {
+
+                    lcdShow = new LcdShow(remoteAddress, 1);
+                } else if (lcdShow.getUpdateTime() == null
+                        || DateUtil.getMinuteBetween(lcdShow.getUpdateTime(), new Date()) >= 30) {
+
+                    lcdShow.setStatus(1);
                 }
                 DoctorInfo doctorInfo = doctorInfoService.getDoctorInfoByName(lcdShow.getYsxm());
-                lcdShow.setYszc(doctorInfo.getJobTitle());
-                lcdShow.setYstx(doctorInfo.getPicture());
-                if (StringUtils.isBlank(lcdShow.getBrxm()) || "停诊".equals(lcdShow.getBrxm().trim())) {
-                    lcdShow.setYszt("停诊");
-                } else {
-                    lcdShow.setYszt("就诊");
-                }
+                lcdShow.setYszc(StringUtils.isNotBlank(doctorInfo.getJobTitle())?doctorInfo.getJobTitle():" ");
+                lcdShow.setYstx(StringUtils.isNotBlank(doctorInfo.getPicture())?doctorInfo.getPicture():" ");
+
                 ResultMap resultMap = ResultMap.ok();
                 resultMap.put("data", lcdShow);
                 String patientPdStr = JSON.toJSONString(resultMap);
@@ -99,7 +108,7 @@ public class CallTask {
                 ByteBuf resp = Unpooled.copiedBuffer(bytes);
                 Channel channel = allChannelMap.get(remoteAddress).getChannel();
                 channel.writeAndFlush(resp);
-                logger.info("成功向小屏(" + remoteAddress + ")推送叫号信息");
+                logger.info("成功向小屏(" + remoteAddress + ")推送叫号信息:" + patientPdStr);
             }
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
@@ -124,8 +133,12 @@ public class CallTask {
                 String[] ips = lcdBigConfig.getChildrenIp().split(",");
                 for (String ip : ips) {
                     LcdShow lcdShow = lcdShowService.getByXpdz(ip);
-                    if (lcdShow == null) {
-                        continue;
+                    if (lcdShow == null || StringUtils.isBlank(lcdShow.getXpdz())) {
+                        lcdShow = new LcdShow(ip, 1);
+                    } else if (lcdShow.getUpdateTime() == null
+                            || DateUtil.getMinuteBetween(lcdShow.getUpdateTime(), new Date()) >= 30) {
+
+                        lcdShow.setStatus(1);
                     }
                     ResultMap resultMap = ResultMap.ok().put("data", lcdShow);
                     String patientPdStr = JSON.toJSONString(resultMap);
@@ -134,7 +147,7 @@ public class CallTask {
                     ByteBuf resp = Unpooled.copiedBuffer(bytes);
                     Channel channel = allChannelMap.get(remoteAddress).getChannel();
                     channel.writeAndFlush(resp);
-                    logger.info("成功向大屏(" + remoteAddress + ")推送叫号信息");
+                    logger.info("成功向大屏(" + remoteAddress + ")推送叫号信息:" + patientPdStr);
                 }
             }
         } catch (UnsupportedEncodingException e) {

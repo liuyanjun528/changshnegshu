@@ -10,6 +10,32 @@ public class Constant {
 	/** 超级管理员ID */
 	public static final String SUPER_ADMIN = "1";
 
+    /**
+     * 数据状态类型
+     */
+    public enum StatusType {
+
+        /**
+         * 逻辑删除 1
+         */
+        LOGIC_DELETE(1),
+        /**
+         * 逻辑未删除 0
+         */
+        LOGIC_NOT_DELETE(0);
+
+        private int value;
+
+        StatusType(int value) {
+            this.value = value;
+        }
+
+        public int getValue() {
+            return value;
+        }
+
+    }
+
 	/**
 	 * 菜单类型
 	 *
