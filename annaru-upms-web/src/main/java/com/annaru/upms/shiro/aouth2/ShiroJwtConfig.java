@@ -71,7 +71,6 @@ public class ShiroJwtConfig {
         filterChainDefinitionMap.put("/captcha.jpg", "anon");// 图片验证码(kaptcha框架)
         filterChainDefinitionMap.put("/xlsFile/**", "anon");
         filterChainDefinitionMap.put("/upload/**", "anon");
-        filterChainDefinitionMap.put("/uploadFile/**", "anon");
         filterChainDefinitionMap.put("/api/**", "anon");// API接口
 
         // swagger接口文档
@@ -87,6 +86,7 @@ public class ShiroJwtConfig {
         filterChainDefinitionMap.put("/ws/**", "anon");
         filterChainDefinitionMap.put("/qr/**", "anon");
         filterChainDefinitionMap.put("/test/**", "anon");
+        filterChainDefinitionMap.put("/lcdLog/**", "anon");
         filterChainDefinitionMap.put("/sys/login", "anon");
         filterChainDefinitionMap.put("/**", "oauth2");
 

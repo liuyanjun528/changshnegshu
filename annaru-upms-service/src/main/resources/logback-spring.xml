@@ -2,16 +2,16 @@
 <!-- 多环境分级别异步文件日志输出配置 -->
 <configuration debug="false">
     <!-- 日志级别 -->
-    <property name="logLevel" value="INFO"/>
+    <property name="logLevel" value="ERROR"/>
     <!--日志文件的存储地址，勿在 LogBack 的配置中使用相对路径-->
     <property name="logPath" value="/output/logs"/>
     <!-- 日志名称 -->
-    <property name="logName" value="hdw-upms-service"/>
+    <property name="logName" value="annaru-upms-service"/>
     <!-- 输出格式 -->
     <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符-->
     <property name="out.pattern" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n"/>
     <!-- 活动文件的大小 -->
-    <property name="max.file.size" value="500MB"/>
+    <property name="max.file.size" value="10MB"/>
     <!-- 保留的归档文件的最大数量 -->
     <property name="max.history" value="30"/>
     <!-- 控制所有归档日志文件的总大小 -->

@@ -66,6 +66,31 @@ public class Constant {
     }
 
     /**
+     * 日志类型
+     *
+     */
+    public enum LogType {
+        /**
+         * 目录
+         */
+        info(0),
+        /**
+         * 菜单
+         */
+        error(1);
+
+        private int value;
+
+        LogType(int value) {
+            this.value = value;
+        }
+
+        public int getValue() {
+            return value;
+        }
+    }
+
+    /**
      * 定时任务状态
      */
     public enum ScheduleStatus {
