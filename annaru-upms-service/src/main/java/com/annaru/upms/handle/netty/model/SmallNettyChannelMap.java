@@ -17,6 +17,10 @@ public class SmallNettyChannelMap {
         return map.get(clientId);
     }
 
+    public static Map<String, ChannelMsgModel> getAll() {
+        return map;
+    }
+
     public static void remove(Channel socketChannel) {
         for (Map.Entry entry : map.entrySet()) {
             if (entry.getValue() == socketChannel) {
@@ -25,7 +29,7 @@ public class SmallNettyChannelMap {
         }
     }
 
-    public static Map<String, ChannelMsgModel> getAll() {
-        return map;
+    public static void clear(){
+        map.clear();
     }
 }

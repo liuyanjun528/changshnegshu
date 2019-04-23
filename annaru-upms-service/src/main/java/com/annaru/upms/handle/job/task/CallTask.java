@@ -156,13 +156,15 @@ public class CallTask {
     }
 
     /**
-     * @Description: 清除数据库当天数据
+     * @Description: 清除数据库当天数据 以及连接信息
      * @param
      * @Author: XCK
      * @Date: 2019/4/2
      * @return
      */
     public void clearEmpty() {
+        BigNettyChannelMap.clear();
+        SmallNettyChannelMap.clear();
         lcdShowService.clearEmpty();
         logger.info("定时任务：清空本地数据库当天所有叫号数据");
     }
