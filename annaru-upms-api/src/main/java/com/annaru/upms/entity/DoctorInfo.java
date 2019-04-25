@@ -47,6 +47,12 @@ public class DoctorInfo extends Model<DoctorInfo> implements Serializable {
 	@TableField("job_title")
 	private String jobTitle;
 	/**
+	 * 医生简介
+	 */
+	@ApiModelProperty(value = "医生简介")
+	@TableField("intro")
+	private String intro;
+	/**
 	 * 创建人
 	 */
     @ApiModelProperty(value = "创建人")
@@ -112,6 +118,18 @@ public class DoctorInfo extends Model<DoctorInfo> implements Serializable {
 	 */
 	public void setJobTitle(String jobTitle) {
 		this.jobTitle = jobTitle;
+	}
+	/**
+	 * 获取：医生简介
+	 */
+	public String getIntro() {
+		return intro;
+	}
+	/**
+	 * 设置：医生简介
+	 */
+	public void setIntro(String intro) {
+		this.intro = intro;
 	}
     /**
      * 获取：创建人

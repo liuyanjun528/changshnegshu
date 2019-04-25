@@ -78,7 +78,7 @@ public class LcdLogController extends BaseController {
      */
     @ApiOperation(value = "删除")
     @PostMapping("/delete")
-    public ResultMap delete(@RequestBody String[]ids) {
+    public ResultMap delete(@RequestBody String[] ids) {
         try {
             lcdLogService.removeByIds(Arrays.asList(ids));
             return ResultMap.ok("删除成功！");

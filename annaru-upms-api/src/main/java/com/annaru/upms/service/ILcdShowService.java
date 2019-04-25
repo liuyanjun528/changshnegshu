@@ -48,5 +48,16 @@ public interface ILcdShowService extends IService<LcdShow> {
      * 获取当前大屏连接设备信息
      */
     List<Map<String, String>> getLcdBigList();
+
+    /**
+     * 删除小屏当前设备连接信息
+     */
+    void deleteSmallByIds(String[] ids);
+
+    /**
+     * 删除大屏当前设备连接信息
+     */
+    void deleteBigByIds(String[] ids);
+
 }
 

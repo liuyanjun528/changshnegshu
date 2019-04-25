@@ -93,19 +93,19 @@ public class SysLoginController extends BaseController {
         if (StringUtils.isBlank(form.getPassword())) {
             return ResultMap.error("密码不能为空");
         }
-        if (StringUtils.isBlank(form.getCaptcha())) {
-            return ResultMap.error("验证码不能为空");
-        }
-        if (StringUtils.isBlank(form.getUuid())) {
-            return ResultMap.error("uuid不能为空");
-        }
-        String validateCode = (String) redisService.get(form.getUuid());
-        logger.info("session中的图形码字符串:" + validateCode);
-
-        //比对
-        if (StringUtils.isBlank(form.getCaptcha()) || StringUtils.isBlank(validateCode) || !validateCode.equalsIgnoreCase(form.getCaptcha())) {
-            return ResultMap.error("验证码错误");
-        }
+//        if (StringUtils.isBlank(form.getCaptcha())) {
+//            return ResultMap.error("验证码不能为空");
+//        }
+//        if (StringUtils.isBlank(form.getUuid())) {
+//            return ResultMap.error("uuid不能为空");
+//        }
+//        String validateCode = (String) redisService.get(form.getUuid());
+//        logger.info("session中的图形码字符串:" + validateCode);
+//
+//        //比对
+//        if (StringUtils.isBlank(form.getCaptcha()) || StringUtils.isBlank(validateCode) || !validateCode.equalsIgnoreCase(form.getCaptcha())) {
+//            return ResultMap.error("验证码错误");
+//        }
 
         UserVo userVo =userService.selectByLoginName(form.getUsername());
 

@@ -1,9 +1,7 @@
 package com.annaru.upms.controller;
 
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.*;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.annaru.upms.service.ILcdShowService;
 import com.annaru.common.base.BaseController;
@@ -20,7 +18,7 @@ import java.util.Map;
  * @author wh
  * @date 2019-03-29 11:33:31
  */
-@Api(tags = "叫号管理", description = "叫号管理")
+@Api(tags = "连接设备管理", description = "连接设备管理")
 @RestController
 @RequestMapping("/lcdShow")
 public class LcdShowController extends BaseController {
@@ -39,6 +37,22 @@ public class LcdShowController extends BaseController {
     public ResultMap lcdBigList(){
         List<Map<String, String>> mapList = lcdShowService.getLcdBigList();
         return ResultMap.ok().put("list",mapList);
+    }
+
+
+
+    @ApiOperation(value = "删除小屏当前设备连接信息")
+    @PostMapping("/lcdSmallDelete")
+    public ResultMap lcdSmallDelete(@RequestBody String[] ids){
+        lcdShowService.deleteSmallByIds(ids);
+        return ResultMap.ok();
+    }
+
+    @ApiOperation(value = "删除大屏当前设备连接信息")
+    @PostMapping("/lcdBigDelete")
+    public ResultMap lcdBigDelete(@RequestBody String[] ids){
+        lcdShowService.deleteBigByIds(ids);
+        return ResultMap.ok();
     }
 
 

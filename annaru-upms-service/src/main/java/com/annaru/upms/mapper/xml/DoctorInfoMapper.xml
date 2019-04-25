@@ -9,6 +9,7 @@
         <result column="name" property="name" />
         <result column="picture" property="picture" />
         <result column="job_title" property="jobTitle" />
+        <result column="intro" property="intro" />
         <result column="create_user" property="createUser" />
         <result column="create_time" property="createTime" />
         <result column="update_time" property="updateTime" />
@@ -22,6 +23,7 @@
               name,
               picture,
               job_title,
+              intro,
               create_user,
               create_time,
               update_time
@@ -42,6 +44,7 @@
             name,
             picture,
             job_title,
+            intro,
             create_user,
             create_time,
             update_time

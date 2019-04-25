@@ -55,4 +55,27 @@ public class TestTask {
         long end = System.currentTimeMillis();
         logger.info("任务全部完成，总耗时：" + (end - start) + "毫秒");
     }
+
+    public void sendSmallScreen(){
+        try {
+            logger.info("我是推消息到小屏异步方法，正在被执行......" );
+            long start = System.currentTimeMillis();
+            Future<String> task1 = task.sendSmallScreen();
+            Future<String> task2 = task.sendSmallScreen();
+            Future<String> task3 = task.sendSmallScreen();
+            while (true) {
+                if (task1.isDone()
+                        && task2.isDone()
+                        && task3.isDone()) {
+                    // 三个任务都调用完成，退出循环等待
+                    break;
+                }
+                    Thread.sleep(1000);
+            }
+            long end = System.currentTimeMillis();
+            logger.info("任务全部完成，总耗时：" + (end - start) + "毫秒");
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 }

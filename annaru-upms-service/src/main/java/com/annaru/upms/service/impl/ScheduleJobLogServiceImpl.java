@@ -27,4 +27,9 @@ public class ScheduleJobLogServiceImpl extends ServiceImpl<ScheduleJobLogMapper,
 		return new PageUtils<ScheduleJobLog>(page);
 	}
 
+	@Override
+	public void clearEmpty() {
+		this.baseMapper.delete(null);
+	}
+
 }

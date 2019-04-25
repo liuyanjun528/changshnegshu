@@ -84,4 +84,18 @@ public class LcdShowServiceImpl extends ServiceImpl<LcdShowMapper, LcdShow> impl
         }
         return mapList;
     }
+
+    @Override
+    public void deleteBigByIds(String[] ids) {
+        for (String id : ids) {
+            SmallNettyChannelMap.remove(id);
+        }
+    }
+
+    @Override
+    public void deleteSmallByIds(String[] ids) {
+        for (String id : ids) {
+            BigNettyChannelMap.remove(id);
+        }
+    }
 }

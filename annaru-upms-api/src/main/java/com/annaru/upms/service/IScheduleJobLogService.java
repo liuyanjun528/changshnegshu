@@ -14,5 +14,9 @@ import java.util.Map;
 public interface IScheduleJobLogService extends IService<ScheduleJobLog> {
 
     PageUtils queryPage(Map<String, Object> params);
-	
+
+    /**
+     * 清空数据库所有定时任务日志
+     */
+    void clearEmpty();
 }

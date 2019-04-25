@@ -29,6 +29,10 @@ public class SmallNettyChannelMap {
         }
     }
 
+    public static void remove(String key){
+        map.remove(key);
+    }
+
     public static void clear(){
         map.clear();
     }

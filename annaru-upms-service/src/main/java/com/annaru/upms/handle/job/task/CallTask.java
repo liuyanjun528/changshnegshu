@@ -13,6 +13,7 @@ import com.annaru.upms.handle.netty.model.SmallNettyChannelMap;
 import com.annaru.upms.service.IDoctorInfoService;
 import com.annaru.upms.service.ILcdBigConfigService;
 import com.annaru.upms.service.ILcdShowService;
+import com.annaru.upms.service.IScheduleJobLogService;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.Channel;
@@ -41,6 +42,9 @@ public class CallTask {
 
     @Autowired
     private IDoctorInfoService doctorInfoService;
+
+    @Autowired
+    private IScheduleJobLogService scheduleJobLogService;
 
     /**
      * 检查主从数据库 进行比较
@@ -99,6 +103,7 @@ public class CallTask {
                 DoctorInfo doctorInfo = doctorInfoService.getDoctorInfoByName(lcdShow.getYsxm());
                 lcdShow.setYszc(StringUtils.isNotBlank(doctorInfo.getJobTitle())?doctorInfo.getJobTitle():" ");
                 lcdShow.setYstx(StringUtils.isNotBlank(doctorInfo.getPicture())?doctorInfo.getPicture():" ");
+                lcdShow.setYsjj(StringUtils.isNotBlank(doctorInfo.getIntro())?doctorInfo.getIntro():" ");
 
                 ResultMap resultMap = ResultMap.ok();
                 resultMap.put("data", lcdShow);
@@ -167,6 +172,18 @@ public class CallTask {
         SmallNettyChannelMap.clear();
         lcdShowService.clearEmpty();
         logger.info("定时任务：清空本地数据库当天所有叫号数据");
+    }
+
+    /**
+     * @Description: 清除数据库定时任务日志
+     * @param
+     * @Author: XCK
+     * @Date: 2019/4/2
+     * @return
+     */
+    public void clearScheduleJobLog() {
+        scheduleJobLogService.clearEmpty();
+        logger.info("定时任务：清空本地数据库定时任务所有日志");
     }
 
 }

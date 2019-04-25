@@ -71,7 +71,6 @@ public class DoctorInfoController extends BaseController {
     @RequiresPermissions("doctorInfo/save")
     public ResultMap save(@Valid @RequestBody DoctorInfo doctorInfo) {
         try {
-
             doctorInfo.setCreateUser(ShiroKit.getUser().getId());
             doctorInfo.setCreateTime(new Date());
             doctorInfo.setUpdateTime(new Date());
