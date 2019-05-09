@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.annaru.upms.mapper.UserRelativesMapper">
+
+	<!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.annaru.upms.entity.UserRelatives" >
+        <result column="sys_id" property="sysId" />
+        <result column="user_id" property="userId" />
+        <result column="fullname" property="fullname" />
+        <result column="id_card_no" property="idCardNo" />
+        <result column="gender" property="gender" />
+        <result column="cellphone_no" property="cellphoneNo" />
+        <result column="remark" property="remark" />
+        <result column="seq_no" property="seqNo" />
+        <result column="is_deleted" property="isDeleted" />
+        <result column="creation_time" property="creationTime" />
+        <result column="edit_time" property="editTime" />
+    </resultMap>
+
+    <!-- 多表页面信息查询分页 -->
+    <select id="selectDataPage" parameterType="map" resultMap="BaseResultMap">
+
+        SELECT
+              sys_id,
+              user_id,
+              fullname,
+              id_card_no,
+              gender,
+              cellphone_no,
+              remark,
+              seq_no,
+              is_deleted,
+              creation_time,
+              edit_time,
+        FROM
+            user_relatives
+        WHERE
+            status=0
+            <if test="params.key != null and params.key != ''">
+                AND key LIKE CONCAT('%', #{params.key}, '%')
+            </if>
+    </select>
+
+</mapper>

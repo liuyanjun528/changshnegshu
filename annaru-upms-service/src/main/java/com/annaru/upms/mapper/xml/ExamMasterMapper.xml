@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.annaru.upms.mapper.ExamMasterMapper">
+
+	<!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.annaru.upms.entity.ExamMaster" >
+        <result column="sys_id" property="sysId" />
+        <result column="name" property="name" />
+        <result column="remark" property="remark" />
+        <result column="exam_result" property="examResult" />
+        <result column="exam_cates" property="examCates" />
+        <result column="creation_time" property="creationTime" />
+    </resultMap>
+
+    <!-- 多表页面信息查询分页 -->
+    <select id="selectDataPage" parameterType="map" resultMap="BaseResultMap">
+
+        SELECT
+              sys_id,
+              name,
+              remark,
+              exam_result,
+              exam_cates,
+              creation_time,
+        FROM
+            exam_master
+        WHERE
+            status=0
+            <if test="params.key != null and params.key != ''">
+                AND key LIKE CONCAT('%', #{params.key}, '%')
+            </if>
+    </select>
+
+</mapper>

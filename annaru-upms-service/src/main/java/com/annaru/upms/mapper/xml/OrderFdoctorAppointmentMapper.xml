@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.annaru.upms.mapper.OrderFdoctorAppointmentMapper">
+
+	<!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.annaru.upms.entity.OrderFdoctorAppointment" >
+        <result column="sys_id" property="sysId" />
+        <result column="order_no" property="orderNo" />
+        <result column="appoint_date" property="appointDate" />
+        <result column="time_from" property="timeFrom" />
+        <result column="time_to" property="timeTo" />
+        <result column="doctor_no" property="doctorNo" />
+        <result column="address" property="address" />
+        <result column="status" property="status" />
+        <result column="creation_time" property="creationTime" />
+        <result column="create_by" property="createBy" />
+        <result column="edit_time" property="editTime" />
+        <result column="edit_by" property="editBy" />
+    </resultMap>
+
+    <!-- 多表页面信息查询分页 -->
+    <select id="selectDataPage" parameterType="map" resultMap="BaseResultMap">
+
+        SELECT
+              sys_id,
+              order_no,
+              appoint_date,
+              time_from,
+              time_to,
+              doctor_no,
+              address,
+              status,
+              creation_time,
+              create_by,
+              edit_time,
+              edit_by,
+        FROM
+            order_fdoctor_appointment
+        WHERE
+            status=0
+            <if test="params.key != null and params.key != ''">
+                AND key LIKE CONCAT('%', #{params.key}, '%')
+            </if>
+    </select>
+
+</mapper>

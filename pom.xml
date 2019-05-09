@@ -483,6 +483,7 @@
                 </includes>
                 <filtering>true</filtering>
             </resource>
+
             <resource>
                 <directory>src/main/resources</directory>
                 <includes>
@@ -507,7 +508,11 @@
                         <fork>true</fork>
                     </configuration>
                 </plugin>
+
+
+
             </plugins>
+
         </pluginManagement>
     </build>
 </project>

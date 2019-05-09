@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.annaru.upms.mapper.SysCityMapper">
+
+	<!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.annaru.upms.entity.SysCity" >
+        <result column="ID" property="id" />
+        <result column="CityID" property="cityid" />
+        <result column="City" property="city" />
+        <result column="ProvinceID" property="provinceid" />
+    </resultMap>
+
+    <!-- 多表页面信息查询分页 -->
+    <select id="selectDataPage" parameterType="map" resultMap="BaseResultMap">
+
+        SELECT
+              ID,
+              CityID,
+              City,
+              ProvinceID,
+        FROM
+            sys_city
+        WHERE
+            status=0
+            <if test="params.key != null and params.key != ''">
+                AND key LIKE CONCAT('%', #{params.key}, '%')
+            </if>
+    </select>
+
+</mapper>
