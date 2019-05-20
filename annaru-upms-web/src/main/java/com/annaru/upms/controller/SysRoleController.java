@@ -1,5 +1,6 @@
 package com.annaru.upms.controller;
 
+import com.alibaba.dubbo.config.annotation.Reference;
 import com.annaru.common.base.BaseController;
 import com.annaru.common.result.PageUtils;
 import com.annaru.common.result.ResultMap;
@@ -11,10 +12,10 @@ import com.annaru.upms.service.ISysRoleResourceService;
 import com.annaru.upms.service.ISysRoleService;
 import com.annaru.upms.shiro.ShiroKit;
 import io.swagger.annotations.Api;
-import com.alibaba.dubbo.config.annotation.Reference;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;

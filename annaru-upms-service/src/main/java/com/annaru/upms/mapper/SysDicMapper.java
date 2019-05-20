@@ -1,10 +1,9 @@
 package com.annaru.upms.mapper;
 
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.annaru.common.result.TreeNode;
 import com.annaru.upms.entity.SysDic;
-import org.apache.ibatis.annotations.Mapper;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 import java.util.List;
 import java.util.Map;

@@ -1,8 +1,7 @@
 package com.annaru.upms.mapper;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.annaru.upms.entity.SysUserRole;
-import org.apache.ibatis.annotations.Mapper;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.ResultType;
 import org.apache.ibatis.annotations.Select;
@@ -11,7 +10,7 @@ import java.util.List;
 
 /**
  * 用户角色表
- * 
+ *
  * @author TuMinglong
  * @date 2018-12-11 11:35:15
  */
@@ -37,5 +36,5 @@ public interface SysUserRoleMapper extends BaseMapper<SysUserRole> {
      */
     void deleteBatchByRoleIds(String[] roleIds);
 
-	
+
 }

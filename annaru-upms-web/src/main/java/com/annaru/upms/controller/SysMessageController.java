@@ -1,23 +1,22 @@
 package com.annaru.upms.controller;
 
-import java.util.*;
-
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import com.alibaba.dubbo.config.annotation.Reference;
-import org.springframework.web.bind.annotation.*;
+import com.annaru.common.base.BaseController;
+import com.annaru.common.result.PageUtils;
+import com.annaru.common.result.ResultMap;
+import com.annaru.upms.entity.SysMessage;
+import com.annaru.upms.service.ISysMessageService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.web.bind.annotation.*;
 
-import com.annaru.common.base.BaseController;
-import com.annaru.common.result.PageUtils;
-import com.annaru.upms.shiro.ShiroKit;
-import com.annaru.common.result.ResultMap;
-
-import com.annaru.upms.entity.SysMessage;
-import com.annaru.upms.service.ISysMessageService;
 import javax.validation.Valid;
-
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -33,6 +32,21 @@ public class SysMessageController extends BaseController {
     @Reference
     private ISysMessageService sysMessageService;
 
+
+    /**
+     * 通过消息类别查看所有消息
+     */
+    @ApiOperation(value = "通过消息类别查看所有消息", notes = "通过消息类别查看所有消息")
+    @GetMapping("/getMsg")
+    @RequiresPermissions("upms/sysMessage/info")
+    public ResultMap selectMsgByMsgCate(int msgCate){
+        List<SysMessage> listMsg = sysMessageService.selectMsgByMsgCate(msgCate);
+        return ResultMap.ok().put("listMsg",listMsg);
+    }
+
+
+
+
     /**
      * 列表
      */
@@ -40,8 +54,8 @@ public class SysMessageController extends BaseController {
     @GetMapping("/list")
     @RequiresPermissions("upms/sysMessage/list")
     public ResultMap list(@ApiParam(value = "当前页")@RequestParam(defaultValue="1") int page,
-                       @ApiParam(value = "每页数量")@RequestParam(defaultValue = "10") int limit,
-                       @ApiParam(value = "关键字")@RequestParam(required = false)String key){
+                          @ApiParam(value = "每页数量")@RequestParam(defaultValue = "10") int limit,
+                          @ApiParam(value = "关键字")@RequestParam(required = false)String key){
 
         Map<String, Object> params = new HashMap<>();
         params.put("page",page);

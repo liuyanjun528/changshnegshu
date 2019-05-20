@@ -1,11 +1,10 @@
 package com.annaru.upms.mapper;
 
+import com.annaru.upms.entity.SysUser;
+import com.annaru.upms.entity.vo.UserVo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.annaru.upms.entity.SysUser;
-import com.annaru.upms.entity.vo.UserVo;
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -13,7 +12,7 @@ import java.util.Map;
 
 /**
  * 用户表
- * 
+ *
  * @author TuMinglong
  * @date 2018-12-11 11:35:15
  */
@@ -52,5 +51,5 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
      * @return
      */
     List<String> selectPerms(@Param("userId") String userId);
-	
+
 }

@@ -1,29 +1,27 @@
 package com.annaru.upms.controller;
 
-import java.util.*;
-
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import com.alibaba.dubbo.config.annotation.Reference;
-import org.springframework.web.bind.annotation.*;
+import com.annaru.common.base.BaseController;
+import com.annaru.common.result.PageUtils;
+import com.annaru.common.result.ResultMap;
+import com.annaru.upms.entity.UserCards;
+import com.annaru.upms.service.IUserCardsService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.web.bind.annotation.*;
 
-import com.annaru.common.base.BaseController;
-import com.annaru.common.result.PageUtils;
-import com.annaru.upms.shiro.ShiroKit;
-import com.annaru.common.result.ResultMap;
-
-import com.annaru.upms.entity.UserCards;
-import com.annaru.upms.service.IUserCardsService;
 import javax.validation.Valid;
-
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 /**
  * 用户绑卡信息
- *
- * @author zk
+ * @author wh
  * @date 2019-05-09 11:14:28
  */
 @Api(tags = {"用户绑卡信息管理"}, description = "用户绑卡信息管理")
@@ -33,6 +31,43 @@ public class UserCardsController extends BaseController {
     @Reference
     private IUserCardsService userCardsService;
 
+    @ApiOperation(value = "添加绑卡")
+    @PostMapping(value = "/insertCardAndBaseAndInstitution")
+    @RequiresPermissions("upms/userCards/insertCardAndBaseAndInstitution")
+    public ResultMap insertCardAndBaseAndInstitution(@RequestBody String userId, String cardNo, int institutionId
+    , int sysId, int cardCates){
+        try {
+            UserCards cards=new UserCards();
+            cards.setUserId(userId);
+            cards.setCardNo(cardNo);
+            cards.setCardCates(cardCates);
+            cards.setInstitutionId(institutionId);
+            cards.setSysId(sysId);
+            userCardsService.insertCardAndBaseAndInstitution(cards);
+            return ResultMap.ok("添加成功");
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return ResultMap.error("运行异常，请联系管理员");
+        }
+
+    }
+
+    /**
+     * 通过已绑卡查询
+     */
+    @ApiOperation(value = "通过已绑卡和卡类别查询")
+    @GetMapping("/selectStatus")
+    @RequiresPermissions("upms/userCards/selectStatus")
+    public ResultMap selectStatus(int status, int cardCates) {
+        try {
+            List<UserCards> userCards = userCardsService.selectByStatus(status, cardCates);
+            return ResultMap.ok().put("userCards",userCards);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return ResultMap.error("运行异常，请联系管理员");
+        }
+
+    }
     /**
      * 列表
      */
@@ -40,8 +75,8 @@ public class UserCardsController extends BaseController {
     @GetMapping("/list")
     @RequiresPermissions("upms/userCards/list")
     public ResultMap list(@ApiParam(value = "当前页")@RequestParam(defaultValue="1") int page,
-                       @ApiParam(value = "每页数量")@RequestParam(defaultValue = "10") int limit,
-                       @ApiParam(value = "关键字")@RequestParam(required = false)String key){
+                          @ApiParam(value = "每页数量")@RequestParam(defaultValue = "10") int limit,
+                          @ApiParam(value = "关键字")@RequestParam(required = false)String key){
 
         Map<String, Object> params = new HashMap<>();
         params.put("page",page);
@@ -71,10 +106,6 @@ public class UserCardsController extends BaseController {
     @RequiresPermissions("upms/userCards/save")
     public ResultMap save(@Valid @RequestBody UserCards userCards) {
         try {
-
-//            userCards.setCreateUser(ShiroKit.getUser().getId());
-//            userCards.setCreateTime(new Date());
-//            userCards.setUpdateTime(new Date());
             userCardsService.save(userCards);
             return ResultMap.ok("添加成功");
         } catch (Exception e) {
@@ -91,7 +122,6 @@ public class UserCardsController extends BaseController {
     @RequiresPermissions("upms/userCards/update")
     public ResultMap update(@Valid @RequestBody UserCards userCards) {
         try {
-//            userCards.setUpdateTime(new Date());
             userCardsService.updateById(userCards);
             return ResultMap.ok("修改成功");
         } catch (Exception e) {

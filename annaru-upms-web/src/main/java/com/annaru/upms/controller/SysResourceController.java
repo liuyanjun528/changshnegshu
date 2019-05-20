@@ -1,5 +1,6 @@
 package com.annaru.upms.controller;
 
+import com.alibaba.dubbo.config.annotation.Reference;
 import com.annaru.common.base.BaseController;
 import com.annaru.common.exception.GlobalException;
 import com.annaru.common.result.ResultMap;
@@ -10,7 +11,6 @@ import com.annaru.upms.service.ISysUserService;
 import com.annaru.upms.shiro.ShiroKit;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import com.alibaba.dubbo.config.annotation.Reference;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.web.bind.annotation.*;

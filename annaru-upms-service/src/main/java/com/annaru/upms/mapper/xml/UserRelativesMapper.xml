@@ -8,6 +8,7 @@
         <result column="sys_id" property="sysId" />
         <result column="user_id" property="userId" />
         <result column="fullname" property="fullname" />
+        <result column="relative_id" property="relativeId" />
         <result column="id_card_no" property="idCardNo" />
         <result column="gender" property="gender" />
         <result column="cellphone_no" property="cellphoneNo" />
@@ -32,14 +33,14 @@
               seq_no,
               is_deleted,
               creation_time,
-              edit_time,
+              edit_time
         FROM
             user_relatives
-        WHERE
-            status=0
-            <if test="params.key != null and params.key != ''">
-                AND key LIKE CONCAT('%', #{params.key}, '%')
+        <where>
+            <if test="params.fullname != null and params.fullname != ''">
+                AND fullname LIKE CONCAT('%', #{params.fullname}, '%')
             </if>
+        </where>
     </select>
 
 </mapper>

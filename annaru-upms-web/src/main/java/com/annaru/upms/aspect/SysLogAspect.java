@@ -2,11 +2,8 @@ package com.annaru.upms.aspect;
 
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.annaru.upms.entity.SysLog;
 import com.annaru.upms.service.ISysLogService;
 import com.annaru.upms.service.ISysUserService;
-import com.annaru.upms.shiro.ShiroKit;
-import com.annaru.upms.shiro.ShiroUser;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -18,7 +15,6 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Date;
 import java.util.Enumeration;
 
 

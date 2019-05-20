@@ -30,14 +30,14 @@
               postal_code,
               isdefault,
               creation_time,
-              edit_time,
+              edit_time
         FROM
             user_address
-        WHERE
-            status=0
-            <if test="params.key != null and params.key != ''">
-                AND key LIKE CONCAT('%', #{params.key}, '%')
+        <where>
+            <if test="params.userId != null and params.userId != ''">
+                AND user_id LIKE CONCAT('%', #{params.userId}, '%')
             </if>
+        </where>
     </select>
 
 </mapper>
