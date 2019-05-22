@@ -1,22 +1,21 @@
 package com.annaru.upms.controller;
 
-import java.util.*;
-
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import com.alibaba.dubbo.config.annotation.Reference;
-import org.springframework.web.bind.annotation.*;
+import com.annaru.common.base.BaseController;
+import com.annaru.common.result.PageUtils;
+import com.annaru.common.result.ResultMap;
+import com.annaru.upms.entity.SysDoctor;
+import com.annaru.upms.service.ISysDoctorService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.web.bind.annotation.*;
 
-import com.annaru.common.base.BaseController;
-import com.annaru.common.result.PageUtils;
-import com.annaru.upms.shiro.ShiroKit;
-import com.annaru.common.result.ResultMap;
-
-import com.annaru.upms.entity.SysDoctor;
-import com.annaru.upms.service.ISysDoctorService;
 import javax.validation.Valid;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 
 
