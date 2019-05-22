@@ -37,7 +37,7 @@ import java.util.Date;
  * @Author TuMinglong
  * @Date 2018/6/11 17:07
  */
-@Api(value = "登录退出", tags = {" 登录退出"})
+@Api( tags = " 登录退出", value = "登录退出")
 @RestController
 public class SysLoginController extends BaseController {
 
