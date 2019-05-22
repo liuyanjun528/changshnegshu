@@ -12,12 +12,11 @@ import java.io.Serializable;
 import java.util.Date;
 
 
-
 /**
  * 用户基础信息
  *
- * @author xck
- * @date 2019-05-13 15:27:46
+ * @author zk
+ * @date 2019-05-09 11:14:28
  */
 @ApiModel(value = "用户基础信息")
 @TableName("user_basic")
@@ -27,117 +26,120 @@ public class UserBasic extends Model<UserBasic> implements Serializable {
 	/**
 	 * 系统编号
 	 */
-	@ApiModelProperty(value = "系统编号")
+    @ApiModelProperty(value = "系统编号")
 	@TableId
 	private Integer sysId;
 	/**
 	 * 户用编号
 	 */
-	@ApiModelProperty(value = "户用编号")
+    @ApiModelProperty(value = "户用编号")
 	@TableField("user_id")
 	private String userId;
+
 	/**
 	 * 用户名称
 	 */
 	@ApiModelProperty(value = "用户名称")
 	@TableField("full_name")
 	private String fullName;
+
 	/**
 	 * 名字汉语拼音
 	 */
 	@ApiModelProperty(value = "名字汉语拼音")
 	@TableField("chinese_spell")
 	private String chineseSpell;
+
 	/**
 	 * 手机号
 	 */
-	@ApiModelProperty(value = "手机号")
+    @ApiModelProperty(value = "手机号")
 	@TableField("cellphone_no")
 	private String cellphoneNo;
 	/**
 	 * 密码
 	 */
-	@ApiModelProperty(value = "密码")
+    @ApiModelProperty(value = "密码")
 	private String password;
 	/**
 	 * 证件号
 	 */
-	@ApiModelProperty(value = "证件号")
+    @ApiModelProperty(value = "证件号")
 	@TableField("id_card_no")
 	private String idCardNo;
 	/**
 	 * 藉贯(省)
 	 */
-	@ApiModelProperty(value = "藉贯(省)")
+    @ApiModelProperty(value = "藉贯(省)")
 	@TableField("origin_province")
 	private String originProvince;
 	/**
 	 * 藉贯(市)
 	 */
-	@ApiModelProperty(value = "藉贯(市)")
+    @ApiModelProperty(value = "藉贯(市)")
 	@TableField("origin_city")
 	private String originCity;
 	/**
 	 * 常居省
 	 */
-	@ApiModelProperty(value = "常居省")
+    @ApiModelProperty(value = "常居省")
 	@TableField("residence_province")
 	private String residenceProvince;
 	/**
 	 * 常居城市
 	 */
-	@ApiModelProperty(value = "常居城市")
+    @ApiModelProperty(value = "常居城市")
 	@TableField("residence_city")
 	private String residenceCity;
 	/**
 	 * 职业
 	 */
-	@ApiModelProperty(value = "职业")
+    @ApiModelProperty(value = "职业")
 	private String occupation;
 	/**
 	 * 性别(1:男/2:女)
 	 */
-	@ApiModelProperty(value = "性别(1:男/2:女)")
+    @ApiModelProperty(value = "性别(1:男/2:女)")
 	private Integer gender;
 	/**
 	 * 出生日期
 	 */
-	@ApiModelProperty(value = "出生日期")
+    @ApiModelProperty(value = "出生日期")
 	@TableField("date_of_birth")
 	private Date dateOfBirth;
 	/**
 	 * 用户头像
 	 */
-	@ApiModelProperty(value = "用户头像")
+    @ApiModelProperty(value = "用户头像")
 	@TableField("head_image")
 	private String headImage;
 	/**
 	 * 状态(1:激活/0:未激活)
 	 */
-	@ApiModelProperty(value = "状态(1:激活/0:未激活)")
+    @ApiModelProperty(value = "状态(1:激活/0:未激活)")
 	private Integer isactive;
 	/**
 	 * 最后登录时间
 	 */
-	@ApiModelProperty(value = "最后登录时间")
+    @ApiModelProperty(value = "最后登录时间")
 	@TableField("last_logintime")
 	private Date lastLogintime;
 	/**
 	 * 注册时间
 	 */
-	@ApiModelProperty(value = "注册时间")
+    @ApiModelProperty(value = "注册时间")
 	@TableField("registration_time")
 	private Date registrationTime;
 	/**
 	 * 是否有认证1：认证/0:未认证
 	 */
-	@ApiModelProperty(value = "是否有认证1：认证/0:未认证")
+    @ApiModelProperty(value = "是否有认证1：认证/0:未认证")
 	@TableField("is_verified")
 	private Integer isVerified;
 	/**
 	 * 电子邮件
 	 */
-	@ApiModelProperty(value = "电子邮件")
+    @ApiModelProperty(value = "电子邮件")
 	@TableField("email_address")
 	private String emailAddress;
 	/**
@@ -149,28 +151,48 @@ public class UserBasic extends Model<UserBasic> implements Serializable {
 	/**
 	 * 创建时间
 	 */
-	@ApiModelProperty(value = "创建时间")
+    @ApiModelProperty(value = "创建时间")
 	@TableField("creation_time")
 	private Date creationTime;
-
 	/**
-	 * 获取：系统编号
+	 * 医生对象
 	 */
-	public Integer getSysId() {
-		return sysId;
+	@ApiModelProperty(value = "医生对象")
+    private SysDoctor sysDoctor;
+	/**
+	 * 护士对象
+	 */
+	@ApiModelProperty(value = "护士对象")
+	private SysNurse sysNurse;
+
+	public SysDoctor getSysDoctor() {
+		return sysDoctor;
 	}
+
+	public void setSysDoctor(SysDoctor sysDoctor) {
+		this.sysDoctor = sysDoctor;
+	}
+
+	public SysNurse getSysNurse() {
+		return sysNurse;
+	}
+
+	public void setSysNurse(SysNurse sysNurse) {
+		this.sysNurse = sysNurse;
+	}
+
 	/**
 	 * 设置：系统编号
 	 */
 	public void setSysId(Integer sysId) {
 		this.sysId = sysId;
 	}
-	/**
-	 * 获取：户用编号
-	 */
-	public String getUserId() {
-		return userId;
-	}
+    /**
+     * 获取：户用编号
+     */
+    public String getUserId() {
+        return userId;
+    }
 	/**
 	 * 设置：户用编号
 	 */

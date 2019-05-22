@@ -37,6 +37,10 @@
         FROM
             user_relatives
         <where>
+            1=1
+            <if test="params.userId != null and params.userId != ''">
+                AND user_id = #{params.userId}
+            </if>
             <if test="params.fullname != null and params.fullname != ''">
                 AND fullname LIKE CONCAT('%', #{params.fullname}, '%')
             </if>

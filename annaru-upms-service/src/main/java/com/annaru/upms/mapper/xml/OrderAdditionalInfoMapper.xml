@@ -31,11 +31,11 @@
               create_by
         FROM
             order_additional_info
-        WHERE
-            status=0
-            <if test="params.key != null and params.key != ''">
-                AND key LIKE CONCAT('%', #{params.key}, '%')
+      <where>
+            <if test="params.sysId != null and params.sysId != ''">
+                AND sys_id LIKE CONCAT('%', #{params.sysId}, '%')
             </if>
+      </where>
     </select>
 
 </mapper>

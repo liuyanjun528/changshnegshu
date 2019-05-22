@@ -1,7 +1,6 @@
 package com.annaru.upms.entity;
 
 import com.annaru.common.util.JacksonUtils;
-import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -13,12 +12,11 @@ import java.io.Serializable;
 import java.util.Date;
 
 
-
 /**
  * 定单主表
  *
- * @author xck
- * @date 2019-05-21 10:43:09
+ * @author zk
+ * @date 2019-05-09 11:14:29
  */
 @ApiModel(value = "定单主表")
 @TableName("order_main")
@@ -28,19 +26,19 @@ public class OrderMain extends Model<OrderMain> implements Serializable {
 	/**
 	 * 系统编号
 	 */
-	@ApiModelProperty(value = "系统编号")
-	@TableId(type = IdType.AUTO)
+    @ApiModelProperty(value = "系统编号")
+	@TableId
 	private Integer sysId;
 	/**
 	 * 定单号
 	 */
-	@ApiModelProperty(value = "定单号")
+    @ApiModelProperty(value = "定单号")
 	@TableField("order_no")
 	private String orderNo;
 	/**
-	 * 相关编号 (套餐编号)
+	 * 相关编号 (套餐编号/ 医生编号/护士编号)
 	 */
-	@ApiModelProperty(value = "相关编号 (套餐编号)")
+    @ApiModelProperty(value = "相关编号 (套餐编号)")
 	@TableField("reference_no")
 	private String referenceNo;
 	/**
@@ -52,12 +50,13 @@ public class OrderMain extends Model<OrderMain> implements Serializable {
 	 5:家庭医生
 	 6.门诊绿通预约
 	 */
+    @ApiModelProperty(value = "定单类别：1:一般体检预约(C端) 2:进阶体检预约(C端) 3:分布式体检预约(B端) 4:进阶体检预约(B端)5:家庭医生")
 	@TableField("order_cates")
 	private Integer orderCates;
 	/**
 	 * 用户编号
 	 */
-	@ApiModelProperty(value = "用户编号")
+    @ApiModelProperty(value = "用户编号")
 	@TableField("user_id")
 	private String userId;
 	/**
@@ -75,18 +74,18 @@ public class OrderMain extends Model<OrderMain> implements Serializable {
 	/**
 	 * 总数
 	 */
-	@ApiModelProperty(value = "总数")
+    @ApiModelProperty(value = "总数")
 	@TableField("total_qty")
-	private Integer totalQty = 1;
+	private Integer totalQty;
 	/**
 	 * 支付状态(0:未支付/1:进行中/2:已完成/3:退款中)
 	 */
-	@ApiModelProperty(value = "支付状态(0:未支付/1:进行中/2:已完成/3:退款中)")
-	private Integer status = 0;
+    @ApiModelProperty(value = "支付状态(0:未支付/1:进行中/2:已完成/3:退款中)")
+	private Integer status;
 	/**
 	 * 备注
 	 */
-	@ApiModelProperty(value = "备注")
+    @ApiModelProperty(value = "备注")
 	private String remark;
 	/**
 	 * 进阶体检定单关联编号
@@ -108,38 +107,38 @@ public class OrderMain extends Model<OrderMain> implements Serializable {
 	private Integer isDeleted = 0;
 	private Date creationtime = new Date();
 
-	/**
-	 * 获取：系统编号
-	 */
-	public Integer getSysId() {
-		return sysId;
-	}
+    /**
+     * 获取：系统编号
+     */
+    public Integer getSysId() {
+        return sysId;
+    }
 	/**
 	 * 设置：系统编号
 	 */
 	public void setSysId(Integer sysId) {
 		this.sysId = sysId;
 	}
-	/**
-	 * 获取：定单号
-	 */
-	public String getOrderNo() {
-		return orderNo;
-	}
+    /**
+     * 获取：定单号
+     */
+    public String getOrderNo() {
+        return orderNo;
+    }
 	/**
 	 * 设置：定单号
 	 */
 	public void setOrderNo(String orderNo) {
 		this.orderNo = orderNo;
 	}
+    /**
+     * 获取：相关编号 (套餐编号)
+     */
+    public String getReferenceNo() {
+        return referenceNo;
+    }
 	/**
-	 * 获取：相关编号 (套餐编号)
-	 */
-	public String getReferenceNo() {
-		return referenceNo;
-	}
-	/**
-	 * 设置：相关编号 (套餐编号)
+	 * 设置：相关编号 (套餐编号/ 医生编号/护士编号)
 	 */
 	public void setReferenceNo(String referenceNo) {
 		this.referenceNo = referenceNo;
@@ -168,12 +167,12 @@ public class OrderMain extends Model<OrderMain> implements Serializable {
 	public void setOrderCates(Integer orderCates) {
 		this.orderCates = orderCates;
 	}
-	/**
-	 * 获取：用户编号
-	 */
-	public String getUserId() {
-		return userId;
-	}
+    /**
+     * 获取：用户编号
+     */
+    public String getUserId() {
+        return userId;
+    }
 	/**
 	 * 设置：用户编号
 	 */
@@ -283,13 +282,13 @@ public class OrderMain extends Model<OrderMain> implements Serializable {
 		this.creationtime = creationtime;
 	}
 
-	@Override
+    @Override
 	protected Serializable pkVal() {
 		return this.sysId;
 	}
 
 	@Override
 	public String toString() {
-		return JacksonUtils.toJson(this);
+        return JacksonUtils.toJson(this);
 	}
 }

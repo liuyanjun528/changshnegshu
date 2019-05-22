@@ -6,13 +6,20 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 import java.util.Map;
 
 /**
  * 定单详细表
- * 
+ *
+<<<<<<< Updated upstream
  * @author xck
  * @date 2019-05-20 16:18:34
+=======
+ * @author wh
+ * @date 2019-05-22 12:06:42
+
  */
 public interface OrderDetailMapper extends BaseMapper<OrderDetail> {
 

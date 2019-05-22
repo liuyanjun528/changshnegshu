@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -49,6 +50,16 @@ public class ExamMasterController extends BaseController {
         return ResultMap.ok().put("page",pageList);
     }
 
+    /**
+     * 查询所有体检项目主表
+     */
+    @ApiOperation(value = "查看详情", notes = "查看upms详情")
+    @GetMapping("/infoList")
+    @RequiresPermissions("upms/examMaster/infoList")
+    public ResultMap infoList(){
+        List<ExamMaster> examMaster = examMasterService.list();
+        return ResultMap.ok().put("examMaster",examMaster);
+    }
 
     /**
      * 信息
