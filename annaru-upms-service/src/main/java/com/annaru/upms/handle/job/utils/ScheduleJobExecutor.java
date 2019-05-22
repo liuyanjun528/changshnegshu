@@ -29,8 +29,8 @@ import java.util.concurrent.Future;
 @DisallowConcurrentExecution
 public class ScheduleJobExecutor extends QuartzJobBean {
 	private Logger logger = LoggerFactory.getLogger(getClass());
-	private ExecutorService service = Executors.newSingleThreadExecutor(); 
-	
+	private ExecutorService service = Executors.newSingleThreadExecutor();
+
     @Override
     protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
         JobKey jobKey = context.getJobDetail().getKey();
@@ -41,7 +41,7 @@ public class ScheduleJobExecutor extends QuartzJobBean {
 
         //获取spring bean
         IScheduleJobLogService scheduleJobLogService = (IScheduleJobLogService) SpringContextUtils.getBean("scheduleJobLogService");
-        
+
         //数据库保存执行记录
         ScheduleJobLog log = new ScheduleJobLog();
         log.setJobId(scheduleJob.getJobId());

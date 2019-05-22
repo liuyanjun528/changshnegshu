@@ -24,14 +24,20 @@
               content,
               is_read,
               creation_time,
-              read_time,
+              read_time
         FROM
             sys_message
-        WHERE
-            status=0
-            <if test="params.key != null and params.key != ''">
-                AND key LIKE CONCAT('%', #{params.key}, '%')
+        <where>
+            <if test="params.userId != null and params.userId != ''">
+                AND user_id LIKE CONCAT('%', #{params.userId}, '%')
             </if>
+        </where>
+    </select>
+
+
+    <!-- 通过消息类别查看消息-->
+    <select id="selectMsgByMsgCate" parameterType="map" resultMap="BaseResultMap">
+        select * from sys_message where msg_cate=#{msgCate}
     </select>
 
 </mapper>

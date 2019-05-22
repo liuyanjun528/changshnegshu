@@ -1,9 +1,9 @@
 package com.annaru.upms.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.annaru.common.result.PageUtils;
 import com.annaru.upms.entity.SysInstitution;
-import java.util.List;
+import com.baomidou.mybatisplus.extension.service.IService;
+
 import java.util.Map;
 
 /**
@@ -19,7 +19,7 @@ public interface ISysInstitutionService extends IService<SysInstitution> {
     * @param params
     * @return
     */
-    PageUtils getDataPage(Map <String, Object> params);
+    PageUtils getDataPage(Map<String, Object> params);
 
 
 }

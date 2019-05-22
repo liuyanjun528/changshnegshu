@@ -12,7 +12,6 @@ import java.io.Serializable;
 import java.util.Date;
 
 
-
 /**
  * 用户绑卡信息
  *
@@ -23,6 +22,25 @@ import java.util.Date;
 @TableName("user_cards")
 public class UserCards extends Model<UserCards> implements Serializable {
 	private static final long serialVersionUID = 1L;
+
+	private UserBasic base;
+	private SysInstitution institution;
+
+	public UserBasic getBase() {
+		return base;
+	}
+
+	public void setBase(UserBasic base) {
+		this.base = base;
+	}
+
+	public SysInstitution getInstitution() {
+		return institution;
+	}
+
+	public void setInstitution(SysInstitution institution) {
+		this.institution = institution;
+	}
 
 	/**
 	 * 系统编号
@@ -48,11 +66,28 @@ public class UserCards extends Model<UserCards> implements Serializable {
     @ApiModelProperty(value = "卡号")
 	@TableField("card_no")
 	private String cardNo;
+
+	/**
+	 * 医院关联Id
+	 */
+	@ApiModelProperty(value = "医院关联Id")
+	@TableField("institution_id")
+	private int institutionId;
+
+
+	/**
+	 * 绑卡状态
+	 */
+	@ApiModelProperty(value = "绑卡状态")
+	@TableField("status")
+	private String status;
+
 	/**
 	 * 备注
 	 */
     @ApiModelProperty(value = "备注")
 	private String remark;
+
 	/**
 	 * 绑定时间
 	 */
@@ -108,6 +143,35 @@ public class UserCards extends Model<UserCards> implements Serializable {
 	public void setCardNo(String cardNo) {
 		this.cardNo = cardNo;
 	}
+
+	/**
+	 * 获取：医院外键
+	 */
+	public int getInstitutionId() {
+		return institutionId;
+	}
+	/**
+	 * 设置：医院外键
+	 */
+	public void setInstitutionId(int institutionId) {
+		this.institutionId = institutionId;
+	}
+
+	/**
+	 * 获取：绑卡状态
+	 */
+	public String getStatus() {
+		return status;
+	}
+	/**
+	 * 设置：绑卡状态
+	 */
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+
+
     /**
      * 获取：备注
      */
@@ -120,6 +184,7 @@ public class UserCards extends Model<UserCards> implements Serializable {
 	public void setRemark(String remark) {
 		this.remark = remark;
 	}
+
     /**
      * 获取：绑定时间
      */

@@ -1,12 +1,11 @@
 package com.annaru.upms.entity;
 
 
-import com.baomidou.mybatisplus.annotation.IdType;
+import com.annaru.common.util.JacksonUtils;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
-import com.annaru.common.util.JacksonUtils;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -15,7 +14,7 @@ import java.util.Date;
 
 /**
  * 数据字典表
- * 
+ *
  * @author TuMinglong
  * @date 2018-12-11 11:35:15
  */

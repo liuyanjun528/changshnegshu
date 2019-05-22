@@ -2,6 +2,36 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.annaru.upms.mapper.UserCardsMapper">
+    <!-- 多表查询映射结果 -->
+    <resultMap id="BaseResultMap_1" type="com.annaru.upms.entity.UserCards" >
+        <result column="card_no" property="cardNo" />
+
+        <collection property="base" ofType="com.annaru.upms.entity.UserBasic">
+            <result column="full_name" property="fullName" />
+            <result column="id_card_no" property="idCardNo" />
+            <result column="cellphone_no" property="cellphoneNo" />
+        </collection>
+
+        <collection property="institution" ofType="com.annaru.upms.entity.SysInstitution">
+            <result column="name" property="name" />
+        </collection>
+    </resultMap>
+
+
+    <!--<resultMap type="com.annaru.upms.entity.UserCards" id="DiaryMap">-->
+        <!--<id property="userId" column="user_id" />-->
+        <!--<result property="cardNo" column="card_no" />-->
+        <!--<association property="base" column="user_id" javaType="com.annaru.upms.entity.UserBasic">-->
+            <!--<id property="userId" column="user_id" />-->
+            <!--<result property="fullName" column="full_name" />-->
+            <!--<result property="idCardNo" column="id_card_no" />-->
+            <!--<result property="cellphoneNo" column="cellphone_no" />-->
+        <!--</association>-->
+        <!--<collection property="institution" ofType="com.annaru.upms.entity.SysInstitution" column="sys_id">-->
+            <!--<result column="name" property="name" />-->
+        <!--</collection>-->
+    <!--</resultMap>-->
+
 
 	<!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.annaru.upms.entity.UserCards" >
@@ -9,27 +39,56 @@
         <result column="user_id" property="userId" />
         <result column="card_cates" property="cardCates" />
         <result column="card_no" property="cardNo" />
+        <!--<result column="institution_id" property="institutionId" />-->
+        <result column="status" property="status" />
         <result column="remark" property="remark" />
         <result column="creation_time" property="creationTime" />
     </resultMap>
 
     <!-- 多表页面信息查询分页 -->
     <select id="selectDataPage" parameterType="map" resultMap="BaseResultMap">
-
         SELECT
               sys_id,
               user_id,
               card_cates,
               card_no,
+              status,
               remark,
-              creation_time,
+              creation_time
         FROM
             user_cards
-        WHERE
-            status=0
-            <if test="params.key != null and params.key != ''">
-                AND key LIKE CONCAT('%', #{params.key}, '%')
+        <where>
+            <if test="params.userId != null and params.userId != ''">
+                AND user_id LIKE CONCAT('%', #{params.userId}, '%')
             </if>
+        </where>
     </select>
+
+    <!-- 通过已绑卡查询 -->
+
+    <select id="selectByStatus" parameterType="map" resultMap="BaseResultMap_1">
+        select
+              u2.full_name,
+              u2.id_card_no,
+              u2.cellphone_no,
+              s.name,
+              u.card_no
+        from user_cards as u
+              LEFT JOIN user_basic as u2 ON u.user_id=u2.user_id
+              LEFT JOIN sys_institution s ON s.sys_id = u.institution_id
+        where  u.status=#{status}
+         AND   u.card_cates=#{card_cates}
+    </select>
+
+
+    <!-- 添加绑卡 -->
+    <insert id="insertCardAndBaseAndInstitution" parameterType="com.annaru.upms.entity.UserCards">
+    INSERT INTO
+            user_cards (user_id, card_cates, card_no, institution_id)
+    VALUES
+          (#{userId},#{cardCates},#{cardNo}, #{institutionId})
+    </insert>
+
+
 
 </mapper>

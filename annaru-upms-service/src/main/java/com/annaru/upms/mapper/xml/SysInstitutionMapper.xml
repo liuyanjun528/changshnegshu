@@ -40,10 +40,17 @@
         FROM
             sys_institution
         WHERE
-            status=0
-            <if test="params.key != null and params.key != ''">
-                AND key LIKE CONCAT('%', #{params.key}, '%')
+            <if test="params.name != null and params.name != ''">
+                AND name LIKE CONCAT('%', #{params.name}, '%')
             </if>
     </select>
+
+
+    <insert id="insertInstitution"  parameterType="com.annaru.upms.entity.SysInstitution" useGeneratedKeys="true" keyProperty="sysId" keyColumn="sysId">
+        INSERT INTO sys_institution
+                    (sys_id,name)
+        VALUES
+                    (#{sys_id},#{name})
+    </insert>
 
 </mapper>

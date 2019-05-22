@@ -1,9 +1,9 @@
 package com.annaru.upms.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.annaru.common.result.PageUtils;
 import com.annaru.upms.entity.SysDoctor;
-import java.util.List;
+import com.baomidou.mybatisplus.extension.service.IService;
+
 import java.util.Map;
 
 /**
@@ -19,7 +19,7 @@ public interface ISysDoctorService extends IService<SysDoctor> {
     * @param params
     * @return
     */
-    PageUtils getDataPage(Map <String, Object> params);
+    PageUtils getDataPage(Map<String, Object> params);
 
 
 }

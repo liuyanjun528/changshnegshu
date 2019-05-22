@@ -12,7 +12,6 @@ import java.io.Serializable;
 import java.util.Date;
 
 
-
 /**
  * 用户亲属信息
  *
@@ -41,6 +40,14 @@ public class UserRelatives extends Model<UserRelatives> implements Serializable 
 	 */
     @ApiModelProperty(value = "亲属姓名")
 	private String fullname;
+
+	/**
+	 * 亲属编号
+	 */
+	@ApiModelProperty(value = "亲属姓名")
+	@TableField("relative_id")
+	private int relativeId;
+
 	/**
 	 * 证件号码
 	 */
@@ -124,7 +131,21 @@ public class UserRelatives extends Model<UserRelatives> implements Serializable 
 	public void setFullname(String fullname) {
 		this.fullname = fullname;
 	}
-    /**
+
+	/**
+	 * 获取：亲属编号
+	 */
+	public int getRelativeId() {
+		return relativeId;
+	}
+	/**
+	 * 设置：亲属编号
+	 */
+	public void setRelativeId(int relativeId) {
+		this.relativeId = relativeId;
+	}
+
+	/**
      * 获取：证件号码
      */
     public String getIdCardNo() {
