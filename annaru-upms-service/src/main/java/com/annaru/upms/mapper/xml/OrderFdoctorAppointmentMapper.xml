@@ -34,7 +34,7 @@
               creation_time,
               create_by,
               edit_time,
-              edit_by,
+              edit_by
         FROM
             order_fdoctor_appointment
         WHERE

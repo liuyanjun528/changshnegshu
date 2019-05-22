@@ -32,7 +32,7 @@
               creation_time,
               edit_time,
               creat_by,
-              edit_by,
+              edit_by
         FROM
             sys_banner
         WHERE

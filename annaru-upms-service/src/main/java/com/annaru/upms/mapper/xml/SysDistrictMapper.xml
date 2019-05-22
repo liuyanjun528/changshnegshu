@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.annaru.upms.mapper.ExamPackageMatchMapper">
+<mapper namespace="com.annaru.upms.mapper.SysDistrictMapper">
 
 	<!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.annaru.upms.entity.ExamPackageMatch" >
+    <resultMap id="BaseResultMap" type="com.annaru.upms.entity.SysDistrict" >
         <result column="sys_id" property="sysId" />
-        <result column="match_name" property="matchName" />
-        <result column="image_name_url" property="imageNameUrl" />
+        <result column="city_id" property="cityId" />
+        <result column="district_name" property="districtName" />
     </resultMap>
 
     <!-- 多表页面信息查询分页 -->
@@ -15,10 +15,10 @@
 
         SELECT
               sys_id,
-              match_name,
-              image_name_url
+              city_id,
+              district_name
         FROM
-            exam_package_match
+            sys_district
         WHERE
             status=0
             <if test="params.key != null and params.key != ''">

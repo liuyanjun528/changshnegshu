@@ -24,7 +24,7 @@
               content,
               cates,
               creation_time,
-              edit_time,
+              edit_time
         FROM
             exam_package_main
         WHERE

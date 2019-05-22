@@ -22,7 +22,7 @@
               remark,
               exam_result,
               exam_cates,
-              creation_time,
+              creation_time
         FROM
             exam_master
         WHERE

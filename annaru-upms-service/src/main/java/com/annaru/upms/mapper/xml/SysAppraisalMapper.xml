@@ -26,7 +26,7 @@
               star_count,
               scores,
               creation_time,
-              create_by,
+              create_by
         FROM
             sys_appraisal
         WHERE

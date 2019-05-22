@@ -42,7 +42,7 @@
               is_approved,
               approve_time,
               creation_time,
-              edit_time,
+              edit_time
         FROM
             sys_nurse
         WHERE
