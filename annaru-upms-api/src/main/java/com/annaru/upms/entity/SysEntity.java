@@ -12,7 +12,6 @@ import java.io.Serializable;
 import java.util.Date;
 
 
-
 /**
  * 分布式体检客户机构
  *

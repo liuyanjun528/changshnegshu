@@ -12,7 +12,6 @@ import java.io.Serializable;
 import java.util.Date;
 
 
-
 /**
  * 定单(体检)预约
  *

@@ -12,7 +12,6 @@ import java.io.Serializable;
 import java.util.Date;
 
 
-
 /**
  * 定单主表
  *
@@ -44,9 +43,9 @@ public class OrderMain extends Model<OrderMain> implements Serializable {
 	private String referenceNo;
 	/**
 	 * 定单类别：
-1:一般体检预约(C端) 
-2:进阶体检预约(C端) 
-3:分布式体检预约(B端) 
+1:一般体检预约(C端)
+2:进阶体检预约(C端)
+3:分布式体检预约(B端)
 4:进阶体检预约(B端)
 5:家庭医生
 	 */
@@ -127,9 +126,9 @@ public class OrderMain extends Model<OrderMain> implements Serializable {
 	}
     /**
      * 获取：定单类别：
-1:一般体检预约(C端) 
-2:进阶体检预约(C端) 
-3:分布式体检预约(B端) 
+1:一般体检预约(C端)
+2:进阶体检预约(C端)
+3:分布式体检预约(B端)
 4:进阶体检预约(B端)
 5:家庭医生
      */
@@ -138,9 +137,9 @@ public class OrderMain extends Model<OrderMain> implements Serializable {
     }
 	/**
 	 * 设置：定单类别：
-1:一般体检预约(C端) 
-2:进阶体检预约(C端) 
-3:分布式体检预约(B端) 
+1:一般体检预约(C端)
+2:进阶体检预约(C端)
+3:分布式体检预约(B端)
 4:进阶体检预约(B端)
 5:家庭医生
 	 */

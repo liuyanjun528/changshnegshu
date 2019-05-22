@@ -3,7 +3,6 @@ package com.annaru.upms.entity;
 
 import com.annaru.common.result.SelectTreeNode;
 import com.annaru.common.util.JacksonUtils;
-import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -17,7 +16,7 @@ import java.util.List;
 
 /**
  * 角色表
- * 
+ *
  * @author TuMinglong
  * @date 2018-12-11 11:35:15
  */

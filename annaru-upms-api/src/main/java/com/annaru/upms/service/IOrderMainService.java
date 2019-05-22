@@ -1,8 +1,9 @@
 package com.annaru.upms.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.annaru.common.result.PageUtils;
 import com.annaru.upms.entity.OrderMain;
+import com.baomidou.mybatisplus.extension.service.IService;
+
 import java.util.List;
 import java.util.Map;
 
@@ -19,7 +20,7 @@ public interface IOrderMainService extends IService<OrderMain> {
     * @param params
     * @return
     */
-    PageUtils getDataPage(Map <String, Object> params);
+    PageUtils getDataPage(Map<String, Object> params);
 
     /**
      * 查询我的订单列表

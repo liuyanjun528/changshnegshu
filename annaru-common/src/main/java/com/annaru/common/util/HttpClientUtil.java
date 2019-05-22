@@ -136,7 +136,6 @@ public class HttpClientUtil {
         return getResult(httpPost);
     }
 
-
     /**
      * 处理Http请求
      *
@@ -144,7 +143,7 @@ public class HttpClientUtil {
      * @return
      */
     private static String getResult(HttpRequestBase request) {
-        CloseableHttpClient httpClient = getHttpClient();
+            CloseableHttpClient httpClient = getHttpClient();
         try {
             CloseableHttpResponse response = httpClient.execute(request);
             HttpEntity entity = response.getEntity();
@@ -162,18 +161,6 @@ public class HttpClientUtil {
         }
 
         return EMPTY_STR;
-    }
-
-
-    public static void main(String[] args) {
-        Map<String, Object> par = new HashMap<String, Object>();
-        par.put("key", "ytHxeW98VhmSzwDOmTM+irg9g/+WGaNfmy1e08r1pmGl2GmlCkmgmfNHeeA31WUR");
-        par.put("unitId", "5dda0ef05cb34390ad3c80bd019ecd14");
-        par.put("sensorId", "15be81dd5d094d9587badce96c5c1322");
-        String json = JacksonUtils.toJson(par);
-        System.out.println(json);
-        String data = httpPostRequest("http://localhost:9090/RiskInformation/ws/SensorValueService/selectSensorStuats/1.0", json);
-        System.out.println(data);
     }
 
 }

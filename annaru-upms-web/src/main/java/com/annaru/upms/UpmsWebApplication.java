@@ -13,7 +13,6 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 
-
 /**
  * @author TuMinglong
  * @description Application
@@ -41,3 +40,4 @@ public class UpmsWebApplication extends SpringBootServletInitializer {
     }
 
 }
+

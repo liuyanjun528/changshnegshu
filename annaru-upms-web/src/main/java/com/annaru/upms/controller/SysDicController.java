@@ -2,7 +2,6 @@ package com.annaru.upms.controller;
 
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.annaru.common.base.BaseController;
 import com.annaru.common.result.ResultMap;
 import com.annaru.common.result.SelectNode;
@@ -10,6 +9,7 @@ import com.annaru.common.result.TreeNode;
 import com.annaru.upms.entity.SysDic;
 import com.annaru.upms.service.ISysDicService;
 import com.annaru.upms.shiro.ShiroKit;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;

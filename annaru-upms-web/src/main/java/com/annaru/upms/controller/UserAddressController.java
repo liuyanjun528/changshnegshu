@@ -1,23 +1,21 @@
 package com.annaru.upms.controller;
 
-import java.util.*;
-
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import com.alibaba.dubbo.config.annotation.Reference;
-import org.springframework.web.bind.annotation.*;
+import com.annaru.common.base.BaseController;
+import com.annaru.common.result.PageUtils;
+import com.annaru.common.result.ResultMap;
+import com.annaru.upms.entity.UserAddress;
+import com.annaru.upms.service.IUserAddressService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.web.bind.annotation.*;
 
-import com.annaru.common.base.BaseController;
-import com.annaru.common.result.PageUtils;
-import com.annaru.upms.shiro.ShiroKit;
-import com.annaru.common.result.ResultMap;
-
-import com.annaru.upms.entity.UserAddress;
-import com.annaru.upms.service.IUserAddressService;
 import javax.validation.Valid;
-
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -40,8 +38,8 @@ public class UserAddressController extends BaseController {
     @GetMapping("/list")
     @RequiresPermissions("upms/userAddress/list")
     public ResultMap list(@ApiParam(value = "当前页")@RequestParam(defaultValue="1") int page,
-                       @ApiParam(value = "每页数量")@RequestParam(defaultValue = "10") int limit,
-                       @ApiParam(value = "关键字")@RequestParam(required = false)String key){
+                          @ApiParam(value = "每页数量")@RequestParam(defaultValue = "10") int limit,
+                          @ApiParam(value = "关键字")@RequestParam(required = false)String key){
 
         Map<String, Object> params = new HashMap<>();
         params.put("page",page);

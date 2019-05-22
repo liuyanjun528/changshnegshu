@@ -2,7 +2,6 @@ package com.annaru.upms.controller;
 
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.google.code.kaptcha.Producer;
 import com.annaru.common.base.BaseController;
 import com.annaru.common.config.redis.IRedisService;
 import com.annaru.common.result.ResultMap;
@@ -14,6 +13,7 @@ import com.annaru.upms.service.ISysUserTokenService;
 import com.annaru.upms.shiro.ShiroKit;
 import com.annaru.upms.shiro.aouth2.TokenGenerator;
 import com.annaru.upms.shiro.form.SysLoginForm;
+import com.google.code.kaptcha.Producer;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.io.IOUtils;
@@ -37,7 +37,7 @@ import java.util.Date;
  * @Author TuMinglong
  * @Date 2018/6/11 17:07
  */
-@Api(value = "登录退出", tags = {" 登录退出"})
+@Api( tags = " 登录退出", value = "登录退出")
 @RestController
 public class SysLoginController extends BaseController {
 

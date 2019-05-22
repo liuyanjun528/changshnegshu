@@ -62,7 +62,7 @@ public class SysUserController extends BaseController {
     @ApiOperation(value = "获取当前登录的用户信息")
     @GetMapping("/info")
     public ResultMap infoLogin(){
-        return ResultMap.ok().put("user",ShiroKit.getUser());
+        return ResultMap.ok().put("user", ShiroKit.getUser());
     }
 
     /**
@@ -74,11 +74,11 @@ public class SysUserController extends BaseController {
         Assert.isBlank(form.getNewPassword(), "新密码不为能空");
 
         SysUser user=sysUserService.getById(ShiroKit.getUser().getId());
-        String password=ShiroKit.md5(form.getPassword(), user.getLoginName() + user.getSalt());
+        String password= ShiroKit.md5(form.getPassword(), user.getLoginName() + user.getSalt());
         if(!user.getPassword().equals(password)){
             return ResultMap.error("原密码不正确");
         }
-        String newPassword=ShiroKit.md5(form.getNewPassword(), user.getLoginName() + user.getSalt());
+        String newPassword= ShiroKit.md5(form.getNewPassword(), user.getLoginName() + user.getSalt());
         user.setPassword(newPassword);
         user.setUpdateTime(new Date());
         sysUserService.updateById(user);

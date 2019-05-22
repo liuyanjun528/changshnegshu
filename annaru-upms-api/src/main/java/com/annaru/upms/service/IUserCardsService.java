@@ -1,8 +1,10 @@
 package com.annaru.upms.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.annaru.common.result.PageUtils;
 import com.annaru.upms.entity.UserCards;
+import com.baomidou.mybatisplus.extension.service.IService;
+import org.apache.ibatis.annotations.Param;
+
 import java.util.List;
 import java.util.Map;
 
@@ -19,8 +21,23 @@ public interface IUserCardsService extends IService<UserCards> {
     * @param params
     * @return
     */
-    PageUtils getDataPage(Map <String, Object> params);
+    PageUtils getDataPage(Map<String, Object> params);
 
+    /**
+     * 通过已绑卡查询
+     * @param status 是否绑卡
+     * @param cardCates 绑卡类型
+     * @return
+     */
+    List<UserCards> selectByStatus(@Param("status") int status, @Param("cardCates") int cardCates);
+
+
+    /**
+     * 添加绑卡操作
+     * @param cards
+     * @return
+     */
+    int insertCardAndBaseAndInstitution(UserCards cards);
 
 }
 

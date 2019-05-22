@@ -12,7 +12,6 @@ singleServerConfig:
   subscriptionsPerConnection: 5
   clientName: null
   address: "redis://115.159.93.175:6379"
-  #address: "redis://10.98.247.141:6379"
   subscriptionConnectionMinimumIdleSize: 1
   subscriptionConnectionPoolSize: 50
   connectionMinimumIdleSize: 32

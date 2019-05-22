@@ -31,4 +31,12 @@ public interface UserBasicMapper extends BaseMapper<UserBasic> {
     UserBasic selectNurseByData(@Param("params") Map<String, Object> params);
 
 
+    /**
+     * 修改旧密码
+     * @param password
+     * @param userId
+     * @return
+     */
+    int updatePwd(@Param("password") String password, @Param("userId") String userId);
+    UserBasic selectByUid(@Param("userId") String userId);
 }

@@ -23,6 +23,7 @@ public interface ExamPackageMainMapper extends BaseMapper<ExamPackageMain> {
     * @return
     */
     IPage<ExamPackageMain> selectDataPageZ(Page page, @Param("params") Map <String, Object> params);
+    IPage<ExamPackageMain> selectDataPage(Page page, @Param("params") Map<String, Object> params);
 
     /**
      * 根据套餐编号查询套餐详情

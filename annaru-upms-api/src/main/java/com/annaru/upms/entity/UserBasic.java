@@ -12,7 +12,6 @@ import java.io.Serializable;
 import java.util.Date;
 
 
-
 /**
  * 用户基础信息
  *
@@ -36,6 +35,21 @@ public class UserBasic extends Model<UserBasic> implements Serializable {
     @ApiModelProperty(value = "户用编号")
 	@TableField("user_id")
 	private String userId;
+
+	/**
+	 * 户用姓名
+	 */
+	@ApiModelProperty(value = "户用姓名")
+	@TableField("full_name")
+	private String fullName;
+
+	/**
+	 * 中文拼音姓名
+	 */
+	@ApiModelProperty(value = "姓名拼音")
+	@TableField("chinese_spell")
+	private String chineseSpell;
+
 	/**
 	 * 手机号
 	 */
@@ -184,7 +198,29 @@ public class UserBasic extends Model<UserBasic> implements Serializable {
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
-    /**
+
+	/**
+	 * 获取：户用姓名
+	 */
+	public String getFullName() {
+		return fullName;
+	}
+	/**
+	 * 设置：姓名
+	 */
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
+	}
+
+	public String getChineseSpell() {
+		return chineseSpell;
+	}
+
+	public void setChineseSpell(String chineseSpell) {
+		this.chineseSpell = chineseSpell;
+	}
+
+	/**
      * 获取：手机号
      */
     public String getCellphoneNo() {

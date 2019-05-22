@@ -8,6 +8,7 @@
         <result column="sys_id" property="sysId" />
         <result column="user_id" property="userId" />
         <result column="fullname" property="fullname" />
+        <result column="relative_id" property="relativeId" />
         <result column="id_card_no" property="idCardNo" />
         <result column="gender" property="gender" />
         <result column="cellphone_no" property="cellphoneNo" />
@@ -36,8 +37,12 @@
         FROM
             user_relatives
         <where>
+            1=1
             <if test="params.userId != null and params.userId != ''">
-                user_id = #{params.userId}
+                AND user_id = #{params.userId}
+            </if>
+            <if test="params.fullname != null and params.fullname != ''">
+                AND fullname LIKE CONCAT('%', #{params.fullname}, '%')
             </if>
         </where>
     </select>

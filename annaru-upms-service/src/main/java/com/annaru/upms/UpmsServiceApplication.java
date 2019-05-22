@@ -1,11 +1,8 @@
 package com.annaru.upms;
 
 import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure;
-import com.annaru.upms.handle.netty.NettyServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -27,11 +24,8 @@ import org.springframework.session.data.redis.config.annotation.web.http.EnableR
 @EnableAsync
 @EnableScheduling
 @ComponentScan("com.annaru")
-public class UpmsServiceApplication extends SpringBootServletInitializer implements CommandLineRunner {
+public class UpmsServiceApplication extends SpringBootServletInitializer {
     protected final static Logger logger = LoggerFactory.getLogger(UpmsServiceApplication.class);
-
-    @Autowired
-    private NettyServer nettyServer;
 
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
@@ -43,12 +37,6 @@ public class UpmsServiceApplication extends SpringBootServletInitializer impleme
     public static void main(String[] args) {
         SpringApplication.run(UpmsServiceApplication.class, args);
         logger.info("----UpmsServiceApplication 启动----");
-    }
-
-    @Override
-    public void run(String... args) throws Exception {
-        nettyServer.start();
-        logger.info("----Netty 启动----");
     }
 
 }

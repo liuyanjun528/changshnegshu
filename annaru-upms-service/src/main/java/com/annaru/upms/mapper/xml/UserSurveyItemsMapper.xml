@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.annaru.upms.mapper.UserSurveyItemsMapper">
+
+	<!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.annaru.upms.entity.UserSurveyItems" >
+        <result column="sys_id" property="sysId" />
+        <result column="survey_id" property="surveyId" />
+        <result column="question_id" property="questionId" />
+        <result column="answer_detail" property="answerDetail" />
+        <result column="remarks" property="remarks" />
+        <result column="creation_time" property="creationTime" />
+        <result column="edit_time" property="editTime" />
+    </resultMap>
+
+    <!-- 多表页面信息查询分页 -->
+    <select id="selectDataPage" parameterType="map" resultMap="BaseResultMap">
+
+        SELECT
+              sys_id,
+              survey_id,
+              question_id,
+              answer_detail,
+              remarks,
+              creation_time,
+              edit_time
+        FROM
+            user_survey_items
+        <where>
+            <if test="params.surveyId != null and params.surveyId != ''">
+                AND survey_id LIKE CONCAT('%', #{params.surveyId}, '%')
+            </if>
+        </where>
+    </select>
+
+</mapper>

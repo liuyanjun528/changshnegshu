@@ -1,10 +1,10 @@
 package com.annaru.upms.service.impl;
 
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.alibaba.dubbo.config.annotation.Service;
 import com.annaru.upms.entity.SysUserToken;
 import com.annaru.upms.mapper.SysUserTokenMapper;
 import com.annaru.upms.service.ISysUserTokenService;
-import com.alibaba.dubbo.config.annotation.Service;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
 /**
  * <p>

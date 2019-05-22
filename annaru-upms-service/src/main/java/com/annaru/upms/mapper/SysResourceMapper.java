@@ -1,15 +1,14 @@
 package com.annaru.upms.mapper;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.annaru.upms.entity.SysResource;
-import org.apache.ibatis.annotations.Mapper;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 import java.util.List;
 import java.util.Map;
 
 /**
  * 资源表
- * 
+ *
  * @author TuMinglong
  * @date 2018-12-11 11:35:15
  */

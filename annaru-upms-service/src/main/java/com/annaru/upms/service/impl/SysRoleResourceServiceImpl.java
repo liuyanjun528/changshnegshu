@@ -1,11 +1,11 @@
 package com.annaru.upms.service.impl;
 
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.alibaba.dubbo.config.annotation.Service;
 import com.annaru.common.result.SelectTreeNode;
 import com.annaru.upms.entity.SysRoleResource;
 import com.annaru.upms.mapper.SysRoleResourceMapper;
 import com.annaru.upms.service.ISysRoleResourceService;
-import com.alibaba.dubbo.config.annotation.Service;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
