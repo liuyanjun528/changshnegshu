@@ -24,6 +24,77 @@
         <result column="is_verified" property="isVerified" />
         <result column="email_address" property="emailAddress" />
         <result column="creation_time" property="creationTime" />
+
+     </resultMap>
+
+    <resultMap id="BaseResultMap1" type="com.annaru.upms.entity.UserBasic" >
+        <result column="sys_id" property="sysId" />
+        <result column="user_id" property="userId" />
+        <result column="cellphone_no" property="cellphoneNo" />
+        <result column="password" property="password" />
+        <result column="id_card_no" property="idCardNo" />
+        <result column="origin_province" property="originProvince" />
+        <result column="origin_city" property="originCity" />
+        <result column="residence_province" property="residenceProvince" />
+        <result column="residence_city" property="residenceCity" />
+        <result column="occupation" property="occupation" />
+        <result column="gender" property="gender" />
+        <result column="date_of_birth" property="dateOfBirth" />
+        <result column="head_image" property="headImage" />
+        <result column="isactive" property="isactive" />
+        <result column="last_logintime" property="lastLogintime" />
+        <result column="registration_time" property="registrationTime" />
+        <result column="is_verified" property="isVerified" />
+        <result column="email_address" property="emailAddress" />
+        <result column="creation_time" property="creationTime" />
+
+        <association property="sysDoctor" column="user_id" javaType="com.annaru.upms.entity.SysDoctor" resultMap="SysDoctorBaseResultMap" />
+        <association property="sysNurse" column="user_id" javaType="com.annaru.upms.entity.SysNurse" resultMap="SysNurseBaseResultMap" />
+    </resultMap>
+
+    <!-- 通用查询映射结果 医生 -->
+    <resultMap id="SysDoctorBaseResultMap" type="com.annaru.upms.entity.SysDoctor" >
+        <result column="sys_id" property="sysId" />
+        <result column="doctor_no" property="doctorNo" />
+        <result column="user_id" property="userId" />
+        <result column="full_name" property="fullName" />
+        <result column="head_image" property="headImage" />
+        <result column="degrees" property="degrees" />
+        <result column="star_count" property="starCount" />
+        <result column="score" property="score" />
+        <result column="focus_on" property="focusOn" />
+        <result column="goodat" property="goodat" />
+        <result column="content" property="content" />
+        <result column="belong_office" property="belongOffice" />
+        <result column="belong_province" property="belongProvince" />
+        <result column="belong_city" property="belongCity" />
+        <result column="belong_district" property="belongDistrict" />
+        <result column="price_year" property="priceYear" />
+        <result column="status" property="status" />
+        <result column="creation_time" property="creationTime" />
+        <result column="edit_time" property="editTime" />
+        <result column="create_by" property="createBy" />
+        <result column="edit_by" property="editBy" />
+    </resultMap>
+
+    <!-- 通用查询映射结果 护士 -->
+    <resultMap id="SysNurseBaseResultMap" type="com.annaru.upms.entity.SysNurse" >
+        <result column="sys_id" property="sysId" />
+        <result column="nurse_no" property="nurseNo" />
+        <result column="user_id" property="userId" />
+        <result column="name" property="name" />
+        <result column="head_image" property="headImage" />
+        <result column="belong_hospital" property="belongHospital" />
+        <result column="belong_office" property="belongOffice" />
+        <result column="introduction" property="introduction" />
+        <result column="score" property="score" />
+        <result column="focus_on" property="focusOn" />
+        <result column="contact_no1" property="contactNo1" />
+        <result column="contact_no2" property="contactNo2" />
+        <result column="is_approved" property="isApproved" />
+        <result column="approve_time" property="approveTime" />
+        <result column="creation_time" property="creationTime" />
+        <result column="edit_time" property="editTime" />
     </resultMap>
 
     <!-- 多表页面信息查询分页 -->
@@ -56,6 +127,132 @@
             <if test="params.key != null and params.key != ''">
                 AND key LIKE CONCAT('%', #{params.key}, '%')
             </if>
+    </select>
+
+    <!-- 根据条件查询某个用户信息 -->
+    <select id="selectByData" parameterType="map" resultMap="BaseResultMap">
+        SELECT
+              sys_id,
+              user_id,
+              cellphone_no,
+              password,
+              id_card_no,
+              origin_province,
+              origin_city,
+              residence_province,
+              residence_city,
+              occupation,
+              gender,
+              date_of_birth,
+              head_image,
+              isactive,
+              last_logintime,
+              registration_time,
+              is_verified,
+              email_address,
+              creation_time
+        FROM
+            user_basic
+        <where>
+            <if test="params.cellphoneNo != null and params.cellphoneNo != ''">
+                cellphone_no = #{params.cellphoneNo}
+            </if>
+        </where>
+    </select>
+
+    <!-- 根据条件查询某个用户信息与医生信息 -->
+    <select id="selectDoctorByData" parameterType="map" resultMap="BaseResultMap1">
+        SELECT
+            b.sys_id sys_id,
+            b.user_id user_id,
+            b.cellphone_no cellphone_no,
+            password,
+            id_card_no,
+            origin_province,
+            origin_city,
+            residence_province,
+            residence_city,
+            occupation,
+            gender,
+            date_of_birth,
+            b.head_image,
+            isactive,
+            last_logintime,
+            registration_time,
+            is_verified,
+            email_address,
+            b.creation_time,
+            doctor_no,
+            b.full_name,
+            degrees,
+            star_count,
+            score,
+            focus_on,
+            goodat,
+            content,
+            belong_office,
+            belong_province,
+            belong_city,
+            belong_district,
+            price_year,
+            status,
+            edit_time,
+            create_by,
+            edit_by
+        FROM
+            user_basic b
+        LEFT JOIN sys_doctor d ON d.user_id = b.user_id
+        <where>
+            <if test="params.cellphoneNo != null and params.cellphoneNo != ''">
+                b.cellphone_no = #{params.cellphoneNo}
+            </if>
+        </where>
+    </select>
+
+    <!-- 根据条件查询某个用户信息与护士信息 -->
+    <select id="selectNurseByData" parameterType="map" resultMap="BaseResultMap1">
+        SELECT
+            b.sys_id bsys_id,
+            b.user_id buser_id,
+            cellphone_no,
+            password,
+            id_card_no,
+            origin_province,
+            origin_city,
+            residence_province,
+            residence_city,
+            occupation,
+            gender,
+            date_of_birth,
+            b.head_image,
+            isactive,
+            last_logintime,
+            registration_time,
+            is_verified,
+            email_address,
+            b.creation_time,
+
+            nurse_no,
+            name,
+
+            belong_hospital,
+            belong_office,
+            introduction,
+            score,
+            focus_on,
+            contact_no1,
+            contact_no2,
+            is_approved,
+            approve_time,
+            edit_time
+        FROM
+            user_basic b
+        LEFT JOIN sys_nurse n ON  n.user_id = b.user_id
+        <where>
+            <if test="params.cellphoneNo != null and params.cellphoneNo != ''">
+                b.cellphone_no = #{params.cellphoneNo}
+            </if>
+        </where>
     </select>
 
 </mapper>

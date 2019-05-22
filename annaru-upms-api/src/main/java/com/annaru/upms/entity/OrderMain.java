@@ -37,11 +37,11 @@ public class OrderMain extends Model<OrderMain> implements Serializable {
 	@TableField("order_no")
 	private String orderNo;
 	/**
-	 * 相关编号 (套餐编号/ 医生编号/护士编号)
+	 * 相关编号 (套餐编号)
 	 */
-    @ApiModelProperty(value = "相关编号 (套餐编号/ 医生编号/护士编号)")
-	@TableField("related_no")
-	private String relatedNo;
+    @ApiModelProperty(value = "相关编号 (套餐编号)")
+	@TableField("reference_no")
+	private String referenceNo;
 	/**
 	 * 定单类别：
 1:一般体检预约(C端) 
@@ -114,16 +114,16 @@ public class OrderMain extends Model<OrderMain> implements Serializable {
 		this.orderNo = orderNo;
 	}
     /**
-     * 获取：相关编号 (套餐编号/ 医生编号/护士编号)
+     * 获取：相关编号 (套餐编号)
      */
-    public String getRelatedNo() {
-        return relatedNo;
+    public String getReferenceNo() {
+        return referenceNo;
     }
 	/**
-	 * 设置：相关编号 (套餐编号/ 医生编号/护士编号)
+	 * 设置：相关编号 (套餐编号)
 	 */
-	public void setRelatedNo(String relatedNo) {
-		this.relatedNo = relatedNo;
+	public void setReferenceNo(String referenceNo) {
+		this.referenceNo = referenceNo;
 	}
     /**
      * 获取：定单类别：

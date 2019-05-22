@@ -32,14 +32,14 @@
               seq_no,
               is_deleted,
               creation_time,
-              edit_time,
+              edit_time
         FROM
             user_relatives
-        WHERE
-            status=0
-            <if test="params.key != null and params.key != ''">
-                AND key LIKE CONCAT('%', #{params.key}, '%')
+        <where>
+            <if test="params.userId != null and params.userId != ''">
+                user_id = #{params.userId}
             </if>
+        </where>
     </select>
 
 </mapper>

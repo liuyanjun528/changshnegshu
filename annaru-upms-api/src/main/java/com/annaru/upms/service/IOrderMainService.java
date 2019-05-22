@@ -21,6 +21,33 @@ public interface IOrderMainService extends IService<OrderMain> {
     */
     PageUtils getDataPage(Map <String, Object> params);
 
+    /**
+     * 查询我的订单列表
+     * @param params
+     * @return
+     */
+    PageUtils selectOrderPage(Map <String, Object> params);
+
+    /**
+     * 查询套餐订单详情
+     * @param params
+     * @return
+     */
+    List<OrderMain> selectPackageOrder(Map<String, Object> params);
+
+    /**
+     * 查询自费(进阶)订单详情
+     * @param params
+     * @return
+     */
+    List<OrderMain> selectPackageAdvance(Map<String, Object> params);
+
+    /**
+     * 查询门诊绿通订单详情
+     * @param params
+     * @return
+     */
+    List<OrderMain> selectPackageGreen(Map<String, Object> params);
 
 }
 

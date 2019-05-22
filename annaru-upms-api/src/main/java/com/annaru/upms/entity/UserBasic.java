@@ -134,8 +134,33 @@ public class UserBasic extends Model<UserBasic> implements Serializable {
     @ApiModelProperty(value = "创建时间")
 	@TableField("creation_time")
 	private Date creationTime;
+	/**
+	 * 医生对象
+	 */
+	@ApiModelProperty(value = "医生对象")
+    private SysDoctor sysDoctor;
+	/**
+	 * 护士对象
+	 */
+	@ApiModelProperty(value = "护士对象")
+	private SysNurse sysNurse;
 
-    /**
+	public SysDoctor getSysDoctor() {
+		return sysDoctor;
+	}
+
+	public void setSysDoctor(SysDoctor sysDoctor) {
+		this.sysDoctor = sysDoctor;
+	}
+
+	public SysNurse getSysNurse() {
+		return sysNurse;
+	}
+
+	public void setSysNurse(SysNurse sysNurse) {
+		this.sysNurse = sysNurse;
+	}
+	/**
      * 获取：系统编号
      */
     public Integer getSysId() {

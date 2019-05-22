@@ -24,10 +24,16 @@ import java.util.Map;
 public class ExamPackageMainServiceImpl extends ServiceImpl<ExamPackageMainMapper, ExamPackageMain> implements IExamPackageMainService {
 
     @Override
-    public PageUtils getDataPage(Map<String, Object> params){
+    public PageUtils selectDataPageZ(Map<String, Object> params){
         Page<ExamPackageMain> page = new PageUtils<ExamPackageMain>(params).getPage();
-        IPage<ExamPackageMain> iPage = this.baseMapper.selectDataPage(page, params);
+        IPage<ExamPackageMain> iPage = this.baseMapper.selectDataPageZ(page, params);
         return new PageUtils<ExamPackageMain>(iPage);
+    }
+
+    @Override
+    public List<ExamPackageMain> selectInfoBySysId(Map<String, Object> params) {
+        List<ExamPackageMain> examPackageMain = this.baseMapper.selectInfoBySysId(params);
+        return examPackageMain;
     }
 
 }

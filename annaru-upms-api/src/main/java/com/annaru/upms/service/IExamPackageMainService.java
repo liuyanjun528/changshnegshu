@@ -19,7 +19,14 @@ public interface IExamPackageMainService extends IService<ExamPackageMain> {
     * @param params
     * @return
     */
-    PageUtils getDataPage(Map <String, Object> params);
+    PageUtils selectDataPageZ(Map <String, Object> params);
+
+    /**
+     * 根据套餐编号查询套餐详情
+     * @param params
+     * @return
+     */
+    List<ExamPackageMain> selectInfoBySysId(Map <String, Object> params);
 
 
 }

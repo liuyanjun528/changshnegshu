@@ -41,19 +41,43 @@ public class ExamPackageMainController extends BaseController {
     @RequiresPermissions("upms/examPackageMain/list")
     public ResultMap list(@ApiParam(value = "当前页")@RequestParam(defaultValue="1") int page,
                        @ApiParam(value = "每页数量")@RequestParam(defaultValue = "10") int limit,
-                       @ApiParam(value = "关键字")@RequestParam(required = false)String key){
+                       @ApiParam(value = "价格区间开始")@RequestParam(required = false)Double amount_from,
+                       @ApiParam(value = "价格区间结束")@RequestParam(required = false)Double amount_to,
+                       @ApiParam(value = "年龄开始")@RequestParam(required = false)Integer age_from,
+                       @ApiParam(value = "年龄结束")@RequestParam(required = false)Integer age_to,
+                       @ApiParam(value = "适用性别:(1:男/2:女/3:男女都适用)")@RequestParam(required = false)Integer suite_gender,
+                       @ApiParam(value = "检查项目主表编号")@RequestParam(required = false)Integer exam_master_i,
+                       @ApiParam(value = "根据预约排序")@RequestParam(required = false)Integer sort_count_person){
 
         Map<String, Object> params = new HashMap<>();
         params.put("page",page);
         params.put("limit", limit);
-        params.put("key", key);
-        PageUtils<Map<String, Object>> pageList = examPackageMainService.getDataPage(params);
+        params.put("amountFrom", amount_from);
+        params.put("amountTo", amount_to);
+        params.put("ageFrom", age_from);
+        params.put("ageTo", age_to);
+        params.put("suiteGender", suite_gender);
+        params.put("examMasterI", exam_master_i);
+        params.put("sort_count_person", sort_count_person);
+        PageUtils<Map<String, Object>> pageList = examPackageMainService.selectDataPageZ(params);
         return ResultMap.ok().put("page",pageList);
     }
 
 
     /**
-     * 信息
+     * 根据套餐编号查询套餐详情
+     */
+    @ApiOperation(value = "根据套餐编号查询套餐详情", notes = "根据套餐编号查询套餐详情")
+    @GetMapping("/selectInfoBySysId/{sysId}")
+    @RequiresPermissions("upms/examPackageMain/selectInfoBySysId")
+    public ResultMap selectInfoBySysId(@PathVariable("sysId") Integer sysId){
+        Map<String, Object> params = new HashMap<>();
+        params.put("sysId",sysId);
+        List<ExamPackageMain> examPackageMain = examPackageMainService.selectInfoBySysId(params);
+        return ResultMap.ok().put("examPackageMain",examPackageMain);
+    }
+    /**
+     * 根据套餐编号查询套餐详情
      */
     @ApiOperation(value = "查看详情", notes = "查看upms详情")
     @GetMapping("/info/{sysId}")

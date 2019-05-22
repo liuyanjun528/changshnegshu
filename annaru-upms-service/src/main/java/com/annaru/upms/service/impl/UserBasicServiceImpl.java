@@ -30,4 +30,23 @@ public class UserBasicServiceImpl extends ServiceImpl<UserBasicMapper, UserBasic
         return new PageUtils<UserBasic>(iPage);
     }
 
+    @Override
+    public UserBasic selectByData(Map <String, Object> params) {
+        UserBasic userBasic = this.baseMapper.selectByData(params);
+        return userBasic;
+    }
+
+    @Override
+    public UserBasic selectDoctorByData(Map <String, Object> params) {
+        UserBasic userBasic = this.baseMapper.selectDoctorByData(params);
+        return userBasic;
+    }
+
+    @Override
+    public UserBasic selectNurseByData(Map <String, Object> params) {
+        UserBasic userBasic = this.baseMapper.selectNurseByData(params);
+        return userBasic;
+    }
+
+
 }

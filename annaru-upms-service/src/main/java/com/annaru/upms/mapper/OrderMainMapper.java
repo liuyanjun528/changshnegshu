@@ -24,5 +24,34 @@ public interface OrderMainMapper extends BaseMapper<OrderMain> {
     */
     IPage<OrderMain> selectDataPage(Page page, @Param("params") Map <String, Object> params);
 
+    /**
+     * 多表页面信息查询 ，查询我的订单列表
+     * @param page
+     * @param params
+     * @return
+     */
+    IPage<OrderMain> selectOrderPage(Page page, @Param("params") Map <String, Object> params);
+
+    /**
+     * 多表页面信息查询 ，查询套餐订单详情
+     * @param params
+     * @return
+     */
+    List<OrderMain> selectPackageOrder(@Param("params") Map <String, Object> params);
+
+    /**
+     * 多表页面信息查询 ，查询自费(进阶)订单详情
+     * @param params
+     * @return
+     */
+    List<OrderMain> selectPackageAdvance(@Param("params") Map <String, Object> params);
+
+    /**
+     * 多表页面信息查询 ，查询门诊绿通订单详情
+     * @param params
+     * @return
+     */
+    List<OrderMain> selectPackageGreen(@Param("params") Map <String, Object> params);
+
 
 }

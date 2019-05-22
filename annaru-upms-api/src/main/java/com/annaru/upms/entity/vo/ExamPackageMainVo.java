@@ -1,6 +1,7 @@
-package com.annaru.upms.entity;
+package com.annaru.upms.entity.vo;
 
 import com.annaru.common.util.JacksonUtils;
+import com.annaru.upms.entity.ExamPackageDetail;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -14,90 +15,92 @@ import java.util.List;
 
 
 /**
- * 套餐
+ * 套餐Vo
  *
  * @author zk
  * @date 2019-05-09 11:14:28
  */
-@ApiModel(value = "套餐")
-@TableName("exam_package_main")
-public class ExamPackageMain extends Model<ExamPackageMain> implements Serializable {
+@ApiModel(value = "套餐Vo")
+public class ExamPackageMainVo implements Serializable {
 	private static final long serialVersionUID = 1L;
-
 	/**
 	 * 系统编号
 	 */
-    @ApiModelProperty(value = "系统编号")
-	@TableId
 	private Integer sysId;
 	/**
 	 * 套餐全称
 	 */
-    @ApiModelProperty(value = "套餐全称")
-	@TableField("package_name")
 	private String packageName;
 	/**
 	 * 总金额
 	 */
-    @ApiModelProperty(value = "总金额")
 	private Double amount;
 	/**
 	 * 套餐内容说明
 	 */
-    @ApiModelProperty(value = "套餐内容说明")
 	private String content;
 	/**
 	 * 类别(1:标准套餐/2:其他)
 	 */
-    @ApiModelProperty(value = "类别(1:标准套餐/2:其他)")
 	private Integer cates;
-
 	/**
 	 * 副标题(逗号分隔)
 	 */
-	@ApiModelProperty(value = "副标题(逗号分隔)")
 	private String subtitle;
 	/**
 	 * 开始年龄
 	 */
-	@ApiModelProperty(value = "开始年龄")
 	private Integer ageFrom;
 	/**
 	 * 结束年龄
 	 */
-	@ApiModelProperty(value = "结束年龄")
 	private Integer ageTo;
 	/**
 	 * 适用性别:(1:男/2:女/3:男女都适用)
 	 */
-	@ApiModelProperty(value = "适用性别:(1:男/2:女/3:男女都适用)")
 	private Integer suiteGender;
-
 	/**
 	 * 创建时间
 	 */
-    @ApiModelProperty(value = "创建时间")
-	@TableField("creation_time")
 	private Date creationTime;
 	/**
 	 * 编辑时间
 	 */
-    @ApiModelProperty(value = "编辑时间")
-	@TableField("edit_time")
 	private Date editTime;
-    @ApiModelProperty(value = "套餐详细")
-    private List<ExamPackageDetail> examPackageDetailList;
+	/**
+	 * 周期 单位：天/次
+	 */
+	private Integer periods;
+	/**
+	 * 类别  5:家庭医生 6.门诊绿通预约
+	 */
+	private Integer eaCates;
 
-	@ApiModelProperty(value = "预约人数")
-	@TableField(exist = false)
+	/**
+	 * 预约人数
+	 */
     private Integer countPsersion;
 
-	public Integer getCountPsersion() {
-		return countPsersion;
-	}
-	public void setCountPsersion(Integer countPsersion) {
-		this.countPsersion = countPsersion;
-	}
+	/**
+	 * 赠送服务名称
+	 */
+	private String serviceName;
+
+	/**
+	 * 检查项数量
+	 */
+	private Integer countDetail;
+
+	/**
+	 * 检查项目名称
+	 */
+	private String emName;
+
+	/**
+	 * 检查项目详情名称
+	 */
+	private String edItemName;
+
 
 	/**
      * 获取：系统编号
@@ -208,16 +211,49 @@ public class ExamPackageMain extends Model<ExamPackageMain> implements Serializa
 	public Integer getSuiteGender() {
 		return suiteGender;
 	}
-	public List<ExamPackageDetail> getExamPackageDetailList() {
-		return examPackageDetailList;
+
+	public Integer getCountDetail() {
+		return countDetail;
 	}
-	public void setExamPackageDetailList(List<ExamPackageDetail> examPackageDetailList) {
-		this.examPackageDetailList = examPackageDetailList;
+	public void setCountDetail(Integer countDetail) {
+		this.countDetail = countDetail;
+	}
+	public Integer getCountPsersion() {
+		return countPsersion;
+	}
+	public void setCountPsersion(Integer countPsersion) {
+		this.countPsersion = countPsersion;
+	}
+	public String getEdItemName() {
+		return edItemName;
+	}
+	public void setEdItemName(String edItemName) {
+		this.edItemName = edItemName;
+	}
+	public String getEmName() {
+		return emName;
 	}
 
-	@Override
-	protected Serializable pkVal() {
-		return this.sysId;
+	public void setEmName(String emName) {
+		this.emName = emName;
+	}
+	public String getServiceName() {
+		return serviceName;
+	}
+	public void setServiceName(String serviceName) {
+		this.serviceName = serviceName;
+	}
+	public Integer getPeriods() {
+		return periods;
+	}
+	public void setPeriods(Integer periods) {
+		this.periods = periods;
+	}
+	public Integer getEaCates() {
+		return eaCates;
+	}
+	public void setEaCates(Integer eaCates) {
+		this.eaCates = eaCates;
 	}
 
 	@Override

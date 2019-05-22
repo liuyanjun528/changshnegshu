@@ -21,7 +21,7 @@
             exam_append
         <where>
             <if test="params.serviceName != null and params.serviceName != ''">
-                serviceName LIKE CONCAT('%', #{params.serviceName}, '%')
+                service_name LIKE CONCAT('%', #{params.serviceName}, '%')
             </if>
         </where>
     </select>

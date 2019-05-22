@@ -22,7 +22,13 @@ public interface UserBasicMapper extends BaseMapper<UserBasic> {
     * @param params
     * @return
     */
-    IPage<UserBasic> selectDataPage(Page page, @Param("params") Map <String, Object> params);
+    IPage<UserBasic> selectDataPage(Page page, @Param("params") Map<String, Object> params);
+
+    UserBasic selectByData(@Param("params") Map<String, Object> params);
+
+    UserBasic selectDoctorByData(@Param("params") Map<String, Object> params);
+
+    UserBasic selectNurseByData(@Param("params") Map<String, Object> params);
 
 
 }
