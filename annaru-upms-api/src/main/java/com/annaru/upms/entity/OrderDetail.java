@@ -11,12 +11,12 @@ import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 import java.util.Date;
 
-
 /**
  * 定单详细表
  *
- * @author xck
- * @date 2019-05-20 16:18:34
+ * @author wh
+ * @date 2019-05-22 12:06:42
+
  */
 @ApiModel(value = "定单详细表")
 @TableName("order_detail")
@@ -55,8 +55,10 @@ public class OrderDetail extends Model<OrderDetail> implements Serializable {
 	private String effectTo;
 	/**
 	 * 总数
+     * 总数（关联 exam_package_append）
 	 */
-    @ApiModelProperty(value = "总数")
+
+    @ApiModelProperty(value = "总数（关联 exam_package_append）")
 	@TableField("total_qty")
 	private Integer totalQty;
 	/**
@@ -128,12 +130,14 @@ public class OrderDetail extends Model<OrderDetail> implements Serializable {
 	}
     /**
      * 获取：总数
+     * 获取：总数（关联 exam_package_append）
      */
     public Integer getTotalQty() {
         return totalQty;
     }
 	/**
 	 * 设置：总数
+	 * 设置：总数（关联 exam_package_append）
 	 */
 	public void setTotalQty(Integer totalQty) {
 		this.totalQty = totalQty;

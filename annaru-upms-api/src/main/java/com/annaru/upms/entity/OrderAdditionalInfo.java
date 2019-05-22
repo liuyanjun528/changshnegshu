@@ -1,6 +1,7 @@
 package com.annaru.upms.entity;
 
 import com.annaru.common.util.JacksonUtils;
+
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -15,9 +16,8 @@ import java.util.Date;
 
 /**
  * 预约其他信息
- *
- * @author xck
- * @date 2019-05-20 16:18:39
+ * @author wh
+ * @date 2019-05-22 12:06:42
  */
 @ApiModel(value = "预约其他信息")
 @TableName("order_additional_info")
@@ -38,9 +38,9 @@ public class OrderAdditionalInfo extends Model<OrderAdditionalInfo> implements S
 	private String orderNo;
 	/**
 	 * 类别：
-1:一般体检预约(C端) 
-2:进阶体检预约(C端) 
-3:分布式体检预约(B端) 
+1:一般体检预约(C端)
+2:进阶体检预约(C端)
+3:分布式体检预约(B端)
 4:进阶体检预约(B端)
 5:家庭医生
 6.门诊绿通预约
@@ -73,6 +73,7 @@ public class OrderAdditionalInfo extends Model<OrderAdditionalInfo> implements S
     @ApiModelProperty(value = "创建时间")
 	@TableField("creation_time")
 	private Date creationTime = new Date();
+	//private Date creationTime;
 	/**
 	 * 创建人
 	 */
@@ -106,9 +107,9 @@ public class OrderAdditionalInfo extends Model<OrderAdditionalInfo> implements S
 	}
     /**
      * 获取：类别：
-1:一般体检预约(C端) 
-2:进阶体检预约(C端) 
-3:分布式体检预约(B端) 
+1:一般体检预约(C端)
+2:进阶体检预约(C端)
+3:分布式体检预约(B端)
 4:进阶体检预约(B端)
 5:家庭医生
 6.门诊绿通预约
@@ -118,9 +119,9 @@ public class OrderAdditionalInfo extends Model<OrderAdditionalInfo> implements S
     }
 	/**
 	 * 设置：类别：
-1:一般体检预约(C端) 
-2:进阶体检预约(C端) 
-3:分布式体检预约(B端) 
+1:一般体检预约(C端)
+2:进阶体检预约(C端)
+3:分布式体检预约(B端)
 4:进阶体检预约(B端)
 5:家庭医生
 6.门诊绿通预约

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.annaru.upms.mapper.EntityHealthyAppointmentMapper">
+
+	<!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.annaru.upms.entity.EntityHealthyAppointment" >
+        <result column="sys_id" property="sysId" />
+        <result column="order_no" property="orderNo" />
+        <result column="entity_no" property="entityNo" />
+        <result column="user_cate" property="userCate" />
+        <result column="user_id" property="userId" />
+        <result column="appointment_cates" property="appointmentCates" />
+        <result column="related_no" property="relatedNo" />
+        <result column="appoint_date" property="appointDate" />
+        <result column="time_from" property="timeFrom" />
+        <result column="time_to" property="timeTo" />
+        <result column="address" property="address" />
+        <result column="status" property="status" />
+        <result column="institution_id" property="institutionId" />
+        <result column="service_option" property="serviceOption" />
+        <result column="appraisal" property="appraisal" />
+        <result column="is_cancelled" property="isCancelled" />
+        <result column="creation_time" property="creationTime" />
+        <result column="create_by" property="createBy" />
+        <result column="edit_time" property="editTime" />
+        <result column="edit_by" property="editBy" />
+    </resultMap>
+
+    <!-- 多表页面信息查询分页 -->
+    <select id="selectDataPage" parameterType="map" resultMap="BaseResultMap">
+
+        SELECT
+              sys_id,
+              order_no,
+              entity_no,
+              user_cate,
+              user_id,
+              appointment_cates,
+              related_no,
+              appoint_date,
+              time_from,
+              time_to,
+              address,
+              status,
+              institution_id,
+              service_option,
+              appraisal,
+              is_cancelled,
+              creation_time,
+              create_by,
+              edit_time,
+              edit_by,
+        FROM
+            entity_healthy_appointment
+        WHERE
+            status=0
+            <if test="params.key != null and params.key != ''">
+                AND key LIKE CONCAT('%', #{params.key}, '%')
+            </if>
+    </select>
+
+</mapper>

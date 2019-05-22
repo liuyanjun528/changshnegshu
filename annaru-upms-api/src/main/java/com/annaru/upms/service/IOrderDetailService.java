@@ -9,8 +9,8 @@ import java.util.Map;
 /**
  * 定单详细表
  *
- * @author xck
- * @date 2019-05-20 16:18:34
+ * @author wh
+ * @date 2019-05-22 12:06:42
  */
 public interface IOrderDetailService extends IService<OrderDetail> {
 
