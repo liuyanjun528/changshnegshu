@@ -3,11 +3,21 @@
 
 <mapper namespace="com.annaru.upms.mapper.SysProvinceMapper">
 
-	<!-- 通用查询映射结果 -->
+    <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.annaru.upms.entity.SysProvince" >
         <result column="ID" property="id" />
         <result column="Provinceid" property="provinceid" />
         <result column="Province" property="province" />
+    </resultMap>
+
+    <resultMap id="BaseResultMapVo" type="com.annaru.upms.entity.vo.SysProvinceVo" >
+        <result column="ID" property="id" />
+        <result column="Provinceid" property="provinceid" />
+        <result column="Province" property="province" />
+        <collection property="sysCityList" ofType="com.annaru.upms.entity.SysCity">
+            <result column="CityID" property="cityid" />
+            <result column="City" property="city" />
+        </collection>
     </resultMap>
 
     <!-- 多表页面信息查询分页 -->
@@ -16,14 +26,20 @@
         SELECT
               ID,
               Provinceid,
-              Province,
+              Province
         FROM
             sys_province
-        WHERE
-            status=0
-            <if test="params.key != null and params.key != ''">
-                AND key LIKE CONCAT('%', #{params.key}, '%')
-            </if>
+    </select>
+
+    <select id="getlistAll" resultMap="BaseResultMapVo">
+        SELECT
+        sp.Province,sp.Provinceid,sc.City,sc.CityID
+        FROM
+        sys_province sp
+        LEFT JOIN
+        sys_city sc
+        on
+        sp.Provinceid = sc.ProvinceID
     </select>
 
 </mapper>

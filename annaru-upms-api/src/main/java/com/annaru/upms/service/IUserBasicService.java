@@ -54,5 +54,6 @@ public interface IUserBasicService extends IService<UserBasic> {
     int updateOldPwd(@Param("password") String password, @Param("userId") String userId);
     UserBasic selectByUid(@Param("userId") String userId);
 
+
 }
 

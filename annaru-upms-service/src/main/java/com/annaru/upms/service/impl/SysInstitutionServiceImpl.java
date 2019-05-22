@@ -27,4 +27,8 @@ public class SysInstitutionServiceImpl extends ServiceImpl<SysInstitutionMapper,
         return new PageUtils<SysInstitution>(iPage);
     }
 
+    public SysInstitution getInfo(Map<String,Object> params){
+        return this.baseMapper.getInfo(params);
+    }
+
 }

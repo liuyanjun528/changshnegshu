@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.annaru.upms.mapper.SysDepartmentMapper">
+
+	<!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.annaru.upms.entity.SysDepartment" >
+        <result column="sys_id" property="sysId" />
+        <result column="department_name" property="departmentName" />
+        <result column="frequent_used" property="frequentUsed" />
+        <result column="creation_time" property="creationTime" />
+    </resultMap>
+
+
+    <select id="getDepartmentCommonList" parameterType="map" resultMap="BaseResultMap">
+        SELECT sd.department_name
+        FROM sys_inst_dept_mapping sidm
+        LEFT JOIN sys_department sd
+        ON sidm.department_id = sd.sys_id
+        WHERE
+        sidm.is_active = 1
+        <if test="params.institutionId !=null and params.institutionId !='' ">
+        and
+        sidm.institution_id = #{params.institutionId}
+        </if>
+        <if test="params.frequentUsed !=null and params.frequentUsed !=''" >
+        and
+        sd.frequent_used = #{params.frequentUsed}
+        </if>
+    </select>
+
+</mapper>

@@ -21,6 +21,6 @@ public interface ISysInstitutionService extends IService<SysInstitution> {
     */
     PageUtils getDataPage(Map<String, Object> params);
 
-
+    SysInstitution getInfo(Map<String,Object> params);
 }
 

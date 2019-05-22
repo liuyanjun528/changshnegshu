@@ -29,6 +29,8 @@ public class SysInstitution extends Model<SysInstitution> implements Serializabl
     @ApiModelProperty(value = "系统编号")
 	@TableId
 	private Integer sysId;
+
+	private String institutionId;
 	/**
 	 * 机构名称
 	 */
@@ -260,5 +262,13 @@ public class SysInstitution extends Model<SysInstitution> implements Serializabl
 	@Override
 	public String toString() {
         return JacksonUtils.toJson(this);
+	}
+
+	public String getInstitutionId() {
+		return institutionId;
+	}
+
+	public void setInstitutionId(String institutionId) {
+		this.institutionId = institutionId;
 	}
 }

@@ -3,7 +3,7 @@
 
 <mapper namespace="com.annaru.upms.mapper.SysDoctorMapper">
 
-	<!-- 通用查询映射结果 -->
+    <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.annaru.upms.entity.SysDoctor" >
         <result column="sys_id" property="sysId" />
         <result column="doctor_no" property="doctorNo" />
@@ -21,6 +21,7 @@
         <result column="belong_city" property="belongCity" />
         <result column="belong_district" property="belongDistrict" />
         <result column="price_year" property="priceYear" />
+        <result column="cellphone_no" property="cellphoneNo"/>
         <result column="status" property="status" />
         <result column="creation_time" property="creationTime" />
         <result column="edit_time" property="editTime" />
@@ -32,34 +33,68 @@
     <select id="selectDataPage" parameterType="map" resultMap="BaseResultMap">
 
         SELECT
-              sys_id,
-              doctor_no,
-              user_id,
-              full_name,
-              head_image,
-              degrees,
-              star_count,
-              score,
-              focus_on,
-              goodat,
-              content,
-              belong_office,
-              belong_province,
-              belong_city,
-              belong_district,
-              price_year,
-              status,
-              creation_time,
-              edit_time,
-              create_by,
-              edit_by,
+        sys_id,
+        doctor_no,
+        user_id,
+        full_name,
+        head_image,
+        degrees,
+        star_count,
+        score,
+        focus_on,
+        goodat,
+        content,
+        belong_office,
+        belong_province,
+        belong_city,
+        belong_district,
+        price_year,
+        cellphone_no,
+        status,
+        creation_time,
+        edit_time,
+        create_by,
+        edit_by
         FROM
-            sys_doctor
+        sys_doctor
         WHERE
-            status=0
-            <if test="params.key != null and params.key != ''">
-                AND key LIKE CONCAT('%', #{params.key}, '%')
-            </if>
+        status=1
+        <if test="params.province != null and params.province != ''">
+            AND belong_province LIKE CONCAT('%', #{params.province}, '%')
+        </if>
+        <if test="params.city != null and params.city != ''">
+            AND belong_city LIKE CONCAT('%', #{params.city}, '%')
+        </if>
+        <if test="params.district != null and params.district != ''">
+            AND belong_district LIKE CONCAT('%', #{params.district}, '%')
+        </if>
+    </select>
+
+    <select id="getOne" parameterType="map" resultMap="BaseResultMap">
+        SELECT
+        doctor_no,
+        user_id,
+        full_name,
+        head_image,
+        degrees,
+        star_count,
+        score,
+        focus_on,
+        goodat,
+        content,
+        belong_office,
+        belong_province,
+        belong_city,
+        belong_district,
+        price_year,
+        status
+        FROM
+        sys_doctor
+        WHERE
+        status = 1
+        <if test="params.doctorNo != null and params.doctorNo != ''">
+            AND   doctor_no=#{params.doctorNo}
+        </if>
     </select>
 
 </mapper>

@@ -37,16 +37,16 @@ public class UserBasic extends Model<UserBasic> implements Serializable {
 	private String userId;
 
 	/**
-	 * 户用姓名
+	 * 用户名称
 	 */
-	@ApiModelProperty(value = "户用姓名")
+	@ApiModelProperty(value = "用户名称")
 	@TableField("full_name")
 	private String fullName;
 
 	/**
-	 * 中文拼音姓名
+	 * 名字汉语拼音
 	 */
-	@ApiModelProperty(value = "姓名拼音")
+	@ApiModelProperty(value = "名字汉语拼音")
 	@TableField("chinese_spell")
 	private String chineseSpell;
 
@@ -143,6 +143,12 @@ public class UserBasic extends Model<UserBasic> implements Serializable {
 	@TableField("email_address")
 	private String emailAddress;
 	/**
+	 * 角色id
+	 */
+	@ApiModelProperty(value = "角色id")
+	@TableField("role_id")
+	private Integer roleId;
+	/**
 	 * 创建时间
 	 */
     @ApiModelProperty(value = "创建时间")
@@ -174,12 +180,7 @@ public class UserBasic extends Model<UserBasic> implements Serializable {
 	public void setSysNurse(SysNurse sysNurse) {
 		this.sysNurse = sysNurse;
 	}
-	/**
-     * 获取：系统编号
-     */
-    public Integer getSysId() {
-        return sysId;
-    }
+
 	/**
 	 * 设置：系统编号
 	 */
@@ -198,226 +199,240 @@ public class UserBasic extends Model<UserBasic> implements Serializable {
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
-
 	/**
-	 * 获取：户用姓名
+	 * 获取：用户名称
 	 */
 	public String getFullName() {
 		return fullName;
 	}
 	/**
-	 * 设置：姓名
+	 * 设置：用户名称
 	 */
 	public void setFullName(String fullName) {
 		this.fullName = fullName;
 	}
-
+	/**
+	 * 获取：名字汉语拼音
+	 */
 	public String getChineseSpell() {
 		return chineseSpell;
 	}
-
+	/**
+	 * 设置：名字汉语拼音
+	 */
 	public void setChineseSpell(String chineseSpell) {
 		this.chineseSpell = chineseSpell;
 	}
-
 	/**
-     * 获取：手机号
-     */
-    public String getCellphoneNo() {
-        return cellphoneNo;
-    }
+	 * 获取：手机号
+	 */
+	public String getCellphoneNo() {
+		return cellphoneNo;
+	}
 	/**
 	 * 设置：手机号
 	 */
 	public void setCellphoneNo(String cellphoneNo) {
 		this.cellphoneNo = cellphoneNo;
 	}
-    /**
-     * 获取：密码
-     */
-    public String getPassword() {
-        return password;
-    }
+	/**
+	 * 获取：密码
+	 */
+	public String getPassword() {
+		return password;
+	}
 	/**
 	 * 设置：密码
 	 */
 	public void setPassword(String password) {
 		this.password = password;
 	}
-    /**
-     * 获取：证件号
-     */
-    public String getIdCardNo() {
-        return idCardNo;
-    }
+	/**
+	 * 获取：证件号
+	 */
+	public String getIdCardNo() {
+		return idCardNo;
+	}
 	/**
 	 * 设置：证件号
 	 */
 	public void setIdCardNo(String idCardNo) {
 		this.idCardNo = idCardNo;
 	}
-    /**
-     * 获取：藉贯(省)
-     */
-    public String getOriginProvince() {
-        return originProvince;
-    }
+	/**
+	 * 获取：藉贯(省)
+	 */
+	public String getOriginProvince() {
+		return originProvince;
+	}
 	/**
 	 * 设置：藉贯(省)
 	 */
 	public void setOriginProvince(String originProvince) {
 		this.originProvince = originProvince;
 	}
-    /**
-     * 获取：藉贯(市)
-     */
-    public String getOriginCity() {
-        return originCity;
-    }
+	/**
+	 * 获取：藉贯(市)
+	 */
+	public String getOriginCity() {
+		return originCity;
+	}
 	/**
 	 * 设置：藉贯(市)
 	 */
 	public void setOriginCity(String originCity) {
 		this.originCity = originCity;
 	}
-    /**
-     * 获取：常居省
-     */
-    public String getResidenceProvince() {
-        return residenceProvince;
-    }
+	/**
+	 * 获取：常居省
+	 */
+	public String getResidenceProvince() {
+		return residenceProvince;
+	}
 	/**
 	 * 设置：常居省
 	 */
 	public void setResidenceProvince(String residenceProvince) {
 		this.residenceProvince = residenceProvince;
 	}
-    /**
-     * 获取：常居城市
-     */
-    public String getResidenceCity() {
-        return residenceCity;
-    }
+	/**
+	 * 获取：常居城市
+	 */
+	public String getResidenceCity() {
+		return residenceCity;
+	}
 	/**
 	 * 设置：常居城市
 	 */
 	public void setResidenceCity(String residenceCity) {
 		this.residenceCity = residenceCity;
 	}
-    /**
-     * 获取：职业
-     */
-    public String getOccupation() {
-        return occupation;
-    }
+	/**
+	 * 获取：职业
+	 */
+	public String getOccupation() {
+		return occupation;
+	}
 	/**
 	 * 设置：职业
 	 */
 	public void setOccupation(String occupation) {
 		this.occupation = occupation;
 	}
-    /**
-     * 获取：性别(1:男/2:女)
-     */
-    public Integer getGender() {
-        return gender;
-    }
+	/**
+	 * 获取：性别(1:男/2:女)
+	 */
+	public Integer getGender() {
+		return gender;
+	}
 	/**
 	 * 设置：性别(1:男/2:女)
 	 */
 	public void setGender(Integer gender) {
 		this.gender = gender;
 	}
-    /**
-     * 获取：出生日期
-     */
-    public Date getDateOfBirth() {
-        return dateOfBirth;
-    }
+	/**
+	 * 获取：出生日期
+	 */
+	public Date getDateOfBirth() {
+		return dateOfBirth;
+	}
 	/**
 	 * 设置：出生日期
 	 */
 	public void setDateOfBirth(Date dateOfBirth) {
 		this.dateOfBirth = dateOfBirth;
 	}
-    /**
-     * 获取：用户头像
-     */
-    public String getHeadImage() {
-        return headImage;
-    }
+	/**
+	 * 获取：用户头像
+	 */
+	public String getHeadImage() {
+		return headImage;
+	}
 	/**
 	 * 设置：用户头像
 	 */
 	public void setHeadImage(String headImage) {
 		this.headImage = headImage;
 	}
-    /**
-     * 获取：状态(1:激活/0:未激活)
-     */
-    public Integer getIsactive() {
-        return isactive;
-    }
+	/**
+	 * 获取：状态(1:激活/0:未激活)
+	 */
+	public Integer getIsactive() {
+		return isactive;
+	}
 	/**
 	 * 设置：状态(1:激活/0:未激活)
 	 */
 	public void setIsactive(Integer isactive) {
 		this.isactive = isactive;
 	}
-    /**
-     * 获取：最后登录时间
-     */
-    public Date getLastLogintime() {
-        return lastLogintime;
-    }
+	/**
+	 * 获取：最后登录时间
+	 */
+	public Date getLastLogintime() {
+		return lastLogintime;
+	}
 	/**
 	 * 设置：最后登录时间
 	 */
 	public void setLastLogintime(Date lastLogintime) {
 		this.lastLogintime = lastLogintime;
 	}
-    /**
-     * 获取：注册时间
-     */
-    public Date getRegistrationTime() {
-        return registrationTime;
-    }
+	/**
+	 * 获取：注册时间
+	 */
+	public Date getRegistrationTime() {
+		return registrationTime;
+	}
 	/**
 	 * 设置：注册时间
 	 */
 	public void setRegistrationTime(Date registrationTime) {
 		this.registrationTime = registrationTime;
 	}
-    /**
-     * 获取：是否有认证1：认证/0:未认证
-     */
-    public Integer getIsVerified() {
-        return isVerified;
-    }
+	/**
+	 * 获取：是否有认证1：认证/0:未认证
+	 */
+	public Integer getIsVerified() {
+		return isVerified;
+	}
 	/**
 	 * 设置：是否有认证1：认证/0:未认证
 	 */
 	public void setIsVerified(Integer isVerified) {
 		this.isVerified = isVerified;
 	}
-    /**
-     * 获取：电子邮件
-     */
-    public String getEmailAddress() {
-        return emailAddress;
-    }
+	/**
+	 * 获取：电子邮件
+	 */
+	public String getEmailAddress() {
+		return emailAddress;
+	}
 	/**
 	 * 设置：电子邮件
 	 */
 	public void setEmailAddress(String emailAddress) {
 		this.emailAddress = emailAddress;
 	}
-    /**
-     * 获取：创建时间
-     */
-    public Date getCreationTime() {
-        return creationTime;
-    }
+	/**
+	 * 获取：角色id
+	 */
+	public Integer getRoleId() {
+		return roleId;
+	}
+	/**
+	 * 设置：角色id
+	 */
+	public void setRoleId(Integer roleId) {
+		this.roleId = roleId;
+	}
+	/**
+	 * 获取：创建时间
+	 */
+	public Date getCreationTime() {
+		return creationTime;
+	}
 	/**
 	 * 设置：创建时间
 	 */
@@ -425,13 +440,13 @@ public class UserBasic extends Model<UserBasic> implements Serializable {
 		this.creationTime = creationTime;
 	}
 
-    @Override
+	@Override
 	protected Serializable pkVal() {
 		return this.sysId;
 	}
 
 	@Override
 	public String toString() {
-        return JacksonUtils.toJson(this);
+		return JacksonUtils.toJson(this);
 	}
 }

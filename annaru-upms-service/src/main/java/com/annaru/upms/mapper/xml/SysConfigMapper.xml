@@ -3,7 +3,7 @@
 
 <mapper namespace="com.annaru.upms.mapper.SysConfigMapper">
 
-	<!-- 通用查询映射结果 -->
+    <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.annaru.upms.entity.SysConfig" >
         <result column="sys_id" property="sysId" />
         <result column="category" property="category" />
@@ -20,8 +20,7 @@
     </resultMap>
 
     <!-- 多表页面信息查询分页 -->
-    <select id="selectDataPage" parameterType="map" resultMap="BaseResultMap">
-
+    <select id="getODR" resultMap="BaseResultMap">
         SELECT
               sys_id,
               category,
@@ -30,18 +29,10 @@
               append_code,
               code_descr,
               ref_no,
-              length,
-              creation_time,
-              create_by,
-              edit_time,
-              edit_by,
+              length
         FROM
             sys_config
-        WHERE
-            status=0
-            <if test="params.key != null and params.key != ''">
-                AND key LIKE CONCAT('%', #{params.key}, '%')
-            </if>
+            WHERE category="ORDERNO"
     </select>
 
 </mapper>
