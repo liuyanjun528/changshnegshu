@@ -1,21 +1,24 @@
 package com.annaru.upms.controller;
 
+import java.util.*;
+
+import com.annaru.upms.entity.vo.SysProvinceVo;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.annaru.common.base.BaseController;
-import com.annaru.common.result.PageUtils;
-import com.annaru.common.result.ResultMap;
-import com.annaru.upms.entity.SysProvince;
-import com.annaru.upms.service.ISysProvinceService;
+import org.springframework.web.bind.annotation.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.springframework.web.bind.annotation.*;
 
+import com.annaru.common.base.BaseController;
+import com.annaru.common.result.PageUtils;
+import com.annaru.upms.shiro.ShiroKit;
+import com.annaru.common.result.ResultMap;
+
+import com.annaru.upms.entity.SysProvince;
+import com.annaru.upms.service.ISysProvinceService;
 import javax.validation.Valid;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+
 
 
 /**
@@ -49,6 +52,13 @@ public class SysProvinceController extends BaseController {
         return ResultMap.ok().put("page",pageList);
     }
 
+    @ApiOperation(value = "省市区",notes = "省市区关联信息")
+    @GetMapping("/listAll")
+    @RequiresPermissions("upms/sysProvince/listAll")
+    public ResultMap info(){
+        List<SysProvinceVo> sysProvince = sysProvinceService.getlistAll();
+        return ResultMap.ok().put("listAll",sysProvince);
+    }
 
     /**
      * 信息

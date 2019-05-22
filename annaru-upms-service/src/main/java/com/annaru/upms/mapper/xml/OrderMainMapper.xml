@@ -3,17 +3,20 @@
 
 <mapper namespace="com.annaru.upms.mapper.OrderMainMapper">
 
-	<!-- 通用查询映射结果 -->
+    <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.annaru.upms.entity.OrderMain" >
         <result column="sys_id" property="sysId" />
         <result column="order_no" property="orderNo" />
-        <result column="related_no" property="relatedNo" />
+        <result column="reference_no" property="referenceNo" />
         <result column="order_cates" property="orderCates" />
         <result column="user_id" property="userId" />
+        <result column="cellphone_no" property="cellphoneNo" />
         <result column="order_time" property="orderTime" />
         <result column="total_qty" property="totalQty" />
         <result column="status" property="status" />
         <result column="remark" property="remark" />
+        <result column="parent_no" property="parentNo" />
+        <result column="user_channel" property="userChannel" />
         <result column="is_deleted" property="isDeleted" />
         <result column="creationtime" property="creationtime" />
     </resultMap>
@@ -22,24 +25,27 @@
     <select id="selectDataPage" parameterType="map" resultMap="BaseResultMap">
 
         SELECT
-              sys_id,
-              order_no,
-              related_no,
-              order_cates,
-              user_id,
-              order_time,
-              total_qty,
-              status,
-              remark,
-              is_deleted,
-              creationtime,
+        sys_id,
+        order_no,
+        reference_no,
+        order_cates,
+        user_id,
+        cellphone_no,
+        order_time,
+        total_qty,
+        status,
+        remark,
+        parent_no,
+        user_channel,
+        is_deleted,
+        creationtime
         FROM
-            order_main
+        order_main
         WHERE
-            status=0
-            <if test="params.key != null and params.key != ''">
-                AND key LIKE CONCAT('%', #{params.key}, '%')
-            </if>
+        status=0
+        <if test="params.key != null and params.key != ''">
+            AND key LIKE CONCAT('%', #{params.key}, '%')
+        </if>
     </select>
 
 </mapper>

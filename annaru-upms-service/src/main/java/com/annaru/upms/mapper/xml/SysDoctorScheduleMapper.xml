@@ -3,7 +3,7 @@
 
 <mapper namespace="com.annaru.upms.mapper.SysDoctorScheduleMapper">
 
-	<!-- 通用查询映射结果 -->
+    <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.annaru.upms.entity.SysDoctorSchedule" >
         <result column="sys_id" property="sysId" />
         <result column="doctor_no" property="doctorNo" />
@@ -20,22 +20,26 @@
     <select id="selectDataPage" parameterType="map" resultMap="BaseResultMap">
 
         SELECT
-              sys_id,
-              doctor_no,
-              date_from,
-              date_to,
-              time_from,
-              time_to,
-              is_active,
-              creation_time,
-              edit_time,
+        sys_id,
+        doctor_no,
+        date_from,
+        date_to,
+        time_from,
+        time_to,
+        is_active,
+        creation_time,
+        edit_time,
         FROM
-            sys_doctor_schedule
+        sys_doctor_schedule
         WHERE
-            status=0
-            <if test="params.key != null and params.key != ''">
-                AND key LIKE CONCAT('%', #{params.key}, '%')
-            </if>
+        status=0
+        <if test="params.key != null and params.key != ''">
+            AND key LIKE CONCAT('%', #{params.key}, '%')
+        </if>
     </select>
+
+    <update id="updateActive" parameterType="map">
+
+    </update>
 
 </mapper>
