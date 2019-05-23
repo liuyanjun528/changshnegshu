@@ -28,7 +28,7 @@ public class OrderAppointmentVo extends Model<OrderAppointmentVo> implements Ser
     private Date timeFrom;
     private Date timeTo;
     private String address;
-    private Integer status = 0;
+    private Integer status = 2;
     private String institutionId;
     private Integer isCancelled = 0;
     private Date creationTime = new Date();
@@ -36,7 +36,25 @@ public class OrderAppointmentVo extends Model<OrderAppointmentVo> implements Ser
     private Date editTime;
     private String editBy;
     private Integer examMasterId;
+    private Integer examDetailId;
     private String departmentId;
+    private Integer times;
+
+    public Integer getTimes() {
+        return times;
+    }
+
+    public void setTimes(Integer times) {
+        this.times = times;
+    }
+
+    public Integer getExamDetailId() {
+        return examDetailId;
+    }
+
+    public void setExamDetailId(Integer examDetailId) {
+        this.examDetailId = examDetailId;
+    }
 
     public String getDepartmentId() {
         return departmentId;

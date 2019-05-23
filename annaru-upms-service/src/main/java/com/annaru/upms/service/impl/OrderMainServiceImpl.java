@@ -53,5 +53,9 @@ public class OrderMainServiceImpl extends ServiceImpl<OrderMainMapper, OrderMain
         return list;
     }
 
+    public OrderMain getOrderNo(Map<String,Object> params){
+        return this.baseMapper.getOrderNo(params);
+    }
+
 
 }

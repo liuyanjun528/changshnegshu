@@ -210,7 +210,7 @@ public class OrderMainVoZ implements Serializable {
 	 */
 	private Date timeTo;
 	/**
-	 *
+	 * 科室名称
 	 */
 	private String departmentName;
 

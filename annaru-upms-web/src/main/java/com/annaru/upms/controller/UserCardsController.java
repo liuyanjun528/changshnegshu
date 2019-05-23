@@ -33,8 +33,8 @@ public class UserCardsController extends BaseController {
 
     @ApiOperation(value = "添加绑卡")
     @PostMapping(value = "/insertCardAndBaseAndInstitution")
-    @RequiresPermissions("upms/userCards/insertCardAndBaseAndInstitution")
-    public ResultMap insertCardAndBaseAndInstitution(@RequestBody String userId, String cardNo, int institutionId
+    //@RequiresPermissions("upms/userCards/insertCardAndBaseAndInstitution")
+    public ResultMap insertCardAndBaseAndInstitution(String userId, String cardNo, int institutionId
     , int sysId, int cardCates){
         try {
             UserCards cards=new UserCards();

@@ -54,5 +54,6 @@ public interface OrderMainMapper extends BaseMapper<OrderMain> {
      */
     List<OrderMain> selectPackageGreen(@Param("params") Map <String, Object> params);
 
+    OrderMain getOrderNo(@Param("params") Map <String, Object> params);
 
 }

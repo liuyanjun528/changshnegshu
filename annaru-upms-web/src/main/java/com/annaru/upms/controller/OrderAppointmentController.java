@@ -45,7 +45,7 @@ public class OrderAppointmentController extends BaseController {
     @Reference
     private IOrderMainService orderMainService;
     @Reference
-    private ISysDoctorScheduleService sysDoctorScheduleService;
+    private ISysDoctorOppointmentService sysDoctorOppointmentService;
     /**
      * 列表
      */
@@ -87,7 +87,7 @@ public class OrderAppointmentController extends BaseController {
         OrderExtensionExam orderExtensionExam = new OrderExtensionExam();
         OrderMain orderMain = new OrderMain();
         OrderAdditionalInfo orderAdditionalInfo = new OrderAdditionalInfo();
-        SysDoctorSchedule sysDoctorSchedule = new SysDoctorSchedule();
+        SysDoctorOppointment sysDoctorOppointment = new SysDoctorOppointment();
         try {
             if(orderAppointment.getAppointmentCates()==1
                     &&orderAppointment.getAppointDate()!=null
@@ -100,14 +100,11 @@ public class OrderAppointmentController extends BaseController {
                 appointment.setUserId(orderAppointment.getUserId());
                 appointment.setCreateBy(orderAppointment.getUserId());
                 appointment.setCreationTime(new Date());
-                String orderNo = createOrderNo();
+                Map<String,Object> params = new HashMap<>();
+                params.put("referenceNo",orderAppointment.getReferenceNo());
+                String orderNo = orderMainService.getOrderNo(params).getOrderNo();
                 appointment.setOrderNo(orderNo);
                 appointment.setRelatedNo(orderAppointment.getReferenceNo());
-                orderMain.setOrderNo(orderNo);
-                orderMain.setReferenceNo(orderAppointment.getReferenceNo());
-                orderMain.setOrderCates(orderAppointment.getAppointmentCates());
-                orderMain.setUserId(orderAppointment.getUserId());
-                orderMainService.save(orderMain);
                 orderAdditionalInfo.setAppointmentCates(1);
                 orderAdditionalInfo.setCreateBy(orderAppointment.getUserId());
                 orderAdditionalInfo.setOption1(orderAppointment.getOption1());
@@ -139,48 +136,84 @@ public class OrderAppointmentController extends BaseController {
                 appointment.setOrderNo(orderNo);
                 orderAppointmentService.save(appointment);
                 orderExtensionExam.setCreateBy(userId);
+                orderExtensionExam.setExamDetailId(orderAppointment.getExamDetailId());
                 orderExtensionExam.setExamMasterId(orderAppointment.getExamMasterId());
                 orderExtensionExam.setOrderNo(orderNo);
                 orderExtensionExamService.save(orderExtensionExam);
                 orderMain.setUserId(userId);
                 orderMain.setParentNo(parentNo);
                 orderMain.setOrderNo(orderNo);
+                orderMain.setStatus(2);
                 orderMain.setOrderCates(orderCates);
                 orderMainService.save(orderMain);
             }else if (orderAppointment.getAppointmentCates()==5
                     &&orderAppointment.getRelatedNo()!=null
-            &&orderAppointment.getAppointDate()!=null){
-                String doctorNo = orderAppointment.getRelatedNo();
-                Date date = orderAppointment.getAppointDate();
-                Date timeFrom = orderAppointment.getTimeFrom();
-                Date timeTo = orderAppointment.getTimeTo();
-                Map<String, Object> params = new HashMap<>();
-                params.put("date",date);
-                params.put("timeFrom",timeFrom);
-                params.put("timeTo",timeTo);
-                params.put("doctorNo",doctorNo);
-                sysDoctorScheduleService.updateActive(params);
+                    &&orderAppointment.getAppointDate()!=null
+                    &&orderAppointment.getTimeFrom()!=null
+                    &&orderAppointment.getTimeTo()!=null){
+                sysDoctorOppointment.setAppointmentCates(5);
+                sysDoctorOppointment.setUserId(orderAppointment.getUserId());
+                sysDoctorOppointment.setRelatedNo(orderAppointment.getRelatedNo());
+                sysDoctorOppointment.setAppointDate(orderAppointment.getAppointDate());
+                sysDoctorOppointment.setTimeFrom(orderAppointment.getTimeFrom());
+                sysDoctorOppointment.setTimeTo(orderAppointment.getTimeTo());
+                sysDoctorOppointmentService.save(sysDoctorOppointment);
             }else if (orderAppointment.getAppointmentCates()==6
                     &&orderAppointment.getInstitutionId()!=null
             &&orderAppointment.getDepartmentId()!=null
             &&orderAppointment.getOption1()!=null
-            &&orderAppointment.getOption2()!=null){
-                String orderNo = createOrderNo();
+            &&orderAppointment.getOption2()!=null
+            &&orderAppointment.getTimes()!=null){
                 String userId = orderAppointment.getUserId();
-                appointment.setDepartmentId(orderAppointment.getDepartmentId());
-                appointment.setInstitutionId(orderAppointment.getInstitutionId());
-                appointment.setOrderNo(orderNo);
-                appointment.setUserId(userId);
-                appointment.setCreateBy(userId);
-                orderAppointmentService.save(appointment);
-                orderAdditionalInfo.setOrderNo(orderNo);
-                orderAdditionalInfo.setOption1(orderAppointment.getOption1());
-                orderAdditionalInfo.setOption2(orderAppointment.getOption2());
-                if (orderAppointment.getSituations()!=null){
-                    orderAdditionalInfo.setSituations(orderAppointment.getSituations());
+                if (orderAppointment.getTimes()!=0){
+                    Map<String,Object> params = new HashMap<>();
+                    params.put("referenceNo",orderAppointment.getReferenceNo());
+                    String orderNo = orderMainService.getOrderNo(params).getOrderNo();
+                    appointment.setDepartmentId(orderAppointment.getDepartmentId());
+                    appointment.setInstitutionId(orderAppointment.getInstitutionId());
+                    appointment.setOrderNo(orderNo);
+                    appointment.setUserId(userId);
+                    appointment.setAppointmentCates(6);
+                    appointment.setCreateBy(userId);
+                    orderAppointmentService.save(appointment);
+                    orderAdditionalInfo.setOrderNo(orderNo);
+                    orderAdditionalInfo.setOption1(orderAppointment.getOption1());
+                    orderAdditionalInfo.setOption2(orderAppointment.getOption2());
+                    orderAdditionalInfo.setAppointmentCates(6);
+                    if (orderAppointment.getSituations()!=null){
+                        orderAdditionalInfo.setSituations(orderAppointment.getSituations());
+                    }
+                    orderAdditionalInfo.setAmount(orderAppointment.getAmount());
+                    orderAdditionalInfoService.save(orderAdditionalInfo);
+                }else {
+                    //如果没有免费次数了，或需要陪诊 要往order_main里插入一条记录
+                    String orderNo = createOrderNo();
+                    appointment.setDepartmentId(orderAppointment.getDepartmentId());
+                    appointment.setInstitutionId(orderAppointment.getInstitutionId());
+                    appointment.setOrderNo(orderNo);
+                    appointment.setUserId(userId);
+                    appointment.setAppointmentCates(6);
+                    appointment.setCreateBy(userId);
+                    orderAppointmentService.save(appointment);
+                    orderAdditionalInfo.setOrderNo(orderNo);
+                    orderAdditionalInfo.setOption1(orderAppointment.getOption1());
+                    orderAdditionalInfo.setOption2(orderAppointment.getOption2());
+                    orderAdditionalInfo.setAppointmentCates(6);
+                    if (orderAppointment.getSituations()!=null){
+                        orderAdditionalInfo.setSituations(orderAppointment.getSituations());
+                    }
+                    orderAdditionalInfo.setAmount(orderAppointment.getAmount());
+                    orderAdditionalInfoService.save(orderAdditionalInfo);
+                    if (orderAppointment.getAmount()!=null||orderAppointment.getAmount()!=0){
+                        orderMain.setOrderCates(6);
+                        orderMain.setOrderNo(orderNo);
+                        orderMain.setStatus(2);
+                        orderMain.setUserId(userId);
+                        orderMainService.save(orderMain);
+                    }
                 }
-                orderAdditionalInfo.setAmount(orderAppointment.getAmount());
-                orderAdditionalInfoService.save(orderAdditionalInfo);
+            }else {
+                return ResultMap.error("运行异常，请联系管理员");
             }
             return ResultMap.ok("添加成功");
         } catch (Exception e) {

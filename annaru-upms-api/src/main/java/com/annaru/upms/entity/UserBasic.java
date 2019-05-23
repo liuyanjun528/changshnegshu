@@ -23,6 +23,17 @@ import java.util.Date;
 public class UserBasic extends Model<UserBasic> implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+
+	private UserRelatives relatives;
+
+	public UserRelatives getRelatives() {
+		return relatives;
+	}
+
+	public void setRelatives(UserRelatives relatives) {
+		this.relatives = relatives;
+	}
+
 	/**
 	 * 系统编号
 	 */

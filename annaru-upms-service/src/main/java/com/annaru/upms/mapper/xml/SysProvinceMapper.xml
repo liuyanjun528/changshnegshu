@@ -12,7 +12,6 @@
 
 
     <resultMap id="BaseResultMapVo" type="com.annaru.upms.entity.vo.SysProvinceVo" >
-        <result column="ID" property="id" />
         <result column="province_id" property="provinceId" />
         <result column="province" property="province" />
         <collection property="sysCityList" ofType="com.annaru.upms.entity.vo.SysCityVo">
