@@ -23,10 +23,10 @@ import java.util.Map;
  * @author xck
  * @date 2019-05-16 15:44:28
  */
-@Api(tags = "A检查报告", description = "第三方服务提供商千麦检查报告数据传输接口")
+@Api(tags = "检查报告管理（直接调用第三方接口）", description = "第三方服务提供商千麦检查报告数据传输接口")
 @RestController
 @RequestMapping("/upms/inspectionReport")
-public class InspectionReportController extends BaseController {
+public class ExamInspectionReportTestController extends BaseController {
 
 
     @ApiOperation(value = "获取登录令牌")
