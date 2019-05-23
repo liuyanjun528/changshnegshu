@@ -83,7 +83,7 @@ public class OrderMain extends Model<OrderMain> implements Serializable {
 	 * 支付状态(0:未支付/1:进行中/2:已完成/3:退款中)
 	 */
     @ApiModelProperty(value = "支付状态(0:未支付/1:进行中/2:已完成/3:退款中)")
-	private Integer status = 0;
+	private Integer status;
 	/**
 	 * 备注
 	 */

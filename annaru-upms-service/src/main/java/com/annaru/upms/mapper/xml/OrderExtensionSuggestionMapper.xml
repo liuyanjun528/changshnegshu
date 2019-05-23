@@ -18,6 +18,23 @@
         <result column="edit_by" property="editBy" />
     </resultMap>
 
+    <resultMap id="BaseResultMapVo" type="com.annaru.upms.entity.vo.OrderExtensionSuggestionVo" >
+        <result column="sys_id" property="sysId" />
+        <result column="order_no" property="orderNo" />
+        <result column="exam_master_id" property="examMasterId" />
+        <result column="exam_detail_id" property="examDetailId" />
+        <result column="exam_master_item" property="examMasterItem" />
+        <result column="is_deleted" property="isDeleted" />
+        <result column="doctor_no" property="doctorNo" />
+        <result column="creation_time" property="creationTime" />
+        <result column="create_by" property="createBy" />
+        <result column="edit_time" property="editTime" />
+        <result column="edit_by" property="editBy" />
+        <result column="name" property="name" />
+        <result column="item_name" property="itemName" />
+
+    </resultMap>
+
     <!-- 多表页面信息查询分页 -->
     <select id="selectDataPage" parameterType="map" resultMap="BaseResultMap">
 
@@ -42,7 +59,7 @@
             </if>
     </select>
 
-    <select id="getItems" parameterType="map" resultMap="BaseResultMap">
+    <select id="getItems" parameterType="map" resultMap="BaseResultMapVo">
         SELECT
             oes.doctor_no,
             oes.order_no,

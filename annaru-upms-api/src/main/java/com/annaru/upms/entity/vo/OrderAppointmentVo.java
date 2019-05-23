@@ -28,7 +28,7 @@ public class OrderAppointmentVo extends Model<OrderAppointmentVo> implements Ser
     private Date timeFrom;
     private Date timeTo;
     private String address;
-    private Integer status = 0;
+    private Integer status = 2;
     private String institutionId;
     private Integer isCancelled = 0;
     private Date creationTime = new Date();

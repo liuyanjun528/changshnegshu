@@ -143,11 +143,14 @@ public class OrderAppointmentController extends BaseController {
                 orderMain.setUserId(userId);
                 orderMain.setParentNo(parentNo);
                 orderMain.setOrderNo(orderNo);
+                orderMain.setStatus(2);
                 orderMain.setOrderCates(orderCates);
                 orderMainService.save(orderMain);
             }else if (orderAppointment.getAppointmentCates()==5
                     &&orderAppointment.getRelatedNo()!=null
-            &&orderAppointment.getAppointDate()!=null){
+                    &&orderAppointment.getAppointDate()!=null
+                    &&orderAppointment.getTimeFrom()!=null
+                    &&orderAppointment.getTimeTo()!=null){
                 sysDoctorOppointment.setAppointmentCates(5);
                 sysDoctorOppointment.setUserId(orderAppointment.getUserId());
                 sysDoctorOppointment.setRelatedNo(orderAppointment.getRelatedNo());
@@ -204,6 +207,7 @@ public class OrderAppointmentController extends BaseController {
                     if (orderAppointment.getAmount()!=null||orderAppointment.getAmount()!=0){
                         orderMain.setOrderCates(6);
                         orderMain.setOrderNo(orderNo);
+                        orderMain.setStatus(2);
                         orderMain.setUserId(userId);
                         orderMainService.save(orderMain);
                     }
