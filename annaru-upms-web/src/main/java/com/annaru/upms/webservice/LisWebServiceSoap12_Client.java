@@ -19,15 +19,16 @@ public final class LisWebServiceSoap12_Client {
 
     private static final QName SERVICE_NAME = new QName("http://tempuri.org/", "LisWebService");
 
+    /**
+     * @Description:
+     * @param _cmlDataTrans_webcmd 接口命令字(服务名称)
+     * @param reqData 输入参数
+     * @Author: XCK
+     * @Date: 2019/5/20
+     * @return Map<String, Object>
+     */
     public static Map<String, Object> sendRequest(String _cmlDataTrans_webcmd, Map<String, String> reqData) throws Exception {
-        /**
-         * @Description:
-         * @param cmlDataTrans_webcmd 接口命令字(服务名称)
-         * @param reqData 输入参数
-         * @Author: XCK
-         * @Date: 2019/5/20
-         * @return Map<String, Object>
-         */
+
         URL wsdlURL = LisWebService.WSDL_LOCATION;
         LisWebService lisWebService = new LisWebService(wsdlURL, SERVICE_NAME);
         LisWebServiceSoap port = lisWebService.getLisWebServiceSoap12();
