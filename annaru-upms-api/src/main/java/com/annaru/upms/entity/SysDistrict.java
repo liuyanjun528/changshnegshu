@@ -14,47 +14,70 @@ import java.util.Date;
 
 
 /**
- * 行政区域地州市信息表
+ * 
  *
  * @author xck
- * @date 2019-05-22 14:49:58
+ * @date 2019-05-22 14:30:19
  */
-@ApiModel(value = "行政区域地州市信息表")
-@TableName("sys_city")
-public class SysCity extends Model<SysCity> implements Serializable {
+@ApiModel(value = "")
+@TableName("sys_district")
+public class SysDistrict extends Model<SysDistrict> implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * 序号
+	 */
+    @ApiModelProperty(value = "序号")
 	@TableId
 	private Integer sysId;
+	/**
+	 * 城市编号
+	 */
+    @ApiModelProperty(value = "城市编号")
 	@TableField("city_id")
 	private String cityId;
-	private String city;
-	@TableField("province_id")
-	private String provinceId;
+	/**
+	 * 行政区名称
+	 */
+    @ApiModelProperty(value = "行政区名称")
+	@TableField("district_name")
+	private String districtName;
 
+    /**
+     * 获取：序号
+     */
     public Integer getSysId() {
         return sysId;
     }
+	/**
+	 * 设置：序号
+	 */
 	public void setSysId(Integer sysId) {
 		this.sysId = sysId;
 	}
+    /**
+     * 获取：城市编号
+     */
     public String getCityId() {
         return cityId;
     }
+	/**
+	 * 设置：城市编号
+	 */
 	public void setCityId(String cityId) {
 		this.cityId = cityId;
 	}
-    public String getCity() {
-        return city;
+    /**
+     * 获取：行政区名称
+     */
+    public String getDistrictName() {
+        return districtName;
     }
-	public void setCity(String city) {
-		this.city = city;
-	}
-    public String getProvinceId() {
-        return provinceId;
-    }
-	public void setProvinceId(String provinceId) {
-		this.provinceId = provinceId;
+	/**
+	 * 设置：行政区名称
+	 */
+	public void setDistrictName(String districtName) {
+		this.districtName = districtName;
 	}
 
     @Override

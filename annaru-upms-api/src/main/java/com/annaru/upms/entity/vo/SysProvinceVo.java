@@ -10,9 +10,9 @@ public class SysProvinceVo extends Model<SysProvinceVo> implements Serializable 
 
     private static final long serialVersionUID = 1L;
     private Integer id;
-    private String provinceid;
+    private String provinceId;
     private String province;
-    private List<SysCity> sysCityList;
+    private List<SysCityVo> sysCityList;
 
     public Integer getId() {
         return id;
@@ -22,12 +22,12 @@ public class SysProvinceVo extends Model<SysProvinceVo> implements Serializable 
         this.id = id;
     }
 
-    public String getProvinceid() {
-        return provinceid;
+    public String getProvinceId() {
+        return provinceId;
     }
 
-    public void setProvinceid(String provinceid) {
-        this.provinceid = provinceid;
+    public void setProvinceId(String provinceId) {
+        this.provinceId = provinceId;
     }
 
     public String getProvince() {
@@ -38,11 +38,11 @@ public class SysProvinceVo extends Model<SysProvinceVo> implements Serializable 
         this.province = province;
     }
 
-    public List<SysCity> getSysCityList() {
+    public List<SysCityVo> getSysCityList() {
         return sysCityList;
     }
 
-    public void setSysCityList(List<SysCity> sysCityList) {
+    public void setSysCityList(List<SysCityVo> sysCityList) {
         this.sysCityList = sysCityList;
     }
 

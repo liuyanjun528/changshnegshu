@@ -26,7 +26,7 @@
               ref_info,
               remark,
               is_verified,
-              creation_time,
+              creation_time
         FROM
             order_payment
         WHERE

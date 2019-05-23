@@ -28,7 +28,7 @@
         time_to,
         is_active,
         creation_time,
-        edit_time,
+        edit_time
         FROM
         sys_doctor_schedule
         WHERE

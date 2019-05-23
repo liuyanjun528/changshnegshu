@@ -18,7 +18,7 @@
               sys_id,
               master_id,
               detail_id,
-              seqno,
+              seqno
         FROM
             exam_master_detail_mapping
         WHERE

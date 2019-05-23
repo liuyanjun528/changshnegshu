@@ -22,7 +22,7 @@
               abstracts,
               standard_value,
               creation_time,
-              edit_time,
+              edit_time
         FROM
             exam_detail
         WHERE

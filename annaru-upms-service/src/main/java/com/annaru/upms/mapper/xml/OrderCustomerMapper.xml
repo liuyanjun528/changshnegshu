@@ -28,7 +28,7 @@
               cellphone_no1,
               cellphone_no2,
               seqno,
-              remark,
+              remark
         FROM
             order_customer
         WHERE
