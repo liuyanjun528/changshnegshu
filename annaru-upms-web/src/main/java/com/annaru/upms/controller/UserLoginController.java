@@ -48,7 +48,6 @@ public class UserLoginController extends BaseController {
 
     @ApiOperation(value = "用户登录", notes = "用户登录")
     @GetMapping("/loginInfo")
-    @RequiresPermissions("upms/userLogin/loginInfo")
     public ResultMap loginInfo(String cellphoneNo, String password, String type){
 
         if (StringUtil.isBlank(cellphoneNo) || StringUtil.isBlank(password)){
