@@ -53,11 +53,28 @@
               edit_by,
         FROM
             entity_healthy_appointment
-        WHERE
-            status=0
-            <if test="params.key != null and params.key != ''">
-                AND key LIKE CONCAT('%', #{params.key}, '%')
+        <where>
+            <if test="params.sysId != null and params.sysId != ''">
+                AND sys_id LIKE CONCAT('%', #{params.sysId}, '%')
             </if>
+        </where>
     </select>
+
+
+
+    <!--<select id="selectUserAndRelative">-->
+        <!--SELECT-->
+	<!--base.user_id,-->
+	<!--base.full_name,-->
+	<!--base.gender,-->
+	<!--base.date_of_birth,-->
+	<!--rel.fullname,-->
+	<!--rel.gender,-->
+	<!--rel.remark,-->
+	<!--rel.date_of_birth-->
+<!--FROM-->
+	<!--user_basic as base-->
+<!--LEFT JOIN user_relatives as rel ON base.user_id=rel.user_id-->
+    <!--</select>-->
 
 </mapper>
