@@ -14,42 +14,40 @@ import com.annaru.common.result.PageUtils;
 import com.annaru.upms.shiro.ShiroKit;
 import com.annaru.common.result.ResultMap;
 
-import com.annaru.upms.entity.SysInstitution;
-import com.annaru.upms.service.ISysInstitutionService;
+import com.annaru.upms.entity.SysDoctorOppointment;
+import com.annaru.upms.service.ISysDoctorOppointmentService;
 import javax.validation.Valid;
 
 
 
 /**
- * 医院机构
+ * 家庭医生预约记录
  *
- * @author zk
- * @date 2019-05-09 11:14:29
+ * @author xck
+ * @date 2019-05-22 19:26:34
  */
-@Api(tags = {"医院机构管理"}, description = "医院机构管理")
+@Api(tags = {"家庭医生预约记录管理"}, description = "家庭医生预约记录管理")
 @RestController
-@RequestMapping("upms/sysInstitution")
-public class SysInstitutionController extends BaseController {
+@RequestMapping("upms/sysDoctorOppointment")
+public class SysDoctorOppointmentController extends BaseController {
     @Reference
-    private ISysInstitutionService sysInstitutionService;
+    private ISysDoctorOppointmentService sysDoctorOppointmentService;
 
     /**
      * 列表
      */
     @ApiOperation(value = "列表")
     @GetMapping("/list")
-    @RequiresPermissions("upms/sysInstitution/list")
+    @RequiresPermissions("upms/sysDoctorOppointment/list")
     public ResultMap list(@ApiParam(value = "当前页")@RequestParam(defaultValue="1") int page,
-                          @ApiParam(value = "每页数量")@RequestParam(defaultValue = "10") int limit,
-                          @ApiParam(value = "行政区")@RequestParam(required = false) String district,
-                          @ApiParam(value = "机构等级")@RequestParam(required = false) String level){
+                       @ApiParam(value = "每页数量")@RequestParam(defaultValue = "10") int limit,
+                       @ApiParam(value = "用户ID")@RequestParam String userId){
 
         Map<String, Object> params = new HashMap<>();
         params.put("page",page);
         params.put("limit", limit);
-        params.put("district", district);
-        params.put("level",level);
-        PageUtils<Map<String, Object>> pageList = sysInstitutionService.getDataPage(params);
+        params.put("userId", userId);
+        PageUtils<Map<String, Object>> pageList = sysDoctorOppointmentService.getDataPage(params);
         return ResultMap.ok().put("page",pageList);
     }
 
@@ -57,14 +55,12 @@ public class SysInstitutionController extends BaseController {
     /**
      * 信息
      */
-    @ApiOperation(value = "查看详情", notes = "查看医院机构详情")
-    @GetMapping("/info/{institutionId}")
-    @RequiresPermissions("upms/sysInstitution/info")
-    public ResultMap info(@PathVariable("institutionId") String institutionId){
-        Map<String, Object> params = new HashMap<>();
-        params.put("institutionId",institutionId);
-        SysInstitution sysInstitution = sysInstitutionService.getInfo(params);
-        return ResultMap.ok().put("sysInstitution",sysInstitution);
+    @ApiOperation(value = "查看详情", notes = "查看upms详情")
+    @GetMapping("/info/{sysId}")
+    @RequiresPermissions("upms/sysDoctorOppointment/info")
+    public ResultMap info(@PathVariable("sysId") Integer sysId){
+        SysDoctorOppointment sysDoctorOppointment = sysDoctorOppointmentService.getById(sysId);
+        return ResultMap.ok().put("sysDoctorOppointment",sysDoctorOppointment);
     }
 
     /**
@@ -72,10 +68,10 @@ public class SysInstitutionController extends BaseController {
      */
     @ApiOperation(value = "保存")
     @PostMapping("/save")
-    @RequiresPermissions("upms/sysInstitution/save")
-    public ResultMap save(@Valid @RequestBody SysInstitution sysInstitution) {
+    @RequiresPermissions("upms/sysDoctorOppointment/save")
+    public ResultMap save(@Valid @RequestBody SysDoctorOppointment sysDoctorOppointment) {
         try {
-            sysInstitutionService.save(sysInstitution);
+            sysDoctorOppointmentService.save(sysDoctorOppointment);
             return ResultMap.ok("添加成功");
         } catch (Exception e) {
             logger.error(e.getMessage());
@@ -88,11 +84,10 @@ public class SysInstitutionController extends BaseController {
      */
     @ApiOperation(value = "修改")
     @PostMapping("/update")
-    @RequiresPermissions("upms/sysInstitution/update")
-    public ResultMap update(@Valid @RequestBody SysInstitution sysInstitution) {
+    @RequiresPermissions("upms/sysDoctorOppointment/update")
+    public ResultMap update(@Valid @RequestBody SysDoctorOppointment sysDoctorOppointment) {
         try {
-//            sysInstitution.setUpdateTime(new Date());
-            sysInstitutionService.updateById(sysInstitution);
+            sysDoctorOppointmentService.updateById(sysDoctorOppointment);
             return ResultMap.ok("修改成功");
         } catch (Exception e) {
             logger.error(e.getMessage());
@@ -106,10 +101,10 @@ public class SysInstitutionController extends BaseController {
      */
     @ApiOperation(value = "删除")
     @PostMapping("/delete")
-    @RequiresPermissions("upms/sysInstitution/delete")
+    @RequiresPermissions("upms/sysDoctorOppointment/delete")
     public ResultMap delete(@RequestBody Integer[]sysIds) {
         try {
-            sysInstitutionService.removeByIds(Arrays.asList(sysIds));
+            sysDoctorOppointmentService.removeByIds(Arrays.asList(sysIds));
             return ResultMap.ok("删除成功！");
         } catch (Exception e) {
             logger.error(e.getMessage());

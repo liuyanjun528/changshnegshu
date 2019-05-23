@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.extension.activerecord.Model;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -58,6 +59,7 @@ public class OrderMain extends Model<OrderMain> implements Serializable {
 	 */
     @ApiModelProperty(value = "用户编号")
 	@TableField("user_id")
+	@NotNull
 	private String userId;
 	/**
 	 * 定单预留手机 默认为帐号注册手机
@@ -76,7 +78,7 @@ public class OrderMain extends Model<OrderMain> implements Serializable {
 	 */
     @ApiModelProperty(value = "总数")
 	@TableField("total_qty")
-	private Integer totalQty;
+	private Integer totalQty = 1;
 	/**
 	 * 支付状态(0:未支付/1:进行中/2:已完成/3:退款中)
 	 */

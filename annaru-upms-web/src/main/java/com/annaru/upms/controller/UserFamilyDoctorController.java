@@ -53,7 +53,7 @@ public class UserFamilyDoctorController extends BaseController {
     /**
      * 信息
      */
-    @ApiOperation(value = "查看详情", notes = "查看lcd详情")
+    @ApiOperation(value = "查看详情", notes = "查看家庭医生详情")
     @GetMapping("/info/{userId}")
     @RequiresPermissions("upms/userFamilyDoctor/info")
     public ResultMap info(@PathVariable("userId") String userId){

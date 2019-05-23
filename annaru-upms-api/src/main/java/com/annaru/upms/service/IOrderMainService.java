@@ -50,5 +50,7 @@ public interface IOrderMainService extends IService<OrderMain> {
      */
     List<OrderMain> selectPackageGreen(Map<String, Object> params);
 
+    OrderMain getOrderNo(Map<String,Object> params);
+
 }
 

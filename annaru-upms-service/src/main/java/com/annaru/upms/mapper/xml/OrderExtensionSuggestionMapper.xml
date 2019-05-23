@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.annaru.upms.mapper.OrderExtensionSuggestionMapper">
+
+	<!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.annaru.upms.entity.OrderExtensionSuggestion" >
+        <result column="sys_id" property="sysId" />
+        <result column="order_no" property="orderNo" />
+        <result column="exam_master_id" property="examMasterId" />
+        <result column="exam_detail_id" property="examDetailId" />
+        <result column="exam_master_item" property="examMasterItem" />
+        <result column="is_deleted" property="isDeleted" />
+        <result column="doctor_no" property="doctorNo" />
+        <result column="creation_time" property="creationTime" />
+        <result column="create_by" property="createBy" />
+        <result column="edit_time" property="editTime" />
+        <result column="edit_by" property="editBy" />
+    </resultMap>
+
+    <resultMap id="BaseResultMapVo" type="com.annaru.upms.entity.vo.OrderExtensionSuggestionVo" >
+        <result column="sys_id" property="sysId" />
+        <result column="order_no" property="orderNo" />
+        <result column="exam_master_id" property="examMasterId" />
+        <result column="exam_detail_id" property="examDetailId" />
+        <result column="exam_master_item" property="examMasterItem" />
+        <result column="is_deleted" property="isDeleted" />
+        <result column="doctor_no" property="doctorNo" />
+        <result column="creation_time" property="creationTime" />
+        <result column="create_by" property="createBy" />
+        <result column="edit_time" property="editTime" />
+        <result column="edit_by" property="editBy" />
+        <result column="name" property="name" />
+        <result column="item_name" property="itemName" />
+
+    </resultMap>
+
+    <!-- 多表页面信息查询分页 -->
+    <select id="selectDataPage" parameterType="map" resultMap="BaseResultMap">
+
+        SELECT
+              sys_id,
+              order_no,
+              exam_master_id,
+              exam_detail_id,
+              exam_master_item,
+              is_deleted,
+              doctor_no,
+              creation_time,
+              create_by,
+              edit_time,
+              edit_by,
+        FROM
+            order_extension_suggestion
+        WHERE
+            status=0
+            <if test="params.key != null and params.key != ''">
+                AND key LIKE CONCAT('%', #{params.key}, '%')
+            </if>
+    </select>
+
+    <select id="getItems" parameterType="map" resultMap="BaseResultMapVo">
+        SELECT
+            oes.doctor_no,
+            oes.order_no,
+            em.`name`,
+            ed.item_name
+            FROM
+            order_extension_suggestion oes
+            LEFT JOIN exam_master em ON oes.exam_master_id = em.sys_id
+            LEFT JOIN exam_detail ed ON oes.exam_detail_id = ed.sys_id
+            where
+        <if test="params.orderNo != null and params.orderNo != ''">
+            oes.order_no = #{params.orderNo}
+        </if>
+    </select>
+
+</mapper>
