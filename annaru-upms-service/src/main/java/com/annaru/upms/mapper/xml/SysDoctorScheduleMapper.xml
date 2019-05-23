@@ -42,4 +42,17 @@
 
     </update>
 
+    <select id="getDocSchedule" parameterType="map" resultMap="BaseResultMap">
+        select sds.date_from,sds.time_from,sds.time_to,sdo.is_active
+        from sys_doctor_schedule sds
+        left JOIN sys_doctor_oppointment sdo
+        on sds.date_from = sdo.appoint_date
+        where
+        sds.is_active = 1
+        <if test="params.doctorNo != null and params.doctorNo != ''">
+            and doctor_no = #{params.doctorNo}
+        </if>
+        order by sds.time_to
+    </select>
+
 </mapper>

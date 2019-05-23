@@ -48,4 +48,13 @@
             </if>
     </select>
 
+    <select id="getOrderNo" parameterType="map" resultMap="BaseResultMap">
+        select order_no from order_main
+        where
+        status = 2
+        <if test="params.referenceNo != null and params.referenceNo != ''">
+            AND  reference_no = #{params.referenceNo}
+        </if>
+    </select>
+
 </mapper>

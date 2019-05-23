@@ -82,10 +82,10 @@ public class UserBasicController extends BaseController {
      * 信息
      */
     @ApiOperation(value = "查看详情", notes = "查看upms详情")
-    @GetMapping("/info/{sysId}")
+    @GetMapping("/info/{userId}")
     @RequiresPermissions("upms/userBasic/info")
-    public ResultMap info(@PathVariable("sysId") Integer sysId){
-        UserBasic userBasic = userBasicService.getById(sysId);
+    public ResultMap info(@PathVariable("userId") String userId){
+        UserBasic userBasic = userBasicService.selectByUid(userId);
         return ResultMap.ok().put("userBasic",userBasic);
     }
 

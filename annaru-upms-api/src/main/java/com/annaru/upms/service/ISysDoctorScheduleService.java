@@ -23,6 +23,6 @@ public interface ISysDoctorScheduleService extends IService<SysDoctorSchedule> {
 
     SysDoctorSchedule updateActive(Map <String, Object> params);
 
-
+    List<SysDoctorSchedule> getDocSchedule(Map<String,Object> params);
 }
 

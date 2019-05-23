@@ -43,7 +43,7 @@
     <select id="selectDataPage" parameterType="map" resultMap="BaseResultMapVo">
         SELECT
         si.sys_id,
-        institution_id,
+        si.institution_id,
         si.name,
         si.address,
         si.province,
@@ -55,8 +55,12 @@
         FROM sys_institution si
         LEFT JOIN order_appointment oa on si.sys_id=oa.institution_id
         where
+        si.is_approved = 1
         <if test="params.district !=null and params.district !=''">
-            si.district LIKE CONCAT('%', #{params.district}, '%')
+          and  si.district LIKE CONCAT('%', #{params.district}, '%')
+        </if>
+        <if test="params.level !=null and params.level !=''">
+            and  si.level LIKE CONCAT('%', #{params.level}, '%')
         </if>
         GROUP BY si.sys_id
     </select>
@@ -71,8 +75,9 @@
     <select id="getInfo" parameterType="map" resultMap="BaseResultMap">
         select * from sys_institution
         where
+        is_approved = 1
         <if test="params.institutionId !=null and params.institutionId !=''">
-            institution_id = #{params.institutionId}
+        and   institution_id = #{params.institutionId}
         </if>
     </select>
 

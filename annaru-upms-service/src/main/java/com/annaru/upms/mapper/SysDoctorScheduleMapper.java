@@ -25,4 +25,6 @@ public interface SysDoctorScheduleMapper extends BaseMapper<SysDoctorSchedule> {
     IPage<SysDoctorSchedule> selectDataPage(Page page, @Param("params") Map <String, Object> params);
 
     SysDoctorSchedule updateActive(@Param("params") Map <String, Object> params);
+
+    List<SysDoctorSchedule> getDocSchedule(@Param("params") Map <String, Object> params);
 }

@@ -13,8 +13,10 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -54,10 +56,12 @@ public class SysDoctorScheduleController extends BaseController {
      * 信息
      */
     @ApiOperation(value = "查看详情", notes = "查看upms详情")
-    @GetMapping("/info/{sysId}")
+    @GetMapping("/info/{doctorNo}")
     @RequiresPermissions("upms/sysDoctorSchedule/info")
-    public ResultMap info(@PathVariable("sysId") Integer sysId){
-        SysDoctorSchedule sysDoctorSchedule = sysDoctorScheduleService.getById(sysId);
+    public ResultMap info(@PathVariable("doctorNo") String doctorNo){
+        Map<String,Object> params = new HashMap<>();
+        params.put("doctorNo",doctorNo);
+        List<SysDoctorSchedule> sysDoctorSchedule = sysDoctorScheduleService.getDocSchedule(params);
         return ResultMap.ok().put("sysDoctorSchedule",sysDoctorSchedule);
     }
 
