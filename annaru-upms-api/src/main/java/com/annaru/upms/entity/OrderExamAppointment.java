@@ -19,7 +19,7 @@ import java.util.Date;
  * @date 2019-05-09 11:14:29
  */
 @ApiModel(value = "定单(体检)预约")
-@TableName("order_exam_appointment")
+@TableName("order_appointment")
 public class OrderExamAppointment extends Model<OrderExamAppointment> implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -74,9 +74,9 @@ public class OrderExamAppointment extends Model<OrderExamAppointment> implements
 	/**
 	 * 护士编号
 	 */
-    @ApiModelProperty(value = "护士编号")
-	@TableField("nurse_no")
-	private String nurseNo;
+//    @ApiModelProperty(value = "护士编号")
+//	@TableField("nurse_no")
+//	private String nurseNo;
 	/**
 	 * 预约地址
 	 */
@@ -234,15 +234,15 @@ public class OrderExamAppointment extends Model<OrderExamAppointment> implements
     /**
      * 获取：护士编号
      */
-    public String getNurseNo() {
-        return nurseNo;
-    }
+//   public String getNurseNo() {
+//        return nurseNo;
+//    }
 	/**
 	 * 设置：护士编号
 	 */
-	public void setNurseNo(String nurseNo) {
-		this.nurseNo = nurseNo;
-	}
+	//public void setNurseNo(String nurseNo) {
+	//	this.nurseNo = nurseNo;
+	//}
     /**
      * 获取：预约地址
      */
