@@ -13,7 +13,6 @@
         <result column="appoint_date" property="appointDate" />
         <result column="time_from" property="timeFrom" />
         <result column="time_to" property="timeTo" />
-        <result column="nurse_no" property="nurseNo" />
         <result column="address" property="address" />
         <result column="status" property="status" />
         <result column="institution_id" property="institutionId" />
@@ -38,7 +37,6 @@
               appoint_date,
               time_from,
               time_to,
-              nurse_no,
               address,
               status,
               institution_id,
@@ -50,7 +48,7 @@
               edit_time,
               edit_by
         FROM
-            order_exam_appointment
+              order_appointment
         <where>
             <if test="params.userId != null and params.userId != ''">
                 AND user_id LIKE CONCAT('%', #{params.userId}, '%')

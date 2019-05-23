@@ -29,6 +29,7 @@
         <result column="status" property="status" />
         <result column="customerName" property="customerName" />
         <result column="idNo" property="idNo" />
+        <result column="periods" property="periods" />
         <result column="gender" property="gender" />
         <result column="cellphoneNo1" property="cellphoneNo1" />
         <result column="cellphoneNo2" property="cellphoneNo2" />
@@ -70,8 +71,33 @@
             </if>
     </select>
 
+    <!-- 多表页面信息查询分页 -->
+    <select id="selectOrderPage" parameterType="map" resultMap="BaseResultMap">
+
+        SELECT
+        om.sys_id sysId,
+        om.order_time orderTime,
+        oc.customer_name customerName,
+
+        epm.package_name packageName,
+        oex.exam_master_item examMasterItem,
+        oai.appointment_cates appointmentCates,
+        oai.option_1 option_1,
+        om.parent_no parentNo,
+        om.status,
+        op.order_no opOderNo
+
+        FROM order_main om
+        LEFT JOIN order_additional_info oai ON oai.order_no = om.sys_id
+        LEFT JOIN order_customer oc ON oc.order_no = om.order_no
+        LEFT JOIN exam_package_main epm ON epm.sys_id = om.reference_no
+        LEFT JOIN order_extension_exam oex ON oex.order_no = om.order_no
+        LEFT JOIN order_payment op ON op.order_no = om.order_no
+
+    </select>
+
     <!-- 多表页面信息查询分页  套餐订单-->
-    <select id="selectPackageAdvance" parameterType="map" resultMap="advanceBaseResultMap">
+    <select id="selectPackageOrder" parameterType="map" resultMap="advanceBaseResultMap">
 
         SELECT
         om.sys_id sysId,
@@ -182,14 +208,5 @@
         </if>
     </select>
 
-
-    <select id="getOrderNo" parameterType="map" resultMap="BaseResultMap">
-        select order_no from order_main
-        where
-        status = 2
-        <if test="params.referenceNo != null and params.referenceNo != ''">
-            AND  reference_no = #{params.referenceNo}
-        </if>
-    </select>
 
 </mapper>

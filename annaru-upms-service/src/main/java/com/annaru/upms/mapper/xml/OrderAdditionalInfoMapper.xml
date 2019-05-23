@@ -38,4 +38,15 @@
       </where>
     </select>
 
+    <!-- 绿通行添加-->
+    <insert id="insertAdditional_info" parameterType="map">
+        insert into additional_info
+            (option_1,situations,option_2)
+         VALUES
+            (#{map.option_1},#{map.situations},#{map.option_2})
+    </insert>
+
+
+
+
 </mapper>
