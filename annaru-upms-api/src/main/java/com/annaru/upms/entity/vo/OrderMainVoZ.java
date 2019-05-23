@@ -210,6 +210,16 @@ public class OrderMainVoZ implements Serializable {
 	 */
 	private Date timeTo;
 
+	private String departmentName;
+
+	public String getDepartmentName() {
+		return departmentName;
+	}
+
+	public void setDepartmentName(String departmentName) {
+		this.departmentName = departmentName;
+	}
+
 	public Integer getSysId() {
 		return sysId;
 	}

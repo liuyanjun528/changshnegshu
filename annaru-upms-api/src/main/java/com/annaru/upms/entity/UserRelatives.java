@@ -66,6 +66,12 @@ public class UserRelatives extends Model<UserRelatives> implements Serializable 
 	@TableField("cellphone_no")
 	private String cellphoneNo;
 	/**
+	 * 出生日期
+	 */
+	@ApiModelProperty(value = "出生日期")
+	@TableField("date_of_birth")
+	private Date dateOfBirth;
+	/**
 	 * 备注
 	 */
     @ApiModelProperty(value = "备注")
@@ -241,8 +247,20 @@ public class UserRelatives extends Model<UserRelatives> implements Serializable 
 	public void setEditTime(Date editTime) {
 		this.editTime = editTime;
 	}
+	/**
+	 * 获取：出生年月
+	 */
+	public Date getDateOfBirth() {
+		return dateOfBirth;
+	}
+	/**
+	 * 设置：出生年月
+	 */
+	public void setDateOfBirth(Date dateOfBirth) {
+		this.dateOfBirth = dateOfBirth;
+	}
 
-    @Override
+	@Override
 	protected Serializable pkVal() {
 		return this.sysId;
 	}
