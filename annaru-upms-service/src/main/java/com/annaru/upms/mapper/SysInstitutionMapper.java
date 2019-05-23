@@ -24,6 +24,7 @@ public interface SysInstitutionMapper extends BaseMapper<SysInstitution> {
     */
     IPage<SysInstitution> selectDataPage(Page page, @Param("params") Map<String, Object> params);
 
+    SysInstitution getInfo(@Param("params") Map<String, Object> params);
 
     /**
      * 增加

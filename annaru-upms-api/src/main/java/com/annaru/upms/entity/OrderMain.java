@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.extension.activerecord.Model;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -38,16 +39,17 @@ public class OrderMain extends Model<OrderMain> implements Serializable {
 	/**
 	 * 相关编号 (套餐编号/ 医生编号/护士编号)
 	 */
-    @ApiModelProperty(value = "相关编号 (套餐编号/ 医生编号/护士编号)")
-	@TableField("related_no")
-	private String relatedNo;
+    @ApiModelProperty(value = "相关编号 (套餐编号)")
+	@TableField("reference_no")
+	private String referenceNo;
 	/**
 	 * 定单类别：
-1:一般体检预约(C端)
-2:进阶体检预约(C端)
-3:分布式体检预约(B端)
-4:进阶体检预约(B端)
-5:家庭医生
+	 1:一般体检预约(C端)
+	 2:进阶体检预约(C端)
+	 3:分布式体检预约(B端)
+	 4:进阶体检预约(B端)
+	 5:家庭医生
+	 6.门诊绿通预约
 	 */
     @ApiModelProperty(value = "定单类别：1:一般体检预约(C端) 2:进阶体检预约(C端) 3:分布式体检预约(B端) 4:进阶体检预约(B端)5:家庭医生")
 	@TableField("order_cates")
@@ -57,19 +59,26 @@ public class OrderMain extends Model<OrderMain> implements Serializable {
 	 */
     @ApiModelProperty(value = "用户编号")
 	@TableField("user_id")
+	@NotNull
 	private String userId;
+	/**
+	 * 定单预留手机 默认为帐号注册手机
+	 */
+	@ApiModelProperty(value = "定单预留手机 默认为帐号注册手机")
+	@TableField("cellphone_no")
+	private String cellphoneNo;
 	/**
 	 * 下定单时间
 	 */
-    @ApiModelProperty(value = "下定单时间")
+	@ApiModelProperty(value = "下定单时间")
 	@TableField("order_time")
-	private Date orderTime;
+	private Date orderTime = new Date();
 	/**
 	 * 总数
 	 */
     @ApiModelProperty(value = "总数")
 	@TableField("total_qty")
-	private Integer totalQty;
+	private Integer totalQty = 1;
 	/**
 	 * 支付状态(0:未支付/1:进行中/2:已完成/3:退款中)
 	 */
@@ -81,12 +90,24 @@ public class OrderMain extends Model<OrderMain> implements Serializable {
     @ApiModelProperty(value = "备注")
 	private String remark;
 	/**
+	 * 进阶体检定单关联编号
+	 */
+	@ApiModelProperty(value = "进阶体检定单关联编号")
+	@TableField("parent_no")
+	private String parentNo;
+	/**
+	 * 用户渠道(长生树APP、线下)
+	 */
+	@ApiModelProperty(value = "用户渠道(长生树APP、线下)")
+	@TableField("user_channel")
+	private String userChannel = "长生树APP";
+	/**
 	 * 删除标记(0:未删除/1:已删除)
 	 */
-    @ApiModelProperty(value = "删除标记(0:未删除/1:已删除)")
+	@ApiModelProperty(value = "删除标记(0:未删除/1:已删除)")
 	@TableField("is_deleted")
-	private Integer isDeleted;
-	private Date creationtime;
+	private Integer isDeleted = 0;
+	private Date creationtime = new Date();
 
     /**
      * 获取：系统编号
@@ -113,35 +134,37 @@ public class OrderMain extends Model<OrderMain> implements Serializable {
 		this.orderNo = orderNo;
 	}
     /**
-     * 获取：相关编号 (套餐编号/ 医生编号/护士编号)
+     * 获取：相关编号 (套餐编号)
      */
-    public String getRelatedNo() {
-        return relatedNo;
+    public String getReferenceNo() {
+        return referenceNo;
     }
 	/**
 	 * 设置：相关编号 (套餐编号/ 医生编号/护士编号)
 	 */
-	public void setRelatedNo(String relatedNo) {
-		this.relatedNo = relatedNo;
+	public void setReferenceNo(String referenceNo) {
+		this.referenceNo = referenceNo;
 	}
-    /**
-     * 获取：定单类别：
-1:一般体检预约(C端)
-2:进阶体检预约(C端)
-3:分布式体检预约(B端)
-4:进阶体检预约(B端)
-5:家庭医生
-     */
-    public Integer getOrderCates() {
-        return orderCates;
-    }
+	/**
+	 * 获取：定单类别：
+	 1:一般体检预约(C端)
+	 2:进阶体检预约(C端)
+	 3:分布式体检预约(B端)
+	 4:进阶体检预约(B端)
+	 5:家庭医生
+	 6.门诊绿通预约
+	 */
+	public Integer getOrderCates() {
+		return orderCates;
+	}
 	/**
 	 * 设置：定单类别：
-1:一般体检预约(C端)
-2:进阶体检预约(C端)
-3:分布式体检预约(B端)
-4:进阶体检预约(B端)
-5:家庭医生
+	 1:一般体检预约(C端)
+	 2:进阶体检预约(C端)
+	 3:分布式体检预约(B端)
+	 4:进阶体检预约(B端)
+	 5:家庭医生
+	 6.门诊绿通预约
 	 */
 	public void setOrderCates(Integer orderCates) {
 		this.orderCates = orderCates;
@@ -158,69 +181,105 @@ public class OrderMain extends Model<OrderMain> implements Serializable {
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
-    /**
-     * 获取：下定单时间
-     */
-    public Date getOrderTime() {
-        return orderTime;
-    }
+	/**
+	 * 获取：定单预留手机 默认为帐号注册手机
+	 */
+	public String getCellphoneNo() {
+		return cellphoneNo;
+	}
+	/**
+	 * 设置：定单预留手机 默认为帐号注册手机
+	 */
+	public void setCellphoneNo(String cellphoneNo) {
+		this.cellphoneNo = cellphoneNo;
+	}
+	/**
+	 * 获取：下定单时间
+	 */
+	public Date getOrderTime() {
+		return orderTime;
+	}
 	/**
 	 * 设置：下定单时间
 	 */
 	public void setOrderTime(Date orderTime) {
 		this.orderTime = orderTime;
 	}
-    /**
-     * 获取：总数
-     */
-    public Integer getTotalQty() {
-        return totalQty;
-    }
+	/**
+	 * 获取：总数
+	 */
+	public Integer getTotalQty() {
+		return totalQty;
+	}
 	/**
 	 * 设置：总数
 	 */
 	public void setTotalQty(Integer totalQty) {
 		this.totalQty = totalQty;
 	}
-    /**
-     * 获取：支付状态(0:未支付/1:进行中/2:已完成/3:退款中)
-     */
-    public Integer getStatus() {
-        return status;
-    }
+	/**
+	 * 获取：支付状态(0:未支付/1:进行中/2:已完成/3:退款中)
+	 */
+	public Integer getStatus() {
+		return status;
+	}
 	/**
 	 * 设置：支付状态(0:未支付/1:进行中/2:已完成/3:退款中)
 	 */
 	public void setStatus(Integer status) {
 		this.status = status;
 	}
-    /**
-     * 获取：备注
-     */
-    public String getRemark() {
-        return remark;
-    }
+	/**
+	 * 获取：备注
+	 */
+	public String getRemark() {
+		return remark;
+	}
 	/**
 	 * 设置：备注
 	 */
 	public void setRemark(String remark) {
 		this.remark = remark;
 	}
-    /**
-     * 获取：删除标记(0:未删除/1:已删除)
-     */
-    public Integer getIsDeleted() {
-        return isDeleted;
-    }
+	/**
+	 * 获取：进阶体检定单关联编号
+	 */
+	public String getParentNo() {
+		return parentNo;
+	}
+	/**
+	 * 设置：进阶体检定单关联编号
+	 */
+	public void setParentNo(String parentNo) {
+		this.parentNo = parentNo;
+	}
+	/**
+	 * 获取：用户渠道(长生树APP、线下)
+	 */
+	public String getUserChannel() {
+		return userChannel;
+	}
+	/**
+	 * 设置：用户渠道(长生树APP、线下)
+	 */
+	public void setUserChannel(String userChannel) {
+		this.userChannel = userChannel;
+	}
+	/**
+	 * 获取：删除标记(0:未删除/1:已删除)
+	 */
+	public Integer getIsDeleted() {
+		return isDeleted;
+	}
 	/**
 	 * 设置：删除标记(0:未删除/1:已删除)
 	 */
 	public void setIsDeleted(Integer isDeleted) {
 		this.isDeleted = isDeleted;
 	}
-    public Date getCreationtime() {
-        return creationtime;
-    }
+	public Date getCreationtime() {
+		return creationtime;
+	}
 	public void setCreationtime(Date creationtime) {
 		this.creationtime = creationtime;
 	}

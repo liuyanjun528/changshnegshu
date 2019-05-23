@@ -3,9 +3,10 @@
 
 <mapper namespace="com.annaru.upms.mapper.SysInstitutionMapper">
 
-	<!-- 通用查询映射结果 -->
+    <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.annaru.upms.entity.SysInstitution" >
         <result column="sys_id" property="sysId" />
+        <result column="institution_id" property="institutionId"/>
         <result column="name" property="name" />
         <result column="address" property="address" />
         <result column="province" property="province" />
@@ -20,31 +21,49 @@
         <result column="edit_time" property="editTime" />
     </resultMap>
 
+    <resultMap id="BaseResultMapVo" type="com.annaru.upms.entity.vo.SysInstitutionVo" >
+        <result column="sys_id" property="sysId" />
+        <result column="institution_id" property="institutionId"/>
+        <result column="name" property="name" />
+        <result column="address" property="address" />
+        <result column="province" property="province" />
+        <result column="city" property="city" />
+        <result column="district" property="district" />
+        <result column="images" property="images" />
+        <result column="is_approved" property="isApproved" />
+        <result column="level" property="level" />
+        <result column="tel_no1" property="telNo1" />
+        <result column="tel_no2" property="telNo2" />
+        <result column="creation_time" property="creationTime" />
+        <result column="edit_time" property="editTime" />
+        <result column="apNumber" property="apNumber" />
+    </resultMap>
+
     <!-- 多表页面信息查询分页 -->
-    <select id="selectDataPage" parameterType="map" resultMap="BaseResultMap">
-
+    <select id="selectDataPage" parameterType="map" resultMap="BaseResultMapVo">
         SELECT
-              sys_id,
-              name,
-              address,
-              province,
-              city,
-              district,
-              images,
-              is_approved,
-              level,
-              tel_no1,
-              tel_no2,
-              creation_time,
-              edit_time,
-        FROM
-            sys_institution
-        WHERE
-            <if test="params.name != null and params.name != ''">
-                AND name LIKE CONCAT('%', #{params.name}, '%')
-            </if>
+        si.sys_id,
+        si.institution_id,
+        si.name,
+        si.address,
+        si.province,
+        si.city,
+        si.district,
+        si.images,
+        si.level,
+        COUNT(*) apNumber
+        FROM sys_institution si
+        LEFT JOIN order_appointment oa on si.sys_id=oa.institution_id
+        where
+        si.is_approved = 1
+        <if test="params.district !=null and params.district !=''">
+          and  si.district LIKE CONCAT('%', #{params.district}, '%')
+        </if>
+        <if test="params.level !=null and params.level !=''">
+            and  si.level LIKE CONCAT('%', #{params.level}, '%')
+        </if>
+        GROUP BY si.sys_id
     </select>
-
 
     <insert id="insertInstitution"  parameterType="com.annaru.upms.entity.SysInstitution" useGeneratedKeys="true" keyProperty="sysId" keyColumn="sysId">
         INSERT INTO sys_institution
@@ -52,5 +71,14 @@
         VALUES
                     (#{sys_id},#{name})
     </insert>
+
+    <select id="getInfo" parameterType="map" resultMap="BaseResultMap">
+        select * from sys_institution
+        where
+        is_approved = 1
+        <if test="params.institutionId !=null and params.institutionId !=''">
+        and   institution_id = #{params.institutionId}
+        </if>
+    </select>
 
 </mapper>

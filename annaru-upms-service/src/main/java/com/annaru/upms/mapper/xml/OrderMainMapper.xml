@@ -3,43 +3,210 @@
 
 <mapper namespace="com.annaru.upms.mapper.OrderMainMapper">
 
-	<!-- 通用查询映射结果 -->
+    <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.annaru.upms.entity.OrderMain" >
         <result column="sys_id" property="sysId" />
         <result column="order_no" property="orderNo" />
-        <result column="related_no" property="relatedNo" />
+        <result column="reference_no" property="referenceNo" />
         <result column="order_cates" property="orderCates" />
         <result column="user_id" property="userId" />
+        <result column="cellphone_no" property="cellphoneNo" />
         <result column="order_time" property="orderTime" />
         <result column="total_qty" property="totalQty" />
         <result column="status" property="status" />
         <result column="remark" property="remark" />
+        <result column="parent_no" property="parentNo" />
+        <result column="user_channel" property="userChannel" />
         <result column="is_deleted" property="isDeleted" />
         <result column="creationtime" property="creationtime" />
+    </resultMap>
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="advanceBaseResultMap" type="com.annaru.upms.entity.vo.OrderMainVoZ" >
+        <result column="sys_id" property="sysId" />
+        <result column="order_no" property="orderNo" />
+        <result column="examMasterItem" property="examMasterItem" />
+        <result column="status" property="status" />
+        <result column="customerName" property="customerName" />
+        <result column="idNo" property="idNo" />
+        <result column="periods" property="periods" />
+        <result column="gender" property="gender" />
+        <result column="cellphoneNo1" property="cellphoneNo1" />
+        <result column="cellphoneNo2" property="cellphoneNo2" />
+        <result column="cardCates" property="cardCates" />
+        <result column="cardNo" property="cardNo" />
+        <result column="siName" property="siName" />
+        <result column="timeFrom" property="timeFrom" />
+        <result column="timeTo" property="timeTo" />
+        <result column="orderTime" property="orderTime" />
+        <result column="userChannel" property="userChannel" />
+        <result column="amount" property="amount" />
+        <result column="departmentName" property="departmentName" />
     </resultMap>
 
     <!-- 多表页面信息查询分页 -->
     <select id="selectDataPage" parameterType="map" resultMap="BaseResultMap">
 
         SELECT
-              sys_id,
-              order_no,
-              related_no,
-              order_cates,
-              user_id,
-              order_time,
-              total_qty,
-              status,
-              remark,
-              is_deleted,
-              creationtime,
+        sys_id,
+        order_no,
+        reference_no,
+        order_cates,
+        user_id,
+        cellphone_no,
+        order_time,
+        total_qty,
+        status,
+        remark,
+        parent_no,
+        user_channel,
+        is_deleted,
+        creationtime
         FROM
-            order_main
+        order_main
         WHERE
-            status=0
-            <if test="params.key != null and params.key != ''">
-                AND key LIKE CONCAT('%', #{params.key}, '%')
+            1=1
+            <if test="params.userId != null and params.userId != ''">
+                AND user_id LIKE CONCAT('%', #{params.userId}, '%')
             </if>
     </select>
+
+    <!-- 多表页面信息查询分页 -->
+    <select id="selectOrderPage" parameterType="map" resultMap="BaseResultMap">
+
+        SELECT
+        om.sys_id sysId,
+        om.order_time orderTime,
+        oc.customer_name customerName,
+
+        epm.package_name packageName,
+        oex.exam_master_item examMasterItem,
+        oai.appointment_cates appointmentCates,
+        oai.option_1 option_1,
+        om.parent_no parentNo,
+        om.status,
+        op.order_no opOderNo
+
+        FROM order_main om
+        LEFT JOIN order_additional_info oai ON oai.order_no = om.sys_id
+        LEFT JOIN order_customer oc ON oc.order_no = om.order_no
+        LEFT JOIN exam_package_main epm ON epm.sys_id = om.reference_no
+        LEFT JOIN order_extension_exam oex ON oex.order_no = om.order_no
+        LEFT JOIN order_payment op ON op.order_no = om.order_no
+
+    </select>
+
+    <!-- 多表页面信息查询分页  套餐订单-->
+    <select id="selectPackageOrder" parameterType="map" resultMap="advanceBaseResultMap">
+
+        SELECT
+        om.sys_id sysId,
+        om.order_no orderNo,
+        epm.package_name packageName,
+        epm.subtitle,
+        epm.content,
+        ea.service_name serviceName,
+        epa.periods,
+        ea.cates,
+        oai.amount,
+        em.name emName,
+        ed.item_name itemName,
+        oee.exam_master_item examMasterItem,
+        ub.full_name fullName,
+        om.total_qty totalQty,
+        oc.customer_name customerName
+        FROM
+        order_main om
+        LEFT JOIN exam_package_main epm ON epm.sys_id = om.reference_no
+        LEFT JOIN exam_package_append epa ON epm.sys_id = epa.package_main_id
+        LEFT JOIN exam_append ea ON ea.sys_id = epa.append_id
+        LEFT JOIN exam_package_detail epd ON epd.exam_main_id = epm.sys_id
+        LEFT JOIN exam_master em ON em.sys_id = epd.exam_master_id
+        LEFT JOIN exam_detail ed ON ed.sys_id = epd.exam_detail_id
+        LEFT JOIN order_additional_info oai ON oai.order_no = om.order_no
+        LEFT JOIN order_extension_exam oee ON oee.order_no = om.order_no
+        LEFT JOIN user_basic ub ON ub.user_id = om.user_id
+        LEFT JOIN order_customer oc ON oc.order_no = om.order_no
+        WHERE
+        1=1
+        <if test="params.sysId != null and params.sysId != ''">
+            AND om.sys_id = #{params.sysId}
+        </if>
+    </select>
+
+    <!-- 多表页面信息查询分页  自费订单-->
+    <select id="selectPackageAdvance" parameterType="map" resultMap="advanceBaseResultMap">
+
+        SELECT
+        om.sys_id sysId,
+        om.order_no orderNo,
+        oee.exam_master_item examMasterItem,
+        om.status,
+        oc.customer_name customerName,
+        oc.id_no idNo,
+        oc.gender,
+        oc.cellphone_no1 cellphoneNo1,
+        oc.cellphone_no2 cellphoneNo2,
+        uc.card_cates cardCates,
+        uc.card_no cardNo,
+        si.name siName,
+        oa.time_from timeFrom,
+        oa.time_to timeTo,
+        om.order_time orderTime,
+        om.user_channel userChannel,
+        oai.amount
+        FROM
+        order_main om
+        LEFT JOIN order_extension_exam oee ON oee.order_no = om.order_no
+        LEFT JOIN order_customer oc ON oc.order_no = om.order_no
+        LEFT JOIN order_appointment oa ON oa.order_no = om.order_no
+        LEFT JOIN order_additional_info oai ON oai.order_no = om.order_no
+        LEFT JOIN sys_institution si ON si.institution_id = oa.institution_id
+        LEFT JOIN user_cards uc ON om.user_id = uc.user_id
+        WHERE
+        1=1
+        <if test="params.sysId != null and params.sysId != ''">
+            AND om.sys_id = #{params.sysId}
+        </if>
+    </select>
+
+    <!-- 多表页面信息查询分页  门诊绿通订单详情-->
+    <select id="selectPackageGreen" parameterType="map" resultMap="advanceBaseResultMap">
+
+        SELECT
+        om.sys_id sysId,
+        om.order_no orderNo,
+        oee.exam_master_item examMasterItem,
+        om.status,
+        oc.customer_name customerName,
+        oc.id_no idNo,
+        oc.gender,
+        oc.cellphone_no1 cellphoneNo1,
+        oc.cellphone_no2 cellphoneNo2,
+        uc.card_cates cardCates,
+        uc.card_no cardNo,
+        si.name siName,
+        oa.time_from timeFrom,
+        oa.time_to timeTo,
+        om.order_time orderTime,
+        om.user_channel userChannel,
+        oai.amount,
+        sd.department_name departmentName
+        FROM
+        order_main om
+        LEFT JOIN order_extension_exam oee ON oee.order_no = om.order_no
+        LEFT JOIN order_customer oc ON oc.order_no = om.order_no
+        LEFT JOIN order_appointment oa ON oa.order_no = om.order_no
+        LEFT JOIN order_additional_info oai ON oai.order_no = om.order_no
+        LEFT JOIN sys_institution si ON si.institution_id = oa.institution_id
+        LEFT JOIN user_cards uc ON om.user_id = uc.user_id
+        LEFT JOIN sys_department sd ON sd.sys_id = oa.department_id
+        WHERE
+        1=1
+        <if test="params.sysId != null and params.sysId != ''">
+            AND om.sys_id = #{params.sysId}
+        </if>
+    </select>
+
 
 </mapper>

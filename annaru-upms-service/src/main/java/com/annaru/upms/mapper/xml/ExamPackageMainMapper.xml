@@ -12,26 +12,147 @@
         <result column="cates" property="cates" />
         <result column="creation_time" property="creationTime" />
         <result column="edit_time" property="editTime" />
+        <result column="subtitle" property="subtitle" />
+        <result column="age_from" property="ageFrom" />
+        <result column="age_to" property="ageTo" />
+        <result column="suite_gender" property="suiteGender" />
     </resultMap>
 
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap1" type="com.annaru.upms.entity.ExamPackageMain" >
+        <result column="sys_id" property="sysId" />
+        <result column="package_name" property="packageName" />
+        <result column="amount" property="amount" />
+        <result column="content" property="content" />
+        <result column="cates" property="cates" />
+        <result column="creation_time" property="creationTime" />
+        <result column="edit_time" property="editTime" />
+        <result column="subtitle" property="subtitle" />
+        <result column="age_from" property="ageFrom" />
+        <result column="age_to" property="ageTo" />
+        <result column="suite_gender" property="suiteGender" />
+        <result column="countPsersion" property="countPsersion"/>
+        <collection property="examPackageDetailList" ofType="com.annaru.upms.entity.ExamPackageDetail">
+            <result column="sys_id" property="sysId" />
+            <result column="exam_main_id" property="examMainId" />
+            <result column="exam_master_id" property="examMasterId" />
+            <result column="exam_detail_id" property="examDetailId" />
+        </collection>
+    </resultMap>
+
+    <resultMap id="selectInfoBySysIdVo" type="com.annaru.upms.entity.vo.ExamPackageMainVo" >
+        <result column="sys_id" property="sysId" />
+        <result column="packageName" property="packageName" />
+        <result column="amount" property="amount" />
+        <result column="content" property="content" />
+        <result column="cates" property="cates" />
+        <result column="creationTime" property="creationTime" />
+        <result column="editTime" property="editTime" />
+        <result column="subtitle" property="subtitle" />
+        <result column="ageFrom" property="ageFrom" />
+        <result column="ageTo" property="ageTo" />
+        <result column="suiteGender" property="suiteGender" />
+        <result column="countPsersion" property="countPsersion"/>
+        <result column="serviceName" property="serviceName"/>
+        <result column="countDetail" property="countDetail"/>
+        <result column="emName" property="emName"/>
+        <result column="edItemName" property="edItemName"/>
+        <result column="periods" property="periods"/>
+        <result column="eaCates" property="eaCates"/>
+    </resultMap>
+
+
     <!-- 多表页面信息查询分页 -->
-    <select id="selectDataPage" parameterType="map" resultMap="BaseResultMap">
+    <select id="selectDataPageZ" parameterType="map" resultMap="BaseResultMap1">
 
         SELECT
-              sys_id,
-              package_name,
-              amount,
-              content,
-              cates,
-              creation_time,
-              edit_time,
+                epm.sys_id,
+                package_name,
+                amount,
+                content,
+                cates,
+                creation_time,
+                edit_time,
+                subtitle,
+                age_from,
+                age_to,
+                suite_gender,
+                op.count_person countPsersion
         FROM
-            exam_package_main
-        WHERE
-            status=0
-            <if test="params.key != null and params.key != ''">
-                AND key LIKE CONCAT('%', #{params.key}, '%')
+            exam_package_main epm
+        LEFT JOIN exam_package_detail epd ON epd.exam_main_id = epm.sys_id
+        LEFT JOIN (
+                    SELECT count(om.sys_id) as count_person, pm.sys_id psys_id  FROM order_main om
+                    RIGHT JOIN exam_package_main pm ON pm.sys_id = om.reference_no
+                    GROUP BY om.reference_no
+                  ) as op ON op.psys_id = epm.sys_id
+        <where>
+            1 = 1
+            <if test="params.amountFrom != null and params.amountFrom != '' and params.amountTo != null and params.amountTo != '' ">
+                AND epm.amount &gt; #{params.amountFrom} AND epm.amount &lt; #{params.amountTo}
             </if>
+            <if test="params.ageFrom != null and params.ageFrom != '' and params.ageTo != null and params.ageTo != ''">
+                AND epm.age_from = #{params.ageFrom} AND epm.age_to = #{params.ageTo}
+            </if>
+            <if test="params.suiteGender != null and params.suiteGender != ''">
+                AND epm.suite_gender = #{params.suiteGender}
+            </if>
+            <if test="params.examMasterI != null and params.examMasterI != ''">
+                AND epd.exam_master_id = #{params.examMasterI}
+            </if>
+        </where>
+        GROUP BY epm.package_name
+        <if test="params.sort_count_person != null and params.sort_count_person != '' and params.sort_count_person == 1">
+            ORDER BY op.count_person DESC
+        </if>
+        <if test="params.sort_count_person != null and params.sort_count_person != '' and params.sort_count_person == 2">
+            ORDER BY op.count_person
+        </if>
+    </select>
+
+    <!-- 根据套餐编号查询套餐详情 -->
+    <select id="selectInfoBySysId" parameterType="map" resultMap="selectInfoBySysIdVo">
+
+        SELECT
+            epm.sys_id sysId,
+            package_name packageName,
+            amount,
+            content,
+            epm.cates,
+            epm.creation_time creationTime,
+            epm.edit_time editTime,
+            subtitle,
+            age_from ageFrom,
+            age_to ageTo,
+            suite_gender suiteGender,
+            op.count_person countPsersion,
+            ea.service_name serviceName,
+            epdd.count_detail countDetail,
+            em3.name emName,
+            ed3.item_name edItemName,
+            epa.periods periods,
+            ea.cates eaCates
+        FROM
+            exam_package_main epm
+        LEFT JOIN (
+                    SELECT count(om.sys_id) as count_person, pm.sys_id psys_id  FROM order_main om
+                    RIGHT JOIN exam_package_main pm ON pm.sys_id = om.reference_no
+                    GROUP BY om.reference_no
+                ) as op ON op.psys_id = epm.sys_id
+        LEFT JOIN (
+                    SELECT count(ed.exam_detail_id) count_detail, ed.exam_main_id FROM exam_package_detail ed
+                    GROUP BY ed.exam_main_id
+                ) as epdd ON epdd.exam_main_id = epm.sys_id
+        LEFT JOIN exam_package_detail epd3 ON epd3.exam_main_id = epm.sys_id
+        LEFT JOIN exam_master em3 ON em3.sys_id = epd3.exam_master_id
+        LEFT JOIN exam_detail ed3 ON ed3.sys_id = epd3.exam_detail_id
+        LEFT JOIN exam_package_append epa ON epa.package_main_id = epm.sys_id
+        LEFT JOIN exam_append ea ON ea.sys_id = epa.append_id
+        <where>
+            <if test="params.sysId != null and params.sysId != ''">
+                epm.sys_id = #{params.sysId}
+            </if>
+        </where>
     </select>
 
 </mapper>

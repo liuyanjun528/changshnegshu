@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.annaru.upms.mapper.SysAppraisalMapper">
+
+	<!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.annaru.upms.entity.SysAppraisal" >
+        <result column="sys_id" property="sysId" />
+        <result column="reference_no" property="referenceNo" />
+        <result column="user_id" property="userId" />
+        <result column="cates" property="cates" />
+        <result column="star_count" property="starCount" />
+        <result column="scores" property="scores" />
+        <result column="creation_time" property="creationTime" />
+        <result column="create_by" property="createBy" />
+    </resultMap>
+
+    <!-- 多表页面信息查询分页 -->
+    <select id="selectDataPage" parameterType="map" resultMap="BaseResultMap">
+
+        SELECT
+              sys_id,
+              reference_no,
+              user_id,
+              cates,
+              star_count,
+              scores,
+              creation_time,
+              create_by
+        FROM
+            sys_appraisal
+        WHERE
+            status=0
+            <if test="params.key != null and params.key != ''">
+                AND key LIKE CONCAT('%', #{params.key}, '%')
+            </if>
+    </select>
+
+</mapper>

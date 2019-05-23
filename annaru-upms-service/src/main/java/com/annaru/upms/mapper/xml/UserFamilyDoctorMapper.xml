@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.annaru.upms.mapper.UserFamilyDoctorMapper">
+
+	<!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.annaru.upms.entity.UserFamilyDoctor" >
+        <result column="sys_id" property="sysId" />
+        <result column="order_no" property="orderNo" />
+        <result column="user_id" property="userId" />
+        <result column="doctor_no" property="doctorNo" />
+        <result column="effect_from" property="effectFrom" />
+        <result column="effect_to" property="effectTo" />
+        <result column="status" property="status" />
+        <result column="is_terminated" property="isTerminated" />
+        <result column="terminated_time" property="terminatedTime" />
+        <result column="creation_time" property="creationTime" />
+        <result column="create_by" property="createBy" />
+    </resultMap>
+
+
+    <resultMap id="BaseResultMapVo" type="com.annaru.upms.entity.vo.UserFamilyDoctorVo" >
+        <result column="sys_id" property="sysId" />
+        <result column="order_no" property="orderNo" />
+        <result column="user_id" property="userId" />
+        <result column="doctor_no" property="doctorNo" />
+        <result column="effect_from" property="effectFrom" />
+        <result column="effect_to" property="effectTo" />
+        <result column="status" property="status" />
+        <result column="is_terminated" property="isTerminated" />
+        <result column="terminated_time" property="terminatedTime" />
+        <result column="full_name" property="fullName" />
+        <result column="head_image" property="headImage" />
+        <result column="degrees" property="degrees" />
+        <result column="star_count" property="starCount" />
+        <result column="score" property="score" />
+        <result column="focus_on" property="focusOn" />
+        <result column="goodat" property="goodat" />
+        <result column="content" property="content" />
+        <result column="belong_office" property="belongOffice" />
+        <result column="belong_province" property="belongProvince" />
+        <result column="belong_city" property="belongCity" />
+        <result column="belong_district" property="belongDistrict" />
+        <result column="price_year" property="priceYear" />
+    </resultMap>
+
+    <!-- 多表页面信息查询分页 -->
+    <select id="selectDataPage" parameterType="map" resultMap="BaseResultMap">
+
+        SELECT
+              sys_id,
+              order_no,
+              user_id,
+              doctor_no,
+              effect_from,
+              effect_to,
+              status,
+              is_terminated,
+              terminated_time,
+              creation_time,
+              create_by
+        FROM
+            user_family_doctor
+        WHERE
+            status=0
+            <if test="params.key != null and params.key != ''">
+                AND key LIKE CONCAT('%', #{params.key}, '%')
+            </if>
+    </select>
+
+    <select id="getUserFDInfo" parameterType="map" resultMap="BaseResultMapVo">
+        select
+        ufd.order_no,
+        ufd.user_id,
+        ufd.doctor_no,
+        ufd.effect_from,
+        ufd.effect_to,
+        ufd.is_terminated,
+        ufd.terminated_time,
+        sd.full_name,
+        sd.head_image,
+        sd.degrees,
+        sd.star_count,
+        sd.score,
+        sd.focus_on,
+        sd.goodat,
+        sd.content,
+        sd.belong_office,
+        sd.belong_province,
+        sd.belong_city,
+        sd.belong_district,
+        sd.price_year,
+        sd.cellphone_no
+        from
+        user_family_doctor ufd
+        left join sys_doctor sd on sd.doctor_no = ufd.doctor_no
+        where ufd.is_terminated = 0
+        <if test="params.userId != null and params.userId != ''">
+            AND ufd.user_id= #{params.userId}
+        </if>
+    </select>
+
+</mapper>

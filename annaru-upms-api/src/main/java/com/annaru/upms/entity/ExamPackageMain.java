@@ -10,7 +10,7 @@ import io.swagger.annotations.ApiModelProperty;
 
 import java.io.Serializable;
 import java.util.Date;
-
+import java.util.List;
 
 /**
  * 套餐
@@ -50,6 +50,28 @@ public class ExamPackageMain extends Model<ExamPackageMain> implements Serializa
 	 */
     @ApiModelProperty(value = "类别(1:标准套餐/2:其他)")
 	private Integer cates;
+
+	/**
+	 * 副标题(逗号分隔)
+	 */
+	@ApiModelProperty(value = "副标题(逗号分隔)")
+	private String subtitle;
+	/**
+	 * 开始年龄
+	 */
+	@ApiModelProperty(value = "开始年龄")
+	private Integer ageFrom;
+	/**
+	 * 结束年龄
+	 */
+	@ApiModelProperty(value = "结束年龄")
+	private Integer ageTo;
+	/**
+	 * 适用性别:(1:男/2:女/3:男女都适用)
+	 */
+	@ApiModelProperty(value = "适用性别:(1:男/2:女/3:男女都适用)")
+	private Integer suiteGender;
+
 	/**
 	 * 创建时间
 	 */
@@ -62,8 +84,21 @@ public class ExamPackageMain extends Model<ExamPackageMain> implements Serializa
     @ApiModelProperty(value = "编辑时间")
 	@TableField("edit_time")
 	private Date editTime;
+    @ApiModelProperty(value = "套餐详细")
+    private List<ExamPackageDetail> examPackageDetailList;
 
-    /**
+	@ApiModelProperty(value = "预约人数")
+	@TableField(exist = false)
+    private Integer countPsersion;
+
+	public Integer getCountPsersion() {
+		return countPsersion;
+	}
+	public void setCountPsersion(Integer countPsersion) {
+		this.countPsersion = countPsersion;
+	}
+
+	/**
      * 获取：系统编号
      */
     public Integer getSysId() {
@@ -148,7 +183,38 @@ public class ExamPackageMain extends Model<ExamPackageMain> implements Serializa
 		this.editTime = editTime;
 	}
 
-    @Override
+	public Integer getAgeFrom() {
+		return ageFrom;
+	}
+	public void setAgeFrom(Integer ageFrom) {
+		this.ageFrom = ageFrom;
+	}
+	public Integer getAgeTo() {
+		return ageTo;
+	}
+	public void setAgeTo(Integer ageTo) {
+		this.ageTo = ageTo;
+	}
+	public String getSubtitle() {
+		return subtitle;
+	}
+	public void setSubtitle(String subtitle) {
+		this.subtitle = subtitle;
+	}
+	public void setSuiteGender(Integer suiteGender) {
+		this.suiteGender = suiteGender;
+	}
+	public Integer getSuiteGender() {
+		return suiteGender;
+	}
+	public List<ExamPackageDetail> getExamPackageDetailList() {
+		return examPackageDetailList;
+	}
+	public void setExamPackageDetailList(List<ExamPackageDetail> examPackageDetailList) {
+		this.examPackageDetailList = examPackageDetailList;
+	}
+
+	@Override
 	protected Serializable pkVal() {
 		return this.sysId;
 	}

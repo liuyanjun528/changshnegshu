@@ -1,21 +1,23 @@
 package com.annaru.upms.controller;
 
+import java.util.*;
+
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.annaru.common.base.BaseController;
-import com.annaru.common.result.PageUtils;
-import com.annaru.common.result.ResultMap;
-import com.annaru.upms.entity.SysInstitution;
-import com.annaru.upms.service.ISysInstitutionService;
+import org.springframework.web.bind.annotation.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.springframework.web.bind.annotation.*;
 
+import com.annaru.common.base.BaseController;
+import com.annaru.common.result.PageUtils;
+import com.annaru.upms.shiro.ShiroKit;
+import com.annaru.common.result.ResultMap;
+
+import com.annaru.upms.entity.SysInstitution;
+import com.annaru.upms.service.ISysInstitutionService;
 import javax.validation.Valid;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+
 
 
 /**
@@ -39,12 +41,14 @@ public class SysInstitutionController extends BaseController {
     @RequiresPermissions("upms/sysInstitution/list")
     public ResultMap list(@ApiParam(value = "当前页")@RequestParam(defaultValue="1") int page,
                           @ApiParam(value = "每页数量")@RequestParam(defaultValue = "10") int limit,
-                          @ApiParam(value = "关键字")@RequestParam(required = false)String key){
+                          @ApiParam(value = "行政区")@RequestParam(required = false) String district,
+                          @ApiParam(value = "机构等级")@RequestParam(required = false) String level){
 
         Map<String, Object> params = new HashMap<>();
         params.put("page",page);
         params.put("limit", limit);
-        params.put("key", key);
+        params.put("district", district);
+        params.put("level",level);
         PageUtils<Map<String, Object>> pageList = sysInstitutionService.getDataPage(params);
         return ResultMap.ok().put("page",pageList);
     }
@@ -53,11 +57,13 @@ public class SysInstitutionController extends BaseController {
     /**
      * 信息
      */
-    @ApiOperation(value = "查看详情", notes = "查看upms详情")
-    @GetMapping("/info/{sysId}")
+    @ApiOperation(value = "查看详情", notes = "查看医院机构详情")
+    @GetMapping("/info/{institutionId}")
     @RequiresPermissions("upms/sysInstitution/info")
-    public ResultMap info(@PathVariable("sysId") Integer sysId){
-        SysInstitution sysInstitution = sysInstitutionService.getById(sysId);
+    public ResultMap info(@PathVariable("institutionId") String institutionId){
+        Map<String, Object> params = new HashMap<>();
+        params.put("institutionId",institutionId);
+        SysInstitution sysInstitution = sysInstitutionService.getInfo(params);
         return ResultMap.ok().put("sysInstitution",sysInstitution);
     }
 
@@ -69,10 +75,6 @@ public class SysInstitutionController extends BaseController {
     @RequiresPermissions("upms/sysInstitution/save")
     public ResultMap save(@Valid @RequestBody SysInstitution sysInstitution) {
         try {
-
-//            sysInstitution.setCreateUser(ShiroKit.getUser().getId());
-//            sysInstitution.setCreateTime(new Date());
-//            sysInstitution.setUpdateTime(new Date());
             sysInstitutionService.save(sysInstitution);
             return ResultMap.ok("添加成功");
         } catch (Exception e) {

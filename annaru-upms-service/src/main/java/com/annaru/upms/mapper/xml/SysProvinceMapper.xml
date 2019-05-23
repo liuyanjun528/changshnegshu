@@ -5,18 +5,30 @@
 
 	<!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.annaru.upms.entity.SysProvince" >
-        <result column="ID" property="id" />
-        <result column="Provinceid" property="provinceid" />
-        <result column="Province" property="province" />
+        <result column="sys_id" property="sysId" />
+        <result column="province_id" property="provinceId" />
+        <result column="province" property="province" />
+    </resultMap>
+
+
+    <resultMap id="BaseResultMapVo" type="com.annaru.upms.entity.vo.SysProvinceVo" >
+        <result column="province_id" property="provinceId" />
+        <result column="province" property="province" />
+        <collection property="sysCityList" ofType="com.annaru.upms.entity.vo.SysCityVo">
+            <result column="city_id" property="cityId" />
+            <result column="city" property="city" />
+            <collection property="districtList" ofType="com.annaru.upms.entity.SysDistrict">
+                <result column="district_name" property="districtName" />
+            </collection>
+        </collection>
     </resultMap>
 
     <!-- 多表页面信息查询分页 -->
     <select id="selectDataPage" parameterType="map" resultMap="BaseResultMap">
-
         SELECT
-              ID,
-              Provinceid,
-              Province,
+              sys_id,
+              province_id,
+              province
         FROM
             sys_province
         WHERE
@@ -24,6 +36,12 @@
             <if test="params.key != null and params.key != ''">
                 AND key LIKE CONCAT('%', #{params.key}, '%')
             </if>
+    </select>
+
+    <select id="getlistAll" resultMap="BaseResultMapVo">
+        SELECT  sp.province,sp.province_id,sc.city,sc.city_id,sd.district_name FROM sys_province sp
+LEFT JOIN sys_city sc on sp.province_id = sc.province_id
+LEFT JOIN sys_district sd on sd.city_id = sc.city_id
     </select>
 
 </mapper>

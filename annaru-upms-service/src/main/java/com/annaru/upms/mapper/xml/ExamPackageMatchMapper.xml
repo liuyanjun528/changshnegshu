@@ -16,7 +16,7 @@
         SELECT
               sys_id,
               match_name,
-              image_name_url,
+              image_name_url
         FROM
             exam_package_match
         WHERE

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -59,6 +60,77 @@ public class OrderMainController extends BaseController {
     public ResultMap info(@PathVariable("sysId") Integer sysId){
         OrderMain orderMain = orderMainService.getById(sysId);
         return ResultMap.ok().put("orderMain",orderMain);
+    }
+
+    /**
+     * 查询我的的名单里面的订单
+     * @author zk
+     * @date 2019-05-16 10:58
+     */
+    @ApiOperation(value = "查询我的的名单里面的订单", notes = "查询我的的名单里面的订单")
+    @GetMapping("/selectOrderPage")
+    @RequiresPermissions("upms/orderMain/selectOrderPage")
+    public ResultMap selectOrderPage(){
+//        OrderMain orderMain = orderMainService.getById();
+//        return ResultMap.ok().put("orderMain",orderMain);
+        /*
+        如果 appointmentCates 等于 1 ，则为套餐订单
+        如果 appointmentCates 等于 3 ，并且 option_1 不等于 1 ，则为套餐订单
+        如果 appointmentCates 等于 3 ，并且 option_1 等于 1 ，则为护士上门
+        如果 appointmentCates 等于 2 或者 等于 4 ，并且 parentNo 不等于空 ，则为进阶体检
+        如果 appointmentCates 等于 6 ，则为门诊绿通陪诊服务
+        如果 status 等于 0 ，则为未支付 ，
+        若status 等于 1 ，并且 opOderNo 不等于空 ，则为已支付
+        若status 等于 2 ，并且 opOderNo 不等于空 ，则为完成
+        */
+        Map<String, Object> params = new HashMap<>();
+        PageUtils<Map<String, Object>> pageList = orderMainService.selectOrderPage(params);
+        return ResultMap.ok().put("page",pageList);
+    }
+
+    /**
+     * 查询套餐订单详情
+     * @author zk
+     * @date 2019-05-16 17:59
+     */
+    @ApiOperation(value = "查询套餐订单详情", notes = "查询套餐订单详情")
+    @GetMapping("/selectPackageOrder/{sysId}")
+    @RequiresPermissions("upms/orderMain/selectPackageOrder")
+    public ResultMap selectPackageOrder(@PathVariable("sysId") Integer sysId){
+        Map<String, Object> params = new HashMap<>();
+        params.put("sysId", sysId);
+        List<OrderMain> orderMainList = orderMainService.selectPackageOrder(params);
+        return ResultMap.ok().put("orderMainList",orderMainList);
+    }
+
+    /**
+     * 查询自费(进阶)订单详情
+     * @author zk
+     * @date 2019-05-16 17:59
+     */
+    @ApiOperation(value = "查询自费(进阶)订单详情", notes = "查询自费(进阶)订单详情")
+    @GetMapping("/selectPackageAdvance/{sysId}")
+    @RequiresPermissions("upms/orderMain/selectPackageAdvance")
+    public ResultMap selectPackageAdvance(@PathVariable("sysId") Integer sysId){
+        Map<String, Object> params = new HashMap<>();
+        params.put("sysId", sysId);
+        List<OrderMain> orderMainList = orderMainService.selectPackageAdvance(params);
+        return ResultMap.ok().put("orderMainList",orderMainList);
+    }
+
+    /**
+     * 查询门诊绿通订单详情
+     * @author zk
+     * @date 2019-05-16 17:59
+     */
+    @ApiOperation(value = "查询门诊绿通订单详情", notes = "查询门诊绿通订单详情")
+    @GetMapping("/selectPackageGreen/{sysId}")
+    @RequiresPermissions("upms/orderMain/selectPackageGreen")
+    public ResultMap selectPackageGreen(@PathVariable("sysId") Integer sysId){
+        Map<String, Object> params = new HashMap<>();
+        params.put("sysId", sysId);
+        List<OrderMain> orderMainList = orderMainService.selectPackageGreen(params);
+        return ResultMap.ok().put("orderMainList",orderMainList);
     }
 
     /**

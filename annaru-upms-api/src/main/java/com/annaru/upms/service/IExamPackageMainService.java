@@ -1,9 +1,9 @@
 package com.annaru.upms.service;
 
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.annaru.common.result.PageUtils;
 import com.annaru.upms.entity.ExamPackageMain;
-import com.baomidou.mybatisplus.extension.service.IService;
-
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -19,6 +19,14 @@ public interface IExamPackageMainService extends IService<ExamPackageMain> {
     * @param params
     * @return
     */
+    PageUtils selectDataPageZ(Map <String, Object> params);
+
+    /**
+     * 根据套餐编号查询套餐详情
+     * @param params
+     * @return
+     */
+    List<ExamPackageMain> selectInfoBySysId(Map <String, Object> params);
     PageUtils getDataPage(Map<String, Object> params);
 
 
