@@ -80,7 +80,6 @@
          AND   u.card_cates=#{card_cates}
     </select>
 
-
     <!-- 添加绑卡 -->
     <insert id="insertCardAndBaseAndInstitution" parameterType="com.annaru.upms.entity.UserCards">
     INSERT INTO
