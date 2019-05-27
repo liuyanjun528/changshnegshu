@@ -27,4 +27,9 @@ public class OrderAdditionalInfoServiceImpl extends ServiceImpl<OrderAdditionalI
         return new PageUtils<OrderAdditionalInfo>(iPage);
     }
 
+    @Override
+    public int insertAdditional_info(Map<String, Object> params) {
+        return this.baseMapper.insertAdditional_info(params);
+    }
+
 }

@@ -35,14 +35,14 @@ public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleMapper, SysUs
             return ;
         }
         //保存用户与角色关系
-            List<SysUserRole> list = new ArrayList<>(roleIdList.size());
-            for(String roleId : roleIdList){
-                SysUserRole sysUserRole = new SysUserRole();
-                sysUserRole.setUserId(userId);
-                sysUserRole.setRoleId(roleId);
-                list.add(sysUserRole);
-            }
-            this.saveBatch(list);
+        List<SysUserRole> list = new ArrayList<>(roleIdList.size());
+        for(String roleId : roleIdList){
+            SysUserRole sysUserRole = new SysUserRole();
+            sysUserRole.setUserId(userId);
+            sysUserRole.setRoleId(roleId);
+            list.add(sysUserRole);
+        }
+        this.saveBatch(list);
     }
 
     @Override

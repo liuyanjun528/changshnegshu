@@ -38,7 +38,7 @@ public class SysMessageController extends BaseController {
      */
     @ApiOperation(value = "通过消息类别查看所有消息", notes = "通过消息类别查看所有消息")
     @GetMapping("/getMsg")
-    @RequiresPermissions("upms/sysMessage/info")
+    //@RequiresPermissions("upms/sysMessage/info")
     public ResultMap selectMsgByMsgCate(int msgCate){
         List<SysMessage> listMsg = sysMessageService.selectMsgByMsgCate(msgCate);
         return ResultMap.ok().put("data",listMsg);

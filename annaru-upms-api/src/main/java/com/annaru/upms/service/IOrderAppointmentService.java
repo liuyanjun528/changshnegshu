@@ -3,6 +3,7 @@ package com.annaru.upms.service;
 import com.annaru.common.result.PageUtils;
 import com.annaru.upms.entity.OrderAppointment;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.Map;
 
@@ -21,6 +22,13 @@ public interface IOrderAppointmentService extends IService<OrderAppointment> {
     */
     PageUtils getDataPage(Map<String, Object> params);
 
+    /**
+     * 添加绿通行
+     * @param institution_id 医院
+     * @param department_id 科室
+     * @return
+     */
+    int insertOrder_appointment(Map<String, Object> params);
 
 }
 
