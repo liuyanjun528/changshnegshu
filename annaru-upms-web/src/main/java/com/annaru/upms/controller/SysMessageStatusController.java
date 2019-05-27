@@ -46,7 +46,7 @@ public class SysMessageStatusController extends BaseController {
         params.put("limit", limit);
         params.put("key", key);
         PageUtils<Map<String, Object>> pageList = sysMessageStatusService.getDataPage(params);
-        return ResultMap.ok().put("page",pageList);
+        return ResultMap.ok().put("data",pageList);
     }
 
 

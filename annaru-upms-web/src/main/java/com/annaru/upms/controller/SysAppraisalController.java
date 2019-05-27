@@ -46,7 +46,7 @@ public class SysAppraisalController extends BaseController {
         params.put("limit", limit);
         params.put("key", key);
         PageUtils<Map<String, Object>> pageList = sysAppraisalService.getDataPage(params);
-        return ResultMap.ok().put("page",pageList);
+        return ResultMap.ok().put("data",pageList);
     }
 
 
@@ -58,7 +58,7 @@ public class SysAppraisalController extends BaseController {
     @RequiresPermissions("upms/sysAppraisal/info")
     public ResultMap info(@PathVariable("sysId") Integer sysId){
         SysAppraisal sysAppraisal = sysAppraisalService.getById(sysId);
-        return ResultMap.ok().put("sysAppraisal",sysAppraisal);
+        return ResultMap.ok().put("data",sysAppraisal);
     }
 
     /**

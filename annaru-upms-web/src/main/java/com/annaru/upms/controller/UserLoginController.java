@@ -5,6 +5,7 @@ import com.annaru.common.base.BaseController;
 import com.annaru.common.config.redis.IRedisService;
 import com.annaru.common.result.ResultMap;
 import com.annaru.common.util.Constant;
+import com.annaru.common.util.sdk.MessageUtils;
 import com.annaru.upms.entity.SysDoctor;
 import com.annaru.upms.entity.SysNurse;
 import com.annaru.upms.entity.SysUserToken;
@@ -47,7 +48,7 @@ public class UserLoginController extends BaseController {
     private int OUT_SECONDS = 86400;
 
     @ApiOperation(value = "用户登录", notes = "用户登录")
-    @GetMapping("/loginInfo")
+    @PostMapping("/loginInfo")
     public ResultMap loginInfo(String cellphoneNo, String password, String type){
 
         if (StringUtil.isBlank(cellphoneNo) || StringUtil.isBlank(password)){
@@ -89,16 +90,16 @@ public class UserLoginController extends BaseController {
 
         //用户
         if (("1").equals(type)){
-            return ResultMap.ok().put("user_basic", userBasic).put("first_login", firstLogin).put("token", token);
+            return ResultMap.ok().put("data", userBasic).put("first_login", firstLogin).put("token", token);
         }
         //医生
         if ("2".equals(type)){
 //            return ResultMap.ok().put("user_basic", iUserBasicService.selectDoctorByData(map)).put("first_login", firstLogin).put("token", token);
-            return ResultMap.ok().put("user_basic", iUserBasicService.selectDoctorByData(map)).put("first_long", firstLogin).put("token", token);
+            return ResultMap.ok().put("data", iUserBasicService.selectDoctorByData(map)).put("first_long", firstLogin).put("token", token);
         }
         //护士
         if ("3".equals(type)){
-            return ResultMap.ok().put("user_basic", iUserBasicService.selectNurseByData(map)).put("first_login", firstLogin).put("token", token);
+            return ResultMap.ok().put("data", iUserBasicService.selectNurseByData(map)).put("first_login", firstLogin).put("token", token);
         }
 
         return ResultMap.error("异常错误，请联系管理员");

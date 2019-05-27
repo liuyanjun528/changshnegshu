@@ -47,7 +47,7 @@ public class UserFamilyDoctorController extends BaseController {
         params.put("limit", limit);
         params.put("key", key);
         PageUtils<Map<String, Object>> pageList = userFamilyDoctorService.getDataPage(params);
-        return ResultMap.ok().put("page",pageList);
+        return ResultMap.ok().put("data",pageList);
     }
 
     /**
@@ -60,7 +60,7 @@ public class UserFamilyDoctorController extends BaseController {
         Map<String, Object> params = new HashMap<>();
         params.put("userId",userId);
         UserFamilyDoctorVo userFamilyDoctor = userFamilyDoctorService.getUserFDInfo(params);
-        return ResultMap.ok().put("userFamilyDoctor",userFamilyDoctor);
+        return ResultMap.ok().put("data",userFamilyDoctor);
     }
 
     /**

@@ -46,7 +46,7 @@ public class UserAddressController extends BaseController {
         params.put("limit", limit);
         params.put("key", key);
         PageUtils<Map<String, Object>> pageList = userAddressService.getDataPage(params);
-        return ResultMap.ok().put("page",pageList);
+        return ResultMap.ok().put("data",pageList);
     }
 
 

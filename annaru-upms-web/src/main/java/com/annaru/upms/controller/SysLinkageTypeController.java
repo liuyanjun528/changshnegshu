@@ -47,7 +47,7 @@ public class SysLinkageTypeController extends BaseController {
         params.put("limit", limit);
         params.put("key", key);
         PageUtils<Map<String, Object>> pageList = sysLinkageTypeService.getDataPage(params);
-        return ResultMap.ok().put("page",pageList);
+        return ResultMap.ok().put("data",pageList);
     }
 
 
@@ -59,7 +59,7 @@ public class SysLinkageTypeController extends BaseController {
     @RequiresPermissions("/sysLinkageType/info")
     public ResultMap info(@PathVariable("id") Integer id){
         SysLinkageType sysLinkageType = sysLinkageTypeService.getById(id);
-        return ResultMap.ok().put("sysLinkageType",sysLinkageType);
+        return ResultMap.ok().put("data",sysLinkageType);
     }
 
     /**

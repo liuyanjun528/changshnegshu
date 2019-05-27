@@ -10,12 +10,15 @@
         <result column="XH" property="XH" />
         <result column="XMBM" property="XMBM" />
         <result column="XMMC" property="XMMC" />
+        <result column="XMDM" property="XMDM" />
         <result column="JCJG" property="JCJG" />
         <result column="DW" property="DW" />
         <result column="XMCKZ" property="XMCKZ" />
         <result column="JGPD" property="JGPD" />
         <result column="WJZBZ" property="WJZBZ" />
         <result column="MDDM" property="MDDM" />
+        <result column="MDMC" property="MDMC" />
+        <result column="YWJC" property="YWJC" />
     </resultMap>
     
     <sql id="BaseClounm">
@@ -24,12 +27,15 @@
         XH,
         XMBM,
         XMMC,
+        XMDM,
         JCJG,
         XMDW,
         XMCKZ,
         JGPD,
         WJZBZ,
-        MDDM
+        MDDM,
+        MDMC,
+        YWJC
     </sql>
 
     <select id="selectListByInspectReportId" resultMap="BaseResultMap">

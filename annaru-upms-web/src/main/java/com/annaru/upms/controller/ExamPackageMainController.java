@@ -60,7 +60,7 @@ public class ExamPackageMainController extends BaseController {
         params.put("examMasterI", exam_master_i);
         params.put("sort_count_person", sort_count_person);
         PageUtils<Map<String, Object>> pageList = examPackageMainService.selectDataPageZ(params);
-        return ResultMap.ok().put("page",pageList);
+        return ResultMap.ok().put("data",pageList);
     }
 
 
@@ -74,7 +74,7 @@ public class ExamPackageMainController extends BaseController {
         Map<String, Object> params = new HashMap<>();
         params.put("sysId",sysId);
         List<ExamPackageMain> examPackageMain = examPackageMainService.selectInfoBySysId(params);
-        return ResultMap.ok().put("examPackageMain",examPackageMain);
+        return ResultMap.ok().put("data",examPackageMain);
     }
     /**
      * 根据套餐编号查询套餐详情
@@ -84,7 +84,7 @@ public class ExamPackageMainController extends BaseController {
     @RequiresPermissions("upms/examPackageMain/info")
     public ResultMap info(@PathVariable("sysId") Integer sysId){
         ExamPackageMain examPackageMain = examPackageMainService.getById(sysId);
-        return ResultMap.ok().put("examPackageMain",examPackageMain);
+        return ResultMap.ok().put("data",examPackageMain);
     }
 
     /**

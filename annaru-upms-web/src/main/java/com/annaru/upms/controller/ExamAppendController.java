@@ -46,7 +46,7 @@ public class ExamAppendController extends BaseController {
         params.put("limit", limit);
         params.put("key", key);
         PageUtils<Map<String, Object>> pageList = examAppendService.getDataPage(params);
-        return ResultMap.ok().put("page",pageList);
+        return ResultMap.ok().put("data",pageList);
     }
 
 
@@ -58,7 +58,7 @@ public class ExamAppendController extends BaseController {
     @RequiresPermissions("upms/examAppend/info")
     public ResultMap info(@PathVariable("sysId") Integer sysId){
         ExamAppend examAppend = examAppendService.getById(sysId);
-        return ResultMap.ok().put("examAppend",examAppend);
+        return ResultMap.ok().put("data",examAppend);
     }
 
     /**

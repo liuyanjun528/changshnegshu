@@ -53,7 +53,7 @@ public class SysUserController extends BaseController {
         }
         PageUtils page = sysUserService.selectDataGrid(params);
 
-        return ResultMap.ok().put("page", page);
+        return ResultMap.ok().put("data", page);
     }
 
     /**
@@ -95,7 +95,7 @@ public class SysUserController extends BaseController {
         SysUser user = sysUserService.getById(userId);
         List<String> roleIdList = sysUserRoleService.selectRoleIdListByUserId(userId);
         user.setRoleIdList(roleIdList);
-        return ResultMap.ok().put("user", user);
+        return ResultMap.ok().put("data", user);
 
     }
 

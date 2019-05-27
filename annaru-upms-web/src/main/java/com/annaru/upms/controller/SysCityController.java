@@ -48,7 +48,7 @@ public class SysCityController extends BaseController {
         params.put("limit", limit);
         params.put("key", key);
         PageUtils<Map<String, Object>> pageList = sysCityService.getDataPage(params);
-        return ResultMap.ok().put("page",pageList);
+        return ResultMap.ok().put("data",pageList);
     }
 
 
@@ -60,7 +60,7 @@ public class SysCityController extends BaseController {
     @RequiresPermissions("upms/sysCity/info")
     public ResultMap info(@PathVariable("sysId") Integer sysId){
         SysCity sysCity = sysCityService.getById(sysId);
-        return ResultMap.ok().put("sysCity",sysCity);
+        return ResultMap.ok().put("data",sysCity);
     }
 
     /**

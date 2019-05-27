@@ -48,7 +48,7 @@ public class OrderExtensionSuggestionController extends BaseController {
         params.put("limit", limit);
         params.put("key", key);
         PageUtils<Map<String, Object>> pageList = orderExtensionSuggestionService.getDataPage(params);
-        return ResultMap.ok().put("page",pageList);
+        return ResultMap.ok().put("data",pageList);
     }
 
 
@@ -60,7 +60,7 @@ public class OrderExtensionSuggestionController extends BaseController {
     @RequiresPermissions("upms/orderExtensionSuggestion/info")
     public ResultMap info(@PathVariable("sysId") Integer sysId){
         OrderExtensionSuggestion orderExtensionSuggestion = orderExtensionSuggestionService.getById(sysId);
-        return ResultMap.ok().put("orderExtensionSuggestion",orderExtensionSuggestion);
+        return ResultMap.ok().put("data",orderExtensionSuggestion);
     }
 
     /**
@@ -73,7 +73,7 @@ public class OrderExtensionSuggestionController extends BaseController {
         Map<String,Object> params = new HashMap<>();
         params.put("orderNo",orderNo);
         List<OrderExtensionSuggestion> orderExtensionSuggestion = orderExtensionSuggestionService.getItems(params);
-        return ResultMap.ok().put("orderExtensionSuggestion",orderExtensionSuggestion);
+        return ResultMap.ok().put("data",orderExtensionSuggestion);
     }
 
     /**

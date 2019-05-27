@@ -55,6 +55,13 @@ public class ExamInspectReportResult extends Model<ExamInspectReportResult> impl
 	@TableField("XMMC")
 	private String XMMC;
 	/**
+	 * 项目代码
+	 */
+	@ApiModelProperty(value = "项目代码")
+	@TableField("XMDM")
+	private String XMDM;
+
+	/**
 	 * 检测结果
 	 */
 	@ApiModelProperty(value = "检测结果")
@@ -85,11 +92,24 @@ public class ExamInspectReportResult extends Model<ExamInspectReportResult> impl
 	@TableField("WJZBZ")
 	private String WJZBZ;
 	/**
-	 * 备用字段
+	 * 检验目的代码
 	 */
-	@ApiModelProperty(value = "备用字段")
+	@ApiModelProperty(value = "检验目的代码")
 	@TableField("MDDM")
 	private String MDDM;
+	/**
+	 * 检验目的名称
+	 */
+	@ApiModelProperty(value = "检验目的名称")
+	@TableField("MDMC")
+	private String MDMC;
+	/**
+	 * 英文简称
+	 */
+	@ApiModelProperty(value = "英文简称")
+	@TableField("YWJC")
+	private String YWJC;
+
 
 
 	public String getId() {
@@ -130,6 +150,14 @@ public class ExamInspectReportResult extends Model<ExamInspectReportResult> impl
 
 	public void setXMMC(String XMMC) {
 		this.XMMC = XMMC;
+	}
+
+	public String getXMDM() {
+		return XMDM;
+	}
+
+	public void setXMDM(String XMDM) {
+		this.XMDM = XMDM;
 	}
 
 	public String getJCJG() {
@@ -178,6 +206,22 @@ public class ExamInspectReportResult extends Model<ExamInspectReportResult> impl
 
 	public void setMDDM(String MDDM) {
 		this.MDDM = MDDM;
+	}
+
+	public String getMDMC() {
+		return MDMC;
+	}
+
+	public void setMDMC(String MDMC) {
+		this.MDMC = MDMC;
+	}
+
+	public String getYWJC() {
+		return YWJC;
+	}
+
+	public void setYWJC(String YWJC) {
+		this.YWJC = YWJC;
 	}
 
 	@Override

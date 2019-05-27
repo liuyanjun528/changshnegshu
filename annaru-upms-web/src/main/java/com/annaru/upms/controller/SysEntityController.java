@@ -46,7 +46,7 @@ public class SysEntityController extends BaseController {
         params.put("limit", limit);
         params.put("key", key);
         PageUtils<Map<String, Object>> pageList = sysEntityService.getDataPage(params);
-        return ResultMap.ok().put("page",pageList);
+        return ResultMap.ok().put("data",pageList);
     }
 
 
@@ -58,7 +58,7 @@ public class SysEntityController extends BaseController {
     @RequiresPermissions("upms/sysEntity/info")
     public ResultMap info(@PathVariable("sysId") Integer sysId){
         SysEntity sysEntity = sysEntityService.getById(sysId);
-        return ResultMap.ok().put("sysEntity",sysEntity);
+        return ResultMap.ok().put("data",sysEntity);
     }
 
     /**
