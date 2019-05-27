@@ -73,7 +73,7 @@ public class UserRelativesController extends BaseController {
     @RequiresPermissions("upms/userRelatives/info")
     public ResultMap info(@PathVariable("sysId") Integer sysId){
         UserRelatives userRelatives = userRelativesService.getById(sysId);
-        return ResultMap.ok().put("userRelatives",userRelatives);
+        return ResultMap.ok().put("data",userRelatives);
     }
 
     /**

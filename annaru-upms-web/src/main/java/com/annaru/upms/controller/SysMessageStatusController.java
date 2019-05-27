@@ -58,7 +58,7 @@ public class SysMessageStatusController extends BaseController {
     @RequiresPermissions("upms/sysMessageStatus/info")
     public ResultMap info(@PathVariable("sysId") Integer sysId){
         SysMessageStatus sysMessageStatus = sysMessageStatusService.getById(sysId);
-        return ResultMap.ok().put("sysMessageStatus",sysMessageStatus);
+        return ResultMap.ok().put("data",sysMessageStatus);
     }
 
     /**

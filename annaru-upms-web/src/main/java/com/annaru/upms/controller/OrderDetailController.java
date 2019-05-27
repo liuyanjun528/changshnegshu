@@ -58,7 +58,7 @@ public class OrderDetailController extends BaseController {
     @RequiresPermissions("lcd/orderDetail/info")
     public ResultMap info(@PathVariable("sysId") Integer sysId){
         OrderDetail orderDetail = orderDetailService.getById(sysId);
-        return ResultMap.ok().put("orderDetail",orderDetail);
+        return ResultMap.ok().put("data",orderDetail);
     }
 
     /**

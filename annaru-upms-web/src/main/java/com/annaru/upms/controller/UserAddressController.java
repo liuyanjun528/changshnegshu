@@ -58,7 +58,7 @@ public class UserAddressController extends BaseController {
     @RequiresPermissions("upms/userAddress/info")
     public ResultMap info(@PathVariable("sysId") Integer sysId){
         UserAddress userAddress = userAddressService.getById(sysId);
-        return ResultMap.ok().put("userAddress",userAddress);
+        return ResultMap.ok().put("data",userAddress);
     }
 
     /**

@@ -21,29 +21,6 @@ import java.util.Map;
 @Service
 public class UserCardsServiceImpl extends ServiceImpl<UserCardsMapper, UserCards> implements IUserCardsService {
 
-//    @Autowired
-//    private UserCardsMapper cardsMapper;
-//    @Autowired
-//    private UserBasicMapper basicMapper;
-//    @Autowired
-//    private SysInstitutionMapper institutionMapper;
-//
-//    @Transactional
-//    public int insertCardAndBaseAndInstitution(UserCards cards){
-//        cardsMapper.insertCards(cards);
-//        basicMapper.insertBasic(basic);
-//        institutionMapper.insertInstitution(institution);
-//        UserBasic basic=new UserBasic();
-//        basic.setUserId(cards.getUserId());
-//
-//        int i = basicMapper.insertBasic(basic);
-//        return i;
-//    }
-
-
-
-
-
 
     @Override
     public PageUtils getDataPage(Map<String, Object> params){

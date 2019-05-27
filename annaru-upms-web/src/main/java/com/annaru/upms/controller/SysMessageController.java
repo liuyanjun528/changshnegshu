@@ -41,7 +41,7 @@ public class SysMessageController extends BaseController {
     //@RequiresPermissions("upms/sysMessage/info")
     public ResultMap selectMsgByMsgCate(int msgCate){
         List<SysMessage> listMsg = sysMessageService.selectMsgByMsgCate(msgCate);
-        return ResultMap.ok().put("listMsg",listMsg);
+        return ResultMap.ok().put("data",listMsg);
     }
 
 
@@ -74,7 +74,7 @@ public class SysMessageController extends BaseController {
     @RequiresPermissions("upms/sysMessage/info")
     public ResultMap info(@PathVariable("sysId") Integer sysId){
         SysMessage sysMessage = sysMessageService.getById(sysId);
-        return ResultMap.ok().put("sysMessage",sysMessage);
+        return ResultMap.ok().put("data",sysMessage);
     }
 
     /**

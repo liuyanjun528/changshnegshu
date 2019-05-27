@@ -86,7 +86,7 @@ public class UserBasicController extends BaseController {
     @RequiresPermissions("upms/userBasic/info")
     public ResultMap info(@PathVariable("userId") String userId){
         UserBasic userBasic = userBasicService.selectByUid(userId);
-        return ResultMap.ok().put("userBasic",userBasic);
+        return ResultMap.ok().put("data",userBasic);
     }
 
     /**
