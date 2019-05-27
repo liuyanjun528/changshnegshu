@@ -46,7 +46,7 @@ public class OrderAdditionalInfoController extends BaseController {
         params.put("limit", limit);
         params.put("key", key);
         PageUtils<Map<String, Object>> pageList = orderAdditionalInfoService.getDataPage(params);
-        return ResultMap.ok().put("page",pageList);
+        return ResultMap.ok().put("data",pageList);
     }
 
 
@@ -58,7 +58,7 @@ public class OrderAdditionalInfoController extends BaseController {
     @RequiresPermissions("lcd/orderAdditionalInfo/info")
     public ResultMap info(@PathVariable("sysId") Integer sysId){
         OrderAdditionalInfo orderAdditionalInfo = orderAdditionalInfoService.getById(sysId);
-        return ResultMap.ok().put("orderAdditionalInfo",orderAdditionalInfo);
+        return ResultMap.ok().put("data",orderAdditionalInfo);
     }
 
     /**

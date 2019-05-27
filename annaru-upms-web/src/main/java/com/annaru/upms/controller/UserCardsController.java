@@ -83,7 +83,7 @@ public class UserCardsController extends BaseController {
         params.put("limit", limit);
         params.put("key", key);
         PageUtils<Map<String, Object>> pageList = userCardsService.getDataPage(params);
-        return ResultMap.ok().put("page",pageList);
+        return ResultMap.ok().put("data",pageList);
     }
 
 
@@ -95,7 +95,7 @@ public class UserCardsController extends BaseController {
     @RequiresPermissions("upms/userCards/info")
     public ResultMap info(@PathVariable("sysId") Integer sysId){
         UserCards userCards = userCardsService.getById(sysId);
-        return ResultMap.ok().put("userCards",userCards);
+        return ResultMap.ok().put("data",userCards);
     }
 
     /**

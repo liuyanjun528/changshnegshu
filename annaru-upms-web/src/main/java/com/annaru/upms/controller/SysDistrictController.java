@@ -48,7 +48,7 @@ public class SysDistrictController extends BaseController {
         params.put("limit", limit);
         params.put("key", key);
         PageUtils<Map<String, Object>> pageList = sysDistrictService.getDataPage(params);
-        return ResultMap.ok().put("page",pageList);
+        return ResultMap.ok().put("data",pageList);
     }
 
 
@@ -60,7 +60,7 @@ public class SysDistrictController extends BaseController {
     @RequiresPermissions("upms/sysDistrict/info")
     public ResultMap info(@PathVariable("sysId") Integer sysId){
         SysDistrict sysDistrict = sysDistrictService.getById(sysId);
-        return ResultMap.ok().put("sysDistrict",sysDistrict);
+        return ResultMap.ok().put("data",sysDistrict);
     }
 
     /**

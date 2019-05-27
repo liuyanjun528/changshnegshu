@@ -49,7 +49,7 @@ public class SysProvinceController extends BaseController {
         params.put("limit", limit);
         params.put("key", key);
         PageUtils<Map<String, Object>> pageList = sysProvinceService.getDataPage(params);
-        return ResultMap.ok().put("page",pageList);
+        return ResultMap.ok().put("data",pageList);
     }
 
 
@@ -61,7 +61,7 @@ public class SysProvinceController extends BaseController {
     @RequiresPermissions("upms/sysProvince/info")
     public ResultMap info(@PathVariable("sysId") Integer sysId){
         SysProvince sysProvince = sysProvinceService.getById(sysId);
-        return ResultMap.ok().put("sysProvince",sysProvince);
+        return ResultMap.ok().put("data",sysProvince);
     }
 
     @ApiOperation(value = "省市区",notes = "省市区关联信息")
@@ -69,7 +69,7 @@ public class SysProvinceController extends BaseController {
     @RequiresPermissions("upms/sysProvince/listAll")
     public ResultMap info(){
         List<SysProvinceVo> sysProvince = sysProvinceService.getlistAll();
-        return ResultMap.ok().put("listAll",sysProvince);
+        return ResultMap.ok().put("data",sysProvince);
     }
 
     /**

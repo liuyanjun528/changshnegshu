@@ -46,7 +46,7 @@ public class SysLinkageController extends BaseController {
         params.put("limit", limit);
         params.put("key", key);
         PageUtils<Map<String, Object>> pageList = sysLinkageService.getDataPage(params);
-        return ResultMap.ok().put("page",pageList);
+        return ResultMap.ok().put("data",pageList);
     }
 
 
@@ -58,7 +58,7 @@ public class SysLinkageController extends BaseController {
     @RequiresPermissions("/sysLinkage/info")
     public ResultMap info(@PathVariable("id") Integer id){
         SysLinkage sysLinkage = sysLinkageService.getById(id);
-        return ResultMap.ok().put("sysLinkage",sysLinkage);
+        return ResultMap.ok().put("data",sysLinkage);
     }
 
     /**

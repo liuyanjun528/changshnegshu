@@ -43,10 +43,10 @@ public class SysDicController extends BaseController {
                            @RequestParam(required = false) String dicCode) {
         Map<String, Object> par = new HashMap<>();
         if (StringUtils.isNotBlank(dicName)) {
-            par.put("varName", StringUtils.deleteWhitespace(dicName));
+            par.put("data", StringUtils.deleteWhitespace(dicName));
         }
         if (StringUtils.isNotBlank(dicCode)) {
-            par.put("varCode", StringUtils.deleteWhitespace(dicCode));
+            par.put("data", StringUtils.deleteWhitespace(dicCode));
         }
         return sysDicService.selectTreeGrid(par);
     }
@@ -65,7 +65,7 @@ public class SysDicController extends BaseController {
         }
         List<TreeNode> tree = sysDicService.selectTree(par);
         tree.add(TreeNode.createParent());
-        return ResultMap.ok().put("dicList", tree);
+        return ResultMap.ok().put("data", tree);
     }
 
     @ApiOperation(value = "查看详细")

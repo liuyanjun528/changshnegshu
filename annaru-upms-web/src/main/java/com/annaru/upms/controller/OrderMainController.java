@@ -47,7 +47,7 @@ public class OrderMainController extends BaseController {
         params.put("limit", limit);
         params.put("key", key);
         PageUtils<Map<String, Object>> pageList = orderMainService.getDataPage(params);
-        return ResultMap.ok().put("page",pageList);
+        return ResultMap.ok().put("data",pageList);
     }
 
 
@@ -59,7 +59,7 @@ public class OrderMainController extends BaseController {
     @RequiresPermissions("upms/orderMain/info")
     public ResultMap info(@PathVariable("sysId") Integer sysId){
         OrderMain orderMain = orderMainService.getById(sysId);
-        return ResultMap.ok().put("orderMain",orderMain);
+        return ResultMap.ok().put("data",orderMain);
     }
 
     /**
@@ -85,7 +85,7 @@ public class OrderMainController extends BaseController {
         */
         Map<String, Object> params = new HashMap<>();
         PageUtils<Map<String, Object>> pageList = orderMainService.selectOrderPage(params);
-        return ResultMap.ok().put("page",pageList);
+        return ResultMap.ok().put("data",pageList);
     }
 
     /**
@@ -100,7 +100,7 @@ public class OrderMainController extends BaseController {
         Map<String, Object> params = new HashMap<>();
         params.put("sysId", sysId);
         List<OrderMain> orderMainList = orderMainService.selectPackageOrder(params);
-        return ResultMap.ok().put("orderMainList",orderMainList);
+        return ResultMap.ok().put("data",orderMainList);
     }
 
     /**
@@ -115,7 +115,7 @@ public class OrderMainController extends BaseController {
         Map<String, Object> params = new HashMap<>();
         params.put("sysId", sysId);
         List<OrderMain> orderMainList = orderMainService.selectPackageAdvance(params);
-        return ResultMap.ok().put("orderMainList",orderMainList);
+        return ResultMap.ok().put("data",orderMainList);
     }
 
     /**
@@ -130,7 +130,7 @@ public class OrderMainController extends BaseController {
         Map<String, Object> params = new HashMap<>();
         params.put("sysId", sysId);
         List<OrderMain> orderMainList = orderMainService.selectPackageGreen(params);
-        return ResultMap.ok().put("orderMainList",orderMainList);
+        return ResultMap.ok().put("data",orderMainList);
     }
 
     /**
