@@ -10,7 +10,7 @@ import java.util.Map;
 
 /**
  * 用户基础信息
- * 
+ *
  * @author zk
  * @date 2019-05-09 11:14:28
  */
@@ -32,7 +32,14 @@ public interface UserBasicMapper extends BaseMapper<UserBasic> {
 
 
     /**
-     * 修改旧密码
+     * 通过手机验证码 修改密码
+     * @param password
+     * @return
+     */
+    int setPwd(@Param("password") String password,@Param("cellphoneNo")String cellphoneNo);
+
+    /**
+     * 通过旧密码修改密码
      * @param password
      * @param userId
      * @return

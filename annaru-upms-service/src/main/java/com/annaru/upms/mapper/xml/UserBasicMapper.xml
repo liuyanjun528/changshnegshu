@@ -29,9 +29,12 @@
 
      </resultMap>
 
-    <resultMap id="BaseResultMap1" type="com.annaru.upms.entity.UserBasic" >
+    <!-- 通用查询映射结果 UserBasicVoZ -->
+    <resultMap id="BaseResultMapVoZ" type="com.annaru.upms.entity.UserBasic" >
         <result column="sys_id" property="sysId" />
         <result column="user_id" property="userId" />
+        <result column="full_name" property="fullName" />
+        <result column="chinese_spell" property="chineseSpell" />
         <result column="cellphone_no" property="cellphoneNo" />
         <result column="password" property="password" />
         <result column="id_card_no" property="idCardNo" />
@@ -49,6 +52,32 @@
         <result column="is_verified" property="isVerified" />
         <result column="email_address" property="emailAddress" />
         <result column="creation_time" property="creationTime" />
+    </resultMap>
+
+    <!-- 通用查询映射结果 UserBasicVoZ -->
+    <resultMap id="BaseResultMap1" type="com.annaru.upms.entity.UserBasic" >
+        <result column="sys_id" property="sysId" />
+        <result column="user_id" property="userId" />
+        <result column="full_name" property="fullName" />
+        <result column="chinese_spell" property="chineseSpell" />
+        <result column="cellphone_no" property="cellphoneNo" />
+        <result column="password" property="password" />
+        <result column="id_card_no" property="idCardNo" />
+        <result column="origin_province" property="originProvince" />
+        <result column="origin_city" property="originCity" />
+        <result column="residence_province" property="residenceProvince" />
+        <result column="residence_city" property="residenceCity" />
+        <result column="occupation" property="occupation" />
+        <result column="gender" property="gender" />
+        <result column="date_of_birth" property="dateOfBirth" />
+        <result column="head_image" property="headImage" />
+        <result column="isactive" property="isactive" />
+        <result column="last_logintime" property="lastLogintime" />
+        <result column="registration_time" property="registrationTime" />
+        <result column="is_verified" property="isVerified" />
+        <result column="email_address" property="emailAddress" />
+        <result column="creation_time" property="creationTime" />
+
 
         <association property="sysDoctor" column="user_id" javaType="com.annaru.upms.entity.SysDoctor" resultMap="SysDoctorBaseResultMap" />
         <association property="sysNurse" column="user_id" javaType="com.annaru.upms.entity.SysNurse" resultMap="SysNurseBaseResultMap" />
@@ -131,8 +160,13 @@
         </where>
     </select>
 
+    <!-- 通过手机验证码修改密码-->
+    <update id="setPwd">
+        UPDATE user_basic SET password=#{password}
+         WHERE cellphone_no=#{cellphoneNo}
+    </update>
 
-    <!-- 修改旧的密码-->
+    <!-- 通过旧的密码修改密码-->
     <update id="updatePwd" >
         UPDATE user_basic SET password=#{password}
          WHERE  user_id=#{userId}
@@ -143,10 +177,12 @@
     </select>
 
     <!-- 根据条件查询某个用户信息 -->
-    <select id="selectByData" parameterType="map" resultMap="BaseResultMap">
+    <select id="selectByData" parameterType="map" resultMap="BaseResultMapVoZ">
         SELECT
               sys_id,
               user_id,
+              full_name,
+              chinese_spell,
               cellphone_no,
               password,
               id_card_no,
@@ -178,6 +214,8 @@
         SELECT
             b.sys_id sys_id,
             b.user_id user_id,
+            full_name,
+            chinese_spell,
             b.cellphone_no cellphone_no,
             password,
             id_card_no,
@@ -227,6 +265,8 @@
         SELECT
             b.sys_id bsys_id,
             b.user_id buser_id,
+            full_name,
+            chinese_spell,
             cellphone_no,
             password,
             id_card_no,

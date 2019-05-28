@@ -10,7 +10,7 @@ import java.util.Map;
 
 /**
  * 套餐
- * 
+ *
  * @author zk
  * @date 2019-05-09 11:14:28
  */
@@ -23,7 +23,7 @@ public interface ExamPackageMainMapper extends BaseMapper<ExamPackageMain> {
     * @return
     */
     IPage<ExamPackageMain> selectDataPageZ(Page page, @Param("params") Map <String, Object> params);
-    IPage<ExamPackageMain> selectDataPage(Page page, @Param("params") Map<String, Object> params);
+
 
     /**
      * 根据套餐编号查询套餐详情
@@ -31,5 +31,11 @@ public interface ExamPackageMainMapper extends BaseMapper<ExamPackageMain> {
      * @return
      */
     List<ExamPackageMain> selectInfoBySysId(@Param("params") Map <String, Object> params);
+
+    /**
+     * wh查询全部套餐
+     * @return
+     */
+    List<ExamPackageMain> selectAllExam();
 
 }

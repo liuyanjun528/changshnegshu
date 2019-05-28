@@ -27,8 +27,12 @@ public interface IExamPackageMainService extends IService<ExamPackageMain> {
      * @return
      */
     List<ExamPackageMain> selectInfoBySysId(Map <String, Object> params);
-    PageUtils getDataPage(Map<String, Object> params);
 
+    /**
+     * wh查询全部套餐
+     * @return
+     */
+    List<ExamPackageMain> selectAllExam();
 
 }
 

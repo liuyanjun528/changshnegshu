@@ -155,4 +155,10 @@
         </where>
     </select>
 
+    <!-- wh查询全部套餐-->
+    <select id="selectAllExam" parameterType="map" resultMap="BaseResultMap">
+            select package_name from exam_package_main
+    </select>
+
+
 </mapper>
