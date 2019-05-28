@@ -2,13 +2,11 @@ package com.annaru.upms.controller;
 
 
 import com.annaru.common.base.BaseController;
-import com.annaru.common.result.PageUtils;
 import com.annaru.common.result.ResultMap;
 import com.annaru.upms.webservice.LisWebServiceSoap12_Client;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,7 +21,7 @@ import java.util.Map;
  * @author xck
  * @date 2019-05-16 15:44:28
  */
-@Api(tags = "检查报告管理（直接调用第三方接口）", description = "第三方服务提供商千麦检查报告数据传输接口")
+@Api(tags = "A检查报告管理（直接调用第三方接口）", description = "第三方服务提供商千麦检查报告数据传输接口")
 @RestController
 @RequestMapping("/upms/inspectionReport")
 public class ExamInspectionReportTestController extends BaseController {
@@ -39,8 +37,8 @@ public class ExamInspectionReportTestController extends BaseController {
             reqData.put("LogPass", LogPass);
             Map<String, Object> resData = LisWebServiceSoap12_Client.sendRequest("Login", reqData);
 
-            if("0".equals(resData.get("ResultCode").toString())){
-                return ResultMap.ok().put("data", resData.get("Results"));
+            if("0".equals(resData.get("RESULTCODE"))){
+                return ResultMap.ok().put("data", resData.get("RESULTS"));
             }
             return ResultMap.error("用户不存在，或密码错误");
         } catch (Exception e) {
@@ -56,7 +54,7 @@ public class ExamInspectionReportTestController extends BaseController {
                                     @ApiParam(value = "申请机构代码", required=true) @RequestParam String AppCode,
                                     @ApiParam(value = "指定执行机构代码") @RequestParam(required=false) String ExeCode,
                                     @ApiParam(value = "开始申请日期（yyyy-MM-dd）", required=true) @RequestParam String StartDate,
-                                    @ApiParam(value = "截止申请日期（yyyy-MM-dd）", required=true) @RequestParam String EndDate,
+                                    @ApiParam(value = "截止申请日期（yyyy-MM-dd）") @RequestParam(required=false) String EndDate,
                                     @ApiParam(value = "申请机构条码") @RequestParam(required=false) String AppBarcode,
                                     @ApiParam(value = "执行机构条码") @RequestParam(required=false) String ExBarcode,
                                     @ApiParam(value = "报告类型（1-临床检验报告；2-病理组织报告；3-TCT；4-微生物报告；9-其他报告）") @RequestParam(required=false) String ReportType,
@@ -75,10 +73,10 @@ public class ExamInspectionReportTestController extends BaseController {
             reqData.put("DataFlag", DataFlag);
 
             Map<String, Object> resData = LisWebServiceSoap12_Client.sendRequest("GetResultLists", reqData);
-            if("0".equals(resData.get("ResultCode").toString())){
-                return ResultMap.ok().put("data", resData.get("Results"));
+            if("0".equals(resData.get("RESULTCODE"))){
+                return ResultMap.ok().put("data", resData.get("RESULTS"));
             }
-            return ResultMap.error((String) resData.get("ResultContent"));
+            return ResultMap.error((String) resData.get("RESULTCONTENT"));
 
         } catch (Exception e) {
             logger.error(e.getMessage());
@@ -108,10 +106,10 @@ public class ExamInspectionReportTestController extends BaseController {
             reqData.put("ReportType", ReportType);
             Map<String, Object> resData = LisWebServiceSoap12_Client.sendRequest("DownLoadResult", reqData);
 
-            if("0".equals(resData.get("ResultCode").toString())){
-                return ResultMap.ok().put("data", resData.get("Results"));
+            if("0".equals(resData.get("RESULTCODE"))){
+                return ResultMap.ok().put("data", resData.get("RESULTS"));
             }
-            return ResultMap.error((String) resData.get("ResultContent"));
+            return ResultMap.error((String) resData.get("RESULTCONTENT"));
         } catch (Exception e) {
             logger.error(e.getMessage());
             return ResultMap.error("运行异常，请联系管理员");
@@ -138,10 +136,10 @@ public class ExamInspectionReportTestController extends BaseController {
             reqData.put("ExBarcode", ExBarcode);
             Map<String, Object> resData = LisWebServiceSoap12_Client.sendRequest("UpdateStatus", reqData);
 
-            if("1".equals(resData.get("ResultCode").toString())){
+            if("1".equals(resData.get("RESULTCODE"))){
                 return ResultMap.ok().put("data", resData);
             }
-            return ResultMap.error((String) resData.get("ResultContent"));
+            return ResultMap.error((String) resData.get("RESULTCONTENT"));
         } catch (Exception e) {
             logger.error(e.getMessage());
             return ResultMap.error("运行异常，请联系管理员");

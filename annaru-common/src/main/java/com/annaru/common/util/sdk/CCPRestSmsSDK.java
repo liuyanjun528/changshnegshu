@@ -42,7 +42,7 @@ import java.util.Map.Entry;
 
 public class CCPRestSmsSDK {
 
-	 
+
 
 	private static final int Request_Get = 0;
 
@@ -63,7 +63,7 @@ public class CCPRestSmsSDK {
 
 	/**
 	 * 初始化服务地址和端口
-	 * 
+	 *
 	 * @param serverIP
 	 *            必选参数 服务器地址
 	 * @param serverPort
@@ -80,7 +80,7 @@ public class CCPRestSmsSDK {
 
 	/**
 	 * 初始化主帐号信息
-	 * 
+	 *
 	 * @param accountSid
 	 *            必选参数 主帐号名称
 	 * @param accountToken
@@ -98,7 +98,7 @@ public class CCPRestSmsSDK {
 
 	/**
 	 * 初始化应用Id
-	 * 
+	 *
 	 * @param appId
 	 *            必选参数 应用Id
 	 */
@@ -112,7 +112,7 @@ public class CCPRestSmsSDK {
 
 	/**
 	 * 发送短信模板请求
-	 * 
+	 *
 	 * @param to
 	 *            必选参数 短信接收端手机号码集合，用英文逗号分开，每批发送的手机号数量不得超过100个
 	 * @param templateId
@@ -123,7 +123,7 @@ public class CCPRestSmsSDK {
 	 */
 	public HashMap<String, Object> sendTemplateSMS(String to, String templateId, String[] datas) {
 		HashMap<String, Object> validate = accountValidate();
-		if(validate!=null) 
+		if(validate!=null)
 			return validate;
 		if ((isEmpty(to)) || (isEmpty(App_ID)) || (isEmpty(templateId)))
 			throw new IllegalArgumentException("必选参数:" + (isEmpty(to) ? " 手机号码 " : "") + (isEmpty(templateId) ? " 模板Id " : "") + "为空");
@@ -196,7 +196,7 @@ public class CCPRestSmsSDK {
 		}
 
 //		LoggerUtil.info("sendTemplateSMS response body = " + result);
-		
+
 		try {
 			if (BODY_TYPE == BodyType.Type_JSON) {
 				return jsonToMap(result);
@@ -204,7 +204,7 @@ public class CCPRestSmsSDK {
 				return xmlToMap(result);
 			}
 		} catch (Exception e) {
-			   
+
 			return getMyError("172003", "返回包体错误");
 		}
 	}
@@ -346,7 +346,7 @@ public class CCPRestSmsSDK {
 		String sig = "";
 		String acountName = "";
 		String acountType = "Accounts";
-		
+
 		acountName = ACCOUNT_SID;
 		sig = ACCOUNT_SID + ACCOUNT_TOKEN + timestamp;
 		String signature = eu.md5Digest(sig);
@@ -366,14 +366,14 @@ public class CCPRestSmsSDK {
 		return mHttpRequestBase;
 	}
 
-	
+
 
 	private String getmethodName(String action) {
-		 if(action.equals(TemplateSMS)){
-			 return "sendTemplateSMS";
-		 } else {
-			 return ""; 
-		 }
+		if(action.equals(TemplateSMS)){
+			return "sendTemplateSMS";
+		} else {
+			return "";
+		}
 	}
 
 	private void setHttpHeader(AbstractHttpMessage httpMessage) {

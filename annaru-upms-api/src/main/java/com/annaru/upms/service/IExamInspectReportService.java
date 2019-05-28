@@ -1,10 +1,7 @@
 package com.annaru.upms.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
-import com.annaru.common.result.PageUtils;
 import com.annaru.upms.entity.ExamInspectReport;
-import java.util.List;
-import java.util.Map;
+import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
  * 检查报告
@@ -19,14 +16,14 @@ public interface IExamInspectReportService extends IService<ExamInspectReport> {
     * @param params
     * @return
     */
-    PageUtils<Map<String, String>> getDataPage(Map<String, Object> params);
+//    PageUtils<Map<String, String>> getDataPage(Map<String, Object> params);
 
     /**
      * 列表查询
      * @param params
      * @return
      */
-    List<Map<String, String>> getDataList(Map<String, Object> params);
+//    List<Map<String, String>> getDataList(Map<String, Object> params);
 
     /**
      * @Description:根据报告编号获取报告信息
@@ -52,14 +49,6 @@ public interface IExamInspectReportService extends IService<ExamInspectReport> {
      */
     boolean saveInspectReport(ExamInspectReport inspectReport);
 
-    /**
-     * @Description: 批量保存检查报告及结果
-     * @param  inspectReportList 检查报告集合
-     * @Author: XCK
-     * @Date: 2019/5/22
-     * @return 
-     */
-    void saveBatchByDownLoadResult(List<ExamInspectReport> inspectReportList);
 
 
 }

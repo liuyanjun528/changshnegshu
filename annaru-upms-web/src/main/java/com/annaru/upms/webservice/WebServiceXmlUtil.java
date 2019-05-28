@@ -1,7 +1,6 @@
 package com.annaru.upms.webservice;
 
 import com.annaru.upms.entity.ExamInspectReport;
-import com.annaru.upms.entity.ExamInspectReportResult;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -262,18 +261,9 @@ public class WebServiceXmlUtil {
                 if(CollectionUtils.isNotEmpty(results)){
                     List<ExamInspectReport> inspectReportList = new ArrayList<>();
                     for (Map<String, Object> result : results) {
-                        List<ExamInspectReportResult> inspectReportResultList = new ArrayList<>();
-
                         ExamInspectReport inspectReport = new ExamInspectReport();
                         BeanUtils.populate(inspectReport, result);
-
                         List<Map<String, Object>> itemResultList= (List)result.get("ITEMRESULTLIST");
-                        for (Map<String, Object> itemResult : itemResultList) {
-                            ExamInspectReportResult inspectReportResult = new ExamInspectReportResult();
-                            BeanUtils.populate(inspectReportResult, itemResult);
-                            inspectReportResultList.add(inspectReportResult);
-                        }
-                        inspectReport.setInspectReportResultList(inspectReportResultList);
                         inspectReportList.add(inspectReport);
                     }
                 }

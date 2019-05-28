@@ -6,9 +6,10 @@
 	<!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.annaru.upms.entity.ExamInspectReport" >
         <result column="id" property="id" />
-        <result column="reportNO" property="REPORTNO"/>
-        <result column="appBarcode" property="APPBARCODE"/>
-        <result column="exeBarcode" property="EXEBARCODE"/>
+        <result column="logID" property="logID" />
+        <result column="report_no" property="REPORTNO"/>
+        <result column="app_barcode" property="APPBARCODE"/>
+        <result column="exe_barcode" property="EXEBARCODE"/>
         <result column="BRXM" property="BRXM" />
         <result column="BRXB" property="BRXB" />
         <result column="BRNL" property="BRNL" />
@@ -39,14 +40,14 @@
         <result column="BRID" property="BRID" />
         <result column="BRKS" property="BRKS" />
         <result column="BGDURL" property="BGDURL" />
-        <result column="logID" property="logID" />
     </resultMap>
     
     <sql id="BaseClounmSql">
           id,
-          reportNO,
-          appBarcode,
-          exeBarcode,
+          logID,
+          report_no,
+          app_barcode,
+          exe_barcode,
           BRXM,
           BRXB,
           BRNL,
@@ -76,101 +77,21 @@
           BRCH,
           BRID,
           BRKS,
-          BGDURL,
-          logID
-    </sql>
-
-    <sql id="ListClounmSql">
-          id,
-          reportNO,
-          appBarcode,
-          exeBarcode,
-          WJBZ,
-          WCBZ,
           BGDURL
     </sql>
 
-    <!-- 多表页面信息查询分页 -->
-    <select id="selectDataPage" parameterType="map" resultType="map">
-
-        SELECT
-            <include refid="ListClounmSql"></include>
-        FROM
-            exam_inspect_report
-        <where>
-            <if test="params.logID != null and params.logID != ''">
-                logID = #{params.logID}
-            </if>
-            <if test="params.sjgdm != null and params.sjgdm != ''">
-                AND SJGDM = #{params.sjgdm}
-            </if>
-            <if test="params.djgdm != null and params.djgdm != ''">
-                AND DJGDM = #{params.key}
-            </if>
-            <if test="params.appBarcode != null and params.appBarcode != '' ">
-                AND AppBarcode = #{params.appBarcode}
-            </if>
-            <if test="params.exeBarcode != null and params.exeBarcode != '' ">
-                AND ExeBarcode = #{params.exeBarcode}
-            </if>
-            <if test="params.bglx != null and params.bglx != ''">
-                AND BGLX = #{params.bglx}
-            </if>
-            <if test="params.startDate != null and params.startDate != '' ">
-                AND SHSJ &gt; #{params.startDate}
-            </if>
-            <if test="params.endDate != null and params.endDate != '' ">
-                AND SHSJ &lt; #{params.endDate}
-            </if>
-        </where>
-    </select>
-
-    <select id="selectDataList" resultType="map">
-        SELECT
-            <include refid="ListClounmSql"></include>
-        FROM
-            exam_inspect_report
-        <where>
-            <if test="params.logID != null and params.logID != ''">
-                logID = #{params.logID}
-            </if>
-            <if test="params.sjgdm != null and params.sjgdm != ''">
-                AND SJGDM = #{params.sjgdm}
-            </if>
-            <if test="params.djgdm != null and params.djgdm != ''">
-                AND DJGDM = #{params.key}
-            </if>
-            <if test="params.appBarcode != null and params.appBarcode != '' ">
-                AND AppBarcode = #{params.appBarcode}
-            </if>
-            <if test="params.exeBarcode != null and params.exeBarcode != '' ">
-                AND ExeBarcode = #{params.exeBarcode}
-            </if>
-            <if test="params.bglx != null and params.bglx != ''">
-                AND BGLX = #{params.bglx}
-            </if>
-            <if test="params.startDate != null and params.startDate != '' ">
-                AND SHSJ &gt; #{params.startDate}
-            </if>
-            <if test="params.endDate != null and params.endDate != '' ">
-                AND SHSJ &lt; #{params.endDate}
-            </if>
-        </where>
-    </select>
 
     <select id="selectByReportNO" resultType="com.annaru.upms.entity.ExamInspectReport">
         SELECT
             <include refid="BaseClounmSql"></include>
         FROM
             exam_inspect_report
-        <where>
-            <if test="ReportNO != null and ReportNO != '' ">
-                ReportNO = #{ReportNO}
-            </if>
+        WHERE
+            report_no = #{reportNO}
+
             <if test="logID != null and logID != '' ">
                 AND logID = #{logID}
             </if>
-        </where>
         LIMIT 1
     </select>
 

@@ -8,7 +8,10 @@ package com.annaru.common.util;
  */
 public class Constant {
 	/** 超级管理员ID */
-	public static final String SUPER_ADMIN = "1";
+	public final static String SUPER_ADMIN = "1";
+
+    // 控制线程数，最优选择是处理器线程数*3，本机处理器是4线程
+    public final static int THREAD_COUNT = 12;
 
     /**
      * 数据状态类型

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.annaru.upms.mapper.ExamInspectReportResultMapper">
+<mapper namespace="com.annaru.upms.mapper.ExamInspectReportClinicMapper">
 
 	<!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.annaru.upms.entity.ExamInspectReportResult" >
+    <resultMap id="BaseResultMap" type="com.annaru.upms.entity.ExamInspectReportClinic" >
         <result column="id" property="id" />
         <result column="inspect_report_id" property="inspectReportId" />
         <result column="XH" property="XH" />
@@ -12,7 +12,7 @@
         <result column="XMMC" property="XMMC" />
         <result column="XMDM" property="XMDM" />
         <result column="JCJG" property="JCJG" />
-        <result column="DW" property="DW" />
+        <result column="XMDW" property="XMDW" />
         <result column="XMCKZ" property="XMCKZ" />
         <result column="JGPD" property="JGPD" />
         <result column="WJZBZ" property="WJZBZ" />
@@ -21,36 +21,31 @@
         <result column="YWJC" property="YWJC" />
     </resultMap>
     
-    <sql id="BaseClounm">
-        id,
-        inspect_report_id,
-        XH,
-        XMBM,
-        XMMC,
-        XMDM,
-        JCJG,
-        XMDW,
-        XMCKZ,
-        JGPD,
-        WJZBZ,
-        MDDM,
-        MDMC,
-        YWJC
+    <sql id="BaseClounmSql">
+          id,
+          inspect_report_id,
+          XH,
+          XMBM,
+          XMMC,
+          XMDM,
+          JCJG,
+          XMDW,
+          XMCKZ,
+          JGPD,
+          WJZBZ,
+          MDDM,
+          MDMC,
+          YWJC
     </sql>
 
-    <select id="selectListByInspectReportId" resultMap="BaseResultMap">
+
+    <select id="selectByInspectReportId" resultType="com.annaru.upms.entity.ExamInspectReportClinic">
         SELECT
-            <include refid="BaseClounm"></include>
+          <include refid="BaseClounmSql"></include>
         FROM
-            exam_inspect_report_result
-        <where>
-            <if test="inspectReportId != null and inspectReportId != ''">
-                inspect_report_id = #{inspectReportId}
-            </if>
-            <if test="inspectReportId == null and inspectReportId == ''">
-                1=2
-            </if>
-        </where>
+          exam_inspect_report_clinic
+        WHERE
+           inspect_report_id = #{inspectReportId}
     </select>
 
 </mapper>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.annaru.upms.mapper.ExamInspectReportPathologyMapper">
+
+	<!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.annaru.upms.entity.ExamInspectReportPathology" >
+        <result column="id" property="id" />
+        <result column="inspect_report_id" property="inspectReportId" />
+        <result column="BLBH" property="BLBH" />
+        <result column="SJ_doctor" property="SJ_DOCTOR" />
+        <result column="BZLBID" property="BZLBID" />
+        <result column="SJBB" property="SJBB" />
+        <result column="ZZGS" property="ZZGS" />
+        <result column="LCZD" property="LCZD" />
+        <result column="RYSJ" property="RYSJ" />
+        <result column="BLSJ" property="BLSJ" />
+        <result column="BLZD" property="BLZD" />
+        <result column="REMARK" property="REMARK" />
+        <result column="LCZD_EN" property="LCZD_EN" />
+        <result column="RYSJ_EN" property="RYSJ_EN" />
+        <result column="BLSJ_EN" property="BLSJ_EN" />
+        <result column="REMARK_EN" property="REMARK_EN" />
+    </resultMap>
+    
+    <sql id="BaseClounmSql">
+          id,
+          inspect_report_id,
+          BLBH,
+          SJ_doctor,
+          BZLBID,
+          SJBB,
+          ZZGS,
+          LCZD,
+          RYSJ,
+          BLSJ,
+          BLZD,
+          REMARK,
+          LCZD_EN,
+          RYSJ_EN,
+          BLSJ_EN,
+          REMARK_EN
+    </sql>
+
+    <select id="selectByInspectReportId" resultType="com.annaru.upms.entity.ExamInspectReportPathology">
+        SELECT
+          <include refid="BaseClounmSql"></include>
+        FROM
+          exam_inspect_report_pathology
+        WHERE
+          inspect_report_id = #{inspectReportId}
+    </select>
+
+</mapper>

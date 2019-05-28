@@ -31,22 +31,28 @@ public class ExamInspectReport extends Model<ExamInspectReport> implements Seria
 	@TableId
 	private String id;
 	/**
+	 * 用户登录ID
+	 */
+	@ApiModelProperty(value = "用户登录ID")
+	@TableField("logID")
+	private String logID;
+	/**
 	 * 唯一识别号，获取检测结果.根据第一位区分：1-临床检验报告；2-病理组织报告；3-TCT；4-微生物报告
 	 */
 	@ApiModelProperty(value = "唯一识别号，获取检测结果.根据第一位区分：1-临床检验报告；2-病理组织报告；3-TCT；4-微生物报告")
-	@TableField("reportNO")
+	@TableField("report_no")
 	private String REPORTNO;
 	/**
 	 * 申请机构条码
 	 */
 	@ApiModelProperty(value = "申请机构条码")
-	@TableField("appBarcode")
+	@TableField("app_barcode")
 	private String APPBARCODE;
 	/**
 	 * 送检内部机构条码号
 	 */
 	@ApiModelProperty(value = "送检内部机构条码号")
-	@TableField("exeBarcode")
+	@TableField("exe_barcode")
 	private String EXEBARCODE;
 
 	/**
@@ -230,17 +236,29 @@ public class ExamInspectReport extends Model<ExamInspectReport> implements Seria
 	@TableField("BGDURL")
 	private String BGDURL;
 	/**
-	 * 用户登录ID
+	 * 临床检验报告
 	 */
-	@ApiModelProperty(value = "用户登录ID")
-	@TableField("logID")
-	private String logID;
-	/**
-	 * 检查报告结果集
-	 */
-	@ApiModelProperty(value = "检查报告结果集")
+	@ApiModelProperty(value = "临床检验报告")
 	@TableField(exist = false)
-	private List<ExamInspectReportResult> inspectReportResultList;
+	private List<ExamInspectReportClinic> clinicList;
+	/**
+	 * 病理组织报告
+	 */
+	@ApiModelProperty(value = "病理组织报告")
+	@TableField(exist = false)
+	private List<ExamInspectReportPathology> pathologyList;
+	/**
+	 * TCT报告
+	 */
+	@ApiModelProperty(value = "TCT报告")
+	@TableField(exist = false)
+	private List<ExamInspectReportTct> tctList;
+	/**
+	 * 微生物报告
+	 */
+	@ApiModelProperty(value = "微生物报告")
+	@TableField(exist = false)
+	private List<ExamInspectReportMicroorganism> microorganismList;
 
 	public String getId() {
 		return id;
@@ -522,12 +540,36 @@ public class ExamInspectReport extends Model<ExamInspectReport> implements Seria
 		this.logID = logID;
 	}
 
-	public List<ExamInspectReportResult> getInspectReportResultList() {
-		return inspectReportResultList;
+	public List<ExamInspectReportClinic> getClinicList() {
+		return clinicList;
 	}
 
-	public void setInspectReportResultList(List<ExamInspectReportResult> inspectReportResultList) {
-		this.inspectReportResultList = inspectReportResultList;
+	public void setClinicList(List<ExamInspectReportClinic> clinicList) {
+		this.clinicList = clinicList;
+	}
+
+	public List<ExamInspectReportPathology> getPathologyList() {
+		return pathologyList;
+	}
+
+	public void setPathologyList(List<ExamInspectReportPathology> pathologyList) {
+		this.pathologyList = pathologyList;
+	}
+
+	public List<ExamInspectReportTct> getTctList() {
+		return tctList;
+	}
+
+	public void setTctList(List<ExamInspectReportTct> tctList) {
+		this.tctList = tctList;
+	}
+
+	public List<ExamInspectReportMicroorganism> getMicroorganismList() {
+		return microorganismList;
+	}
+
+	public void setMicroorganismList(List<ExamInspectReportMicroorganism> microorganismList) {
+		this.microorganismList = microorganismList;
 	}
 
 	@Override
