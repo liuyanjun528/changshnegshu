@@ -35,14 +35,13 @@ public class UserCardsController extends BaseController {
     @PostMapping(value = "/insertCardAndBaseAndInstitution")
     //@RequiresPermissions("upms/userCards/insertCardAndBaseAndInstitution")
     public ResultMap insertCardAndBaseAndInstitution(String userId, String cardNo, int institutionId
-    , int sysId, int cardCates){
+    ,int cardCates){
         try {
             UserCards cards=new UserCards();
             cards.setUserId(userId);
             cards.setCardNo(cardNo);
             cards.setCardCates(cardCates);
             cards.setInstitutionId(institutionId);
-            cards.setSysId(sysId);
             userCardsService.insertCardAndBaseAndInstitution(cards);
             return ResultMap.ok("添加成功");
         } catch (Exception e) {
@@ -61,7 +60,7 @@ public class UserCardsController extends BaseController {
     public ResultMap selectStatus(int status, int cardCates) {
         try {
             List<UserCards> userCards = userCardsService.selectByStatus(status, cardCates);
-            return ResultMap.ok().put("userCards",userCards);
+            return ResultMap.ok().put("data",userCards);
         } catch (Exception e) {
             logger.error(e.getMessage());
             return ResultMap.error("运行异常，请联系管理员");

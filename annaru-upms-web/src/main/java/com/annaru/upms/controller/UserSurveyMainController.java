@@ -47,7 +47,7 @@ public class UserSurveyMainController extends BaseController {
         params.put("limit", limit);
         params.put("key", key);
         PageUtils<Map<String, Object>> pageList = userSurveyMainService.getDataPage(params);
-        return ResultMap.ok().put("data",pageList);
+        return ResultMap.ok().put("page",pageList);
     }
 
 

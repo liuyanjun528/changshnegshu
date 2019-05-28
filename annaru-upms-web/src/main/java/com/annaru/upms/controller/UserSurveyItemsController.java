@@ -70,8 +70,6 @@ public class UserSurveyItemsController extends BaseController {
     @RequiresPermissions("/userSurveyItems/save")
     public ResultMap save(@Valid @RequestBody UserSurveyItems userSurveyItems) {
         try {
-
-            //userSurveyItems.setCreateUser(ShiroKit.getUser().getId());
             userSurveyItemsService.save(userSurveyItems);
             return ResultMap.ok("添加成功");
         } catch (Exception e) {

@@ -40,10 +40,10 @@
 
     <!-- 绿通行添加-->
     <insert id="insertAdditional_info" parameterType="map">
-        insert into additional_info
+        insert into order_additional_info
             (option_1,situations,option_2)
          VALUES
-            (#{map.option_1},#{map.situations},#{map.option_2})
+            (#{params.option_1},#{params.situations},#{params.option_2})
     </insert>
 
 

@@ -29,8 +29,9 @@ public class SysMessageServiceImpl extends ServiceImpl<SysMessageMapper, SysMess
     }
 
     @Override
-    public List<SysMessage> selectMsgByMsgCate(int msgCate) {
-        return this.baseMapper.selectMsgByMsgCate(msgCate);
+    public List<SysMessage> selectMsgByMsgCate(int msgCate, String userId) {
+        return this.baseMapper.selectMsgByMsgCate(msgCate,userId);
     }
+
 
 }
