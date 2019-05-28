@@ -176,6 +176,24 @@ public class UserBasic extends Model<UserBasic> implements Serializable {
 	 */
 	@ApiModelProperty(value = "护士对象")
 	private SysNurse sysNurse;
+	/**
+	 * 是否第一次登录
+	 */
+	@TableField(exist = false)
+	private Boolean firstLogin;
+	/**
+	 * token
+	 * @return
+	 */
+	@TableField(exist = false)
+	private String token;
+
+	/**
+	 * 判断是医生还是护士 1.医生 2.护士
+	 * @return
+	 */
+	@TableField(exist = false)
+	private Integer doctorOrNurse;
 
 	public SysDoctor getSysDoctor() {
 		return sysDoctor;
@@ -450,6 +468,24 @@ public class UserBasic extends Model<UserBasic> implements Serializable {
 	 */
 	public void setCreationTime(Date creationTime) {
 		this.creationTime = creationTime;
+	}
+	public Boolean getFirstLogin() {
+		return firstLogin;
+	}
+	public void setFirstLogin(Boolean firstLogin) {
+		this.firstLogin = firstLogin;
+	}
+	public String getToken() {
+		return token;
+	}
+	public void setToken(String token) {
+		this.token = token;
+	}
+	public Integer getDoctorOrNurse() {
+		return doctorOrNurse;
+	}
+	public void setDoctorOrNurse(Integer doctorOrNurse) {
+		this.doctorOrNurse = doctorOrNurse;
 	}
 
 	@Override
