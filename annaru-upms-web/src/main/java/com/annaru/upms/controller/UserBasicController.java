@@ -32,6 +32,13 @@ public class UserBasicController extends BaseController {
     private IUserBasicService userBasicService;
 
     /**
+     * 手机验证码修改旧密码
+     */
+
+
+
+
+    /**
      * 修改旧密码
      */
     @ApiOperation(value = "修改旧密码")
@@ -97,10 +104,6 @@ public class UserBasicController extends BaseController {
     @RequiresPermissions("upms/userBasic/save")
     public ResultMap save(@Valid @RequestBody UserBasic userBasic) {
         try {
-
-//            userBasic.setCreateUser(ShiroKit.getUser().getId());
-//            userBasic.setCreateTime(new Date());
-//            userBasic.setUpdateTime(new Date());
             userBasicService.save(userBasic);
             return ResultMap.ok("添加成功");
         } catch (Exception e) {

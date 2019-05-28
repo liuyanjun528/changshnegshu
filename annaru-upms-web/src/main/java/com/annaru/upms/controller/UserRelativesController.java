@@ -84,10 +84,6 @@ public class UserRelativesController extends BaseController {
     @RequiresPermissions("upms/userRelatives/save")
     public ResultMap save(@Valid @RequestBody UserRelatives userRelatives) {
         try {
-
-//            userRelatives.setCreateUser(ShiroKit.getUser().getId());
-//            userRelatives.setCreateTime(new Date());
-//            userRelatives.setUpdateTime(new Date());
             userRelativesService.save(userRelatives);
             return ResultMap.ok("添加成功");
         } catch (Exception e) {
@@ -104,7 +100,6 @@ public class UserRelativesController extends BaseController {
     @RequiresPermissions("upms/userRelatives/update")
     public ResultMap update(@Valid @RequestBody UserRelatives userRelatives) {
         try {
-//            userRelatives.setUpdateTime(new Date());
             userRelativesService.updateById(userRelatives);
             return ResultMap.ok("修改成功");
         } catch (Exception e) {

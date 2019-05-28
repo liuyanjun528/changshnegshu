@@ -35,14 +35,13 @@ public class UserCardsController extends BaseController {
     @PostMapping(value = "/insertCardAndBaseAndInstitution")
     //@RequiresPermissions("upms/userCards/insertCardAndBaseAndInstitution")
     public ResultMap insertCardAndBaseAndInstitution(String userId, String cardNo, int institutionId
-    , int sysId, int cardCates){
+    ,int cardCates){
         try {
             UserCards cards=new UserCards();
             cards.setUserId(userId);
             cards.setCardNo(cardNo);
             cards.setCardCates(cardCates);
             cards.setInstitutionId(institutionId);
-            cards.setSysId(sysId);
             userCardsService.insertCardAndBaseAndInstitution(cards);
             return ResultMap.ok("添加成功");
         } catch (Exception e) {
