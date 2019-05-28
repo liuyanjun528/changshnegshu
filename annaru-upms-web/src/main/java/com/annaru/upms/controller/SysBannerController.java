@@ -46,7 +46,7 @@ public class SysBannerController extends BaseController {
         params.put("limit", limit);
         params.put("key", key);
         PageUtils<Map<String, Object>> pageList = sysBannerService.getDataPage(params);
-        return ResultMap.ok().put("page",pageList);
+        return ResultMap.ok().put("data",pageList);
     }
 
 
@@ -58,7 +58,7 @@ public class SysBannerController extends BaseController {
     @RequiresPermissions("upms/sysBanner/info")
     public ResultMap info(@PathVariable("sysId") Integer sysId){
         SysBanner sysBanner = sysBannerService.getById(sysId);
-        return ResultMap.ok().put("sysBanner",sysBanner);
+        return ResultMap.ok().put("data",sysBanner);
     }
 
     /**

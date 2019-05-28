@@ -45,7 +45,7 @@ public class SysDepartmentController extends BaseController {
         params.put("frequentUsed", frequentUsed);
         params.put("institutionId",institutionId);
         List<SysDepartment> commonList = sysDepartmentService.getDepartmentCommonList(params);
-        return ResultMap.ok().put("list",commonList);
+        return ResultMap.ok().put("data",commonList);
     }
 
 }

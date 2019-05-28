@@ -46,7 +46,7 @@ public class OrderDetailController extends BaseController {
         params.put("limit", limit);
         params.put("key", key);
         PageUtils<Map<String, Object>> pageList = orderDetailService.getDataPage(params);
-        return ResultMap.ok().put("page",pageList);
+        return ResultMap.ok().put("data",pageList);
     }
 
 
@@ -58,7 +58,7 @@ public class OrderDetailController extends BaseController {
     @RequiresPermissions("lcd/orderDetail/info")
     public ResultMap info(@PathVariable("sysId") Integer sysId){
         OrderDetail orderDetail = orderDetailService.getById(sysId);
-        return ResultMap.ok().put("orderDetail",orderDetail);
+        return ResultMap.ok().put("data",orderDetail);
     }
 
     /**

@@ -48,7 +48,7 @@ public class SysRoleController extends BaseController {
             params.put("createUserId", ShiroKit.getUser().getId());
         }
         PageUtils page = sysRoleService.selectDataGrid(params);
-        return ResultMap.ok().put("page", page);
+        return ResultMap.ok().put("data", page);
     }
 
     /**
@@ -65,7 +65,7 @@ public class SysRoleController extends BaseController {
         }
         List<SysRole> list = sysRoleService.selectSysRoleList(map);
 
-        return ResultMap.ok().put("list", list);
+        return ResultMap.ok().put("data", list);
     }
 
     /**
@@ -81,7 +81,7 @@ public class SysRoleController extends BaseController {
         role.setResourceIdList(resourceIdList);
         List<SelectTreeNode> resourceNodeList = sysRoleResourceService.selectResourceNodeListByRoleId(roleId);
         role.setResourceNodeList(resourceNodeList);
-        return ResultMap.ok().put("role", role);
+        return ResultMap.ok().put("data", role);
     }
 
     /**

@@ -46,7 +46,7 @@ public class ExamPackageMatchController extends BaseController {
         params.put("limit", limit);
         params.put("key", key);
         PageUtils<Map<String, Object>> pageList = examPackageMatchService.getDataPage(params);
-        return ResultMap.ok().put("page",pageList);
+        return ResultMap.ok().put("data",pageList);
     }
 
 
@@ -58,7 +58,7 @@ public class ExamPackageMatchController extends BaseController {
     @RequiresPermissions("upms/examPackageMatch/info")
     public ResultMap info(@PathVariable("sysId") Integer sysId){
         ExamPackageMatch examPackageMatch = examPackageMatchService.getById(sysId);
-        return ResultMap.ok().put("examPackageMatch",examPackageMatch);
+        return ResultMap.ok().put("data",examPackageMatch);
     }
 
     /**

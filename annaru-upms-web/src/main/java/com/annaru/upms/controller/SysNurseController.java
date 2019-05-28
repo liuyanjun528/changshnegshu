@@ -46,7 +46,7 @@ public class SysNurseController extends BaseController {
         params.put("limit", limit);
         params.put("key", key);
         PageUtils<Map<String, Object>> pageList = sysNurseService.getDataPage(params);
-        return ResultMap.ok().put("page",pageList);
+        return ResultMap.ok().put("data",pageList);
     }
 
 
@@ -58,7 +58,7 @@ public class SysNurseController extends BaseController {
     @RequiresPermissions("upms/sysNurse/info")
     public ResultMap info(@PathVariable("sysId") Integer sysId){
         SysNurse sysNurse = sysNurseService.getById(sysId);
-        return ResultMap.ok().put("sysNurse",sysNurse);
+        return ResultMap.ok().put("data",sysNurse);
     }
 
     /**

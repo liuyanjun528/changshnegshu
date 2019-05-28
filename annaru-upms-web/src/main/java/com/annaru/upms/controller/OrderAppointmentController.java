@@ -48,25 +48,6 @@ public class OrderAppointmentController extends BaseController {
     private ISysDoctorOppointmentService sysDoctorOppointmentService;
 
     /**
-     * 保存绿通行
-     */
-//    @ApiOperation(value = "保存绿通行2")
-//    @PostMapping("/saveGreenPassage2")
-//    public ResultMap saveGreenPassage(@Valid @RequestBody String institution_id, String department_id) {
-//        try {
-//            Map<String, Object> params = new HashMap<>();
-//            params.put("institution_id",institution_id);
-//            params.put("department_id",department_id);
-//            orderAppointmentService.insertOrder_appointment(params);
-//            return ResultMap.ok("添加成功");
-//        } catch (Exception e) {
-//            logger.error(e.getMessage());
-//            return ResultMap.error("运行异常，请联系管理员");
-//        }
-//    }
-
-
-    /**
      * 列表
      */
     @ApiOperation(value = "列表")
@@ -81,7 +62,7 @@ public class OrderAppointmentController extends BaseController {
         params.put("limit", limit);
         params.put("key", key);
         PageUtils<Map<String, Object>> pageList = orderAppointmentService.getDataPage(params);
-        return ResultMap.ok().put("page",pageList);
+        return ResultMap.ok().put("data",pageList);
     }
 
 
@@ -93,7 +74,7 @@ public class OrderAppointmentController extends BaseController {
     @RequiresPermissions("upms/orderAppointment/info")
     public ResultMap info(@PathVariable("sysId") Integer sysId){
         OrderAppointment orderAppointment = orderAppointmentService.getById(sysId);
-        return ResultMap.ok().put("orderAppointment",orderAppointment);
+        return ResultMap.ok().put("data",orderAppointment);
     }
 
     /**

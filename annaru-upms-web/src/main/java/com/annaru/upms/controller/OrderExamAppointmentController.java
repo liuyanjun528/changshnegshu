@@ -46,7 +46,7 @@ public class OrderExamAppointmentController extends BaseController {
         params.put("limit", limit);
         params.put("key", key);
         PageUtils<Map<String, Object>> pageList = orderExamAppointmentService.getDataPage(params);
-        return ResultMap.ok().put("page",pageList);
+        return ResultMap.ok().put("data",pageList);
     }
 
 
@@ -58,7 +58,7 @@ public class OrderExamAppointmentController extends BaseController {
     @RequiresPermissions("upms/orderExamAppointment/info")
     public ResultMap info(@PathVariable("sysId") Integer sysId){
         OrderExamAppointment orderExamAppointment = orderExamAppointmentService.getById(sysId);
-        return ResultMap.ok().put("orderExamAppointment",orderExamAppointment);
+        return ResultMap.ok().put("data",orderExamAppointment);
     }
 
     /**

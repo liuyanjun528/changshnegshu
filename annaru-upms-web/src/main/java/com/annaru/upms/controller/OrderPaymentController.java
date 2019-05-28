@@ -46,7 +46,7 @@ public class OrderPaymentController extends BaseController {
         params.put("limit", limit);
         params.put("key", key);
         PageUtils<Map<String, Object>> pageList = orderPaymentService.getDataPage(params);
-        return ResultMap.ok().put("page",pageList);
+        return ResultMap.ok().put("data",pageList);
     }
 
 
@@ -58,7 +58,7 @@ public class OrderPaymentController extends BaseController {
     @RequiresPermissions("upms/orderPayment/info")
     public ResultMap info(@PathVariable("sysId") Integer sysId){
         OrderPayment orderPayment = orderPaymentService.getById(sysId);
-        return ResultMap.ok().put("orderPayment",orderPayment);
+        return ResultMap.ok().put("data",orderPayment);
     }
 
     /**

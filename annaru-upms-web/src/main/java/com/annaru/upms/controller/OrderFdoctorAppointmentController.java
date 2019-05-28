@@ -46,7 +46,7 @@ public class OrderFdoctorAppointmentController extends BaseController {
         params.put("limit", limit);
         params.put("key", key);
         PageUtils<Map<String, Object>> pageList = orderFdoctorAppointmentService.getDataPage(params);
-        return ResultMap.ok().put("page",pageList);
+        return ResultMap.ok().put("data",pageList);
     }
 
 
@@ -58,7 +58,7 @@ public class OrderFdoctorAppointmentController extends BaseController {
     @RequiresPermissions("upms/orderFdoctorAppointment/info")
     public ResultMap info(@PathVariable("sysId") Integer sysId){
         OrderFdoctorAppointment orderFdoctorAppointment = orderFdoctorAppointmentService.getById(sysId);
-        return ResultMap.ok().put("orderFdoctorAppointment",orderFdoctorAppointment);
+        return ResultMap.ok().put("data",orderFdoctorAppointment);
     }
 
     /**

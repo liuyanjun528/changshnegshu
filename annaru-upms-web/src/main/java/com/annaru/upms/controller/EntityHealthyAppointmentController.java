@@ -45,7 +45,7 @@ public class EntityHealthyAppointmentController extends BaseController {
    // @RequiresPermissions("upms/entityHealthyAppointment/info")
     public ResultMap selectUserAndRelative(@PathVariable("userId") String userId){
         List<UserBasic> userBasics = entityHealthyAppointmentService.selectUserAndRelative(userId);
-        return ResultMap.ok().put("userBasics",userBasics);
+        return ResultMap.ok().put("data",userBasics);
     }
 
 
@@ -65,7 +65,7 @@ public class EntityHealthyAppointmentController extends BaseController {
         params.put("limit", limit);
         params.put("key", key);
         PageUtils<Map<String, Object>> pageList = entityHealthyAppointmentService.getDataPage(params);
-        return ResultMap.ok().put("page",pageList);
+        return ResultMap.ok().put("data",pageList);
     }
 
 
@@ -77,7 +77,7 @@ public class EntityHealthyAppointmentController extends BaseController {
     @RequiresPermissions("upms/entityHealthyAppointment/info")
     public ResultMap info(@PathVariable("sysId") Integer sysId){
         EntityHealthyAppointment entityHealthyAppointment = entityHealthyAppointmentService.getById(sysId);
-        return ResultMap.ok().put("entityHealthyAppointment",entityHealthyAppointment);
+        return ResultMap.ok().put("data",entityHealthyAppointment);
     }
 
     /**

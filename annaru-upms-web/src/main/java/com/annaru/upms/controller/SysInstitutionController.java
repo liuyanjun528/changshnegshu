@@ -50,7 +50,7 @@ public class SysInstitutionController extends BaseController {
         params.put("district", district);
         params.put("level",level);
         PageUtils<Map<String, Object>> pageList = sysInstitutionService.getDataPage(params);
-        return ResultMap.ok().put("page",pageList);
+        return ResultMap.ok().put("data",pageList);
     }
 
 
@@ -64,7 +64,7 @@ public class SysInstitutionController extends BaseController {
         Map<String, Object> params = new HashMap<>();
         params.put("institutionId",institutionId);
         SysInstitution sysInstitution = sysInstitutionService.getInfo(params);
-        return ResultMap.ok().put("sysInstitution",sysInstitution);
+        return ResultMap.ok().put("data",sysInstitution);
     }
 
     /**

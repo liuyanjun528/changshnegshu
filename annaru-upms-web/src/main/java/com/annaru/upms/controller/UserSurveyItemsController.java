@@ -47,7 +47,7 @@ public class UserSurveyItemsController extends BaseController {
         params.put("limit", limit);
         params.put("key", key);
         PageUtils<Map<String, Object>> pageList = userSurveyItemsService.getDataPage(params);
-        return ResultMap.ok().put("page",pageList);
+        return ResultMap.ok().put("data",pageList);
     }
 
 
@@ -59,7 +59,7 @@ public class UserSurveyItemsController extends BaseController {
     @RequiresPermissions("/userSurveyItems/info")
     public ResultMap info(@PathVariable("sysId") Integer sysId){
         UserSurveyItems userSurveyItems = userSurveyItemsService.getById(sysId);
-        return ResultMap.ok().put("userSurveyItems",userSurveyItems);
+        return ResultMap.ok().put("data",userSurveyItems);
     }
 
     /**

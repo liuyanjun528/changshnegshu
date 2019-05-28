@@ -61,7 +61,7 @@ public class UserRelativesController extends BaseController {
         params.put("limit", limit);
         params.put("userId", user_id);
         PageUtils<Map<String, Object>> pageList = userRelativesService.getDataPage(params);
-        return ResultMap.ok().put("page",pageList);
+        return ResultMap.ok().put("data",pageList);
     }
 
 
@@ -73,7 +73,7 @@ public class UserRelativesController extends BaseController {
     @RequiresPermissions("upms/userRelatives/info")
     public ResultMap info(@PathVariable("sysId") Integer sysId){
         UserRelatives userRelatives = userRelativesService.getById(sysId);
-        return ResultMap.ok().put("userRelatives",userRelatives);
+        return ResultMap.ok().put("data",userRelatives);
     }
 
     /**

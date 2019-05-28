@@ -36,7 +36,7 @@ public class ScheduleJobController extends BaseController {
     public ResultMap list(@RequestParam Map<String, Object> params) {
 		PageUtils page = scheduleJobService.queryPage(params);
 
-		return ResultMap.ok().put("page", page);
+		return ResultMap.ok().put("data", page);
 	}
 
 	/**
@@ -48,7 +48,7 @@ public class ScheduleJobController extends BaseController {
     public ResultMap info(@PathVariable("jobId") String jobId) {
 		ScheduleJob schedule = scheduleJobService.getById(jobId);
 
-		return ResultMap.ok().put("schedule", schedule);
+		return ResultMap.ok().put("data", schedule);
 	}
 
 	/**

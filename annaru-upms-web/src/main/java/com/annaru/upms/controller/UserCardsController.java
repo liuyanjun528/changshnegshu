@@ -61,7 +61,7 @@ public class UserCardsController extends BaseController {
     public ResultMap selectStatus(int status, int cardCates) {
         try {
             List<UserCards> userCards = userCardsService.selectByStatus(status, cardCates);
-            return ResultMap.ok().put("userCards",userCards);
+            return ResultMap.ok().put("data",userCards);
         } catch (Exception e) {
             logger.error(e.getMessage());
             return ResultMap.error("运行异常，请联系管理员");
@@ -83,7 +83,7 @@ public class UserCardsController extends BaseController {
         params.put("limit", limit);
         params.put("key", key);
         PageUtils<Map<String, Object>> pageList = userCardsService.getDataPage(params);
-        return ResultMap.ok().put("page",pageList);
+        return ResultMap.ok().put("data",pageList);
     }
 
 
@@ -95,7 +95,7 @@ public class UserCardsController extends BaseController {
     @RequiresPermissions("upms/userCards/info")
     public ResultMap info(@PathVariable("sysId") Integer sysId){
         UserCards userCards = userCardsService.getById(sysId);
-        return ResultMap.ok().put("userCards",userCards);
+        return ResultMap.ok().put("data",userCards);
     }
 
     /**

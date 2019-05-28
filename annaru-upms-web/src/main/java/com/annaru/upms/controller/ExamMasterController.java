@@ -47,7 +47,7 @@ public class ExamMasterController extends BaseController {
         params.put("limit", limit);
         params.put("key", key);
         PageUtils<Map<String, Object>> pageList = examMasterService.getDataPage(params);
-        return ResultMap.ok().put("page",pageList);
+        return ResultMap.ok().put("data",pageList);
     }
 
     /**
@@ -58,7 +58,7 @@ public class ExamMasterController extends BaseController {
     @RequiresPermissions("upms/examMaster/infoList")
     public ResultMap infoList(){
         List<ExamMaster> examMaster = examMasterService.list();
-        return ResultMap.ok().put("examMaster",examMaster);
+        return ResultMap.ok().put("data",examMaster);
     }
 
     /**
@@ -69,7 +69,7 @@ public class ExamMasterController extends BaseController {
     @RequiresPermissions("upms/examMaster/info")
     public ResultMap info(@PathVariable("sysId") Integer sysId){
         ExamMaster examMaster = examMasterService.getById(sysId);
-        return ResultMap.ok().put("examMaster",examMaster);
+        return ResultMap.ok().put("data",examMaster);
     }
 
     /**

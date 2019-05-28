@@ -46,7 +46,7 @@ public class SysMessageStatusController extends BaseController {
         params.put("limit", limit);
         params.put("key", key);
         PageUtils<Map<String, Object>> pageList = sysMessageStatusService.getDataPage(params);
-        return ResultMap.ok().put("page",pageList);
+        return ResultMap.ok().put("data",pageList);
     }
 
 
@@ -58,7 +58,7 @@ public class SysMessageStatusController extends BaseController {
     @RequiresPermissions("upms/sysMessageStatus/info")
     public ResultMap info(@PathVariable("sysId") Integer sysId){
         SysMessageStatus sysMessageStatus = sysMessageStatusService.getById(sysId);
-        return ResultMap.ok().put("sysMessageStatus",sysMessageStatus);
+        return ResultMap.ok().put("data",sysMessageStatus);
     }
 
     /**
