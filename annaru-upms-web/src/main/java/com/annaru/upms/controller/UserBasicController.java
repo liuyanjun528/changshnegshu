@@ -2,20 +2,26 @@ package com.annaru.upms.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.annaru.common.base.BaseController;
+import com.annaru.common.config.redis.IRedisService;
 import com.annaru.common.result.PageUtils;
 import com.annaru.common.result.ResultMap;
+
+import com.annaru.common.util.sdk.MessageUtils;
 import com.annaru.upms.entity.UserBasic;
 import com.annaru.upms.service.IUserBasicService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import jodd.util.StringUtil;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 
 /**
@@ -30,6 +36,76 @@ import java.util.Map;
 public class UserBasicController extends BaseController {
     @Reference
     private IUserBasicService userBasicService;
+
+    @Reference
+    private IUserBasicService iUserBasicService; //用户
+
+    @Autowired
+    private IRedisService redisService;
+
+
+    /**
+     * 生成6位验证码
+     */
+    public String kaptcha(){
+        Random random = new Random();
+        String result="";
+        for (int i=0;i<6;i++)
+        {
+            result+=random.nextInt(10);
+        }
+        return result;
+    }
+
+    private int kaptchaSeconds = 600; //10分钟
+    @ApiOperation(value = "手机发送验证码")
+    @PostMapping("/getKaptcha")
+    public ResultMap getKaptcha(@ApiParam(value="手机号")@RequestParam String cellphoneNo) {
+
+        if (StringUtil.isBlank(cellphoneNo)) {
+            return ResultMap.error("手机号不能为空！");
+        }
+
+        String kaptcha = kaptcha();
+        Map<String ,Object> isOk = MessageUtils.sendTemplateSMS(cellphoneNo, MessageUtils.loginId, kaptcha,"1");
+        if (true){ // isOk != null && StringUtil.isNotBlank((String)isOk.get("statusCode"))
+            if (true){ // "000000".equals((String)isOk.get("statusCode"))
+                //验证码发送成功
+                redisService.set(cellphoneNo, kaptcha);
+                redisService.set(cellphoneNo, kaptcha, kaptchaSeconds);
+                return ResultMap.ok("短信发送成功！");
+            }else {
+                return ResultMap.error("短信发送频繁！");
+            }
+        }
+        return ResultMap.error("短信发送失败！");
+
+    }
+
+
+    /**
+     * 验证码 匹配、手机验证码修改旧密码
+     */
+    @ApiOperation(value = "手机验证码设置密码")
+    @PostMapping("/setPassword")
+    public ResultMap setPassword(@RequestBody String password,String kaptcha,String cellphoneNo) {
+        if (StringUtil.isBlank(kaptcha)){
+            return ResultMap.error("验证码不能为空！");
+        }else if (!kaptcha.equals((String)redisService.get(cellphoneNo))){
+            return ResultMap.error("验证码无效！");
+        }
+        else if (StringUtil.isBlank(password)) {
+            return ResultMap.error("密码不能为空！");
+        }
+        int i = userBasicService.setPwd(password,cellphoneNo);
+        if (i>0){
+            return ResultMap.ok("密码更改成功！");
+        }
+        return ResultMap.error("密码更改失败！");
+
+    }
+
+
 
     /**
      * 修改旧密码
@@ -48,15 +124,12 @@ public class UserBasicController extends BaseController {
                 userBasicService.updateOldPwd(password,userId);
                 return "更新成功";
             }
-
             return "新密码与老密码相同,请换一个新密码";
         }else {
             return "输入的旧密码与旧密码不匹配,请想好再填";
         }
 
     }
-
-
 
 
     /**
@@ -86,7 +159,7 @@ public class UserBasicController extends BaseController {
     @RequiresPermissions("upms/userBasic/info")
     public ResultMap info(@PathVariable("userId") String userId){
         UserBasic userBasic = userBasicService.selectByUid(userId);
-        return ResultMap.ok().put("userBasic",userBasic);
+        return ResultMap.ok().put("data",userBasic);
     }
 
     /**
@@ -97,10 +170,6 @@ public class UserBasicController extends BaseController {
     @RequiresPermissions("upms/userBasic/save")
     public ResultMap save(@Valid @RequestBody UserBasic userBasic) {
         try {
-
-//            userBasic.setCreateUser(ShiroKit.getUser().getId());
-//            userBasic.setCreateTime(new Date());
-//            userBasic.setUpdateTime(new Date());
             userBasicService.save(userBasic);
             return ResultMap.ok("添加成功");
         } catch (Exception e) {

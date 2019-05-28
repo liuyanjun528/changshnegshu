@@ -46,7 +46,7 @@ public class OrderExtensionExamController extends BaseController {
         params.put("limit", limit);
         params.put("key", key);
         PageUtils<Map<String, Object>> pageList = orderExtensionExamService.getDataPage(params);
-        return ResultMap.ok().put("page",pageList);
+        return ResultMap.ok().put("data",pageList);
     }
 
 
@@ -58,7 +58,7 @@ public class OrderExtensionExamController extends BaseController {
     @RequiresPermissions("lcd/orderExtensionExam/info")
     public ResultMap info(@PathVariable("sysId") Integer sysId){
         OrderExtensionExam orderExtensionExam = orderExtensionExamService.getById(sysId);
-        return ResultMap.ok().put("orderExtensionExam",orderExtensionExam);
+        return ResultMap.ok().put("data",orderExtensionExam);
     }
 
     /**

@@ -31,7 +31,6 @@
         FROM
         sys_doctor_schedule
         WHERE
-        status=0
         <if test="params.key != null and params.key != ''">
             AND key LIKE CONCAT('%', #{params.key}, '%')
         </if>

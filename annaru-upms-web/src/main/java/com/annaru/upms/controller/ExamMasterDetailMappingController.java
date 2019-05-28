@@ -46,7 +46,7 @@ public class ExamMasterDetailMappingController extends BaseController {
         params.put("limit", limit);
         params.put("key", key);
         PageUtils<Map<String, Object>> pageList = examMasterDetailMappingService.getDataPage(params);
-        return ResultMap.ok().put("page",pageList);
+        return ResultMap.ok().put("data",pageList);
     }
 
 
@@ -58,7 +58,7 @@ public class ExamMasterDetailMappingController extends BaseController {
     @RequiresPermissions("upms/examMasterDetailMapping/info")
     public ResultMap info(@PathVariable("sysId") Integer sysId){
         ExamMasterDetailMapping examMasterDetailMapping = examMasterDetailMappingService.getById(sysId);
-        return ResultMap.ok().put("examMasterDetailMapping",examMasterDetailMapping);
+        return ResultMap.ok().put("data",examMasterDetailMapping);
     }
 
     /**

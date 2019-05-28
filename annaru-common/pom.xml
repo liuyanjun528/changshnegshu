@@ -20,6 +20,18 @@
 
     <dependencies>
         <dependency>
+            <groupId>org.apache.sendmsg</groupId>
+            <artifactId>sendmsg</artifactId>
+            <version>1.1</version>
+        </dependency>
+        <!-- 发送短信封装类里面需要用到的Json start https://mvnrepository.com/artifact/com.google.code.gson/gson -->
+        <dependency>
+        <groupId>com.google.code.gson</groupId>
+        <artifactId>gson</artifactId>
+        <version>2.2.4</version>
+        </dependency>
+        <!--  发送短信封装类里面需要用到的Json end -->
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-aop</artifactId>
         </dependency>

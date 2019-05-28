@@ -36,12 +36,11 @@ public class SysMessageController extends BaseController {
     /**
      * 通过消息类别查看所有消息
      */
-    @ApiOperation(value = "通过消息类别查看所有消息", notes = "通过消息类别查看所有消息")
+    @ApiOperation(value = "通过当前用户的消息类型查看消息", notes = "通过当前用户的消息类型查看消息")
     @GetMapping("/getMsg")
-    @RequiresPermissions("upms/sysMessage/info")
-    public ResultMap selectMsgByMsgCate(int msgCate){
-        List<SysMessage> listMsg = sysMessageService.selectMsgByMsgCate(msgCate);
-        return ResultMap.ok().put("listMsg",listMsg);
+    public ResultMap selectMsgByMsgCate(int msgCate,String userId){
+        List<SysMessage> listMsg = sysMessageService.selectMsgByMsgCate(msgCate,userId);
+        return ResultMap.ok().put("data",listMsg);
     }
 
 
@@ -62,20 +61,20 @@ public class SysMessageController extends BaseController {
         params.put("limit", limit);
         params.put("key", key);
         PageUtils<Map<String, Object>> pageList = sysMessageService.getDataPage(params);
-        return ResultMap.ok().put("page",pageList);
+        return ResultMap.ok().put("data",pageList);
     }
 
 
     /**
      * 信息
      */
-    @ApiOperation(value = "查看详情", notes = "查看upms详情")
-    @GetMapping("/info/{sysId}")
-    @RequiresPermissions("upms/sysMessage/info")
-    public ResultMap info(@PathVariable("sysId") Integer sysId){
-        SysMessage sysMessage = sysMessageService.getById(sysId);
-        return ResultMap.ok().put("sysMessage",sysMessage);
-    }
+//    @ApiOperation(value = "查看详情", notes = "查看upms详情")
+//    @GetMapping("/info/{userId}")
+//    @RequiresPermissions("upms/sysMessage/info")
+//    public ResultMap info(@PathVariable("userId") Integer userId){
+//        List<SysMessage> sysMessages = sysMessageService.selectMsgByUserId(userId);
+//        return ResultMap.ok().put("data",sysMessages);
+//    }
 
     /**
      * 保存
@@ -85,10 +84,6 @@ public class SysMessageController extends BaseController {
     @RequiresPermissions("upms/sysMessage/save")
     public ResultMap save(@Valid @RequestBody SysMessage sysMessage) {
         try {
-
-//            sysMessage.setCreateUser(ShiroKit.getUser().getId());
-//            sysMessage.setCreateTime(new Date());
-//            sysMessage.setUpdateTime(new Date());
             sysMessageService.save(sysMessage);
             return ResultMap.ok("添加成功");
         } catch (Exception e) {
@@ -105,7 +100,6 @@ public class SysMessageController extends BaseController {
     @RequiresPermissions("upms/sysMessage/update")
     public ResultMap update(@Valid @RequestBody SysMessage sysMessage) {
         try {
-//            sysMessage.setUpdateTime(new Date());
             sysMessageService.updateById(sysMessage);
             return ResultMap.ok("修改成功");
         } catch (Exception e) {

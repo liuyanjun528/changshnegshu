@@ -53,7 +53,7 @@ public class SysDoctorController extends BaseController {
         params.put("city", city);
         params.put("district", district);
         PageUtils<Map<String, Object>> pageList = sysDoctorService.getDataPage(params);
-        return ResultMap.ok().put("page",pageList);
+        return ResultMap.ok().put("data",pageList);
     }
 
 
@@ -67,7 +67,7 @@ public class SysDoctorController extends BaseController {
         Map<String, Object> params = new HashMap<>();
         params.put("doctorNo",doctorNo);
         SysDoctor sysDoctor = sysDoctorService.getOne(params);
-        return ResultMap.ok().put("sysDoctor",sysDoctor);
+        return ResultMap.ok().put("data",sysDoctor);
     }
 
     /**

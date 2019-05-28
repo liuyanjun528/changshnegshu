@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.annaru.upms.mapper.ExamInspectReportMicroorganismDetailMapper">
+
+	<!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.annaru.upms.entity.ExamInspectReportMicroorganismDetail" >
+        <result column="id" property="id" />
+        <result column="microorganism_id" property="microorganismId" />
+        <result column="YBJG" property="YBJG" />
+        <result column="YMZL" property="YMZL" />
+        <result column="YMMC" property="YMMC" />
+        <result column="YMJG" property="YMJG" />
+        <result column="MIC" property="MIC" />
+        <result column="microcode" property="MICROCODE" />
+    </resultMap>
+    
+    <sql id="BaseClounmSql">
+          id,
+          microorganism_id,
+          YBJG,
+          YMZL,
+          YMMC,
+          YMJG,
+          MIC,
+          microcode
+    </sql>
+
+    <select id="selectByMicroorganismId" resultType="com.annaru.upms.entity.ExamInspectReportMicroorganismDetail">
+        SELECT
+          <include refid="BaseClounmSql"></include>
+        FROM
+          exam_inspect_report_microorganism_detail
+        WHERE
+          microorganism_id = #{microorganismId}
+    </select>
+
+</mapper>

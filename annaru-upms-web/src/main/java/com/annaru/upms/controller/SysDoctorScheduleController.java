@@ -48,7 +48,7 @@ public class SysDoctorScheduleController extends BaseController {
         params.put("limit", limit);
         params.put("key", key);
         PageUtils<Map<String, Object>> pageList = sysDoctorScheduleService.getDataPage(params);
-        return ResultMap.ok().put("page",pageList);
+        return ResultMap.ok().put("data",pageList);
     }
 
 
@@ -62,7 +62,7 @@ public class SysDoctorScheduleController extends BaseController {
         Map<String,Object> params = new HashMap<>();
         params.put("doctorNo",doctorNo);
         List<SysDoctorSchedule> sysDoctorSchedule = sysDoctorScheduleService.getDocSchedule(params);
-        return ResultMap.ok().put("sysDoctorSchedule",sysDoctorSchedule);
+        return ResultMap.ok().put("data",sysDoctorSchedule);
     }
 
     /**

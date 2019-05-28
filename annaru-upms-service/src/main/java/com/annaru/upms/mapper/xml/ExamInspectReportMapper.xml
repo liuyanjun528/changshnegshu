@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.annaru.upms.mapper.ExamInspectReportMapper">
+
+	<!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.annaru.upms.entity.ExamInspectReport" >
+        <result column="id" property="id" />
+        <result column="logID" property="logID" />
+        <result column="report_no" property="REPORTNO"/>
+        <result column="app_barcode" property="APPBARCODE"/>
+        <result column="exe_barcode" property="EXEBARCODE"/>
+        <result column="BRXM" property="BRXM" />
+        <result column="BRXB" property="BRXB" />
+        <result column="BRNL" property="BRNL" />
+        <result column="BBZL" property="BBZL" />
+        <result column="BBXZ" property="BBXZ" />
+        <result column="SJGDM" property="SJGDM" />
+        <result column="DJGDM" property="DJGDM" />
+        <result column="SJRQ" property="SJRQ" />
+        <result column="SFJE" property="SFJE" />
+        <result column="FJJE" property="FJJE" />
+        <result column="ZKL" property="ZKL" />
+        <result column="SJJE" property="SJJE" />
+        <result column="BGBH" property="BGBH" />
+        <result column="JYYS" property="JYYS" />
+        <result column="SHYS" property="SHYS" />
+        <result column="PZR" property="PZR" />
+        <result column="CYSJ" property="CYSJ" />
+        <result column="JSSJ" property="JSSJ" />
+        <result column="JCSJ" property="JCSJ" />
+        <result column="SHSJ" property="SHSJ" />
+        <result column="BGLX" property="BGLX" />
+        <result column="WJBZ" property="WJBZ" />
+        <result column="WCBZ" property="WCBZ" />
+        <result column="LCZD" property="LCZD" />
+        <result column="BZ" property="BZ" />
+        <result column="YBBH" property="YBBH" />
+        <result column="BRCH" property="BRCH" />
+        <result column="BRID" property="BRID" />
+        <result column="BRKS" property="BRKS" />
+        <result column="BGDURL" property="BGDURL" />
+    </resultMap>
+    
+    <sql id="BaseClounmSql">
+          id,
+          logID,
+          report_no,
+          app_barcode,
+          exe_barcode,
+          BRXM,
+          BRXB,
+          BRNL,
+          BBZL,
+          BBXZ,
+          SJGDM,
+          DJGDM,
+          SJRQ,
+          SFJE,
+          FJJE,
+          ZKL,
+          SJJE,
+          BGBH,
+          JYYS,
+          SHYS,
+          PZR,
+          CYSJ,
+          JSSJ,
+          JCSJ,
+          SHSJ,
+          BGLX,
+          WJBZ,
+          WCBZ,
+          LCZD,
+          BZ,
+          YBBH,
+          BRCH,
+          BRID,
+          BRKS,
+          BGDURL
+    </sql>
+
+
+    <select id="selectByReportNO" resultType="com.annaru.upms.entity.ExamInspectReport">
+        SELECT
+            <include refid="BaseClounmSql"></include>
+        FROM
+            exam_inspect_report
+        WHERE
+            report_no = #{reportNO}
+
+            <if test="logID != null and logID != '' ">
+                AND logID = #{logID}
+            </if>
+        LIMIT 1
+    </select>
+
+
+</mapper>

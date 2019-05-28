@@ -61,7 +61,7 @@ public class UserRelativesController extends BaseController {
         params.put("limit", limit);
         params.put("userId", user_id);
         PageUtils<Map<String, Object>> pageList = userRelativesService.getDataPage(params);
-        return ResultMap.ok().put("page",pageList);
+        return ResultMap.ok().put("data",pageList);
     }
 
 
@@ -73,7 +73,7 @@ public class UserRelativesController extends BaseController {
     @RequiresPermissions("upms/userRelatives/info")
     public ResultMap info(@PathVariable("sysId") Integer sysId){
         UserRelatives userRelatives = userRelativesService.getById(sysId);
-        return ResultMap.ok().put("userRelatives",userRelatives);
+        return ResultMap.ok().put("data",userRelatives);
     }
 
     /**
@@ -84,10 +84,6 @@ public class UserRelativesController extends BaseController {
     @RequiresPermissions("upms/userRelatives/save")
     public ResultMap save(@Valid @RequestBody UserRelatives userRelatives) {
         try {
-
-//            userRelatives.setCreateUser(ShiroKit.getUser().getId());
-//            userRelatives.setCreateTime(new Date());
-//            userRelatives.setUpdateTime(new Date());
             userRelativesService.save(userRelatives);
             return ResultMap.ok("添加成功");
         } catch (Exception e) {
@@ -104,7 +100,6 @@ public class UserRelativesController extends BaseController {
     @RequiresPermissions("upms/userRelatives/update")
     public ResultMap update(@Valid @RequestBody UserRelatives userRelatives) {
         try {
-//            userRelatives.setUpdateTime(new Date());
             userRelativesService.updateById(userRelatives);
             return ResultMap.ok("修改成功");
         } catch (Exception e) {

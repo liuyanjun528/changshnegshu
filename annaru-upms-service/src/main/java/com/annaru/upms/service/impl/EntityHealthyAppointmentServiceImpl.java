@@ -1,6 +1,7 @@
 package com.annaru.upms.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.annaru.upms.entity.UserBasic;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -28,6 +29,11 @@ public class EntityHealthyAppointmentServiceImpl extends ServiceImpl<EntityHealt
         Page<EntityHealthyAppointment> page = new PageUtils<EntityHealthyAppointment>(params).getPage();
         IPage<EntityHealthyAppointment> iPage = this.baseMapper.selectDataPage(page, params);
         return new PageUtils<EntityHealthyAppointment>(iPage);
+    }
+
+    @Override
+    public List<UserBasic> selectUserAndRelative(String userId) {
+        return this.baseMapper.selectUserAndRelative(userId);
     }
 
 }

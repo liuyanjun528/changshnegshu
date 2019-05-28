@@ -60,7 +60,7 @@ public class ExamPackageMainController extends BaseController {
         params.put("examMasterI", exam_master_i);
         params.put("sort_count_person", sort_count_person);
         PageUtils<Map<String, Object>> pageList = examPackageMainService.selectDataPageZ(params);
-        return ResultMap.ok().put("page",pageList);
+        return ResultMap.ok().put("data",pageList);
     }
 
 
@@ -74,17 +74,17 @@ public class ExamPackageMainController extends BaseController {
         Map<String, Object> params = new HashMap<>();
         params.put("sysId",sysId);
         List<ExamPackageMain> examPackageMain = examPackageMainService.selectInfoBySysId(params);
-        return ResultMap.ok().put("examPackageMain",examPackageMain);
+        return ResultMap.ok().put("data",examPackageMain);
     }
     /**
-     * 根据套餐编号查询套餐详情
+     * 查看全部套餐
      */
-    @ApiOperation(value = "查看详情", notes = "查看upms详情")
-    @GetMapping("/info/{sysId}")
-    @RequiresPermissions("upms/examPackageMain/info")
-    public ResultMap info(@PathVariable("sysId") Integer sysId){
-        ExamPackageMain examPackageMain = examPackageMainService.getById(sysId);
-        return ResultMap.ok().put("examPackageMain",examPackageMain);
+    @ApiOperation(value = "查看全部套餐名称", notes = "查看全部套餐名称")
+    @GetMapping("/getAll")
+    @RequiresPermissions("upms/examPackageMain/getAll")
+    public ResultMap getAll(){
+        List<ExamPackageMain> examPackageMains = examPackageMainService.selectAllExam();
+        return ResultMap.ok().put("data",examPackageMains);
     }
 
     /**
@@ -95,10 +95,6 @@ public class ExamPackageMainController extends BaseController {
     @RequiresPermissions("upms/examPackageMain/save")
     public ResultMap save(@Valid @RequestBody ExamPackageMain examPackageMain) {
         try {
-
-//            examPackageMain.setCreateUser(ShiroKit.getUser().getId());
-//            examPackageMain.setCreateTime(new Date());
-//            examPackageMain.setUpdateTime(new Date());
             examPackageMainService.save(examPackageMain);
             return ResultMap.ok("添加成功");
         } catch (Exception e) {
@@ -115,7 +111,6 @@ public class ExamPackageMainController extends BaseController {
     @RequiresPermissions("upms/examPackageMain/update")
     public ResultMap update(@Valid @RequestBody ExamPackageMain examPackageMain) {
         try {
-//            examPackageMain.setUpdateTime(new Date());
             examPackageMainService.updateById(examPackageMain);
             return ResultMap.ok("修改成功");
         } catch (Exception e) {

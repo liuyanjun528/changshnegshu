@@ -1,6 +1,7 @@
 package com.annaru.upms.entity;
 
 import com.annaru.common.util.JacksonUtils;
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -27,7 +28,7 @@ public class UserRelatives extends Model<UserRelatives> implements Serializable 
 	 * 系统编号
 	 */
     @ApiModelProperty(value = "系统编号")
-	@TableId
+	@TableId(type = IdType.AUTO)
 	private Integer sysId;
 	/**
 	 * 户用编号
@@ -65,6 +66,12 @@ public class UserRelatives extends Model<UserRelatives> implements Serializable 
     @ApiModelProperty(value = "手机号码")
 	@TableField("cellphone_no")
 	private String cellphoneNo;
+	/**
+	 * 出生日期
+	 */
+	@ApiModelProperty(value = "出生日期")
+	@TableField("date_of_birth")
+	private Date dateOfBirth;
 	/**
 	 * 备注
 	 */
@@ -241,8 +248,20 @@ public class UserRelatives extends Model<UserRelatives> implements Serializable 
 	public void setEditTime(Date editTime) {
 		this.editTime = editTime;
 	}
+	/**
+	 * 获取：出生年月
+	 */
+	public Date getDateOfBirth() {
+		return dateOfBirth;
+	}
+	/**
+	 * 设置：出生年月
+	 */
+	public void setDateOfBirth(Date dateOfBirth) {
+		this.dateOfBirth = dateOfBirth;
+	}
 
-    @Override
+	@Override
 	protected Serializable pkVal() {
 		return this.sysId;
 	}

@@ -1,10 +1,9 @@
 package com.annaru.upms.webservice;
 
-import cn.hutool.db.Entity;
-import com.sun.org.apache.xpath.internal.SourceTree;
-import jdk.nashorn.internal.runtime.regexp.joni.constants.NodeType;
+import com.annaru.upms.entity.ExamInspectReport;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -113,20 +112,20 @@ public class WebServiceXmlUtil {
                 Map<String, Object> itemMap = traversalXML(node);
                 // 如果递归得到的itemMap为空，则说明当前元素没有更多元素结点
                 if(itemMap == null || itemMap.isEmpty()){
-                    String value = node.getFirstChild()!=null ? node.getFirstChild().getNodeValue() : "";
-                    data.put(node.getNodeName(), value);
+                    String value = node.getFirstChild()!=null&& StringUtils.isNotBlank(node.getFirstChild().getNodeValue()) ? node.getFirstChild().getNodeValue() : "";
+                    data.put(node.getNodeName().toUpperCase(), value);
                 }else{
                     if(data.isEmpty()){
                         // 当前结点（currentNode）的data为空时，先暂时把此次遍历的子结点的内容存放在list中，待遍历完毕之后在考虑其归处
-                        itemMap.put("parentNode", node.getNodeName());
+                        itemMap.put("parentNode", node.getNodeName().toUpperCase());
                         itemMapList.add(itemMap);
                     } else {
                         // 当前结点（currentNode）的data不为空时，表示该节点不是集合，是对象，直接保存itemMap
                         for (String key : itemMap.keySet()){
-                            if(node.getNodeName().equals(key)){
+                            if(node.getNodeName().equalsIgnoreCase(key)){
                                 data.putAll(itemMap);
                             }else{
-                                data.put(node.getNodeName(), itemMap);
+                                data.put(node.getNodeName().toUpperCase(), itemMap);
                             }
                         }
                     }
@@ -136,7 +135,7 @@ public class WebServiceXmlUtil {
         if(CollectionUtils.isNotEmpty(itemMapList)){
             // 当前结点（currentNode）的data为空时，表示该节点是集合、不为空时，表示该节点不是集合，是对象
             if(data.isEmpty()){
-                data.put(currentNode.getNodeName(), itemMapList);
+                data.put(currentNode.getNodeName().toUpperCase(), itemMapList);
             } else {
                 for (Map<String, Object> map : itemMapList) {
                     String parentNodeName = (String) map.get("parentNode");
@@ -256,8 +255,20 @@ public class WebServiceXmlUtil {
                 "</CBMLDataTrans>";
 
         try {
-            Map<String, Object> map = xmlToMap(xmlstr);
-            System.out.println(map.toString());
+            Map<String, Object> resData = xmlToMap(xmlstr);
+            if("0".equals(resData.get("RESULTCODE").toString())){
+                List<Map<String, Object>> results = (List) resData.get("RESULTS");
+                if(CollectionUtils.isNotEmpty(results)){
+                    List<ExamInspectReport> inspectReportList = new ArrayList<>();
+                    for (Map<String, Object> result : results) {
+                        ExamInspectReport inspectReport = new ExamInspectReport();
+                        BeanUtils.populate(inspectReport, result);
+                        List<Map<String, Object>> itemResultList= (List)result.get("ITEMRESULTLIST");
+                        inspectReportList.add(inspectReport);
+                    }
+                }
+
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

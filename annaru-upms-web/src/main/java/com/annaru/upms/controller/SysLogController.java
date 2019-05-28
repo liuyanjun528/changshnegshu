@@ -34,6 +34,6 @@ public class SysLogController extends BaseController {
     @GetMapping("/list")
     public ResultMap dataGrid(@RequestParam Map<String, Object> params) {
         PageUtils<SysLog> page = sysLogService.selectDataGrid(params);
-        return ResultMap.ok().put("page", page);
+        return ResultMap.ok().put("data", page);
     }
 }

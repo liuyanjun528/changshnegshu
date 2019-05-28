@@ -59,7 +59,7 @@ public class UserSurveyMainController extends BaseController {
     @RequiresPermissions("/userSurveyMain/info")
     public ResultMap info(@PathVariable("surveyId") Integer surveyId){
         UserSurveyMain userSurveyMain = userSurveyMainService.getById(surveyId);
-        return ResultMap.ok().put("userSurveyMain",userSurveyMain);
+        return ResultMap.ok().put("data",userSurveyMain);
     }
 
     /**

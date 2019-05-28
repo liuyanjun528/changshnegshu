@@ -1,6 +1,7 @@
 package com.annaru.upms.entity;
 
 import com.annaru.common.util.JacksonUtils;
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -23,11 +24,22 @@ import java.util.Date;
 public class UserBasic extends Model<UserBasic> implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+
+	private UserRelatives relatives;
+
+	public UserRelatives getRelatives() {
+		return relatives;
+	}
+
+	public void setRelatives(UserRelatives relatives) {
+		this.relatives = relatives;
+	}
+
 	/**
 	 * 系统编号
 	 */
     @ApiModelProperty(value = "系统编号")
-	@TableId
+	@TableId(type = IdType.AUTO)
 	private Integer sysId;
 	/**
 	 * 户用编号
@@ -164,6 +176,24 @@ public class UserBasic extends Model<UserBasic> implements Serializable {
 	 */
 	@ApiModelProperty(value = "护士对象")
 	private SysNurse sysNurse;
+	/**
+	 * 是否第一次登录
+	 */
+	@TableField(exist = false)
+	private Boolean firstLogin;
+	/**
+	 * token
+	 * @return
+	 */
+	@TableField(exist = false)
+	private String token;
+
+	/**
+	 * 判断是医生还是护士 1.医生 2.护士
+	 * @return
+	 */
+	@TableField(exist = false)
+	private Integer doctorOrNurse;
 
 	public SysDoctor getSysDoctor() {
 		return sysDoctor;
@@ -438,6 +468,24 @@ public class UserBasic extends Model<UserBasic> implements Serializable {
 	 */
 	public void setCreationTime(Date creationTime) {
 		this.creationTime = creationTime;
+	}
+	public Boolean getFirstLogin() {
+		return firstLogin;
+	}
+	public void setFirstLogin(Boolean firstLogin) {
+		this.firstLogin = firstLogin;
+	}
+	public String getToken() {
+		return token;
+	}
+	public void setToken(String token) {
+		this.token = token;
+	}
+	public Integer getDoctorOrNurse() {
+		return doctorOrNurse;
+	}
+	public void setDoctorOrNurse(Integer doctorOrNurse) {
+		this.doctorOrNurse = doctorOrNurse;
 	}
 
 	@Override

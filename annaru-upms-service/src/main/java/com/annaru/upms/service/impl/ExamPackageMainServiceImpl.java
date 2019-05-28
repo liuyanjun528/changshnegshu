@@ -35,8 +35,9 @@ public class ExamPackageMainServiceImpl extends ServiceImpl<ExamPackageMainMappe
     }
 
     @Override
-    public PageUtils getDataPage(Map<String, Object> params) {
-        return null;
+    public List<ExamPackageMain> selectAllExam() {
+        return this.baseMapper.selectAllExam();
     }
+
 
 }

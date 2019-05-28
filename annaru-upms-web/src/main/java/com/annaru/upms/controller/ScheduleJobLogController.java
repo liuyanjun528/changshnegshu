@@ -36,7 +36,7 @@ public class ScheduleJobLogController extends BaseController {
     public ResultMap list(@RequestParam Map<String, Object> params) {
 		PageUtils page = scheduleJobLogService.queryPage(params);
 
-        return ResultMap.ok().put("page", page);
+        return ResultMap.ok().put("data", page);
 	}
 
     /**
@@ -47,6 +47,6 @@ public class ScheduleJobLogController extends BaseController {
     public ResultMap info(@PathVariable("logId") String logId) {
 		ScheduleJobLog log = scheduleJobLogService.getById(logId);
 
-        return ResultMap.ok().put("log", log);
+        return ResultMap.ok().put("data", log);
 	}
 }

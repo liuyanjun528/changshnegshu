@@ -130,7 +130,7 @@
             epdd.count_detail countDetail,
             em3.name emName,
             ed3.item_name edItemName,
-            ea.periods periods,
+            epa.periods periods,
             ea.cates eaCates
         FROM
             exam_package_main epm
@@ -154,5 +154,11 @@
             </if>
         </where>
     </select>
+
+    <!-- wh查询全部套餐-->
+    <select id="selectAllExam" parameterType="map" resultMap="BaseResultMap">
+            select package_name from exam_package_main
+    </select>
+
 
 </mapper>

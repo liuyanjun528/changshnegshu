@@ -45,8 +45,16 @@ public interface IUserBasicService extends IService<UserBasic> {
      * @return
      */
     UserBasic selectNurseByData(Map<String, Object> params);
+
     /**
-     * 修改旧密码
+     * 通过手机验证码 修改密码
+     * @param password
+     * @return
+     */
+    int setPwd(@Param("password") String password,@Param("cellphoneNo")String cellphoneNo);
+
+    /**
+     * 通过旧密码修改密码
      * @param password
      * @param userId
      * @return

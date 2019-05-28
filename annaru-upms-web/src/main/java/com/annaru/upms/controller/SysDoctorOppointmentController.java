@@ -48,7 +48,7 @@ public class SysDoctorOppointmentController extends BaseController {
         params.put("limit", limit);
         params.put("userId", userId);
         PageUtils<Map<String, Object>> pageList = sysDoctorOppointmentService.getDataPage(params);
-        return ResultMap.ok().put("page",pageList);
+        return ResultMap.ok().put("data",pageList);
     }
 
 
@@ -60,7 +60,7 @@ public class SysDoctorOppointmentController extends BaseController {
     @RequiresPermissions("upms/sysDoctorOppointment/info")
     public ResultMap info(@PathVariable("sysId") Integer sysId){
         SysDoctorOppointment sysDoctorOppointment = sysDoctorOppointmentService.getById(sysId);
-        return ResultMap.ok().put("sysDoctorOppointment",sysDoctorOppointment);
+        return ResultMap.ok().put("data",sysDoctorOppointment);
     }
 
     /**

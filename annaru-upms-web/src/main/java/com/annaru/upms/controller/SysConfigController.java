@@ -46,7 +46,7 @@ public class SysConfigController extends BaseController {
         params.put("limit", limit);
         params.put("key", key);
         PageUtils<Map<String, Object>> pageList = sysConfigService.getDataPage(params);
-        return ResultMap.ok().put("page",pageList);
+        return ResultMap.ok().put("data",pageList);
     }
 
 
@@ -58,7 +58,7 @@ public class SysConfigController extends BaseController {
     @RequiresPermissions("upms/sysConfig/info")
     public ResultMap info(@PathVariable("sysId") Integer sysId){
         SysConfig sysConfig = sysConfigService.getById(sysId);
-        return ResultMap.ok().put("sysConfig",sysConfig);
+        return ResultMap.ok().put("data",sysConfig);
     }
 
     /**
