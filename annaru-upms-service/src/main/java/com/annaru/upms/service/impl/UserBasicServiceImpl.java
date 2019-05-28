@@ -52,6 +52,11 @@ public class UserBasicServiceImpl extends ServiceImpl<UserBasicMapper, UserBasic
         return userBasic;
     }
 
+    @Override
+    public int setPwd(String password,String cellphoneNo) {
+        return this.baseMapper.setPwd(password,cellphoneNo);
+    }
+
 
     @Override
     public int updateOldPwd( String password,String userId) {

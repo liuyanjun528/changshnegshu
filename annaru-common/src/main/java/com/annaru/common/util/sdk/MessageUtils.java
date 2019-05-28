@@ -183,7 +183,7 @@ public class MessageUtils {
 	 * @param type  短信发送类型 1 系统自动发送 2 后台手动发送
 	 * @return
 	 */
-	public static Boolean sendTemplateSMS(String to,String templateId, String datas, String type){
+	public static HashMap<String, Object> sendTemplateSMS(String to,String templateId, String datas, String type){
 		//如果是开发者模式  直接返回
 //		if(AppGlobal.dev_Mode){
 //			System.err.println("测试环境发送短信:"+to);
@@ -221,7 +221,7 @@ public class MessageUtils {
 //			log.error("错误码=" + result.get("statusCode") +" 错误信息= "+result.get("statusMsg"));
 //			return false;
 //		}
-		return true;
+		return result;
 	}
 	/**
 	 * 保单生效时短信提醒相关运营人员

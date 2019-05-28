@@ -131,8 +131,13 @@
         </where>
     </select>
 
+    <!-- 通过手机验证码修改密码-->
+    <update id="setPwd">
+        UPDATE user_basic SET password=#{password}
+         WHERE cellphone_no=#{cellphoneNo}
+    </update>
 
-    <!-- 修改旧的密码-->
+    <!-- 通过旧的密码修改密码-->
     <update id="updatePwd" >
         UPDATE user_basic SET password=#{password}
          WHERE  user_id=#{userId}
