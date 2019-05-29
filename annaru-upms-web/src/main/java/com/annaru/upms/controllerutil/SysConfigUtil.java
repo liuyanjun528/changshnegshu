@@ -5,6 +5,11 @@ import com.annaru.upms.entity.SysConfig;
 import com.annaru.upms.service.ISysConfigService;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * @deprecated  系统配置工具类
+ * @author zk
+ * @date 2019-5-28
+ */
 public class SysConfigUtil {
 
     /**

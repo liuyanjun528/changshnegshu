@@ -5,6 +5,7 @@ import com.annaru.common.base.BaseController;
 import com.annaru.common.result.PageUtils;
 import com.annaru.common.result.ResultMap;
 import com.annaru.upms.entity.OrderMain;
+import com.annaru.upms.service.IOrderDetailService;
 import com.annaru.upms.service.IOrderMainService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -13,10 +14,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 /**
@@ -31,6 +29,61 @@ import java.util.Map;
 public class OrderMainController extends BaseController {
     @Reference
     private IOrderMainService orderMainService;
+
+    @Reference
+    private IOrderDetailService orderDetailService;
+
+    /**
+     * 保存
+     */
+    @ApiOperation(value = "保存订单主表")
+    @PostMapping("/saveOrderMain")
+    @RequiresPermissions("upms/orderMain/saveOrderMain")
+    public ResultMap saveOrderMain(@Valid @RequestBody String reference_no, int total_qty, String user_id, int order_cates, int status,
+                                   int rest_count, int total_count, Date effect_from,Date effect_to, int append_id,
+                                   String customer_name,String id_no,int gender,String cellphone_no1
+    ) {
+        try {
+            Map<String, Object> params1= new HashMap<>();
+            params1.put("reference_no",reference_no);
+            params1.put("total_qty",total_qty);
+            params1.put("user_id",user_id);
+            params1.put("order_cates",order_cates);
+            params1.put("status",status);
+            orderMainService.insertOrderMain(params1);
+
+            Map<String, Object> params2= new HashMap<>();
+            params2.put("rest_count",rest_count);
+            params2.put("total_count",total_count);
+            params2.put("effect_from",effect_from);
+            params2.put("effect_to",effect_to);
+            params2.put("append_id",append_id);
+            orderDetailService.insertOrderDetail(params2);
+
+            Map<String, Object> params3= new HashMap<>();
+            params3.put("customer_name",customer_name);
+            params3.put("id_no",id_no);
+            params3.put("gender",gender);
+            params3.put("cellphone_no1",cellphone_no1);
+
+
+
+
+            return ResultMap.ok("添加成功");
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return ResultMap.error("运行异常，请联系管理员");
+        }
+    }
+
+
+
+
+
+
+
+
+
 
     /**
      * 列表
@@ -67,10 +120,12 @@ public class OrderMainController extends BaseController {
      * @author zk
      * @date 2019-05-16 10:58
      */
-    @ApiOperation(value = "查询我的的名单里面的订单", notes = "查询我的的名单里面的订单")
+    @ApiOperation(value = "查询我的订单列表", notes = "查询我的订单列表")
     @GetMapping("/selectOrderPage")
     @RequiresPermissions("upms/orderMain/selectOrderPage")
-    public ResultMap selectOrderPage(){
+    public ResultMap selectOrderPage(@ApiParam(value = "当前页")@RequestParam(defaultValue="1") int page,
+                                     @ApiParam(value = "每页数量")@RequestParam(defaultValue = "10") int limit,
+                                     Integer status){
 //        OrderMain orderMain = orderMainService.getById();
 //        return ResultMap.ok().put("orderMain",orderMain);
         /*
@@ -84,6 +139,7 @@ public class OrderMainController extends BaseController {
         若status 等于 2 ，并且 opOderNo 不等于空 ，则为完成
         */
         Map<String, Object> params = new HashMap<>();
+        params.put("status", status);
         PageUtils<Map<String, Object>> pageList = orderMainService.selectOrderPage(params);
         return ResultMap.ok().put("data",pageList);
     }
@@ -141,10 +197,6 @@ public class OrderMainController extends BaseController {
     @RequiresPermissions("upms/orderMain/save")
     public ResultMap save(@Valid @RequestBody OrderMain orderMain) {
         try {
-
-//            orderMain.setCreateUser(ShiroKit.getUser().getId());
-//            orderMain.setCreateTime(new Date());
-//            orderMain.setUpdateTime(new Date());
             orderMainService.save(orderMain);
             return ResultMap.ok("添加成功");
         } catch (Exception e) {

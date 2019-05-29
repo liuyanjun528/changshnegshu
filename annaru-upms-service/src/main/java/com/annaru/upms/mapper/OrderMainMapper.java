@@ -56,4 +56,12 @@ public interface OrderMainMapper extends BaseMapper<OrderMain> {
 
     OrderMain getOrderNo(@Param("params") Map <String, Object> params);
 
+
+    /**
+     * 添加订单主表
+     * @param params
+     * @return
+     */
+    int insertOrderMain(@Param("params") Map <String, Object> params);
+
 }

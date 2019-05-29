@@ -138,11 +138,15 @@ public class UserLoginController extends BaseController {
                     if (isSave){
                         // 修改系统配置的用户编号
                         SysConfigUtil.saveRefNo(sysConfig.getRefNo());
+                        map = new HashMap <>();
+                        map.put("cellphoneNo", cellphoneNo);
+                        return ResultMap.ok().put("data", iUserBasicService.selectByData(map));
                     }
-                    return ResultMap.ok("跳转设置密码页面！");
                 }else {
                     if (StringUtil.isBlank(userBasic.getPassword())){
-                        return ResultMap.ok("跳转设置密码页面！");
+                        map = new HashMap <>();
+                        map.put("cellphoneNo", cellphoneNo);
+                        return ResultMap.ok().put("data", iUserBasicService.selectByData(map));
                     }
                 }
             }
@@ -261,6 +265,5 @@ public class UserLoginController extends BaseController {
         }
         return result;
     }
-
 
 }
