@@ -59,8 +59,8 @@ public class OrderDetail extends Model<OrderDetail> implements Serializable {
 	 */
 
     @ApiModelProperty(value = "总数（关联 exam_package_append）")
-	@TableField("total_qty")
-	private Integer totalQty;
+	@TableField("total_count")
+	private Integer totalCount;
 	/**
 	 * 备注
 	 */
@@ -132,15 +132,15 @@ public class OrderDetail extends Model<OrderDetail> implements Serializable {
      * 获取：总数
      * 获取：总数（关联 exam_package_append）
      */
-    public Integer getTotalQty() {
-        return totalQty;
+    public Integer getTotalCount() {
+        return totalCount;
     }
 	/**
 	 * 设置：总数
 	 * 设置：总数（关联 exam_package_append）
 	 */
-	public void setTotalQty(Integer totalQty) {
-		this.totalQty = totalQty;
+	public void setTotalCount(Integer totalCount) {
+		this.totalCount = totalCount;
 	}
     /**
      * 获取：备注

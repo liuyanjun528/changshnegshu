@@ -40,12 +40,13 @@ public interface IExamInspectReportListService extends IService<ExamInspectRepor
 
     /**
      * @Description: 批量保存检查报告列表
+     * @param  logID 用户登录名
      * @param  inspectReportLists 检查报告列表集合
      * @Author: XCK
      * @Date: 2019/5/22
      * @return
      */
-    void saveBatchInspectReportList(List<ExamInspectReportList> inspectReportLists);
+    boolean saveBatchInspectReportList(String logID, List<ExamInspectReportList> inspectReportLists);
 
 
 }

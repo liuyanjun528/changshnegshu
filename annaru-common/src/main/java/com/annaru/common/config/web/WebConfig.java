@@ -1,17 +1,16 @@
 package com.annaru.common.config.web;
 
 
+import com.annaru.common.csrf.CsrfInterceptor;
+import com.annaru.common.interceptor.FileUploadTypeInterceptor;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import com.annaru.common.csrf.CsrfInterceptor;
-import com.annaru.common.interceptor.FileUploadTypeInterceptor;
 import org.apache.commons.codec.Charsets;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.*;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
@@ -49,7 +48,6 @@ public class WebConfig extends WebMvcConfigurationSupport {
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
         Jackson2ObjectMapperBuilder builder = new Jackson2ObjectMapperBuilder();
-//        builder.serializationInclusion(JsonInclude.Include.NON_NULL);
         builder.serializationInclusion(JsonInclude.Include.ALWAYS); // ALWAYS 是不过滤值为null的字段
         ObjectMapper objectMapper = builder.build();
         SimpleModule simpleModule = new SimpleModule();

@@ -218,4 +218,11 @@
     </select>
 
 
+    <insert id="insertOrderMain" parameterType="map">
+        insert into order_main
+                (reference_no,total_qty,user_id,order_cates,status)
+        VALUES
+                (#{params.reference_no},#{params.total_qty},#{params.user_id},#{params.order_cates},#{status})
+    </insert>
+
 </mapper>
