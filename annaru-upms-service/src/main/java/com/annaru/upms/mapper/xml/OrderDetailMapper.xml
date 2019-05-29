@@ -10,7 +10,7 @@
         <result column="append_id" property="appendId" />
         <result column="effect_from" property="effectFrom" />
         <result column="effect_to" property="effectTo" />
-        <result column="total_qty" property="totalQty" />
+        <result column="total_count" property="totalCount" />
         <result column="remark" property="remark" />
         <result column="creationtime" property="creationtime" />
     </resultMap>
@@ -24,7 +24,7 @@
               append_id,
               effect_from,
               effect_to,
-              total_qty,
+              total_count,
               remark,
               creationtime
         FROM
@@ -35,5 +35,13 @@
             </if>
         </where>
     </select>
+
+
+    <insert id="insertOrderDetail" parameterType="map">
+        insert into order_detail
+                  (rest_count,total_count,effect_from,effect_to,append_id)
+        VALUES
+                (#{params.rest_count},#{params.total_count},#{params.effect_from},#{params.effect_to},#{params.append_id})
+    </insert>
 
 </mapper>

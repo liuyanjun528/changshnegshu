@@ -31,5 +31,11 @@ public interface OrderDetailMapper extends BaseMapper<OrderDetail> {
     */
     IPage<OrderDetail> selectDataPage(Page page, @Param("params") Map<String, Object> params);
 
+    /**
+     * 添加订单详细表
+     * @param params
+     * @return
+     */
+    int insertOrderDetail(@Param("params") Map<String, Object> params);
 
 }
