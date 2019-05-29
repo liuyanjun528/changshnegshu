@@ -120,7 +120,7 @@ public class OrderMainController extends BaseController {
      * @author zk
      * @date 2019-05-16 10:58
      */
-    @ApiOperation(value = "查询我的订单", notes = "查询我的订单")
+    @ApiOperation(value = "查询我的订单列表", notes = "查询我的订单列表")
     @GetMapping("/selectOrderPage")
     @RequiresPermissions("upms/orderMain/selectOrderPage")
     public ResultMap selectOrderPage(@ApiParam(value = "当前页")@RequestParam(defaultValue="1") int page,

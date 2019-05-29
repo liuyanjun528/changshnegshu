@@ -23,8 +23,8 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="advanceBaseResultMap" type="com.annaru.upms.entity.vo.OrderMainVoZ" >
-        <result column="sys_id" property="sysId" />
-        <result column="order_no" property="orderNo" />
+        <result column="sysId" property="sysId" />
+        <result column="orderNo" property="orderNo" />
         <result column="examMasterItem" property="examMasterItem" />
         <result column="status" property="status" />
         <result column="customerName" property="customerName" />
@@ -42,6 +42,10 @@
         <result column="userChannel" property="userChannel" />
         <result column="amount" property="amount" />
         <result column="departmentName" property="departmentName" />
+
+        <result column="appointmentCates" property="appointmentCates" />
+        <result column="option_1" property="option_1" />
+        <result column="parentNo" property="parentNo" />
     </resultMap>
 
     <!-- 多表页面信息查询分页 -->
@@ -72,10 +76,11 @@
     </select>
 
     <!-- 多表页面信息查询分页 -->
-    <select id="selectOrderPage" parameterType="map" resultMap="BaseResultMap">
+    <select id="selectOrderPage" parameterType="map" resultMap="advanceBaseResultMap">
 
         SELECT
         om.sys_id sysId,
+        om.order_no orderNo,
         om.order_time orderTime,
         oc.customer_name customerName,
 
@@ -84,8 +89,7 @@
         oai.appointment_cates appointmentCates,
         oai.option_1 option_1,
         om.parent_no parentNo,
-        om.status,
-        op.order_no opOderNo
+        om.status
 
         FROM order_main om
         LEFT JOIN order_additional_info oai ON oai.order_no = om.sys_id
