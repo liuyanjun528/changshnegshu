@@ -92,7 +92,7 @@
         om.status
 
         FROM order_main om
-        LEFT JOIN order_additional_info oai ON oai.order_no = om.sys_id
+        LEFT JOIN order_additional_info oai ON oai.order_no = om.order_no
         LEFT JOIN order_customer oc ON oc.order_no = om.order_no
         LEFT JOIN exam_package_main epm ON epm.sys_id = om.reference_no
         LEFT JOIN order_extension_exam oex ON oex.order_no = om.order_no
