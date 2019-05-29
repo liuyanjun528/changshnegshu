@@ -93,6 +93,11 @@
         LEFT JOIN exam_package_main epm ON epm.sys_id = om.reference_no
         LEFT JOIN order_extension_exam oex ON oex.order_no = om.order_no
         LEFT JOIN order_payment op ON op.order_no = om.order_no
+        WHERE
+        1=1 AND om.is_deleted = 0
+        <if test="params.status != null and params.status != ''">
+            AND om.status = #{params.status}
+        </if>
 
     </select>
 
@@ -128,7 +133,7 @@
         LEFT JOIN user_basic ub ON ub.user_id = om.user_id
         LEFT JOIN order_customer oc ON oc.order_no = om.order_no
         WHERE
-        1=1
+        1=1 AND om.is_deleted = 0
         <if test="params.sysId != null and params.sysId != ''">
             AND om.sys_id = #{params.sysId}
         </if>
@@ -164,7 +169,7 @@
         LEFT JOIN sys_institution si ON si.institution_id = oa.institution_id
         LEFT JOIN user_cards uc ON om.user_id = uc.user_id
         WHERE
-        1=1
+        1=1 AND om.is_deleted = 0
         <if test="params.sysId != null and params.sysId != ''">
             AND om.sys_id = #{params.sysId}
         </if>
@@ -202,7 +207,7 @@
         LEFT JOIN user_cards uc ON om.user_id = uc.user_id
         LEFT JOIN sys_department sd ON sd.sys_id = oa.department_id
         WHERE
-        1=1
+        1=1 AND om.is_deleted = 0
         <if test="params.sysId != null and params.sysId != ''">
             AND om.sys_id = #{params.sysId}
         </if>

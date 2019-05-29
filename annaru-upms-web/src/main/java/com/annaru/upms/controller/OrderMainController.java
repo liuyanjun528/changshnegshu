@@ -67,10 +67,12 @@ public class OrderMainController extends BaseController {
      * @author zk
      * @date 2019-05-16 10:58
      */
-    @ApiOperation(value = "查询我的的名单里面的订单", notes = "查询我的的名单里面的订单")
+    @ApiOperation(value = "查询我的订单", notes = "查询我的订单")
     @GetMapping("/selectOrderPage")
     @RequiresPermissions("upms/orderMain/selectOrderPage")
-    public ResultMap selectOrderPage(){
+    public ResultMap selectOrderPage(@ApiParam(value = "当前页")@RequestParam(defaultValue="1") int page,
+                                     @ApiParam(value = "每页数量")@RequestParam(defaultValue = "10") int limit,
+                                     Integer status){
 //        OrderMain orderMain = orderMainService.getById();
 //        return ResultMap.ok().put("orderMain",orderMain);
         /*
@@ -84,6 +86,7 @@ public class OrderMainController extends BaseController {
         若status 等于 2 ，并且 opOderNo 不等于空 ，则为完成
         */
         Map<String, Object> params = new HashMap<>();
+        params.put("status", status);
         PageUtils<Map<String, Object>> pageList = orderMainService.selectOrderPage(params);
         return ResultMap.ok().put("data",pageList);
     }
