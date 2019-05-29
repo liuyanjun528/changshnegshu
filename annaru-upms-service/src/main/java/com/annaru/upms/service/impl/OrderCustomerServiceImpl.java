@@ -27,4 +27,9 @@ public class OrderCustomerServiceImpl extends ServiceImpl<OrderCustomerMapper, O
         return new PageUtils<OrderCustomer>(iPage);
     }
 
+    @Override
+    public int insertOrderCustomer(Map<String, Object> params) {
+        return this.baseMapper.insertOrderCustomer(params);
+    }
+
 }

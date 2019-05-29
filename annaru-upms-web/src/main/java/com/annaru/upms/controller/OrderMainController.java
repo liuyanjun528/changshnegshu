@@ -4,9 +4,13 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.annaru.common.base.BaseController;
 import com.annaru.common.result.PageUtils;
 import com.annaru.common.result.ResultMap;
+import com.annaru.upms.controllerutil.SysConfigUtil;
 import com.annaru.upms.entity.OrderMain;
+import com.annaru.upms.entity.SysConfig;
+import com.annaru.upms.service.IOrderCustomerService;
 import com.annaru.upms.service.IOrderDetailService;
 import com.annaru.upms.service.IOrderMainService;
+import com.annaru.upms.service.ISysConfigService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -33,6 +37,12 @@ public class OrderMainController extends BaseController {
     @Reference
     private IOrderDetailService orderDetailService;
 
+    @Reference
+    private IOrderCustomerService orderCustomerService;
+
+    @Reference
+    private ISysConfigService iSysConfigService; //系统配置表
+
     /**
      * 保存
      */
@@ -44,30 +54,44 @@ public class OrderMainController extends BaseController {
                                    String customer_name,String id_no,int gender,String cellphone_no1
     ) {
         try {
+            SysConfig sysConfig = SysConfigUtil.getSysConfig(iSysConfigService , SysConfigUtil.ORDERNO);
+
+
             Map<String, Object> params1= new HashMap<>();
+            params1.put("order_no",SysConfigUtil.getNoBySysConfig());
             params1.put("reference_no",reference_no);
             params1.put("total_qty",total_qty);
             params1.put("user_id",user_id);
             params1.put("order_cates",order_cates);
             params1.put("status",status);
-            orderMainService.insertOrderMain(params1);
+            int i = orderMainService.insertOrderMain(params1);
+            if (i>0){
+                SysConfigUtil.saveRefNo(sysConfig.getRefNo());
+            }
+
 
             Map<String, Object> params2= new HashMap<>();
+            params2.put("order_no",SysConfigUtil.getNoBySysConfig());
             params2.put("rest_count",rest_count);
             params2.put("total_count",total_count);
             params2.put("effect_from",effect_from);
             params2.put("effect_to",effect_to);
             params2.put("append_id",append_id);
-            orderDetailService.insertOrderDetail(params2);
+            int i1 = orderDetailService.insertOrderDetail(params2);
+            if (i1>0){
+                SysConfigUtil.saveRefNo(sysConfig.getRefNo());
+            }
 
             Map<String, Object> params3= new HashMap<>();
+            params2.put("order_no",SysConfigUtil.getNoBySysConfig());
             params3.put("customer_name",customer_name);
             params3.put("id_no",id_no);
             params3.put("gender",gender);
             params3.put("cellphone_no1",cellphone_no1);
-
-
-
+            int i2 = orderCustomerService.insertOrderCustomer(params3);
+            if (i2>0){
+                SysConfigUtil.saveRefNo(sysConfig.getRefNo());
+            }
 
             return ResultMap.ok("添加成功");
         } catch (Exception e) {

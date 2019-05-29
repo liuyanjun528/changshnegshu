@@ -68,11 +68,11 @@
         creationtime
         FROM
         order_main
-        WHERE
-            1=1
+        <where>
             <if test="params.userId != null and params.userId != ''">
                 AND user_id LIKE CONCAT('%', #{params.userId}, '%')
             </if>
+        </where>
     </select>
 
     <!-- 多表页面信息查询分页 -->
@@ -222,7 +222,7 @@
         insert into order_main
                 (reference_no,total_qty,user_id,order_cates,status)
         VALUES
-                (#{params.reference_no},#{params.total_qty},#{params.user_id},#{params.order_cates},#{status})
+                (#{params.reference_no},#{params.total_qty},#{params.user_id},#{params.order_cates},#{params.status})
     </insert>
 
 </mapper>

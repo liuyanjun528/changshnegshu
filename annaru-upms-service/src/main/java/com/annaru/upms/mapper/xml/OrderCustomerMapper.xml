@@ -31,11 +31,19 @@
               remark
         FROM
             order_customer
-        WHERE
-            status=0
-            <if test="params.key != null and params.key != ''">
-                AND key LIKE CONCAT('%', #{params.key}, '%')
+        <where>
+            <if test="params.customerName != null and params.customerName != ''">
+                AND customer_name LIKE CONCAT('%', #{params.customerName}, '%')
             </if>
+        </where>
     </select>
+
+    <insert id="insertOrderCustomer" parameterType="map">
+        insert into order_customer
+                (customer_name,id_no,gender,cellphone_no1)
+        values
+                (#{params.customer_name},#{params.id_no},#{params.gender},#{params.cellphone_no1})
+    </insert>
+
 
 </mapper>
