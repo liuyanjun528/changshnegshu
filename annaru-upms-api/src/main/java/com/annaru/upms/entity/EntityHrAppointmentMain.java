@@ -18,7 +18,7 @@ import java.math.BigDecimal;
  * 企业体检预约主表
  *
  * @author xck
- * @date 2019-05-30 13:28:08
+ * @date 2019-05-29 18:19:41
  */
 @ApiModel(value = "企业体检预约主表")
 @TableName("entity_hr_appointment_main")
