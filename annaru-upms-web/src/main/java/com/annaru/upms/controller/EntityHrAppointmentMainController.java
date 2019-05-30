@@ -2,6 +2,8 @@ package com.annaru.upms.controller;
 
 import java.util.*;
 
+import com.annaru.upms.entity.vo.EntityHrAppointmentMainVoZ;
+import jodd.util.StringUtil;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import com.alibaba.dubbo.config.annotation.Reference;
 import org.springframework.web.bind.annotation.*;
@@ -23,8 +25,8 @@ import javax.validation.Valid;
 /**
  * 企业体检预约主表
  *
- * @author xck
- * @date 2019-05-30 13:28:08
+ * @author zxk
+ * @date 2019-05-30 13:45
  */
 @Api(tags = {"企业体检预约主表管理"}, description = "企业体检预约主表管理")
 @RestController

@@ -103,9 +103,9 @@ public class EntityHrAppointmentMain extends Model<EntityHrAppointmentMain> impl
 	private Integer isDeleted;
 	private BigDecimal amount;
 	/**
-	 * 使用次数
+	 * 剩余次数
 	 */
-    @ApiModelProperty(value = "使用次数")
+    @ApiModelProperty(value = "剩余次数")
 	@TableField("hr_rest_count")
 	private Integer hrRestCount;
 	/**
@@ -302,13 +302,13 @@ public class EntityHrAppointmentMain extends Model<EntityHrAppointmentMain> impl
 		this.amount = amount;
 	}
     /**
-     * 获取：使用次数
+     * 获取：剩余次数
      */
     public Integer getHrRestCount() {
         return hrRestCount;
     }
 	/**
-	 * 设置：使用次数
+	 * 设置：剩余次数
 	 */
 	public void setHrRestCount(Integer hrRestCount) {
 		this.hrRestCount = hrRestCount;
