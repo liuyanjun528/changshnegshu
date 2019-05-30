@@ -38,6 +38,13 @@
         </where>
     </select>
 
+    <insert id="insertOrderDetail" parameterType="map">
+        insert into order_detail
+                  (rest_count,total_count,effect_from,effect_to,append_id)
+        VALUES
+                (#{params.rest_count},#{params.total_count},#{params.effect_from},#{params.effect_to},#{params.append_id})
+    </insert>
+
     <select id="hasRestTimes" parameterType="map" resultMap="BaseResultMap">
         SELECT
         od.*
