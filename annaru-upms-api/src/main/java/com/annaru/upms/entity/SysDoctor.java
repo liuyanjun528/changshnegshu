@@ -46,8 +46,8 @@ public class SysDoctor extends Model<SysDoctor> implements Serializable {
 	 * 全名
 	 */
 	@ApiModelProperty(value = "全名")
-	@TableField("full_name")
-	private String fullName;
+	@TableField("doctor_name")
+	private String doctorName;
 	/**
 	 * 头像
 	 */
@@ -194,18 +194,15 @@ public class SysDoctor extends Model<SysDoctor> implements Serializable {
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
-	/**
-	 * 获取：全名
-	 */
-	public String getFullName() {
-		return fullName;
+
+	public String getDoctorName() {
+		return doctorName;
 	}
-	/**
-	 * 设置：全名
-	 */
-	public void setFullName(String fullName) {
-		this.fullName = fullName;
+
+	public void setDoctorName(String doctorName) {
+		this.doctorName = doctorName;
 	}
+
 	/**
 	 * 获取：头像
 	 */

@@ -56,7 +56,7 @@ public class UserSurveyItems extends Model<UserSurveyItems> implements Serializa
 	 */
     @ApiModelProperty(value = "创建时间")
 	@TableField("creation_time")
-	private Date creationTime;
+	private Date creationTime = new Date();
 	@TableField("edit_time")
 	private Date editTime;
 

@@ -69,10 +69,6 @@ public class SysNurseController extends BaseController {
     @RequiresPermissions("upms/sysNurse/save")
     public ResultMap save(@Valid @RequestBody SysNurse sysNurse) {
         try {
-
-//            sysNurse.setCreateUser(ShiroKit.getUser().getId());
-//            sysNurse.setCreateTime(new Date());
-//            sysNurse.setUpdateTime(new Date());
             sysNurseService.save(sysNurse);
             return ResultMap.ok("添加成功");
         } catch (Exception e) {
@@ -89,7 +85,6 @@ public class SysNurseController extends BaseController {
     @RequiresPermissions("upms/sysNurse/update")
     public ResultMap update(@Valid @RequestBody SysNurse sysNurse) {
         try {
-//            sysNurse.setUpdateTime(new Date());
             sysNurseService.updateById(sysNurse);
             return ResultMap.ok("修改成功");
         } catch (Exception e) {

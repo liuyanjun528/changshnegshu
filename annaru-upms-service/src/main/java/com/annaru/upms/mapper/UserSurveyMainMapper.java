@@ -1,6 +1,9 @@
 package com.annaru.upms.mapper;
 
 import com.annaru.upms.entity.UserSurveyMain;
+import com.annaru.upms.entity.vo.SysLinkageTypeVo;
+import com.annaru.upms.entity.vo.UserSurveyMainVo;
+import com.annaru.upms.entity.vo.UserSurveyVo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -24,5 +27,5 @@ public interface UserSurveyMainMapper extends BaseMapper<UserSurveyMain> {
     */
     IPage<UserSurveyMain> selectDataPage(Page page, @Param("params") Map<String, Object> params);
 
-
+    UserSurveyVo getByUserId(@Param("params") Map<String, Object> params);
 }

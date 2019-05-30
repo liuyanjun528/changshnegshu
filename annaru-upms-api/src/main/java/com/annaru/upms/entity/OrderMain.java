@@ -1,6 +1,7 @@
 package com.annaru.upms.entity;
 
 import com.annaru.common.util.JacksonUtils;
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -28,7 +29,7 @@ public class OrderMain extends Model<OrderMain> implements Serializable {
 	 * 系统编号
 	 */
     @ApiModelProperty(value = "系统编号")
-	@TableId
+	@TableId(type = IdType.AUTO)
 	private Integer sysId;
 	/**
 	 * 定单号
@@ -109,7 +110,17 @@ public class OrderMain extends Model<OrderMain> implements Serializable {
 	private Integer isDeleted = 0;
 	private Date creationtime = new Date();
 
-    /**
+	private Double amount;
+
+	public Double getAmount() {
+		return amount;
+	}
+
+	public void setAmount(Double amount) {
+		this.amount = amount;
+	}
+
+	/**
      * 获取：系统编号
      */
     public Integer getSysId() {

@@ -30,12 +30,13 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping("upms/sysDoctor")
 public class SysDoctorController extends BaseController {
+
     @Reference
     private ISysDoctorService sysDoctorService;
 
     /**
      * 列表
-     */
+     **/
     @ApiOperation(value = "列表")
     @GetMapping("/list")
     @RequiresPermissions("upms/sysDoctor/list")

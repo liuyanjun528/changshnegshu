@@ -33,5 +33,9 @@ public class OrderDetailServiceImpl extends ServiceImpl<OrderDetailMapper, Order
         return this.baseMapper.insertOrderDetail(params);
     }
 
+	public OrderDetail hasRestTimes(Map<String, Object> params){
+        return this.baseMapper.hasRestTimes(params);
+    }
+
 
 }

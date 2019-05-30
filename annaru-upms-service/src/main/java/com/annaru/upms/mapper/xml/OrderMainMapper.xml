@@ -68,11 +68,11 @@
         creationtime
         FROM
         order_main
-        WHERE
-            1=1
+        <where>
             <if test="params.userId != null and params.userId != ''">
                 AND user_id LIKE CONCAT('%', #{params.userId}, '%')
             </if>
+        </where>
     </select>
 
     <!-- 多表页面信息查询分页 -->
@@ -217,12 +217,32 @@
         </if>
     </select>
 
+    <select id="getOrderNo" parameterType="map" resultMap="BaseResultMap">
+        select order_no from order_main
+        where
+        status = 2
+        <if test="params.referenceNo != null and params.referenceNo != ''">
+            AND  reference_no = #{params.referenceNo}
+        </if>
+    </select>
+
+    <select id="getTimes" parameterType="map" resultType="int">
+        SELECT
+        od.rest_count
+        FROM
+        order_main om
+        LEFT JOIN order_detail od
+        on om.order_no = od.order_no
+        WHERE om.user_id = #{params.userId}
+        and od.append_id = 2
+        and od.rest_count is not NULL
+    </select>
 
     <insert id="insertOrderMain" parameterType="map">
         insert into order_main
                 (reference_no,total_qty,user_id,order_cates,status)
         VALUES
-                (#{params.reference_no},#{params.total_qty},#{params.user_id},#{params.order_cates},#{status})
+                (#{params.reference_no},#{params.total_qty},#{params.user_id},#{params.order_cates},#{params.status})
     </insert>
 
 </mapper>

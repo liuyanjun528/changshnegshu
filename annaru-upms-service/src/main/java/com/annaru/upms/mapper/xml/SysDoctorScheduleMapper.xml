@@ -18,7 +18,6 @@
 
     <!-- 多表页面信息查询分页 -->
     <select id="selectDataPage" parameterType="map" resultMap="BaseResultMap">
-
         SELECT
         sys_id,
         doctor_no,

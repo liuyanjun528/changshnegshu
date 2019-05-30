@@ -1,6 +1,8 @@
 package com.annaru.upms.service;
 
 import com.annaru.common.result.PageUtils;
+import com.annaru.upms.entity.vo.UserSurveyMainVo;
+import com.annaru.upms.entity.vo.UserSurveyVo;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.annaru.upms.entity.UserSurveyMain;
 import java.util.List;
@@ -21,6 +23,8 @@ public interface IUserSurveyMainService extends IService<UserSurveyMain> {
     */
     PageUtils getDataPage(Map<String, Object> params);
 
+    int saveOne(UserSurveyMain userSurveyMain);
 
+    UserSurveyVo getByUserId(Map<String,Object> params);
 }
 

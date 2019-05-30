@@ -38,4 +38,6 @@ public interface OrderDetailMapper extends BaseMapper<OrderDetail> {
      */
     int insertOrderDetail(@Param("params") Map<String, Object> params);
 
+	OrderDetail hasRestTimes(@Param("params") Map<String, Object> params);
+
 }

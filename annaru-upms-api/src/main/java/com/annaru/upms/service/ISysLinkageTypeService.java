@@ -1,6 +1,7 @@
 package com.annaru.upms.service;
 
 import com.annaru.common.result.PageUtils;
+import com.annaru.upms.entity.vo.SysLinkageTypeVo;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.annaru.upms.entity.SysLinkageType;
 import java.util.List;
@@ -21,6 +22,6 @@ public interface ISysLinkageTypeService extends IService<SysLinkageType> {
     */
     PageUtils getDataPage(Map<String, Object> params);
 
-
+    List<SysLinkageTypeVo> getList(Map<String, Object> params);
 }
 
