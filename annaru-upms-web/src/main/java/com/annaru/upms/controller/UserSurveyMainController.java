@@ -5,8 +5,12 @@ import java.util.*;
 import com.annaru.common.base.BaseController;
 import com.annaru.common.result.PageUtils;
 import com.annaru.common.result.ResultMap;
+import com.annaru.upms.entity.vo.UserSurveyMainVo;
+import com.annaru.upms.entity.vo.UserSurveyVo;
+import com.annaru.upms.service.IUserSurveyItemsService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import com.alibaba.dubbo.config.annotation.Reference;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -31,6 +35,8 @@ import javax.validation.Valid;
 public class UserSurveyMainController extends BaseController {
     @Reference
     private IUserSurveyMainService userSurveyMainService;
+    @Reference
+    private IUserSurveyItemsService userSurveyItemsService;
 
     /**
      * 列表
@@ -63,6 +69,41 @@ public class UserSurveyMainController extends BaseController {
     }
 
     /**
+     * 问卷调查答案保存
+     */
+    @ApiOperation(value = "问卷调查答案保存")
+    @PostMapping("/batchsave")
+    @RequiresPermissions("/userSurveyMain/batchsave")
+    public ResultMap batchsave(@Valid @RequestBody UserSurveyMainVo userSurvey) {
+        try {
+            UserSurveyMain userSurveyMain = new UserSurveyMain();
+            userSurveyMain.setUserId(userSurvey.getUserId());
+            int s = userSurveyMainService.saveOne(userSurveyMain);
+            for(int i = 0;i<userSurvey.getSurveyItemsList().size();i++){
+                userSurvey.getSurveyItemsList().get(i).setSurveyId(s);
+            }
+            userSurveyItemsService.saveBatch(userSurvey.getSurveyItemsList(),userSurvey.getSurveyItemsList().size());
+            return ResultMap.ok("添加成功");
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return ResultMap.error("运行异常，请联系管理员");
+        }
+    }
+
+
+    @ApiOperation(value = "查询历史答题记录",notes = "历史问卷调查详情")
+    @GetMapping("/message/{userId}")
+    @RequiresPermissions("/userSurveyMain/message")
+    public ResultMap info(@PathVariable("userId") String userId){
+        Map<String,Object> params = new HashMap<>();
+        params.put("userId",userId);
+        UserSurveyVo userSurveyMain = userSurveyMainService.getByUserId(params);
+        return ResultMap.ok().put("data",userSurveyMain);
+    }
+
+
+
+    /**
      * 保存
      */
     @ApiOperation(value = "保存")
@@ -79,6 +120,8 @@ public class UserSurveyMainController extends BaseController {
             return ResultMap.error("运行异常，请联系管理员");
         }
     }
+
+
 
     /**
      * 修改

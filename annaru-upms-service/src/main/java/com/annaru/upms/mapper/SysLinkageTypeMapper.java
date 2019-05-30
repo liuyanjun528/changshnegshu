@@ -1,6 +1,7 @@
 package com.annaru.upms.mapper;
 
 import com.annaru.upms.entity.SysLinkageType;
+import com.annaru.upms.entity.vo.SysLinkageTypeVo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -24,5 +25,5 @@ public interface SysLinkageTypeMapper extends BaseMapper<SysLinkageType> {
     */
     IPage<SysLinkageType> selectDataPage(Page page, @Param("params") Map<String, Object> params);
 
-
+    List<SysLinkageTypeVo> getList(@Param("params") Map<String, Object> params);
 }

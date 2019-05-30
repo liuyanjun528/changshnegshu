@@ -62,5 +62,9 @@ public class OrderMainServiceImpl extends ServiceImpl<OrderMainMapper, OrderMain
         return this.baseMapper.insertOrderMain(params);
     }
 
+    public List<Integer>  getTimes(Map<String,Object> params){
+        return this.baseMapper.getTimes(params);
+    }
+
 
 }
