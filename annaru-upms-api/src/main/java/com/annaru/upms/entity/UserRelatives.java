@@ -40,12 +40,13 @@ public class UserRelatives extends Model<UserRelatives> implements Serializable 
 	 * 亲属姓名
 	 */
     @ApiModelProperty(value = "亲属姓名")
-	private String fullname;
+	@TableField("relative_name")
+	private String relativeName;
 
 	/**
 	 * 亲属编号
 	 */
-	@ApiModelProperty(value = "亲属姓名")
+	@ApiModelProperty(value = "亲属编号")
 	@TableField("relative_id")
 	private int relativeId;
 
@@ -126,19 +127,12 @@ public class UserRelatives extends Model<UserRelatives> implements Serializable 
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
-    /**
-     * 获取：亲属姓名
-     */
-    public String getFullname() {
-        return fullname;
-    }
-	/**
-	 * 设置：亲属姓名
-	 */
-	public void setFullname(String fullname) {
-		this.fullname = fullname;
+	public String getRelativeName() {
+		return relativeName;
 	}
-
+	public void setRelativeName(String relativeName) {
+		this.relativeName = relativeName;
+	}
 	/**
 	 * 获取：亲属编号
 	 */
