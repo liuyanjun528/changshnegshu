@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.annaru.upms.mapper.EntityHrAppointmentDetailMapper">
+
+	<!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.annaru.upms.entity.EntityHrAppointmentDetail" >
+        <result column="sys_id" property="sysId" />
+        <result column="main_id" property="mainId" />
+        <result column="user_cate" property="userCate" />
+        <result column="user_id" property="userId" />
+        <result column="is_transfered" property="isTransfered" />
+        <result column="creation_time" property="creationTime" />
+        <result column="create_by" property="createBy" />
+        <result column="edit_time" property="editTime" />
+        <result column="edit_by" property="editBy" />
+    </resultMap>
+    
+    <sql id="BaseClounmSql">
+          sys_id,
+          main_id,
+          user_cate,
+          user_id,
+          is_transfered,
+          creation_time,
+          create_by,
+          edit_time,
+          edit_by,
+    </sql>
+
+    <!-- 多表页面信息查询分页 -->
+    <select id="selectDataPage" parameterType="map" resultMap="BaseResultMap">
+
+        SELECT
+            <include refid="BaseClounmSql"></include>
+        FROM
+            entity_hr_appointment_detail
+
+    </select>
+
+</mapper>

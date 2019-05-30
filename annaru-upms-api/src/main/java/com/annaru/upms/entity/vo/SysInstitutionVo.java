@@ -68,6 +68,12 @@ public class SysInstitutionVo implements Serializable {
 	 * 联系电话2
 	 */
 	private String telNo2;
+
+	private String specialLabel;
+
+	private Float longitude;
+
+	private Float latitude;
 	/**
 	 * 创建时间
 	 */
@@ -192,5 +198,29 @@ public class SysInstitutionVo implements Serializable {
 
 	public void setApNumber(Integer apNumber) {
 		this.apNumber = apNumber;
+	}
+
+	public String getSpecialLabel() {
+		return specialLabel;
+	}
+
+	public void setSpecialLabel(String specialLabel) {
+		this.specialLabel = specialLabel;
+	}
+
+	public Float getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(Float longitude) {
+		this.longitude = longitude;
+	}
+
+	public Float getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(Float latitude) {
+		this.latitude = latitude;
 	}
 }
