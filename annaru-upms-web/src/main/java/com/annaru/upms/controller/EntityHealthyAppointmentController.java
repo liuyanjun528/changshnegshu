@@ -48,8 +48,6 @@ public class EntityHealthyAppointmentController extends BaseController {
         return ResultMap.ok().put("data",userBasics);
     }
 
-
-
     /**
      * 列表
      */
