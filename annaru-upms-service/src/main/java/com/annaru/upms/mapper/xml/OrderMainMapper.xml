@@ -23,8 +23,8 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="advanceBaseResultMap" type="com.annaru.upms.entity.vo.OrderMainVoZ" >
-        <result column="sys_id" property="sysId" />
-        <result column="order_no" property="orderNo" />
+        <result column="sysId" property="sysId" />
+        <result column="orderNo" property="orderNo" />
         <result column="examMasterItem" property="examMasterItem" />
         <result column="status" property="status" />
         <result column="customerName" property="customerName" />
@@ -42,6 +42,10 @@
         <result column="userChannel" property="userChannel" />
         <result column="amount" property="amount" />
         <result column="departmentName" property="departmentName" />
+
+        <result column="appointmentCates" property="appointmentCates" />
+        <result column="option_1" property="option_1" />
+        <result column="parentNo" property="parentNo" />
     </resultMap>
 
     <!-- 多表页面信息查询分页 -->
@@ -64,18 +68,19 @@
         creationtime
         FROM
         order_main
-        WHERE
-            1=1
+        <where>
             <if test="params.userId != null and params.userId != ''">
                 AND user_id LIKE CONCAT('%', #{params.userId}, '%')
             </if>
+        </where>
     </select>
 
     <!-- 多表页面信息查询分页 -->
-    <select id="selectOrderPage" parameterType="map" resultMap="BaseResultMap">
+    <select id="selectOrderPage" parameterType="map" resultMap="advanceBaseResultMap">
 
         SELECT
         om.sys_id sysId,
+        om.order_no orderNo,
         om.order_time orderTime,
         oc.customer_name customerName,
 
@@ -84,15 +89,19 @@
         oai.appointment_cates appointmentCates,
         oai.option_1 option_1,
         om.parent_no parentNo,
-        om.status,
-        op.order_no opOderNo
+        om.status
 
         FROM order_main om
-        LEFT JOIN order_additional_info oai ON oai.order_no = om.sys_id
+        LEFT JOIN order_additional_info oai ON oai.order_no = om.order_no
         LEFT JOIN order_customer oc ON oc.order_no = om.order_no
         LEFT JOIN exam_package_main epm ON epm.sys_id = om.reference_no
         LEFT JOIN order_extension_exam oex ON oex.order_no = om.order_no
         LEFT JOIN order_payment op ON op.order_no = om.order_no
+        WHERE
+        1=1 AND om.is_deleted = 0
+        <if test="params.status != null and params.status != ''">
+            AND om.status = #{params.status}
+        </if>
 
     </select>
 
@@ -128,7 +137,7 @@
         LEFT JOIN user_basic ub ON ub.user_id = om.user_id
         LEFT JOIN order_customer oc ON oc.order_no = om.order_no
         WHERE
-        1=1
+        1=1 AND om.is_deleted = 0
         <if test="params.sysId != null and params.sysId != ''">
             AND om.sys_id = #{params.sysId}
         </if>
@@ -164,7 +173,7 @@
         LEFT JOIN sys_institution si ON si.institution_id = oa.institution_id
         LEFT JOIN user_cards uc ON om.user_id = uc.user_id
         WHERE
-        1=1
+        1=1 AND om.is_deleted = 0
         <if test="params.sysId != null and params.sysId != ''">
             AND om.sys_id = #{params.sysId}
         </if>
@@ -202,7 +211,7 @@
         LEFT JOIN user_cards uc ON om.user_id = uc.user_id
         LEFT JOIN sys_department sd ON sd.sys_id = oa.department_id
         WHERE
-        1=1
+        1=1 AND om.is_deleted = 0
         <if test="params.sysId != null and params.sysId != ''">
             AND om.sys_id = #{params.sysId}
         </if>
@@ -228,5 +237,12 @@
         and od.append_id = 2
         and od.rest_count is not NULL
     </select>
+
+    <insert id="insertOrderMain" parameterType="map">
+        insert into order_main
+                (reference_no,total_qty,user_id,order_cates,status)
+        VALUES
+                (#{params.reference_no},#{params.total_qty},#{params.user_id},#{params.order_cates},#{params.status})
+    </insert>
 
 </mapper>

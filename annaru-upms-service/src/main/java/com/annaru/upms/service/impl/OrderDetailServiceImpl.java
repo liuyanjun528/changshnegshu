@@ -8,6 +8,7 @@ import com.annaru.upms.service.IOrderDetailService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.Map;
 
@@ -27,8 +28,14 @@ public class OrderDetailServiceImpl extends ServiceImpl<OrderDetailMapper, Order
         return new PageUtils<OrderDetail>(iPage);
     }
 
-    public OrderDetail hasRestTimes(Map<String, Object> params){
+    @Override
+    public int insertOrderDetail(Map<String, Object> params) {
+        return this.baseMapper.insertOrderDetail(params);
+    }
+
+	public OrderDetail hasRestTimes(Map<String, Object> params){
         return this.baseMapper.hasRestTimes(params);
     }
+
 
 }

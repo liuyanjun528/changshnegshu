@@ -3,6 +3,7 @@ package com.annaru.upms.service;
 import com.annaru.common.result.PageUtils;
 import com.annaru.upms.entity.OrderMain;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -52,7 +53,14 @@ public interface IOrderMainService extends IService<OrderMain> {
 
     OrderMain getOrderNo(Map<String,Object> params);
 
-    List<Integer> getTimes(Map<String,Object> params);
+    /**
+     * 添加订单主表
+     * @param params
+     * @return
+     */
+    int insertOrderMain(@Param("params") Map <String, Object> params);
+
+	List<Integer> getTimes(Map<String,Object> params);
 
 }
 
