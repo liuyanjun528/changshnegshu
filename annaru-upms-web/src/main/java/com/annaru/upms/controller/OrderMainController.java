@@ -139,6 +139,8 @@ public class OrderMainController extends BaseController {
         若status 等于 2 ，并且 opOderNo 不等于空 ，则为完成
         */
         Map<String, Object> params = new HashMap<>();
+        params.put("page",page);
+        params.put("limit", limit);
         params.put("status", status);
         PageUtils<Map<String, Object>> pageList = orderMainService.selectOrderPage(params);
         return ResultMap.ok().put("data",pageList);
