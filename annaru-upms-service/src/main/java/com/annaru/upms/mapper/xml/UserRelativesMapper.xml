@@ -7,7 +7,7 @@
     <resultMap id="BaseResultMap" type="com.annaru.upms.entity.UserRelatives" >
         <result column="sys_id" property="sysId" />
         <result column="user_id" property="userId" />
-        <result column="fullname" property="fullname" />
+        <result column="relative_name" property="relativeName" />
         <result column="relative_id" property="relativeId" />
         <result column="id_card_no" property="idCardNo" />
         <result column="gender" property="gender" />
@@ -25,7 +25,7 @@
         SELECT
               sys_id,
               user_id,
-              fullname,
+              relative_name,
               id_card_no,
               gender,
               cellphone_no,
@@ -41,8 +41,8 @@
             <if test="params.userId != null and params.userId != ''">
                 AND user_id = #{params.userId}
             </if>
-            <if test="params.fullname != null and params.fullname != ''">
-                AND fullname LIKE CONCAT('%', #{params.fullname}, '%')
+            <if test="params.relativeName != null and params.relativeName != ''">
+                AND relative_name LIKE CONCAT('%', #{params.relativeName}, '%')
             </if>
         </where>
     </select>

@@ -55,10 +55,11 @@ public interface IOrderMainService extends IService<OrderMain> {
 
     /**
      * 添加订单主表
-     * @param params
+     * @param orderMain
      * @return
      */
-    int insertOrderMain(@Param("params") Map <String, Object> params);
+    //int insertOrderMain(Map <String, Object> params);
+    int insertOrderMain(OrderMain orderMain);
 
 }
 

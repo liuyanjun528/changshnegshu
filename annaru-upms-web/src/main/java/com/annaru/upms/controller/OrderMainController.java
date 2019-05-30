@@ -5,12 +5,8 @@ import com.annaru.common.base.BaseController;
 import com.annaru.common.result.PageUtils;
 import com.annaru.common.result.ResultMap;
 import com.annaru.upms.controllerutil.SysConfigUtil;
-import com.annaru.upms.entity.OrderMain;
-import com.annaru.upms.entity.SysConfig;
-import com.annaru.upms.service.IOrderCustomerService;
-import com.annaru.upms.service.IOrderDetailService;
-import com.annaru.upms.service.IOrderMainService;
-import com.annaru.upms.service.ISysConfigService;
+import com.annaru.upms.entity.*;
+import com.annaru.upms.service.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -32,80 +28,68 @@ import java.util.*;
 @RequestMapping("upms/orderMain")
 public class OrderMainController extends BaseController {
     @Reference
-    private IOrderMainService orderMainService;
+    private IOrderMainService orderMainService;//订单主表
 
     @Reference
-    private IOrderDetailService orderDetailService;
+    private IOrderDetailService orderDetailService;//订单详情表
 
     @Reference
-    private IOrderCustomerService orderCustomerService;
+    private IOrderCustomerService orderCustomerService;//订单客户表
 
     @Reference
     private ISysConfigService iSysConfigService; //系统配置表
 
+    @Reference
+    private IExamPackageAppendService examPackageAppendService;
+
     /**
      * 保存
      */
-    @ApiOperation(value = "保存订单主表")
+    @ApiOperation(value = "Toc下订单")
     @PostMapping("/saveOrderMain")
     @RequiresPermissions("upms/orderMain/saveOrderMain")
-    public ResultMap saveOrderMain(@Valid @RequestBody String reference_no, int total_qty, String user_id, int order_cates, int status,
-                                   int rest_count, int total_count, Date effect_from,Date effect_to, int append_id,
-                                   String customer_name,String id_no,int gender,String cellphone_no1
-    ) {
+    public ResultMap saveOrderMain(@RequestBody OrderMain orderMain) {
+
         try {
             SysConfig sysConfig = SysConfigUtil.getSysConfig(iSysConfigService , SysConfigUtil.ORDERNO);
+            orderMain.setOrderNo(SysConfigUtil.getNoBySysConfig());
+            int i = orderMainService.insertOrderMain(orderMain);
 
+                //如果如果i>0 并且 所选套餐编号大于3执行下面的添加方法
+                if(i>0&&Integer.parseInt(orderMain.getReferenceNo())>3){
+                    List<ExamPackageAppend> examPackageAppends = examPackageAppendService.selectExamName(Integer.parseInt(orderMain.getReferenceNo()));
+                    OrderDetail detail=new OrderDetail();
+                    detail.setRestCount(orderMain.getOrderDetail().getRestCount());
+                    detail.setTotalCount(orderMain.getOrderDetail().getTotalCount());
+                    detail.setEffectFrom(orderMain.getOrderDetail().getEffectFrom());
+                    detail.setEffectTo(orderMain.getOrderDetail().getEffectTo());
+                    for(ExamPackageAppend exam:examPackageAppends){
+                        detail.setAppendId(exam.getAppendId());
+                        //添加订单详情
+                        detail.setOrderNo(SysConfigUtil.getNoBySysConfig());
+                        orderDetailService.insertOrderDetail(detail);
+                    }
+                }
 
-            Map<String, Object> params1= new HashMap<>();
-            params1.put("order_no",SysConfigUtil.getNoBySysConfig());
-            params1.put("reference_no",reference_no);
-            params1.put("total_qty",total_qty);
-            params1.put("user_id",user_id);
-            params1.put("order_cates",order_cates);
-            params1.put("status",status);
-            int i = orderMainService.insertOrderMain(params1);
-            if (i>0){
+            //如果i>0 执行下面的方法
+            if(i>0){
+                //如果套餐个数大于1执行下面的添加方法
+                if(orderMain.getTotalQty()>1){
+                    //添加客户表
+                    orderMain.getOrderCustomer().setOrderNo(SysConfigUtil.getNoBySysConfig());
+                    orderCustomerService.insertOrderCustomer(orderMain.getOrderCustomer());
+                }
+            }
+            if(i>0){
                 SysConfigUtil.saveRefNo(sysConfig.getRefNo());
             }
-
-
-            Map<String, Object> params2= new HashMap<>();
-            params2.put("order_no",SysConfigUtil.getNoBySysConfig());
-            params2.put("rest_count",rest_count);
-            params2.put("total_count",total_count);
-            params2.put("effect_from",effect_from);
-            params2.put("effect_to",effect_to);
-            params2.put("append_id",append_id);
-            int i1 = orderDetailService.insertOrderDetail(params2);
-            if (i1>0){
-                SysConfigUtil.saveRefNo(sysConfig.getRefNo());
-            }
-
-            Map<String, Object> params3= new HashMap<>();
-            params2.put("order_no",SysConfigUtil.getNoBySysConfig());
-            params3.put("customer_name",customer_name);
-            params3.put("id_no",id_no);
-            params3.put("gender",gender);
-            params3.put("cellphone_no1",cellphone_no1);
-            int i2 = orderCustomerService.insertOrderCustomer(params3);
-            if (i2>0){
-                SysConfigUtil.saveRefNo(sysConfig.getRefNo());
-            }
-
-            return ResultMap.ok("添加成功");
-        } catch (Exception e) {
+            return ResultMap.ok("添加成功").put("data",orderMain.getOrderNo());
+        }catch (Exception e) {
             logger.error(e.getMessage());
             return ResultMap.error("运行异常，请联系管理员");
         }
+
     }
-
-
-
-
-
-
-
 
 
 

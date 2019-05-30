@@ -12,6 +12,7 @@
         <result column="user_id" property="userId" />
         <result column="cellphone_no" property="cellphoneNo" />
         <result column="order_time" property="orderTime" />
+        <result column="amount" property="amount" />
         <result column="total_qty" property="totalQty" />
         <result column="status" property="status" />
         <result column="remark" property="remark" />
@@ -218,11 +219,11 @@
     </select>
 
 
-    <insert id="insertOrderMain" parameterType="map">
+    <insert id="insertOrderMain" parameterType="com.annaru.upms.entity.OrderMain">
         insert into order_main
-                (reference_no,total_qty,user_id,order_cates,status)
+                (order_no,reference_no,total_qty,user_id,order_cates,status,amount)
         VALUES
-                (#{params.reference_no},#{params.total_qty},#{params.user_id},#{params.order_cates},#{params.status})
+                (#{orderNo},#{referenceNo},#{totalQty},#{userId},#{orderCates},#{status},#{amount})
     </insert>
 
 </mapper>

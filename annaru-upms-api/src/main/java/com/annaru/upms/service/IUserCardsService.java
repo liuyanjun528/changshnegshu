@@ -24,12 +24,12 @@ public interface IUserCardsService extends IService<UserCards> {
     PageUtils getDataPage(Map<String, Object> params);
 
     /**
-     * 通过已绑卡查询
-     * @param status 是否绑卡
-     * @param cardCates 绑卡类型
+     * 通过用户ID查询
+     *
+     * @param userId 用户ID
      * @return
      */
-    List<UserCards> selectByStatus(@Param("status") int status, @Param("cardCates") int cardCates);
+    List<UserCards> selectByStatus(String userId);
 
 
     /**

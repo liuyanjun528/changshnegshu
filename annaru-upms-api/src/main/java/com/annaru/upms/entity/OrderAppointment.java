@@ -2,6 +2,7 @@ package com.annaru.upms.entity;
 
 import com.annaru.common.util.JacksonUtils;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import io.swagger.annotations.ApiModel;
@@ -27,7 +28,7 @@ public class OrderAppointment extends Model<OrderAppointment> implements Seriali
 	 * 系统编号
 	 */
     @ApiModelProperty(value = "系统编号")
-	@TableField("sys_id")
+	@TableId
 	private Integer sysId;
 	/**
 	 * 定单号
@@ -50,9 +51,9 @@ public class OrderAppointment extends Model<OrderAppointment> implements Seriali
 	private String userId;
 	/**
 	 * 类别：
-1:一般体检预约(C端) 
-2:进阶体检预约(C端) 
-3:分布式体检预约(B端) 
+1:一般体检预约(C端)
+2:进阶体检预约(C端)
+3:分布式体检预约(B端)
 4:进阶体检预约(B端)
 5:家庭医生
 6.门诊绿通预约
@@ -205,9 +206,9 @@ public class OrderAppointment extends Model<OrderAppointment> implements Seriali
 
 	/**
      * 获取：类别：
-1:一般体检预约(C端) 
-2:进阶体检预约(C端) 
-3:分布式体检预约(B端) 
+1:一般体检预约(C端)
+2:进阶体检预约(C端)
+3:分布式体检预约(B端)
 4:进阶体检预约(B端)
 5:家庭医生
 6.门诊绿通预约
@@ -217,9 +218,9 @@ public class OrderAppointment extends Model<OrderAppointment> implements Seriali
     }
 	/**
 	 * 设置：类别：
-1:一般体检预约(C端) 
-2:进阶体检预约(C端) 
-3:分布式体检预约(B端) 
+1:一般体检预约(C端)
+2:进阶体检预约(C端)
+3:分布式体检预约(B端)
 4:进阶体检预约(B端)
 5:家庭医生
 6.门诊绿通预约

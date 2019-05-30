@@ -29,9 +29,10 @@ public class OrderDetailServiceImpl extends ServiceImpl<OrderDetailMapper, Order
     }
 
     @Override
-    public int insertOrderDetail(Map<String, Object> params) {
-        return this.baseMapper.insertOrderDetail(params);
+    public int insertOrderDetail(OrderDetail orderDetail) {
+        return this.baseMapper.insertOrderDetail(orderDetail);
     }
+
 
 
 }

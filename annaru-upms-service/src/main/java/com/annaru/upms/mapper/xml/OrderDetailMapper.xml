@@ -10,6 +10,7 @@
         <result column="append_id" property="appendId" />
         <result column="effect_from" property="effectFrom" />
         <result column="effect_to" property="effectTo" />
+        <result column="rest_count" property="restCount" />
         <result column="total_count" property="totalCount" />
         <result column="remark" property="remark" />
         <result column="creationtime" property="creationtime" />
@@ -37,11 +38,11 @@
     </select>
 
 
-    <insert id="insertOrderDetail" parameterType="map">
+    <insert id="insertOrderDetail" parameterType="com.annaru.upms.entity.OrderDetail">
         insert into order_detail
-                  (rest_count,total_count,effect_from,effect_to,append_id)
+                  (order_no,rest_count,total_count,effect_from,effect_to,append_id)
         VALUES
-                (#{params.rest_count},#{params.total_count},#{params.effect_from},#{params.effect_to},#{params.append_id})
+                (#{orderNo},#{restCount},#{totalCount},#{effectFrom},#{effectTo},#{appendId})
     </insert>
 
 </mapper>

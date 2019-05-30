@@ -29,7 +29,7 @@ public interface IOrderDetailService extends IService<OrderDetail> {
      * @param params
      * @return
      */
-    int insertOrderDetail(@Param("params") Map<String, Object> params);
+    int insertOrderDetail(OrderDetail orderDetail);
 
 }
 
