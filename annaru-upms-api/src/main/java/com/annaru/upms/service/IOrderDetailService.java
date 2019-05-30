@@ -21,6 +21,6 @@ public interface IOrderDetailService extends IService<OrderDetail> {
     */
     PageUtils getDataPage(Map<String, Object> params);
 
-
+    OrderDetail hasRestTimes(Map<String,Object> params);
 }
 

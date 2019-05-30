@@ -56,4 +56,5 @@ public interface OrderMainMapper extends BaseMapper<OrderMain> {
 
     OrderMain getOrderNo(@Param("params") Map <String, Object> params);
 
+    List<Integer> getTimes(@Param("params") Map <String, Object> params);
 }

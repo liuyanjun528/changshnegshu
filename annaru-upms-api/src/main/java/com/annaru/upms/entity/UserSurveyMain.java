@@ -1,6 +1,7 @@
 package com.annaru.upms.entity;
 
 import com.annaru.common.util.JacksonUtils;
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -28,7 +29,7 @@ public class UserSurveyMain extends Model<UserSurveyMain> implements Serializabl
 	 * 系统编号
 	 */
     @ApiModelProperty(value = "系统编号")
-	@TableId
+	@TableId(type = IdType.AUTO)
 	private Integer surveyId;
 	/**
 	 * 用户编号
@@ -41,19 +42,19 @@ public class UserSurveyMain extends Model<UserSurveyMain> implements Serializabl
 	 */
     @ApiModelProperty(value = "问券时间")
 	@TableField("survey_time")
-	private Date surveyTime;
+	private Date surveyTime = new Date();
 	/**
 	 * 编辑时间
 	 */
     @ApiModelProperty(value = "编辑时间")
 	@TableField("edit_time")
-	private Date editTime;
+	private Date editTime = new Date();
 	/**
 	 * 是否有效(0:无效/1:有效)
 	 */
     @ApiModelProperty(value = "是否有效(0:无效/1:有效)")
 	@TableField("is_active")
-	private Integer isActive;
+	private Integer isActive = 1;
 
     /**
      * 获取：系统编号

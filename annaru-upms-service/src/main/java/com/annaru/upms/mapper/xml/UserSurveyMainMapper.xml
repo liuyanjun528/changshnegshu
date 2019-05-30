@@ -12,6 +12,17 @@
         <result column="is_active" property="isActive" />
     </resultMap>
 
+    <resultMap id="BaseResultMapVo" type="com.annaru.upms.entity.vo.UserSurveyVo" >
+        <result column="survey_id" property="surveyId" />
+        <result column="user_id" property="userId" />
+        <result column="survey_time" property="surveyTime" />
+        <collection property="surveyItemsList" ofType="com.annaru.upms.entity.vo.UserSurveyItemsVo">
+            <result column="question_id" property="questionId" />
+            <result column="answer_detail" property="answerDetail" />
+            <result column="name" property="name" />
+        </collection>
+    </resultMap>
+
     <!-- 多表页面信息查询分页 -->
     <select id="selectDataPage" parameterType="map" resultMap="BaseResultMap">
 
@@ -28,6 +39,20 @@
                 AND user_id LIKE CONCAT('%', #{params.userId}, '%')
             </if>
         </where>
+    </select>
+
+    <select id="getByUserId" parameterType="map" resultMap="BaseResultMapVo">
+        SELECT
+        usm.survey_id,
+        usm.user_id,
+        usm.survey_time,
+        slt.`name`,
+        usi.question_id,
+        usi.answer_detail
+        FROM user_survey_main usm
+        LEFT JOIN user_survey_items usi on usm.survey_id = usi.survey_id
+        LEFT JOIN sys_linkage_type slt on usi.question_id = slt.nid
+        where usm.user_id = #{params.userId}
     </select>
 
 </mapper>

@@ -58,9 +58,11 @@ public class OrderDetail extends Model<OrderDetail> implements Serializable {
      * 总数（关联 exam_package_append）
 	 */
 
-    @ApiModelProperty(value = "总数（关联 exam_package_append）")
-	@TableField("total_qty")
-	private Integer totalQty;
+	@TableField("rest_count")
+	private Integer restCount;
+
+	@TableField("total_count")
+	private Integer totalCount;
 	/**
 	 * 备注
 	 */
@@ -128,21 +130,24 @@ public class OrderDetail extends Model<OrderDetail> implements Serializable {
 	public void setEffectTo(String effectTo) {
 		this.effectTo = effectTo;
 	}
-    /**
-     * 获取：总数
-     * 获取：总数（关联 exam_package_append）
-     */
-    public Integer getTotalQty() {
-        return totalQty;
-    }
-	/**
-	 * 设置：总数
-	 * 设置：总数（关联 exam_package_append）
-	 */
-	public void setTotalQty(Integer totalQty) {
-		this.totalQty = totalQty;
+
+	public Integer getRestCount() {
+		return restCount;
 	}
-    /**
+
+	public void setRestCount(Integer restCount) {
+		this.restCount = restCount;
+	}
+
+	public Integer getTotalCount() {
+		return totalCount;
+	}
+
+	public void setTotalCount(Integer totalCount) {
+		this.totalCount = totalCount;
+	}
+
+	/**
      * 获取：备注
      */
     public String getRemark() {

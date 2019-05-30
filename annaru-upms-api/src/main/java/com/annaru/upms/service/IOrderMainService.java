@@ -52,5 +52,7 @@ public interface IOrderMainService extends IService<OrderMain> {
 
     OrderMain getOrderNo(Map<String,Object> params);
 
+    List<Integer> getTimes(Map<String,Object> params);
+
 }
 

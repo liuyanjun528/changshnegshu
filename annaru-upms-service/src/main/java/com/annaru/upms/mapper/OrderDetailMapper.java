@@ -31,5 +31,5 @@ public interface OrderDetailMapper extends BaseMapper<OrderDetail> {
     */
     IPage<OrderDetail> selectDataPage(Page page, @Param("params") Map<String, Object> params);
 
-
+    OrderDetail hasRestTimes(@Param("params") Map<String, Object> params);
 }

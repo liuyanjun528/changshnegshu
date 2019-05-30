@@ -87,6 +87,7 @@ public class OrderAppointmentController extends BaseController {
         OrderAppointment appointment  = new OrderAppointment();
         OrderExtensionExam orderExtensionExam = new OrderExtensionExam();
         OrderMain orderMain = new OrderMain();
+        OrderDetail orderDetail = new OrderDetail();
         OrderAdditionalInfo orderAdditionalInfo = new OrderAdditionalInfo();
         SysDoctorOppointment sysDoctorOppointment = new SysDoctorOppointment();
         try {
@@ -168,8 +169,12 @@ public class OrderAppointmentController extends BaseController {
                 String userId = orderAppointment.getUserId();
                 if (orderAppointment.getTimes()!=0){
                     Map<String,Object> params = new HashMap<>();
-                    params.put("referenceNo",orderAppointment.getReferenceNo());
-                    String orderNo = orderMainService.getOrderNo(params).getOrderNo();
+                    params.put("userId",userId);
+                    orderDetail = orderDetailService.hasRestTimes(params);
+                    String orderNo = orderDetail.getOrderNo();
+                    Integer restTime = orderDetail.getRestCount();
+                    orderDetail.setRestCount(restTime-1);
+                    orderDetailService.updateById(orderDetail);
                     appointment.setDepartmentId(orderAppointment.getDepartmentId());
                     appointment.setInstitutionId(orderAppointment.getInstitutionId());
                     appointment.setOrderNo(orderNo);
@@ -205,11 +210,12 @@ public class OrderAppointmentController extends BaseController {
                     }
                     orderAdditionalInfo.setAmount(orderAppointment.getAmount());
                     orderAdditionalInfoService.save(orderAdditionalInfo);
-                    if (orderAppointment.getAmount()!=null||orderAppointment.getAmount()!=0){
+                    if (orderAppointment.getAmount()!=null&&orderAppointment.getAmount()!=0){
                         orderMain.setOrderCates(6);
                         orderMain.setOrderNo(orderNo);
                         orderMain.setStatus(2);
                         orderMain.setUserId(userId);
+                        orderMain.setAmount(orderAppointment.getAmount());
                         orderMainService.save(orderMain);
                     }
                 }

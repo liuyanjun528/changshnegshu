@@ -103,7 +103,7 @@ public class OrderAppointment extends Model<OrderAppointment> implements Seriali
 
 	@ApiModelProperty(value = "科室编号")
 	@TableField("department_id")
-    private String departmentId;
+    private Integer departmentId;
 	/**
 	 * 服务选项(1:护士上门/2:指定地点)
 	 */
@@ -146,7 +146,16 @@ public class OrderAppointment extends Model<OrderAppointment> implements Seriali
 	@TableField("edit_by")
 	private String editBy;
 
-    /**
+
+	public Integer getDepartmentId() {
+		return departmentId;
+	}
+
+	public void setDepartmentId(Integer departmentId) {
+		this.departmentId = departmentId;
+	}
+
+	/**
      * 获取：系统编号
      */
     public Integer getSysId() {
@@ -193,14 +202,6 @@ public class OrderAppointment extends Model<OrderAppointment> implements Seriali
 	 */
 	public void setUserId(String userId) {
 		this.userId = userId;
-	}
-
-	public String getDepartmentId() {
-		return departmentId;
-	}
-
-	public void setDepartmentId(String departmentId) {
-		this.departmentId = departmentId;
 	}
 
 	/**
