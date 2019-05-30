@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.annaru.upms.mapper.EntityPurchseMainMapper">
+
+	<!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.annaru.upms.entity.EntityPurchseMain" >
+        <result column="sys_id" property="sysId" />
+        <result column="order_no" property="orderNo" />
+        <result column="entity_no" property="entityNo" />
+        <result column="package_id" property="packageId" />
+        <result column="cates" property="cates" />
+        <result column="effect_from" property="effectFrom" />
+        <result column="effect_to" property="effectTo" />
+        <result column="is_active" property="isActive" />
+        <result column="is_terminated" property="isTerminated" />
+        <result column="terminated_date" property="terminatedDate" />
+        <result column="total_amount" property="totalAmount" />
+        <result column="remarks" property="remarks" />
+        <result column="creation_time" property="creationTime" />
+        <result column="create_by" property="createBy" />
+        <result column="edit_time" property="editTime" />
+        <result column="edit_by" property="editBy" />
+    </resultMap>
+    
+    <sql id="BaseClounmSql">
+          sys_id,
+          order_no,
+          entity_no,
+          package_id,
+          cates,
+          effect_from,
+          effect_to,
+          is_active,
+          is_terminated,
+          terminated_date,
+          total_amount,
+          remarks,
+          creation_time,
+          create_by,
+          edit_time,
+          edit_by,
+    </sql>
+
+    <!-- 多表页面信息查询分页 -->
+    <select id="selectDataPage" parameterType="map" resultMap="BaseResultMap">
+
+        SELECT
+            <include refid="BaseClounmSql"></include>
+        FROM
+            entity_purchse_main
+
+    </select>
+
+</mapper>
