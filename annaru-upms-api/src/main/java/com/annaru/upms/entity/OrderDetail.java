@@ -58,7 +58,7 @@ public class OrderDetail extends Model<OrderDetail> implements Serializable {
 
 	/**
 	 * 总数
-	 * 总数（关联 exam_package_append）
+     * 总数（关联 exam_package_append）
 	 */
 	@ApiModelProperty(value = "剩余次数")
 	@TableField("rest_count")

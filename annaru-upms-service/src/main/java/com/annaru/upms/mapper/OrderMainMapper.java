@@ -65,4 +65,6 @@ public interface OrderMainMapper extends BaseMapper<OrderMain> {
     //int insertOrderMain(@Param("params") Map <String, Object> params);
     int insertOrderMain(OrderMain orderMain);
 
+	List<Integer> getTimes(@Param("params") Map <String, Object> params);
+
 }

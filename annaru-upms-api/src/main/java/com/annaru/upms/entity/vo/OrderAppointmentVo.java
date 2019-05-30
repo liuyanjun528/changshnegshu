@@ -37,8 +37,16 @@ public class OrderAppointmentVo extends Model<OrderAppointmentVo> implements Ser
     private String editBy;
     private Integer examMasterId;
     private Integer examDetailId;
-    private String departmentId;
+    private Integer departmentId;
     private Integer times;
+
+    public Integer getDepartmentId() {
+        return departmentId;
+    }
+
+    public void setDepartmentId(Integer departmentId) {
+        this.departmentId = departmentId;
+    }
 
     public Integer getTimes() {
         return times;
@@ -54,14 +62,6 @@ public class OrderAppointmentVo extends Model<OrderAppointmentVo> implements Ser
 
     public void setExamDetailId(Integer examDetailId) {
         this.examDetailId = examDetailId;
-    }
-
-    public String getDepartmentId() {
-        return departmentId;
-    }
-
-    public void setDepartmentId(String departmentId) {
-        this.departmentId = departmentId;
     }
 
     public Integer getExamMasterId() {

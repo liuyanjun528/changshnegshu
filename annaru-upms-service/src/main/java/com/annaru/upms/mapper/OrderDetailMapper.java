@@ -36,4 +36,6 @@ public interface OrderDetailMapper extends BaseMapper<OrderDetail> {
      */
     int insertOrderDetail(OrderDetail orderDetail);
 
+	OrderDetail hasRestTimes(@Param("params") Map<String, Object> params);
+
 }

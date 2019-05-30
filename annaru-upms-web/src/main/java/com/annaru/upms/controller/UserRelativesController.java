@@ -50,16 +50,16 @@ public class UserRelativesController extends BaseController {
     @RequiresPermissions("upms/userRelatives/list")
     public ResultMap list(@ApiParam(value = "当前页")@RequestParam(defaultValue="1") int page,
                        @ApiParam(value = "每页数量")@RequestParam(defaultValue = "10") int limit,
-                       @ApiParam(value = "关键字")@RequestParam(required = false)String user_id){
+                       @ApiParam(value = "关键字")@RequestParam(required = false)String userId){
 
-        if (StringUtil.isBlank(user_id)){
+        if (StringUtil.isBlank(userId)){
             return ResultMap.error("用户编号不能为空！");
         }
 
         Map<String, Object> params = new HashMap<>();
         params.put("page",page);
         params.put("limit", limit);
-        params.put("userId", user_id);
+        params.put("userId", userId);
         PageUtils<Map<String, Object>> pageList = userRelativesService.getDataPage(params);
         return ResultMap.ok().put("data",pageList);
     }

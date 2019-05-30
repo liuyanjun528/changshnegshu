@@ -17,6 +17,9 @@
         <result column="level" property="level" />
         <result column="tel_no1" property="telNo1" />
         <result column="tel_no2" property="telNo2" />
+        <result column="special_label" property="specialLabel"/>
+        <result column="longitude" property="longitude"/>
+        <result column="latitude" property="latitude"/>
         <result column="creation_time" property="creationTime" />
         <result column="edit_time" property="editTime" />
     </resultMap>
@@ -34,6 +37,9 @@
         <result column="level" property="level" />
         <result column="tel_no1" property="telNo1" />
         <result column="tel_no2" property="telNo2" />
+        <result column="special_label" property="specialLabel"/>
+        <result column="longitude" property="longitude"/>
+        <result column="latitude" property="latitude"/>
         <result column="creation_time" property="creationTime" />
         <result column="edit_time" property="editTime" />
         <result column="apNumber" property="apNumber" />
@@ -51,9 +57,12 @@
         si.district,
         si.images,
         si.level,
+        si.special_label,
+        si.longitude,
+        si.latitude,
         COUNT(*) apNumber
         FROM sys_institution si
-        LEFT JOIN order_appointment oa on si.sys_id=oa.institution_id
+        LEFT JOIN order_appointment oa on si.institution_id=oa.institution_id
         where
         si.is_approved = 1
         <if test="params.district !=null and params.district !=''">
@@ -63,6 +72,9 @@
             and  si.level LIKE CONCAT('%', #{params.level}, '%')
         </if>
         GROUP BY si.sys_id
+        <if test="params.number !=null and params.number !=''">
+            ORDER BY apNumber desc
+        </if>
     </select>
 
     <insert id="insertInstitution"  parameterType="com.annaru.upms.entity.SysInstitution" useGeneratedKeys="true" keyProperty="sysId" keyColumn="sysId">

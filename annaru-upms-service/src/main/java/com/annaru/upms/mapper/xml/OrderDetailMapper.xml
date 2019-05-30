@@ -25,7 +25,8 @@
               append_id,
               effect_from,
               effect_to,
-              total_count,
+        rest_count,
+        total_count,
               remark,
               creationtime
         FROM
@@ -44,5 +45,20 @@
         VALUES
                 (#{orderNo},#{restCount},#{totalCount},#{effectFrom},#{effectTo},#{appendId})
     </insert>
+
+    <select id="hasRestTimes" parameterType="map" resultMap="BaseResultMap">
+        SELECT
+        od.*
+        FROM
+        order_main om
+        LEFT JOIN order_detail od
+        on om.order_no = od.order_no
+        WHERE om.user_id = #{params.userId}
+        and od.append_id = 2
+        and od.rest_count is not NULL
+        and od.rest_count !=0
+        ORDER BY od.creationtime
+        LIMIT 1
+    </select>
 
 </mapper>

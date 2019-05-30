@@ -194,18 +194,15 @@ public class SysDoctor extends Model<SysDoctor> implements Serializable {
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
-	/**
-	 * 获取：全名
-	 */
+
 	public String getDoctorName() {
 		return doctorName;
 	}
-	/**
-	 * 设置：全名
-	 */
+
 	public void setDoctorName(String doctorName) {
 		this.doctorName = doctorName;
 	}
+
 	/**
 	 * 获取：头像
 	 */

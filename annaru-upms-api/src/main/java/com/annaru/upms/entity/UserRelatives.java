@@ -46,7 +46,7 @@ public class UserRelatives extends Model<UserRelatives> implements Serializable 
 	/**
 	 * 亲属编号
 	 */
-	@ApiModelProperty(value = "亲属姓名")
+	@ApiModelProperty(value = "亲属编号")
 	@TableField("relative_id")
 	private int relativeId;
 
