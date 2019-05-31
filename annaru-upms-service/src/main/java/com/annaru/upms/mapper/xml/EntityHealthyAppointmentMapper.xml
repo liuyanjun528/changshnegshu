@@ -3,19 +3,6 @@
 
 <mapper namespace="com.annaru.upms.mapper.EntityHealthyAppointmentMapper">
 
-    <!--<resultMap id="BaseResultMap_1" type="com.annaru.upms.entity.UserBasic" >
-        <result column="user_id" property="userId" />
-        <result column="full_name" property="fullName" />
-        <result column="gender" property="gender" />
-        <result column="date_of_birth" property="dateOfBirth" />
-
-        <collection property="relatives" ofType="com.annaru.upms.entity.UserRelatives">
-            <result column="relative_name" property="relativeName" />
-            <result column="gender" property="gender" />
-            <result column="remark" property="remark" />
-            <result column="date_of_birth" property="dateOfBirth" />
-        </collection>
-    </resultMap>-->
     <resultMap id="BaseResultMap1" type="com.annaru.upms.entity.vo.EntityHealthyAppointmentVo" >
         <id column="sys_id" property="sysId"/>
         <result column="order_no" property="orderNo"/>
@@ -38,17 +25,6 @@
         <result column="remark" property="remark"/>
     </resultMap>
 
-    <!--<resultMap id="BaseResultMap_2" type="com.annaru.upms.entity.vo.EntityHealthyAppointmentVo" >
-        <result column="sys_id" property="sysId"/>
-        <result column="order_no" property="orderNo"/>
-        <result column="user_id" property="userId" />
-        <result column="user_cate" property="userCate"/>
-        <result column="full_name" property="fullName" />
-        <result column="user_gender" property="userGender"/>
-        <result column="card_cates" property="cardCates"/>
-        <result column="id_card_no" property="idCardNo"/>
-        <result column="card_no" property="cardNo"/>
-    </resultMap>-->
 
 	<!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.annaru.upms.entity.EntityHealthyAppointment" >
