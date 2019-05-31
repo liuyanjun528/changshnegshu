@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.annaru.upms.mapper.HrEmployeeDetailMapper">
+
+	<!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.annaru.upms.entity.vo.HrEmployeeDetail" >
+        <result column="user_id" property="userId" />
+        <result column="entity_id" property="entityId" />
+        <result column="reference_no" property="referenceNo" />
+        <result column="user_channel" property="userChannel" />
+        <result column="appointment_cates" property="appointmentCates" />
+        <result column="service_option" property="serviceOption" />
+        <result column="time_from" property="timeFrom" />
+        <result column="name" property="address" />
+        <result column="time_to" property="timeTo" />
+        <result column="reportTime" property="reportTime" />
+        <result column="status" property="status" />
+    </resultMap>
+
+
+    <select id="selectEmployeeDetail" parameterType="map" resultMap="BaseResultMap">
+        select
+			uem.user_id, -- 用户ID
+			uem.entity_id, -- 企业ID
+			om.reference_no, -- 购买的套餐名称
+			om.user_channel, -- 购买渠道
+			oa.appointment_cates, -- 体检类别1:一般体检预约(C端) 2:进阶体检预约(C端) 3:分布式体检预约(B端) 4:进阶体检预约(B端)5:家庭医生6.门诊绿通预约
+			oa.service_option, -- 服务选项(1:护士上门/2:指定地点)
+			oa.time_from, -- 开始时间
+			address, -- 预约地址
+			oa.time_to, -- 完成时间
+			oa.status, -- 完成状态
+			oa.time_to as reportTime
+        FROM
+			  user_entity_mapping as uem
+        LEFT JOIN
+              order_main as om ON uem.user_id=om.user_id
+        LEFT JOIN
+              order_appointment as oa ON uem.user_id=oa.user_id
+        where
+        uem.user_id=#{userId} and reference_no=#{referenceNo}
+    </select>
+
+</mapper>

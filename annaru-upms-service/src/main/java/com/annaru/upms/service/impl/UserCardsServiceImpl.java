@@ -30,8 +30,8 @@ public class UserCardsServiceImpl extends ServiceImpl<UserCardsMapper, UserCards
     }
 
     @Override
-    public List<UserCards> selectByStatus(int status, int cardCates) {
-        return this.baseMapper.selectByStatus(status,cardCates);
+    public List<UserCards> selectByStatus(String userId) {
+        return this.baseMapper.selectByStatus(userId);
     }
 
     @Override

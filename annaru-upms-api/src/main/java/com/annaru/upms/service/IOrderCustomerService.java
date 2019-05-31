@@ -28,7 +28,7 @@ public interface IOrderCustomerService extends IService<OrderCustomer> {
      * @param params
      * @return
      */
-    int insertOrderCustomer(@Param("params") Map<String, Object> params);
+    int insertOrderCustomer(OrderCustomer orderCustomer);
 
 
 }

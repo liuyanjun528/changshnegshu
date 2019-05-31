@@ -41,6 +41,9 @@
             <if test="params.userId != null and params.userId != ''">
                 AND user_id = #{params.userId}
             </if>
+            <if test="params.relativeName != null and params.relativeName != ''">
+                AND relative_name LIKE CONCAT('%', #{params.relativeName}, '%')
+            </if>
         </where>
     </select>
 

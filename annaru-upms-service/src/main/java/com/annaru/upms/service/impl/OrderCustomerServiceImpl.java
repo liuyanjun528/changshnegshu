@@ -28,8 +28,8 @@ public class OrderCustomerServiceImpl extends ServiceImpl<OrderCustomerMapper, O
     }
 
     @Override
-    public int insertOrderCustomer(Map<String, Object> params) {
-        return this.baseMapper.insertOrderCustomer(params);
+    public int insertOrderCustomer(OrderCustomer orderCustomer) {
+        return this.baseMapper.insertOrderCustomer(orderCustomer);
     }
 
 }

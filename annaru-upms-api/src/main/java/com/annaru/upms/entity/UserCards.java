@@ -24,25 +24,6 @@ import java.util.Date;
 public class UserCards extends Model<UserCards> implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	private UserBasic base;
-	private SysInstitution institution;
-
-	public UserBasic getBase() {
-		return base;
-	}
-
-	public void setBase(UserBasic base) {
-		this.base = base;
-	}
-
-	public SysInstitution getInstitution() {
-		return institution;
-	}
-
-	public void setInstitution(SysInstitution institution) {
-		this.institution = institution;
-	}
-
 	/**
 	 * 系统编号
 	 */
@@ -69,11 +50,11 @@ public class UserCards extends Model<UserCards> implements Serializable {
 	private String cardNo;
 
 	/**
-	 * 医院关联Id
+	 * 手机号码
 	 */
-	@ApiModelProperty(value = "医院关联Id")
-	@TableField("institution_id")
-	private int institutionId;
+	@ApiModelProperty(value = "手机号码")
+	@TableField("cellphone_no")
+	private int cellphoneNo;
 
 
 	/**
@@ -146,16 +127,16 @@ public class UserCards extends Model<UserCards> implements Serializable {
 	}
 
 	/**
-	 * 获取：医院外键
+	 * 获取：手机号码
 	 */
-	public int getInstitutionId() {
-		return institutionId;
+	public int getCellphoneNo() {
+		return cellphoneNo;
 	}
 	/**
-	 * 设置：医院外键
+	 * 设置：手机号码
 	 */
-	public void setInstitutionId(int institutionId) {
-		this.institutionId = institutionId;
+	public void setCellphoneNo(int cellphoneNo) {
+		this.cellphoneNo = cellphoneNo;
 	}
 
 	/**

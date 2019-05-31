@@ -26,9 +26,9 @@ public interface OrderCustomerMapper extends BaseMapper<OrderCustomer> {
 
     /**
      * 增加订单用户表
-     * @param params
+     * @param orderCustomer
      * @return
      */
-    int insertOrderCustomer(@Param("params") Map<String, Object> params);
+    int insertOrderCustomer(OrderCustomer orderCustomer);
 
 }
