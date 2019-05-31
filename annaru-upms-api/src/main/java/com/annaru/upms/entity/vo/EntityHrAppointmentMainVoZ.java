@@ -138,6 +138,12 @@ public class EntityHrAppointmentMainVoZ implements Serializable {
 	 */
 	private String userId;
 
+	/**
+	 * 总数
+	 * @return
+	 */
+	private Integer countTotalUser;
+
 
 	public String getFullName() {
 		return fullName;
@@ -258,6 +264,12 @@ public class EntityHrAppointmentMainVoZ implements Serializable {
 	}
 	public void setUserId(String userId) {
 		this.userId = userId;
+	}
+	public Integer getCountTotalUser() {
+		return countTotalUser;
+	}
+	public void setCountTotalUser(Integer countTotalUser) {
+		this.countTotalUser = countTotalUser;
 	}
 
 	@Override

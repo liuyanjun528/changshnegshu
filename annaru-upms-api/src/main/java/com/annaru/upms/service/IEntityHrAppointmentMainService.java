@@ -2,6 +2,7 @@ package com.annaru.upms.service;
 
 
 import com.annaru.upms.entity.vo.EntityHrAppointmentMainVoZ;
+import com.annaru.upms.entity.vo.EntityHrAppointmentMainVoZ1;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.annaru.common.result.PageUtils;
 import com.annaru.upms.entity.EntityHrAppointmentMain;
@@ -50,6 +51,20 @@ public interface IEntityHrAppointmentMainService extends IService<EntityHrAppoin
      * @return
      */
     List<EntityHrAppointmentMainVoZ> hrYetAppointmentUser(Map <String, Object> params);
+
+    /**
+     * 多表页面信息查询 ，HR体检预约名单查询
+     * @param params
+     * @return
+     */
+    List<EntityHrAppointmentMainVoZ1> selectHrHealthAppointment(Map <String, Object> params);
+
+    /**
+     * 多表页面信息查询 ，HR体检预约名单查询标识
+     * @param params
+     * @return
+     */
+    List<EntityHrAppointmentMainVoZ1> selectHrHealthAppointmentBs(Map <String, Object> params);
 
 
 }
