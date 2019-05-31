@@ -28,11 +28,11 @@ public interface UserCardsMapper extends BaseMapper<UserCards> {
 
     /**
      * 通过已绑卡查询
-     * @param status 是否绑卡
-     * @param card_cates 绑卡类型
+     *
+     * @param userId 用户ID
      * @return
      */
-    List<UserCards> selectByStatus(@Param("status") int status, @Param("card_cates") int card_cates);
+    List<UserCards> selectByStatus(@Param("userId") String userId);
 
 
     /**

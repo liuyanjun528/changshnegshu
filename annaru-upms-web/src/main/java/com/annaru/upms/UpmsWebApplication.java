@@ -18,6 +18,7 @@ import org.springframework.session.data.redis.config.annotation.web.http.EnableR
  * @description Application
  * @date 2017年9月5日下午8:55:08
  */
+
 @SpringBootApplication(exclude= {DataSourceAutoConfiguration.class})
 @EnableAspectJAutoProxy
 @EnableAsync

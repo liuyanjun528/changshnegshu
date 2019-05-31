@@ -1,10 +1,12 @@
 package com.annaru.upms.entity;
 
 import com.annaru.common.util.JacksonUtils;
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -27,7 +29,7 @@ public class OrderDetail extends Model<OrderDetail> implements Serializable {
 	 * 系统编号
 	 */
     @ApiModelProperty(value = "系统编号")
-	@TableId
+	@TableId(type = IdType.AUTO)
 	private Integer sysId;
 	/**
 	 * 定单号
@@ -46,21 +48,27 @@ public class OrderDetail extends Model<OrderDetail> implements Serializable {
 	 */
     @ApiModelProperty(value = "开始时间")
 	@TableField("effect_from")
-	private Integer effectFrom;
+	private Date effectFrom;
 	/**
 	 * 结束时间
 	 */
     @ApiModelProperty(value = "结束时间")
 	@TableField("effect_to")
-	private String effectTo;
+	private Date effectTo;
+
 	/**
 	 * 总数
      * 总数（关联 exam_package_append）
 	 */
-
+	@ApiModelProperty(value = "剩余次数")
 	@TableField("rest_count")
-	private Integer restCount;
+    private Integer restCount;
 
+	/**
+	 * 总数
+     * 总数（关联 exam_package_append）
+	 */
+    @ApiModelProperty(value = "总数（关联 exam_package_append）")
 	@TableField("total_count")
 	private Integer totalCount;
 	/**
@@ -109,25 +117,25 @@ public class OrderDetail extends Model<OrderDetail> implements Serializable {
     /**
      * 获取：开始时间
      */
-    public Integer getEffectFrom() {
+    public Date getEffectFrom() {
         return effectFrom;
     }
 	/**
 	 * 设置：开始时间
 	 */
-	public void setEffectFrom(Integer effectFrom) {
+	public void setEffectFrom(Date effectFrom) {
 		this.effectFrom = effectFrom;
 	}
     /**
      * 获取：结束时间
      */
-    public String getEffectTo() {
+    public Date getEffectTo() {
         return effectTo;
     }
 	/**
 	 * 设置：结束时间
 	 */
-	public void setEffectTo(String effectTo) {
+	public void setEffectTo(Date effectTo) {
 		this.effectTo = effectTo;
 	}
 
@@ -139,15 +147,21 @@ public class OrderDetail extends Model<OrderDetail> implements Serializable {
 		this.restCount = restCount;
 	}
 
-	public Integer getTotalCount() {
-		return totalCount;
-	}
-
+	/**
+     * 获取：总数
+     * 获取：总数（关联 exam_package_append）
+     */
+    public Integer getTotalCount() {
+        return totalCount;
+    }
+	/**
+	 * 设置：总数
+	 * 设置：总数（关联 exam_package_append）
+	 */
 	public void setTotalCount(Integer totalCount) {
 		this.totalCount = totalCount;
 	}
-
-	/**
+    /**
      * 获取：备注
      */
     public String getRemark() {

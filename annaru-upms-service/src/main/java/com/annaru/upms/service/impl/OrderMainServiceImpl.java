@@ -8,6 +8,7 @@ import com.annaru.common.result.PageUtils;
 import com.annaru.upms.entity.OrderMain;
 import com.annaru.upms.mapper.OrderMainMapper;
 import com.annaru.upms.service.IOrderMainService;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Map;
 import java.util.List;
@@ -58,13 +59,15 @@ public class OrderMainServiceImpl extends ServiceImpl<OrderMainMapper, OrderMain
     }
 
     @Override
-    public int insertOrderMain(Map<String, Object> params) {
-        return this.baseMapper.insertOrderMain(params);
+    @Transactional
+    public int insertOrderMain(OrderMain orderMain) {
+        return this.baseMapper.insertOrderMain(orderMain);
     }
 
     public List<Integer>  getTimes(Map<String,Object> params){
         return this.baseMapper.getTimes(params);
     }
+
 
 
 }
