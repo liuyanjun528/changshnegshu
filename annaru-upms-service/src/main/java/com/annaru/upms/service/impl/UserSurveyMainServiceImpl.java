@@ -2,6 +2,8 @@ package com.annaru.upms.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.annaru.common.result.PageUtils;
+import com.annaru.upms.entity.vo.UserSurveyMainVo;
+import com.annaru.upms.entity.vo.UserSurveyVo;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -30,4 +32,12 @@ public class UserSurveyMainServiceImpl extends ServiceImpl<UserSurveyMainMapper,
         return new PageUtils<UserSurveyMain>(iPage);
     }
 
+    public UserSurveyVo getByUserId(Map<String,Object> params){
+        return this.baseMapper.getByUserId(params);
+    }
+
+    public int saveOne(UserSurveyMain userSurveyMain){
+         this.baseMapper.insert(userSurveyMain);
+         return userSurveyMain.getSurveyId();
+    }
 }

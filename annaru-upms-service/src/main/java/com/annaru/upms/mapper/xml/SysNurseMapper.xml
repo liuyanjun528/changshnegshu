@@ -8,7 +8,7 @@
         <result column="sys_id" property="sysId" />
         <result column="nurse_no" property="nurseNo" />
         <result column="user_id" property="userId" />
-        <result column="name" property="name" />
+        <result column="nurse_name" property="nurseName" />
         <result column="head_image" property="headImage" />
         <result column="belong_hospital" property="belongHospital" />
         <result column="belong_office" property="belongOffice" />
@@ -30,7 +30,7 @@
               sys_id,
               nurse_no,
               user_id,
-              name,
+              nurse_name,
               head_image,
               belong_hospital,
               belong_office,
@@ -45,11 +45,11 @@
               edit_time
         FROM
             sys_nurse
-        WHERE
-            status=0
-            <if test="params.key != null and params.key != ''">
-                AND key LIKE CONCAT('%', #{params.key}, '%')
+        <where>
+            <if test="params.nurseName != null and params.nurseName != ''">
+                AND nurse_name LIKE CONCAT('%', #{params.nurseName}, '%')
             </if>
+        </where>
     </select>
 
 </mapper>

@@ -13,10 +13,8 @@ import java.util.Map;
 /**
  * 定单详细表
  *
-<<<<<<< Updated upstream
  * @author xck
  * @date 2019-05-20 16:18:34
-=======
  * @author wh
  * @date 2019-05-22 12:06:42
 
@@ -33,9 +31,11 @@ public interface OrderDetailMapper extends BaseMapper<OrderDetail> {
 
     /**
      * 添加订单详细表
-     * @param params
+     * @param orderDetail
      * @return
      */
-    int insertOrderDetail(@Param("params") Map<String, Object> params);
+    int insertOrderDetail(OrderDetail orderDetail);
+
+	OrderDetail hasRestTimes(@Param("params") Map<String, Object> params);
 
 }

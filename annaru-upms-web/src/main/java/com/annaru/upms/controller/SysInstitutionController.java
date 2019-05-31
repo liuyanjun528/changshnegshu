@@ -42,12 +42,14 @@ public class SysInstitutionController extends BaseController {
     public ResultMap list(@ApiParam(value = "当前页")@RequestParam(defaultValue="1") int page,
                           @ApiParam(value = "每页数量")@RequestParam(defaultValue = "10") int limit,
                           @ApiParam(value = "行政区")@RequestParam(required = false) String district,
+                          @ApiParam(value = "预约量")@RequestParam(required = false) String number,
                           @ApiParam(value = "机构等级")@RequestParam(required = false) String level){
 
         Map<String, Object> params = new HashMap<>();
         params.put("page",page);
         params.put("limit", limit);
         params.put("district", district);
+        params.put("number", number);
         params.put("level",level);
         PageUtils<Map<String, Object>> pageList = sysInstitutionService.getDataPage(params);
         return ResultMap.ok().put("data",pageList);

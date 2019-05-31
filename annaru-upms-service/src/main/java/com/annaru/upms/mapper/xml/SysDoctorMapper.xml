@@ -8,7 +8,7 @@
         <result column="sys_id" property="sysId" />
         <result column="doctor_no" property="doctorNo" />
         <result column="user_id" property="userId" />
-        <result column="full_name" property="fullName" />
+        <result column="doctor_name" property="doctorName" />
         <result column="head_image" property="headImage" />
         <result column="degrees" property="degrees" />
         <result column="star_count" property="starCount" />
@@ -36,7 +36,7 @@
         sys_id,
         doctor_no,
         user_id,
-        full_name,
+        doctor_name,
         head_image,
         degrees,
         star_count,
@@ -74,7 +74,7 @@
         SELECT
         doctor_no,
         user_id,
-        full_name,
+        doctor_name,
         head_image,
         degrees,
         star_count,

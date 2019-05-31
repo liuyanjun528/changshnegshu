@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  */
 
 @SpringBootApplication(exclude = DruidDataSourceAutoConfigure.class)
+@EnableTransactionManagement//注解开启事务
 @EnableRedisHttpSession(maxInactiveIntervalInSeconds = 1800)
 @EnableAsync
 @EnableScheduling

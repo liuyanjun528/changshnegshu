@@ -9,6 +9,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -67,8 +68,15 @@ public class OrderMainServiceImpl extends ServiceImpl<OrderMainMapper, OrderMain
     }
 
     @Override
-    public int insertOrderMain(Map<String, Object> params) {
-        return this.baseMapper.insertOrderMain(params);
+    @Transactional
+    public int insertOrderMain(OrderMain orderMain) {
+        return this.baseMapper.insertOrderMain(orderMain);
     }
+
+    public List<Integer>  getTimes(Map<String,Object> params){
+        return this.baseMapper.getTimes(params);
+    }
+
+
 
 }

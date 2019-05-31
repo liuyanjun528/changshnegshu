@@ -22,14 +22,14 @@ public interface IOrderDetailService extends IService<OrderDetail> {
     */
     PageUtils getDataPage(Map<String, Object> params);
 
-
+    OrderDetail hasRestTimes(Map<String,Object> params);
 
     /**
      * 添加订单详细表
      * @param params
      * @return
      */
-    int insertOrderDetail(@Param("params") Map<String, Object> params);
+    int insertOrderDetail(OrderDetail orderDetail);
 
 }
 

@@ -5,6 +5,7 @@ import java.util.*;
 import com.annaru.common.base.BaseController;
 import com.annaru.common.result.PageUtils;
 import com.annaru.common.result.ResultMap;
+import com.annaru.upms.entity.vo.SysLinkageTypeVo;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import com.alibaba.dubbo.config.annotation.Reference;
 import org.springframework.web.bind.annotation.*;
@@ -78,6 +79,16 @@ public class SysLinkageTypeController extends BaseController {
             logger.error(e.getMessage());
             return ResultMap.error("运行异常，请联系管理员");
         }
+    }
+
+    @ApiOperation(value = "问卷问题列表")
+    @GetMapping("/answerlist")
+    @RequiresPermissions("/sysLinkageType/answerlist")
+    public ResultMap answerlist(@ApiParam(value = "问题类型")@RequestParam String type){
+        Map<String,Object> params = new HashMap<>();
+        params.put("type",type);
+        List<SysLinkageTypeVo> list = sysLinkageTypeService.getList(params);
+        return ResultMap.ok().put("data",list);
     }
 
     /**

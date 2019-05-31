@@ -10,9 +10,17 @@
         <result column="nid" property="nid" />
     </resultMap>
 
+    <resultMap id="BaseResultMapVo" type="com.annaru.upms.entity.vo.SysLinkageTypeVo" >
+        <result column="name" property="name" />
+        <result column="nid" property="nid" />
+        <collection property="linkageList" ofType="com.annaru.upms.entity.vo.SysLinkageVo">
+            <result column="seqno" property="seqno"/>
+            <result column="answers" property="name"/>
+        </collection>
+    </resultMap>
+
     <!-- 多表页面信息查询分页 -->
     <select id="selectDataPage" parameterType="map" resultMap="BaseResultMap">
-
         SELECT
               id,
               name,
@@ -24,6 +32,17 @@
                 AND name LIKE CONCAT('%', #{params.name}, '%')
             </if>
         </where>
+    </select>
+
+    <select id="getList" parameterType="map" resultMap="BaseResultMapVo">
+        SELECT
+        slt.name,slt.nid,sl.name answers,sl.seqno
+        FROM
+        sys_linkage_type slt
+        LEFT JOIN sys_linkage sl on slt.id = sl.type_id
+        WHERE slt.nid LIKE CONCAT('%', #{params.type}, '%')
+        and sl.is_active = 1
+        ORDER BY MID(slt.nid,2,10) +1,seqno
     </select>
 
 </mapper>

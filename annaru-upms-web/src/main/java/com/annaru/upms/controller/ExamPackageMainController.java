@@ -41,24 +41,24 @@ public class ExamPackageMainController extends BaseController {
     @RequiresPermissions("upms/examPackageMain/list")
     public ResultMap list(@ApiParam(value = "当前页")@RequestParam(defaultValue="1") int page,
                        @ApiParam(value = "每页数量")@RequestParam(defaultValue = "10") int limit,
-                       @ApiParam(value = "价格区间开始")@RequestParam(required = false)Double amount_from,
-                       @ApiParam(value = "价格区间结束")@RequestParam(required = false)Double amount_to,
-                       @ApiParam(value = "年龄开始")@RequestParam(required = false)Integer age_from,
-                       @ApiParam(value = "年龄结束")@RequestParam(required = false)Integer age_to,
-                       @ApiParam(value = "适用性别:(1:男/2:女/3:男女都适用)")@RequestParam(required = false)Integer suite_gender,
-                       @ApiParam(value = "检查项目主表编号")@RequestParam(required = false)Integer exam_master_i,
-                       @ApiParam(value = "根据预约排序")@RequestParam(required = false)Integer sort_count_person){
+                       @ApiParam(value = "价格区间开始")@RequestParam(required = false)Double amountFrom,
+                       @ApiParam(value = "价格区间结束")@RequestParam(required = false)Double amountTo,
+                       @ApiParam(value = "年龄开始")@RequestParam(required = false)Integer ageFrom,
+                       @ApiParam(value = "年龄结束")@RequestParam(required = false)Integer ageTo,
+                       @ApiParam(value = "适用性别:(1:男/2:女/3:男女都适用)")@RequestParam(required = false)Integer suiteGender,
+                       @ApiParam(value = "检查项目主表编号")@RequestParam(required = false)Integer examMasterI,
+                       @ApiParam(value = "根据预约排序")@RequestParam(required = false)Integer sortCountPerson){
 
         Map<String, Object> params = new HashMap<>();
         params.put("page",page);
         params.put("limit", limit);
-        params.put("amountFrom", amount_from);
-        params.put("amountTo", amount_to);
-        params.put("ageFrom", age_from);
-        params.put("ageTo", age_to);
-        params.put("suiteGender", suite_gender);
-        params.put("examMasterI", exam_master_i);
-        params.put("sort_count_person", sort_count_person);
+        params.put("amountFrom", amountFrom);
+        params.put("amountTo", amountTo);
+        params.put("ageFrom", ageFrom);
+        params.put("ageTo", ageTo);
+        params.put("suiteGender", suiteGender);
+        params.put("examMasterI", examMasterI);
+        params.put("sort_count_person", sortCountPerson);
         PageUtils<Map<String, Object>> pageList = examPackageMainService.selectDataPageZ(params);
         return ResultMap.ok().put("data",pageList);
     }

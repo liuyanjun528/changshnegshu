@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.annaru.upms.mapper.EntityHrAppointmentMainMapper">
+
+	<!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.annaru.upms.entity.EntityHrAppointmentMain" >
+        <result column="sys_id" property="sysId" />
+        <result column="entity_no" property="entityNo" />
+        <result column="package_id" property="packageId" />
+        <result column="appointment_cates" property="appointmentCates" />
+        <result column="appointment_date" property="appointmentDate" />
+        <result column="time_from" property="timeFrom" />
+        <result column="time_to" property="timeTo" />
+        <result column="address" property="address" />
+        <result column="institution_id" property="institutionId" />
+        <result column="service_option" property="serviceOption" />
+        <result column="status" property="status" />
+        <result column="is_cancelled" property="isCancelled" />
+        <result column="is_deleted" property="isDeleted" />
+        <result column="amount" property="amount" />
+        <result column="hr_rest_count" property="hrRestCount" />
+        <result column="hr_total_count" property="hrTotalCount" />
+        <result column="creation_time" property="creationTime" />
+        <result column="create_by" property="createBy" />
+        <result column="edit_time" property="editTime" />
+        <result column="edit_by" property="editBy" />
+    </resultMap>
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap1" type="com.annaru.upms.entity.vo.EntityHrAppointmentMainVoZ" >
+        <result column="packageName" property="packageName" />
+        <result column="hrRestCount" property="hrRestCount" />
+        <result column="hrTotalCount" property="hrTotalCount" />
+        <result column="serviceName" property="serviceName" />
+        <result column="periods" property="periods" />
+        <result column="entityName" property="entityName" />
+        <result column="fullName" property="fullName" />
+        <result column="amount" property="amount" />
+        <result column="creationTime" property="creationTime" />
+        <result column="serviceOption" property="serviceOption" />
+        <result column="appointmentDate" property="appointmentDate" />
+        <result column="headImage" property="headImage" />
+        <result column="chneseSpell" property="chneseSpell" />
+        <result column="userId" property="userId" />
+        <result column="entityNo" property="entityNo" />
+        <result column="sysId" property="sysId" />
+    </resultMap>
+    
+    <sql id="BaseClounmSql">
+          sys_id,
+          entity_no,
+          package_id,
+          appointment_cates,
+          appointment_date,
+          time_from,
+          time_to,
+          address,
+          institution_id,
+          service_option,
+          status,
+          is_cancelled,
+          is_deleted,
+          amount,
+          hr_rest_count,
+          hr_total_count,
+          creation_time,
+          create_by,
+          edit_time,
+          edit_by,
+    </sql>
+
+    <!-- 多表页面信息查询分页 -->
+    <select id="selectDataPage" parameterType="map" resultMap="BaseResultMap">
+
+        SELECT
+            <include refid="BaseClounmSql"></include>
+        FROM
+            entity_hr_appointment_main
+
+    </select>
+
+    <!-- 多表页面信息查询分页  HR历史记录 -->
+    <select id="historyRecord" parameterType="map" resultMap="BaseResultMap1">
+        SELECT
+            eham.sys_id sysId,
+            epm.package_name packageName,
+            eham.hr_rest_count hrRestCount,
+            eham.hr_total_count hrTotalCount,
+            epa.periods,
+            ea.service_name serviceName
+        FROM entity_hr_appointment_main eham
+        LEFT JOIN exam_package_main epm ON epm.sys_id = eham.package_id
+        LEFT JOIN exam_package_append epa ON epa.package_main_id = epm.sys_id
+        LEFT JOIN exam_append ea ON ea.sys_id = epa.append_id
+        WHERE
+        1 = 1 AND eham.is_deleted = 0 AND eham.is_cancelled = 0 AND eham.status = 1
+        <if test="params.entityNo != null and params.entityNo != ''">
+            AND eham.entity_no = #{params.entityNo}
+        </if>
+        ORDER BY eham.creation_time DESC
+    </select>
+
+    <!-- 多表页面信息查询分页  HR购买记录 -->
+    <select id="htOrderRecord" parameterType="map" resultMap="BaseResultMap1">
+
+        SELECT
+            eham.sys_id sysId,
+            epm.package_name packageName,
+            eham.hr_total_count hrTotalCount,
+            se.entity_name entityName,
+            ub.full_name fullName,
+            eham.amount,
+            eham.creation_time creationTime
+        FROM entity_hr_appointment_main eham
+        LEFT JOIN exam_package_main epm ON epm.sys_id = eham.package_id
+        LEFT JOIN sys_entity se ON se.entity_id = eham.entity_no
+        LEFT JOIN user_basic ub ON ub.user_id = eham.create_by
+        WHERE
+            1 = 1 AND eham.is_deleted = 0
+            <if test="params.sysId != null and params.sysId != ''">
+                AND eham.sys_id = #{params.sysId}
+            </if>
+
+    </select>
+
+    <!-- 多表页面信息查询分页  HR记录详情 -->
+    <select id="hrRecordDetail" parameterType="map" resultMap="BaseResultMap1">
+
+        SELECT
+            eham.sys_id sysId,
+            eham.entity_no entityNo,
+            eham.service_option serviceOption,
+            eham.appointment_date appointmentDate,
+            eham.address,
+            (
+                SELECT count(ehad.sys_id) FROM entity_hr_appointment_detail ehad
+                WHERE 1 = 1 AND ehad.is_transfered = 1
+                <if test="params.sysId != null and params.sysId != ''">
+                    AND eham.sys_id = #{params.sysId}
+                </if>
+             ) AS tjygrs,
+            yyxm.name yyxmName,
+            yyxm.countDetail
+        FROM entity_hr_appointment_main eham
+        LEFT JOIN (
+				SELECT
+					eham1.sys_id eham1_sys_id,
+					em.name name,
+					count(ed.sys_id) countDetail
+				FROM entity_hr_appointment_main eham1
+				LEFT JOIN exam_package_detail epd ON epd.exam_main_id = eham1.package_id
+				LEFT JOIN exam_master em ON em.sys_id = epd.exam_master_id
+				LEFT JOIN exam_detail ed ON ed.sys_id = epd.exam_detail_id
+				GROUP BY epd.exam_master_id
+			) yyxm ON yyxm.eham1_sys_id = eham.sys_id
+        WHERE
+            1 = 1
+            <if test="params.sysId != null and params.sysId != ''">
+                AND eham.sys_id = #{params.sysId}
+            </if>
+
+    </select>
+
+    <!-- 多表页面信息查询分页  HR已预约员工列表 -->
+    <select id="hrYetAppointmentUser" parameterType="map" resultMap="BaseResultMap1">
+
+         SELECT
+            eham.sys_id sysId,
+            eham.entity_no entityNo,
+            eham.hr_total_count hrTotalCount,
+            eham.hr_rest_count hrRestCount,
+            ub.full_name fullName,
+            ub.head_image headImage,
+            ub.chinese_spell chineseSpell,
+            ub.user_id userId
+        FROM entity_hr_appointment_detail ehad
+        LEFT JOIN user_basic ub ON ub.user_id = ehad.user_id
+        LEFT JOIN entity_hr_appointment_main eham ON eham.sys_id = ehad.main_id
+        WHERE
+            1 = 1 AND ehad.is_transfered = 1
+            <if test="params.sysId != null and params.sysId != ''">
+                AND ehad.main_id = #{params.sysId}
+            </if>
+    </select>
+</mapper>

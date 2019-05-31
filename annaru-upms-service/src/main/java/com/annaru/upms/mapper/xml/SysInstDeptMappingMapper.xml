@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.annaru.upms.mapper.SysInstDeptMappingMapper">
+
+	<!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.annaru.upms.entity.SysInstDeptMapping" >
+        <result column="sys_id" property="sysId" />
+        <result column="institution_id" property="institutionId" />
+        <result column="department_id" property="departmentId" />
+        <result column="is_active" property="isActive" />
+        <result column="creation_time" property="creationTime" />
+    </resultMap>
+    
+    <sql id="BaseClounmSql">
+          sys_id,
+          institution_id,
+          department_id,
+          is_active,
+          creation_time,
+    </sql>
+
+    <!-- 多表页面信息查询分页 -->
+    <select id="selectDataPage" parameterType="map" resultMap="BaseResultMap">
+
+        SELECT
+            <include refid="BaseClounmSql"></include>
+        FROM
+            sys_inst_dept_mapping
+
+    </select>
+
+</mapper>

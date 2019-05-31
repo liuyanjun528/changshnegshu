@@ -24,5 +24,11 @@ public interface OrderCustomerMapper extends BaseMapper<OrderCustomer> {
     */
     IPage<OrderCustomer> selectDataPage(Page page, @Param("params") Map<String, Object> params);
 
+    /**
+     * 增加订单用户表
+     * @param orderCustomer
+     * @return
+     */
+    int insertOrderCustomer(OrderCustomer orderCustomer);
 
 }

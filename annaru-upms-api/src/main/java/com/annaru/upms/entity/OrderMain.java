@@ -1,6 +1,7 @@
 package com.annaru.upms.entity;
 
 import com.annaru.common.util.JacksonUtils;
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -28,7 +29,7 @@ public class OrderMain extends Model<OrderMain> implements Serializable {
 	 * 系统编号
 	 */
     @ApiModelProperty(value = "系统编号")
-	@TableId
+	@TableId(type = IdType.AUTO)
 	private Integer sysId;
 	/**
 	 * 定单号
@@ -73,7 +74,20 @@ public class OrderMain extends Model<OrderMain> implements Serializable {
 	@ApiModelProperty(value = "下定单时间")
 	@TableField("order_time")
 	private Date orderTime = new Date();
-	/**
+
+    @ApiModelProperty(value = "总金额")
+    @TableField("amount")
+    private Double amount;
+
+    public Double getAmount() {
+        return amount;
+    }
+
+    public void setAmount(Double amount) {
+        this.amount = amount;
+    }
+
+    /**
 	 * 总数
 	 */
     @ApiModelProperty(value = "总数")
@@ -109,7 +123,43 @@ public class OrderMain extends Model<OrderMain> implements Serializable {
 	private Integer isDeleted = 0;
 	private Date creationtime = new Date();
 
-    /**
+	@ApiModelProperty(value = "订单详情表")
+	@TableField(exist = false)
+	private OrderDetail orderDetail;
+
+	@ApiModelProperty(value = "客户表")
+	@TableField(exist = false)
+	private OrderCustomer orderCustomer;
+
+	@ApiModelProperty(value = "家庭医生表")
+	@TableField(exist = false)
+	private UserFamilyDoctor userFamilyDoctor;
+
+	public UserFamilyDoctor getUserFamilyDoctor() {
+		return userFamilyDoctor;
+	}
+
+	public void setUserFamilyDoctor(UserFamilyDoctor userFamilyDoctor) {
+		this.userFamilyDoctor = userFamilyDoctor;
+	}
+
+	public OrderDetail getOrderDetail() {
+		return orderDetail;
+	}
+
+	public void setOrderDetail(OrderDetail orderDetail) {
+		this.orderDetail = orderDetail;
+	}
+
+	public OrderCustomer getOrderCustomer() {
+		return orderCustomer;
+	}
+
+	public void setOrderCustomer(OrderCustomer orderCustomer) {
+		this.orderCustomer = orderCustomer;
+	}
+
+	/**
      * 获取：系统编号
      */
     public Integer getSysId() {

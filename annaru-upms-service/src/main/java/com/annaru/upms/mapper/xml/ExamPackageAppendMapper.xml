@@ -21,11 +21,16 @@
               creation_time
         FROM
             exam_package_append
-        WHERE
-            status=0
-            <if test="params.key != null and params.key != ''">
-                AND key LIKE CONCAT('%', #{params.key}, '%')
+        <where>
+            <if test="params.sysId != null and params.sysId != ''">
+                AND sys_id LIKE CONCAT('%', #{params.sysId}, '%')
             </if>
+        </where>
+    </select>
+
+    <!--根据套餐ID查询套餐赠送的服务-->
+    <select id="selectExamName" parameterType="map" resultMap="BaseResultMap">
+          select append_id from exam_package_append where package_main_id=#{package_main_id}
     </select>
 
 </mapper>

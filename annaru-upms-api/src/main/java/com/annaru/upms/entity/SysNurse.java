@@ -44,8 +44,9 @@ public class SysNurse extends Model<SysNurse> implements Serializable {
 	/**
 	 * 姓名
 	 */
-    @ApiModelProperty(value = "姓名")
-	private String name;
+    @ApiModelProperty(value = "护士姓名")
+	@TableField("nurse_name")
+	private String nurseName;
 	/**
 	 * 头像
 	 */
@@ -156,14 +157,14 @@ public class SysNurse extends Model<SysNurse> implements Serializable {
     /**
      * 获取：姓名
      */
-    public String getName() {
-        return name;
+    public String getNurseName() {
+        return nurseName;
     }
 	/**
 	 * 设置：姓名
 	 */
-	public void setName(String name) {
-		this.name = name;
+	public void setNurseName(String nurseName) {
+		this.nurseName = nurseName;
 	}
     /**
      * 获取：头像

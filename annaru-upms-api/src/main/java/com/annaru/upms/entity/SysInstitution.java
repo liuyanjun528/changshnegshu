@@ -84,6 +84,15 @@ public class SysInstitution extends Model<SysInstitution> implements Serializabl
     @ApiModelProperty(value = "联系电话2")
 	@TableField("tel_no2")
 	private String telNo2;
+
+    @TableField("special_label")
+	private String specialLabel;
+
+	@TableField("longitude")
+	private Float longitude;
+
+	@TableField("latitude")
+	private Float latitude;
 	/**
 	 * 创建时间
 	 */
@@ -229,7 +238,32 @@ public class SysInstitution extends Model<SysInstitution> implements Serializabl
 	public void setTelNo2(String telNo2) {
 		this.telNo2 = telNo2;
 	}
-    /**
+
+	public String getSpecialLabel() {
+		return specialLabel;
+	}
+
+	public void setSpecialLabel(String specialLabel) {
+		this.specialLabel = specialLabel;
+	}
+
+	public Float getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(Float longitude) {
+		this.longitude = longitude;
+	}
+
+	public Float getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(Float latitude) {
+		this.latitude = latitude;
+	}
+
+	/**
      * 获取：创建时间
      */
     public Date getCreationTime() {
