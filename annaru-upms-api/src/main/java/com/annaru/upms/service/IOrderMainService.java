@@ -60,7 +60,7 @@ public interface IOrderMainService extends IService<OrderMain> {
      * @param orderNo 订单号
      * @Author: XCK
      * @Date: 2019/5/31
-     * @return 
+     * @return
      */
     OrderMain getByOrderNo(String orderNo);
 
@@ -69,7 +69,6 @@ public interface IOrderMainService extends IService<OrderMain> {
      * @param orderMain
      * @return
      */
-    //int insertOrderMain(Map <String, Object> params);
     int insertOrderMain(OrderMain orderMain);
 
     List<OrderInfoVo> getToB(@Param("params") Map <String, Object> params);

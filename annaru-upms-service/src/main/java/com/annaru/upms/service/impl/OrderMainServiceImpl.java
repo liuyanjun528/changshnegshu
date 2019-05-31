@@ -60,8 +60,13 @@ public class OrderMainServiceImpl extends ServiceImpl<OrderMainMapper, OrderMain
     }
 
     @Override
-    public int insertOrderMain(Map<String, Object> params) {
-        return this.baseMapper.insertOrderMain(params);
+    public OrderMain getByOrderNo(String orderNo) {
+        return this.baseMapper.selectByOrderNo(orderNo);
+    }
+
+    @Override
+    public int insertOrderMain(OrderMain orderMain) {
+        return this.baseMapper.insertOrderMain(orderMain);
     }
 
     public List<Integer>  getTimes(Map<String,Object> params){
