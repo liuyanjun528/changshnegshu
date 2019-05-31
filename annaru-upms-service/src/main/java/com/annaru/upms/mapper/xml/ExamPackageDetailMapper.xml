@@ -11,6 +11,11 @@
         <result column="exam_detail_id" property="examDetailId" />
     </resultMap>
 
+    <resultMap id="BaseResultMapVo" type="com.annaru.upms.entity.vo.ExamChooseVo">
+        <result column="exam_master_id" property="examMasterId"/>
+        <result column="name" property="name"/>
+    </resultMap>
+
     <!-- 多表页面信息查询分页 -->
     <select id="selectDataPage" parameterType="map" resultMap="BaseResultMap">
 
@@ -26,6 +31,19 @@
             <if test="params.key != null and params.key != ''">
                 AND key LIKE CONCAT('%', #{params.key}, '%')
             </if>
+    </select>
+
+
+    <select id="getChoosen" parameterType="map" resultMap="BaseResultMapVo">
+                SELECT
+                epd.exam_master_id,
+                em.`name`
+                from
+                exam_package_detail epd
+                LEFT JOIN exam_master em
+                on epd.exam_master_id = em.sys_id
+                WHERE epd.exam_main_id = #{params.examId}
+                GROUP BY epd.exam_master_id
     </select>
 
 </mapper>

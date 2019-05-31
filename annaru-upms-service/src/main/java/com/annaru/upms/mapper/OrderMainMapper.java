@@ -74,4 +74,10 @@ public interface OrderMainMapper extends BaseMapper<OrderMain> {
      * @return
      */
     OrderMain selectByOrderNo(@Param("orderNo") String orderNo);
+
+    List<OrderInfoVo> getToB(@Param("params") Map <String, Object> params);
+
+    List<OrderExtensionInfoVo> getExtensionInfo(@Param("params") Map <String, Object> params);
+
+    OrderInfoVo getBase(@Param("params") Map<String,Object> params);
 }

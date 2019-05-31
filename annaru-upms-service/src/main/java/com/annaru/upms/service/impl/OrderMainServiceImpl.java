@@ -1,18 +1,18 @@
 package com.annaru.upms.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.annaru.upms.entity.vo.OrderExtensionInfoVo;
+import com.annaru.upms.entity.vo.OrderInfoVo;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.annaru.common.result.PageUtils;
 import com.annaru.upms.entity.OrderMain;
 import com.annaru.upms.mapper.OrderMainMapper;
 import com.annaru.upms.service.IOrderMainService;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Map;
+import java.util.List;
 
 /**
  * 定单主表
@@ -60,23 +60,24 @@ public class OrderMainServiceImpl extends ServiceImpl<OrderMainMapper, OrderMain
     }
 
     @Override
-    public OrderMain getByOrderNo(String orderNo) {
-        if(StringUtils.isBlank(orderNo)){
-            return null;
-        }
-        return this.baseMapper.selectByOrderNo (orderNo);
-    }
-
-    @Override
-    @Transactional
-    public int insertOrderMain(OrderMain orderMain) {
-        return this.baseMapper.insertOrderMain(orderMain);
+    public int insertOrderMain(Map<String, Object> params) {
+        return this.baseMapper.insertOrderMain(params);
     }
 
     public List<Integer>  getTimes(Map<String,Object> params){
         return this.baseMapper.getTimes(params);
     }
 
+    public List<OrderInfoVo> getToB(Map<String,Object> params){
+        return this.baseMapper.getToB(params);
+    }
 
+    public List<OrderExtensionInfoVo> getExtensionInfo(Map<String,Object> params){
+        return this.baseMapper.getExtensionInfo(params);
+    }
+
+    public OrderInfoVo getBase(Map<String,Object> params){
+        return this.baseMapper.getBase(params);
+    }
 
 }
