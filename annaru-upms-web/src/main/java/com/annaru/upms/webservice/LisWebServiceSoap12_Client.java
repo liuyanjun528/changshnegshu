@@ -39,18 +39,38 @@ public final class LisWebServiceSoap12_Client {
      * @return Map<String, Object>
      */
     public static Map<String, Object> sendRequest(String _cmlDataTrans_webcmd, Map<String, String> reqData) throws Exception {
+        String _cmlDataTrans_params = WebServiceXmlUtil.mapToXml(reqData);
+        return sendRequest(_cmlDataTrans_webcmd, _cmlDataTrans_params);
+    }
+
+    /**
+     * @Description: 发送 webService 请求
+     * @param _cmlDataTrans_webcmd 接口命令字(服务名称)
+     * @param xmlStr 输入参数 xml 字符串
+     * @Author: XCK
+     * @Date: 2019/5/20
+     * @return Map<String, Object>
+     */
+    public static Map<String, Object> sendRequest(String _cmlDataTrans_webcmd, String xmlStr) throws Exception {
         URL wsdlURL = LisWebService.WSDL_LOCATION;
         LisWebService lisWebService = new LisWebService(wsdlURL, SERVICE_NAME);
         LisWebServiceSoap port = lisWebService.getLisWebServiceSoap12();
-        String _cmlDataTrans_params = WebServiceXmlUtil.mapToXml(reqData);
-        System.out.println("Invoking cmlDataTrans...");
-        String _cmlDataTrans__return = port.cmlDataTrans(_cmlDataTrans_webcmd, _cmlDataTrans_params);
-        System.out.println("cmlDataTrans.result=" + _cmlDataTrans__return);
+        logger.info("Invoking cmlDataTrans...");
+        String _cmlDataTrans__return = port.cmlDataTrans(_cmlDataTrans_webcmd, xmlStr);
+        logger.info("cmlDataTrans.result=" + _cmlDataTrans__return);
         Map<String, Object> resData = WebServiceXmlUtil.xmlToMap(_cmlDataTrans__return);
         return resData;
     }
 
-    public static Map<String, Object> Login(String LogID, String LogPass) {
+    /**
+     * @Description: 上传送检申请
+     * @param  LogID 登录ID（机构代码）
+     * @param  LogPass 登录密码（机构代码）
+     * @Author: XCK
+     * @Date: 2019/5/22
+     * @return List<ExamInspectReportList>
+     */
+    public static Map<String, Object> Login (String LogID, String LogPass) {
         try {
             Map<String, String> reqData = new HashMap<>();
             reqData.put("LogID", LogID);
@@ -66,6 +86,75 @@ public final class LisWebServiceSoap12_Client {
             logger.error(e.getMessage());
         }
         return null;
+    }
+
+    /**
+     * @Description: 上传送检申请
+     * @param  uploadApp 送检申请报告
+     * @Author: XCK
+     * @Date: 2019/5/22
+     * @return List<ExamInspectReportList>
+     */
+    public static boolean UpLoadApp(ExamInspectReportUploadApp uploadApp) {
+        StringBuilder builder = new StringBuilder();
+        builder.append("<Params>\n");
+        builder.append("<Token>ABC123</Token>\n");
+        builder.append("<LogID>961002</LogID>\n");
+        builder.append("<AppCode>961002</AppCode>\n");
+        builder.append("<AppData>\n");
+
+        builder.append("<ZXJGDM>"+uploadApp.getZXJGDM()+"</ZXJGDM>\n");
+        builder.append("<SJRQ>"+uploadApp.getSJRQ()+"</SJRQ>\n");
+        builder.append("<EXTMH>"+uploadApp.getEXTMH()+"</EXTMH>\n");
+        builder.append("<TMH>"+uploadApp.getTMH()+"</TMH>\n");
+        builder.append("<BRID>"+uploadApp.getBRID()+"</BRID>\n");
+        builder.append("<BYH>"+uploadApp.getBYH()+"</BYH>\n");
+        builder.append("<BRXM>"+uploadApp.getBRXM()+"</BRXM>\n");
+        builder.append("<BRXB>"+uploadApp.getBRXB()+"</BRXB>\n");
+        builder.append("<BRNL>"+uploadApp.getBRNL()+"</BRNL>\n");
+        builder.append("<CSRQ>"+uploadApp.getCSRQ()+"</CSRQ>\n");
+        builder.append("<BAH>"+uploadApp.getBAH()+"</BAH>\n");
+        builder.append("<JTZZ>"+uploadApp.getJTZZ()+"</JTZZ>\n");
+        builder.append("<JZKH>"+uploadApp.getJZKH()+"</JZKH>\n");
+        builder.append("<KLX>"+uploadApp.getKLX()+"</KLX>\n");
+        builder.append("<BRLB>"+uploadApp.getBRLB()+"</BRLB>\n");
+        builder.append("<JZRQ>"+uploadApp.getJZRQ()+"</JZRQ>\n");
+        builder.append("<BRKS>"+uploadApp.getBRKS()+"</BRKS>\n");
+        builder.append("<BRBQ>"+uploadApp.getBRBQ()+"</BRBQ>\n");
+        builder.append("<BRCH>"+uploadApp.getBRCH()+"</BRCH>\n");
+        builder.append("<CXSJ>"+uploadApp.getCXSJ()+"</CXSJ>\n");
+        builder.append("<BBZL>"+uploadApp.getBBZL()+"</BBZL>\n");
+        builder.append("<SJYS>"+uploadApp.getSJYS()+"</SJYS>\n");
+        builder.append("<LCZD>"+uploadApp.getLCZD()+"</LCZD>\n");
+        builder.append("<ZXDM>"+uploadApp.getZXDM()+"</ZXDM>\n");
+
+        List<ExamInspectReportUploadAppNode> uploadAppNodeList = uploadApp.getUploadAppNodeList();
+        if(CollectionUtils.isNotEmpty(uploadAppNodeList)){
+            builder.append("<OrderLists>\n");
+            for (ExamInspectReportUploadAppNode uploadAppNode : uploadAppNodeList) {
+                builder.append("<OrderList>\n");
+                builder.append("<YZID>"+uploadAppNode.getYZID()+"</YZID>\n");
+                builder.append("<MDDM>"+uploadAppNode.getMDDM()+"</MDDM>\n");
+                builder.append("<MDMC>"+uploadAppNode.getMDMC()+"</MDMC>\n");
+                builder.append("</OrderList>\n");
+            }
+            builder.append("</OrderLists>\n");
+        }
+
+        builder.append("</AppData>\n");
+        builder.append("</Params>\n");
+
+
+        try {
+            Map<String, Object> resData = sendRequest("UpLoadApp", builder.toString());
+            // 请求响应码不为 “0” （请求失败）
+            if("0".equals(resData.get("RESULTCODE"))){
+                return true;
+            }
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
+        return false;
     }
 
     /**

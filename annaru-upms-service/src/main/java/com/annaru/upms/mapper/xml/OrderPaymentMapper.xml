@@ -9,31 +9,42 @@
         <result column="order_no" property="orderNo" />
         <result column="amount" property="amount" />
         <result column="pay_method" property="payMethod" />
+        <result column="pay_state" property="payState" />
+        <result column="transaction_id" property="transactionId" />
         <result column="ref_info" property="refInfo" />
         <result column="remark" property="remark" />
         <result column="is_verified" property="isVerified" />
         <result column="creation_time" property="creationTime" />
     </resultMap>
+    
+    <sql id="BaseColumnSql">
+        sys_id,
+        order_no,
+        amount,
+        pay_method,
+        pay_state,
+        transaction_id,
+        ref_info,
+        remark,
+        is_verified,
+        creation_time
+    </sql>
 
     <!-- 多表页面信息查询分页 -->
     <select id="selectDataPage" parameterType="map" resultMap="BaseResultMap">
-
         SELECT
-              sys_id,
-              order_no,
-              amount,
-              pay_method,
-              ref_info,
-              remark,
-              is_verified,
-              creation_time
+              <include refid="BaseColumnSql"></include>
         FROM
             order_payment
+    </select>
+
+    <select id="selectByOrderNo" resultMap="BaseResultMap">
+        SELECT
+            <include refid="BaseColumnSql"></include>
+        FROM
+          order_payment
         WHERE
-            status=0
-            <if test="params.key != null and params.key != ''">
-                AND key LIKE CONCAT('%', #{params.key}, '%')
-            </if>
+          order_no = #{orderNo}
     </select>
 
 </mapper>

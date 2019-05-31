@@ -48,6 +48,25 @@
         <result column="parentNo" property="parentNo" />
     </resultMap>
 
+    <sql id="BaseColumn">
+        sys_id,
+        order_no,
+        reference_no,
+        hr_oppointment_id,
+        order_cates,
+        user_id,
+        cellphone_no,
+        order_time,
+        amount,
+        total_qty,
+        STATUS,
+        remark,
+        parent_no,
+        user_channel,
+        is_deleted,
+        creationtime
+    </sql>
+
     <!-- 多表页面信息查询分页 -->
     <select id="selectDataPage" parameterType="map" resultMap="BaseResultMap">
 
@@ -215,6 +234,21 @@
         <if test="params.sysId != null and params.sysId != ''">
             AND om.sys_id = #{params.sysId}
         </if>
+    </select>
+
+    <select id="getOrderNo" resultType="com.annaru.upms.entity.OrderMain">
+
+    </select>
+
+    <select id="selectByOrderNo" resultMap="BaseResultMap">
+        SELECT
+            <include refid="BaseColumn"></include>
+        FROM
+            order_main
+        WHERE
+            order_no = #{orderNo}
+        LIMIT 1
+
     </select>
 
 

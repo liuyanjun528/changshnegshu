@@ -12,6 +12,94 @@ public class Constant {
 
     // 控制线程数，最优选择是处理器线程数*3，本机处理器是4线程
     public final static int THREAD_COUNT = 12;
+    /**
+     * 支付状态
+     */
+    public enum PaymentState {
+        // 支付状态（1：待支付、5：已付款、10：已退款、15：交易关闭）
+        /**
+         * 待支付
+         */
+        UNPAID(0),
+        /**
+         * 已付款
+         */
+        PAID(5),
+        /**
+         * 已退款
+         */
+        REFUND(10),
+        /**
+         * 交易关闭
+         */
+        CLOSE(15);
+
+        private int value;
+
+        PaymentState(int value){
+            this.value = value;
+        }
+
+        public Integer getValue() {
+            return value;
+        }
+    }
+    /**
+     * 支付渠道
+     */
+    public enum PaymentChannel {
+        // 支付方式(1:支付宝/2:微信/3:银行卡)
+        /**
+         * 支付宝
+         */
+        ALIPAY("1"),
+        /**
+         * 微信
+         */
+        WECHAT("2"),
+        /**
+         * 银行卡
+         */
+        BANK_CARD("3");
+
+        private String value;
+
+        PaymentChannel(String value) {
+            this.value = value;
+        }
+
+        public String getValue() {
+            return value;
+        }
+
+    }
+
+    /**
+     * 认证状态
+     */
+    public enum AuthenticationState {
+        // 审核(0:未审核/1:已审核)
+        /**
+         * 未认证
+         */
+        NOT_AUTHENTICATION(0),
+
+        /**
+         * 已认证
+         */
+        AUTHENTICATION(1);
+
+        private Integer value;
+
+        AuthenticationState(Integer value) {
+            this.value = value;
+        }
+
+        public Integer getValue() {
+            return value;
+        }
+    }
+
 
     /**
      * 数据状态类型

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.annaru.upms.mapper.ExamInspectReportUploadAppMapper">
+
+	<!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.annaru.upms.entity.ExamInspectReportUploadApp" >
+        <result column="id" property="id" />
+        <result column="ZXJGDM" property="ZXJGDM" />
+        <result column="SJRQ" property="SJRQ" />
+        <result column="EXTMH" property="EXTMH" />
+        <result column="TMH" property="TMH" />
+        <result column="BRID" property="BRID" />
+        <result column="BYH" property="BYH" />
+        <result column="JZKH" property="JZKH" />
+        <result column="KLX" property="KLX" />
+        <result column="BRXM" property="BRXM" />
+        <result column="BRXB" property="BRXB" />
+        <result column="BRNL" property="BRNL" />
+        <result column="NLDW" property="NLDW" />
+        <result column="CSRQ" property="CSRQ" />
+        <result column="BAH" property="BAH" />
+        <result column="JZXH" property="JZXH" />
+        <result column="JTZZ" property="JTZZ" />
+        <result column="LXDH" property="LXDH" />
+        <result column="SFZH" property="SFZH" />
+        <result column="BRLB" property="BRLB" />
+        <result column="JZRQ" property="JZRQ" />
+        <result column="LCZD" property="LCZD" />
+        <result column="BRKS" property="BRKS" />
+        <result column="BRBQ" property="BRBQ" />
+        <result column="BRCH" property="BRCH" />
+        <result column="CXSJ" property="CXSJ" />
+        <result column="BBZL" property="BBZL" />
+        <result column="SJYS" property="SJYS" />
+        <result column="BZ" property="BZ" />
+        <result column="ZXDM" property="ZXDM" />
+    </resultMap>
+    
+    <sql id="BaseClounmSql">
+          id,
+          ZXJGDM,
+          SJRQ,
+          EXTMH,
+          TMH,
+          BRID,
+          BYH,
+          JZKH,
+          KLX,
+          BRXM,
+          BRXB,
+          BRNL,
+          NLDW,
+          CSRQ,
+          BAH,
+          JZXH,
+          JTZZ,
+          LXDH,
+          SFZH,
+          BRLB,
+          JZRQ,
+          LCZD,
+          BRKS,
+          BRBQ,
+          BRCH,
+          CXSJ,
+          BBZL,
+          SJYS,
+          BZ,
+          ZXDM
+    </sql>
+
+    <!-- 多表页面信息查询分页 -->
+    <select id="selectDataPage" parameterType="map" resultMap="BaseResultMap">
+
+        SELECT
+            <include refid="BaseClounmSql"></include>
+        FROM
+            exam_inspect_report_upload_app
+
+    </select>
+
+</mapper>
