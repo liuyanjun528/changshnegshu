@@ -53,6 +53,7 @@
         LEFT JOIN user_survey_items usi on usm.survey_id = usi.survey_id
         LEFT JOIN sys_linkage_type slt on usi.question_id = slt.nid
         where usm.user_id = #{params.userId}
+        and usi.question_id like CONCAT('%', #{params.type}, '%')
     </select>
 
 </mapper>

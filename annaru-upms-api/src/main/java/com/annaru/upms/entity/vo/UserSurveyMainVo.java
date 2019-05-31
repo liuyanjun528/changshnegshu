@@ -21,7 +21,7 @@ public class UserSurveyMainVo extends Model<UserSurveyMainVo> implements Seriali
 	private Integer surveyId;
 	@NotNull
 	private String userId;
-	private Date surveyTime;
+	private Date surveyTime = new Date();
 	private Date editTime;
 	private Integer isActive = 1;
 	private List<UserSurveyItems> surveyItemsList;

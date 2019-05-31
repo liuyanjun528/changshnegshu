@@ -2,6 +2,8 @@ package com.annaru.upms.service;
 
 import com.annaru.common.result.PageUtils;
 import com.annaru.upms.entity.OrderMain;
+import com.annaru.upms.entity.vo.OrderExtensionInfoVo;
+import com.annaru.upms.entity.vo.OrderInfoVo;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.apache.ibatis.annotations.Param;
 
@@ -60,7 +62,12 @@ public interface IOrderMainService extends IService<OrderMain> {
      */
     int insertOrderMain(@Param("params") Map <String, Object> params);
 
+    List<OrderInfoVo> getToB(@Param("params") Map <String, Object> params);
+
 	List<Integer> getTimes(Map<String,Object> params);
 
+    List<OrderExtensionInfoVo> getExtensionInfo(@Param("params") Map <String, Object> params);
+
+    OrderInfoVo getBase(@Param("params") Map<String,Object> params);
 }
 
