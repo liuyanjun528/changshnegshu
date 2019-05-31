@@ -18,7 +18,7 @@ import javax.xml.ws.ResponseWrapper;
 public interface LisWebServiceSoap {
 
     /**
-     * 数据接口方法:WEBCMD表示命令字（HelloWorld,Login,UpLoadApp,GetResultLists,DownLoadResult,UpdateSatus），Params为XML格式的输入参数
+     * 数据接口方法:WEBCMD表示命令字（HelloWorld,Login,CMLUpLoadApp,GetResultLists,DownLoadResult,UpdateSatus），Params为XML格式的输入参数
      */
     @WebMethod(operationName = "CMLDataTrans", action = "http://tempuri.org/CMLDataTrans")
     @RequestWrapper(localName = "CMLDataTrans", targetNamespace = "http://tempuri.org/", className = "com.annaru.CMLDataTrans")

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.annaru.upms.mapper.ExamInspectReportUploadAppNodeMapper">
+
+	<!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.annaru.upms.entity.ExamInspectReportUploadAppNode" >
+        <result column="id" property="id" />
+        <result column="uploadApp_id" property="uploadappId" />
+        <result column="YZID" property="YZID" />
+        <result column="MDDM" property="MDDM" />
+        <result column="MDMC" property="MDMC" />
+    </resultMap>
+    
+    <sql id="BaseClounmSql">
+          id,
+          uploadApp_id,
+          YZID,
+          MDDM,
+          MDMC
+    </sql>
+
+    <!-- 多表页面信息查询分页 -->
+    <select id="selectDataPage" parameterType="map" resultMap="BaseResultMap">
+
+        SELECT
+            <include refid="BaseClounmSql"></include>
+        FROM
+            exam_inspect_report_upload_app_node
+
+    </select>
+
+</mapper>

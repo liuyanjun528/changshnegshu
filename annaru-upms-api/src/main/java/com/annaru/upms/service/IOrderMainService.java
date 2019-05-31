@@ -54,6 +54,15 @@ public interface IOrderMainService extends IService<OrderMain> {
     OrderMain getOrderNo(Map<String,Object> params);
 
     /**
+     * @Description: 根据订单号查询唯一一条订单
+     * @param orderNo 订单号
+     * @Author: XCK
+     * @Date: 2019/5/31
+     * @return 
+     */
+    OrderMain getByOrderNo(String orderNo);
+
+    /**
      * 添加订单主表
      * @param orderMain
      * @return

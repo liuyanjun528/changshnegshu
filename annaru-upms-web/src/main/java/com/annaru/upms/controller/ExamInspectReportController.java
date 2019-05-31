@@ -5,18 +5,18 @@ import com.annaru.common.base.BaseController;
 import com.annaru.common.result.ResultMap;
 import com.annaru.upms.entity.ExamInspectReport;
 import com.annaru.upms.entity.ExamInspectReportList;
+import com.annaru.upms.entity.ExamInspectReportUploadApp;
 import com.annaru.upms.service.IExamInspectReportListService;
 import com.annaru.upms.service.IExamInspectReportService;
+import com.annaru.upms.service.IExamInspectReportUploadAppService;
 import com.annaru.upms.webservice.LisWebServiceSoap12_Client;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.apache.commons.collections.CollectionUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,17 +35,38 @@ public class ExamInspectReportController extends BaseController {
     private IExamInspectReportListService examInspectReportListService;
     @Reference
     private IExamInspectReportService examInspectReportService;
+    @Reference
+    private IExamInspectReportUploadAppService examInspectReportUploadAppService;
 
     @ApiOperation(value = "获取登录令牌")
-    @GetMapping("/Login")
-    public ResultMap Login(@ApiParam(value = "登录ID号", defaultValue = "961002") @RequestParam String LogID,
-                           @ApiParam(value = "登录密码", defaultValue = "961002") @RequestParam String LogPass) {
+    @GetMapping("/login")
+    public ResultMap login(@ApiParam(value = "登录ID号", defaultValue = "961002") @RequestParam String logID,
+                           @ApiParam(value = "登录密码", defaultValue = "961002") @RequestParam String logPass) {
         try {
-            Map<String, Object> resData = LisWebServiceSoap12_Client.Login(LogID, LogPass);
-            if (resData == null) {
+            Map<String, Object> resData = LisWebServiceSoap12_Client.Login(logID, logPass);
+            if (resData == null)
                 return ResultMap.error("登陆失败:用户名或密码错误");
-            }
+
             return ResultMap.ok().put("data", resData);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return ResultMap.error("运行异常，请联系管理员");
+        }
+    }
+
+    /**
+     * 上传送检申请
+     */
+    @ApiOperation(value = "上传送检申请")
+    @PostMapping("/upLoadApp")
+    public ResultMap upLoadApp(@Valid @RequestBody ExamInspectReportUploadApp uploadApp) {
+        try {
+            boolean uploadBool = LisWebServiceSoap12_Client.UpLoadApp(uploadApp);
+            if(uploadBool){
+                examInspectReportUploadAppService.saveUploadApp(uploadApp);
+                return ResultMap.ok("送检申请上传成功");
+            }
+            return ResultMap.error("送检申请上传失败");
         } catch (Exception e) {
             logger.error(e.getMessage());
             return ResultMap.error("运行异常，请联系管理员");
@@ -67,9 +88,8 @@ public class ExamInspectReportController extends BaseController {
 
             // 获取千麦报告列表，并更新到本地数据库
             List<ExamInspectReportList> reportLists = LisWebServiceSoap12_Client.GetResultLists(token, logID, appCode, exeCode, startDate, endDate, appBarcode, exeBarcode, reportType, "0");
-            if(CollectionUtils.isNotEmpty(reportLists)){
+            if(CollectionUtils.isNotEmpty(reportLists))
                 examInspectReportListService.saveBatchInspectReportList(logID, reportLists);
-            }
 
             // 获取列表信息
             Map<String, Object> params = new HashMap<>();

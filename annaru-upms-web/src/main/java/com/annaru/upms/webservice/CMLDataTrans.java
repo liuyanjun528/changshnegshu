@@ -29,10 +29,7 @@ import javax.xml.bind.annotation.XmlType;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
-        "webcmd",
-        "params"
-})
+@XmlType(name = "", propOrder = {"webcmd", "params"})
 @XmlRootElement(name = "CMLDataTrans")
 public class CMLDataTrans {
 
