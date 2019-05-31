@@ -5,7 +5,7 @@ import com.annaru.common.base.BaseController;
 import com.annaru.common.result.PageUtils;
 import com.annaru.common.result.ResultMap;
 import com.annaru.upms.entity.EntityHealthyAppointment;
-import com.annaru.upms.entity.UserBasic;
+import com.annaru.upms.entity.vo.EntityHealthyAppointmentVo;
 import com.annaru.upms.service.IEntityHealthyAppointmentService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -35,17 +35,24 @@ public class EntityHealthyAppointmentController extends BaseController {
     private IEntityHealthyAppointmentService entityHealthyAppointmentService;
 
     /**
-     * 通过用户查询亲属
+     * 通过用户查询亲属列表
      */
+    @ApiOperation(value = "通过用户查询亲属列表", notes = "通过用户查询亲属列表")
+    @GetMapping("/selectUserAndRelativeList/{userId}")
+   // @RequiresPermissions("upms/entityHealthyAppointment/selectUserAndRelativeList")
+    public ResultMap selectUserAndRelativeList(@PathVariable("userId") String userId){
+        List<EntityHealthyAppointmentVo> entityHealthyAppointmentVo = entityHealthyAppointmentService.selectUserAndRelative(userId);
+        return ResultMap.ok().put("data",entityHealthyAppointmentVo);
+    }
+
     /**
-     * 信息
+     * 查询用户或亲属信息
      */
-    @ApiOperation(value = "通过用户查询亲属", notes = "通过用户查询亲属")
-    @GetMapping("/selectUserAndRelative/{userId}")
-   // @RequiresPermissions("upms/entityHealthyAppointment/info")
-    public ResultMap selectUserAndRelative(@PathVariable("userId") String userId){
-        List<UserBasic> userBasics = entityHealthyAppointmentService.selectUserAndRelative(userId);
-        return ResultMap.ok().put("data",userBasics);
+    @ApiOperation(value = "查询用户或亲属信息列表", notes = "查询用户或亲属信息列表")
+    @GetMapping("/selectUserOrRelativeInfo/{userId}/{userCate}")
+    public ResultMap selectUserOrRelativeInfo(@RequestParam("userId") String userId, @RequestParam("userCate") Integer userCate){
+        EntityHealthyAppointmentVo entityHealthyAppointmentVo = entityHealthyAppointmentService.selectUserOrRelativeInfo(userId, userCate);
+        return ResultMap.ok().put("data",entityHealthyAppointmentVo);
     }
 
     /**
@@ -84,8 +91,13 @@ public class EntityHealthyAppointmentController extends BaseController {
     @ApiOperation(value = "保存")
     @PostMapping("/save")
     @RequiresPermissions("upms/entityHealthyAppointment/save")
-    public ResultMap save(@Valid @RequestBody EntityHealthyAppointment entityHealthyAppointment) {
+    public ResultMap save(@Valid @RequestBody EntityHealthyAppointmentVo entityHealthyAppointmentVo) {
         try {
+            EntityHealthyAppointment entityHealthyAppointment = new EntityHealthyAppointment();
+            entityHealthyAppointment.setOrderNo(entityHealthyAppointmentVo.getOrderNo());
+            entityHealthyAppointment.setEntityNo(entityHealthyAppointmentVo.getEntityNo());
+            entityHealthyAppointment.setUserCate(entityHealthyAppointmentVo.getUserCate());
+            entityHealthyAppointment.setUserId(entityHealthyAppointmentVo.getUserId());
             entityHealthyAppointmentService.save(entityHealthyAppointment);
             return ResultMap.ok("添加成功");
         } catch (Exception e) {

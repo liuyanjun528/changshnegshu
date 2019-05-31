@@ -1,6 +1,7 @@
 package com.annaru.upms.service;
 
 import com.annaru.upms.entity.UserBasic;
+import com.annaru.upms.entity.vo.EntityHealthyAppointmentVo;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.annaru.common.result.PageUtils;
 import com.annaru.upms.entity.EntityHealthyAppointment;
@@ -26,11 +27,18 @@ public interface IEntityHealthyAppointmentService extends IService<EntityHealthy
 
 
     /**
-     * 通过用户查询亲属
+     * 通过用户查询亲属列表
      * @param userId
      * @return
      */
-    List<UserBasic> selectUserAndRelative(@Param("userId") String userId);
+    List<EntityHealthyAppointmentVo> selectUserAndRelative(@Param("userId") String userId);
+
+    /**
+     * 查询用户或亲属信息详情
+     * @param userId
+     * @return
+     */
+    EntityHealthyAppointmentVo selectUserOrRelativeInfo(@Param("userId") String userId, @Param("userCate") Integer userCate);
 
 }
 
