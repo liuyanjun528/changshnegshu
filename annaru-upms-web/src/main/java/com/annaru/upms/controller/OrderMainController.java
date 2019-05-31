@@ -42,10 +42,45 @@ public class OrderMainController extends BaseController {
     @Reference
     private IExamPackageAppendService examPackageAppendService;
 
+    @Reference
+    private IUserFamilyDoctorService userFamilyDoctorService;//家庭医生
+
+
     /**
-     * 保存
+     * 保存家庭医生订单
      */
-    @ApiOperation(value = "Toc下订单")
+
+    @ApiOperation(value = "家庭医生下订单")
+    @PostMapping("/saveFamilyDoctor")
+    @RequiresPermissions("upms/orderMain/saveFamilyDoctor")
+    public ResultMap saveFamilyDoctor(@RequestBody OrderMain orderMain) {
+        try {
+            SysConfig sysConfig = SysConfigUtil.getSysConfig(iSysConfigService , SysConfigUtil.ORDERNO);
+            orderMain.setOrderNo(SysConfigUtil.getNoBySysConfig());
+            boolean save = orderMainService.save(orderMain);
+            if(save=true){
+                orderMain.getUserFamilyDoctor().setOrderNo(SysConfigUtil.getNoBySysConfig());
+                userFamilyDoctorService.save(orderMain.getUserFamilyDoctor());
+            }
+            if(save=true){
+                SysConfigUtil.saveRefNo(sysConfig.getRefNo());
+            }
+            return ResultMap.ok("家庭医生订单成功").put("data",orderMain.getOrderNo());
+        }catch (Exception e) {
+            logger.error(e.getMessage());
+            return ResultMap.error("运行异常，请联系管理员");
+        }
+    }
+
+
+
+
+
+
+    /**
+     * 保存Toc下订单
+     */
+    @ApiOperation(value = "Toc套餐下订单")
     @PostMapping("/saveOrderMain")
     @RequiresPermissions("upms/orderMain/saveOrderMain")
     public ResultMap saveOrderMain(@RequestBody OrderMain orderMain) {
