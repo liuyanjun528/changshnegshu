@@ -38,11 +38,11 @@
         </where>
     </select>
 
-    <insert id="insertOrderCustomer" parameterType="map">
+    <insert id="insertOrderCustomer" parameterType="com.annaru.upms.entity.OrderCustomer">
         insert into order_customer
-                (customer_name,id_no,gender,cellphone_no1)
+                (order_no,customer_name,id_no,gender,cellphone_no1)
         values
-                (#{params.customer_name},#{params.id_no},#{params.gender},#{params.cellphone_no1})
+                (#{orderNo},#{customerName},#{idNo},#{gender},#{cellphoneNo1})
     </insert>
 
 

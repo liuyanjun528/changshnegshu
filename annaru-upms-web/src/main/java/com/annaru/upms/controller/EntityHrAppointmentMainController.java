@@ -65,7 +65,7 @@ public class EntityHrAppointmentMainController extends BaseController {
     @RequiresPermissions("upms/entityHrAppointmentMain/historyRecord")
     public ResultMap historyRecord(@ApiParam(value = "当前页")@RequestParam(defaultValue="1") int page,
                           @ApiParam(value = "每页数量")@RequestParam(defaultValue = "10") int limit,
-                          @ApiParam(value = "企业编号")@RequestParam("entityNo") String entityNo){
+                          @ApiParam(value = "企业编号")@RequestParam(required = true) String entityNo){
         if (StringUtil.isBlank(entityNo)){
             return ResultMap.error("企业编号不能为空！");
         }

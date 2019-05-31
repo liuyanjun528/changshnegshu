@@ -94,7 +94,7 @@
         LEFT JOIN exam_package_append epa ON epa.package_main_id = epm.sys_id
         LEFT JOIN exam_append ea ON ea.sys_id = epa.append_id
         WHERE
-        1 = 1 AND eham.is_deleted = 0
+        1 = 1 AND eham.is_deleted = 0 AND eham.is_cancelled = 0 AND eham.status = 1
         <if test="params.entityNo != null and params.entityNo != ''">
             AND eham.entity_no = #{params.entityNo}
         </if>
@@ -135,7 +135,7 @@
             eham.address,
             (
                 SELECT count(ehad.sys_id) FROM entity_hr_appointment_detail ehad
-                WHERE 1 = 1
+                WHERE 1 = 1 AND ehad.is_transfered = 1
                 <if test="params.sysId != null and params.sysId != ''">
                     AND eham.sys_id = #{params.sysId}
                 </if>
@@ -178,7 +178,7 @@
         LEFT JOIN user_basic ub ON ub.user_id = ehad.user_id
         LEFT JOIN entity_hr_appointment_main eham ON eham.sys_id = ehad.main_id
         WHERE
-            1 = 1
+            1 = 1 AND ehad.is_transfered = 1
             <if test="params.sysId != null and params.sysId != ''">
                 AND ehad.main_id = #{params.sysId}
             </if>

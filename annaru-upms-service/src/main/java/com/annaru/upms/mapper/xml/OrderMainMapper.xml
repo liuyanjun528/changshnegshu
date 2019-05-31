@@ -51,6 +51,7 @@
         <result column="user_id" property="userId" />
         <result column="cellphone_no" property="cellphoneNo" />
         <result column="order_time" property="orderTime" />
+        <result column="amount" property="amount" />
         <result column="total_qty" property="totalQty" />
         <result column="status" property="status" />
         <result column="remark" property="remark" />
@@ -86,6 +87,25 @@
         <result column="option_1" property="option_1" />
         <result column="parentNo" property="parentNo" />
     </resultMap>
+
+    <sql id="BaseColumn">
+        sys_id,
+        order_no,
+        reference_no,
+        hr_oppointment_id,
+        order_cates,
+        user_id,
+        cellphone_no,
+        order_time,
+        amount,
+        total_qty,
+        STATUS,
+        remark,
+        parent_no,
+        user_channel,
+        is_deleted,
+        creationtime
+    </sql>
 
     <!-- 多表页面信息查询分页 -->
     <select id="selectDataPage" parameterType="map" resultMap="BaseResultMap">
@@ -256,6 +276,21 @@
         </if>
     </select>
 
+    <select id="getOrderNo" resultType="com.annaru.upms.entity.OrderMain">
+
+    </select>
+
+    <select id="selectByOrderNo" resultMap="BaseResultMap">
+        SELECT
+            <include refid="BaseColumn"></include>
+        FROM
+            order_main
+        WHERE
+            order_no = #{orderNo}
+        LIMIT 1
+
+    </select>
+
     <select id="getOrderNo" parameterType="map" resultMap="BaseResultMap">
         select order_no from order_main
         where
@@ -277,11 +312,11 @@
         and od.rest_count is not NULL
     </select>
 
-    <insert id="insertOrderMain" parameterType="map">
+    <insert id="insertOrderMain" parameterType="com.annaru.upms.entity.OrderMain">
         insert into order_main
-                (reference_no,total_qty,user_id,order_cates,status)
+                (order_no,reference_no,total_qty,user_id,order_cates,status,amount)
         VALUES
-                (#{params.reference_no},#{params.total_qty},#{params.user_id},#{params.order_cates},#{params.status})
+                (#{orderNo},#{referenceNo},#{totalQty},#{userId},#{orderCates},#{status},#{amount})
     </insert>
 
     <select id="getToB" parameterType="map" resultMap="BaseResultMapVo">

@@ -11,6 +11,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 
 /**
@@ -20,9 +21,11 @@ import org.springframework.session.data.redis.config.annotation.web.http.EnableR
  */
 
 @SpringBootApplication(exclude = DruidDataSourceAutoConfigure.class)
+@EnableTransactionManagement//注解开启事务
 @EnableRedisHttpSession(maxInactiveIntervalInSeconds = 1800)
 @EnableAsync
 @EnableScheduling
+@EnableTransactionManagement // 启注解事务管理
 @ComponentScan("com.annaru")
 public class UpmsServiceApplication extends SpringBootServletInitializer {
     protected final static Logger logger = LoggerFactory.getLogger(UpmsServiceApplication.class);

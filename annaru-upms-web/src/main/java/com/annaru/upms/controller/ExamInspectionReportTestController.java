@@ -150,7 +150,7 @@ public class ExamInspectionReportTestController extends BaseController {
     @GetMapping("/upLoadApp")
     public ResultMap upLoadApp(@RequestParam Map<String, String> params) {
         try {
-            Map<String, Object> resData = LisWebServiceSoap12_Client.sendRequest("UpLoadApp", params);
+            Map<String, Object> resData = LisWebServiceSoap12_Client.sendRequest("CMLUpLoadApp", params);
             return ResultMap.ok();
         } catch (Exception e) {
             logger.error(e.getMessage());

@@ -1,8 +1,6 @@
 package com.annaru.upms.mapper;
 
 import com.annaru.upms.entity.OrderMain;
-import com.annaru.upms.entity.vo.OrderExtensionInfoVo;
-import com.annaru.upms.entity.vo.OrderInfoVo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -64,9 +62,18 @@ public interface OrderMainMapper extends BaseMapper<OrderMain> {
      * @param params
      * @return
      */
-    int insertOrderMain(@Param("params") Map <String, Object> params);
+    int insertOrderMain(OrderMain orderMain);
 
 	List<Integer> getTimes(@Param("params") Map <String, Object> params);
+
+    /**
+     * @Description: 根据订单号查询唯一一条订单
+     * @param orderNo 订单号
+     * @Author: XCK
+     * @Date: 2019/5/31
+     * @return
+     */
+    OrderMain selectByOrderNo(@Param("orderNo") String orderNo);
 
     List<OrderInfoVo> getToB(@Param("params") Map <String, Object> params);
 
