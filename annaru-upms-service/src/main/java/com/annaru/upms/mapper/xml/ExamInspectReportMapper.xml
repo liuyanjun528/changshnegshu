@@ -38,6 +38,7 @@
         <result column="YBBH" property="YBBH" />
         <result column="BRCH" property="BRCH" />
         <result column="BRID" property="BRID" />
+        <result column="BYH" property="BYH" />
         <result column="BRKS" property="BRKS" />
         <result column="BGDURL" property="BGDURL" />
     </resultMap>
@@ -76,22 +77,42 @@
           YBBH,
           BRCH,
           BRID,
+          BYH,
           BRKS,
           BGDURL
     </sql>
 
+    <select id="selectDataPage" resultMap="BaseResultMap">
+        SELECT
+          <include refid="BaseClounmSql"></include>
+        FROM
+          exam_inspect_report
+        <where>
+            <if test="params.startDate != null and params.startDate != ''">
+                DATE_FORMAT(SHSJ, '%Y-%m-%d') &gt;= #{params.startDate}
+            </if>
+            <if test="params.endDate != null and params.endDate != ''">
+                AND DATE_FORMAT(SHSJ, '%Y-%m-%d') &lt;= #{params.endDate}
+            </if>
+            <if test="params.appBarcode != null and params.appBarcode != ''">
+                AND app_barcode = #{params.appBarcode}
+            </if>
+            <if test="params.exeBarcode != null and params.exeBarcode != ''">
+                AND exe_barcode = #{params.exeBarcode}
+            </if>
+            <if test="params.reportType != null and params.reportType != '' ">
+                AND report_type = #{params.reportType}
+            </if>
+        </where>
+    </select>
 
-    <select id="selectByReportNO" resultType="com.annaru.upms.entity.ExamInspectReport">
+    <select id="selectByReportNO" resultMap="BaseResultMap">
         SELECT
             <include refid="BaseClounmSql"></include>
         FROM
             exam_inspect_report
         WHERE
             report_no = #{reportNO}
-
-            <if test="logID != null and logID != '' ">
-                AND logID = #{logID}
-            </if>
         LIMIT 1
     </select>
 
