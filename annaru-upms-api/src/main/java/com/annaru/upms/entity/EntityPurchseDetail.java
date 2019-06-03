@@ -37,6 +37,12 @@ public class EntityPurchseDetail extends Model<EntityPurchseDetail> implements S
 	@TableField("order_no")
 	private String orderNo;
 	/**
+	 * 用户类别(1:本人/2:亲属)
+	 */
+	@ApiModelProperty(value = "用户类别(1:本人/2:亲属)")
+	@TableField("user_cate")
+	private Integer userCate;
+	/**
 	 * 用户编号
 	 */
     @ApiModelProperty(value = "用户编号")
@@ -105,7 +111,21 @@ public class EntityPurchseDetail extends Model<EntityPurchseDetail> implements S
 	public void setOrderNo(String orderNo) {
 		this.orderNo = orderNo;
 	}
-    /**
+	/**
+	 * 获取：用户类别(1:自己/2:亲属)
+	 */
+	public Integer getUserCate() {
+		return userCate;
+	}
+
+	/**
+	 * 设置：用户类别(1:自己/2:亲属)
+	 */
+	public void setUserCate(Integer userCate) {
+		this.userCate = userCate;
+	}
+
+	/**
      * 获取：用户编号
      */
     public String getUserId() {

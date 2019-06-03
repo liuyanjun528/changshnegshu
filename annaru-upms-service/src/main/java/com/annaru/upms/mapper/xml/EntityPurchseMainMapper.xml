@@ -8,7 +8,45 @@
         <result column="sys_id" property="sysId" />
         <result column="order_no" property="orderNo" />
         <result column="entity_no" property="entityNo" />
-        <result column="package_id" property="packageId" />
+        <result column="pkg_main_id" property="pkgMainId" />
+        <result column="cates" property="cates" />
+        <result column="effect_from" property="effectFrom" />
+        <result column="effect_to" property="effectTo" />
+        <result column="is_active" property="isActive" />
+        <result column="is_terminated" property="isTerminated" />
+        <result column="terminated_date" property="terminatedDate" />
+        <result column="total_amount" property="totalAmount" />
+        <result column="remarks" property="remarks" />
+        <result column="creation_time" property="creationTime" />
+        <result column="create_by" property="createBy" />
+        <result column="edit_time" property="editTime" />
+        <result column="edit_by" property="editBy" />
+    </resultMap>
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap1" type="com.annaru.upms.entity.vo.EntityPurchseMainVo" >
+        <result column="sys_id" property="sysId" />
+        <result column="order_no" property="orderNo" />
+        <result column="entity_no" property="entityNo" />
+        <result column="entity_name" property="entityName"/>
+        <result column="user_cate" property="userCate"/>
+        <result column="user_id" property="userId" />
+        <result column="full_name" property="fullName" />
+        <result column="user_gender" property="userGender"/>
+        <result column="user_age" property="userAge"/>
+        <result column="user_id_card_no" property="userIdCardNo"/>
+        <result column="user_cellphone_no" property="userCellphoneNo"/>
+        <result column="relative_id" property="relativeId" />
+        <result column="relative_name" property="relativeName"/>
+        <result column="relative_gender" property="relativeGender"/>
+        <result column="relative_age" property="relativeAge"/>
+        <result column="relative_id_card_no" property="relativeIdCardNo"/>
+        <result column="relative_cellphone_no" property="relativeCellphoneNo"/>
+        <result column="card_cates" property="cardCates"/>
+        <result column="card_no" property="cardNo"/>
+        <result column="remark" property="remark"/>
+        <result column="pkg_main_id" property="pkgMainId" />
+        <result column="pkg_detail_id" property="pkgDetailId" />
         <result column="cates" property="cates" />
         <result column="effect_from" property="effectFrom" />
         <result column="effect_to" property="effectTo" />
@@ -27,7 +65,7 @@
           sys_id,
           order_no,
           entity_no,
-          package_id,
+          pkg_main_id,
           cates,
           effect_from,
           effect_to,
@@ -52,4 +90,88 @@
 
     </select>
 
+    <!-- 通过订单号查询企业健康服务客户购买记录信息 -->
+    <select id="getEntityPurchseMainByOrderNo" parameterType="map" resultMap="BaseResultMap1">
+    SELECT  epm.order_no,
+    epd.user_cates,
+    epm.entity_no,
+    ehpd_ehpm.pkg_main_id,
+    ehpd_ehpm.pkg_detail_id
+    FROM entity_purchse_main epm
+    LEFT JOIN
+    (
+    SELECT
+    ehpm.sys_id AS pkg_main_id,
+    ehpd.sys_id AS pkg_detail_id
+    FROM entity_healthy_package_detail ehpd
+    LEFT JOIN entity_healthy_package_main ehpm ON ehpm.sys_id = ehpd.sys_id
+    ) ehpd_ehpm ON ehpd_ehpm.pkg_main_id = epm.pkg_main_id
+    LEFT JOIN entity_purchse_detail epd ON epd.order_no = epm.order_no
+    WHERE epd.is_active=1 AND epd.is_deleted=0
+    <if test="orderNo != null and orderNo != ''">
+        AND epm.order_no=#{orderNo}
+    </if>
+</select>
+
+    <!-- 查询购买企业套餐的用户及其亲属列表 -->
+    <select id="selectEntityPurchseMainListByUserId" parameterType="map" resultMap="BaseResultMap1">
+        SELECT
+        epm.sys_id,
+        epm.order_no,
+        epm.entity_no,
+        se.entity_name,
+        epd.user_cate,
+        epd.user_cate,
+        epd.user_id,
+        ub.full_name,
+        ub.gender AS user_gender,
+        TIMESTAMPDIFF(YEAR, ub.date_of_birth, CURDATE()) AS user_age,
+        ur.relative_id,
+        ur.relative_name,
+        ur.gender AS relative_gender,
+        TIMESTAMPDIFF(YEAR, ur.date_of_birth, CURDATE()) AS relative_age,
+        ur.remark
+
+        FROM entity_purchse_main epm
+        LEFT JOIN entity_purchse_detail epd ON epd.order_no = epm.order_no
+        LEFT JOIN sys_entity se ON se.entity_id = epm.entity_no
+        LEFT JOIN user_basic ub ON ub.user_id = epd.user_id
+        LEFT JOIN user_relatives ur ON ur.user_id = ub.user_id
+        WHERE
+        <if test="userId != null and userId != ''">
+            epd.user_id=#{userId}
+        </if>
+        GROUP BY ur.relative_id
+    </select>
+
+    <!-- 查询购买企业套餐的用户及其亲属列表 -->
+    <select id="selectEntityPurchseMainListByUserId" parameterType="map" resultMap="BaseResultMap1">
+        SELECT
+        epm.sys_id,
+        epm.order_no,
+        epm.entity_no,
+        se.entity_name,
+        epd.user_cate,
+        epd.user_cate,
+        epd.user_id,
+        ub.full_name,
+        ub.gender AS user_gender,
+        TIMESTAMPDIFF(YEAR, ub.date_of_birth, CURDATE()) AS user_age,
+        ur.relative_id,
+        ur.relative_name,
+        ur.gender AS relative_gender,
+        TIMESTAMPDIFF(YEAR, ur.date_of_birth, CURDATE()) AS relative_age,
+        ur.remark
+
+        FROM entity_purchse_main epm
+        LEFT JOIN entity_purchse_detail epd ON epd.order_no = epm.order_no
+        LEFT JOIN sys_entity se ON se.entity_id = epm.entity_no
+        LEFT JOIN user_basic ub ON ub.user_id = epd.user_id
+        LEFT JOIN user_relatives ur ON ur.user_id = ub.user_id
+        WHERE
+        <if test="userId != null and userId != ''">
+            epd.user_id=#{userId}
+        </if>
+        GROUP BY ur.relative_id
+    </select>
 </mapper>

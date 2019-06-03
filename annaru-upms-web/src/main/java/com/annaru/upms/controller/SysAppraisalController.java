@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -30,6 +31,20 @@ import java.util.Map;
 public class SysAppraisalController extends BaseController {
     @Reference
     private ISysAppraisalService sysAppraisalService;
+
+
+    /**
+     * 信息
+     */
+    @ApiOperation(value = "查询评价星数", notes = "查看评价星数")
+    @GetMapping("/getStart/{userId}")
+    @RequiresPermissions("upms/sysAppraisal/getStart")
+    public ResultMap getStart(@PathVariable("userId") String userId){
+        List<SysAppraisal> sysAppraisals = sysAppraisalService.selectStart(userId);
+        return ResultMap.ok().put("data",sysAppraisals);
+    }
+
+
 
     /**
      * 列表
@@ -47,18 +62,6 @@ public class SysAppraisalController extends BaseController {
         params.put("key", key);
         PageUtils<Map<String, Object>> pageList = sysAppraisalService.getDataPage(params);
         return ResultMap.ok().put("data",pageList);
-    }
-
-
-    /**
-     * 信息
-     */
-    @ApiOperation(value = "查看详情", notes = "查看upms详情")
-    @GetMapping("/info/{sysId}")
-    @RequiresPermissions("upms/sysAppraisal/info")
-    public ResultMap info(@PathVariable("sysId") Integer sysId){
-        SysAppraisal sysAppraisal = sysAppraisalService.getById(sysId);
-        return ResultMap.ok().put("data",sysAppraisal);
     }
 
     /**
