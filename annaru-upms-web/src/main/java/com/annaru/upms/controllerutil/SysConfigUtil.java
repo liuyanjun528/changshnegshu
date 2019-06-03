@@ -40,6 +40,10 @@ public class SysConfigUtil {
      * 体检机构编号编码规则
      */
     public static final int INSTITUTION  = 7;
+    /**
+     * 企业HR订单号编码规则
+     */
+    public static final int ENTTITY_ORDERNO  = 8;
 
     @Reference
     private static ISysConfigService iSysConfigService; //系统配置表

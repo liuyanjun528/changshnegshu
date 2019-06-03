@@ -2,6 +2,8 @@ package com.annaru.upms.controller;
 
 import java.util.*;
 
+import com.annaru.upms.entity.vo.EntityHealthyAppointmentVo;
+import com.annaru.upms.entity.vo.EntityPurchseMainVo;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import com.alibaba.dubbo.config.annotation.Reference;
 import org.springframework.web.bind.annotation.*;
@@ -55,6 +57,36 @@ public class EntityPurchseMainController extends BaseController {
         }
     }
 
+    /**
+     * 查询购买企业套餐的用户或其亲属列表
+     */
+    @ApiOperation(value = "查询购买企业套餐的用户或其亲属列表", notes = "查询购买企业套餐的用户或其亲属列表")
+    @GetMapping("/selectUserOrRelativeInfo/{userId}")
+    public ResultMap selectUserOrRelativeInfo(@PathVariable("userId") String userId) {
+        try {
+            List<EntityPurchseMainVo> entityPurchseMainVoList = entityPurchseMainService.selectEntityPurchseMainListByUserId(userId);
+            return ResultMap.ok().put("data", entityPurchseMainVoList);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return ResultMap.error("运行异常，请联系管理员");
+        }
+    }
+
+    /**
+     * 通过订单号查询企业健康服务客户购买记录信息
+     */
+    /*@ApiOperation(value = "通过订单号查询企业健康服务客户购买记录信息", notes = "通过订单号查询企业健康服务客户购买记录信息")
+    @GetMapping("/getEntityPurchseMainByOrderNo/{OrderNo}")
+    @RequiresPermissions("upms/entityPurchseMain/getEntityPurchseMainByOrderNo")
+    public ResultMap getEntityPurchseMainByOrderNo(@PathVariable("OrderNo") String OrderNo){
+        try {
+            EntityPurchseMainVo entityPurchseMainVo = entityPurchseMainService.getEntityPurchseMainByOrderNo(OrderNo);
+            return ResultMap.ok().put("data",entityPurchseMainVo);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return ResultMap.error("运行异常，请联系管理员");
+        }
+    }*/
 
     /**
      * 信息
