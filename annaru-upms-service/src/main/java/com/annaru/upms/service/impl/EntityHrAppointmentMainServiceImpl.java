@@ -2,6 +2,7 @@ package com.annaru.upms.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.annaru.upms.entity.vo.EntityHrAppointmentMainVoZ;
+import com.annaru.upms.entity.vo.EntityHrAppointmentMainVoZ1;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -51,6 +52,16 @@ public class EntityHrAppointmentMainServiceImpl extends ServiceImpl<EntityHrAppo
     @Override
     public List<EntityHrAppointmentMainVoZ> hrYetAppointmentUser(Map<String, Object> params) {
         return this.baseMapper.hrYetAppointmentUser(params);
+    }
+
+    @Override
+    public List<EntityHrAppointmentMainVoZ1> selectHrHealthAppointment(Map<String, Object> params) {
+        return this.baseMapper.selectHrHealthAppointment(params);
+    }
+
+    @Override
+    public List<EntityHrAppointmentMainVoZ1> selectHrHealthAppointmentBs(Map<String, Object> params) {
+        return this.baseMapper.selectHrHealthAppointmentBs(params);
     }
 
 }

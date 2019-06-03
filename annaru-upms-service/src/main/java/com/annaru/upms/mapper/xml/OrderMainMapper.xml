@@ -3,6 +3,45 @@
 
 <mapper namespace="com.annaru.upms.mapper.OrderMainMapper">
 
+
+    <resultMap id="BaseResultMapVo" type="com.annaru.upms.entity.vo.OrderInfoVo" >
+        <result column="address" property="address" />
+        <result column="appointment_cates" property="appointmentCates" />
+        <result column="appoint_date" property="appointDate" />
+        <result column="time_from" property="timeFrom" />
+        <result column="pay_status" property="payStatus" />
+        <result column="institution_id" property="institutionId" />
+        <result column="order_no" property="orderNo"/>
+        <result column="parent_no" property="parentNo"/>
+        <result column="order_cates" property="orderCates"/>
+        <result column="option_1" property="serviceOption" />
+        <result column="package_name" property="packageName"/>
+        <result column="appointment_status" property="appointmentStatus" />
+        <result column="reference_no" property="referenceNo" />
+        <result column="user_id" property="userId" />
+        <result column="entity_id" property="entityId"/>
+    </resultMap>
+
+    <resultMap id="BaseResultMapOEVo" type="com.annaru.upms.entity.vo.OrderExtensionInfoVo" >
+        <result column="address" property="address" />
+        <result column="appointment_cates" property="appointmentCates" />
+        <result column="appoint_date" property="appointDate" />
+        <result column="time_from" property="timeFrom" />
+        <result column="pay_status" property="payStatus" />
+        <result column="institution_id" property="institutionId" />
+        <result column="order_no" property="orderNo"/>
+        <result column="parent_no" property="parentNo"/>
+        <result column="order_cates" property="orderCates"/>
+        <result column="option_1" property="serviceOption" />
+        <result column="appointment_status" property="appointmentStatus" />
+        <result column="user_id" property="userId" />
+        <result column="entity_id" property="entityId"/>
+        <collection property="chooseVoList" ofType="com.annaru.upms.entity.vo.OrderExtensionChooseVo">
+            <result column="name" property="name"/>
+            <result column="item_name" property="itemName"/>
+        </collection>
+    </resultMap>
+
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.annaru.upms.entity.OrderMain" >
         <result column="sys_id" property="sysId" />
@@ -21,6 +60,7 @@
         <result column="is_deleted" property="isDeleted" />
         <result column="creationtime" property="creationtime" />
     </resultMap>
+
 
     <!-- 通用查询映射结果 -->
     <resultMap id="advanceBaseResultMap" type="com.annaru.upms.entity.vo.OrderMainVoZ" >
@@ -43,7 +83,6 @@
         <result column="userChannel" property="userChannel" />
         <result column="amount" property="amount" />
         <result column="departmentName" property="departmentName" />
-
         <result column="appointmentCates" property="appointmentCates" />
         <result column="option_1" property="option_1" />
         <result column="parentNo" property="parentNo" />
@@ -279,5 +318,107 @@
         VALUES
                 (#{orderNo},#{referenceNo},#{totalQty},#{userId},#{orderCates},#{status},#{amount})
     </insert>
+
+    <select id="getToB" parameterType="map" resultMap="BaseResultMapVo">
+        SELECT
+        oa.address,
+        oa.appointment_cates,
+        oa.appoint_date,
+        oa.institution_id,
+        oa.related_no,
+        oa.order_no,
+        oai.option_1,
+        oa.time_from,
+        oa.`status` appointment_status,
+        om.order_cates,
+        om.reference_no,
+        om.`status` pay_status,
+        om.user_id,
+        oa.entity_id,
+        epm.package_name
+        FROM
+        order_appointment oa
+        LEFT JOIN order_main om
+        on oa.order_no = om.order_no
+        LEFT JOIN order_additional_info oai
+        on oai.order_no = oa.order_no
+        LEFT JOIN exam_package_main epm
+        on epm.sys_id = om.reference_no
+        WHERE
+        oa.appointment_cates = 3
+        and oa.user_id = #{params.userId}
+        and oa.is_cancelled = 0
+        and om.is_deleted = 0
+    </select>
+
+    <select id="getExtensionInfo" parameterType="map" resultMap="BaseResultMapOEVo">
+            SELECT
+            oa.address,
+            oa.appointment_cates,
+            oa.appoint_date,
+            oa.department_id,
+            oa.entity_id,
+            oa.institution_id,
+            oa.`status` appointment_status,
+            oa.order_no,
+            oa.related_no,
+            oa.service_option,
+            oai.option_1,
+            oa.time_from,
+            oa.user_id,
+            om.order_cates,
+            om.parent_no,
+            om.`status` pay_status,
+            ed.item_name,
+            em.`name`
+            FROM
+            order_appointment oa
+            LEFT JOIN order_main om
+            on oa.order_no = om.order_no
+             LEFT JOIN order_additional_info oai
+             on oai.order_no = oa.order_no
+            LEFT JOIN order_extension_exam oee
+            on oee.order_no = om.order_no
+            LEFT JOIN exam_master em
+            on em.sys_id = oee.exam_master_id
+            LEFT JOIN exam_detail ed
+            on ed.sys_id = oee.exam_detail_id
+            where oa.user_id = #{params.userId} and (oa.appointment_cates = 2 or oa.appointment_cates = 4)
+            and om.is_deleted = 0
+            and oa.is_cancelled = 0
+    </select>
+
+    <select id="getBase" parameterType="map" resultMap="BaseResultMapVo">
+        SELECT
+            oa.address,
+            oa.appointment_cates,
+            oa.appoint_date,
+            oa.department_id,
+            oa.entity_id,
+            oa.institution_id,
+            oa.order_no,
+            oa.related_no,
+            oa.service_option,
+            oai.option_1,
+            oa.time_from,
+            oa.user_id,
+            om.order_cates,
+            om.parent_no,
+            om.reference_no,
+            oa.`status` appointment_status,
+            om.`status` pay_status,
+            epm.package_name
+            FROM
+            order_appointment oa
+            LEFT JOIN order_main om
+            on oa.order_no = om.order_no
+            LEFT JOIN order_additional_info oai
+            on oai.order_no = oa.order_no
+            LEFT JOIN exam_package_main epm
+            on epm.sys_id = om.reference_no
+            where om.parent_no = #{params.parentNo} and (oa.appointment_cates = 2 or oa.appointment_cates = 4)
+            and om.is_deleted = 0
+            and oa.is_cancelled = 0
+    </select>
 
 </mapper>

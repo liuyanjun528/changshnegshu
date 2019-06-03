@@ -72,8 +72,11 @@
             and  si.level LIKE CONCAT('%', #{params.level}, '%')
         </if>
         GROUP BY si.sys_id
-        <if test="params.number !=null and params.number !=''">
-            ORDER BY apNumber desc
+        <if test="params.number !=null and params.number !='' and params.number == 0">
+            ORDER BY apNumber desc,si.sys_id
+        </if>
+        <if test="params.number !=null and params.number !='' and params.number == 1">
+            ORDER BY apNumber,si.sys_id
         </if>
     </select>
 
