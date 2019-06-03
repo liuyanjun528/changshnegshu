@@ -131,6 +131,18 @@ public class OrderMain extends Model<OrderMain> implements Serializable {
 	@TableField(exist = false)
 	private OrderCustomer orderCustomer;
 
+	@ApiModelProperty(value = "家庭医生表")
+	@TableField(exist = false)
+	private UserFamilyDoctor userFamilyDoctor;
+
+	public UserFamilyDoctor getUserFamilyDoctor() {
+		return userFamilyDoctor;
+	}
+
+	public void setUserFamilyDoctor(UserFamilyDoctor userFamilyDoctor) {
+		this.userFamilyDoctor = userFamilyDoctor;
+	}
+
 	public OrderDetail getOrderDetail() {
 		return orderDetail;
 	}

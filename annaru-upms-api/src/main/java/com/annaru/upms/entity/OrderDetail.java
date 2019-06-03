@@ -64,11 +64,8 @@ public class OrderDetail extends Model<OrderDetail> implements Serializable {
 	@TableField("rest_count")
     private Integer restCount;
 
-	/**
-	 * 总数
-     * 总数（关联 exam_package_append）
-	 */
-    @ApiModelProperty(value = "总数（关联 exam_package_append）")
+
+
 	@TableField("total_count")
 	private Integer totalCount;
 	/**
@@ -161,7 +158,7 @@ public class OrderDetail extends Model<OrderDetail> implements Serializable {
 	public void setTotalCount(Integer totalCount) {
 		this.totalCount = totalCount;
 	}
-    /**
+	/**
      * 获取：备注
      */
     public String getRemark() {

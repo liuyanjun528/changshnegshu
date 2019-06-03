@@ -1,6 +1,8 @@
 package com.annaru.upms.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.annaru.upms.entity.vo.OrderExtensionInfoVo;
+import com.annaru.upms.entity.vo.OrderInfoVo;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -8,7 +10,6 @@ import com.annaru.common.result.PageUtils;
 import com.annaru.upms.entity.OrderMain;
 import com.annaru.upms.mapper.OrderMainMapper;
 import com.annaru.upms.service.IOrderMainService;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Map;
 import java.util.List;
@@ -59,7 +60,11 @@ public class OrderMainServiceImpl extends ServiceImpl<OrderMainMapper, OrderMain
     }
 
     @Override
-    @Transactional
+    public OrderMain getByOrderNo(String orderNo) {
+        return this.baseMapper.selectByOrderNo(orderNo);
+    }
+
+    @Override
     public int insertOrderMain(OrderMain orderMain) {
         return this.baseMapper.insertOrderMain(orderMain);
     }
@@ -68,6 +73,16 @@ public class OrderMainServiceImpl extends ServiceImpl<OrderMainMapper, OrderMain
         return this.baseMapper.getTimes(params);
     }
 
+    public List<OrderInfoVo> getToB(Map<String,Object> params){
+        return this.baseMapper.getToB(params);
+    }
 
+    public List<OrderExtensionInfoVo> getExtensionInfo(Map<String,Object> params){
+        return this.baseMapper.getExtensionInfo(params);
+    }
+
+    public OrderInfoVo getBase(Map<String,Object> params){
+        return this.baseMapper.getBase(params);
+    }
 
 }

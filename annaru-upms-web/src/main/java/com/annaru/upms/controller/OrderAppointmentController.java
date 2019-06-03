@@ -6,7 +6,10 @@ import com.annaru.common.result.PageUtils;
 import com.annaru.common.result.ResultMap;
 import com.annaru.common.util.UUIDGenerator;
 import com.annaru.upms.entity.*;
+import com.annaru.upms.entity.vo.ExamChooseVo;
 import com.annaru.upms.entity.vo.OrderAppointmentVo;
+import com.annaru.upms.entity.vo.OrderExtensionInfoVo;
+import com.annaru.upms.entity.vo.OrderInfoVo;
 import com.annaru.upms.service.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -15,10 +18,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 
 /**
@@ -46,6 +46,8 @@ public class OrderAppointmentController extends BaseController {
     private IOrderMainService orderMainService;
     @Reference
     private ISysDoctorOppointmentService sysDoctorOppointmentService;
+    @Reference
+    private IExamPackageDetailService examPackageDetailService;
 
     /**
      * 列表
@@ -63,6 +65,46 @@ public class OrderAppointmentController extends BaseController {
         params.put("key", key);
         PageUtils<Map<String, Object>> pageList = orderAppointmentService.getDataPage(params);
         return ResultMap.ok().put("data",pageList);
+    }
+
+    @ApiOperation(value = "toB基础预约信息")
+    @GetMapping("/toBInfo")
+    @RequiresPermissions("upms/orderAppointment/toBInfo")
+    public ResultMap toCInfo(@ApiParam(value = "用户ID")@RequestParam String userId){
+        Map<String, Object> params = new HashMap<>();
+        params.put("userId",userId);
+        List<OrderInfoVo> orderInfoVo = orderMainService.getToB(params);
+        params.clear();
+        for(int i = 0;i<orderInfoVo.size();i++){
+            params.put("examId",Integer.valueOf(orderInfoVo.get(i).getReferenceNo()));
+            List<ExamChooseVo> examChooseVo = examPackageDetailService.getChoosen(params);
+            orderInfoVo.get(i).setExamChooseList(examChooseVo);
+            params.clear();
+        }
+        params.put("orderInfoVo",orderInfoVo);
+        return ResultMap.ok().put("data",params);
+    }
+
+
+    @ApiOperation(value = "进阶体检预约信息")
+    @GetMapping("/extensionInfo")
+    @RequiresPermissions("upms/orderAppointment/extensionInfo")
+    public ResultMap extensionInfo(@ApiParam(value = "用户ID")@RequestParam String userId){
+        Map<String, Object> params = new HashMap<>();
+        params.put("userId",userId);
+        List<OrderExtensionInfoVo> orderInfoVo = orderMainService.getExtensionInfo(params);
+        params.clear();
+        for(int i = 0;i<orderInfoVo.size();i++){
+            params.put("parentNo",orderInfoVo.get(i).getParentNo());
+            OrderInfoVo infoVo = orderMainService.getBase(params);
+            params.clear();
+            params.put("examId",Integer.valueOf(infoVo.getReferenceNo()));
+            List<ExamChooseVo> examChooseVo = examPackageDetailService.getChoosen(params);
+            infoVo.setExamChooseList(examChooseVo);
+            params.clear();
+            orderInfoVo.get(i).setOrderInfoVo(infoVo);
+        }
+        return ResultMap.ok().put("data",orderInfoVo);
     }
 
 
@@ -93,20 +135,21 @@ public class OrderAppointmentController extends BaseController {
         try {
             if(orderAppointment.getAppointmentCates()==1
                     &&orderAppointment.getAppointDate()!=null
-            &&orderAppointment.getReferenceNo()!=null&&orderAppointment.getOption1()!=null
-            &&orderAppointment.getTimeFrom()!=null&&orderAppointment.getTimeTo()!=null){
+            &&orderAppointment.getOrderNo()!=null&&orderAppointment.getOption1()!=null
+            &&orderAppointment.getTimeFrom()!=null){
                 appointment.setAppointmentCates(1);
                 appointment.setAppointDate(orderAppointment.getAppointDate());
                 appointment.setTimeFrom(orderAppointment.getTimeFrom());
-                appointment.setTimeTo(orderAppointment.getTimeTo());
+                //appointment.setTimeTo(orderAppointment.getTimeTo());
                 appointment.setUserId(orderAppointment.getUserId());
                 appointment.setCreateBy(orderAppointment.getUserId());
                 appointment.setCreationTime(new Date());
-                Map<String,Object> params = new HashMap<>();
-                params.put("referenceNo",orderAppointment.getReferenceNo());
-                String orderNo = orderMainService.getOrderNo(params).getOrderNo();
+               // Map<String,Object> params = new HashMap<>();
+               // params.put("referenceNo",orderAppointment.getReferenceNo());
+               // String orderNo = orderMainService.getOrderNo(params).getOrderNo();
+                String orderNo = orderAppointment.getOrderNo();
                 appointment.setOrderNo(orderNo);
-                appointment.setRelatedNo(orderAppointment.getReferenceNo());
+                //appointment.setRelatedNo(orderAppointment.getReferenceNo());
                 orderAdditionalInfo.setAppointmentCates(1);
                 orderAdditionalInfo.setCreateBy(orderAppointment.getUserId());
                 orderAdditionalInfo.setOption1(orderAppointment.getOption1());
@@ -145,7 +188,7 @@ public class OrderAppointmentController extends BaseController {
                 orderMain.setUserId(userId);
                 orderMain.setParentNo(parentNo);
                 orderMain.setOrderNo(orderNo);
-                orderMain.setStatus(2);
+                orderMain.setStatus(0);
                 orderMain.setOrderCates(orderCates);
                 orderMainService.save(orderMain);
             }else if (orderAppointment.getAppointmentCates()==5
@@ -213,7 +256,7 @@ public class OrderAppointmentController extends BaseController {
                     if (orderAppointment.getAmount()!=null&&orderAppointment.getAmount()!=0){
                         orderMain.setOrderCates(6);
                         orderMain.setOrderNo(orderNo);
-                        orderMain.setStatus(2);
+                        orderMain.setStatus(0);
                         orderMain.setUserId(userId);
                         orderMain.setAmount(orderAppointment.getAmount());
                         orderMainService.save(orderMain);

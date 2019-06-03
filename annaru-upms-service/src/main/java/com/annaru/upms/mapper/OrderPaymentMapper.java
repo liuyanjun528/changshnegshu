@@ -24,5 +24,12 @@ public interface OrderPaymentMapper extends BaseMapper<OrderPayment> {
     */
     IPage<OrderPayment> selectDataPage(Page page, @Param("params") Map<String, Object> params);
 
-
+    /**
+     * @Description: 根据订单号查询唯一一条支付记录
+     * @param orderNo 订单号
+     * @Author: XCK
+     * @Date: 2019/1/23
+     * @return RepairsOrdersPaymentRecord
+     */
+    OrderPayment selectByOrderNo(@Param("orderNo")String orderNo);
 }

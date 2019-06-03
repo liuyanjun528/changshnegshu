@@ -1,6 +1,7 @@
 package com.annaru.upms.entity;
 
 import com.annaru.common.util.JacksonUtils;
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -27,7 +28,7 @@ public class OrderPayment extends Model<OrderPayment> implements Serializable {
 	 * 系统编号
 	 */
     @ApiModelProperty(value = "系统编号")
-	@TableId
+	@TableId(type = IdType.AUTO)
 	private Integer sysId;
 	/**
 	 * 定单号
@@ -46,6 +47,18 @@ public class OrderPayment extends Model<OrderPayment> implements Serializable {
     @ApiModelProperty(value = "支付方式(1:支付宝/2:微信/3:银行卡)")
 	@TableField("pay_method")
 	private String payMethod;
+	/**
+	 * 支付状态（1：待支付、5：已付款、10：已退款、15：交易关闭）
+	 */
+	@ApiModelProperty(value = "支付状态（1：待支付、5：已付款、10：已退款、15：交易关闭）")
+	@TableField("pay_state")
+	private Integer payState;
+	/**
+	 * 支付渠道订单号
+	 */
+	@ApiModelProperty(value = "支付渠道订单号")
+	@TableField("transaction_id")
+	private String transactionId;
 	/**
 	 * 其他信息
 	 */
@@ -118,7 +131,24 @@ public class OrderPayment extends Model<OrderPayment> implements Serializable {
 	public void setPayMethod(String payMethod) {
 		this.payMethod = payMethod;
 	}
-    /**
+
+	public Integer getPayState() {
+		return payState;
+	}
+
+	public void setPayState(Integer payState) {
+		this.payState = payState;
+	}
+
+	public String getTransactionId() {
+		return transactionId;
+	}
+
+	public void setTransactionId(String transactionId) {
+		this.transactionId = transactionId;
+	}
+
+	/**
      * 获取：其他信息
      */
     public String getRefInfo() {

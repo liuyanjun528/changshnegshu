@@ -28,9 +28,7 @@ import javax.xml.bind.annotation.XmlType;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
-        "cmlDataTransResult"
-})
+@XmlType(name = "", propOrder = {"cmlDataTransResult"})
 @XmlRootElement(name = "CMLDataTransResponse")
 public class CMLDataTransResponse {
 
