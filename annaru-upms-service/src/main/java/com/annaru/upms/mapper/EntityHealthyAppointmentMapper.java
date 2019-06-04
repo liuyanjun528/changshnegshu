@@ -40,5 +40,11 @@ public interface EntityHealthyAppointmentMapper extends BaseMapper<EntityHealthy
      */
     EntityHealthyAppointmentVo selectUserOrRelativeInfo(@Param("userId") String userId, @Param("userCate") Integer userCate);
 
+    /**
+     * 企业查询服务预约
+     * @param orderNo
+     * @return
+     */
+    List<EntityHealthyAppointmentVo> selectServiceAppointment(@Param("orderNo") String orderNo);
 
 }

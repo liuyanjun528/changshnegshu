@@ -1,6 +1,7 @@
 package com.annaru.upms.mapper;
 
 import com.annaru.upms.entity.UserCards;
+import com.annaru.upms.entity.vo.UserCardInfoVo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -41,4 +42,12 @@ public interface UserCardsMapper extends BaseMapper<UserCards> {
      * @return
      */
     int insertCardAndBaseAndInstitution(UserCards cards);
+
+    /**
+     * 查询企业门诊绿通预约人信息
+     * @param userId 用户ID
+     * @return
+     */
+    List<UserCardInfoVo> getGreenPassUserInfo(@Param("userId") String userId);
+
 }

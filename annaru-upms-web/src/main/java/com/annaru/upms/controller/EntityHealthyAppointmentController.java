@@ -5,16 +5,10 @@ import com.annaru.common.base.BaseController;
 import com.annaru.common.result.PageUtils;
 import com.annaru.common.result.ResultMap;
 import com.annaru.upms.controllerutil.SysConfigUtil;
-import com.annaru.upms.entity.EntityHealthyAppointment;
-import com.annaru.upms.entity.EntityPurchseMain;
-import com.annaru.upms.entity.SysConfig;
-import com.annaru.upms.entity.SysInstitution;
+import com.annaru.upms.entity.*;
 import com.annaru.upms.entity.vo.EntityHealthyAppointmentVo;
 import com.annaru.upms.entity.vo.EntityPurchseMainVo;
-import com.annaru.upms.service.IEntityHealthyAppointmentService;
-import com.annaru.upms.service.IEntityPurchseMainService;
-import com.annaru.upms.service.ISysConfigService;
-import com.annaru.upms.service.ISysInstitutionService;
+import com.annaru.upms.service.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -45,6 +39,9 @@ public class EntityHealthyAppointmentController extends BaseController {
     private ISysInstitutionService sysInstitutionService;
 
     @Reference
+    private IOrderMainService orderMainService;
+
+    @Reference
     private ISysConfigService iSysConfigService; //系统配置表
 
     /**
@@ -65,6 +62,16 @@ public class EntityHealthyAppointmentController extends BaseController {
     @GetMapping("/selectUserOrRelativeInfo/{userId}/{userCate}")
     public ResultMap selectUserOrRelativeInfo(@RequestParam("userId") String userId, @RequestParam("userCate") Integer userCate){
         EntityHealthyAppointmentVo entityHealthyAppointmentVo = entityHealthyAppointmentService.selectUserOrRelativeInfo(userId, userCate);
+        return ResultMap.ok().put("data",entityHealthyAppointmentVo);
+    }
+
+    /**
+     * 企业查询服务预约
+     */
+    @ApiOperation(value = "企业查询服务预约", notes = "企业查询服务预约")
+    @GetMapping("/selectServiceAppointment/{orderNo}")
+    public ResultMap selectServiceAppointment(@PathVariable("orderNo") String orderNo){
+        List<EntityHealthyAppointmentVo> entityHealthyAppointmentVo = entityHealthyAppointmentService.selectServiceAppointment(orderNo);
         return ResultMap.ok().put("data",entityHealthyAppointmentVo);
     }
 
@@ -115,13 +122,19 @@ public class EntityHealthyAppointmentController extends BaseController {
             params.put("institutionId",entityHealthyAppointment.getInstitutionId());
             SysInstitution sysInstitution = sysInstitutionService.getInfo(params);
             entityHealthyAppointment.setAddress(sysInstitution.getAddress());
-            entityHealthyAppointment.setStatus(0);
-            entityHealthyAppointment.setServiceOption("2");
-            entityHealthyAppointment.setIsCancelled(0);
             entityHealthyAppointment.setCreationTime(new Date());
 
             SysConfig sysConfig = SysConfigUtil.getSysConfig(iSysConfigService , SysConfigUtil.ORDERNO);
-            entityHealthyAppointment.setOrderNo(SysConfigUtil.getNoBySysConfig());
+            String orderNo = SysConfigUtil.getNoBySysConfig();
+            entityHealthyAppointment.setOrderNo(orderNo);
+
+            //保存信息到ordermain表中
+            OrderMain orderMain = new OrderMain();
+            orderMain.setOrderNo(orderNo);
+            orderMain.setReferenceNo(Integer.toString(entityPurchseMainVo.getPkgMainId()));
+            orderMain.setUserId(entityHealthyAppointment.getUserId());
+            orderMain.setOrderTime(new Date());
+            orderMainService.save(orderMain);
             boolean bl = entityHealthyAppointmentService.save(entityHealthyAppointment);
             if(bl == true){
                 SysConfigUtil.saveRefNo(sysConfig.getRefNo());

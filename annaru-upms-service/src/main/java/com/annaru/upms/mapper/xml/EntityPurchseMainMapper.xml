@@ -144,34 +144,32 @@
         GROUP BY ur.relative_id
     </select>
 
-    <!-- 查询购买企业套餐的用户及其亲属列表 -->
-    <select id="selectEntityPurchseMainListByUserId" parameterType="map" resultMap="BaseResultMap1">
+    <!-- 查询企业门诊绿通预约人详情 -->
+    <select id="getGreenPassInfo" parameterType="map" resultMap="BaseResultMap1">
         SELECT
         epm.sys_id,
         epm.order_no,
-        epm.entity_no,
-        se.entity_name,
-        epd.user_cate,
         epd.user_cate,
         epd.user_id,
         ub.full_name,
         ub.gender AS user_gender,
-        TIMESTAMPDIFF(YEAR, ub.date_of_birth, CURDATE()) AS user_age,
+        ub.id_card_no AS user_id_card_no,
+        ub.cellphone_no AS user_cellphone_no,
         ur.relative_id,
         ur.relative_name,
         ur.gender AS relative_gender,
-        TIMESTAMPDIFF(YEAR, ur.date_of_birth, CURDATE()) AS relative_age,
-        ur.remark
-
+        ur.id_card_no AS relative_id_card_no,
+        ur.cellphone_no AS relative_cellphone_no,
+        uc.card_cates,
+        uc.card_no
         FROM entity_purchse_main epm
         LEFT JOIN entity_purchse_detail epd ON epd.order_no = epm.order_no
-        LEFT JOIN sys_entity se ON se.entity_id = epm.entity_no
+        LEFT JOIN user_cards uc ON uc.user_id = epd.user_id
         LEFT JOIN user_basic ub ON ub.user_id = epd.user_id
-        LEFT JOIN user_relatives ur ON ur.user_id = ub.user_id
+        LEFT JOIN user_relatives ur ON ur.relative_id = epd.user_id
         WHERE
-        <if test="userId != null and userId != ''">
-            epd.user_id=#{userId}
+        <if test="orderON != null and orderON != ''">
+            epm.order_no=#{orderON}
         </if>
-        GROUP BY ur.relative_id
     </select>
 </mapper>
