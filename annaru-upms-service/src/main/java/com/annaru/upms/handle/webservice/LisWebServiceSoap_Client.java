@@ -1,5 +1,5 @@
 
-package com.annaru.upms.webservice;
+package com.annaru.upms.handle.webservice;
 
 /**
  * Please modify this class to meet your needs

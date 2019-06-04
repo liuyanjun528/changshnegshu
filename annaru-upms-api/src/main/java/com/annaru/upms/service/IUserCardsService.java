@@ -2,6 +2,7 @@ package com.annaru.upms.service;
 
 import com.annaru.common.result.PageUtils;
 import com.annaru.upms.entity.UserCards;
+import com.annaru.upms.entity.vo.UserCardInfoVo;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.apache.ibatis.annotations.Param;
 
@@ -38,6 +39,13 @@ public interface IUserCardsService extends IService<UserCards> {
      * @return
      */
     int insertCardAndBaseAndInstitution(UserCards cards);
+
+    /**
+     * 查询企业门诊绿通预约人信息
+     * @param userId 用户ID
+     * @return
+     */
+    List<UserCardInfoVo> getGreenPassUserInfo(String userId);
 
 }
 

@@ -5,6 +5,7 @@ import com.annaru.common.base.BaseController;
 import com.annaru.common.result.PageUtils;
 import com.annaru.common.result.ResultMap;
 import com.annaru.upms.entity.UserCards;
+import com.annaru.upms.entity.vo.UserCardInfoVo;
 import com.annaru.upms.service.IUserCardsService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -60,6 +61,24 @@ public class UserCardsController extends BaseController {
         }
 
     }
+
+    /**
+     * 查询企业门诊绿通预约人信息
+     */
+    @ApiOperation(value = "查询企业门诊绿通预约人信息")
+    @GetMapping("/getGreenPassUserInfo/{userId}")
+    @RequiresPermissions("upms/userCards/getGreenPassUserInfo")
+    public ResultMap getGreenPassUserInfo(@PathVariable("userId") String userId) {
+        try {
+            List<UserCardInfoVo> userCardInfoVo = userCardsService.getGreenPassUserInfo(userId);
+            return ResultMap.ok().put("data", userCardInfoVo);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return ResultMap.error("运行异常，请联系管理员");
+        }
+
+    }
+
     /**
      * 列表
      */

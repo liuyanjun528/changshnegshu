@@ -3,11 +3,13 @@ package com.annaru.upms.service.impl;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.annaru.common.result.PageUtils;
 import com.annaru.upms.entity.UserCards;
+import com.annaru.upms.entity.vo.UserCardInfoVo;
 import com.annaru.upms.mapper.UserCardsMapper;
 import com.annaru.upms.service.IUserCardsService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -37,6 +39,15 @@ public class UserCardsServiceImpl extends ServiceImpl<UserCardsMapper, UserCards
     @Override
     public int insertCardAndBaseAndInstitution(UserCards cards) {
         return this.baseMapper.insertCardAndBaseAndInstitution(cards);
+    }
+
+    /**
+     * 查询企业门诊绿通预约人信息
+     * @param userId 用户ID
+     * @return
+     */
+    public List<UserCardInfoVo> getGreenPassUserInfo(String userId) {
+        return this.baseMapper.getGreenPassUserInfo(userId);
     }
 
 

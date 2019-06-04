@@ -8,6 +8,10 @@
         <result column="order_no" property="orderNo"/>
         <result column="entity_name" property="entityName"/>
         <result column="user_cate" property="userCate"/>
+        <result column="address" property="address" />
+        <result column="time_from" property="timeFrom" />
+        <result column="service_option" property="serviceOption" />
+        <result column="descr" property="descr" />
         <result column="user_id" property="userId" />
         <result column="full_name" property="fullName" />
         <result column="user_gender" property="userGender"/>
@@ -81,7 +85,6 @@
             </if>
         </where>
     </select>
-
 
     <!-- 查询企业用户及亲属列表-->
     <select id="selectUserAndRelative" parameterType="map" resultMap="BaseResultMap1">
@@ -166,4 +169,40 @@
             AND eha.user_cate=#{userCate}
         </if>
     </select>
+
+    <!-- 企业查询服务预约 -->
+    <select id="selectServiceAppointment" parameterType="map" resultMap="BaseResultMap1">
+        SELECT
+        eha.sys_id,
+        eha.order_no,
+        eha.user_cate,
+        eha.address,
+        eha.time_from,
+        eha.user_id,
+        eha.service_option,
+        ehpm.descr,
+        ub.full_name,
+        ub.gender AS user_gender,
+        ub.id_card_no AS user_id_card_no,
+        ub.cellphone_no AS user_cellphone_no,
+        ur.relative_id,
+        ur.relative_name,
+        ur.gender AS relative_gender,
+        ur.id_card_no AS relative_id_card_no,
+        ur.cellphone_no AS relative_cellphone_no,
+        uc.card_cates,
+        uc.card_no
+        FROM entity_healthy_appointment eha
+        LEFT JOIN order_main om ON om.order_no = eha.order_no
+        LEFT JOIN entity_purchse_main epm ON epm.order_no = eha.order_no
+        LEFT JOIN entity_healthy_package_main ehpm ON ehpm.sys_id = eha.pkg_main_id
+        LEFT JOIN user_cards uc ON uc.user_id = eha.user_id
+	LEFT JOIN user_basic ub ON ub.user_id = eha.user_id
+	LEFT JOIN user_relatives ur ON ur.relative_id = eha.user_id
+	WHERE
+        <if test="orderNo != null and orderNo != ''">
+            eha.order_no=#{orderNo}
+        </if>
+    </select>
+
 </mapper>

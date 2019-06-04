@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.extension.activerecord.Model;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.List;
 
@@ -32,24 +33,28 @@ public class ExamInspectReportUploadApp extends Model<ExamInspectReportUploadApp
 	/**
 	 * 申请执行机构代码，默认000
 	 */
+	@NotBlank
     @ApiModelProperty(value = "申请执行机构代码，默认000")
 	@TableField("ZXJGDM")
 	private String ZXJGDM;
 	/**
 	 * 送检日期 YYYY-MM-DD
 	 */
+	@NotBlank
     @ApiModelProperty(value = "送检日期 YYYY-MM-DD")
 	@TableField("SJRQ")
 	private String SJRQ;
 	/**
 	 * 申请机构条码
 	 */
+	@NotBlank
     @ApiModelProperty(value = "申请机构条码")
 	@TableField("EXTMH")
 	private String EXTMH;
 	/**
 	 * 执行机构条码
 	 */
+	@NotBlank
     @ApiModelProperty(value = "执行机构条码")
 	@TableField("TMH")
 	private String TMH;
@@ -80,18 +85,21 @@ public class ExamInspectReportUploadApp extends Model<ExamInspectReportUploadApp
 	/**
 	 * 姓名
 	 */
+	@NotBlank
     @ApiModelProperty(value = "姓名")
 	@TableField("BRXM")
 	private String BRXM;
 	/**
 	 * 性别（代码^名称格式,如00011^男）
 	 */
+	@NotBlank
     @ApiModelProperty(value = "性别（代码^名称格式,如00011^男）")
 	@TableField("BRXB")
 	private String BRXB;
 	/**
 	 * 年龄（年龄^单位格式，如 22^岁或者22^天）
 	 */
+	@NotBlank
     @ApiModelProperty(value = "年龄（年龄^单位格式，如 22^岁或者22^天）")
 	@TableField("BRNL")
 	private String BRNL;
@@ -104,6 +112,7 @@ public class ExamInspectReportUploadApp extends Model<ExamInspectReportUploadApp
 	/**
 	 * 出生日期（Yyyy-mm-dd）
 	 */
+	@NotBlank
     @ApiModelProperty(value = "出生日期（Yyyy-mm-dd）")
 	@TableField("CSRQ")
 	private String CSRQ;
@@ -182,6 +191,7 @@ public class ExamInspectReportUploadApp extends Model<ExamInspectReportUploadApp
 	/**
 	 * 检验标本类型（代码^标本类型,如01^血清）
 	 */
+	@NotBlank
     @ApiModelProperty(value = "检验标本类型（代码^标本类型,如01^血清）")
 	@TableField("BBZL")
 	private String BBZL;

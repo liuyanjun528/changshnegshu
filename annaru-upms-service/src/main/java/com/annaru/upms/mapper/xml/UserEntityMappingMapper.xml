@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.annaru.upms.mapper.UserEntityMappingMapper">
+
+	<!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.annaru.upms.entity.UserEntityMapping" >
+        <result column="sys_id" property="sysId" />
+        <result column="user_id" property="userId" />
+        <result column="entity_id" property="entityId" />
+        <result column="is_active" property="isActive" />
+        <result column="creation_time" property="creationTime" />
+        <result column="createby" property="createby" />
+    </resultMap>
+
+    <resultMap id="BaseResultMap1" type="com.annaru.upms.entity.vo.UserEntityMappingVo" >
+        <id column="sys_id" property="sysId" />
+        <result column="user_id" property="userId" />
+        <result column="entity_id" property="entityId" />
+        <result column="is_active" property="isActive" />
+        <result column="creation_time" property="creationTime" />
+        <result column="createby" property="createby" />
+        <association property="sysEntity" javaType="com.annaru.upms.entity.SysEntity">
+            <!--<id column="sys_id" property="sysId" />-->
+            <id column="entity_id" property="entityId" />
+            <result column="entity_name" property="entityName" />
+        </association>
+        <association property="userBasicVo" javaType="com.annaru.upms.entity.vo.UserBasicVo">
+            <id column="user_id" property="userId" />
+            <result column="full_name" property="fullName" />
+            <result column="user_gender" property="userGender"/>
+            <result column="user_age" property="userAge"/>
+            <result column="user_id_card_no" property="userIdCardNo"/>
+            <result column="user_cellphone_no" property="userCellphoneNo"/>
+            <collection property="userRelativesVoList" ofType="com.annaru.upms.entity.vo.UserRelativesVo">
+                <id column="relative_id" property="relativeId" />
+                <result column="user_id" property="userId" />
+                <result column="relative_name" property="relativeName"/>
+                <result column="relative_gender" property="relativeGender"/>
+                <result column="relative_age" property="relativeAge"/>
+                <result column="relative_id_card_no" property="relativeIdCardNo"/>
+                <result column="relative_cellphone_no" property="relativeCellphoneNo"/>
+                <result column="remark" property="remark"/>
+            </collection>
+        </association>
+    </resultMap>
+    
+    <sql id="BaseClounmSql">
+          sys_id,
+          user_id,
+          entity_id,
+          is_active,
+          creation_time,
+          createby,
+    </sql>
+
+    <!-- 多表页面信息查询分页 -->
+    <select id="selectDataPage" parameterType="map" resultMap="BaseResultMap">
+
+        SELECT
+            <include refid="BaseClounmSql"></include>
+        FROM
+            user_entity_mapping
+
+    </select>
+
+    <!-- 选择预约人时查询企业用户及亲属列表-->
+    <select id="selectUserAndRelativeInfoByUserId" parameterType="map" resultMap="BaseResultMap1">
+        SELECT
+        ub.user_id,
+        ub.full_name,
+        ub.gender AS user_gender,
+        TIMESTAMPDIFF(YEAR, ub.date_of_birth, CURDATE()) AS user_age,
+        ur.relative_id,
+        ur.relative_name,
+        ur.gender AS relative_gender,
+        TIMESTAMPDIFF(YEAR, ur.date_of_birth, CURDATE()) AS relative_age,
+        ur.remark,
+        se.entity_id,
+        se.entity_name
+        FROM user_entity_mapping uem
+        LEFT JOIN sys_entity se ON se.entity_id = uem.entity_id
+        LEFT JOIN user_basic ub ON ub.user_id = uem.user_id
+        LEFT JOIN user_relatives ur ON ur.user_id = uem.user_id
+        where
+        <if test="userId != null and userId != ''">
+            uem.user_id=#{userId}
+        </if>
+    </select>
+
+</mapper>
