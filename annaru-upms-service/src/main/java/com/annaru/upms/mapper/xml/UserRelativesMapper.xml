@@ -47,4 +47,8 @@
         </where>
     </select>
 
+    <select id="selectAll" parameterType="map" resultMap="BaseResultMap">
+        select * from user_relatives where user_id=#{userId}
+    </select>
+
 </mapper>

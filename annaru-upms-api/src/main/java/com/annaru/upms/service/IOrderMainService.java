@@ -6,6 +6,7 @@ import com.annaru.upms.entity.vo.OrderExtensionInfoVo;
 import com.annaru.upms.entity.vo.OrderInfoVo;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -64,10 +65,11 @@ public interface IOrderMainService extends IService<OrderMain> {
      */
     OrderMain getByOrderNo(String orderNo);
 
-    /**
-     * 添加订单主表
-     * @param orderMain
-     * @return
+   /**
+     * @Description:添加订单主表
+     * @Param:  orderMain
+     * @Author: wh
+     * @Date: 2019/6/4 11:37
      */
     int insertOrderMain(OrderMain orderMain);
 

@@ -11,7 +11,7 @@ import java.util.Map;
 
 /**
  * 客户家庭医生
- * 
+ *
  * @author xck
  * @date 2019-05-22 10:07:32
  */
@@ -24,6 +24,6 @@ public interface UserFamilyDoctorMapper extends BaseMapper<UserFamilyDoctor> {
     * @return
     */
     IPage<UserFamilyDoctor> selectDataPage(Page page, @Param("params") Map<String, Object> params);
-
+    
     UserFamilyDoctorVo getUserFDInfo(@Param("params") Map<String, Object> params);
 }

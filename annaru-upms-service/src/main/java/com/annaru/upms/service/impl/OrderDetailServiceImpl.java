@@ -9,6 +9,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Map;
 
@@ -28,7 +29,9 @@ public class OrderDetailServiceImpl extends ServiceImpl<OrderDetailMapper, Order
         return new PageUtils<OrderDetail>(iPage);
     }
 
+
     @Override
+    @Transactional
     public int insertOrderDetail(OrderDetail orderDetail) {
         return this.baseMapper.insertOrderDetail(orderDetail);
     }

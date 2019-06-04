@@ -7,13 +7,7 @@
     <resultMap id="BaseResultMap" type="com.annaru.upms.entity.OrderCustomer" >
         <result column="sys_id" property="sysId" />
         <result column="order_no" property="orderNo" />
-        <result column="customer_name" property="customerName" />
-        <result column="id_no" property="idNo" />
-        <result column="gender" property="gender" />
-        <result column="cellphone_no1" property="cellphoneNo1" />
-        <result column="cellphone_no2" property="cellphoneNo2" />
-        <result column="seqno" property="seqno" />
-        <result column="remark" property="remark" />
+        <result column="relative_id" property="relativeId" />
     </resultMap>
 
     <!-- 多表页面信息查询分页 -->
@@ -22,27 +16,21 @@
         SELECT
               sys_id,
               order_no,
-              customer_name,
-              id_no,
-              gender,
-              cellphone_no1,
-              cellphone_no2,
-              seqno,
-              remark
+              relative_id
         FROM
             order_customer
         <where>
-            <if test="params.customerName != null and params.customerName != ''">
-                AND customer_name LIKE CONCAT('%', #{params.customerName}, '%')
+            <if test="params.orderNo != null and params.orderNo != ''">
+                AND order_no LIKE CONCAT('%', #{params.orderNo}, '%')
             </if>
         </where>
     </select>
 
     <insert id="insertOrderCustomer" parameterType="com.annaru.upms.entity.OrderCustomer">
         insert into order_customer
-                (order_no,customer_name,id_no,gender,cellphone_no1)
+                (order_no,relative_id)
         values
-                (#{orderNo},#{customerName},#{idNo},#{gender},#{cellphoneNo1})
+                (#{orderNo},#{relativeId})
     </insert>
 
 
