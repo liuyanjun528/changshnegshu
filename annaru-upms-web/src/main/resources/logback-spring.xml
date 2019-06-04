@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- 多环境分级别异步文件日志输出配置 -->
 <configuration debug="false">
-    <!-- 日志级别 -->
-    <property name="logLevel" value="ERROR"/>
+    <!-- 日志级别 TRACE、DEBUG、INFO、WARN 和 ERROR  -->
+    <property name="logLevel" value="INFO"/>
     <!--日志文件的存储地址，勿在 LogBack 的配置中使用相对路径-->
     <property name="logPath" value="/output/logs"/>
     <!-- 日志名称 -->
@@ -44,6 +44,7 @@
             <maxFileSize>${max.file.size}</maxFileSize>
             <maxHistory>${max.history}</maxHistory>
             <totalSizeCap>${total.size.cap}</totalSizeCap>
+            <cleanHistoryOnStart>true</cleanHistoryOnStart>
         </rollingPolicy>
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <pattern>${out.pattern}</pattern>
@@ -65,6 +66,7 @@
             <maxFileSize>${max.file.size}</maxFileSize>
             <maxHistory>${max.history}</maxHistory>
             <totalSizeCap>${total.size.cap}</totalSizeCap>
+            <cleanHistoryOnStart>true</cleanHistoryOnStart>
         </rollingPolicy>
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <pattern>${out.pattern}</pattern>
@@ -86,6 +88,7 @@
             <maxFileSize>${max.file.size}</maxFileSize>
             <maxHistory>${max.history}</maxHistory>
             <totalSizeCap>${total.size.cap}</totalSizeCap>
+            <cleanHistoryOnStart>true</cleanHistoryOnStart>
         </rollingPolicy>
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <pattern>${out.pattern}</pattern>
@@ -100,6 +103,7 @@
             <fileNamePattern>${logPath}/${logName}.other.%d{yyyy-MM-dd}.log</fileNamePattern>
             <maxHistory>${max.history}</maxHistory>
             <totalSizeCap>${total.size.cap}</totalSizeCap>
+            <cleanHistoryOnStart>true</cleanHistoryOnStart>
         </rollingPolicy>
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <pattern>${out.pattern}</pattern>

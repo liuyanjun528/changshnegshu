@@ -4,6 +4,7 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.annaru.common.result.PageUtils;
 import com.annaru.upms.entity.ExamInspectReportUploadApp;
 import com.annaru.upms.entity.ExamInspectReportUploadAppNode;
+import com.annaru.upms.handle.webservice.LisWebServiceSoap12_Client;
 import com.annaru.upms.mapper.ExamInspectReportUploadAppMapper;
 import com.annaru.upms.service.IExamInspectReportUploadAppService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -42,14 +43,21 @@ public class ExamInspectReportUploadAppServiceImpl extends ServiceImpl<ExamInspe
         if(uploadApp == null){
             return false;
         }
-        boolean insert = uploadApp.insert();
-        List<ExamInspectReportUploadAppNode> uploadAppNodeList = uploadApp.getUploadAppNodeList();
-        if(insert && CollectionUtils.isNotEmpty(uploadAppNodeList))
-            for (ExamInspectReportUploadAppNode uploadAppNode : uploadAppNodeList) {
-                uploadAppNode.setUploadappId(uploadApp.getId());
-                uploadAppNode.insert();
+        // 1、上传申请至第三方机构（千麦）
+        boolean uploadBool = LisWebServiceSoap12_Client.UpLoadApp(uploadApp);
+        if(uploadBool){
+            // 1、保存申请至本地数据库备份
+            boolean insert = uploadApp.insert();
+            List<ExamInspectReportUploadAppNode> uploadAppNodeList = uploadApp.getUploadAppNodeList();
+            if(insert && CollectionUtils.isNotEmpty(uploadAppNodeList)) {
+                for (ExamInspectReportUploadAppNode uploadAppNode : uploadAppNodeList) {
+                    uploadAppNode.setUploadappId(uploadApp.getId());
+                    uploadAppNode.insert();
+                }
             }
-        return true;
+            return true;
+        }
+        return false;
     }
 
 }

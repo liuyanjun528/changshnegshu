@@ -29,11 +29,16 @@
               create_by
         FROM
             sys_appraisal
-        WHERE
-            status=0
-            <if test="params.key != null and params.key != ''">
-                AND key LIKE CONCAT('%', #{params.key}, '%')
+            <where>
+            <if test="params.userId != null and params.userId != ''">
+                AND user_id LIKE CONCAT('%', #{params.userId}, '%')
             </if>
+            </where>
+    </select>
+
+    <!-- 查询评价星数-->
+    <select id="selectStart" parameterType="map" resultMap="BaseResultMap">
+        select star_count from sys_appraisal where user_id=#{userId}
     </select>
 
 </mapper>
