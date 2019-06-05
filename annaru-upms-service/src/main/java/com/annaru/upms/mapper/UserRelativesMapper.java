@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -23,6 +24,13 @@ public interface UserRelativesMapper extends BaseMapper<UserRelatives> {
     * @return
     */
     IPage<UserRelatives> selectDataPage(Page page, @Param("params") Map<String, Object> params);
+
+    /**
+      * @Description: 查询全部亲属
+      * @Author: wh
+      * @Date: 2019/6/4 9:35
+      */
+    List<UserRelatives> selectAll(@Param("userId") String userId);
 
 
 }

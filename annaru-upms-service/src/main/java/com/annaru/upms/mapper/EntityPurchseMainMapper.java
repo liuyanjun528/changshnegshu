@@ -1,6 +1,8 @@
 package com.annaru.upms.mapper;
 
 import com.annaru.upms.entity.EntityPurchseMain;
+import com.annaru.upms.entity.vo.EntityHealthyAppointmentVo;
+import com.annaru.upms.entity.vo.EntityPurchseMainVo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -24,5 +26,18 @@ public interface EntityPurchseMainMapper extends BaseMapper<EntityPurchseMain> {
     */
     IPage<EntityPurchseMain> selectDataPage(Page page, @Param("params") Map<String, Object> params);
 
+    /**
+     * 通过订单号查询企业健康服务客户购买记录信息
+     * @param orderNo
+     * @return
+     */
+    EntityPurchseMainVo getEntityPurchseMainByOrderNo(@Param("orderNo") String orderNo);
+
+    /**
+     * 查询购买企业套餐的用户及其亲属列表
+     * @param userId
+     * @return
+     */
+    List<EntityPurchseMainVo> selectEntityPurchseMainListByUserId(@Param("userId") String userId);
 
 }

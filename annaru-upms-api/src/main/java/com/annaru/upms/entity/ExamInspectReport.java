@@ -9,7 +9,6 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
 
 
@@ -223,6 +222,12 @@ public class ExamInspectReport extends Model<ExamInspectReport> implements Seria
 	@ApiModelProperty(value = "病人ID")
 	@TableField("BRID")
 	private String BRID;
+	/**
+	 * 门诊号、住院号、体检号
+	 */
+	@ApiModelProperty(value = "就诊号")
+	@TableField("BYH")
+	private String BYH;
 	/**
 	 * 病人科室
 	 */
@@ -514,6 +519,14 @@ public class ExamInspectReport extends Model<ExamInspectReport> implements Seria
 
 	public void setBRID(String BRID) {
 		this.BRID = BRID;
+	}
+
+	public String getBYH() {
+		return BYH;
+	}
+
+	public void setBYH(String BYH) {
+		this.BYH = BYH;
 	}
 
 	public String getBRKS() {

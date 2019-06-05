@@ -9,6 +9,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -25,6 +26,11 @@ public class SysAppraisalServiceImpl extends ServiceImpl<SysAppraisalMapper, Sys
         Page<SysAppraisal> page = new PageUtils<SysAppraisal>(params).getPage();
         IPage<SysAppraisal> iPage = this.baseMapper.selectDataPage(page, params);
         return new PageUtils<SysAppraisal>(iPage);
+    }
+
+    @Override
+    public List<SysAppraisal> selectStart(String userId) {
+        return this.baseMapper.selectStart(userId);
     }
 
 }

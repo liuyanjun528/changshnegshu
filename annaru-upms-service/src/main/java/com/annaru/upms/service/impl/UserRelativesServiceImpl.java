@@ -9,6 +9,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -25,6 +26,11 @@ public class UserRelativesServiceImpl extends ServiceImpl<UserRelativesMapper, U
         Page<UserRelatives> page = new PageUtils<UserRelatives>(params).getPage();
         IPage<UserRelatives> iPage = this.baseMapper.selectDataPage(page, params);
         return new PageUtils<UserRelatives>(iPage);
+    }
+
+    @Override
+    public List<UserRelatives> selectAll(String userId) {
+        return this.baseMapper.selectAll(userId);
     }
 
 }

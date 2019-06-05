@@ -42,6 +42,22 @@ public class EntityHealthyAppointmentVo implements Serializable {
 	 */
 	private Integer userCate;
 	/**
+	 * 服务选项(1:家庭医生上门健康评估服务/2:其他)
+	 */
+	private String serviceOption;
+	/**
+	 * 预约地址
+	 */
+	private String address;
+	/**
+	 * 预约时间
+	 */
+	private Date timeFrom;
+	/**
+	 * 服务描述
+	 */
+	private String descr;
+	/**
 	 * 用户编号(user_cate=1时其值为用户编号 user_id, user_cate=2时其值为亲属编号 relative_id)
 	 */
 	private String userId;
@@ -140,6 +156,38 @@ public class EntityHealthyAppointmentVo implements Serializable {
 
 	public void setUserCate(Integer userCate) {
 		this.userCate = userCate;
+	}
+
+	public String getServiceOption() {
+		return serviceOption;
+	}
+
+	public void setServiceOption(String serviceOption) {
+		this.serviceOption = serviceOption;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public Date getTimeFrom() {
+		return timeFrom;
+	}
+
+	public void setTimeFrom(Date timeFrom) {
+		this.timeFrom = timeFrom;
+	}
+
+	public String getDescr() {
+		return descr;
+	}
+
+	public void setDescr(String descr) {
+		this.descr = descr;
 	}
 
 	public String getUserId() {

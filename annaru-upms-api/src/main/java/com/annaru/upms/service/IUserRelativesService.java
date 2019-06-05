@@ -4,6 +4,7 @@ import com.annaru.common.result.PageUtils;
 import com.annaru.upms.entity.UserRelatives;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -21,6 +22,12 @@ public interface IUserRelativesService extends IService<UserRelatives> {
     */
     PageUtils getDataPage(Map<String, Object> params);
 
+    /**
+     * @Description: 查询全部亲属
+     * @Author: wh
+     * @Date: 2019/6/4 9:35
+     */
+    List<UserRelatives> selectAll(String userId);
 
 }
 

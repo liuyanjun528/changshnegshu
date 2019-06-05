@@ -48,7 +48,7 @@ public class UserRelatives extends Model<UserRelatives> implements Serializable 
 	 */
 	@ApiModelProperty(value = "亲属编号")
 	@TableField("relative_id")
-	private int relativeId;
+	private String relativeId;
 
 	/**
 	 * 证件号码
@@ -143,13 +143,13 @@ public class UserRelatives extends Model<UserRelatives> implements Serializable 
 	/**
 	 * 获取：亲属编号
 	 */
-	public int getRelativeId() {
+	public String getRelativeId() {
 		return relativeId;
 	}
 	/**
 	 * 设置：亲属编号
 	 */
-	public void setRelativeId(int relativeId) {
+	public void setRelativeId(String relativeId) {
 		this.relativeId = relativeId;
 	}
 

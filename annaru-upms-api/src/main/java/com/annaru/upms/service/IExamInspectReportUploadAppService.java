@@ -28,5 +28,6 @@ public interface IExamInspectReportUploadAppService extends IService<ExamInspect
      * @return
      */
     boolean saveUploadApp(@Valid ExamInspectReportUploadApp uploadApp);
+
 }
 

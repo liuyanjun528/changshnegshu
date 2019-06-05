@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.extension.activerecord.Model;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 
 
@@ -44,12 +45,14 @@ public class ExamInspectReportUploadAppNode extends Model<ExamInspectReportUploa
 	/**
 	 * 收费项目代码
 	 */
+	@NotBlank
     @ApiModelProperty(value = "收费项目代码")
 	@TableField("MDDM")
 	private String MDDM;
 	/**
 	 * 收费项目名称
 	 */
+	@NotBlank
     @ApiModelProperty(value = "收费项目名称")
 	@TableField("MDMC")
 	private String MDMC;

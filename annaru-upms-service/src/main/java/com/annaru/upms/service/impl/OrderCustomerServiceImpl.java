@@ -8,6 +8,7 @@ import com.annaru.upms.service.IOrderCustomerService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Map;
 
@@ -27,6 +28,7 @@ public class OrderCustomerServiceImpl extends ServiceImpl<OrderCustomerMapper, O
         return new PageUtils<OrderCustomer>(iPage);
     }
 
+    @Transactional
     @Override
     public int insertOrderCustomer(OrderCustomer orderCustomer) {
         return this.baseMapper.insertOrderCustomer(orderCustomer);
