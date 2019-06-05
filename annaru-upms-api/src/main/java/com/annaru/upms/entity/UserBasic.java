@@ -24,7 +24,7 @@ import java.util.Date;
 public class UserBasic extends Model<UserBasic> implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-
+	@TableField(exist = false)
 	private UserRelatives relatives;
 
 	public UserRelatives getRelatives() {
@@ -170,11 +170,13 @@ public class UserBasic extends Model<UserBasic> implements Serializable {
 	 * 医生对象
 	 */
 	@ApiModelProperty(value = "医生对象")
+	@TableField(exist = false)
     private SysDoctor sysDoctor;
 	/**
 	 * 护士对象
 	 */
 	@ApiModelProperty(value = "护士对象")
+	@TableField(exist = false)
 	private SysNurse sysNurse;
 	/**
 	 * 是否第一次登录
@@ -194,6 +196,12 @@ public class UserBasic extends Model<UserBasic> implements Serializable {
 	 */
 	@TableField(exist = false)
 	private Integer doctorOrNurse;
+	/**
+	 * 微信openid
+	 */
+	@ApiModelProperty(value = "微信openid")
+	@TableField("openid")
+	private String openid;
 
 	public SysDoctor getSysDoctor() {
 		return sysDoctor;
@@ -486,6 +494,15 @@ public class UserBasic extends Model<UserBasic> implements Serializable {
 	}
 	public void setDoctorOrNurse(Integer doctorOrNurse) {
 		this.doctorOrNurse = doctorOrNurse;
+	}
+	public Integer getSysId() {
+		return sysId;
+	}
+	public void setOpenid(String openid) {
+		this.openid = openid;
+	}
+	public String getOpenid() {
+		return openid;
 	}
 
 	@Override

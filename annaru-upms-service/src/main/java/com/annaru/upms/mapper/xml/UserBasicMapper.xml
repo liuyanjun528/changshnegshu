@@ -52,6 +52,7 @@
         <result column="is_verified" property="isVerified" />
         <result column="email_address" property="emailAddress" />
         <result column="creation_time" property="creationTime" />
+        <result column="openid" property="openid" />
     </resultMap>
 
     <!-- 通用查询映射结果 UserBasicVoZ -->
@@ -77,6 +78,7 @@
         <result column="is_verified" property="isVerified" />
         <result column="email_address" property="emailAddress" />
         <result column="creation_time" property="creationTime" />
+        <result column="openid" property="openid" />
 
 
         <association property="sysDoctor" column="user_id" javaType="com.annaru.upms.entity.SysDoctor" resultMap="SysDoctorBaseResultMap" />
@@ -106,6 +108,7 @@
         <result column="edit_time" property="editTime" />
         <result column="create_by" property="createBy" />
         <result column="edit_by" property="editBy" />
+        <result column="openid" property="openid" />
     </resultMap>
 
     <!-- 通用查询映射结果 护士 -->
@@ -126,6 +129,7 @@
         <result column="approve_time" property="approveTime" />
         <result column="creation_time" property="creationTime" />
         <result column="edit_time" property="editTime" />
+        <result column="openid" property="openid" />
     </resultMap>
 
     <!-- 多表页面信息查询分页 -->
@@ -199,14 +203,18 @@
               registration_time,
               is_verified,
               email_address,
-              creation_time
+              creation_time,
+              openid
         FROM
             user_basic
-        <where>
+        WHERE
+            1 = 1
             <if test="params.cellphoneNo != null and params.cellphoneNo != ''">
-                cellphone_no = #{params.cellphoneNo}
+                AND cellphone_no = #{params.cellphoneNo}
             </if>
-        </where>
+            <if test="params.openid != null and params.openid != ''">
+                AND openid = #{params.openid}
+            </if>
     </select>
 
     <!-- 根据条件查询某个用户信息与医生信息 -->
@@ -249,15 +257,19 @@
             status,
             edit_time,
             create_by,
-            edit_by
+            edit_by,
+            openid
         FROM
             user_basic b
         LEFT JOIN sys_doctor d ON d.user_id = b.user_id
-        <where>
+        WHERE
+            1 = 1
             <if test="params.cellphoneNo != null and params.cellphoneNo != ''">
-                b.cellphone_no = #{params.cellphoneNo}
+                AND b.cellphone_no = #{params.cellphoneNo}
             </if>
-        </where>
+            <if test="params.openid != null and params.openid != ''">
+                AND b.openid = #{params.openid}
+            </if>
     </select>
 
     <!-- 根据条件查询某个用户信息与护士信息 -->
@@ -297,15 +309,23 @@
             contact_no2,
             is_approved,
             approve_time,
-            edit_time
+            edit_time,
+            openid
         FROM
             user_basic b
         LEFT JOIN sys_nurse n ON  n.user_id = b.user_id
-        <where>
+        WHERE
+            1 = 1
             <if test="params.cellphoneNo != null and params.cellphoneNo != ''">
-                b.cellphone_no = #{params.cellphoneNo}
+                AND b.cellphone_no = #{params.cellphoneNo}
             </if>
-        </where>
+            <if test="params.openid != null and params.openid != ''">
+                AND b.openid = #{params.openid}
+            </if>
+    </select>
+    
+    <select id="updateUserBasicByUserBasic" parameterType="com.annaru.upms.entity.UserBasic">
+
     </select>
 
 </mapper>

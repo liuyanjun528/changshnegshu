@@ -77,17 +77,19 @@ public class UserLoginController extends BaseController {
     @ApiOperation(value = "用户登录", notes = "用户登录")
     @PostMapping("/loginInfo")
     @RequiresPermissions("upms/userLogin/loginInfo")
-    public ResultMap loginInfo(String cellphoneNo, String password, String type, String loginType, String kaptcha){
+    public ResultMap loginInfo(String cellphoneNo, String password, String type, String loginType, String kaptcha, String openid){
 
-        // loginType为1：验证码登录  loginType为2：账号密码登录
-        if (StringUtil.isBlank(loginType) || (!"1".equals(loginType) && !"2".equals(loginType))){
-            return ResultMap.error("请使用验证码或者账号密码登录！");
+        // loginType为1：验证码登录  loginType为2：账号密码登录  loginType为3：微信登录
+        if (StringUtil.isBlank(loginType) || (!"1".equals(loginType) && !"2".equals(loginType) && !"3".equals(loginType))){
+            return ResultMap.error("请使用验证码或者账号密码登录或微信登录！");
         }
         if (!("1").equals(type) && !"2".equals(type)){
             return ResultMap.error("端不存在！");
         }
-        if (StringUtil.isBlank(cellphoneNo)){
-            return ResultMap.error("账号不能为空！");
+        if ("1".equals(loginType) || "2".equals(loginType)){
+            if (StringUtil.isBlank(cellphoneNo)){
+                return ResultMap.error("账号不能为空！");
+            }
         }
         if ("1".equals(loginType)){
             if (StringUtil.isBlank(kaptcha)){
@@ -102,10 +104,25 @@ public class UserLoginController extends BaseController {
                 return ResultMap.error("密码不能为空！");
             }
         }
+        if ("3".equals(loginType)){
+            if (StringUtil.isBlank(openid)){
+                return ResultMap.error("openid不能为空！");
+            }
+        }
 
-        Map<String, Object> map = new HashMap <>();
-        map.put("cellphoneNo", cellphoneNo);
-        UserBasic userBasic = iUserBasicService.selectByData(map);
+        UserBasic userBasic = null;
+
+        Map<String, Object> map = null;
+        if (!"3".equals(loginType)){
+            map = new HashMap <>();
+            map.put("cellphoneNo", cellphoneNo);
+            userBasic = iUserBasicService.selectByData(map);
+        }
+        if ("3".equals(loginType)){
+            map = new HashMap <>();
+            map.put("openid", openid);
+            userBasic = iUserBasicService.selectByData(map);
+        }
 
         if ("2".equals(loginType)){
             //账号密码登录
@@ -113,47 +130,94 @@ public class UserLoginController extends BaseController {
                 return ResultMap.error("用户不存在！");
             }
             if (StringUtil.isNotBlank(userBasic.getPassword())){
-                if (!password.equals(userBasic.getPassword())){
-                    return ResultMap.error("账号或者密码输入错误，请检查！");
-                }
+                return ResultMap.error("密码不能为空！");
+            }
+            if (!password.equals(userBasic.getPassword())){
+                return ResultMap.error("账号或者密码输入错误，请检查！");
             }
             if (userBasic.getIsactive().equals("0")){
                 return ResultMap.error("用户未激活！");
             }
         }
-
+        String token = null;
         if ("1".equals(type)){ // 用户端短信注册并跳转设置密码页面
-            if ("1".equals(loginType)){
-                // 短信登录
+            if ("1".equals(loginType) || "3".equals(loginType)){
+                // 1.短信登录  3.微信登录
                 if (userBasic == null){
+                    // 如果微信第一次绑定手机号，则通过短信验证，判断验证码
+                    if ("3".equals(loginType)){
+                        if (StringUtil.isBlank(cellphoneNo)){
+                            return ResultMap.error("手机号不能为空！");
+                        }
+                        if (StringUtil.isBlank(kaptcha)){
+                            return ResultMap.error("验证码不能为空！");
+                        }
+                        if (!kaptcha.equals((String)redisService.get(cellphoneNo))){
+                            return ResultMap.error("验证码无效！");
+                        }
+                        Map<String, Object> map1 = new HashMap <>();
+                        map1.put("cellphoneNo", cellphoneNo);
+                        if (iUserBasicService.selectByData(map1) != null){
+                            return ResultMap.error("此手机号已被绑定！");
+                            // 这个有待确认 如果此手机号已被绑定 是修改手机号呢 还是返回提示呢
+                            // 若修改手机号 则等于要删除之前有手机号存在的这条记录
+                        }
+                    }
                     // 这个人第一次登录 则注册 保存相应用户信息
                     SysConfig sysConfig = SysConfigUtil.getSysConfig(iSysConfigService , SysConfigUtil.USERNO);
                     UserBasic userBasic1 = new UserBasic();
+                    if ("3".equals(loginType)){
+                        // 如果是微信直接登录，则需要添加openid，添加最后一次登陆时间
+                        userBasic1.setOpenid(openid);
+                    }
                     userBasic1.setCellphoneNo(cellphoneNo); //手机号码
                     userBasic1.setUserId(SysConfigUtil.getNoBySysConfig()); //户用编号
                     userBasic1.setRegistrationTime(new Date());
                     userBasic1.setIsVerified(0); //是否有认证 1:认证/0:未认证
                     userBasic1.setCreationTime(new Date());
+                    userBasic1.setLastLogintime(new Date());
                     boolean isSave = iUserBasicService.save(userBasic1);
                     if (isSave){
                         // 修改系统配置的用户编号
-                        SysConfigUtil.saveRefNo(sysConfig.getRefNo());
-                        map = new HashMap <>();
-                        map.put("cellphoneNo", cellphoneNo);
-                        return ResultMap.ok().put("data", iUserBasicService.selectByData(map));
-                    }
-                }else {
-                    if (StringUtil.isBlank(userBasic.getPassword())){
-                        map = new HashMap <>();
-                        map.put("cellphoneNo", cellphoneNo);
-                        return ResultMap.ok().put("data", iUserBasicService.selectByData(map));
+                        if (SysConfigUtil.saveRefNo(sysConfig.getRefNo())){
+                            map = new HashMap <>();
+                            map.put("cellphoneNo", cellphoneNo);
+                            userBasic = iUserBasicService.selectByData(map);
+                            // 如果是微信登录，则设置token，直接登录
+                            token = createToken(userBasic.getUserId()).get("token").toString();
+                            if (StringUtil.isNotBlank(token)){
+                                redisService.set(cellphoneNo, token, OUT_SECONDS);
+                            }
+                            userBasic.setToken(token);
+                            userBasic.setFirstLogin(true);
+                            return ResultMap.ok().put("data", userBasic);
+                        }
                     }
                 }
+//                else {
+//                    //  在这里面判断 是为了避免返回token
+//
+//                    if ("1".equals(loginType)){
+//                        // 短信登录，没有设置密码，则需要设置密码
+//                        if (StringUtil.isBlank(userBasic.getPassword())){
+//                            token = createToken(userBasic.getUserId()).get("token").toString();
+//                            if (StringUtil.isNotBlank(token)){
+//                                redisService.set(cellphoneNo, token, OUT_SECONDS);
+//                            }
+//                            return ResultMap.ok().put("data", userBasic);
+//                        }
+//                    }
+//                    if ("3".equals(loginType)){
+//                        // 微信登录，没有绑定手机号，则需要绑定手机号
+//                        if (StringUtil.isBlank(userBasic.getCellphoneNo())){
+//                            return ResultMap.ok().put("data", userBasic);
+//                        }
+//                    }
+//                }
             }
         }else if ("2".equals(type)){ // 医护端短因后台已经注册
 
         }
-
 
         //判断是否是首次登陆
         Boolean firstLogin = false;
@@ -161,9 +225,9 @@ public class UserLoginController extends BaseController {
             firstLogin = true;
         }
         //判断token
-        String token = createToken(userBasic.getUserId()).get("token").toString();
+        token = createToken(userBasic.getUserId()).get("token").toString();
         if (StringUtil.isNotBlank(token)){
-            redisService.set("token", token, OUT_SECONDS);
+            redisService.set(userBasic.getCellphoneNo(), token, OUT_SECONDS);
         }
         //更新最后的登陆时间
         userBasic.setLastLogintime(new Date());
