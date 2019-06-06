@@ -4,6 +4,7 @@ import com.annaru.common.result.PageUtils;
 import com.annaru.upms.entity.ExamInspectReport;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -20,6 +21,17 @@ public interface IExamInspectReportService extends IService<ExamInspectReport> {
     * @return
     */
     PageUtils<ExamInspectReport> getDataPage(Map<String, Object> params);
+
+
+    /**
+     * @Description: 获取病人订单所有报告列表
+     * @param  byh  就诊号（订单号^病人姓名拼音全拼，如：ODR0000000002^xiaochen）
+     * @param  reportType 报告类型（1-临床检验报告；2-病理组织报告；3-TCT；4-微生物报告；9-其他报告）
+     * @Author: XCK
+     * @Date: 2019/6/6
+     * @return 
+     */
+    List<ExamInspectReport> getAllByBYH(String byh, String reportType);
 
     /**
      * @Description:根据报告编号获取报告信息
@@ -39,8 +51,6 @@ public interface IExamInspectReportService extends IService<ExamInspectReport> {
      * @return
      */
     boolean saveInspectReport(ExamInspectReport inspectReport);
-
-
 
 }
 

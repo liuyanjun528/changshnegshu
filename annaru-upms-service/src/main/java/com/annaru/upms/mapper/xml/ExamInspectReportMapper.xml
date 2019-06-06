@@ -88,8 +88,11 @@
         FROM
           exam_inspect_report
         <where>
+            <if test="params.reportNO != null and params.reportNO != ''">
+                report_no LIKE CONCAT('%', #{params.reportNO}, '%')
+            </if>
             <if test="params.startDate != null and params.startDate != ''">
-                DATE_FORMAT(SHSJ, '%Y-%m-%d') &gt;= #{params.startDate}
+                AND DATE_FORMAT(SHSJ, '%Y-%m-%d') &gt;= #{params.startDate}
             </if>
             <if test="params.endDate != null and params.endDate != ''">
                 AND DATE_FORMAT(SHSJ, '%Y-%m-%d') &lt;= #{params.endDate}
@@ -106,6 +109,21 @@
         </where>
     </select>
 
+    <select id="selectDataList" resultMap="BaseResultMap">
+        SELECT
+          <include refid="BaseClounmSql"></include>
+        FROM
+          exam_inspect_report
+        <where>
+            <if test="params.byh != null and params.byh != ''">
+                byh = #{params.byh}
+            </if>
+            <if test="params.reportType != null and params.reportType != '' ">
+                AND report_type = #{params.reportType}
+            </if>
+        </where>
+    </select>
+
     <select id="selectByReportNO" resultMap="BaseResultMap">
         SELECT
             <include refid="BaseClounmSql"></include>
@@ -115,6 +133,5 @@
             report_no = #{reportNO}
         LIMIT 1
     </select>
-
 
 </mapper>
