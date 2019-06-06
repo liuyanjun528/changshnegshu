@@ -4,9 +4,12 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.annaru.common.base.BaseController;
 import com.annaru.common.result.PageUtils;
 import com.annaru.common.result.ResultMap;
+import com.annaru.upms.controllerutil.SysConfigUtil;
 import com.annaru.upms.entity.OrderAdditionalInfo;
-import com.annaru.upms.service.IOrderAdditionalInfoService;
-import com.annaru.upms.service.IOrderAppointmentService;
+import com.annaru.upms.entity.OrderAppointment;
+import com.annaru.upms.entity.OrderMain;
+import com.annaru.upms.entity.SysConfig;
+import com.annaru.upms.service.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -20,12 +23,12 @@ import java.util.Map;
 
 
 /**
- * 预约其他信息
+ * 企业绿通行
  *
  * @author xck
  * @date 2019-05-20 16:18:39
  */
-@Api(tags = {"预约其他信息管理"}, description = "预约其他信息管理")
+@Api(tags = {"企业绿通行"}, description = "企业绿通行")
 @RestController
 @RequestMapping("lcd/orderAdditionalInfo")
 public class OrderAdditionalInfoController extends BaseController {
@@ -33,28 +36,42 @@ public class OrderAdditionalInfoController extends BaseController {
     private IOrderAdditionalInfoService orderAdditionalInfoService;
 
     @Reference
-    private IOrderAppointmentService orderAppointmentService;
+    private IEntityHealthyAppointmentService entityHealthyAppointmentService;
+
+    @Reference
+    private ISysConfigService iSysConfigService; //系统配置表
+
+    @Reference
+    private IOrderMainService orderMainService;
 
     /**
-     * 保存绿通行
+     * 添加企业绿通行
      */
-    @ApiOperation(value = "保存绿通行")
-    @PostMapping("/saveGreenPassage1")
-    //@RequiresPermissions("lcd/orderAdditionalInfo/save")
-    public ResultMap saveGreenPassage(@Valid @RequestBody int option_1, int option_2, String situations,String institution_id, String department_id,String user_id) {
+    @ApiOperation(value = "添加企业绿通行")
+    @PostMapping("/saveGreenPassage")
+    public ResultMap saveGreenPassage(@RequestBody OrderAdditionalInfo orderAdditionalInfo) {
+        OrderMain orderMain = new OrderMain();
         try {
-            Map<String, Object> params1 = new HashMap<>();
-            params1.put("option_1",option_1);
-            params1.put("option_2",option_2);
-            params1.put("situations",situations);
-            orderAdditionalInfoService.insertAdditional_info(params1);
+            SysConfig sysConfig = SysConfigUtil.getSysConfig(iSysConfigService , SysConfigUtil.ORDERNO);
+            //添加订单主表
+            orderMain.setOrderNo(SysConfigUtil.getNoBySysConfig());
+            orderMain.setOrderCates(orderAdditionalInfo.getAppointmentCates());
+            orderMain.setAmount(orderAdditionalInfo.getAmount());
+            boolean result = orderMainService.save(orderMain);
+            //添加orderAdditionalInfo 表
+            orderAdditionalInfo.setOrderNo(SysConfigUtil.getNoBySysConfig());
+            orderAdditionalInfoService.save(orderAdditionalInfo);
 
-            Map<String, Object> params2 = new HashMap<>();
-            params2.put("institution_id",institution_id);
-            params2.put("department_id",department_id);
-            params2.put("user_id",user_id);
-            orderAppointmentService.insertOrder_appointment(params2);
-            return ResultMap.ok("添加成功");
+            if(result=true){
+                //添加entityHealthyAppointment 表
+                orderAdditionalInfo.getEntityHealthyAppointment().setOrderNo(SysConfigUtil.getNoBySysConfig());
+                entityHealthyAppointmentService.save(orderAdditionalInfo.getEntityHealthyAppointment());
+
+            }
+            if(result=true){
+                SysConfigUtil.saveRefNo(sysConfig.getRefNo());
+            }
+            return ResultMap.ok("添加成功").put("data",orderAdditionalInfo.getOrderNo());
         } catch (Exception e) {
             logger.error(e.getMessage());
             return ResultMap.error("运行异常，请联系管理员");

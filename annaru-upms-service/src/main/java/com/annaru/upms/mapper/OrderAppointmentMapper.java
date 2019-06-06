@@ -24,12 +24,6 @@ public interface OrderAppointmentMapper extends BaseMapper<OrderAppointment> {
     */
     IPage<OrderAppointment> selectDataPage(Page page, @Param("params") Map<String, Object> params);
 
-    /**
-     * 添加绿通行
-     * @param institution_id 医院
-     * @param department_id 科室
-     * @return
-     */
-    int insertOrder_appointment(@Param("params") Map<String, Object> params);
+
 
 }

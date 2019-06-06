@@ -60,7 +60,7 @@
         <result column="edit_time" property="editTime" />
         <result column="edit_by" property="editBy" />
     </resultMap>
-    
+
     <sql id="BaseClounmSql">
           sys_id,
           order_no,
@@ -93,7 +93,7 @@
     <!-- 通过订单号查询企业健康服务客户购买记录信息 -->
     <select id="getEntityPurchseMainByOrderNo" parameterType="map" resultMap="BaseResultMap1">
     SELECT  epm.order_no,
-    epd.user_cates,
+    epd.user_cate,
     epm.entity_no,
     ehpd_ehpm.pkg_main_id,
     ehpd_ehpm.pkg_detail_id

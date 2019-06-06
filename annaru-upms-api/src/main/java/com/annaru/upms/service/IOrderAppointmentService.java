@@ -22,13 +22,7 @@ public interface IOrderAppointmentService extends IService<OrderAppointment> {
     */
     PageUtils getDataPage(Map<String, Object> params);
 
-    /**
-     * 添加绿通行
-     * @param institution_id 医院
-     * @param department_id 科室
-     * @return
-     */
-    int insertOrder_appointment(Map<String, Object> params);
+
 
 }
 

@@ -88,7 +88,7 @@
         <result column="sys_id" property="sysId" />
         <result column="doctor_no" property="doctorNo" />
         <result column="user_id" property="userId" />
-        <result column="full_name" property="fullName" />
+        <result column="full_name" property="doctorName" />
         <result column="head_image" property="headImage" />
         <result column="degrees" property="degrees" />
         <result column="star_count" property="starCount" />
@@ -113,7 +113,7 @@
         <result column="sys_id" property="sysId" />
         <result column="nurse_no" property="nurseNo" />
         <result column="user_id" property="userId" />
-        <result column="name" property="name" />
+        <result column="name" property="nurseName" />
         <result column="head_image" property="headImage" />
         <result column="belong_hospital" property="belongHospital" />
         <result column="belong_office" property="belongOffice" />

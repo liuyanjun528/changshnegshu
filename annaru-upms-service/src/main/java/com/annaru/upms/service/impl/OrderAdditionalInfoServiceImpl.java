@@ -12,10 +12,9 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import java.util.Map;
 
 /**
- * 预约其他信息
- *
- * @author wh
- * @date 2019-05-22 12:06:42
+ * @Description:添加企业门诊绿通
+ * @Author: wh
+ * @Date: 2019/6/5 9:46
  */
 @Service
 public class OrderAdditionalInfoServiceImpl extends ServiceImpl<OrderAdditionalInfoMapper, OrderAdditionalInfo> implements IOrderAdditionalInfoService {
@@ -25,11 +24,6 @@ public class OrderAdditionalInfoServiceImpl extends ServiceImpl<OrderAdditionalI
         Page<OrderAdditionalInfo> page = new PageUtils<OrderAdditionalInfo>(params).getPage();
         IPage<OrderAdditionalInfo> iPage = this.baseMapper.selectDataPage(page, params);
         return new PageUtils<OrderAdditionalInfo>(iPage);
-    }
-
-    @Override
-    public int insertAdditional_info(Map<String, Object> params) {
-        return this.baseMapper.insertAdditional_info(params);
     }
 
 }

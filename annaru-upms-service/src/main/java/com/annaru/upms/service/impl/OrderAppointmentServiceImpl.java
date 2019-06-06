@@ -27,9 +27,7 @@ public class OrderAppointmentServiceImpl extends ServiceImpl<OrderAppointmentMap
         return new PageUtils<OrderAppointment>(iPage);
     }
 
-    @Override
-    public int insertOrder_appointment(Map<String, Object> params) {
-        return this.baseMapper.insertOrder_appointment(params);
-    }
+
+
 
 }
