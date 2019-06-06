@@ -129,7 +129,7 @@ public class UserLoginController extends BaseController {
             if (userBasic == null){
                 return ResultMap.error("用户不存在！");
             }
-            if (StringUtil.isNotBlank(userBasic.getPassword())){
+            if (StringUtil.isBlank(userBasic.getPassword())){
                 return ResultMap.error("密码不能为空！");
             }
             if (!password.equals(userBasic.getPassword())){
