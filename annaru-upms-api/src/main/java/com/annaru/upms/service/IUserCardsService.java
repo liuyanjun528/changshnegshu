@@ -34,13 +34,6 @@ public interface IUserCardsService extends IService<UserCards> {
 
 
     /**
-     * 添加绑卡操作
-     * @param cards
-     * @return
-     */
-    int insertCardAndBaseAndInstitution(UserCards cards);
-
-    /**
      * 查询企业门诊绿通预约人信息
      * @param userId 用户ID
      * @return

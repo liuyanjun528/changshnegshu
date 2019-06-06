@@ -36,10 +36,6 @@ public class UserCardsServiceImpl extends ServiceImpl<UserCardsMapper, UserCards
         return this.baseMapper.selectByStatus(userId);
     }
 
-    @Override
-    public int insertCardAndBaseAndInstitution(UserCards cards) {
-        return this.baseMapper.insertCardAndBaseAndInstitution(cards);
-    }
 
     /**
      * 查询企业门诊绿通预约人信息

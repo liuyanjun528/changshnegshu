@@ -27,4 +27,9 @@ public class UserAddressServiceImpl extends ServiceImpl<UserAddressMapper, UserA
         return new PageUtils<UserAddress>(iPage);
     }
 
+    @Override
+    public int updateAddress(UserAddress userAddress) {
+        return this.baseMapper.updateAddress(userAddress);
+    }
+
 }

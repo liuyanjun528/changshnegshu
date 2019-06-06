@@ -55,6 +55,7 @@
               user_id,
               cellphone_no,
               card_cates,
+              status,
               card_no
         from user_cards where  user_id=#{userId}
     </select>
@@ -82,13 +83,7 @@
         </if>
     </select>
 
-    <!-- 添加绑卡 -->
-    <insert id="insertCardAndBaseAndInstitution" parameterType="com.annaru.upms.entity.UserCards">
-    INSERT INTO
-            user_cards (user_id,card_no,cellphone_no)
-    VALUES
-          (#{userId},#{cardNo},#{cellphoneNo})
-    </insert>
+
 
 
 

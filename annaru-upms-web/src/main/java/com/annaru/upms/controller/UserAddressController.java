@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -84,18 +85,18 @@ public class UserAddressController extends BaseController {
     /**
      * 修改
      */
-    @ApiOperation(value = "修改")
+    @ApiOperation(value = "修改个人地址")
     @PostMapping("/update")
     @RequiresPermissions("upms/userAddress/update")
-    public ResultMap update(@Valid @RequestBody UserAddress userAddress) {
-        try {
-//            userAddress.setUpdateTime(new Date());
-            userAddressService.updateById(userAddress);
-            return ResultMap.ok("修改成功");
-        } catch (Exception e) {
-            logger.error(e.getMessage());
-            return ResultMap.error("运行异常，请联系管理员");
-        }
+    public ResultMap update(@RequestBody UserAddress userAddress) {
+
+            userAddress.setEditTime(new Date());
+            int i = userAddressService.updateAddress(userAddress);
+            if(i>0){
+                return ResultMap.ok("修改个人地址成功");
+            }else {
+                return ResultMap.error("运行异常，请联系管理员");
+            }
 
     }
 

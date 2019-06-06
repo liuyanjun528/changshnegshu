@@ -36,12 +36,6 @@ public interface UserCardsMapper extends BaseMapper<UserCards> {
     List<UserCards> selectByStatus(@Param("userId") String userId);
 
 
-    /**
-     * 添加绑卡操作
-     * @param cards
-     * @return
-     */
-    int insertCardAndBaseAndInstitution(UserCards cards);
 
     /**
      * 查询企业门诊绿通预约人信息

@@ -40,4 +40,13 @@
         </where>
     </select>
 
+
+    <update id="updateAddress" parameterType="com.annaru.upms.entity.UserAddress">
+        update user_address set province=#{province},city=#{city},district=#{district},
+        address=#{address},postal_code=#{postalCode},isdefault=#{isdefault},
+        edit_time=#{editTime},creation_time=#{creationTime}
+        where user_id=#{userId}
+    </update>
+
+
 </mapper>

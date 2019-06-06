@@ -62,7 +62,7 @@ public class UserCards extends Model<UserCards> implements Serializable {
 	 */
 	@ApiModelProperty(value = "绑卡状态")
 	@TableField("status")
-	private String status;
+	private Integer status;
 
 	/**
 	 * 备注
@@ -142,13 +142,13 @@ public class UserCards extends Model<UserCards> implements Serializable {
 	/**
 	 * 获取：绑卡状态
 	 */
-	public String getStatus() {
+	public Integer getStatus() {
 		return status;
 	}
 	/**
 	 * 设置：绑卡状态
 	 */
-	public void setStatus(String status) {
+	public void setStatus(Integer status) {
 		this.status = status;
 	}
 

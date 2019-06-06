@@ -108,7 +108,7 @@
         <result column="edit_time" property="editTime" />
         <result column="create_by" property="createBy" />
         <result column="edit_by" property="editBy" />
-        <result column="openid" property="openid" />
+
     </resultMap>
 
     <!-- 通用查询映射结果 护士 -->
@@ -129,7 +129,7 @@
         <result column="approve_time" property="approveTime" />
         <result column="creation_time" property="creationTime" />
         <result column="edit_time" property="editTime" />
-        <result column="openid" property="openid" />
+
     </resultMap>
 
     <!-- 多表页面信息查询分页 -->
@@ -323,7 +323,7 @@
                 AND b.openid = #{params.openid}
             </if>
     </select>
-    
+
     <select id="updateUserBasicByUserBasic" parameterType="com.annaru.upms.entity.UserBasic">
 
     </select>
