@@ -11,6 +11,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -34,9 +35,21 @@ public class ExamInspectReportServiceImpl extends ServiceImpl<ExamInspectReportM
 
     @Override
     public PageUtils<ExamInspectReport> getDataPage(Map<String, Object> params) {
-        Page<ExamInspectReportList> page = new PageUtils<ExamInspectReportList>(params).getPage();
-        IPage<ExamInspectReportList> iPage = this.baseMapper.selectDataPage(page, params);
+        Page<ExamInspectReport> page = new PageUtils<ExamInspectReport>(params).getPage();
+        IPage<ExamInspectReport> iPage = this.baseMapper.selectDataPage(page, params);
         return new PageUtils(iPage);
+    }
+
+    @Override
+    public List<ExamInspectReport> getAllByBYH(String byh, String reportType) {
+
+        if(StringUtils.isBlank(byh)){
+            return null;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put("byh", byh);
+        params.put("reportType", reportType);
+        return this.baseMapper.selectDataList(params);
     }
 
     @Override

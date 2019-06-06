@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -39,7 +40,8 @@ public class ExamInspectReportController extends BaseController {
     @GetMapping("/list")
     public ResultMap list(@ApiParam(value = "当前页", defaultValue = "1")@RequestParam(defaultValue="1") int page,
                           @ApiParam(value = "每页数量", defaultValue = "10")@RequestParam(defaultValue = "10") int limit,
-                          @ApiParam(value = "开始日期", required = true) @RequestParam String startDate,
+                          @ApiParam(value = "报告编号") @RequestParam(required = false) String reportNO,
+                          @ApiParam(value = "开始日期") @RequestParam(required = false) String startDate,
                           @ApiParam(value = "结束日期") @RequestParam(required = false) String endDate,
                           @ApiParam(value = "申请机构条码") @RequestParam(required = false) String appBarcode,
                           @ApiParam(value = "执行机构条码") @RequestParam(required = false) String exeBarcode,
@@ -50,6 +52,7 @@ public class ExamInspectReportController extends BaseController {
             Map<String, Object> params = new HashMap<>();
             params.put("page",page);
             params.put("limit", limit);
+            params.put("reportNO", reportNO);
             params.put("startDate", startDate);
             params.put("endDate", endDate);
             params.put("appBarcode", appBarcode);
@@ -58,6 +61,19 @@ public class ExamInspectReportController extends BaseController {
 
             PageUtils<ExamInspectReport> pageList = examInspectReportService.getDataPage(params);
             return ResultMap.ok().put("data", pageList);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return ResultMap.error("运行异常，请联系管理员");
+        }
+    }
+
+    @ApiOperation(value = "获取病人订单下所有报告列表")
+    @GetMapping("/getAllByBYH")
+    public ResultMap getAllByBYH(@ApiParam(value = "就诊号（订单号^病人姓名拼音全拼，如：123456^xiaochen）") @RequestParam String byh,
+                                 @ApiParam(value = "报告类型（1-临床检验报告；2-病理组织报告；3-TCT；4-微生物报告；9-其他报告）") @RequestParam(required = false) String reportType) {
+        try {
+            List<ExamInspectReport> list = examInspectReportService.getAllByBYH(byh, reportType);
+            return ResultMap.ok().put("data", list);
         } catch (Exception e) {
             logger.error(e.getMessage());
             return ResultMap.error("运行异常，请联系管理员");

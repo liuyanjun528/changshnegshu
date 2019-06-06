@@ -56,11 +56,4 @@
     </select>
 
 
-    <insert id="insertOrder_appointment" parameterType="map">
-        insert into order_appointment
-            (institution_id,department_id,user_id)
-        VALUES
-            (#{params.institution_id},#{params.department_id},#{params.user_id})
-    </insert>
-
 </mapper>

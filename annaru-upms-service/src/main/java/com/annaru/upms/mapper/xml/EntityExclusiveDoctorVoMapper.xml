@@ -38,12 +38,12 @@
 			sd.cellphone_no,-- 联系电话
 			eed.effect_from,-- 开始时间
 			eed.effect_to,	-- 结束时间
-			DATEDIFF(eed.effect_to,eed.effect_from) as day
+			DATEDIFF(eed.effect_to,NOW()) as day
     FROM
 		    entity_exclusive_doctor as eed
     LEFT JOIN sys_doctor as sd ON eed.doctor_no=sd.doctor_no
     LEFT JOIN sys_institution as si ON si.institution_id=sd.belong_institution
-    WHERE     eed.entity_id=#{entityId}
+    WHERE     eed.entity_id=#{entityId}and eed.effect_to>NOW()
 
     </select>
 

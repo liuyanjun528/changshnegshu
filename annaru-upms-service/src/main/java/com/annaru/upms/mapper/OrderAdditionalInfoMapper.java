@@ -26,15 +26,4 @@ public interface OrderAdditionalInfoMapper extends BaseMapper<OrderAdditionalInf
     IPage<OrderAdditionalInfo> selectDataPage(Page page, @Param("params") Map<String, Object> params);
 
 
-    /**
-     * 添加绿通行
-     * @param option_1 门诊类型
-     * @param option_2 陪诊
-     * @param situations 病情
-     * @return
-     */
-    int insertAdditional_info(@Param("params") Map<String, Object> params);
-
-
-
 }

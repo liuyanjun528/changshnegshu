@@ -65,7 +65,7 @@ public class UserCardsController extends BaseController {
     /**
      * 查询企业门诊绿通预约人信息
      */
-    @ApiOperation(value = "查询企业门诊绿通预约人信息")
+    @ApiOperation(value = "查询企业家庭医生预约人信息")
     @GetMapping("/getGreenPassUserInfo/{userId}")
     @RequiresPermissions("upms/userCards/getGreenPassUserInfo")
     public ResultMap getGreenPassUserInfo(@PathVariable("userId") String userId) {

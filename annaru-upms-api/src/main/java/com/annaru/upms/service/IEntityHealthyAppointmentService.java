@@ -33,12 +33,7 @@ public interface IEntityHealthyAppointmentService extends IService<EntityHealthy
      */
     List<EntityHealthyAppointmentVo> selectUserAndRelative(@Param("userId") String userId);
 
-    /**
-     * 查询用户或亲属信息详情
-     * @param userId
-     * @return
-     */
-    EntityHealthyAppointmentVo selectUserOrRelativeInfo(@Param("userId") String userId, @Param("userCate") Integer userCate);
+
 
     /**
      * 企业查询服务预约
@@ -46,6 +41,10 @@ public interface IEntityHealthyAppointmentService extends IService<EntityHealthy
      * @return
      */
     List<EntityHealthyAppointmentVo> selectServiceAppointment(@Param("orderNo") String orderNo);
+
+
+
+
 
 }
 

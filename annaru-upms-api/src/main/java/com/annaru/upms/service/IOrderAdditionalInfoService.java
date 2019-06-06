@@ -23,16 +23,5 @@ public interface IOrderAdditionalInfoService extends IService<OrderAdditionalInf
     PageUtils getDataPage(Map<String, Object> params);
 
 
-    /**
-     * 添加绿通行
-     * @param option_1 门诊类型
-     * @param option_2 陪诊
-     * @param situations 病情
-     * @return
-     */
-    int insertAdditional_info(Map<String, Object> params);
-
-
-
 }
 
