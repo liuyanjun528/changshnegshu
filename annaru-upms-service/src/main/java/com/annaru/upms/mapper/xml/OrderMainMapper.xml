@@ -141,7 +141,7 @@
         om.sys_id sysId,
         om.order_no orderNo,
         om.order_time orderTime,
-        oc.customer_name customerName,
+        ur.relative_name customerName,
 
         epm.package_name packageName,
         oex.exam_master_item examMasterItem,
@@ -153,6 +153,7 @@
         FROM order_main om
         LEFT JOIN order_additional_info oai ON oai.order_no = om.order_no
         LEFT JOIN order_customer oc ON oc.order_no = om.order_no
+        LEFT JOIN user_relatives ur ON ur.relative_id = oc.relative_id
         LEFT JOIN exam_package_main epm ON epm.sys_id = om.reference_no
         LEFT JOIN order_extension_exam oex ON oex.order_no = om.order_no
         LEFT JOIN order_payment op ON op.order_no = om.order_no
@@ -182,7 +183,7 @@
         oee.exam_master_item examMasterItem,
         ub.full_name fullName,
         om.total_qty totalQty,
-        oc.customer_name customerName
+        ur.relative_name customerName
         FROM
         order_main om
         LEFT JOIN exam_package_main epm ON epm.sys_id = om.reference_no
@@ -195,6 +196,7 @@
         LEFT JOIN order_extension_exam oee ON oee.order_no = om.order_no
         LEFT JOIN user_basic ub ON ub.user_id = om.user_id
         LEFT JOIN order_customer oc ON oc.order_no = om.order_no
+        LEFT JOIN user_relatives ur ON ur.relative_id = oc.relative_id
         WHERE
         1=1 AND om.is_deleted = 0
         <if test="params.sysId != null and params.sysId != ''">
@@ -210,11 +212,10 @@
         om.order_no orderNo,
         oee.exam_master_item examMasterItem,
         om.status,
-        oc.customer_name customerName,
-        oc.id_no idNo,
-        oc.gender,
-        oc.cellphone_no1 cellphoneNo1,
-        oc.cellphone_no2 cellphoneNo2,
+        ur.relative_name customerName,
+        ur.id_card_no idNo,
+        ur.gender,
+        ur.cellphone_no cellphoneNo1,
         uc.card_cates cardCates,
         uc.card_no cardNo,
         si.name siName,
@@ -227,6 +228,7 @@
         order_main om
         LEFT JOIN order_extension_exam oee ON oee.order_no = om.order_no
         LEFT JOIN order_customer oc ON oc.order_no = om.order_no
+        LEFT JOIN user_relatives ur ON ur.relative_id = oc.relative_id
         LEFT JOIN order_appointment oa ON oa.order_no = om.order_no
         LEFT JOIN order_additional_info oai ON oai.order_no = om.order_no
         LEFT JOIN sys_institution si ON si.institution_id = oa.institution_id
@@ -246,11 +248,10 @@
         om.order_no orderNo,
         oee.exam_master_item examMasterItem,
         om.status,
-        oc.customer_name customerName,
-        oc.id_no idNo,
-        oc.gender,
-        oc.cellphone_no1 cellphoneNo1,
-        oc.cellphone_no2 cellphoneNo2,
+        ur.relative_name customerName,
+        ur.id_card_no idNo,
+        ur.gender,
+        ur.cellphone_no cellphoneNo1,
         uc.card_cates cardCates,
         uc.card_no cardNo,
         si.name siName,
@@ -264,6 +265,7 @@
         order_main om
         LEFT JOIN order_extension_exam oee ON oee.order_no = om.order_no
         LEFT JOIN order_customer oc ON oc.order_no = om.order_no
+        LEFT JOIN user_relatives ur ON ur.relative_id = oc.relative_id
         LEFT JOIN order_appointment oa ON oa.order_no = om.order_no
         LEFT JOIN order_additional_info oai ON oai.order_no = om.order_no
         LEFT JOIN sys_institution si ON si.institution_id = oa.institution_id

@@ -13,6 +13,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import jodd.util.StringUtil;
+import oracle.jdbc.proxy.annotation.Post;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -43,6 +44,40 @@ public class UserBasicController extends BaseController {
     @Autowired
     private IRedisService redisService;
 
+    @ApiOperation(value = "修改手机号")
+    @PostMapping("/updateCellphoneNoByUserId")
+    public ResultMap updateCellphoneNoByUserId(Integer sysId, String cellphoneNo) {
+
+        try {
+            if (sysId == null || StringUtil.isBlank(cellphoneNo)){
+                return ResultMap.error("系统编号或者手机号不能为空！");
+            }
+            UserBasic userBasic = iUserBasicService.getById(sysId);
+            if (userBasic != null){
+                if (cellphoneNo.equals(userBasic.getCellphoneNo())){
+                    return ResultMap.error("请输入要绑定的新手机号！");
+                }else {
+                    Map<String, Object> params = new HashMap<>();
+                    params.put("cellphoneNo",cellphoneNo);
+                    if (iUserBasicService.selectByData(params) != null){
+                        return ResultMap.error("该手机号已被绑定！");
+                    }else {
+                        userBasic.setCellphoneNo(cellphoneNo);
+                        if (iUserBasicService.updateById(userBasic)){
+                            return ResultMap.ok("手机号修改成功！");
+                        }
+                    }
+                }
+            }else {
+                return ResultMap.error("该用户不存在！");
+            }
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return ResultMap.error("运行异常，请联系管理员");
+        }
+        return ResultMap.error("运行异常，请联系管理员");
+    }
+
 
     /**
      * 生成6位验证码
@@ -68,8 +103,8 @@ public class UserBasicController extends BaseController {
 
         String kaptcha = kaptcha();
         Map<String ,Object> isOk = MessageUtils.sendTemplateSMS(cellphoneNo, MessageUtils.loginId, kaptcha,"1");
-        if (true){ // isOk != null && StringUtil.isNotBlank((String)isOk.get("statusCode"))
-            if (true){ // "000000".equals((String)isOk.get("statusCode"))
+        if (isOk != null && StringUtil.isNotBlank((String)isOk.get("statusCode"))){ // isOk != null && StringUtil.isNotBlank((String)isOk.get("statusCode"))
+            if ("000000".equals((String)isOk.get("statusCode"))){ // "000000".equals((String)isOk.get("statusCode"))
                 //验证码发送成功
                 redisService.set(cellphoneNo, kaptcha);
                 redisService.set(cellphoneNo, kaptcha, kaptchaSeconds);
