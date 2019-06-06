@@ -24,6 +24,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+import static com.annaru.common.util.PinyinUtil.getPinYin;
+
 
 /**
  * 用户基础信息
@@ -205,6 +207,7 @@ public class UserBasicController extends BaseController {
     @RequiresPermissions("upms/userBasic/save")
     public ResultMap save(@Valid @RequestBody UserBasic userBasic) {
         try {
+            userBasic.setChineseSpell(getPinYin(userBasic.getFullName()));
             userBasicService.save(userBasic);
             return ResultMap.ok("添加成功");
         } catch (Exception e) {
