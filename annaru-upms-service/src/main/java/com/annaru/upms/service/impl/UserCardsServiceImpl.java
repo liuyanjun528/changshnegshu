@@ -4,6 +4,7 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.annaru.common.result.PageUtils;
 import com.annaru.upms.entity.UserCards;
 import com.annaru.upms.entity.vo.UserCardInfoVo;
+import com.annaru.upms.entity.vo.UserCardVo;
 import com.annaru.upms.mapper.UserCardsMapper;
 import com.annaru.upms.service.IUserCardsService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -22,6 +23,7 @@ import java.util.Map;
  */
 @Service
 public class UserCardsServiceImpl extends ServiceImpl<UserCardsMapper, UserCards> implements IUserCardsService {
+
 
 
     @Override
@@ -44,6 +46,11 @@ public class UserCardsServiceImpl extends ServiceImpl<UserCardsMapper, UserCards
      */
     public List<UserCardInfoVo> getGreenPassUserInfo(String userId) {
         return this.baseMapper.getGreenPassUserInfo(userId);
+    }
+
+    @Override
+    public int updateCardAndBasic(String userId,String cardNo) {
+        return this.baseMapper.updateCardAndBasic(userId, cardNo);
     }
 
 

@@ -6,6 +6,8 @@ import com.annaru.common.result.PageUtils;
 import com.annaru.common.result.ResultMap;
 import com.annaru.upms.entity.UserCards;
 import com.annaru.upms.entity.vo.UserCardInfoVo;
+import com.annaru.upms.entity.vo.UserCardVo;
+import com.annaru.upms.service.IUserBasicService;
 import com.annaru.upms.service.IUserCardsService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -28,6 +30,9 @@ import java.util.*;
 public class UserCardsController extends BaseController {
     @Reference
     private IUserCardsService userCardsService;
+
+    @Reference
+    private IUserBasicService userBasicService;
 
     /**
      * 通过用户ID查询绑卡信息
@@ -111,19 +116,20 @@ public class UserCardsController extends BaseController {
     }
 
     /**
-     * 修改
+     * 通过用户编号修改个人信息和医保卡号
      */
-    @ApiOperation(value = "修改")
+    @ApiOperation(value = "修改个人信息和医保卡号")
     @PostMapping("/update")
     @RequiresPermissions("upms/userCards/update")
-    public ResultMap update(@Valid @RequestBody UserCards userCards) {
-        try {
-            userCardsService.updateById(userCards);
-            return ResultMap.ok("修改成功");
-        } catch (Exception e) {
-            logger.error(e.getMessage());
+    public ResultMap update(@RequestBody UserCardVo userCards) {
+
+        int i = userBasicService.updateCardAndBasics(userCards);
+        if (i>0){
+            userCardsService.updateCardAndBasic(userCards.getUserId(), userCards.getCardNo());
+                return ResultMap.ok("修改成功");
+            }
             return ResultMap.error("运行异常，请联系管理员");
-        }
+
 
     }
 

@@ -29,5 +29,12 @@ public interface IUserRelativesService extends IService<UserRelatives> {
      */
     List<UserRelatives> selectAll(String userId);
 
+    /**
+     * @Description:删除亲属
+     * @Author: wh
+     * @Date: 2019/6/11 13:37
+     */
+    int DeleteRelative(String userId,String relativeId);
+
 }
 

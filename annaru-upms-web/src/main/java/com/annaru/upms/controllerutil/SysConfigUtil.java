@@ -44,6 +44,10 @@ public class SysConfigUtil {
      * 企业HR订单号编码规则
      */
     public static final int ENTTITY_ORDERNO  = 8;
+    /**
+     * 亲属编号编码规则
+     */
+    public static final int RELATIVENO  = 9;
 
     @Reference
     private static ISysConfigService iSysConfigService; //系统配置表
@@ -56,7 +60,7 @@ public class SysConfigUtil {
      * @return
      */
     public static SysConfig getSysConfig(ISysConfigService iSysConfigService , Integer configNo){
-        if (sysConfig == null && iSysConfigService != null){
+        if (iSysConfigService != null){
             SysConfigUtil.iSysConfigService = iSysConfigService;
             sysConfig = iSysConfigService.getById(configNo);
         }

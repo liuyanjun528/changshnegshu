@@ -9,30 +9,14 @@ import io.swagger.annotations.ApiModelProperty;
 
 import java.io.Serializable;
 
+/**
+ * wh 用于编辑个人信息
+ */
 public class UserCardVo implements Serializable {
     private static final long serialVersionUID = 1L;
 
-
-    private UserBasic base;
-    private SysInstitution institution;
-
-    public UserBasic getBase() {
-        return base;
-    }
-
-    public void setBase(UserBasic base) {
-        this.base = base;
-    }
-
-    public SysInstitution getInstitution() {
-        return institution;
-    }
-
-    public void setInstitution(SysInstitution institution) {
-        this.institution = institution;
-    }
-
-
+    @TableField("user_id")
+    private String userId;
 
     /**
      * 卡号
@@ -49,6 +33,13 @@ public class UserCardVo implements Serializable {
     private String fullName;
 
     /**
+     * 用户头像
+     */
+    @ApiModelProperty(value = "用户头像")
+    @TableField("head_image")
+    private String headImage;
+
+    /**
      * 证件号
      */
     @ApiModelProperty(value = "证件号")
@@ -63,12 +54,19 @@ public class UserCardVo implements Serializable {
     private String cellphoneNo;
 
     /**
-     * 机构名称
+     * 性别
      */
-    @ApiModelProperty(value = "机构名称")
-    private String name;
+    @ApiModelProperty(value = "性别")
+    private Integer gender;
 
 
+    public String getHeadImage() {
+        return headImage;
+    }
+
+    public void setHeadImage(String headImage) {
+        this.headImage = headImage;
+    }
 
     public String getCardNo() {
         return cardNo;
@@ -102,16 +100,21 @@ public class UserCardVo implements Serializable {
         this.cellphoneNo = cellphoneNo;
     }
 
-    public String getName() {
-        return name;
+    public Integer getGender() {
+        return gender;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setGender(Integer gender) {
+        this.gender = gender;
     }
 
+    public String getUserId() {
+        return userId;
+    }
 
-
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
     @Override
     public String toString() {

@@ -71,9 +71,6 @@ public class UserAddressController extends BaseController {
     public ResultMap save(@Valid @RequestBody UserAddress userAddress) {
         try {
 
-//            userAddress.setCreateUser(ShiroKit.getUser().getId());
-//            userAddress.setCreateTime(new Date());
-//            userAddress.setUpdateTime(new Date());
             userAddressService.save(userAddress);
             return ResultMap.ok("添加成功");
         } catch (Exception e) {

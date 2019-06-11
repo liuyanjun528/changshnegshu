@@ -2,6 +2,9 @@ package com.annaru.upms.controller;
 
 import java.util.*;
 
+import com.annaru.upms.controllerutil.SysConfigUtil;
+import com.annaru.upms.entity.SysConfig;
+import com.annaru.upms.service.ISysConfigService;
 import jodd.util.StringUtil;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import com.alibaba.dubbo.config.annotation.Reference;
@@ -41,6 +44,8 @@ import java.util.Map;
 public class UserRelativesController extends BaseController {
     @Reference
     private IUserRelativesService userRelativesService;
+    @Reference
+    private ISysConfigService iSysConfigService; //系统配置表
 
     /**
      * 列表
@@ -84,7 +89,15 @@ public class UserRelativesController extends BaseController {
     @RequiresPermissions("upms/userRelatives/save")
     public ResultMap save(@Valid @RequestBody UserRelatives userRelatives) {
         try {
-            userRelativesService.save(userRelatives);
+            SysConfig sysConfig = SysConfigUtil.getSysConfig(iSysConfigService , SysConfigUtil.RELATIVENO);
+            userRelatives.setRelativeId(SysConfigUtil.getNoBySysConfig());
+
+            userRelatives.setCreationTime(new Date());
+            boolean save = userRelativesService.save(userRelatives);
+
+            if (save=true){
+                SysConfigUtil.saveRefNo(sysConfig.getRefNo());
+            }
             return ResultMap.ok("添加成功");
         } catch (Exception e) {
             logger.error(e.getMessage());
@@ -115,9 +128,9 @@ public class UserRelativesController extends BaseController {
     @ApiOperation(value = "删除")
     @PostMapping("/delete")
     @RequiresPermissions("upms/userRelatives/delete")
-    public ResultMap delete(@RequestBody Integer[]sysIds) {
+    public ResultMap delete(String userId, String relativeId) {
         try {
-            userRelativesService.removeByIds(Arrays.asList(sysIds));
+            userRelativesService.DeleteRelative(userId, relativeId);
             return ResultMap.ok("删除成功！");
         } catch (Exception e) {
             logger.error(e.getMessage());

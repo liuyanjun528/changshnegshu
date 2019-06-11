@@ -45,7 +45,7 @@
         update user_address set province=#{province},city=#{city},district=#{district},
         address=#{address},postal_code=#{postalCode},isdefault=#{isdefault},
         edit_time=#{editTime},creation_time=#{creationTime}
-        where user_id=#{userId}
+        where user_id=#{userId} and sys_id=#{sysId}
     </update>
 
 

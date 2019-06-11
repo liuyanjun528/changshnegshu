@@ -33,4 +33,9 @@ public class UserRelativesServiceImpl extends ServiceImpl<UserRelativesMapper, U
         return this.baseMapper.selectAll(userId);
     }
 
+    @Override
+    public int DeleteRelative(String userId, String relativeId) {
+        return this.baseMapper.DeleteRelative(userId, relativeId);
+    }
+
 }
