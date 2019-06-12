@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.annaru.upms.mapper.ExamHandoverSheetVoMapper">
+
+	<!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.annaru.upms.entity.vo.ExamHandoverSheetVo" >
+        <result column="related_no" property="relatedNo" />
+        <result column="order_no" property="orderNo" />
+        <result column="user_id" property="userId" />
+        <result column="appoint_date" property="appointDate" />
+        <result column="address" property="address" />
+        <result column="person_barcode_confirmed" property="personBarcodeConfirmed" />
+        <result column="sample_code" property="sampleCode" />
+        <result column="draw_completed" property="drawCompleted" />
+        <result column="draw_complete_time" property="drawCompleteTime" />
+        <result column="institution_id" property="institutionId" />
+        <result column="handover_time" property="handoverTime" />
+        <result column="handover_by" property="handoverBy" />
+        <result column="appraisal" property="appraisal" />
+        <result column="amount" property="amount" />
+        <result column="contact_no1" property="contactNo1" />
+    </resultMap>
+
+
+
+    <!-- 查询长生树护士端服务订单详情 -->
+    <select id="selectNurseOrderInfo" parameterType="map" resultMap="BaseResultMap">
+        select
+            oa.related_no,-- 护士编号
+			oa.order_no,-- 订单编号
+			oa.user_id, --  用户Id
+			oa.appoint_date,-- 预约时间
+			oa.address,  --  预约地址
+			ehs.person_barcode_confirmed, -- 体检人二维码是否确认(0:未确认/1:已确认)
+			ehs.sample_code, -- 样本编码
+			ehs.draw_completed, -- 抽血完成标记(0:未完成/1:已完成)
+			ehs.draw_complete_time, -- 抽血完成时间
+			oa.institution_id, -- 机构名称
+			ehs.handover_time, -- 提交时间
+			ehs.handover_by, -- 提交人
+			oa.appraisal, -- 评分
+			om.amount,-- 费用
+			sn.contact_no1-- 护士手机号
+
+        FROM
+		    exam_handover_sheet as ehs
+        LEFT JOIN order_appointment as oa ON ehs.order_no=oa.order_no
+        LEFT JOIN order_main as om ON ehs.order_no=om.order_no
+        LEFT JOIN sys_nurse as sn ON oa.related_no=sn.nurse_no
+        WHERE oa.related_no=#{relatedNo} And oa.user_id=#{userId}
+
+    </select>
+
+</mapper>

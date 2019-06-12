@@ -10,7 +10,7 @@ import java.util.Map;
 /**
  * 认证资料
  *
- * @author xck
+ * @author zk
  * @date 2019-06-10 14:59:12
  */
 public interface ISysVerifyDocsService extends IService<SysVerifyDocs> {
@@ -25,8 +25,8 @@ public interface ISysVerifyDocsService extends IService<SysVerifyDocs> {
     /**
      * @Description 选择职业：医生、护士认证
      * @Param   SysVerifyDocsVoZ
-     * @Author  wh
-     * @Date  2019/6/4 11:37
+     * @Author  zk
+     * @Date  2019-06-10 11:37
      */
     public boolean saveDocsBasics(SysVerifyDocsVoZ sysVerifyDocsVoZ);
 

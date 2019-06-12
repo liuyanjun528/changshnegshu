@@ -1,6 +1,7 @@
 package com.annaru.upms.mapper;
 
 import com.annaru.upms.entity.UserBasic;
+import com.annaru.upms.entity.vo.UserCardVo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -42,8 +43,16 @@ public interface UserBasicMapper extends BaseMapper<UserBasic> {
      * 通过旧密码修改密码
      * @param password
      * @param userId
-     * @return
+     * wh
      */
     int updatePwd(@Param("password") String password, @Param("userId") String userId);
     UserBasic selectByUid(@Param("userId") String userId);
+
+
+    /**
+     * @Description: 通过用户编号修改个人信息和医保卡号
+     * @Author: wh
+     * @Date: 2019/6/11 11:00
+     */
+    int updateCardAndBasics(UserCardVo userCardVo);
 }

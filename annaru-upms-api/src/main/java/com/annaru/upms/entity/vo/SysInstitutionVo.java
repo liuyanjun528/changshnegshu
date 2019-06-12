@@ -88,6 +88,16 @@ public class SysInstitutionVo implements Serializable {
 	 */
 	private Integer apNumber;
 
+	private String content;
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
 	public Integer getSysId() {
 		return sysId;
 	}

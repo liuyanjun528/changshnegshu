@@ -17,7 +17,7 @@ import java.util.Date;
 /**
  * 认证资料
  *
- * @author xck
+ * @author zk
  * @date 2019-06-10 14:59:12
  */
 @ApiModel(value = "认证资料")

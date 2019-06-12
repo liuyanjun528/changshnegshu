@@ -186,7 +186,7 @@ public class UserBasicController extends BaseController {
     @ApiOperation(value = "修改旧密码")
     @PostMapping("/updatePassword")
     @RequiresPermissions("upms/userBasic/updatePassword")
-    public String updatePassword(@RequestBody String password,String userId,String OldPwd) {
+    public ResultMap updatePassword(@RequestBody String password,String userId,String OldPwd) {
 
         UserBasic userBasic = userBasicService.selectByUid(userId);
         //如果输入的旧密码与旧密码相同 进行下一步
@@ -195,11 +195,11 @@ public class UserBasicController extends BaseController {
             if(!password.equals(userBasic.getPassword())){
                 //修改密码
                 userBasicService.updateOldPwd(password,userId);
-                return "更新成功";
+               return ResultMap.ok( "更新成功");
             }
-            return "新密码与老密码相同,请换一个新密码";
+            return ResultMap.ok( "新密码与老密码相同,请换一个新密码");
         }else {
-            return "输入的旧密码与旧密码不匹配,请想好再填";
+            return ResultMap.ok( "输入的旧密码与旧密码不匹配,请想好再填");
         }
 
     }
@@ -260,7 +260,6 @@ public class UserBasicController extends BaseController {
     @RequiresPermissions("upms/userBasic/update")
     public ResultMap update(@Valid @RequestBody UserBasic userBasic) {
         try {
-//            userBasic.setUpdateTime(new Date());
             userBasicService.updateById(userBasic);
             return ResultMap.ok("修改成功");
         } catch (Exception e) {

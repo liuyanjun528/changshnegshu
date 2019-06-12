@@ -30,7 +30,7 @@ import javax.validation.Valid;
 /**
  * 认证资料
  *
- * @author xck
+ * @author zk
  * @date 2019-06-10 14:59:12
  */
 @Api(tags = {"认证资料管理"}, description = "认证资料管理")

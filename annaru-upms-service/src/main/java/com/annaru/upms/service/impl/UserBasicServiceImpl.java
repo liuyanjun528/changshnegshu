@@ -1,6 +1,7 @@
 package com.annaru.upms.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.annaru.upms.entity.vo.UserCardVo;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -67,5 +68,11 @@ public class UserBasicServiceImpl extends ServiceImpl<UserBasicMapper, UserBasic
     public UserBasic selectByUid(String userId) {
         return this.baseMapper.selectByUid(userId);
     }
+
+    @Override
+    public int updateCardAndBasics(UserCardVo userCardVo) {
+        return this.baseMapper.updateCardAndBasics(userCardVo);
+    }
+
 
 }

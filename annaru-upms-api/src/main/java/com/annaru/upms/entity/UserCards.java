@@ -54,7 +54,7 @@ public class UserCards extends Model<UserCards> implements Serializable {
 	 */
 	@ApiModelProperty(value = "手机号码")
 	@TableField("cellphone_no")
-	private int cellphoneNo;
+	private String cellphoneNo;
 
 
 	/**
@@ -62,7 +62,7 @@ public class UserCards extends Model<UserCards> implements Serializable {
 	 */
 	@ApiModelProperty(value = "绑卡状态")
 	@TableField("status")
-	private String status;
+	private Integer status;
 
 	/**
 	 * 备注
@@ -129,26 +129,26 @@ public class UserCards extends Model<UserCards> implements Serializable {
 	/**
 	 * 获取：手机号码
 	 */
-	public int getCellphoneNo() {
+	public String getCellphoneNo() {
 		return cellphoneNo;
 	}
 	/**
 	 * 设置：手机号码
 	 */
-	public void setCellphoneNo(int cellphoneNo) {
+	public void setCellphoneNo(String cellphoneNo) {
 		this.cellphoneNo = cellphoneNo;
 	}
 
 	/**
 	 * 获取：绑卡状态
 	 */
-	public String getStatus() {
+	public Integer getStatus() {
 		return status;
 	}
 	/**
 	 * 设置：绑卡状态
 	 */
-	public void setStatus(String status) {
+	public void setStatus(Integer status) {
 		this.status = status;
 	}
 

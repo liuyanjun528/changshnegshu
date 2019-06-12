@@ -106,7 +106,18 @@ public class SysInstitution extends Model<SysInstitution> implements Serializabl
 	@TableField("edit_time")
 	private Date editTime;
 
-    /**
+    private String content;
+
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+	/**
      * 获取：系统编号
      */
     public Integer getSysId() {

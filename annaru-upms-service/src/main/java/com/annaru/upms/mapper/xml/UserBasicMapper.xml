@@ -141,6 +141,7 @@
         <result column="edit_time" property="editTime" />
         <result column="create_by" property="createBy" />
         <result column="edit_by" property="editBy" />
+
     </resultMap>
 
     <!-- 通用查询映射结果 护士 -->
@@ -161,6 +162,7 @@
         <result column="approve_time" property="approveTime" />
         <result column="creation_time" property="creationTime" />
         <result column="edit_time" property="editTime" />
+
     </resultMap>
 
     <!-- 多表页面信息查询分页 -->
@@ -363,9 +365,11 @@
                 AND b.openid = #{params.openid}
             </if>
     </select>
-    
-    <select id="updateUserBasicByUserBasic" parameterType="com.annaru.upms.entity.UserBasic">
 
-    </select>
+    <!-- 通过用户编号修改个人信息和医保卡号-->
+    <update id="updateCardAndBasics">
+      UPDATE user_basic SET full_name=#{fullName},gender=#{gender},id_card_no=#{idCardNo},cellphone_no=#{cellphoneNo},head_image=#{headImage}
+       WHERE user_id=#{userId}
+    </update>
 
 </mapper>
