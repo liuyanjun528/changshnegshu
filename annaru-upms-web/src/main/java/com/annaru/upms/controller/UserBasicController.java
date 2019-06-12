@@ -24,6 +24,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+import static com.annaru.common.util.PinyinUtil.getPinYin;
+
 
 /**
  * 用户基础信息
@@ -44,13 +46,49 @@ public class UserBasicController extends BaseController {
     @Autowired
     private IRedisService redisService;
 
+    @ApiOperation(value = "手机发送验证码更换手机号")
+    @PostMapping("/getKaptchaUpdate")
+    public ResultMap getKaptchaUpdate(@ApiParam(value="手机号")@RequestParam String cellphoneNo) {
+
+        if (StringUtil.isBlank(cellphoneNo)) {
+            return ResultMap.error("手机号不能为空！");
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put("cellphoneNo",cellphoneNo);
+        if (iUserBasicService.selectByData(params) != null){
+            return ResultMap.error("该手机号已被绑定！");
+        }
+
+        String kaptcha = kaptcha();
+        Map<String ,Object> isOk = MessageUtils.sendTemplateSMS(cellphoneNo, MessageUtils.loginId, kaptcha,"1");
+        if (isOk != null && StringUtil.isNotBlank((String)isOk.get("statusCode"))){ // isOk != null && StringUtil.isNotBlank((String)isOk.get("statusCode"))
+            if ("000000".equals((String)isOk.get("statusCode"))){ // "000000".equals((String)isOk.get("statusCode"))
+                //验证码发送成功
+                redisService.set(cellphoneNo, kaptcha);
+                redisService.set(cellphoneNo, kaptcha, kaptchaSeconds);
+                return ResultMap.ok("短信发送成功！");
+            }else {
+                return ResultMap.error("短信发送频繁！");
+            }
+
+        }
+        return ResultMap.error("短信发送失败！");
+
+    }
+
     @ApiOperation(value = "修改手机号")
     @PostMapping("/updateCellphoneNoByUserId")
-    public ResultMap updateCellphoneNoByUserId(Integer sysId, String cellphoneNo) {
+    public ResultMap updateCellphoneNoByUserId(Integer sysId, String cellphoneNo, String kaptcha) {
 
         try {
             if (sysId == null || StringUtil.isBlank(cellphoneNo)){
                 return ResultMap.error("系统编号或者手机号不能为空！");
+            }
+            if (StringUtil.isBlank(kaptcha)){
+                return ResultMap.error("验证码不能为空！");
+            }
+            if (!kaptcha.equals((String)redisService.get(cellphoneNo))){
+                return ResultMap.error("验证码无效！");
             }
             UserBasic userBasic = iUserBasicService.getById(sysId);
             if (userBasic != null){
@@ -148,7 +186,7 @@ public class UserBasicController extends BaseController {
     @ApiOperation(value = "修改旧密码")
     @PostMapping("/updatePassword")
     @RequiresPermissions("upms/userBasic/updatePassword")
-    public String updatePassword(@RequestBody String password,String userId,String OldPwd) {
+    public ResultMap updatePassword(@RequestBody String password,String userId,String OldPwd) {
 
         UserBasic userBasic = userBasicService.selectByUid(userId);
         //如果输入的旧密码与旧密码相同 进行下一步
@@ -157,11 +195,11 @@ public class UserBasicController extends BaseController {
             if(!password.equals(userBasic.getPassword())){
                 //修改密码
                 userBasicService.updateOldPwd(password,userId);
-                return "更新成功";
+               return ResultMap.ok( "更新成功");
             }
-            return "新密码与老密码相同,请换一个新密码";
+            return ResultMap.ok( "新密码与老密码相同,请换一个新密码");
         }else {
-            return "输入的旧密码与旧密码不匹配,请想好再填";
+            return ResultMap.ok( "输入的旧密码与旧密码不匹配,请想好再填");
         }
 
     }
@@ -205,6 +243,7 @@ public class UserBasicController extends BaseController {
     @RequiresPermissions("upms/userBasic/save")
     public ResultMap save(@Valid @RequestBody UserBasic userBasic) {
         try {
+            userBasic.setChineseSpell(getPinYin(userBasic.getFullName()));
             userBasicService.save(userBasic);
             return ResultMap.ok("添加成功");
         } catch (Exception e) {
@@ -221,7 +260,6 @@ public class UserBasicController extends BaseController {
     @RequiresPermissions("upms/userBasic/update")
     public ResultMap update(@Valid @RequestBody UserBasic userBasic) {
         try {
-//            userBasic.setUpdateTime(new Date());
             userBasicService.updateById(userBasic);
             return ResultMap.ok("修改成功");
         } catch (Exception e) {

@@ -2,6 +2,7 @@ package com.annaru.upms.service;
 
 import com.annaru.common.result.PageUtils;
 import com.annaru.upms.entity.UserBasic;
+import com.annaru.upms.entity.vo.UserCardVo;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -62,6 +63,13 @@ public interface IUserBasicService extends IService<UserBasic> {
     int updateOldPwd(@Param("password") String password, @Param("userId") String userId);
     UserBasic selectByUid(@Param("userId") String userId);
 
+
+    /**
+     * @Description: 通过用户编号修改个人信息和医保卡号
+     * @Author: wh
+     * @Date: 2019/6/11 11:00
+     */
+    int updateCardAndBasics(UserCardVo userCardVo);
 
 }
 

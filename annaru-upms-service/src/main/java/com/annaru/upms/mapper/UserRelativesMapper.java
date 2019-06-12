@@ -32,5 +32,11 @@ public interface UserRelativesMapper extends BaseMapper<UserRelatives> {
       */
     List<UserRelatives> selectAll(@Param("userId") String userId);
 
+    /**
+      * @Description:删除亲属
+      * @Author: wh
+      * @Date: 2019/6/11 13:37
+      */
+    int DeleteRelative(@Param("userId")String userId,@Param("relativeId") String relativeId);
 
 }

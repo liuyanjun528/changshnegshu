@@ -29,6 +29,17 @@
         <result column="creation_time" property="creationTime" />
     </resultMap>
 
+    <!--通过用户编号修改个人信息和医保卡号-->
+    <resultMap id="CardAndBasic" type="com.annaru.upms.entity.vo.UserCardVo" >
+        <result column="card_no" property="cardNo" />
+        <result column="full_name" property="fullName" />
+        <result column="id_card_no" property="idCardNo" />
+        <result column="cellphone_no" property="cellphoneNo" />
+        <result column="gender" property="gender" />
+    </resultMap>
+
+
+
     <!-- 多表页面信息查询分页 -->
     <select id="selectDataPage" parameterType="map" resultMap="BaseResultMap">
         SELECT
@@ -55,6 +66,7 @@
               user_id,
               cellphone_no,
               card_cates,
+              status,
               card_no
         from user_cards where  user_id=#{userId}
     </select>
@@ -82,14 +94,10 @@
         </if>
     </select>
 
-    <!-- 添加绑卡 -->
-    <insert id="insertCardAndBaseAndInstitution" parameterType="com.annaru.upms.entity.UserCards">
-    INSERT INTO
-            user_cards (user_id,card_no,cellphone_no)
-    VALUES
-          (#{userId},#{cardNo},#{cellphoneNo})
-    </insert>
-
+    <!-- 修改医保卡-->
+    <update id="updateCardAndBasic">
+        UPDATE user_cards set card_no=#{cardNo} WHERE user_id=#{userId}
+    </update>
 
 
 </mapper>

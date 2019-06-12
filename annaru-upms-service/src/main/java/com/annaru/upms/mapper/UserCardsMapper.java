@@ -2,6 +2,7 @@ package com.annaru.upms.mapper;
 
 import com.annaru.upms.entity.UserCards;
 import com.annaru.upms.entity.vo.UserCardInfoVo;
+import com.annaru.upms.entity.vo.UserCardVo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -36,12 +37,6 @@ public interface UserCardsMapper extends BaseMapper<UserCards> {
     List<UserCards> selectByStatus(@Param("userId") String userId);
 
 
-    /**
-     * 添加绑卡操作
-     * @param cards
-     * @return
-     */
-    int insertCardAndBaseAndInstitution(UserCards cards);
 
     /**
      * 查询企业门诊绿通预约人信息
@@ -49,5 +44,13 @@ public interface UserCardsMapper extends BaseMapper<UserCards> {
      * @return
      */
     List<UserCardInfoVo> getGreenPassUserInfo(@Param("userId") String userId);
+
+    /**
+      * @Description: 通过用户编号修改个人信息和医保卡号
+      * @Author: wh
+      * @Date: 2019/6/11 11:00
+      */
+    int updateCardAndBasic(@Param("userId") String userId,@Param("cardNo")String cardNo);
+
 
 }
