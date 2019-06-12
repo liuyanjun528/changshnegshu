@@ -1,4 +1,4 @@
-package com.annaru.upms.webservice;
+package com.annaru.upms.handle.webservice;
 
 import com.annaru.upms.entity.ExamInspectReport;
 import org.apache.commons.beanutils.BeanUtils;

@@ -47,4 +47,12 @@
         </where>
     </select>
 
+    <select id="selectAll" parameterType="map" resultMap="BaseResultMap">
+        select * from user_relatives where user_id=#{userId}
+    </select>
+
+    <delete id="DeleteRelative">
+        delete from user_relatives where user_id=#{userId} and relative_id=#{relativeId}
+    </delete>
+
 </mapper>

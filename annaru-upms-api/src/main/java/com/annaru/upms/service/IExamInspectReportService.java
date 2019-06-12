@@ -1,7 +1,11 @@
 package com.annaru.upms.service;
 
+import com.annaru.common.result.PageUtils;
 import com.annaru.upms.entity.ExamInspectReport;
 import com.baomidou.mybatisplus.extension.service.IService;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * 检查报告
@@ -16,29 +20,28 @@ public interface IExamInspectReportService extends IService<ExamInspectReport> {
     * @param params
     * @return
     */
-//    PageUtils<Map<String, String>> getDataPage(Map<String, Object> params);
+    PageUtils<ExamInspectReport> getDataPage(Map<String, Object> params);
+
 
     /**
-     * 列表查询
-     * @param params
-     * @return
+     * @Description: 获取病人订单所有报告列表
+     * @param  byh  就诊号（订单号^病人姓名拼音全拼，如：ODR0000000002^xiaochen）
+     * @param  reportType 报告类型（1-临床检验报告；2-病理组织报告；3-TCT；4-微生物报告；9-其他报告）
+     * @Author: XCK
+     * @Date: 2019/6/6
+     * @return 
      */
-//    List<Map<String, String>> getDataList(Map<String, Object> params);
+    List<ExamInspectReport> getAllByBYH(String byh, String reportType);
 
     /**
      * @Description:根据报告编号获取报告信息
      *
-     * 1、logID 和 ReportNO 不能同时为空，
-     * 2、如果是用户查看详情时，logID 、ReportNO必须同时上传
-     * 3、服务自己调用接口，可以不用传 ReportNO
-     *
-     * @param logID 用户用于登陆的机构代码 （可以为 null）
      * @param ReportNO 报告编号 （不能为空）
      * @Author: XCK
      * @Date: 2019/5/22
      * @return 
      */
-    ExamInspectReport getByReportNO(String logID,String ReportNO);
+    ExamInspectReport getByReportNO(String ReportNO);
 
     /**
      * @Description: 保存检查报告及结果
@@ -48,8 +51,6 @@ public interface IExamInspectReportService extends IService<ExamInspectReport> {
      * @return
      */
     boolean saveInspectReport(ExamInspectReport inspectReport);
-
-
 
 }
 

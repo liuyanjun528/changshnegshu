@@ -1,4 +1,4 @@
-package com.annaru.upms.webservice;
+package com.annaru.upms.handle.webservice;
 
 import javax.jws.WebMethod;
 import javax.jws.WebParam;

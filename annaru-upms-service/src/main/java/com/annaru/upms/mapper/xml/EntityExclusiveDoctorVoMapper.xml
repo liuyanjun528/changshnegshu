@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.annaru.upms.mapper.EntityExclusiveDoctorVoMapper">
+
+	<!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.annaru.upms.entity.vo.EntityExclusiveDoctorVo" >
+        <result column="entity_id" property="entityId" />
+        <result column="doctor_name" property="doctorName" />
+        <result column="degrees" property="degrees" />
+        <result column="name" property="name" />
+        <result column="level" property="level" />
+        <result column="belong_office" property="belongOffice" />
+        <result column="star_count" property="starCount" />
+        <result column="score" property="score" />
+        <result column="focus_on" property="focusOn" />
+        <result column="goodat" property="goodat" />
+        <result column="content" property="content" />
+        <result column="cellphone_no" property="cellphoneNo" />
+        <result column="effect_from" property="effectFrom" />
+        <result column="effect_to" property="effectTo" />
+        <result column="day" property="day" />
+    </resultMap>
+
+    <!-- 专属医生信息查询 -->
+    <select id="selectExclusiveDoctor" parameterType="map" resultMap="BaseResultMap">
+    SELECT
+			sd.doctor_name,-- 医生姓名
+			sd.degrees,-- 医生称谓
+			si.name,-- 所属医院
+			si.level,-- 等级
+			sd.belong_office,-- 所属科室
+			sd.star_count,-- 星级
+			sd.score,-- 评分
+			sd.focus_on, -- 专注于
+			sd.goodat, -- 擅长
+			sd.content,-- 简介
+			sd.cellphone_no,-- 联系电话
+			eed.effect_from,-- 开始时间
+			eed.effect_to,	-- 结束时间
+			DATEDIFF(eed.effect_to,NOW()) as day
+    FROM
+		    entity_exclusive_doctor as eed
+    LEFT JOIN sys_doctor as sd ON eed.doctor_no=sd.doctor_no
+    LEFT JOIN sys_institution as si ON si.institution_id=sd.belong_institution
+    WHERE     eed.entity_id=#{entityId}and eed.effect_to>NOW()
+
+    </select>
+
+</mapper>

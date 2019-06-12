@@ -2,6 +2,7 @@ package com.annaru.upms.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.annaru.common.base.BaseController;
+import com.annaru.common.exception.GlobalException;
 import com.annaru.common.result.PageUtils;
 import com.annaru.common.result.ResultMap;
 import com.annaru.upms.controllerutil.SysConfigUtil;
@@ -11,6 +12,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -45,6 +47,9 @@ public class OrderMainController extends BaseController {
     @Reference
     private IUserFamilyDoctorService userFamilyDoctorService;//家庭医生
 
+    @Reference
+    private IUserRelativesService userRelativesService;//亲属表
+
 
     /**
      * 保存家庭医生订单
@@ -73,10 +78,6 @@ public class OrderMainController extends BaseController {
     }
 
 
-
-
-
-
     /**
      * 保存Toc下订单
      */
@@ -84,49 +85,83 @@ public class OrderMainController extends BaseController {
     @PostMapping("/saveOrderMain")
     @RequiresPermissions("upms/orderMain/saveOrderMain")
     public ResultMap saveOrderMain(@RequestBody OrderMain orderMain) {
-
+        int i=0;
         try {
-            SysConfig sysConfig = SysConfigUtil.getSysConfig(iSysConfigService , SysConfigUtil.ORDERNO);
+            SysConfig sysConfig = SysConfigUtil.getSysConfig(iSysConfigService, SysConfigUtil.ORDERNO);
             orderMain.setOrderNo(SysConfigUtil.getNoBySysConfig());
-            int i = orderMainService.insertOrderMain(orderMain);
+            i = orderMainService.insertOrderMain(orderMain);
 
-                //如果如果i>0 并且 所选套餐编号大于3执行下面的添加方法
-                if(i>0&&Integer.parseInt(orderMain.getReferenceNo())>3){
-                    List<ExamPackageAppend> examPackageAppends = examPackageAppendService.selectExamName(Integer.parseInt(orderMain.getReferenceNo()));
-                    OrderDetail detail=new OrderDetail();
-                    detail.setRestCount(orderMain.getOrderDetail().getRestCount());
-                    detail.setTotalCount(orderMain.getOrderDetail().getTotalCount());
-                    detail.setEffectFrom(orderMain.getOrderDetail().getEffectFrom());
-                    detail.setEffectTo(orderMain.getOrderDetail().getEffectTo());
-                    for(ExamPackageAppend exam:examPackageAppends){
-                        detail.setAppendId(exam.getAppendId());
-                        //添加订单详情
-                        detail.setOrderNo(SysConfigUtil.getNoBySysConfig());
-                        orderDetailService.insertOrderDetail(detail);
-                    }
+            if (i > 0) {
+                    SysConfigUtil.saveRefNo(sysConfig.getRefNo());
                 }
-
-            //如果i>0 执行下面的方法
-            if(i>0){
-                //如果套餐个数大于1执行下面的添加方法
-                if(orderMain.getTotalQty()>1){
-                    //添加客户表
-                    orderMain.getOrderCustomer().setOrderNo(SysConfigUtil.getNoBySysConfig());
-                    orderCustomerService.insertOrderCustomer(orderMain.getOrderCustomer());
-                }
-            }
-            if(i>0){
-                SysConfigUtil.saveRefNo(sysConfig.getRefNo());
-            }
-            return ResultMap.ok("添加成功").put("data",orderMain.getOrderNo());
-        }catch (Exception e) {
+        } catch (Exception e) {
             logger.error(e.getMessage());
-            return ResultMap.error("运行异常，请联系管理员");
         }
-
+        if (i>0) {
+            return ResultMap.ok("添加成功").put("data", orderMain.getOrderNo());
+        } else {
+            return ResultMap.error("没有相关亲属，请先添加亲属");
+        }
     }
 
 
+//            SysConfig sysConfig = SysConfigUtil.getSysConfig(iSysConfigService, SysConfigUtil.ORDERNO);
+//            orderMain.setOrderNo(SysConfigUtil.getNoBySysConfig());
+//            int i = orderMainService.insertOrderMain(orderMain);
+//
+//            //如果如果i>0 并且 所选套餐编号大于3执行下面的添加方法
+//            if (i > 0 && Integer.parseInt(orderMain.getReferenceNo()) > 3) {
+//                List<ExamPackageAppend> examPackageAppends = examPackageAppendService.selectExamName(Integer.parseInt(orderMain.getReferenceNo()));
+//                OrderDetail detail = new OrderDetail();
+//                detail.setRestCount(orderMain.getOrderDetail().getRestCount());
+//                detail.setTotalCount(orderMain.getOrderDetail().getTotalCount());
+//                detail.setEffectFrom(orderMain.getOrderDetail().getEffectFrom());
+//                detail.setEffectTo(orderMain.getOrderDetail().getEffectTo());
+//                for (ExamPackageAppend exam : examPackageAppends) {
+//                    detail.setAppendId(exam.getAppendId());
+//                    //添加订单详情
+//                    detail.setOrderNo(SysConfigUtil.getNoBySysConfig());
+//                    orderDetailService.insertOrderDetail(detail);
+//                }
+//            }
+//
+//            //如果i>0 执行下面的方法
+//            if (i > 0) {
+//                //如果套餐个数大于1执行下面的添加方法
+//                if (orderMain.getTotalQty() > 1) {
+//                    // 通过当前userId 添加  如果要往orderCustomer添加亲属ID， 亲属id如果在relavite表已经存在 添加成功 否则不让插入
+//                    //判断当前用户Id的 亲属Id 是否存在
+//                    List<UserRelatives> list = userRelativesService.selectAll(orderMain.getUserId());
+//                    Boolean result=false;
+//                    for (UserRelatives relative : list) {
+//                        if (relative.getRelativeId().equals(orderMain.getOrderCustomer().getRelativeId())) {
+//                            result=true;
+//                            break;
+//                        }
+//                    }
+//                    if(result==false){
+//                        throw new GlobalException("没有相关亲属");
+//                    }
+//                    if (result) {
+//                        //添加客户表
+//                        orderMain.getOrderCustomer().setOrderNo(SysConfigUtil.getNoBySysConfig());
+//                        orderCustomerService.insertOrderCustomer(orderMain.getOrderCustomer());
+//                    }
+//                }
+//                if (i > 0) {
+//                    SysConfigUtil.saveRefNo(sysConfig.getRefNo());
+//                }
+//                return ResultMap.ok("添加成功").put("data", orderMain.getOrderNo());
+//            }
+//            return ResultMap.error("订单主表添加失败");
+//
+//        } catch (Exception e) {
+//            logger.error(e.getMessage());
+//
+//            return ResultMap.error("运行异常，请联系管理员");
+//
+//        }
+    //}
 
     /**
      * 列表

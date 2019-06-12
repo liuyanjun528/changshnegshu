@@ -3,7 +3,9 @@ package com.annaru.upms.service;
 import com.annaru.common.result.PageUtils;
 import com.annaru.upms.entity.SysAppraisal;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -20,6 +22,14 @@ public interface ISysAppraisalService extends IService<SysAppraisal> {
     * @return
     */
     PageUtils getDataPage(Map<String, Object> params);
+
+    /**
+     * @Description:查询评价星数
+     * @param userId 评价人
+     * @return:
+     * @Author: wh 2019/6/3 16:18
+     */
+    List<SysAppraisal> selectStart(String userId);
 
 
 }

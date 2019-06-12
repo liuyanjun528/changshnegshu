@@ -1,5 +1,5 @@
 
-package com.annaru.upms.webservice;
+package com.annaru.upms.handle.webservice;
 
 import javax.xml.bind.annotation.XmlRegistry;
 

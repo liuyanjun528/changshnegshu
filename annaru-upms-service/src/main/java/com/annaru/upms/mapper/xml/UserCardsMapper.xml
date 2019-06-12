@@ -14,6 +14,32 @@
         <result column="creation_time" property="creationTime" />
     </resultMap>
 
+    <resultMap id="BaseResultMap1" type="com.annaru.upms.entity.vo.UserCardInfoVo" >
+        <result column="sys_id" property="sysId" />
+        <result column="user_id" property="userId" />
+        <result column="card_cates" property="cardCates" />
+        <result column="card_no" property="cardNo" />
+        <result column="cellphone_no" property="cellphoneNo" />
+        <result column="full_name" property="fullName" />
+        <result column="user_gender" property="userGender"/>
+        <result column="user_age" property="userAge"/>
+        <result column="user_id_card_no" property="userIdCardNo"/>
+        <result column="status" property="status" />
+        <result column="remark" property="remark" />
+        <result column="creation_time" property="creationTime" />
+    </resultMap>
+
+    <!--通过用户编号修改个人信息和医保卡号-->
+    <resultMap id="CardAndBasic" type="com.annaru.upms.entity.vo.UserCardVo" >
+        <result column="card_no" property="cardNo" />
+        <result column="full_name" property="fullName" />
+        <result column="id_card_no" property="idCardNo" />
+        <result column="cellphone_no" property="cellphoneNo" />
+        <result column="gender" property="gender" />
+    </resultMap>
+
+
+
     <!-- 多表页面信息查询分页 -->
     <select id="selectDataPage" parameterType="map" resultMap="BaseResultMap">
         SELECT
@@ -35,24 +61,43 @@
     </select>
 
     <!-- 通过已绑卡查询 -->
-
     <select id="selectByStatus" parameterType="map" resultMap="BaseResultMap">
         select
               user_id,
               cellphone_no,
               card_cates,
+              status,
               card_no
         from user_cards where  user_id=#{userId}
     </select>
 
-    <!-- 添加绑卡 -->
-    <insert id="insertCardAndBaseAndInstitution" parameterType="com.annaru.upms.entity.UserCards">
-    INSERT INTO
-            user_cards (user_id,card_no,cellphone_no)
-    VALUES
-          (#{userId},#{cardNo},#{cellphoneNo})
-    </insert>
+    <!-- 查询企业门诊绿通预约人信息 -->
+    <select id="getGreenPassUserInfo" parameterType="map" resultMap="BaseResultMap1">
+        SELECT
+        uc.user_id,
+        ub.full_name,
+        ub.gender AS user_gender,
+        ub.id_card_no AS user_id_card_no,
+        ur.relative_id,
+        ur.relative_name,
+        ur.gender AS relative_gender,
+        ur.id_card_no AS relative_id_card_no,
+        uc.card_cates,
+        uc.card_no,
+        uc.cellphone_no
+        FROM user_cards uc
+	LEFT JOIN user_basic ub ON ub.user_id = uc.user_id
+	LEFT JOIN user_relatives ur ON ur.relative_id = uc.user_id
+	WHERE
+        <if test="userId != null and userId != ''">
+            uc.user_id=#{userId}
+        </if>
+    </select>
 
+    <!-- 修改医保卡-->
+    <update id="updateCardAndBasic">
+        UPDATE user_cards set card_no=#{cardNo} WHERE user_id=#{userId}
+    </update>
 
 
 </mapper>

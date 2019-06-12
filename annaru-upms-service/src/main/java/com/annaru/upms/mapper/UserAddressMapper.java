@@ -24,5 +24,11 @@ public interface UserAddressMapper extends BaseMapper<UserAddress> {
     */
     IPage<UserAddress> selectDataPage(Page page, @Param("params") Map<String, Object> params);
 
+    /**
+      * @Description:通过Uid修改个人地址
+      * @Author: wh
+      * @Date: 2019/6/6 16:13
+      */
+    int updateAddress(UserAddress userAddress);
 
 }

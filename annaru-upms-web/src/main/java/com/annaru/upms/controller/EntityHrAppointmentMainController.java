@@ -2,7 +2,10 @@ package com.annaru.upms.controller;
 
 import java.util.*;
 
+import com.annaru.upms.entity.EntityHrAppointmentDetail;
 import com.annaru.upms.entity.vo.EntityHrAppointmentMainVoZ;
+import com.annaru.upms.entity.vo.EntityHrAppointmentMainVoZ1;
+import com.annaru.upms.service.IEntityHrAppointmentDetailService;
 import jodd.util.StringUtil;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import com.alibaba.dubbo.config.annotation.Reference;
@@ -34,6 +37,9 @@ import javax.validation.Valid;
 public class EntityHrAppointmentMainController extends BaseController {
     @Reference
     private IEntityHrAppointmentMainService entityHrAppointmentMainService;
+    @Reference
+    private IEntityHrAppointmentDetailService entityHrAppointmentDetailService;
+
 
     /**
      * 列表
@@ -133,6 +139,76 @@ public class EntityHrAppointmentMainController extends BaseController {
             params.put("sysId",sysId);
             List<EntityHrAppointmentMainVoZ> entityHrAppointmentMainVoZ = entityHrAppointmentMainService.hrYetAppointmentUser(params);
             return ResultMap.ok().put("data",entityHrAppointmentMainVoZ);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return ResultMap.error("运行异常，请联系管理员");
+        }
+    }
+
+    /**
+     * HR记录详情
+     */
+    @ApiOperation(value = "HR体检预约名单查询", notes = "HR体检预约名单查询")
+    @GetMapping("/selectHrHealthAppointment")
+    @RequiresPermissions("upms/entityHrAppointmentMain/selectHrHealthAppointment")
+    public ResultMap selectHrHealthAppointment(@RequestParam("entityId") String entityId, @RequestParam("packageId") Integer packageId){
+
+        try {
+            Map<String, Object> params = new HashMap<>();
+            params.put("entityId",entityId);
+            params.put("packageId",packageId);
+            List<EntityHrAppointmentMainVoZ1> entityHrAppointmentMainVoZ = entityHrAppointmentMainService.selectHrHealthAppointment(params);
+            List<EntityHrAppointmentMainVoZ1> entityHrAppointmentMainVoZBs = entityHrAppointmentMainService.selectHrHealthAppointmentBs(params);
+            return ResultMap.ok().put("data",entityHrAppointmentMainVoZ).put("data1",entityHrAppointmentMainVoZBs);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return ResultMap.error("运行异常，请联系管理员");
+        }
+    }
+
+    /**
+     * 体检预约名单保存
+     */
+    @ApiOperation(value = "HR体检预约名单保存")
+    @PostMapping("/saveHrHealthAppointment")
+    @RequiresPermissions("upms/entityHrAppointmentMain/saveHrHealthAppointment")
+    public ResultMap saveHrHealthAppointment(@RequestParam("sysId") Integer sysId,
+                                             @RequestParam("userId") String userId,
+                                             @RequestParam("hrTotalCount") Integer hrTotalCount,
+                                             @RequestParam("hrRestCount") Integer hrRestCount,
+                                             @RequestParam("list") List<String> list) {
+        try {
+            // 先删除 企业体检预约明细表 中
+            Map<String, Object> params = new HashMap<>();
+            params.put("main_id",sysId);
+            if (entityHrAppointmentDetailService.removeByMap(params)){
+                // 在修改 企业体检预约主表 的总次数和使用次数
+                EntityHrAppointmentMain entityHrAppointmentMain = entityHrAppointmentMainService.getById(sysId);
+                entityHrAppointmentMain.setHrTotalCount(hrTotalCount);
+                entityHrAppointmentMain.setHrRestCount(hrRestCount);
+                entityHrAppointmentMain.setEditTime(new Date());
+                entityHrAppointmentMain.setEditBy(userId);
+                if (entityHrAppointmentMainService.updateById(entityHrAppointmentMain)){
+                        // 添加 企业体检预约明细表 中
+                        List<EntityHrAppointmentDetail> entityHrAppointmentDetails = new ArrayList<>();
+                        EntityHrAppointmentDetail entityHrAppointmentDetail = null;
+                        if (list != null && list.size() > 0){
+                            for (int i = 0 ; i < list.size() ; i++){
+                                entityHrAppointmentDetail = new EntityHrAppointmentDetail();
+                                entityHrAppointmentDetail.setMainId(sysId.toString());
+                                entityHrAppointmentDetail.setUserCate(1);
+                                entityHrAppointmentDetail.setUserId(list.get(i));
+                                entityHrAppointmentDetail.setIsTransfered(1);
+                                entityHrAppointmentDetail.setCreationTime(new Date());
+                                entityHrAppointmentDetail.setCreateBy(userId);
+                                entityHrAppointmentDetails.add(entityHrAppointmentDetail);
+                            }
+                            entityHrAppointmentDetailService.saveBatch(entityHrAppointmentDetails);
+                        }
+                        return ResultMap.ok("添加成功");
+                }
+            }
+            return ResultMap.ok("添加失败");
         } catch (Exception e) {
             logger.error(e.getMessage());
             return ResultMap.error("运行异常，请联系管理员");

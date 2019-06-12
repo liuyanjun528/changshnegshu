@@ -1,6 +1,9 @@
 package com.annaru.upms.entity.vo;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+import io.swagger.annotations.ApiModelProperty;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -8,7 +11,11 @@ import java.util.Date;
 
 public class OrderAppointmentVo extends Model<OrderAppointmentVo> implements Serializable {
     private static final long serialVersionUID = 1L;
+
+    @ApiModelProperty(value = "系统编号")
+    @TableId(type = IdType.AUTO)
     private Integer sysId;
+
     private String orderNo;
     private String referenceNo;
     private String entityId;

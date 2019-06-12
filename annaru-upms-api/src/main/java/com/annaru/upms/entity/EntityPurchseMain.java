@@ -47,8 +47,8 @@ public class EntityPurchseMain extends Model<EntityPurchseMain> implements Seria
 	 * 基础体检编号/企业健康服务编号
 	 */
     @ApiModelProperty(value = "基础体检编号/企业健康服务编号")
-	@TableField("package_id")
-	private String packageId;
+	@TableField("pkg_main_id")
+	private String pkgMainId;
 	/**
 	 * 类别(1基础体检编号/2企业健康服务编号)
 	 */
@@ -155,14 +155,14 @@ public class EntityPurchseMain extends Model<EntityPurchseMain> implements Seria
     /**
      * 获取：基础体检编号/企业健康服务编号
      */
-    public String getPackageId() {
-        return packageId;
+    public String getPkgMainId() {
+        return pkgMainId;
     }
 	/**
 	 * 设置：基础体检编号/企业健康服务编号
 	 */
-	public void setPackageId(String packageId) {
-		this.packageId = packageId;
+	public void setPkgMainId(String pkgMainId) {
+		this.pkgMainId = pkgMainId;
 	}
     /**
      * 获取：类别(1基础体检编号/2企业健康服务编号)

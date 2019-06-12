@@ -13,6 +13,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import jodd.util.StringUtil;
+import oracle.jdbc.proxy.annotation.Post;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +23,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
+
+import static com.annaru.common.util.PinyinUtil.getPinYin;
 
 
 /**
@@ -42,6 +45,40 @@ public class UserBasicController extends BaseController {
 
     @Autowired
     private IRedisService redisService;
+
+    @ApiOperation(value = "修改手机号")
+    @PostMapping("/updateCellphoneNoByUserId")
+    public ResultMap updateCellphoneNoByUserId(Integer sysId, String cellphoneNo) {
+
+        try {
+            if (sysId == null || StringUtil.isBlank(cellphoneNo)){
+                return ResultMap.error("系统编号或者手机号不能为空！");
+            }
+            UserBasic userBasic = iUserBasicService.getById(sysId);
+            if (userBasic != null){
+                if (cellphoneNo.equals(userBasic.getCellphoneNo())){
+                    return ResultMap.error("请输入要绑定的新手机号！");
+                }else {
+                    Map<String, Object> params = new HashMap<>();
+                    params.put("cellphoneNo",cellphoneNo);
+                    if (iUserBasicService.selectByData(params) != null){
+                        return ResultMap.error("该手机号已被绑定！");
+                    }else {
+                        userBasic.setCellphoneNo(cellphoneNo);
+                        if (iUserBasicService.updateById(userBasic)){
+                            return ResultMap.ok("手机号修改成功！");
+                        }
+                    }
+                }
+            }else {
+                return ResultMap.error("该用户不存在！");
+            }
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return ResultMap.error("运行异常，请联系管理员");
+        }
+        return ResultMap.error("运行异常，请联系管理员");
+    }
 
 
     /**
@@ -68,8 +105,8 @@ public class UserBasicController extends BaseController {
 
         String kaptcha = kaptcha();
         Map<String ,Object> isOk = MessageUtils.sendTemplateSMS(cellphoneNo, MessageUtils.loginId, kaptcha,"1");
-        if (true){ // isOk != null && StringUtil.isNotBlank((String)isOk.get("statusCode"))
-            if (true){ // "000000".equals((String)isOk.get("statusCode"))
+        if (isOk != null && StringUtil.isNotBlank((String)isOk.get("statusCode"))){ // isOk != null && StringUtil.isNotBlank((String)isOk.get("statusCode"))
+            if ("000000".equals((String)isOk.get("statusCode"))){ // "000000".equals((String)isOk.get("statusCode"))
                 //验证码发送成功
                 redisService.set(cellphoneNo, kaptcha);
                 redisService.set(cellphoneNo, kaptcha, kaptchaSeconds);
@@ -113,7 +150,7 @@ public class UserBasicController extends BaseController {
     @ApiOperation(value = "修改旧密码")
     @PostMapping("/updatePassword")
     @RequiresPermissions("upms/userBasic/updatePassword")
-    public String updatePassword(@RequestBody String password,String userId,String OldPwd) {
+    public ResultMap updatePassword(@RequestBody String password,String userId,String OldPwd) {
 
         UserBasic userBasic = userBasicService.selectByUid(userId);
         //如果输入的旧密码与旧密码相同 进行下一步
@@ -122,11 +159,11 @@ public class UserBasicController extends BaseController {
             if(!password.equals(userBasic.getPassword())){
                 //修改密码
                 userBasicService.updateOldPwd(password,userId);
-                return "更新成功";
+               return ResultMap.ok( "更新成功");
             }
-            return "新密码与老密码相同,请换一个新密码";
+            return ResultMap.ok( "新密码与老密码相同,请换一个新密码");
         }else {
-            return "输入的旧密码与旧密码不匹配,请想好再填";
+            return ResultMap.ok( "输入的旧密码与旧密码不匹配,请想好再填");
         }
 
     }
@@ -170,6 +207,7 @@ public class UserBasicController extends BaseController {
     @RequiresPermissions("upms/userBasic/save")
     public ResultMap save(@Valid @RequestBody UserBasic userBasic) {
         try {
+            userBasic.setChineseSpell(getPinYin(userBasic.getFullName()));
             userBasicService.save(userBasic);
             return ResultMap.ok("添加成功");
         } catch (Exception e) {
@@ -186,7 +224,6 @@ public class UserBasicController extends BaseController {
     @RequiresPermissions("upms/userBasic/update")
     public ResultMap update(@Valid @RequestBody UserBasic userBasic) {
         try {
-//            userBasic.setUpdateTime(new Date());
             userBasicService.updateById(userBasic);
             return ResultMap.ok("修改成功");
         } catch (Exception e) {

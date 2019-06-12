@@ -81,7 +81,19 @@ public class OrderAdditionalInfo extends Model<OrderAdditionalInfo> implements S
 	@TableField("create_by")
 	private String createBy;
 
-    /**
+	@ApiModelProperty(value = "EntityHealthyAppointment表")
+	@TableField(exist = false)
+	private EntityHealthyAppointment entityHealthyAppointment;
+
+	public EntityHealthyAppointment getEntityHealthyAppointment() {
+		return entityHealthyAppointment;
+	}
+
+	public void setEntityHealthyAppointment(EntityHealthyAppointment entityHealthyAppointment) {
+		this.entityHealthyAppointment = entityHealthyAppointment;
+	}
+
+	/**
      * 获取：系统编号
      */
     public Integer getSysId() {

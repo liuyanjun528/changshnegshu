@@ -1,14 +1,19 @@
 package com.annaru.upms.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.annaru.common.result.PageUtils;
 import com.annaru.upms.entity.*;
 import com.annaru.upms.mapper.ExamInspectReportMapper;
 import com.annaru.upms.service.*;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 检查报告
@@ -29,12 +34,31 @@ public class ExamInspectReportServiceImpl extends ServiceImpl<ExamInspectReportM
     private IExamInspectReportMicroorganismService examInspectReportMicroorganismService;
 
     @Override
-    public ExamInspectReport getByReportNO(String logID, String reportNO) {
+    public PageUtils<ExamInspectReport> getDataPage(Map<String, Object> params) {
+        Page<ExamInspectReport> page = new PageUtils<ExamInspectReport>(params).getPage();
+        IPage<ExamInspectReport> iPage = this.baseMapper.selectDataPage(page, params);
+        return new PageUtils(iPage);
+    }
+
+    @Override
+    public List<ExamInspectReport> getAllByBYH(String byh, String reportType) {
+
+        if(StringUtils.isBlank(byh)){
+            return null;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put("byh", byh);
+        params.put("reportType", reportType);
+        return this.baseMapper.selectDataList(params);
+    }
+
+    @Override
+    public ExamInspectReport getByReportNO(String reportNO) {
         if (StringUtils.isBlank(reportNO)){
             return null;
         }
 
-        ExamInspectReport report = this.baseMapper.selectByReportNO(logID, reportNO);
+        ExamInspectReport report = this.baseMapper.selectByReportNO(reportNO);
         if(report != null){
             String InspectReportId = report.getId();
             String reportType = reportNO.substring(0,1);
@@ -70,7 +94,7 @@ public class ExamInspectReportServiceImpl extends ServiceImpl<ExamInspectReportM
         if(inspectReport == null || StringUtils.isBlank(inspectReport.getREPORTNO())){
             return false;
         }
-        ExamInspectReport reportDB = this.getByReportNO(null, inspectReport.getREPORTNO());
+        ExamInspectReport reportDB = this.getByReportNO(inspectReport.getREPORTNO());
         if(reportDB != null){
             //删除本地数据库保存的(还未完成的) 检查报告 及所有结果，
             String reportNO = reportDB.getREPORTNO();

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.annaru.upms.mapper.SysVerifyDocsMapper">
+
+	<!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.annaru.upms.entity.SysVerifyDocs" >
+        <result column="sys_id" property="sysId" />
+        <result column="related_no" property="relatedNo" />
+        <result column="cates" property="cates" />
+        <result column="doc_cates" property="docCates" />
+        <result column="images" property="images" />
+        <result column="creation_time" property="creationTime" />
+        <result column="create_by" property="createBy" />
+    </resultMap>
+    
+    <sql id="BaseClounmSql">
+          sys_id,
+          related_no,
+          cates,
+          doc_cates,
+          images,
+          creation_time,
+          create_by,
+    </sql>
+
+    <!-- 多表页面信息查询分页 -->
+    <select id="selectDataPage" parameterType="map" resultMap="BaseResultMap">
+
+        SELECT
+            <include refid="BaseClounmSql"></include>
+        FROM
+            sys_verify_docs
+
+    </select>
+
+</mapper>

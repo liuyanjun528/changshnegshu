@@ -5,6 +5,9 @@ import com.annaru.common.base.BaseController;
 import com.annaru.common.result.PageUtils;
 import com.annaru.common.result.ResultMap;
 import com.annaru.upms.entity.UserCards;
+import com.annaru.upms.entity.vo.UserCardInfoVo;
+import com.annaru.upms.entity.vo.UserCardVo;
+import com.annaru.upms.service.IUserBasicService;
 import com.annaru.upms.service.IUserCardsService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -13,10 +16,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 /**
@@ -31,18 +31,8 @@ public class UserCardsController extends BaseController {
     @Reference
     private IUserCardsService userCardsService;
 
-    @ApiOperation(value = "添加个人绑卡")
-    @PostMapping(value = "/insertBaseCard")
-    public ResultMap insertCardAndBaseAndInstitution(@RequestBody UserCards cards){
-        try {
-            userCardsService.insertCardAndBaseAndInstitution(cards);
-            return ResultMap.ok("添加成功");
-        } catch (Exception e) {
-            logger.error(e.getMessage());
-            return ResultMap.error("运行异常，请联系管理员");
-        }
-
-    }
+    @Reference
+    private IUserBasicService userBasicService;
 
     /**
      * 通过用户ID查询绑卡信息
@@ -60,6 +50,24 @@ public class UserCardsController extends BaseController {
         }
 
     }
+
+    /**
+     * 查询企业门诊绿通预约人信息
+     */
+    @ApiOperation(value = "查询企业家庭医生预约人信息")
+    @GetMapping("/getGreenPassUserInfo/{userId}")
+    @RequiresPermissions("upms/userCards/getGreenPassUserInfo")
+    public ResultMap getGreenPassUserInfo(@PathVariable("userId") String userId) {
+        try {
+            List<UserCardInfoVo> userCardInfoVo = userCardsService.getGreenPassUserInfo(userId);
+            return ResultMap.ok().put("data", userCardInfoVo);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return ResultMap.error("运行异常，请联系管理员");
+        }
+
+    }
+
     /**
      * 列表
      */
@@ -93,11 +101,12 @@ public class UserCardsController extends BaseController {
     /**
      * 保存
      */
-    @ApiOperation(value = "保存")
+    @ApiOperation(value = "添加个人绑卡")
     @PostMapping("/save")
     @RequiresPermissions("upms/userCards/save")
     public ResultMap save(@Valid @RequestBody UserCards userCards) {
         try {
+            userCards.setCreationTime(new Date());
             userCardsService.save(userCards);
             return ResultMap.ok("添加成功");
         } catch (Exception e) {
@@ -107,19 +116,20 @@ public class UserCardsController extends BaseController {
     }
 
     /**
-     * 修改
+     * 通过用户编号修改个人信息和医保卡号
      */
-    @ApiOperation(value = "修改")
+    @ApiOperation(value = "修改个人信息和医保卡号")
     @PostMapping("/update")
     @RequiresPermissions("upms/userCards/update")
-    public ResultMap update(@Valid @RequestBody UserCards userCards) {
-        try {
-            userCardsService.updateById(userCards);
-            return ResultMap.ok("修改成功");
-        } catch (Exception e) {
-            logger.error(e.getMessage());
+    public ResultMap update(@RequestBody UserCardVo userCards) {
+
+        int i = userBasicService.updateCardAndBasics(userCards);
+        if (i>0){
+            userCardsService.updateCardAndBasic(userCards.getUserId(), userCards.getCardNo());
+                return ResultMap.ok("修改成功");
+            }
             return ResultMap.error("运行异常，请联系管理员");
-        }
+
 
     }
 

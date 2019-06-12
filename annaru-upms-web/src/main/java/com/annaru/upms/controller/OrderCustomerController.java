@@ -69,10 +69,6 @@ public class OrderCustomerController extends BaseController {
     @RequiresPermissions("upms/orderCustomer/save")
     public ResultMap save(@Valid @RequestBody OrderCustomer orderCustomer) {
         try {
-
-//            orderCustomer.setCreateUser(ShiroKit.getUser().getId());
-//            orderCustomer.setCreateTime(new Date());
-//            orderCustomer.setUpdateTime(new Date());
             orderCustomerService.save(orderCustomer);
             return ResultMap.ok("添加成功");
         } catch (Exception e) {
@@ -89,7 +85,6 @@ public class OrderCustomerController extends BaseController {
     @RequiresPermissions("upms/orderCustomer/update")
     public ResultMap update(@Valid @RequestBody OrderCustomer orderCustomer) {
         try {
-//            orderCustomer.setUpdateTime(new Date());
             orderCustomerService.updateById(orderCustomer);
             return ResultMap.ok("修改成功");
         } catch (Exception e) {

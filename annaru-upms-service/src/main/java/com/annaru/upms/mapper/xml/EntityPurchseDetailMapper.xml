@@ -7,6 +7,7 @@
     <resultMap id="BaseResultMap" type="com.annaru.upms.entity.EntityPurchseDetail" >
         <result column="sys_id" property="sysId" />
         <result column="order_no" property="orderNo" />
+        <result column="user_cate" property="userCate" />
         <result column="user_id" property="userId" />
         <result column="is_active" property="isActive" />
         <result column="is_deleted" property="isDeleted" />
@@ -20,6 +21,7 @@
     <sql id="BaseClounmSql">
           sys_id,
           order_no,
+          user_cate,
           user_id,
           is_active,
           is_deleted,

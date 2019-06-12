@@ -8,6 +8,10 @@
         <result column="order_no" property="orderNo"/>
         <result column="entity_name" property="entityName"/>
         <result column="user_cate" property="userCate"/>
+        <result column="address" property="address" />
+        <result column="time_from" property="timeFrom" />
+        <result column="service_option" property="serviceOption" />
+        <result column="descr" property="descr" />
         <result column="user_id" property="userId" />
         <result column="full_name" property="fullName" />
         <result column="user_gender" property="userGender"/>
@@ -33,7 +37,6 @@
         <result column="entity_no" property="entityNo" />
         <result column="user_cate" property="userCate" />
         <result column="user_id" property="userId" />
-        <result column="appointment_cates" property="appointmentCates" />
         <result column="related_no" property="relatedNo" />
         <result column="appoint_date" property="appointDate" />
         <result column="time_from" property="timeFrom" />
@@ -41,6 +44,7 @@
         <result column="address" property="address" />
         <result column="status" property="status" />
         <result column="institution_id" property="institutionId" />
+        <result column="department_id" property="departmentId" />
         <result column="service_option" property="serviceOption" />
         <result column="appraisal" property="appraisal" />
         <result column="is_cancelled" property="isCancelled" />
@@ -58,7 +62,6 @@
               entity_no,
               user_cate,
               user_id,
-              appointment_cates,
               related_no,
               appoint_date,
               time_from,
@@ -66,6 +69,7 @@
               address,
               status,
               institution_id,
+              department_id,
               service_option,
               appraisal,
               is_cancelled,
@@ -81,7 +85,6 @@
             </if>
         </where>
     </select>
-
 
     <!-- 查询企业用户及亲属列表-->
     <select id="selectUserAndRelative" parameterType="map" resultMap="BaseResultMap1">
@@ -120,29 +123,19 @@
         </if>
     </select>
 
-    <!-- 查询用户或亲属信息详情 -->
-    <select id="selectUserOrRelativeInfo" parameterType="map" resultMap="BaseResultMap1">
+
+
+    <!-- 企业查询服务预约 -->
+    <select id="selectServiceAppointment" parameterType="map" resultMap="BaseResultMap1">
         SELECT
         eha.sys_id,
         eha.order_no,
         eha.user_cate,
+        eha.address,
+        eha.time_from,
         eha.user_id,
-        uc_ub_ur.full_name,
-        uc_ub_ur.user_gender,
-        uc_ub_ur.user_id_card_no,
-        uc_ub_ur.user_cellphone_no,
-        uc_ub_ur.relative_id,
-        uc_ub_ur.relative_name,
-        uc_ub_ur.relative_gender,
-        uc_ub_ur.relative_id_card_no,
-        uc_ub_ur.relative_cellphone_no,
-        uc_ub_ur.card_cates,
-        uc_ub_ur.card_no
-        FROM entity_healthy_appointment eha
-        LEFT JOIN entity_purchse_main epm ON epm.order_no = eha.order_no
-        LEFT JOIN
-        (SELECT
-        ub.user_id,
+        eha.service_option,
+        ehpm.descr,
         ub.full_name,
         ub.gender AS user_gender,
         ub.id_card_no AS user_id_card_no,
@@ -154,16 +147,18 @@
         ur.cellphone_no AS relative_cellphone_no,
         uc.card_cates,
         uc.card_no
-        FROM user_cards uc
-        LEFT JOIN user_basic ub ON ub.user_id = uc.user_id
-        LEFT JOIN user_relatives ur ON ur.user_id = uc.user_id
-        )uc_ub_ur ON uc_ub_ur.user_id = eha.user_id
-        WHERE NOW() BETWEEN epm.creation_time AND DATE_ADD(epm.creation_time, INTERVAL 1 YEAR)
-        <if test="userId != null and userId != ''">
-            AND eha.user_id=#{userId}
-        </if>
-        <if test="userCate != null and userCate != ''">
-            AND eha.user_cate=#{userCate}
+        FROM entity_healthy_appointment eha
+        LEFT JOIN order_main om ON om.order_no = eha.order_no
+        LEFT JOIN entity_purchse_main epm ON epm.order_no = eha.order_no
+        LEFT JOIN entity_healthy_package_main ehpm ON ehpm.sys_id = eha.pkg_main_id
+        LEFT JOIN user_cards uc ON uc.user_id = eha.user_id
+	LEFT JOIN user_basic ub ON ub.user_id = eha.user_id
+	LEFT JOIN user_relatives ur ON ur.relative_id = eha.user_id
+	WHERE
+        <if test="orderNo != null and orderNo != ''">
+            eha.order_no=#{orderNo}
         </if>
     </select>
+
+
 </mapper>

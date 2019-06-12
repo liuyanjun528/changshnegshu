@@ -1,12 +1,6 @@
 package com.annaru.upms.entity.vo;
 
 import com.annaru.common.util.JacksonUtils;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -138,6 +132,12 @@ public class EntityHrAppointmentMainVoZ implements Serializable {
 	 */
 	private String userId;
 
+	/**
+	 * 总数
+	 * @return
+	 */
+	private Integer countTotalUser;
+
 
 	public String getFullName() {
 		return fullName;
@@ -258,6 +258,12 @@ public class EntityHrAppointmentMainVoZ implements Serializable {
 	}
 	public void setUserId(String userId) {
 		this.userId = userId;
+	}
+	public Integer getCountTotalUser() {
+		return countTotalUser;
+	}
+	public void setCountTotalUser(Integer countTotalUser) {
+		this.countTotalUser = countTotalUser;
 	}
 
 	@Override
