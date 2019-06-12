@@ -80,9 +80,42 @@
         <result column="creation_time" property="creationTime" />
         <result column="openid" property="openid" />
 
+        <result column="siName" property="siName" />
+        <result column="departmentName" property="departmentName" />
 
         <association property="sysDoctor" column="user_id" javaType="com.annaru.upms.entity.SysDoctor" resultMap="SysDoctorBaseResultMap" />
+
+    </resultMap>
+
+    <resultMap id="BaseResultMap2" type="com.annaru.upms.entity.UserBasic" >
+        <result column="sys_id" property="sysId" />
+        <result column="user_id" property="userId" />
+        <result column="full_name" property="fullName" />
+        <result column="chinese_spell" property="chineseSpell" />
+        <result column="cellphone_no" property="cellphoneNo" />
+        <result column="password" property="password" />
+        <result column="id_card_no" property="idCardNo" />
+        <result column="origin_province" property="originProvince" />
+        <result column="origin_city" property="originCity" />
+        <result column="residence_province" property="residenceProvince" />
+        <result column="residence_city" property="residenceCity" />
+        <result column="occupation" property="occupation" />
+        <result column="gender" property="gender" />
+        <result column="date_of_birth" property="dateOfBirth" />
+        <result column="head_image" property="headImage" />
+        <result column="isactive" property="isactive" />
+        <result column="last_logintime" property="lastLogintime" />
+        <result column="registration_time" property="registrationTime" />
+        <result column="is_verified" property="isVerified" />
+        <result column="email_address" property="emailAddress" />
+        <result column="creation_time" property="creationTime" />
+        <result column="openid" property="openid" />
+
+        <result column="siName" property="siName" />
+        <result column="departmentName" property="departmentName" />
+
         <association property="sysNurse" column="user_id" javaType="com.annaru.upms.entity.SysNurse" resultMap="SysNurseBaseResultMap" />
+
     </resultMap>
 
     <!-- 通用查询映射结果 医生 -->
@@ -115,7 +148,7 @@
         <result column="sys_id" property="sysId" />
         <result column="nurse_no" property="nurseNo" />
         <result column="user_id" property="userId" />
-        <result column="name" property="nurseName" />
+        <result column="nurse_name" property="nurseName" />
         <result column="head_image" property="headImage" />
         <result column="belong_hospital" property="belongHospital" />
         <result column="belong_office" property="belongOffice" />
@@ -233,7 +266,7 @@
             gender,
             date_of_birth,
             b.head_image,
-            isactive,
+            b.isactive,
             last_logintime,
             registration_time,
             is_verified,
@@ -246,20 +279,24 @@
             score,
             focus_on,
             goodat,
-            content,
-            belong_office,
-            belong_province,
-            belong_city,
-            belong_district,
+        d.content,
+        si.name siName,
+        sd.department_name departmentName,
+
             price_year,
+        job_title,
+        duties,
+        introductions,
             status,
-            edit_time,
+            d.edit_time,
             create_by,
             edit_by,
             openid
         FROM
             user_basic b
         LEFT JOIN sys_doctor d ON d.user_id = b.user_id
+        LEFT JOIN sys_institution si ON si.institution_id = d.belong_institution
+        LEFT JOIN sys_department sd ON sd.sys_id = d.belong_office
         WHERE
             1 = 1
             <if test="params.cellphoneNo != null and params.cellphoneNo != ''">
@@ -271,7 +308,7 @@
     </select>
 
     <!-- 根据条件查询某个用户信息与护士信息 -->
-    <select id="selectNurseByData" parameterType="map" resultMap="BaseResultMap1">
+    <select id="selectNurseByData" parameterType="map" resultMap="BaseResultMap2">
         SELECT
             b.sys_id bsys_id,
             b.user_id buser_id,
@@ -288,30 +325,35 @@
             gender,
             date_of_birth,
             b.head_image,
-            isactive,
+            b.isactive,
             last_logintime,
             registration_time,
-            is_verified,
+            n.is_verified,
+            n.is_approved,
             email_address,
             b.creation_time,
 
             nurse_no,
-            name,
+        nurse_name,
 
-            belong_hospital,
-            belong_office,
+        si.name siName,
+        sd.department_name departmentName,
             introduction,
             score,
             focus_on,
             contact_no1,
             contact_no2,
-            is_approved,
+        job_title,
+        duties,
+        introductions,
             approve_time,
-            edit_time,
+            n.edit_time,
             openid
         FROM
             user_basic b
         LEFT JOIN sys_nurse n ON  n.user_id = b.user_id
+        LEFT JOIN sys_institution si ON si.institution_id = n.belong_hospital
+        LEFT JOIN sys_department sd ON sd.sys_id = n.belong_office
         WHERE
             1 = 1
             <if test="params.cellphoneNo != null and params.cellphoneNo != ''">

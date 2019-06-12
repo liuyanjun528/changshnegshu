@@ -56,7 +56,7 @@ public class SysConfigUtil {
      * @return
      */
     public static SysConfig getSysConfig(ISysConfigService iSysConfigService , Integer configNo){
-        if (sysConfig == null && iSysConfigService != null){
+        if (iSysConfigService != null){
             SysConfigUtil.iSysConfigService = iSysConfigService;
             sysConfig = iSysConfigService.getById(configNo);
         }

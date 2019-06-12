@@ -1,6 +1,7 @@
 package com.annaru.upms.entity;
 
 import com.annaru.common.util.JacksonUtils;
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -28,7 +29,7 @@ public class SysDoctor extends Model<SysDoctor> implements Serializable {
 	 * 系统编号
 	 */
 	@ApiModelProperty(value = "系统编号")
-	@TableId
+	@TableId(type = IdType.AUTO)
 	private Integer sysId;
 	/**
 	 * 医生编号
@@ -87,6 +88,12 @@ public class SysDoctor extends Model<SysDoctor> implements Serializable {
 	@ApiModelProperty(value = "简介")
 	private String content;
 	/**
+	 * 所属医院
+	 */
+	@ApiModelProperty(value = "所属医院")
+	@TableField("belong_institution")
+	private String belongInstitution;
+	/**
 	 * 所属科室
 	 */
 	@ApiModelProperty(value = "所属科室")
@@ -127,7 +134,23 @@ public class SysDoctor extends Model<SysDoctor> implements Serializable {
 	public void setCellphoneNo(String cellphoneNo) {
 		this.cellphoneNo = cellphoneNo;
 	}
-
+	/**
+	 * 职称
+	 */
+	@ApiModelProperty(value = "职称")
+	@TableField("job_title")
+	private String jobTitle;
+	/**
+	 * 职务
+	 */
+	@ApiModelProperty(value = "职务")
+	@TableField("duties")
+	private String duties;
+	/**
+	 * 个人简介
+	 */
+	@ApiModelProperty(value = "个人简介")
+	private String introductions;
 	/**
 	 * 当前状态(0:未激活1:已激活)
 	 */
@@ -406,6 +429,30 @@ public class SysDoctor extends Model<SysDoctor> implements Serializable {
 	 */
 	public void setEditBy(Integer editBy) {
 		this.editBy = editBy;
+	}
+	public String getDuties() {
+		return duties;
+	}
+	public void setDuties(String duties) {
+		this.duties = duties;
+	}
+	public String getIntroductions() {
+		return introductions;
+	}
+	public void setIntroductions(String introductions) {
+		this.introductions = introductions;
+	}
+	public String getJobTitle() {
+		return jobTitle;
+	}
+	public void setJobTitle(String jobTitle) {
+		this.jobTitle = jobTitle;
+	}
+	public String getBelongInstitution() {
+		return belongInstitution;
+	}
+	public void setBelongInstitution(String belongInstitution) {
+		this.belongInstitution = belongInstitution;
 	}
 
 	@Override
