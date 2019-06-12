@@ -10,6 +10,7 @@ import com.annaru.common.result.PageUtils;
 import com.annaru.upms.entity.OrderMain;
 import com.annaru.upms.mapper.OrderMainMapper;
 import com.annaru.upms.service.IOrderMainService;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Map;
 import java.util.List;
@@ -60,8 +61,16 @@ public class OrderMainServiceImpl extends ServiceImpl<OrderMainMapper, OrderMain
     }
 
     @Override
-    public int insertOrderMain(Map<String, Object> params) {
-        return this.baseMapper.insertOrderMain(params);
+    public OrderMain getByOrderNo(String orderNo) {
+        if(StringUtils.isBlank(orderNo)){
+            return null;
+        }
+        return this.baseMapper.selectByOrderNo (orderNo);
+    }
+
+    @Override
+    public int insertOrderMain(OrderMain orderMain) {
+        return this.baseMapper.insertOrderMain(orderMain);
     }
 
     public List<Integer>  getTimes(Map<String,Object> params){

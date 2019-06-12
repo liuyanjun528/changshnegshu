@@ -24,8 +24,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement//注解开启事务
 @EnableRedisHttpSession(maxInactiveIntervalInSeconds = 1800)
 @EnableAsync
-@EnableScheduling
-@EnableTransactionManagement // 启注解事务管理
+@EnableScheduling // 启注解事务管理
 @ComponentScan("com.annaru")
 public class UpmsServiceApplication extends SpringBootServletInitializer {
     protected final static Logger logger = LoggerFactory.getLogger(UpmsServiceApplication.class);

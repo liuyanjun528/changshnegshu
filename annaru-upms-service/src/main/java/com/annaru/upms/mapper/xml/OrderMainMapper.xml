@@ -375,8 +375,8 @@
             order_appointment oa
             LEFT JOIN order_main om
             on oa.order_no = om.order_no
-             LEFT JOIN order_additional_info oai
-             on oai.order_no = oa.order_no
+            LEFT JOIN order_additional_info oai
+            on oai.order_no = oa.order_no
             LEFT JOIN order_extension_exam oee
             on oee.order_no = om.order_no
             LEFT JOIN exam_master em
