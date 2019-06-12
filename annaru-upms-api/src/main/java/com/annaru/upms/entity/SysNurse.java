@@ -67,11 +67,6 @@ public class SysNurse extends Model<SysNurse> implements Serializable {
 	@TableField("belong_office")
 	private String belongOffice;
 	/**
-	 * 简介
-	 */
-    @ApiModelProperty(value = "简介")
-	private String introduction;
-	/**
 	 * 评分
 	 */
     @ApiModelProperty(value = "评分")
@@ -224,18 +219,6 @@ public class SysNurse extends Model<SysNurse> implements Serializable {
 	 */
 	public void setBelongOffice(String belongOffice) {
 		this.belongOffice = belongOffice;
-	}
-    /**
-     * 获取：简介
-     */
-    public String getIntroduction() {
-        return introduction;
-    }
-	/**
-	 * 设置：简介
-	 */
-	public void setIntroduction(String introduction) {
-		this.introduction = introduction;
 	}
     /**
      * 获取：评分
