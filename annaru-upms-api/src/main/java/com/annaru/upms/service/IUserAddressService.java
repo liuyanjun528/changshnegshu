@@ -30,6 +30,11 @@ public interface IUserAddressService extends IService<UserAddress> {
      */
     int updateAddress(UserAddress userAddress);
 
-
+    /**
+     * @Description:通过Uid  地址ID删除个人地址
+     * @Author: wh
+     * @Date: 2019/6/11 17:46
+     */
+    int DeleteAddress(String userId,String sysId);
 }
 
