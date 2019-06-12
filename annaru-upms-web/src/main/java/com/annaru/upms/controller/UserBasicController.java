@@ -161,7 +161,7 @@ public class UserBasicController extends BaseController {
      */
     @ApiOperation(value = "手机验证码设置密码")
     @PostMapping("/setPassword")
-    public ResultMap setPassword(@RequestBody String password,String kaptcha,String cellphoneNo) {
+    public ResultMap setPassword(String password,String kaptcha,String cellphoneNo) {
         if (StringUtil.isBlank(kaptcha)){
             return ResultMap.error("验证码不能为空！");
         }else if (!kaptcha.equals((String)redisService.get(cellphoneNo))){
@@ -186,7 +186,7 @@ public class UserBasicController extends BaseController {
     @ApiOperation(value = "修改旧密码")
     @PostMapping("/updatePassword")
     @RequiresPermissions("upms/userBasic/updatePassword")
-    public ResultMap updatePassword(@RequestBody String password,String userId,String OldPwd) {
+    public ResultMap updatePassword(String password,String userId,String OldPwd) {
 
         UserBasic userBasic = userBasicService.selectByUid(userId);
         //如果输入的旧密码与旧密码相同 进行下一步
@@ -197,9 +197,9 @@ public class UserBasicController extends BaseController {
                 userBasicService.updateOldPwd(password,userId);
                return ResultMap.ok( "更新成功");
             }
-            return ResultMap.ok( "新密码与老密码相同,请换一个新密码");
+            return ResultMap.error( "新密码与老密码相同,请换一个新密码");
         }else {
-            return ResultMap.ok( "输入的旧密码与旧密码不匹配,请想好再填");
+            return ResultMap.error( "输入的旧密码与旧密码不匹配,请想好再填");
         }
 
     }

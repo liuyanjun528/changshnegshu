@@ -28,5 +28,27 @@ public interface IExamHandoverSheetService extends IService<ExamHandoverSheet> {
      */
     int updateExamHandoverSheet(ExamHandoverSheet examHandoverSheet);
 
+
+    /**
+     * @Description:上传交接单
+     * @Author: wh
+     * @Date: 2019/6/12 13:06
+     */
+    int updateExamHandoverSheetByOrderNo(ExamHandoverSheet examHandoverSheet);
+
+    /**
+     * @Description:查看交接单
+     * @Author: wh
+     * @Date: 2019/6/12 13:06
+     */
+    List<ExamHandoverSheet> selectExamHandoverSheet(ExamHandoverSheet examHandoverSheet);
+
+    /**
+     * @Description:删除定单通过 是否交接和订单编号
+     * @Author: wh
+     * @Date: 2019/6/12 13:06
+     */
+    int delExamHandoverSheet(String orderNo,int isHandovered);
+
 }
 

@@ -32,4 +32,9 @@ public class UserAddressServiceImpl extends ServiceImpl<UserAddressMapper, UserA
         return this.baseMapper.updateAddress(userAddress);
     }
 
+    @Override
+    public int DeleteAddress(String userId,String sysId) {
+        return this.baseMapper.DeleteAddress(userId, sysId);
+    }
+
 }

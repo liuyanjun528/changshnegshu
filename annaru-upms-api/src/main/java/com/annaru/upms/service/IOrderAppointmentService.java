@@ -2,9 +2,11 @@ package com.annaru.upms.service;
 
 import com.annaru.common.result.PageUtils;
 import com.annaru.upms.entity.OrderAppointment;
+import com.annaru.upms.entity.vo.NurseOrderList;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -22,6 +24,7 @@ public interface IOrderAppointmentService extends IService<OrderAppointment> {
     */
     PageUtils getDataPage(Map<String, Object> params);
 
+    List<NurseOrderList> getNurseOrderList(Map<String,Object> params);
 
 
 }
