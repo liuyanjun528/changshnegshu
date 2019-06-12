@@ -26,6 +26,7 @@
               sys_id,
               user_id,
               relative_name,
+              relative_id,
               id_card_no,
               gender,
               cellphone_no,

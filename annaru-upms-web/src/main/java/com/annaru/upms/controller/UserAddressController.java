@@ -103,9 +103,9 @@ public class UserAddressController extends BaseController {
     @ApiOperation(value = "删除")
     @PostMapping("/delete")
     @RequiresPermissions("upms/userAddress/delete")
-    public ResultMap delete(@RequestBody Integer[]sysIds) {
+    public ResultMap delete(String userId,String sysId) {
         try {
-            userAddressService.removeByIds(Arrays.asList(sysIds));
+            userAddressService.DeleteAddress(userId, sysId);
             return ResultMap.ok("删除成功！");
         } catch (Exception e) {
             logger.error(e.getMessage());

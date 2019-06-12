@@ -2,6 +2,11 @@ package com.annaru.upms.controller;
 
 import java.util.*;
 
+import com.annaru.upms.controllerutil.SysConfigUtil;
+import com.annaru.upms.entity.SysConfig;
+import com.annaru.upms.entity.vo.SysVerifyDocsVoZ;
+import com.annaru.upms.service.ISysConfigService;
+import com.annaru.upms.service.IUserBasicService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import com.alibaba.dubbo.config.annotation.Reference;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +21,8 @@ import com.annaru.common.result.ResultMap;
 
 import com.annaru.upms.entity.SysVerifyDocs;
 import com.annaru.upms.service.ISysVerifyDocsService;
+
+import javax.annotation.Resource;
 import javax.validation.Valid;
 
 
@@ -23,8 +30,8 @@ import javax.validation.Valid;
 /**
  * 认证资料
  *
- * @author wh
- * @date 2019-06-10 14:47:53
+ * @author zk
+ * @date 2019-06-10 14:59:12
  */
 @Api(tags = {"认证资料管理"}, description = "认证资料管理")
 @RestController
@@ -32,7 +39,8 @@ import javax.validation.Valid;
 public class SysVerifyDocsController extends BaseController {
     @Reference
     private ISysVerifyDocsService sysVerifyDocsService;
-
+    @Reference
+    private ISysConfigService iSysConfigService;
     /**
      * 列表
      */
@@ -80,13 +88,41 @@ public class SysVerifyDocsController extends BaseController {
     @RequiresPermissions("upms/sysVerifyDocs/save")
     public ResultMap save(@Valid @RequestBody SysVerifyDocs sysVerifyDocs) {
         try {
-
             sysVerifyDocsService.save(sysVerifyDocs);
             return ResultMap.ok("添加成功");
         } catch (Exception e) {
             logger.error(e.getMessage());
             return ResultMap.error("运行异常，请联系管理员");
         }
+    }
+
+    /**
+     * 选择职业：医生、护士认证
+     */
+    @ApiOperation(value = "选择职业：医生、护士认证")
+    @PostMapping("/saveDocsBasics")
+    @RequiresPermissions("upms/sysVerifyDocs/saveDocsBasics")
+    public ResultMap saveDocsBasics(@Valid @RequestBody SysVerifyDocsVoZ sysVerifyDocsVoZ) {
+
+            SysConfig sysConfig = null;
+            if (sysVerifyDocsVoZ.getIdentification() == 2){
+                // 医生
+                sysConfig = SysConfigUtil.getSysConfig(iSysConfigService, SysConfigUtil.DOCTOR);
+                sysVerifyDocsVoZ.setUserNo(SysConfigUtil.getNoBySysConfig());
+            }else if (sysVerifyDocsVoZ.getIdentification() == 1){
+                // 护士
+                sysConfig = SysConfigUtil.getSysConfig(iSysConfigService, SysConfigUtil.NURSE);
+                sysVerifyDocsVoZ.setUserNo(SysConfigUtil.getNoBySysConfig());
+            }
+            if (sysVerifyDocsService.saveDocsBasics(sysVerifyDocsVoZ)){
+                SysConfigUtil.saveRefNo(sysConfig.getRefNo());
+                if (SysConfigUtil.saveRefNo(sysConfig.getRefNo())){
+                    return ResultMap.ok("添加成功");
+                }
+            }
+
+        return ResultMap.error("运行异常，请联系管理员");
+
     }
 
     /**

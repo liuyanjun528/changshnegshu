@@ -41,7 +41,7 @@
             exam_handover_sheet
     </select>
 
-
+    <!--通过订单编号修改已有 未完成的预约记录-->
     <update id="updateExamHandoverSheet">
         update exam_handover_sheet set
 			person_barcode_confirmed=#{personBarcodeConfirmed},-- 二维码状态
@@ -50,5 +50,24 @@
         WHERE order_no=#{orderNo}
     </update>
 
+    <!--上传交接单 通过订单号-->
+    <insert id="updateExamHandoverSheetByOrderNo">
+        update exam_handover_sheet set
+        sample_code=#{sampleCode},
+        handover_by=#{handoverBy},
+        handover_time=#{handoverTime},
+        images=#{images}
+        WHERE order_no=#{orderNo}
+    </insert>
+
+    <!--查看交接单 通过订单号和是否完成交接-->
+    <select id="selectExamHandoverSheet" parameterType="map" resultMap="BaseResultMap">
+      select from exam_handover_sheet where order_no=#{orderNo} and is_handovered=#{isHandovered}
+    </select>
+
+    <!--删除定单通过 是否交接和订单编号-->
+    <delete id="delExamHandoverSheet">
+        DELETE FROM exam_handover_sheet WHERE order_no=#{orderNo} and is_handovered=#{isHandovered}
+    </delete>
 
 </mapper>
