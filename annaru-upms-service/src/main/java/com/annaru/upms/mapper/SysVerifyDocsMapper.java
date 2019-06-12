@@ -11,8 +11,8 @@ import java.util.Map;
 /**
  * 认证资料
  * 
- * @author wh
- * @date 2019-06-10 14:47:53
+ * @author xck
+ * @date 2019-06-10 14:59:12
  */
 public interface SysVerifyDocsMapper extends BaseMapper<SysVerifyDocs> {
 

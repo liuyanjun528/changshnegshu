@@ -1,6 +1,7 @@
 package com.annaru.upms.entity;
 
 import com.annaru.common.util.JacksonUtils;
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -27,7 +28,7 @@ public class SysNurse extends Model<SysNurse> implements Serializable {
 	 * 系统编号
 	 */
     @ApiModelProperty(value = "系统编号")
-	@TableId
+	@TableId(type = IdType.AUTO)
 	private Integer sysId;
 	/**
 	 * 护士编号
@@ -94,6 +95,24 @@ public class SysNurse extends Model<SysNurse> implements Serializable {
 	@TableField("contact_no2")
 	private String contactNo2;
 	/**
+	 * 职称
+	 */
+	@ApiModelProperty(value = "职称")
+	@TableField("job_title")
+	private String jobTitle;
+	/**
+	 * 职务
+	 */
+	@ApiModelProperty(value = "职务")
+	@TableField("duties")
+	private String duties;
+	/**
+	 * 身份认证(0:未认证/1:已认证)
+	 */
+	@ApiModelProperty(value = "身份认证(0:未认证/1:已认证)")
+	@TableField("is_verified")
+	private Integer isVerified;
+	/**
 	 * 是否审核通过(0:未通过/1:已通过)
 	 */
     @ApiModelProperty(value = "是否审核通过(0:未通过/1:已通过)")
@@ -117,7 +136,11 @@ public class SysNurse extends Model<SysNurse> implements Serializable {
     @ApiModelProperty(value = "编辑时间")
 	@TableField("edit_time")
 	private Date editTime;
-
+	/**
+	 * 个人简介
+	 */
+	@ApiModelProperty(value = "个人简介")
+	private String introductions;
     /**
      * 获取：系统编号
      */
@@ -310,8 +333,32 @@ public class SysNurse extends Model<SysNurse> implements Serializable {
 	public void setEditTime(Date editTime) {
 		this.editTime = editTime;
 	}
+	public String getDuties() {
+		return duties;
+	}
+	public void setDuties(String duties) {
+		this.duties = duties;
+	}
+	public Integer getIsVerified() {
+		return isVerified;
+	}
+	public void setIsVerified(Integer isVerified) {
+		this.isVerified = isVerified;
+	}
+	public String getJobTitle() {
+		return jobTitle;
+	}
+	public void setJobTitle(String jobTitle) {
+		this.jobTitle = jobTitle;
+	}
+	public String getIntroductions() {
+		return introductions;
+	}
+	public void setIntroductions(String introductions) {
+		this.introductions = introductions;
+	}
 
-    @Override
+	@Override
 	protected Serializable pkVal() {
 		return this.sysId;
 	}

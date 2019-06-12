@@ -203,6 +203,19 @@ public class UserBasic extends Model<UserBasic> implements Serializable {
 	@TableField("openid")
 	private String openid;
 
+	/**
+	 * 所属机构医院
+	 * @return
+	 */
+	@TableField(exist = false)
+	private String siName;
+	/**
+	 * 所属科室
+	 * @return
+	 */
+	@TableField(exist = false)
+	private String departmentName;
+
 	public SysDoctor getSysDoctor() {
 		return sysDoctor;
 	}
@@ -503,6 +516,18 @@ public class UserBasic extends Model<UserBasic> implements Serializable {
 	}
 	public String getOpenid() {
 		return openid;
+	}
+	public String getSiName() {
+		return siName;
+	}
+	public void setSiName(String siName) {
+		this.siName = siName;
+	}
+	public String getDepartmentName() {
+		return departmentName;
+	}
+	public void setDepartmentName(String departmentName) {
+		this.departmentName = departmentName;
 	}
 
 	@Override

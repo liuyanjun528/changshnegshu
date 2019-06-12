@@ -1,5 +1,6 @@
 package com.annaru.upms.service;
 
+import com.annaru.upms.entity.vo.SysVerifyDocsVoZ;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.annaru.common.result.PageUtils;
 import com.annaru.upms.entity.SysVerifyDocs;
@@ -9,8 +10,8 @@ import java.util.Map;
 /**
  * 认证资料
  *
- * @author wh
- * @date 2019-06-10 14:47:53
+ * @author zk
+ * @date 2019-06-10 14:59:12
  */
 public interface ISysVerifyDocsService extends IService<SysVerifyDocs> {
 
@@ -20,6 +21,14 @@ public interface ISysVerifyDocsService extends IService<SysVerifyDocs> {
     * @return
     */
     PageUtils getDataPage(Map<String, Object> params);
+
+    /**
+     * @Description 选择职业：医生、护士认证
+     * @Param   SysVerifyDocsVoZ
+     * @Author  zk
+     * @Date  2019-06-10 11:37
+     */
+    public boolean saveDocsBasics(SysVerifyDocsVoZ sysVerifyDocsVoZ);
 
 
 }

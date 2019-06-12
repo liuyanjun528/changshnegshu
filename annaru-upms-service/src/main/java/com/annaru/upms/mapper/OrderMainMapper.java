@@ -61,7 +61,7 @@ public interface OrderMainMapper extends BaseMapper<OrderMain> {
 
     /**
      * 添加订单主表
-     * @param params
+     * @param
      * @return
      */
     int insertOrderMain(OrderMain orderMain);

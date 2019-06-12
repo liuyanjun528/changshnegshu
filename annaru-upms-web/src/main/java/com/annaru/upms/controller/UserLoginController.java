@@ -130,7 +130,7 @@ public class UserLoginController extends BaseController {
                 return ResultMap.error("用户不存在！");
             }
             if (StringUtil.isBlank(userBasic.getPassword())){
-                return ResultMap.error("密码不能为空！");
+                return ResultMap.error("账号或者密码输入错误，请检查！");
             }
             if (!password.equals(userBasic.getPassword())){
                 return ResultMap.error("账号或者密码输入错误，请检查！");
@@ -140,7 +140,7 @@ public class UserLoginController extends BaseController {
             }
         }
         String token = null;
-        if ("1".equals(type)){ // 用户端短信注册并跳转设置密码页面
+//        if ("1".equals(type)){ // 用户端短信注册并跳转设置密码页面
             if ("1".equals(loginType) || "3".equals(loginType)){
                 // 1.短信登录  3.微信登录
                 if (userBasic == null){
@@ -194,30 +194,10 @@ public class UserLoginController extends BaseController {
                         }
                     }
                 }
-//                else {
-//                    //  在这里面判断 是为了避免返回token
-//
-//                    if ("1".equals(loginType)){
-//                        // 短信登录，没有设置密码，则需要设置密码
-//                        if (StringUtil.isBlank(userBasic.getPassword())){
-//                            token = createToken(userBasic.getUserId()).get("token").toString();
-//                            if (StringUtil.isNotBlank(token)){
-//                                redisService.set(cellphoneNo, token, OUT_SECONDS);
-//                            }
-//                            return ResultMap.ok().put("data", userBasic);
-//                        }
-//                    }
-//                    if ("3".equals(loginType)){
-//                        // 微信登录，没有绑定手机号，则需要绑定手机号
-//                        if (StringUtil.isBlank(userBasic.getCellphoneNo())){
-//                            return ResultMap.ok().put("data", userBasic);
-//                        }
-//                    }
-//                }
             }
-        }else if ("2".equals(type)){ // 医护端短因后台已经注册
-
-        }
+//        }else if ("2".equals(type)){ // 医护端短因后台已经注册
+//
+//        }
 
         //判断是否是首次登陆
         Boolean firstLogin = false;
@@ -240,25 +220,31 @@ public class UserLoginController extends BaseController {
         if (("1").equals(type)){
             return ResultMap.ok().put("data", userBasic);
         }
+        boolean getDoctorNurse = true;
         //医生
         if ("2".equals(type)){
             userBasic = iUserBasicService.selectDoctorByData(map);
-            if (userBasic != null){
+            if (userBasic != null && userBasic.getSysDoctor().getDoctorNo() != null){
                 userBasic.setToken(token);
                 userBasic.setFirstLogin(firstLogin);
                 userBasic.setDoctorOrNurse(1);
+                getDoctorNurse = false;
                 return ResultMap.ok().put("data", userBasic);
             }
         }
         //护士
         if ("2".equals(type)){
             userBasic = iUserBasicService.selectNurseByData(map);
-            if (userBasic != null){
+            if (userBasic != null && userBasic.getSysNurse().getNurseNo() != null){
                 userBasic.setToken(token);
                 userBasic.setFirstLogin(firstLogin);
                 userBasic.setDoctorOrNurse(2);
+                getDoctorNurse = false;
                 return ResultMap.ok().put("data", userBasic);
             }
+        }
+        if (getDoctorNurse){
+            return ResultMap.error("该护士或者医生不存在！");
         }
         return ResultMap.error("异常错误，请联系管理员");
 
