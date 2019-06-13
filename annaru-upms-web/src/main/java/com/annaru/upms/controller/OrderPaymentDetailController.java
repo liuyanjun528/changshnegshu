@@ -83,6 +83,13 @@ public class OrderPaymentDetailController extends BaseController {
     public ResultMap installmentRepayment(@RequestBody OrderPaymentDetailVoSaveZ orderPaymentDetailVoSaveZ) {
         try {
 
+            OrderPaymentDetail orderPaymentDetailSet = new OrderPaymentDetail();
+            orderPaymentDetailSet.setOrderNo(orderPaymentDetailVoSaveZ.getOrderNo());
+            List<OrderPaymentDetail> orderPaymentDetails = orderPaymentDetailService.getEntityList(orderPaymentDetailSet);
+            if (orderPaymentDetails != null && orderPaymentDetails.size() > 0){
+                return ResultMap.error("该预计分期还款记录已存在！");
+            }
+
             Date getNextPayMent = null;
             List<OrderPaymentDetail> orderPaymentDetailList = new ArrayList<>();
             OrderPaymentDetail orderPaymentDetail = null;

@@ -24,5 +24,11 @@ public interface OrderPaymentDetailMapper extends BaseMapper<OrderPaymentDetail>
     */
     IPage<OrderPaymentDetail> selectDataPage(Page page, @Param("params") Map<String, Object> params);
 
+    /**
+     * 多表页面信息查询
+     * @return
+     */
+    List<OrderPaymentDetail> getEntityList(@Param("orderPaymentDetail") OrderPaymentDetail orderPaymentDetail);
+
 
 }

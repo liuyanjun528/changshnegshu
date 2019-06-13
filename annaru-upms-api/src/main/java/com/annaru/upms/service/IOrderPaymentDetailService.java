@@ -21,6 +21,12 @@ public interface IOrderPaymentDetailService extends IService<OrderPaymentDetail>
     */
     PageUtils getDataPage(Map<String, Object> params);
 
+    /**
+     * 多表页面信息查询
+     * @return
+     */
+    List<OrderPaymentDetail> getEntityList(OrderPaymentDetail orderPaymentDetail);
+
 
 }
 

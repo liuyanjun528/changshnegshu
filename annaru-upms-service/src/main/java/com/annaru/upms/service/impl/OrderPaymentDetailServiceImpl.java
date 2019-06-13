@@ -30,4 +30,9 @@ public class OrderPaymentDetailServiceImpl extends ServiceImpl<OrderPaymentDetai
         return new PageUtils<OrderPaymentDetail>(iPage);
     }
 
+    @Override
+    public List<OrderPaymentDetail> getEntityList(OrderPaymentDetail orderPaymentDetail) {
+        return this.baseMapper.getEntityList(orderPaymentDetail);
+    }
+
 }
