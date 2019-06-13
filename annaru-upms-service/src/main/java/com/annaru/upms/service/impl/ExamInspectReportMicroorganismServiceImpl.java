@@ -1,19 +1,16 @@
 package com.annaru.upms.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.annaru.common.result.PageUtils;
 import com.annaru.common.util.UUIDGenerator;
+import com.annaru.upms.entity.ExamInspectReportMicroorganism;
 import com.annaru.upms.entity.ExamInspectReportMicroorganismDetail;
-import com.annaru.upms.entity.ExamInspectReportPathologyDetail;
+import com.annaru.upms.mapper.ExamInspectReportMicroorganismMapper;
 import com.annaru.upms.service.IExamInspectReportMicroorganismDetailService;
+import com.annaru.upms.service.IExamInspectReportMicroorganismService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.alibaba.dubbo.config.annotation.Reference;
-import com.annaru.common.result.PageUtils;
-
-import com.annaru.upms.mapper.ExamInspectReportMicroorganismMapper;
-import com.annaru.upms.entity.ExamInspectReportMicroorganism;
-import com.annaru.upms.service.IExamInspectReportMicroorganismService;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +29,13 @@ import java.util.Map;
 public class ExamInspectReportMicroorganismServiceImpl extends ServiceImpl<ExamInspectReportMicroorganismMapper, ExamInspectReportMicroorganism> implements IExamInspectReportMicroorganismService {
     @Autowired
     private IExamInspectReportMicroorganismDetailService examInspectReportMicroorganismDetailService;
+
+    @Override
+    public PageUtils<ExamInspectReportMicroorganism> getDataPage(Map<String, Object> params) {
+        Page<ExamInspectReportMicroorganism> page = new PageUtils<ExamInspectReportMicroorganism>(params).getPage();
+        IPage<ExamInspectReportMicroorganism> iPage = this.baseMapper.selectDataPage(page, params);
+        return new PageUtils(iPage);
+    }
 
     @Override
     public List<ExamInspectReportMicroorganism> getByInspectReportId(String inspectReportId) {

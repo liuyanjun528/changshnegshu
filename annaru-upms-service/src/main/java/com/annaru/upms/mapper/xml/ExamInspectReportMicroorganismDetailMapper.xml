@@ -35,4 +35,16 @@
           microorganism_id = #{microorganismId}
     </select>
 
+    <select id="selectDataPage" resultType="com.annaru.upms.entity.ExamInspectReportMicroorganismDetail">
+        SELECT
+          <include refid="BaseClounmSql"></include>
+        FROM
+          exam_inspect_report_microorganism_detail
+        <where>
+            <if test="params.microorganismId != null and params.microorganismId != ''">
+                microorganism_id = #{params.microorganismId}
+            </if>
+        </where>
+    </select>
+
 </mapper>
