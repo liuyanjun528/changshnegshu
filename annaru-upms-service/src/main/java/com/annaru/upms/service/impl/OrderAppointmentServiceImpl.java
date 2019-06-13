@@ -3,12 +3,14 @@ package com.annaru.upms.service.impl;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.annaru.common.result.PageUtils;
 import com.annaru.upms.entity.OrderAppointment;
+import com.annaru.upms.entity.vo.NurseOrderList;
 import com.annaru.upms.mapper.OrderAppointmentMapper;
 import com.annaru.upms.service.IOrderAppointmentService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -27,6 +29,10 @@ public class OrderAppointmentServiceImpl extends ServiceImpl<OrderAppointmentMap
         return new PageUtils<OrderAppointment>(iPage);
     }
 
+
+    public List<NurseOrderList> getNurseOrderList(Map<String,Object> params){
+        return this.baseMapper.getNurseOrderList(params);
+    }
 
 
 
