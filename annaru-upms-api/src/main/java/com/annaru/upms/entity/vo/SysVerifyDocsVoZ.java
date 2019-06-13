@@ -108,8 +108,36 @@ public class SysVerifyDocsVoZ implements Serializable {
 	 */
 	@ApiModelProperty(value = "个人简介")
 	private String introductions;
+	/**
+	 * 姓名
+	 * @return
+	 */
+	@ApiModelProperty(value = "姓名")
+	private String nurseName;
+	/**
+	 * 身份证号码
+	 * @return
+	 */
+	@ApiModelProperty(value = "身份证号码")
+	private String idCardNo;
 
-    public Integer getSysId() {
+	public String getNurseName() {
+		return nurseName;
+	}
+
+	public void setNurseName(String nurseName) {
+		this.nurseName = nurseName;
+	}
+
+	public String getIdCardNo() {
+		return idCardNo;
+	}
+
+	public void setIdCardNo(String idCardNo) {
+		this.idCardNo = idCardNo;
+	}
+
+	public Integer getSysId() {
         return sysId;
     }
 	public void setSysId(Integer sysId) {

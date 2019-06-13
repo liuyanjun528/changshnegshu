@@ -30,8 +30,10 @@ public class OrderAppointmentServiceImpl extends ServiceImpl<OrderAppointmentMap
     }
 
 
-    public List<NurseOrderList> getNurseOrderList(Map<String,Object> params){
-        return this.baseMapper.getNurseOrderList(params);
+    public PageUtils getNurseOrderList(Map<String,Object> params){
+        Page<NurseOrderList> page = new PageUtils<NurseOrderList>(params).getPage();
+        IPage<NurseOrderList> iPage = this.baseMapper.getNurseOrderList(page, params);
+        return new PageUtils<NurseOrderList>(iPage);
     }
 
 

@@ -26,6 +26,6 @@ public interface OrderAppointmentMapper extends BaseMapper<OrderAppointment> {
     */
     IPage<OrderAppointment> selectDataPage(Page page, @Param("params") Map<String, Object> params);
 
-    List<NurseOrderList> getNurseOrderList(@Param("params") Map<String, Object> params);
+    IPage<NurseOrderList> getNurseOrderList(Page page, @Param("params") Map<String, Object> params);
 
 }

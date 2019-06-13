@@ -90,16 +90,16 @@
             on ehs.order_no = oa.order_no
             where oa.related_no = #{params.nurseNo}
             <if test="params.status == 0 ">
-            and ehs.person_barcode_confirmed = 0 AND ehs.draw_completed = 0 AND ehs.is_handovered = 0
+            and ehs.person_barcode_confirmed = 0 AND ehs.draw_completed = 0 AND ehs.is_handovered = 0 and oa.is_cancelled = 0
             </if>
             <if test="params.status == 1 ">
-            and ehs.person_barcode_confirmed = 1 AND ehs.is_handovered = 0
+            and ehs.person_barcode_confirmed = 1 AND ehs.is_handovered = 0 and oa.is_cancelled = 0
             </if>
             <if test="params.status == 2 ">
             and oa.is_cancelled = 1
             </if>
             <if test="params.status == 3 ">
-            and ehs.person_barcode_confirmed = 1 AND ehs.draw_completed = 1 AND ehs.is_handovered = 1
+            and ehs.person_barcode_confirmed = 1 AND ehs.draw_completed = 1 AND ehs.is_handovered = 1 and oa.is_cancelled = 0
             </if>
             <if test="params.when == 0 ">
             AND YEARWEEK(date_format(oa.creation_time,'%Y-%m-%d')) = YEARWEEK(now())

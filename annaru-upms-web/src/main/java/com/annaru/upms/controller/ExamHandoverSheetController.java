@@ -62,10 +62,10 @@ public class ExamHandoverSheetController extends BaseController {
     @ApiOperation(value = "查看交接单", notes = "查看交接单")
     @GetMapping("/info")
     @RequiresPermissions("upms/examHandoverSheet/info")
-    public ResultMap info(ExamHandoverSheet examHandoverSheet){
+    public ResultMap info(String orderNo){
         try {
-            examHandoverSheetService.selectExamHandoverSheet(examHandoverSheet);
-            return ResultMap.ok().put("examHandoverSheet",examHandoverSheet);
+            List<ExamHandoverSheet> examHandoverSheets = examHandoverSheetService.selectExamHandoverSheet(orderNo);
+            return ResultMap.ok().put("data",examHandoverSheets);
         } catch (Exception e) {
             logger.error(e.getMessage());
             return ResultMap.error("运行异常，请联系管理员");
@@ -114,13 +114,12 @@ public class ExamHandoverSheetController extends BaseController {
     @PostMapping("/delete")
     @RequiresPermissions("upms/examHandoverSheet/delete")
     public ResultMap delete(String orderNo, int isHandovered) {
-        try {
-            examHandoverSheetService.delExamHandoverSheet(orderNo, isHandovered);
-            return ResultMap.ok("删除成功！");
-        } catch (Exception e) {
-            logger.error(e.getMessage());
+        List<ExamHandoverSheet> examHandoverSheets = examHandoverSheetService.selectExamHandoverSheet(orderNo);
+            if (isHandovered==1&&isHandovered==examHandoverSheets.get(0).getIsHandovered()){
+                examHandoverSheetService.delExamHandoverSheet(orderNo, isHandovered);
+                return ResultMap.ok("删除成功！");
+            }
             return ResultMap.error("运行异常，请联系管理员");
-        }
 
     }
 

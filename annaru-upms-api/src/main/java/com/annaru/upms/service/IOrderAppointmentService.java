@@ -24,7 +24,7 @@ public interface IOrderAppointmentService extends IService<OrderAppointment> {
     */
     PageUtils getDataPage(Map<String, Object> params);
 
-    List<NurseOrderList> getNurseOrderList(Map<String,Object> params);
+    PageUtils getNurseOrderList(Map<String,Object> params);
 
 
 }
