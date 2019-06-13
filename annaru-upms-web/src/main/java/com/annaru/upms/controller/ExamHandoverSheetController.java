@@ -57,15 +57,15 @@ public class ExamHandoverSheetController extends BaseController {
 
 
     /**
-     * 信息
+     * 查看交接单
      */
-    @ApiOperation(value = "查看详情", notes = "查看upms详情")
-    @GetMapping("/info/{sysId}")
+    @ApiOperation(value = "查看交接单", notes = "查看交接单")
+    @GetMapping("/info")
     @RequiresPermissions("upms/examHandoverSheet/info")
-    public ResultMap info(@PathVariable("sysId") Integer sysId){
+    public ResultMap info(String orderNo){
         try {
-            ExamHandoverSheet examHandoverSheet = examHandoverSheetService.getById(sysId);
-            return ResultMap.ok().put("examHandoverSheet",examHandoverSheet);
+            List<ExamHandoverSheet> examHandoverSheets = examHandoverSheetService.selectExamHandoverSheet(orderNo);
+            return ResultMap.ok().put("data",examHandoverSheets);
         } catch (Exception e) {
             logger.error(e.getMessage());
             return ResultMap.error("运行异常，请联系管理员");
@@ -73,15 +73,16 @@ public class ExamHandoverSheetController extends BaseController {
     }
 
     /**
-     * 保存
+     * 上传交接单 实为修改操作
      */
-    @ApiOperation(value = "保存")
-    @PostMapping("/save")
-    @RequiresPermissions("upms/examHandoverSheet/save")
-    public ResultMap save(@Valid @RequestBody ExamHandoverSheet examHandoverSheet) {
+    @ApiOperation(value = "上传交接单")
+    @PostMapping("/updateHandoverSheetByOrderNo")
+    @RequiresPermissions("upms/examHandoverSheet/updateHandoverSheetByOrderNo")
+    public ResultMap updateExamHandoverSheetByOrderNo(@RequestBody ExamHandoverSheet examHandoverSheet) {
         try {
-            examHandoverSheetService.save(examHandoverSheet);
-            return ResultMap.ok("添加成功");
+            examHandoverSheet.setHandoverTime(new Date());
+            examHandoverSheetService.updateExamHandoverSheetByOrderNo(examHandoverSheet);
+            return ResultMap.ok("上传成功");
         } catch (Exception e) {
             logger.error(e.getMessage());
             return ResultMap.error("运行异常，请联系管理员");
@@ -107,19 +108,18 @@ public class ExamHandoverSheetController extends BaseController {
     }
 
     /**
-     * 删除
+     * 删除护士端已完成的服务订单
      */
-    @ApiOperation(value = "删除")
+    @ApiOperation(value = "删除订单")
     @PostMapping("/delete")
     @RequiresPermissions("upms/examHandoverSheet/delete")
-    public ResultMap delete(@RequestBody Integer[]sysIds) {
-        try {
-            examHandoverSheetService.removeByIds(Arrays.asList(sysIds));
-            return ResultMap.ok("删除成功！");
-        } catch (Exception e) {
-            logger.error(e.getMessage());
+    public ResultMap delete(String orderNo, int isHandovered) {
+        List<ExamHandoverSheet> examHandoverSheets = examHandoverSheetService.selectExamHandoverSheet(orderNo);
+            if (isHandovered==1&&isHandovered==examHandoverSheets.get(0).getIsHandovered()){
+                examHandoverSheetService.delExamHandoverSheet(orderNo, isHandovered);
+                return ResultMap.ok("删除成功！");
+            }
             return ResultMap.error("运行异常，请联系管理员");
-        }
 
     }
 

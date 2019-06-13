@@ -27,6 +27,17 @@
         <result column="edit_by" property="editBy" />
     </resultMap>
 
+    <resultMap id="NurseOrderList" type="com.annaru.upms.entity.vo.NurseOrderList">
+        <result column="full_name" property="name"/>
+        <result column="gender" property="gender"/>
+        <result column="age" property="age"/>
+        <result column="head_image" property="headImg"/>
+        <result column="appoint_date" property="appointmentDate"/>
+        <result column="amount" property="amount"/>
+        <result column="address" property="address"/>
+        <result column="order_no" property="orderNo"/>
+    </resultMap>
+
     <!-- 多表页面信息查询分页 -->
     <select id="selectDataPage" parameterType="map" resultMap="BaseResultMap">
 
@@ -53,6 +64,52 @@
               edit_by
         FROM
             order_appointment
+    </select>
+
+    <select id="getNurseOrderList" parameterType="map" resultMap="NurseOrderList">
+            SELECT
+            ub.full_name,
+            ub.gender,
+            ub.head_image,
+            oa.is_cancelled,
+            oa.order_no,
+            oa.address,
+            oa.appoint_date,
+            oai.amount,
+            FLOOR(DATEDIFF(now(), ub.date_of_birth)/365.2422) age
+            FROM
+            order_appointment oa
+            LEFT JOIN
+            user_basic ub
+            on oa.user_id = ub.user_id
+            LEFT JOIN
+            order_additional_info oai
+            on oai.order_no = oa.order_no
+            LEFT JOIN
+            exam_handover_sheet ehs
+            on ehs.order_no = oa.order_no
+            where oa.related_no = #{params.nurseNo}
+            <if test="params.status == 0 ">
+            and ehs.person_barcode_confirmed = 0 AND ehs.draw_completed = 0 AND ehs.is_handovered = 0 and oa.is_cancelled = 0
+            </if>
+            <if test="params.status == 1 ">
+            and ehs.person_barcode_confirmed = 1 AND ehs.is_handovered = 0 and oa.is_cancelled = 0
+            </if>
+            <if test="params.status == 2 ">
+            and oa.is_cancelled = 1
+            </if>
+            <if test="params.status == 3 ">
+            and ehs.person_barcode_confirmed = 1 AND ehs.draw_completed = 1 AND ehs.is_handovered = 1 and oa.is_cancelled = 0
+            </if>
+            <if test="params.when == 0 ">
+            AND YEARWEEK(date_format(oa.creation_time,'%Y-%m-%d')) = YEARWEEK(now())
+            </if>
+            <if test="params.when == 1 ">
+            AND DATE_FORMAT(oa.creation_time, '%Y%m' ) = DATE_FORMAT(CURDATE(),'%Y%m')
+            </if>
+            <if test="params.when == 2 ">
+            AND to_days(oa.creation_time) = to_days(now())
+            </if>
     </select>
 
 

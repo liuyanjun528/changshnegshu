@@ -35,4 +35,20 @@ public class ExamHandoverSheetServiceImpl extends ServiceImpl<ExamHandoverSheetM
         return this.baseMapper.updateExamHandoverSheet(examHandoverSheet);
     }
 
+    @Override
+    public int updateExamHandoverSheetByOrderNo(ExamHandoverSheet examHandoverSheet) {
+        return this.baseMapper.updateExamHandoverSheetByOrderNo(examHandoverSheet);
+    }
+
+
+    @Override
+    public List<ExamHandoverSheet> selectExamHandoverSheet(String orderNo) {
+        return this.baseMapper.selectExamHandoverSheet(orderNo);
+    }
+
+    @Override
+    public int delExamHandoverSheet(String orderNo, int isHandovered) {
+        return this.baseMapper.delExamHandoverSheet(orderNo, isHandovered);
+    }
+
 }

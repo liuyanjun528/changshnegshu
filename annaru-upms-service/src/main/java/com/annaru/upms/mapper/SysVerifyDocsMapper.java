@@ -1,6 +1,7 @@
 package com.annaru.upms.mapper;
 
 import com.annaru.upms.entity.SysVerifyDocs;
+import com.annaru.upms.entity.vo.SysVerifyDocsVoZ;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -23,6 +24,20 @@ public interface SysVerifyDocsMapper extends BaseMapper<SysVerifyDocs> {
     * @return
     */
     IPage<SysVerifyDocs> selectDataPage(Page page, @Param("params") Map<String, Object> params);
+
+    /**
+     * 查询护士认证信息
+     * @param userId
+     * @return
+     */
+    SysVerifyDocsVoZ selectVerNurse(@Param("userId") String userId);
+
+    /**
+     * 查询医生认证信息
+     * @param userId
+     * @return
+     */
+    SysVerifyDocsVoZ selectVerDoctor(@Param("userId") String userId);
 
 
 }

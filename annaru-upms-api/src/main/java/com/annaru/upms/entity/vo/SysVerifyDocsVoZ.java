@@ -38,6 +38,7 @@ public class SysVerifyDocsVoZ implements Serializable {
 	 * 用户编号
 	 */
 	@ApiModelProperty(value = "用户编号")
+    @TableField("user_id")
 	private String userId;
 	/**
 	 * 类别(1:护士/2:医生)
@@ -68,22 +69,20 @@ public class SysVerifyDocsVoZ implements Serializable {
 	 * 所属机构医院
 	 */
 	@ApiModelProperty(value = "所属机构医院")
+    @TableField("name")
 	private String belongHospital;
 	/**
 	 * 所属科室
 	 */
 	@ApiModelProperty(value = "所属科室")
+    @TableField("department_name")
 	private String belongOffice;
 	/**
 	 * 职称
 	 */
 	@ApiModelProperty(value = "职称")
+    @TableField("job_title")
 	private String jobTitle;
-	/**
-	 * 职务
-	 */
-	@ApiModelProperty(value = "职务")
-	private String duties;
 	/**
 	 * 手机号
 	 * @return
@@ -108,8 +107,38 @@ public class SysVerifyDocsVoZ implements Serializable {
 	 */
 	@ApiModelProperty(value = "个人简介")
 	private String introductions;
+	/**
+	 * 护士姓名
+	 * @return
+	 */
+	@ApiModelProperty(value = "护士姓名")
+    @TableField("nurse_name")
+	private String nurseName;
+	/**
+	 * 身份证号码
+	 * @return
+	 */
+	@ApiModelProperty(value = "身份证号码")
+    @TableField("id_card_no")
+	private String idCardNo;
 
-    public Integer getSysId() {
+	public String getNurseName() {
+		return nurseName;
+	}
+
+	public void setNurseName(String nurseName) {
+		this.nurseName = nurseName;
+	}
+
+	public String getIdCardNo() {
+		return idCardNo;
+	}
+
+	public void setIdCardNo(String idCardNo) {
+		this.idCardNo = idCardNo;
+	}
+
+	public Integer getSysId() {
         return sysId;
     }
 	public void setSysId(Integer sysId) {
@@ -199,12 +228,7 @@ public class SysVerifyDocsVoZ implements Serializable {
 	public void setIdentification(Integer identification) {
 		this.identification = identification;
 	}
-	public String getDuties() {
-		return duties;
-	}
-	public void setDuties(String duties) {
-		this.duties = duties;
-	}
+
 	public String getBelongHospital() {
 		return belongHospital;
 	}

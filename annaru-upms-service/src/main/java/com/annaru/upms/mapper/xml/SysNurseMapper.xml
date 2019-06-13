@@ -12,7 +12,7 @@
         <result column="head_image" property="headImage" />
         <result column="belong_hospital" property="belongHospital" />
         <result column="belong_office" property="belongOffice" />
-        <result column="introduction" property="introduction" />
+        <result column="introductions" property="introductions" />
         <result column="score" property="score" />
         <result column="focus_on" property="focusOn" />
         <result column="contact_no1" property="contactNo1" />
