@@ -60,9 +60,9 @@
         WHERE order_no=#{orderNo}
     </insert>
 
-    <!--查看交接单 通过订单号和是否完成交接-->
+    <!--查看交接单 通过订单号-->
     <select id="selectExamHandoverSheet" parameterType="map" resultMap="BaseResultMap">
-      select from exam_handover_sheet where order_no=#{orderNo} and is_handovered=#{isHandovered}
+      select sample_code,handover_by,handover_time,images,is_handovered from exam_handover_sheet where order_no=#{orderNo}
     </select>
 
     <!--删除定单通过 是否交接和订单编号-->

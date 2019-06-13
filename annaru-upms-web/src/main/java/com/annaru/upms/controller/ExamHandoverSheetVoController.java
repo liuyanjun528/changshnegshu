@@ -39,9 +39,9 @@ public class ExamHandoverSheetVoController extends BaseController {
      */
     @ApiOperation(value = "查询护士端服务订单详情", notes = "查询护士端服务订单详情")
     @GetMapping("/handoverSheetList")
-    public ResultMap HandoverSheetList(String relatedNo, String userId){
+    public ResultMap HandoverSheetList(String orderNo){
         try {
-            List<ExamHandoverSheetVo> examHandoverSheetVos = examHandoverSheetVoService.selectNurseOrderInfo(relatedNo, userId);
+            List<ExamHandoverSheetVo> examHandoverSheetVos = examHandoverSheetVoService.selectNurseOrderInfo(orderNo);
             return ResultMap.ok().put("data",examHandoverSheetVos);
         } catch (Exception e) {
             logger.error(e.getMessage());
