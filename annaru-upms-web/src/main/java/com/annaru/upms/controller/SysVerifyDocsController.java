@@ -6,7 +6,6 @@ import com.annaru.upms.controllerutil.SysConfigUtil;
 import com.annaru.upms.entity.SysConfig;
 import com.annaru.upms.entity.vo.SysVerifyDocsVoZ;
 import com.annaru.upms.service.ISysConfigService;
-import com.annaru.upms.service.IUserBasicService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import com.alibaba.dubbo.config.annotation.Reference;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +15,6 @@ import io.swagger.annotations.ApiParam;
 
 import com.annaru.common.base.BaseController;
 import com.annaru.common.result.PageUtils;
-import com.annaru.upms.shiro.ShiroKit;
 import com.annaru.common.result.ResultMap;
 
 import com.annaru.upms.entity.SysVerifyDocs;
