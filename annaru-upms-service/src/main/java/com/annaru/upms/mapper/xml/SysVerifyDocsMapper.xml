@@ -13,6 +13,23 @@
         <result column="creation_time" property="creationTime" />
         <result column="create_by" property="createBy" />
     </resultMap>
+
+    <resultMap id="rowVo" type="com.annaru.upms.entity.vo.SysVerifyDocsVoZ" >
+        <result column="user_id" property="userId" />
+        <result column="nurse_name" property="nurseName" />
+        <result column="id_card_no" property="idCardNo" />
+        <result column="name" property="belongHospital" />
+        <result column="department_name" property="belongOffice" />
+        <result column="job_title" property="jobTitle" />
+    </resultMap>
+    <resultMap id="rowVo2" type="com.annaru.upms.entity.vo.SysVerifyDocsVoZ" >
+        <result column="user_id" property="userId" />
+        <result column="doctor_name" property="nurseName" />
+        <result column="id_card_no" property="idCardNo" />
+        <result column="name" property="belongHospital" />
+        <result column="department_name" property="belongOffice" />
+        <result column="job_title" property="jobTitle" />
+    </resultMap>
     
     <sql id="BaseClounmSql">
           sys_id,
@@ -32,6 +49,20 @@
         FROM
             sys_verify_docs
 
+    </select>
+    <select id="selectVerNurse" resultMap="rowVo">
+        select a.nurse_name,b.id_card_no,c.name,d.department_name,a.job_title from sys_nurse a
+        INNER JOIN user_basic b on a.user_id = b.user_id
+        INNER JOIN sys_institution c on a.belong_hospital = c.institution_id
+        INNER JOIN sys_department d on a.belong_office = d.sys_id
+        where a.user_id = #{userId}
+    </select>
+    <select id="selectVerDoctor" resultMap="rowVo2">
+        select a.doctor_name,b.id_card_no,c.name,d.department_name,a.job_title from sys_doctor a
+        INNER JOIN user_basic b on a.user_id = b.user_id
+        INNER JOIN sys_institution c on a.belong_institution = c.institution_id
+        INNER JOIN sys_department d on a.belong_office = d.sys_id
+        where a.user_id = #{userId}
     </select>
 
 </mapper>

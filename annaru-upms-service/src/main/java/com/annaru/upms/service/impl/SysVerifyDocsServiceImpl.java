@@ -15,6 +15,8 @@ import com.annaru.common.result.PageUtils;
 import com.annaru.upms.mapper.SysVerifyDocsMapper;
 import com.annaru.upms.entity.SysVerifyDocs;
 import com.annaru.upms.service.ISysVerifyDocsService;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
@@ -37,6 +39,8 @@ public class SysVerifyDocsServiceImpl extends ServiceImpl<SysVerifyDocsMapper, S
     private ISysNurseService iSysNurseService;
     @Resource
     private ISysVerifyDocsService iSysVerifyDocsService;
+    @Autowired
+    private SysVerifyDocsMapper sysVerifyDocsMapper;
 
     @Override
     public PageUtils getDataPage(Map<String, Object> params){
@@ -98,6 +102,21 @@ public class SysVerifyDocsServiceImpl extends ServiceImpl<SysVerifyDocsMapper, S
         return false;
     }
 
+    @Override
+    public SysVerifyDocsVoZ selectVerNurse(String userId, Integer identification) {
+        if(StringUtils.isNotBlank(userId)){
+            SysVerifyDocsVoZ sysVerifyDocsVoZ = null;
+            if(1 == identification){
+                sysVerifyDocsVoZ = sysVerifyDocsMapper.selectVerNurse(userId);
+            }else if (2 == identification){
+                sysVerifyDocsVoZ = sysVerifyDocsMapper.selectVerDoctor(userId);
+            }
+            if(sysVerifyDocsVoZ != null){
+                return sysVerifyDocsVoZ;
+            }
+        }
+        return new SysVerifyDocsVoZ();
+    }
 }
 
 
