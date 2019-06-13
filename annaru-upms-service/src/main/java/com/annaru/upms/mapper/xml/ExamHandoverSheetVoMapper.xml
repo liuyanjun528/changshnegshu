@@ -48,7 +48,7 @@
         LEFT JOIN order_appointment as oa ON ehs.order_no=oa.order_no
         LEFT JOIN order_main as om ON ehs.order_no=om.order_no
         LEFT JOIN sys_nurse as sn ON oa.related_no=sn.nurse_no
-        WHERE oa.related_no=#{relatedNo} And oa.user_id=#{userId}
+        WHERE ehs.order_no=#{orderNo}
 
     </select>
 

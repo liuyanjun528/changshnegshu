@@ -30,7 +30,7 @@ public interface IExamHandoverSheetService extends IService<ExamHandoverSheet> {
 
 
     /**
-     * @Description:上传交接单
+     * @Description:上传交接单 通过订单编号 实际为修改操作
      * @Author: wh
      * @Date: 2019/6/12 13:06
      */
@@ -41,7 +41,7 @@ public interface IExamHandoverSheetService extends IService<ExamHandoverSheet> {
      * @Author: wh
      * @Date: 2019/6/12 13:06
      */
-    List<ExamHandoverSheet> selectExamHandoverSheet(ExamHandoverSheet examHandoverSheet);
+    List<ExamHandoverSheet> selectExamHandoverSheet(String orderNo);
 
     /**
      * @Description:删除定单通过 是否交接和订单编号

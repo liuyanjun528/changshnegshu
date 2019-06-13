@@ -16,11 +16,11 @@ public interface ExamHandoverSheetVoMapper extends BaseMapper<ExamHandoverSheetV
 
 /**
   * @Description:
-  * @Param: relatedNo 护士编号 userId 用户编号
+  * @Param: orderNo订单编号
   * @Author: wh
   * @Date: 2019/6/10 16:52
   */
-    List<ExamHandoverSheetVo> selectNurseOrderInfo(@Param("relatedNo") String relatedNo,@Param("userId") String userId);
+    List<ExamHandoverSheetVo> selectNurseOrderInfo(@Param("orderNo") String orderNo);
 
 
 }

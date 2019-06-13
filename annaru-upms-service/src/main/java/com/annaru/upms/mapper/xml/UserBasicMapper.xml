@@ -153,11 +153,16 @@
         <result column="head_image" property="headImage" />
         <result column="belong_hospital" property="belongHospital" />
         <result column="belong_office" property="belongOffice" />
-        <result column="introduction" property="introduction" />
         <result column="score" property="score" />
         <result column="focus_on" property="focusOn" />
         <result column="contact_no1" property="contactNo1" />
         <result column="contact_no2" property="contactNo2" />
+        <result column="is_verified" property="isVerified" />
+        <result column="is_approved" property="isApproved" />
+        <result column="job_title" property="jobTitle" />
+        <result column="duties" property="duties" />
+        <result column="introductions" property="introductions" />
+        <result column="is_verified" property="isVerified" />
         <result column="is_approved" property="isApproved" />
         <result column="approve_time" property="approveTime" />
         <result column="creation_time" property="creationTime" />
@@ -340,7 +345,6 @@
 
         si.name siName,
         sd.department_name departmentName,
-            introduction,
             score,
             focus_on,
             contact_no1,
