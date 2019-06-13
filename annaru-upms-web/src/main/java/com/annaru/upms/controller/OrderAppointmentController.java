@@ -321,14 +321,18 @@ public class OrderAppointmentController extends BaseController {
     @ApiOperation(value = "护士订单列表")
     @GetMapping("/nurseOrderList")
     @RequiresPermissions("upms/orderAppointment/nurseOrderList")
-    public ResultMap nurseOrderList(@ApiParam(value = "护士编号")@RequestParam String nurseNo,
+    public ResultMap nurseOrderList(@ApiParam(value = "当前页")@RequestParam(defaultValue="1") int page,
+                                    @ApiParam(value = "每页数量")@RequestParam(defaultValue = "10") int limit,
+                                    @ApiParam(value = "护士编号")@RequestParam String nurseNo,
                                     @ApiParam(value = "订单状态")@RequestParam String status,
                                     @ApiParam(value = "时间区间")@RequestParam(required = false)Integer when){
         Map<String, Object> params = new HashMap<>();
         params.put("nurseNo",nurseNo);
         params.put("status",status);
         params.put("when",when);
-        List<NurseOrderList> nurseOrderLists = orderAppointmentService.getNurseOrderList(params);
+        params.put("page",page);
+        params.put("limit", limit);
+        PageUtils<Map<String, Object>> nurseOrderLists = orderAppointmentService.getNurseOrderList(params);
         return ResultMap.ok().put("data",nurseOrderLists);
     }
 
