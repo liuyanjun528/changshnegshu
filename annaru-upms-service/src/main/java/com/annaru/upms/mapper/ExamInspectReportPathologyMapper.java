@@ -24,4 +24,13 @@ public interface ExamInspectReportPathologyMapper extends BaseMapper<ExamInspect
      * @return
      */
     List<ExamInspectReportPathology> selectByInspectReportId(@Param("inspectReportId")String inspectReportId);
+
+    /**
+     * @Description: 分页查询
+     * @param params
+     * @Author: XCK
+     * @Date: 2019/6/13
+     * @return
+     */
+    IPage<ExamInspectReportPathology> selectDataPage(Page<ExamInspectReportPathology> page, @Param("params")Map<String, Object> params);
 }

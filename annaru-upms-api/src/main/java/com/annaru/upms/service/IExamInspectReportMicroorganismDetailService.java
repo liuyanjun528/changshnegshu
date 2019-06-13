@@ -15,6 +15,15 @@ import java.util.Map;
 public interface IExamInspectReportMicroorganismDetailService extends IService<ExamInspectReportMicroorganismDetail> {
 
     /**
+     * @Description: 分页查询
+     * @param params
+     * @Author: XCK
+     * @Date: 2019/6/13
+     * @return 
+     */
+    PageUtils<ExamInspectReportMicroorganismDetail> getDataPage(Map<String, Object> params);
+
+    /**
      * @Description: 根据 微生物报告ID 获取所有 检查报告结果4_微生物药敏结果
      * @param  microorganismId 微生物报告ID
      * @Author: XCK
@@ -22,5 +31,6 @@ public interface IExamInspectReportMicroorganismDetailService extends IService<E
      * @return
      */
     List<ExamInspectReportMicroorganismDetail> getByMicroorganismId(String microorganismId);
+
 }
 

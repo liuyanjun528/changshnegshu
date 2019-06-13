@@ -15,6 +15,15 @@ import java.util.Map;
 public interface IExamInspectReportPathologyDetailService extends IService<ExamInspectReportPathologyDetail> {
 
     /**
+     * @Description: 分页查询
+     * @param params
+     * @Author: XCK
+     * @Date: 2019/6/13
+     * @return 
+     */
+    PageUtils<ExamInspectReportPathologyDetail> getDataPage(Map<String, Object> params);
+
+    /**
      * @Description: 根据 病理报告ID 获取所有 检查报告结果2_病理项目明细结果
      * @param  pathologyId 病理报告ID
      * @Author: XCK
@@ -22,5 +31,7 @@ public interface IExamInspectReportPathologyDetailService extends IService<ExamI
      * @return
      */
     List<ExamInspectReportPathologyDetail> getByPathologyId(String pathologyId);
+
+
 }
 
