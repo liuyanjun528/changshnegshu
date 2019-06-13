@@ -324,7 +324,7 @@ public class OrderAppointmentController extends BaseController {
     public ResultMap nurseOrderList(@ApiParam(value = "当前页")@RequestParam(defaultValue="1") int page,
                                     @ApiParam(value = "每页数量")@RequestParam(defaultValue = "10") int limit,
                                     @ApiParam(value = "护士编号")@RequestParam String nurseNo,
-                                    @ApiParam(value = "订单状态")@RequestParam String status,
+                                    @ApiParam(value = "订单状态")@RequestParam Integer status,
                                     @ApiParam(value = "时间区间")@RequestParam(required = false)Integer when){
         Map<String, Object> params = new HashMap<>();
         params.put("nurseNo",nurseNo);
