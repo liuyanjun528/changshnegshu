@@ -60,6 +60,7 @@ public class SysVerifyDocsServiceImpl extends ServiceImpl<SysVerifyDocsMapper, S
              sysDoctor.setBelongInstitution(sysVerifyDocsVoZ.getBelongHospital());
              sysDoctor.setBelongOffice(sysVerifyDocsVoZ.getBelongOffice());
              sysDoctor.setJobTitle(sysVerifyDocsVoZ.getJobTitle());
+//             sysDoctor.setDuties(sysVerifyDocsVoZ.getDuties());
              sysDoctor.setIntroductions(sysVerifyDocsVoZ.getIntroductions());
              sysDoctor.setCreationTime(new Date());
              if (iSysDoctorService.save(sysDoctor)){
@@ -72,6 +73,7 @@ public class SysVerifyDocsServiceImpl extends ServiceImpl<SysVerifyDocsMapper, S
              sysNurse.setBelongHospital(sysVerifyDocsVoZ.getBelongHospital());
              sysNurse.setBelongOffice(sysVerifyDocsVoZ.getBelongOffice());
              sysNurse.setJobTitle(sysVerifyDocsVoZ.getJobTitle());
+//             sysNurse.setDuties(sysVerifyDocsVoZ.getDuties());
              sysNurse.setIntroductions(sysVerifyDocsVoZ.getIntroductions());
              sysNurse.setCreationTime(new Date());
              if (iSysNurseService.save(sysNurse)){
