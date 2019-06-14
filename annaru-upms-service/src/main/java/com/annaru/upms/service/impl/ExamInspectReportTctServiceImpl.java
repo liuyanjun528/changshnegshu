@@ -1,15 +1,13 @@
 package com.annaru.upms.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.annaru.common.result.PageUtils;
+import com.annaru.upms.entity.ExamInspectReportTct;
+import com.annaru.upms.mapper.ExamInspectReportTctMapper;
+import com.annaru.upms.service.IExamInspectReportTctService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.alibaba.dubbo.config.annotation.Reference;
-import com.annaru.common.result.PageUtils;
-
-import com.annaru.upms.mapper.ExamInspectReportTctMapper;
-import com.annaru.upms.entity.ExamInspectReportTct;
-import com.annaru.upms.service.IExamInspectReportTctService;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -25,6 +23,13 @@ import java.util.Map;
  */
 @Service
 public class ExamInspectReportTctServiceImpl extends ServiceImpl<ExamInspectReportTctMapper, ExamInspectReportTct> implements IExamInspectReportTctService {
+
+    @Override
+    public PageUtils<ExamInspectReportTct> getDataPage(Map<String, Object> params) {
+        Page<ExamInspectReportTct> page = new PageUtils<ExamInspectReportTct>(params).getPage();
+        IPage<ExamInspectReportTct> iPage = this.baseMapper.selectDataPage(page, params);
+        return new PageUtils(iPage);
+    }
 
     @Override
     public List<ExamInspectReportTct> getByInspectReportId(String inspectReportId) {

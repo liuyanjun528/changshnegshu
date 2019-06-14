@@ -53,7 +53,7 @@ public class SysUserController extends BaseController {
         }
         PageUtils page = sysUserService.selectDataGrid(params);
 
-        return ResultMap.ok().put("data", page);
+        return ResultMap.ok().put("page", page);
     }
 
     /**

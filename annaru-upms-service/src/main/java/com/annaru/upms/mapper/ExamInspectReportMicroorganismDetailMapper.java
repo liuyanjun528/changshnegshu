@@ -17,5 +17,21 @@ import java.util.Map;
 public interface ExamInspectReportMicroorganismDetailMapper extends BaseMapper<ExamInspectReportMicroorganismDetail> {
 
 
+    /**
+     * @Description: 根据微生物报告ID获取所有详细报告
+     * @param microorganismId
+     * @Author: XCK
+     * @Date: 2019/6/13
+     * @return 
+     */
     List<ExamInspectReportMicroorganismDetail> selectByMicroorganismId(@Param("microorganismId")String microorganismId);
+
+    /**
+     * @Description: 分页查询
+     * @param params
+     * @Author: XCK
+     * @Date: 2019/6/13
+     * @return 
+     */
+    IPage<ExamInspectReportMicroorganismDetail> selectDataPage(Page<ExamInspectReportMicroorganismDetail> page, @Param("params")Map<String, Object> params);
 }

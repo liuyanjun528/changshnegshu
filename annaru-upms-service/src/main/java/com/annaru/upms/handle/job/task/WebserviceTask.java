@@ -55,9 +55,17 @@ public class WebserviceTask {
         for (ExamInspectReportList reportTemp : reportTemps) {
             // 下载体检报告
             String reportno = reportTemp.getREPORTNO();
-            if(StringUtils.isBlank(reportno)) continue;
+
+            if(StringUtils.isBlank(reportno)){
+                continue;
+            }
+
             List<ExamInspectReport> reportList = LisWebServiceSoap12_Client.downLoadResult(reportno, "", "", "", "", "");
-            if(CollectionUtils.isEmpty(reportList)) continue;
+
+            if(CollectionUtils.isEmpty(reportList)){
+                continue;
+            }
+
             for (ExamInspectReport report : reportList) {
                 // 保存检查结果
                 boolean bool = examInspectReportService.saveInspectReport(report);

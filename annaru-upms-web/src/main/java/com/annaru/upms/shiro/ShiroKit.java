@@ -7,8 +7,6 @@ import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 
-import java.util.List;
-
 
 /**
  * @author TuMinglong
@@ -69,7 +67,6 @@ public class ShiroKit {
             return null;
         } else {
             return JacksonUtils.toObject(getSubject().getPrincipals().getPrimaryPrincipal().toString(), ShiroUser.class);
-
         }
     }
 
