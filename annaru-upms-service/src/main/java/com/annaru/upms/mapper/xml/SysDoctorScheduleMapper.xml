@@ -6,7 +6,8 @@
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.annaru.upms.entity.SysDoctorSchedule" >
         <result column="sys_id" property="sysId" />
-        <result column="doctor_no" property="doctorNo" />
+        <result column="doctor_nurse_no" property="doctorNurseNo" />
+        <result column="user_cates" property="userCates" />
         <result column="date_from" property="dateFrom" />
         <result column="date_to" property="dateTo" />
         <result column="time_from" property="timeFrom" />
@@ -20,7 +21,8 @@
     <select id="selectDataPage" parameterType="map" resultMap="BaseResultMap">
         SELECT
         sys_id,
-        doctor_no,
+        user_cates,
+        doctor_nurse_no,
         date_from,
         date_to,
         time_from,
@@ -31,14 +33,12 @@
         FROM
         sys_doctor_schedule
         WHERE
-        <if test="params.key != null and params.key != ''">
-            AND key LIKE CONCAT('%', #{params.key}, '%')
+        1=1
+        <if test="params.doctorNurseNo != null and params.doctorNurseNo != ''">
+            AND doctor_nurse_no LIKE CONCAT('%', #{params.doctorNurseNo}, '%')
         </if>
     </select>
 
-    <update id="updateActive" parameterType="map">
-
-    </update>
 
     <select id="getDocSchedule" parameterType="map" resultMap="BaseResultMap">
         select sds.date_from,sds.date_to,sds.time_from,sds.time_to,sdo.is_active
@@ -47,10 +47,27 @@
         on sds.date_from = sdo.appoint_date
         where
         sds.is_active = 1
-        <if test="params.doctorNo != null and params.doctorNo != ''">
-            and doctor_no = #{params.doctorNo}
+        <if test="params.doctorNurseNo != null and params.doctorNurseNo != ''">
+            and doctor_nurse_no = #{params.doctorNurseNo}
         </if>
         order by sds.time_to
     </select>
+
+    <!-- 医护端护士的排班-->
+    <select id="selectDoctorScheduleList" parameterType="map" resultMap="BaseResultMap">
+      SELECT
+			date_from,-- 开始日期
+			date_to, -- 结束日期
+			time_from, --  开始时间
+			time_to,	-- 结束时间
+			is_active -- 是否排班
+      FROM
+		    sys_doctor_nurse_schedule
+      WHERE
+	        date_format(date_from,'%Y-%m')=date_format(#{dateFrom},'%Y-%m')
+	  AND
+	        doctor_nurse_no=#{doctorNurseNo}
+    </select>
+
 
 </mapper>

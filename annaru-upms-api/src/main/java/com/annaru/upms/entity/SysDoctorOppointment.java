@@ -20,7 +20,7 @@ import java.util.Date;
  * @date 2019-05-22 19:26:34
  */
 @ApiModel(value = "家庭医生预约记录")
-@TableName("sys_doctor_oppointment")
+@TableName("sys_doctor_nurse_oppointment")
 public class SysDoctorOppointment extends Model<SysDoctorOppointment> implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -36,11 +36,20 @@ public class SysDoctorOppointment extends Model<SysDoctorOppointment> implements
     @ApiModelProperty(value = "用户编号")
 	@TableField("user_id")
 	private String userId;
+
+	/**
+	 * 类别(1:护士/2:医生)
+	 */
+	@ApiModelProperty(value = "类别")
+	@TableField("user_cate")
+	private String userCate;
+
+
 	/**
 	 * 类别：
-1:一般体检预约(C端) 
-2:进阶体检预约(C端) 
-3:分布式体检预约(B端) 
+1:一般体检预约(C端)
+2:进阶体检预约(C端)
+3:分布式体检预约(B端)
 4:进阶体检预约(B端)
 5:家庭医生
 6.门诊绿通预约
@@ -48,12 +57,14 @@ public class SysDoctorOppointment extends Model<SysDoctorOppointment> implements
     @ApiModelProperty(value = "类别： 1:一般体检预约(C端) 2:进阶体检预约(C端) 3:分布式体检预约(B端) 4:进阶体检预约(B端) 5:家庭医生 6.门诊绿通预约")
 	@TableField("appointment_cates")
 	private Integer appointmentCates;
+
 	/**
 	 * 医生编号
 	 */
-    @ApiModelProperty(value = "医生编号")
-	@TableField("related_no")
-	private String relatedNo;
+    @ApiModelProperty(value = "医生/护士编号")
+	@TableField("doctor_nurse_no")
+	private String doctorNurseNo;
+
 	/**
 	 * 预约日期
 	 */
@@ -129,9 +140,9 @@ public class SysDoctorOppointment extends Model<SysDoctorOppointment> implements
 	}
     /**
      * 获取：类别：
-1:一般体检预约(C端) 
-2:进阶体检预约(C端) 
-3:分布式体检预约(B端) 
+1:一般体检预约(C端)
+2:进阶体检预约(C端)
+3:分布式体检预约(B端)
 4:进阶体检预约(B端)
 5:家庭医生
 6.门诊绿通预约
@@ -141,9 +152,9 @@ public class SysDoctorOppointment extends Model<SysDoctorOppointment> implements
     }
 	/**
 	 * 设置：类别：
-1:一般体检预约(C端) 
-2:进阶体检预约(C端) 
-3:分布式体检预约(B端) 
+1:一般体检预约(C端)
+2:进阶体检预约(C端)
+3:分布式体检预约(B端)
 4:进阶体检预约(B端)
 5:家庭医生
 6.门诊绿通预约
@@ -151,19 +162,24 @@ public class SysDoctorOppointment extends Model<SysDoctorOppointment> implements
 	public void setAppointmentCates(Integer appointmentCates) {
 		this.appointmentCates = appointmentCates;
 	}
-    /**
-     * 获取：医生编号
-     */
-    public String getRelatedNo() {
-        return relatedNo;
-    }
-	/**
-	 * 设置：医生编号
-	 */
-	public void setRelatedNo(String relatedNo) {
-		this.relatedNo = relatedNo;
+
+	public String getUserCate() {
+		return userCate;
 	}
-    /**
+
+	public void setUserCate(String userCate) {
+		this.userCate = userCate;
+	}
+
+	public String getDoctorNurseNo() {
+		return doctorNurseNo;
+	}
+
+	public void setDoctorNurseNo(String doctorNurseNo) {
+		this.doctorNurseNo = doctorNurseNo;
+	}
+
+	/**
      * 获取：预约日期
      */
     public Date getAppointDate() {
