@@ -14,10 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 /**
@@ -53,30 +50,25 @@ public class SysDoctorScheduleController extends BaseController {
 
 
     /**
-     * 信息
+     * 医护端 护士的排班
      */
-    @ApiOperation(value = "查看详情", notes = "查看upms详情")
-    @GetMapping("/info/{doctorNo}")
-    @RequiresPermissions("upms/sysDoctorSchedule/info")
-    public ResultMap info(@PathVariable("doctorNo") String doctorNo){
-        Map<String,Object> params = new HashMap<>();
-        params.put("doctorNo",doctorNo);
-        List<SysDoctorSchedule> sysDoctorSchedule = sysDoctorScheduleService.getDocSchedule(params);
+    @ApiOperation(value = "护士的排班", notes = "护士的排班")
+    @GetMapping("/nurseListInfo")
+    @RequiresPermissions("upms/sysDoctorSchedule/nurseListInfo")
+    public ResultMap info(Date dateFrom, String doctorNurseNo){
+        List<SysDoctorSchedule> sysDoctorSchedule = sysDoctorScheduleService.selectDoctorScheduleList(dateFrom, doctorNurseNo);
         return ResultMap.ok().put("data",sysDoctorSchedule);
     }
 
     /**
-     * 保存
+     * 添加护士的排班
      */
-    @ApiOperation(value = "保存")
+    @ApiOperation(value = "添加护士的排班")
     @PostMapping("/save")
     @RequiresPermissions("upms/sysDoctorSchedule/save")
     public ResultMap save(@Valid @RequestBody SysDoctorSchedule sysDoctorSchedule) {
         try {
-
-//            sysDoctorSchedule.setCreateUser(ShiroKit.getUser().getId());
-//            sysDoctorSchedule.setCreateTime(new Date());
-//            sysDoctorSchedule.setUpdateTime(new Date());
+            sysDoctorSchedule.setCreationTime(new Date());
             sysDoctorScheduleService.save(sysDoctorSchedule);
             return ResultMap.ok("添加成功");
         } catch (Exception e) {
@@ -86,16 +78,15 @@ public class SysDoctorScheduleController extends BaseController {
     }
 
     /**
-     * 修改
+     * 删除护士的排班---实为-->修改
      */
-    @ApiOperation(value = "修改")
+    @ApiOperation(value = "删除护士的排班")
     @PostMapping("/update")
     @RequiresPermissions("upms/sysDoctorSchedule/update")
     public ResultMap update(@Valid @RequestBody SysDoctorSchedule sysDoctorSchedule) {
         try {
-//            sysDoctorSchedule.setUpdateTime(new Date());
             sysDoctorScheduleService.updateById(sysDoctorSchedule);
-            return ResultMap.ok("修改成功");
+            return ResultMap.ok("删除成功");
         } catch (Exception e) {
             logger.error(e.getMessage());
             return ResultMap.error("运行异常，请联系管理员");
@@ -103,21 +94,5 @@ public class SysDoctorScheduleController extends BaseController {
 
     }
 
-    /**
-     * 删除
-     */
-    @ApiOperation(value = "删除")
-    @PostMapping("/delete")
-    @RequiresPermissions("upms/sysDoctorSchedule/delete")
-    public ResultMap delete(@RequestBody Integer[]sysIds) {
-        try {
-            sysDoctorScheduleService.removeByIds(Arrays.asList(sysIds));
-            return ResultMap.ok("删除成功！");
-        } catch (Exception e) {
-            logger.error(e.getMessage());
-            return ResultMap.error("运行异常，请联系管理员");
-        }
-
-    }
 
 }
