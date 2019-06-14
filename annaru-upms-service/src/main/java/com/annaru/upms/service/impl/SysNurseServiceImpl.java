@@ -27,4 +27,9 @@ public class SysNurseServiceImpl extends ServiceImpl<SysNurseMapper, SysNurse> i
         return new PageUtils<SysNurse>(iPage);
     }
 
+    @Override
+    public SysNurse getOne(Map<String, Object> params) {
+        return this.baseMapper.getOne(params);
+    }
+
 }

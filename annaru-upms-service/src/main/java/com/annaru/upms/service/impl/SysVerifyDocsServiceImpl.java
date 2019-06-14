@@ -58,9 +58,8 @@ public class SysVerifyDocsServiceImpl extends ServiceImpl<SysVerifyDocsMapper, S
              sysDoctor.setDoctorNo(sysVerifyDocsVoZ.getUserNo());
              sysDoctor.setUserId(sysVerifyDocsVoZ.getUserId());
              sysDoctor.setBelongInstitution(sysVerifyDocsVoZ.getBelongHospital());
-             sysDoctor.setBelongOffice(sysVerifyDocsVoZ.getBelongOffice());
+             sysDoctor.setBelongOffice(sysVerifyDocsVoZ.getBelongOffice().toString());
              sysDoctor.setJobTitle(sysVerifyDocsVoZ.getJobTitle());
-//             sysDoctor.setDuties(sysVerifyDocsVoZ.getDuties());
              sysDoctor.setIntroductions(sysVerifyDocsVoZ.getIntroductions());
              sysDoctor.setCreationTime(new Date());
              if (iSysDoctorService.save(sysDoctor)){
@@ -71,9 +70,8 @@ public class SysVerifyDocsServiceImpl extends ServiceImpl<SysVerifyDocsMapper, S
              sysNurse.setNurseNo(sysVerifyDocsVoZ.getUserNo());
              sysNurse.setUserId(sysVerifyDocsVoZ.getUserId());
              sysNurse.setBelongHospital(sysVerifyDocsVoZ.getBelongHospital());
-             sysNurse.setBelongOffice(sysVerifyDocsVoZ.getBelongOffice());
+             sysNurse.setBelongOffice(sysVerifyDocsVoZ.getBelongOffice().toString());
              sysNurse.setJobTitle(sysVerifyDocsVoZ.getJobTitle());
-//             sysNurse.setDuties(sysVerifyDocsVoZ.getDuties());
              sysNurse.setIntroductions(sysVerifyDocsVoZ.getIntroductions());
              sysNurse.setCreationTime(new Date());
              if (iSysNurseService.save(sysNurse)){
