@@ -104,7 +104,7 @@
                 AND exe_barcode = #{params.exeBarcode}
             </if>
             <if test="params.reportType != null and params.reportType != '' ">
-                AND report_type = #{params.reportType}
+                AND BGLX = #{params.reportType}
             </if>
         </where>
     </select>
@@ -119,7 +119,7 @@
                 byh = #{params.byh}
             </if>
             <if test="params.reportType != null and params.reportType != '' ">
-                AND report_type = #{params.reportType}
+                AND BGLX = #{params.reportType}
             </if>
         </where>
     </select>

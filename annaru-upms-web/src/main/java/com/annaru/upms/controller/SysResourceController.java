@@ -41,7 +41,7 @@ public class SysResourceController extends BaseController {
         String userId= ShiroKit.getUser().getId();
         List<SysResource> menuList = sysResourceService.selectUserResourceListByUserId(userId);
         Set<String> permissions =sysUserService.selectUserPermissions(userId);
-        return ResultMap.ok().put("data", menuList).put("permissions", permissions);
+        return ResultMap.ok().put("menuList", menuList).put("permissions", permissions);
     }
 
     /**
@@ -70,7 +70,7 @@ public class SysResourceController extends BaseController {
     @RequiresPermissions("sys/menu/info")
     public ResultMap info(@PathVariable("menuId") String menuId){
         SysResource sysResource = sysResourceService.getById(menuId);
-        return ResultMap.ok().put("data", sysResource);
+        return ResultMap.ok().put("menu", sysResource);
     }
 
     /**
@@ -138,7 +138,7 @@ public class SysResourceController extends BaseController {
         root.setParentId(0L);
         root.setOpen(true);
         menuList.add(root);
-        return ResultMap.ok().put("data", menuList);
+        return ResultMap.ok().put("menuList", menuList);
     }
 
     /**
