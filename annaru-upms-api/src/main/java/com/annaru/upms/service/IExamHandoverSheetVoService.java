@@ -19,7 +19,7 @@ public interface IExamHandoverSheetVoService extends IService<ExamHandoverSheetV
      * @Author: wh
      * @Date: 2019/6/10 16:52
      */
-    List<ExamHandoverSheetVo> selectNurseOrderInfo(String orderNo);
+    ExamHandoverSheetVo selectNurseOrderInfo(String orderNo);
 
 }
 

@@ -105,6 +105,19 @@ public class OrderAppointmentController extends BaseController {
     }
 
 
+
+    /**
+     * 待确认患者列表
+     */
+    @ApiOperation(value = "待确认患者列表", notes = "待确认患者列表")
+    @GetMapping("/selectListInfo")
+    @RequiresPermissions("upms/orderAppointment/selectListInfo")
+    public ResultMap selectListInfo(String relatedNo, int status){
+        List<OrderAppointmentDoctorVo> orderAppointmentDoctorVos = orderAppointmentService.selectList(relatedNo, status);
+        return ResultMap.ok().put("data",orderAppointmentDoctorVos);
+    }
+
+
     /**
      * 信息
      */
