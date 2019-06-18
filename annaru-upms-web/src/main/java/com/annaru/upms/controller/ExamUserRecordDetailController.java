@@ -3,7 +3,9 @@ package com.annaru.upms.controller;
 import java.util.*;
 
 import com.annaru.upms.entity.ExamUserRecordMain;
+import com.annaru.upms.entity.vo.ExamUserRecordDetailVoSaveZ;
 import com.annaru.upms.service.IExamUserRecordMainService;
+import jodd.util.StringUtil;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import com.alibaba.dubbo.config.annotation.Reference;
 import org.springframework.web.bind.annotation.*;
@@ -85,8 +87,8 @@ public class ExamUserRecordDetailController extends BaseController {
     @ApiOperation(value = "检测数据登记查询", notes = "检测数据登记查询")
     @GetMapping("/selectRecordDetail")
     @RequiresPermissions("upms/examUserHealthyAppraisal/selectRecordDetail")
-    public ResultMap selectRecordDetail(@PathVariable("orderNo") String orderNo,
-                                      @PathVariable("userId") String userId){
+    public ResultMap selectRecordDetail(@RequestParam("orderNo") String orderNo,
+                                        @RequestParam("userId") String userId){
         try {
             ExamUserRecordMain examUserRecordMain = new ExamUserRecordMain();
             examUserRecordMain.setOrderNo(orderNo);
@@ -111,20 +113,18 @@ public class ExamUserRecordDetailController extends BaseController {
      * @date 2019-6-17
      */
     @ApiOperation(value = "检测数据登记保存", notes = "检测数据登记保存")
-    @GetMapping("/recordDetailSave")
+    @PostMapping("/recordDetailSave")
     @RequiresPermissions("upms/examUserHealthyAppraisal/recordDetailSave")
-    public ResultMap recordDetailSave(@PathVariable("orderNo") String orderNo,
-                                      @PathVariable("userId") String userId,
-                                      List<ExamUserRecordDetail> userRecordDetailList){
+    public ResultMap recordDetailSave(@RequestBody ExamUserRecordDetailVoSaveZ examUserRecordDetailVoSaveZ){
         try {
             ExamUserRecordMain examUserRecordMain = new ExamUserRecordMain();
-            examUserRecordMain.setOrderNo(orderNo);
-            examUserRecordMain.setUserId(userId);
+            examUserRecordMain.setOrderNo(examUserRecordDetailVoSaveZ.getOrderNo());
+            examUserRecordMain.setUserId(examUserRecordDetailVoSaveZ.getUserId());
             ExamUserRecordMain examUserRecordMainIf = examUserRecordMainService.getOneByExamUserRecordMain(examUserRecordMain);
             if (examUserRecordMainIf != null) {
                 return ResultMap.error("此用户订单的数据登记已存在！");
             }
-            if (examUserRecordDetailService.recordDetailSave(orderNo, userId, userRecordDetailList)){
+            if (examUserRecordDetailService.recordDetailSave(examUserRecordDetailVoSaveZ.getOrderNo(), examUserRecordDetailVoSaveZ.getUserId(), examUserRecordDetailVoSaveZ.getExamUserRecordDetailList())){
                 return ResultMap.error("添加成功");
             }
             return ResultMap.error("运行异常，请联系管理员");

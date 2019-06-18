@@ -2,6 +2,8 @@ package com.annaru.upms.controller;
 
 import java.util.*;
 
+import com.annaru.upms.entity.ExamUserRecordMain;
+import com.annaru.upms.service.IExamUserRecordMainService;
 import jodd.util.StringUtil;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import com.alibaba.dubbo.config.annotation.Reference;
@@ -12,7 +14,6 @@ import io.swagger.annotations.ApiParam;
 
 import com.annaru.common.base.BaseController;
 import com.annaru.common.result.PageUtils;
-import com.annaru.upms.shiro.ShiroKit;
 import com.annaru.common.result.ResultMap;
 
 import com.annaru.upms.entity.ExamUserHealthyAppraisal;
@@ -33,6 +34,8 @@ import javax.validation.Valid;
 public class ExamUserHealthyAppraisalController extends BaseController {
     @Reference
     private IExamUserHealthyAppraisalService examUserHealthyAppraisalService;
+    @Reference
+    private IExamUserRecordMainService examUserRecordMainService;
 
     /**
      * 列表
@@ -57,43 +60,123 @@ public class ExamUserHealthyAppraisalController extends BaseController {
     }
 
     /**
-     * @description 健康评估
+     * @description 健康评估保存
      * @author zk
-     * @date 2019-6-17 13:39
+     * @date 2019-6-18
      */
-    @ApiOperation(value = "健康评估", notes = "健康评估")
-    @GetMapping("/healthyAppraisal")
-    @RequiresPermissions("upms/examUserHealthyAppraisal/healthyAppraisal")
-    public ResultMap healthyAppraisal(@PathVariable("userCate") Integer userCate,
-                                      @PathVariable("orderNo") String orderNo,
-                                      @PathVariable("userId") String userId){
+    @ApiOperation(value = "健康评估保存", notes = "健康评估保存")
+    @PostMapping("/info/saveExamUserHealthyAppraisal")
+    @RequiresPermissions("upms/examUserHealthyAppraisal/saveExamUserHealthyAppraisal")
+    public ResultMap saveExamUserHealthyAppraisal(@RequestBody ExamUserHealthyAppraisal examUserHealthyAppraisal){
         try {
-//            ExamUserHealthyAppraisal examUserHealthyAppraisal = examUserHealthyAppraisalService.getById(sysId);
-//            return ResultMap.ok().put("examUserHealthyAppraisal",examUserHealthyAppraisal);
 
-            return null;
+            if (examUserHealthyAppraisal == null || StringUtil.isBlank(examUserHealthyAppraisal.getOrderNo()) || StringUtil.isBlank(examUserHealthyAppraisal.getUserId())){
+                return ResultMap.error("参数不能为空！");
+            }
+            ExamUserHealthyAppraisal examUserHealthyAppraisal1 = examUserHealthyAppraisalService.getOneByExamUserHealthyAppraisal(examUserHealthyAppraisal);
+            if (examUserHealthyAppraisal1 != null){
+                return ResultMap.error("该订单编号和用户已存在！");
+            }
+            if (examUserHealthyAppraisalService.save(examUserHealthyAppraisal)){
+                return ResultMap.ok("添加成功！");
+            }
+            return ResultMap.error("运行异常，请联系管理员");
         } catch (Exception e) {
             logger.error(e.getMessage());
             return ResultMap.error("运行异常，请联系管理员");
         }
     }
 
-
     /**
-     * @description 健康评估保存
+     * @description 健康评估查看
      * @author zk
      * @date 2019-6-18
      */
-    @ApiOperation(value = "健康评估保存", notes = "健康评估保存")
-    @GetMapping("/info/saveExamUserHealthyAppraisal")
-    @RequiresPermissions("upms/examUserHealthyAppraisal/saveExamUserHealthyAppraisal")
-    public ResultMap saveExamUserHealthyAppraisal(ExamUserHealthyAppraisal examUserHealthyAppraisal){
+    @ApiOperation(value = "健康评估查看", notes = "健康评估查看")
+    @GetMapping("/info/getExamUserHealthyAppraisal")
+    @RequiresPermissions("upms/examUserHealthyAppraisal/getExamUserHealthyAppraisal")
+    public ResultMap getExamUserHealthyAppraisal(@RequestParam("orderNo") String orderNo,
+                                                 @RequestParam("userId") String userId){
         try {
+            ExamUserHealthyAppraisal examUserHealthyAppraisal = new ExamUserHealthyAppraisal();
+            examUserHealthyAppraisal.setOrderNo(orderNo);
+            examUserHealthyAppraisal.setUserId(userId);
+            return ResultMap.ok().put("data", examUserHealthyAppraisalService.getOneByExamUserHealthyAppraisal(examUserHealthyAppraisal));
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return ResultMap.error("运行异常，请联系管理员");
+        }
+    }
 
-            if (examUserHealthyAppraisal == null && StringUtil.isBlank(examUserHealthyAppraisal.getOrderNo()) ){
-
+    /**
+     * @description 健康评估提交
+     * @author zk
+     * @date 2019-6-18
+     */
+    @ApiOperation(value = "健康评估提交", notes = "健康评估提交")
+    @PostMapping("/info/submitExamUserHealthyAppraisal")
+    @RequiresPermissions("upms/examUserHealthyAppraisal/submitExamUserHealthyAppraisal")
+    public ResultMap submitExamUserHealthyAppraisal(@RequestParam("orderNo") String orderNo,
+                                                    @RequestParam("userId") String userId,
+                                                    @RequestParam("submitBy") String submitBy){
+        try {
+            ExamUserRecordMain examUserRecordMain = new ExamUserRecordMain();
+            examUserRecordMain.setOrderNo(orderNo);
+            examUserRecordMain.setUserId(userId);
+            ExamUserRecordMain examUserRecordMainIf = examUserRecordMainService.getOneByExamUserRecordMain(examUserRecordMain);
+            ExamUserHealthyAppraisal examUserHealthyAppraisal = new ExamUserHealthyAppraisal();
+            examUserHealthyAppraisal.setOrderNo(orderNo);
+            examUserHealthyAppraisal.setUserId(userId);
+            ExamUserHealthyAppraisal examUserHealthyAppraisal1 = examUserHealthyAppraisalService.getOneByExamUserHealthyAppraisal(examUserHealthyAppraisal);
+            if (examUserRecordMainIf != null && examUserHealthyAppraisal1 != null){
+                examUserHealthyAppraisal1.setIsSubmitted(1);
+                examUserHealthyAppraisal1.setSubmitTime(new Date());
+                examUserHealthyAppraisal1.setSubmitBy(submitBy);
+                if (examUserHealthyAppraisalService.updateById(examUserHealthyAppraisal1)){
+                    return ResultMap.error("提交成功！");
+                }
             }
-            return ResultMap.ok().put("examUserHealthyAppraisal",examUserHealthyAppraisal);
+            return ResultMap.error("运行异常，请联系管理员");
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return ResultMap.error("运行异常，请联系管理员");
+        }
+    }
+
+    /**
+     * @description 健康评估自己/亲属列表
+     * @author zk
+     * @date 2019-6-18
+     */
+    @ApiOperation(value = "健康评估自己/亲属列表", notes = "健康评估自己/亲属列表")
+    @GetMapping("/liExamUserHealthyAppraisal")
+    @RequiresPermissions("upms/examUserHealthyAppraisal/liExamUserHealthyAppraisal")
+    public ResultMap liExamUserHealthyAppraisal(@RequestParam("userId") String userId){
+        try {
+            ExamUserHealthyAppraisal examUserHealthyAppraisal = new ExamUserHealthyAppraisal();
+            examUserHealthyAppraisal.setUserId(userId);
+            ExamUserHealthyAppraisal examUserHealthyAppraisal1 = examUserHealthyAppraisalService.getOneByExamUserHealthyAppraisal(examUserHealthyAppraisal);
+            return ResultMap.ok().put("data",examUserHealthyAppraisal1);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return ResultMap.error("运行异常，请联系管理员");
+        }
+    }
+
+    /**
+     * @description 健康评估自己/亲属详情
+     * @author zk
+     * @date 2019-6-18
+     */
+    @ApiOperation(value = "健康评估自己/亲属详情", notes = "健康评估自己/亲属详情")
+    @GetMapping("/deatiaExamUserHealthyAppraisal")
+    @RequiresPermissions("upms/examUserHealthyAppraisal/deatiaExamUserHealthyAppraisal")
+    public ResultMap deatiaExamUserHealthyAppraisal(@RequestParam("userId") String userId, @RequestParam("userCate") Integer userCate){
+        try {
+            ExamUserHealthyAppraisal examUserHealthyAppraisal = new ExamUserHealthyAppraisal();
+            examUserHealthyAppraisal.setUserId(userId);
+            ExamUserHealthyAppraisal examUserHealthyAppraisal1 = examUserHealthyAppraisalService.getOneByExamUserHealthyAppraisal(examUserHealthyAppraisal);
+            return ResultMap.ok().put("data",examUserHealthyAppraisal1);
         } catch (Exception e) {
             logger.error(e.getMessage());
             return ResultMap.error("运行异常，请联系管理员");

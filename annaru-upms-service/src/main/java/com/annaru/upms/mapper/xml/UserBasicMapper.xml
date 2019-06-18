@@ -26,6 +26,7 @@
         <result column="is_verified" property="isVerified" />
         <result column="email_address" property="emailAddress" />
         <result column="creation_time" property="creationTime" />
+        <result column="is_hr" property="isHr" />
 
      </resultMap>
 
@@ -53,6 +54,7 @@
         <result column="email_address" property="emailAddress" />
         <result column="creation_time" property="creationTime" />
         <result column="openid" property="openid" />
+        <result column="is_hr" property="isHr" />
     </resultMap>
 
     <!-- 通用查询映射结果 UserBasicVoZ -->
@@ -239,7 +241,8 @@
               is_verified,
               email_address,
               creation_time,
-              openid
+              openid,
+              is_hr
         FROM
             user_basic
         WHERE

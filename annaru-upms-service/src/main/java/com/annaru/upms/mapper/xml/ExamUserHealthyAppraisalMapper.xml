@@ -12,6 +12,9 @@
         <result column="existed_issue" property="existedIssue" />
         <result column="remarks" property="remarks" />
         <result column="suggestions" property="suggestions" />
+        <result column="is_submitted" property="isSubmitted" />
+        <result column="submit_time" property="submitTime" />
+        <result column="submit_by" property="submitBy" />
     </resultMap>
     
     <sql id="BaseClounmSql">
@@ -22,6 +25,9 @@
           existed_issue,
           remarks,
           suggestions,
+          is_submitted,
+          submit_time,
+          submit_by
     </sql>
 
     <!-- 多表页面信息查询分页 -->
