@@ -52,4 +52,32 @@
         </where>
     </select>
 
+    <!-- 多表页面信息查询分页 -->
+    <select id="getOne" parameterType="map" resultMap="BaseResultMap">
+
+        SELECT
+            sys_id,
+            nurse_no,
+            user_id,
+            nurse_name,
+            head_image,
+            belong_hospital,
+            belong_office,
+            introductions,
+            score,
+            focus_on,
+            contact_no1,
+            contact_no2,
+            is_approved,
+            approve_time,
+            creation_time,
+            edit_time
+        FROM
+          sys_nurse
+        WHERE  1 = 1
+            <if test="params.userId != null and params.userId != ''">
+                AND user_id = #{params.userId}
+            </if>
+    </select>
+
 </mapper>

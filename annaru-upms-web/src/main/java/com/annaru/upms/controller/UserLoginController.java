@@ -4,8 +4,6 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.annaru.common.base.BaseController;
 import com.annaru.common.config.redis.IRedisService;
 import com.annaru.common.result.ResultMap;
-import com.annaru.common.util.Constant;
-import com.annaru.common.util.DateUtil;
 import com.annaru.common.util.sdk.MessageUtils;
 import com.annaru.upms.controllerutil.SysConfigUtil;
 import com.annaru.upms.entity.*;
@@ -17,9 +15,7 @@ import io.swagger.annotations.ApiParam;
 import jodd.util.StringUtil;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
-import org.thymeleaf.util.StringUtils;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -177,7 +173,7 @@ public class UserLoginController extends BaseController {
                     userBasic1.setCreationTime(new Date());
                     userBasic1.setLastLogintime(new Date());
                     boolean isSave = iUserBasicService.save(userBasic1);
-                    if (isSave){
+                    if (isSave){ // 此处保存成功 添加到融云
                         // 修改系统配置的用户编号
                         if (SysConfigUtil.saveRefNo(sysConfig.getRefNo())){
                             map = new HashMap <>();

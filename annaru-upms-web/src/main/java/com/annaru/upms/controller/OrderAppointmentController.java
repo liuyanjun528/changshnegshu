@@ -195,7 +195,7 @@ public class OrderAppointmentController extends BaseController {
                     &&orderAppointment.getTimeTo()!=null){
                 sysDoctorOppointment.setAppointmentCates(5);
                 sysDoctorOppointment.setUserId(orderAppointment.getUserId());
-                sysDoctorOppointment.setRelatedNo(orderAppointment.getRelatedNo());
+                sysDoctorOppointment.setDoctorNurseNo(orderAppointment.getRelatedNo());
                 sysDoctorOppointment.setAppointDate(orderAppointment.getAppointDate());
                 sysDoctorOppointment.setTimeFrom(orderAppointment.getTimeFrom());
                 sysDoctorOppointment.setTimeTo(orderAppointment.getTimeTo());

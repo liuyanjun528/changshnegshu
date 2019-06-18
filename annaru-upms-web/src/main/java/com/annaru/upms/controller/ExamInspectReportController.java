@@ -13,6 +13,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
 import java.util.HashMap;
@@ -60,7 +61,7 @@ public class ExamInspectReportController extends BaseController {
             params.put("reportType", reportType);
 
             PageUtils<ExamInspectReport> pageList = examInspectReportService.getDataPage(params);
-            return ResultMap.ok().put("data", pageList);
+            return ResultMap.ok().put("page", pageList);
         } catch (Exception e) {
             logger.error(e.getMessage());
             return ResultMap.error("运行异常，请联系管理员");
@@ -93,6 +94,19 @@ public class ExamInspectReportController extends BaseController {
         }
     }
 
+    @ApiIgnore
+    @ApiOperation(value = "查看详情", notes = "查看详情")
+    @GetMapping("/info/{id}")
+    public ResultMap getById(@ApiParam(value = "报告ID", required = true)@PathVariable("id") String id) {
+        try {
+            ExamInspectReport inspectReport = examInspectReportService.getById(id);
+            return ResultMap.ok().put("examInspectReport", inspectReport);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return ResultMap.error("运行异常，请联系管理员");
+        }
+    }
+
 
     @ApiOperation(value = "上传送检申请")
     @PostMapping("/upLoadApp")
@@ -108,6 +122,5 @@ public class ExamInspectReportController extends BaseController {
             return ResultMap.error("运行异常，请联系管理员");
         }
     }
-
 
 }

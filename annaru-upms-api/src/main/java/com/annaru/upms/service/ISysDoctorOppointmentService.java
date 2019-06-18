@@ -3,6 +3,8 @@ package com.annaru.upms.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.annaru.common.result.PageUtils;
 import com.annaru.upms.entity.SysDoctorOppointment;
+
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -22,5 +24,18 @@ public interface ISysDoctorOppointmentService extends IService<SysDoctorOppointm
     PageUtils getDataPage(Map<String, Object> params);
 
 
+    /**
+     * @Description:按照选择时间当前护士的查询排班信息
+     * @Author: wh
+     * @Date: 2019/6/13 16:37
+     */
+    List<SysDoctorOppointment> selectTodayInfo(String doctorNurseNo, Date dateFormat);
+
+    /**
+     * @Description:根据当前护士的预约日期 修改预约时间
+     * @Author: wh
+     * @Date: 2019/6/14 10:22
+     */
+    int updateOppointmentDate(SysDoctorOppointment sysDoctorOppointment);
 }
 

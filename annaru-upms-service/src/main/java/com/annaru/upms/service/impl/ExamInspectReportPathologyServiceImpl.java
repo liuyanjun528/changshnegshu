@@ -1,19 +1,17 @@
 package com.annaru.upms.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.annaru.common.result.PageUtils;
 import com.annaru.common.util.UUIDGenerator;
+import com.annaru.upms.entity.ExamInspectReportMicroorganism;
+import com.annaru.upms.entity.ExamInspectReportPathology;
 import com.annaru.upms.entity.ExamInspectReportPathologyDetail;
+import com.annaru.upms.mapper.ExamInspectReportPathologyMapper;
 import com.annaru.upms.service.IExamInspectReportPathologyDetailService;
+import com.annaru.upms.service.IExamInspectReportPathologyService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.alibaba.dubbo.config.annotation.Reference;
-import com.annaru.common.result.PageUtils;
-
-import com.annaru.upms.mapper.ExamInspectReportPathologyMapper;
-import com.annaru.upms.entity.ExamInspectReportPathology;
-import com.annaru.upms.service.IExamInspectReportPathologyService;
-import com.mchange.v1.identicator.IdList;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +30,13 @@ import java.util.Map;
 public class ExamInspectReportPathologyServiceImpl extends ServiceImpl<ExamInspectReportPathologyMapper, ExamInspectReportPathology> implements IExamInspectReportPathologyService {
     @Autowired
     private IExamInspectReportPathologyDetailService examInspectReportPathologyDetailService;
+
+    @Override
+    public PageUtils<ExamInspectReportPathology> getDataPage(Map<String, Object> params) {
+        Page<ExamInspectReportPathology> page = new PageUtils<ExamInspectReportPathology>(params).getPage();
+        IPage<ExamInspectReportPathology> iPage = this.baseMapper.selectDataPage(page, params);
+        return new PageUtils(iPage);
+    }
 
     @Override
     public List<ExamInspectReportPathology> getByInspectReportId(String inspectReportId) {

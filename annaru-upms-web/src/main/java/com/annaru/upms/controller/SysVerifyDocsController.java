@@ -3,23 +3,20 @@ package com.annaru.upms.controller;
 import java.util.*;
 
 import com.annaru.upms.controllerutil.SysConfigUtil;
-import com.annaru.upms.entity.SysConfig;
+import com.annaru.upms.entity.*;
 import com.annaru.upms.entity.vo.SysVerifyDocsVoZ;
 import com.annaru.upms.service.ISysConfigService;
-import com.annaru.upms.service.IUserBasicService;
+import com.annaru.upms.service.ISysDoctorService;
+import com.annaru.upms.service.ISysNurseService;
+import io.swagger.annotations.*;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import com.alibaba.dubbo.config.annotation.Reference;
 import org.springframework.web.bind.annotation.*;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 
 import com.annaru.common.base.BaseController;
 import com.annaru.common.result.PageUtils;
-import com.annaru.upms.shiro.ShiroKit;
 import com.annaru.common.result.ResultMap;
 
-import com.annaru.upms.entity.SysVerifyDocs;
 import com.annaru.upms.service.ISysVerifyDocsService;
 
 import javax.annotation.Resource;
@@ -41,6 +38,10 @@ public class SysVerifyDocsController extends BaseController {
     private ISysVerifyDocsService sysVerifyDocsService;
     @Reference
     private ISysConfigService iSysConfigService;
+    @Reference
+    private ISysDoctorService iSysDoctorService;
+    @Reference
+    private ISysNurseService iSysNurseService;
     /**
      * 列表
      */
@@ -104,6 +105,17 @@ public class SysVerifyDocsController extends BaseController {
     @RequiresPermissions("upms/sysVerifyDocs/saveDocsBasics")
     public ResultMap saveDocsBasics(@Valid @RequestBody SysVerifyDocsVoZ sysVerifyDocsVoZ) {
 
+        Map<String, Object> params = new HashMap <>();
+        params.put("userId", sysVerifyDocsVoZ.getUserId());
+        SysDoctor sysDoctor = iSysDoctorService.getOne(params);
+        if (sysDoctor != null){
+            return ResultMap.error("该医生已经存在！");
+        }
+        SysNurse sysNurse = iSysNurseService.getOne(params);
+        if (sysNurse != null){
+            return ResultMap.error("该护士已经存在！");
+        }
+
             SysConfig sysConfig = null;
             if (sysVerifyDocsVoZ.getIdentification() == 2){
                 // 医生
@@ -124,6 +136,26 @@ public class SysVerifyDocsController extends BaseController {
         return ResultMap.error("运行异常，请联系管理员");
 
     }
+
+    /**
+     * 查询护士、医生认证信息
+     */
+    @ApiOperation(value = "查询护士、医生认证信息")
+    @GetMapping("/selectVerInfo")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "userId", value = "用户编号", dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "identification", value = "1.护士2.医生 ", dataType = "Integer", paramType = "query"),
+    })
+    public Object selectVerInfo(@RequestParam String userId,Integer identification) {
+        try {
+            SysVerifyDocsVoZ sysVerifyDocsVoZ = sysVerifyDocsService.selectVerNurse(userId, identification);
+            return ResultMap.ok("ok").put("sysVerifyDocsVoZ",sysVerifyDocsVoZ);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return ResultMap.error("运行异常，请联系管理员");
+        }
+    }
+
 
     /**
      * 修改

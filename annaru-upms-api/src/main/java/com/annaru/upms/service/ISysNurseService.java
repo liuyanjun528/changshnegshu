@@ -21,6 +21,8 @@ public interface ISysNurseService extends IService<SysNurse> {
     */
     PageUtils getDataPage(Map<String, Object> params);
 
+    SysNurse getOne(Map <String, Object> params);
+
 
 }
 

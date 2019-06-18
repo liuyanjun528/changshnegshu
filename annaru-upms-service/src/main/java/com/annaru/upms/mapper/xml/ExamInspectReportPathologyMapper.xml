@@ -51,4 +51,16 @@
           inspect_report_id = #{inspectReportId}
     </select>
 
+    <select id="selectDataPage" resultType="com.annaru.upms.entity.ExamInspectReportPathology">
+        SELECT
+        <include refid="BaseClounmSql"></include>
+        FROM
+        exam_inspect_report_pathology
+        <where>
+            <if test="params.inspectReportId != null and params.inspectReportId != ''">
+                inspect_report_id = #{params.inspectReportId}
+            </if>
+        </where>
+    </select>
+
 </mapper>

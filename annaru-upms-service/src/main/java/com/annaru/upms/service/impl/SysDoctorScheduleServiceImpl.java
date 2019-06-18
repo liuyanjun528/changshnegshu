@@ -11,6 +11,7 @@ import com.annaru.upms.mapper.SysDoctorScheduleMapper;
 import com.annaru.upms.entity.SysDoctorSchedule;
 import com.annaru.upms.service.ISysDoctorScheduleService;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -30,13 +31,14 @@ public class SysDoctorScheduleServiceImpl extends ServiceImpl<SysDoctorScheduleM
         return new PageUtils<SysDoctorSchedule>(iPage);
     }
 
-    @Override
-    public SysDoctorSchedule updateActive(Map<String, Object> params){
-        return this.baseMapper.updateActive(params);
-    }
 
     public List<SysDoctorSchedule> getDocSchedule(Map<String,Object> params){
         return this.baseMapper.getDocSchedule(params);
+    }
+
+    @Override
+    public List<SysDoctorSchedule> selectDoctorScheduleList(Date dateFrom, String doctorNurseNo) {
+        return this.baseMapper.selectDoctorScheduleList(dateFrom, doctorNurseNo);
     }
 
 }
