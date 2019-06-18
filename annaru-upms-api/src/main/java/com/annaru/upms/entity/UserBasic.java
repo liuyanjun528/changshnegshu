@@ -215,6 +215,12 @@ public class UserBasic extends Model<UserBasic> implements Serializable {
 	 */
 	@TableField(exist = false)
 	private String departmentName;
+	/**
+	 * 是否是企业HR(0:不是/1是)
+	 * @return
+	 */
+	@ApiModelProperty(value = "是否是企业HR(0:不是/1是)")
+	private String isHr;
 
 	public SysDoctor getSysDoctor() {
 		return sysDoctor;
@@ -528,6 +534,12 @@ public class UserBasic extends Model<UserBasic> implements Serializable {
 	}
 	public void setDepartmentName(String departmentName) {
 		this.departmentName = departmentName;
+	}
+	public String getIsHr() {
+		return isHr;
+	}
+	public void setIsHr(String isHr) {
+		this.isHr = isHr;
 	}
 
 	@Override

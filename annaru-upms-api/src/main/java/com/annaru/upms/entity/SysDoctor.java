@@ -152,10 +152,10 @@ public class SysDoctor extends Model<SysDoctor> implements Serializable {
 	@ApiModelProperty(value = "个人简介")
 	private String introductions;
 	/**
-	 * 当前状态(0:未激活1:已激活)
+	 * 审核状态(0:未审核/1:审核通过/2:审核未通过)
 	 */
-	@ApiModelProperty(value = "当前状态(0:未激活1:已激活)")
-	private Integer status;
+	@ApiModelProperty(value = "审核状态(0:未审核/1:审核通过/2:审核未通过)")
+	private Integer isApproved;
 	/**
 	 * 创建时间
 	 */
@@ -370,17 +370,11 @@ public class SysDoctor extends Model<SysDoctor> implements Serializable {
 	public void setPriceYear(Double priceYear) {
 		this.priceYear = priceYear;
 	}
-	/**
-	 * 获取：当前状态(0:未激活1:已激活)
-	 */
-	public Integer getStatus() {
-		return status;
+	public Integer getIsApproved() {
+		return isApproved;
 	}
-	/**
-	 * 设置：当前状态(0:未激活1:已激活)
-	 */
-	public void setStatus(Integer status) {
-		this.status = status;
+	public void setIsApproved(Integer isApproved) {
+		this.isApproved = isApproved;
 	}
 	/**
 	 * 获取：创建时间

@@ -16,6 +16,7 @@
         <collection property="linkageList" ofType="com.annaru.upms.entity.vo.SysLinkageVo">
             <result column="seqno" property="seqno"/>
             <result column="answers" property="name"/>
+            <result column="value" property="value"/>
         </collection>
     </resultMap>
 
@@ -36,7 +37,7 @@
 
     <select id="getList" parameterType="map" resultMap="BaseResultMapVo">
         SELECT
-        slt.name,slt.nid,sl.name answers,sl.seqno
+        slt.name,slt.nid,sl.name answers,sl.seqno,value
         FROM
         sys_linkage_type slt
         LEFT JOIN sys_linkage sl on slt.id = sl.type_id

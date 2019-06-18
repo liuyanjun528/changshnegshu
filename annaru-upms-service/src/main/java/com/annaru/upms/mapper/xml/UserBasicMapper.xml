@@ -26,6 +26,7 @@
         <result column="is_verified" property="isVerified" />
         <result column="email_address" property="emailAddress" />
         <result column="creation_time" property="creationTime" />
+        <result column="is_hr" property="isHr" />
 
      </resultMap>
 
@@ -53,6 +54,7 @@
         <result column="email_address" property="emailAddress" />
         <result column="creation_time" property="creationTime" />
         <result column="openid" property="openid" />
+        <result column="is_hr" property="isHr" />
     </resultMap>
 
     <!-- 通用查询映射结果 UserBasicVoZ -->
@@ -136,7 +138,7 @@
         <result column="belong_city" property="belongCity" />
         <result column="belong_district" property="belongDistrict" />
         <result column="price_year" property="priceYear" />
-        <result column="status" property="status" />
+        <result column="is_approved" property="isApproved" />
         <result column="creation_time" property="creationTime" />
         <result column="edit_time" property="editTime" />
         <result column="create_by" property="createBy" />
@@ -157,12 +159,9 @@
         <result column="focus_on" property="focusOn" />
         <result column="contact_no1" property="contactNo1" />
         <result column="contact_no2" property="contactNo2" />
-        <result column="is_verified" property="isVerified" />
-        <result column="is_approved" property="isApproved" />
         <result column="job_title" property="jobTitle" />
         <result column="duties" property="duties" />
         <result column="introductions" property="introductions" />
-        <result column="is_verified" property="isVerified" />
         <result column="is_approved" property="isApproved" />
         <result column="approve_time" property="approveTime" />
         <result column="creation_time" property="creationTime" />
@@ -242,7 +241,8 @@
               is_verified,
               email_address,
               creation_time,
-              openid
+              openid,
+              is_hr
         FROM
             user_basic
         WHERE
@@ -286,7 +286,6 @@
             score,
             focus_on,
             goodat,
-        d.content,
         si.name siName,
         sd.department_name departmentName,
 
@@ -294,7 +293,7 @@
         job_title,
         duties,
         introductions,
-            status,
+        d.is_approved,
             d.edit_time,
             create_by,
             edit_by,
@@ -335,7 +334,7 @@
             b.isactive,
             last_logintime,
             registration_time,
-            n.is_verified,
+            is_verified,
             n.is_approved,
             email_address,
             b.creation_time,

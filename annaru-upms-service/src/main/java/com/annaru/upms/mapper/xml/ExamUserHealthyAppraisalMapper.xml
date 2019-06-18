@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.annaru.upms.mapper.ExamUserHealthyAppraisalMapper">
+
+	<!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.annaru.upms.entity.ExamUserHealthyAppraisal" >
+        <result column="sys_id" property="sysId" />
+        <result column="order_no" property="orderNo" />
+        <result column="user_id" property="userId" />
+        <result column="risk_cate" property="riskCate" />
+        <result column="existed_issue" property="existedIssue" />
+        <result column="remarks" property="remarks" />
+        <result column="suggestions" property="suggestions" />
+        <result column="is_submitted" property="isSubmitted" />
+        <result column="submit_time" property="submitTime" />
+        <result column="submit_by" property="submitBy" />
+    </resultMap>
+    
+    <sql id="BaseClounmSql">
+          sys_id,
+          order_no,
+          user_id,
+          risk_cate,
+          existed_issue,
+          remarks,
+          suggestions,
+          is_submitted,
+          submit_time,
+          submit_by
+    </sql>
+
+    <!-- 多表页面信息查询分页 -->
+    <select id="selectDataPage" parameterType="map" resultMap="BaseResultMap">
+
+        SELECT
+            <include refid="BaseClounmSql"></include>
+        FROM
+            exam_user_healthy_appraisal
+
+    </select>
+
+    <select id="getOneByExamUserHealthyAppraisal" parameterType="com.annaru.upms.entity.ExamUserHealthyAppraisal" resultMap="BaseResultMap">
+
+        SELECT
+        <include refid="BaseClounmSql"></include>
+        FROM
+        exam_user_healthy_appraisal
+        WHERE 1 = 1
+        <if test="examUserHealthyAppraisal.orderNo != null and examUserHealthyAppraisal.orderNo != ''">
+            AND order_no = #{examUserHealthyAppraisal.orderNo}
+        </if>
+        <if test="examUserHealthyAppraisal.userId != null and examUserHealthyAppraisal.userId != ''">
+            AND user_id = #{examUserHealthyAppraisal.userId}
+        </if>
+
+    </select>
+
+</mapper>

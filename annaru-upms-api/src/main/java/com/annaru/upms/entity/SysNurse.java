@@ -102,15 +102,9 @@ public class SysNurse extends Model<SysNurse> implements Serializable {
 	@TableField("duties")
 	private String duties;
 	/**
-	 * 身份认证(0:未认证/1:已认证)
+	 * 审核状态(0:未审核/1:审核通过/2:审核未通过)
 	 */
-	@ApiModelProperty(value = "身份认证(0:未认证/1:已认证)")
-	@TableField("is_verified")
-	private Integer isVerified;
-	/**
-	 * 是否审核通过(0:未通过/1:已通过)
-	 */
-    @ApiModelProperty(value = "是否审核通过(0:未通过/1:已通过)")
+    @ApiModelProperty(value = "审核状态(0:未审核/1:审核通过/2:审核未通过)")
 	@TableField("is_approved")
 	private Integer isApproved;
 	/**
@@ -321,12 +315,6 @@ public class SysNurse extends Model<SysNurse> implements Serializable {
 	}
 	public void setDuties(String duties) {
 		this.duties = duties;
-	}
-	public Integer getIsVerified() {
-		return isVerified;
-	}
-	public void setIsVerified(Integer isVerified) {
-		this.isVerified = isVerified;
 	}
 	public String getJobTitle() {
 		return jobTitle;

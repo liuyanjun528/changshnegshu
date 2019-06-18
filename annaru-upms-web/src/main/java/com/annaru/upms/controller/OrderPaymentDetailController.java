@@ -95,7 +95,7 @@ public class OrderPaymentDetailController extends BaseController {
             OrderPaymentDetail orderPaymentDetail = null;
             // 根据期数得到每次还款的间隔月
             int intervalMonth = 12 / orderPaymentDetailVoSaveZ.getTotalPeriod();
-            for (int i = 1 ; i < orderPaymentDetailVoSaveZ.getTotalPeriod() + 1 ; i++){
+            for (int i = 0 ; i < intervalMonth ; i++){
                 orderPaymentDetail = new OrderPaymentDetail();
                 orderPaymentDetail.setOrderNo(orderPaymentDetailVoSaveZ.getOrderNo()); // 订单编号
                 if (getNextPayMent != null){
@@ -105,6 +105,7 @@ public class OrderPaymentDetailController extends BaseController {
                 }
                 orderPaymentDetail.setRepayDate(getNextPayMent); // 应付款日期
                 orderPaymentDetail.setTotalAmount(orderPaymentDetailVoSaveZ.getTotalAmount()); // 订单总金额
+                orderPaymentDetail.setCurrentyPeriod(i + 1); // 还款期数
                 orderPaymentDetail.setTotalPeriod(orderPaymentDetailVoSaveZ.getTotalPeriod()); // 总分期数
                 orderPaymentDetailList.add(orderPaymentDetail);
             }
