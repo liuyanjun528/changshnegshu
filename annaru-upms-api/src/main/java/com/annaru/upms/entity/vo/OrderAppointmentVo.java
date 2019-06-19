@@ -15,7 +15,7 @@ public class OrderAppointmentVo extends Model<OrderAppointmentVo> implements Ser
     @ApiModelProperty(value = "系统编号")
     @TableId(type = IdType.AUTO)
     private Integer sysId;
-
+    private Integer hrOppointmentId;
     private String orderNo;
     private String referenceNo;
     private String entityId;
@@ -46,6 +46,14 @@ public class OrderAppointmentVo extends Model<OrderAppointmentVo> implements Ser
     private Integer examDetailId;
     private Integer departmentId;
     private Integer times;
+
+    public Integer getHrOppointmentId() {
+        return hrOppointmentId;
+    }
+
+    public void setHrOppointmentId(Integer hrOppointmentId) {
+        this.hrOppointmentId = hrOppointmentId;
+    }
 
     public Integer getDepartmentId() {
         return departmentId;

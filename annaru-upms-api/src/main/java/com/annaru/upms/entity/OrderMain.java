@@ -43,6 +43,10 @@ public class OrderMain extends Model<OrderMain> implements Serializable {
     @ApiModelProperty(value = "相关编号 (套餐编号)")
 	@TableField("reference_no")
 	private String referenceNo;
+
+    @ApiModelProperty(value = "分布式体检预约编号")
+	@TableField("hr_oppointment_id")
+    private Integer hrOppointmentId;
 	/**
 	 * 定单类别：
 	 1:一般体检预约(C端)
@@ -157,6 +161,14 @@ public class OrderMain extends Model<OrderMain> implements Serializable {
 
 	public void setOrderCustomer(OrderCustomer orderCustomer) {
 		this.orderCustomer = orderCustomer;
+	}
+
+	public Integer getHrOppointmentId() {
+		return hrOppointmentId;
+	}
+
+	public void setHrOppointmentId(Integer hrOppointmentId) {
+		this.hrOppointmentId = hrOppointmentId;
 	}
 
 	/**

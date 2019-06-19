@@ -11,7 +11,9 @@ import com.annaru.upms.service.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import jodd.util.ObjectUtil;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.omg.CORBA.OBJ_ADAPTER;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -64,20 +66,28 @@ public class OrderAppointmentController extends BaseController {
         return ResultMap.ok().put("data",pageList);
     }
 
+    @ApiOperation(value = "用户toB套餐信息")
+    @GetMapping("/toBPackages")
+    @RequiresPermissions("upms/orderAppointment/toBPackages")
+    public ResultMap toBPackages(@ApiParam(value = "用户ID")@RequestParam String userId){
+        Map<String, Object> params = new HashMap<>();
+        params.put("userId",userId);
+        List<UserPackagesVo> userPackageList = orderMainService.getToBPackages(params);
+        return ResultMap.ok().put("data",userPackageList);
+    }
+
     @ApiOperation(value = "toB基础预约信息")
     @GetMapping("/toBInfo")
     @RequiresPermissions("upms/orderAppointment/toBInfo")
-    public ResultMap toCInfo(@ApiParam(value = "用户ID")@RequestParam String userId){
+    public ResultMap toCInfo(@ApiParam(value = "用户ID")@RequestParam String userId,String referenceNo){
         Map<String, Object> params = new HashMap<>();
         params.put("userId",userId);
-        List<OrderInfoVo> orderInfoVo = orderMainService.getToB(params);
+        params.put("referenceNo",referenceNo);
+        OrderInfoVo orderInfoVo = orderMainService.getToB(params);
+        params.put("examId",Integer.valueOf(orderInfoVo.getReferenceNo()));
+        List<ExamChooseVo> examChooseVo = examPackageDetailService.getChoosen(params);
+        orderInfoVo.setExamChooseList(examChooseVo);
         params.clear();
-        for(int i = 0;i<orderInfoVo.size();i++){
-            params.put("examId",Integer.valueOf(orderInfoVo.get(i).getReferenceNo()));
-            List<ExamChooseVo> examChooseVo = examPackageDetailService.getChoosen(params);
-            orderInfoVo.get(i).setExamChooseList(examChooseVo);
-            params.clear();
-        }
         params.put("orderInfoVo",orderInfoVo);
         return ResultMap.ok().put("data",params);
     }
@@ -86,21 +96,17 @@ public class OrderAppointmentController extends BaseController {
     @ApiOperation(value = "进阶体检预约信息")
     @GetMapping("/extensionInfo")
     @RequiresPermissions("upms/orderAppointment/extensionInfo")
-    public ResultMap extensionInfo(@ApiParam(value = "用户ID")@RequestParam String userId){
+    public ResultMap extensionInfo(@ApiParam(value = "用户ID")@RequestParam String userId,@RequestParam String referenceNo){
         Map<String, Object> params = new HashMap<>();
         params.put("userId",userId);
-        List<OrderExtensionInfoVo> orderInfoVo = orderMainService.getExtensionInfo(params);
-        params.clear();
-        for(int i = 0;i<orderInfoVo.size();i++){
-            params.put("parentNo",orderInfoVo.get(i).getParentNo());
-            OrderInfoVo infoVo = orderMainService.getBase(params);
-            params.clear();
-            params.put("examId",Integer.valueOf(infoVo.getReferenceNo()));
-            List<ExamChooseVo> examChooseVo = examPackageDetailService.getChoosen(params);
-            infoVo.setExamChooseList(examChooseVo);
-            params.clear();
-            orderInfoVo.get(i).setOrderInfoVo(infoVo);
-        }
+        params.put("referenceNo",referenceNo);
+        OrderExtensionInfoVo orderInfoVo = orderMainService.getExtensionInfo(params);
+        params.put("parentNo",orderInfoVo.getParentNo());
+        OrderInfoVo infoVo = orderMainService.getBase(params);
+        params.put("examId",Integer.valueOf(infoVo.getReferenceNo()));
+        List<ExamChooseVo> examChooseVo = examPackageDetailService.getChoosen(params);
+        infoVo.setExamChooseList(examChooseVo);
+        orderInfoVo.setOrderInfoVo(infoVo);
         return ResultMap.ok().put("data",orderInfoVo);
     }
 
@@ -176,9 +182,11 @@ public class OrderAppointmentController extends BaseController {
                             orderAppointmentService.save(appointment);
                         }
                     }
-            }else if (orderAppointment.getAppointmentCates()==2||orderAppointment.getAppointmentCates()==4
+            }else if (orderAppointment.getAppointmentCates()==2
                     &&orderAppointment.getInstitutionId()!=null
-                    &&orderAppointment.getParentNo()!=null){
+                    &&orderAppointment.getParentNo()!=null
+                    &&orderAppointment.getExamDetailId()!=null
+                    &&orderAppointment.getExamMasterId()!=null){
                 String orderNo = createOrderNo();
                 Integer orderCates = orderAppointment.getAppointmentCates();
                 String userId = orderAppointment.getUserId();
@@ -197,6 +205,35 @@ public class OrderAppointmentController extends BaseController {
                 orderExtensionExamService.save(orderExtensionExam);
                 orderMain.setUserId(userId);
                 orderMain.setParentNo(parentNo);
+                orderMain.setOrderNo(orderNo);
+                orderMain.setStatus(0);
+                orderMain.setOrderCates(orderCates);
+                orderMainService.save(orderMain);
+            }else if (orderAppointment.getAppointmentCates()==4
+                    &&orderAppointment.getInstitutionId()!=null
+                    &&orderAppointment.getParentNo()!=null
+                    &&orderAppointment.getExamDetailId()!=null
+                    &&orderAppointment.getExamMasterId()!=null
+            &&orderAppointment.getHrOppointmentId()!=null) {
+                String orderNo = createOrderNo();
+                Integer orderCates = orderAppointment.getAppointmentCates();
+                String userId = orderAppointment.getUserId();
+                String parentNo = orderAppointment.getParentNo();
+                appointment.setRelatedNo(parentNo);
+                appointment.setInstitutionId(orderAppointment.getInstitutionId());
+                appointment.setUserId(userId);
+                appointment.setAppointmentCates(orderCates);
+                appointment.setCreateBy(userId);
+                appointment.setOrderNo(orderNo);
+                orderAppointmentService.save(appointment);
+                orderExtensionExam.setCreateBy(userId);
+                orderExtensionExam.setExamDetailId(orderAppointment.getExamDetailId());
+                orderExtensionExam.setExamMasterId(orderAppointment.getExamMasterId());
+                orderExtensionExam.setOrderNo(orderNo);
+                orderExtensionExamService.save(orderExtensionExam);
+                orderMain.setUserId(userId);
+                orderMain.setParentNo(parentNo);
+                orderMain.setHrOppointmentId(orderAppointment.getHrOppointmentId());
                 orderMain.setOrderNo(orderNo);
                 orderMain.setStatus(0);
                 orderMain.setOrderCates(orderCates);
@@ -241,6 +278,14 @@ public class OrderAppointmentController extends BaseController {
                     orderAdditionalInfo.setAppointmentCates(6);
                     if (orderAppointment.getSituations()!=null){
                         orderAdditionalInfo.setSituations(orderAppointment.getSituations());
+                    }
+                    if (orderAppointment.getAmount()!=null&&orderAppointment.getAmount()!=0){
+                        orderMain.setOrderCates(6);
+                        orderMain.setOrderNo(orderNo);
+                        orderMain.setStatus(0);
+                        orderMain.setUserId(userId);
+                        orderMain.setAmount(orderAppointment.getAmount());
+                        orderMainService.save(orderMain);
                     }
                     orderAdditionalInfo.setAmount(orderAppointment.getAmount());
                     orderAdditionalInfoService.save(orderAdditionalInfo);
