@@ -54,9 +54,9 @@ public class UserLoginController extends BaseController {
         }
 
         String kaptcha = kaptcha();
-        Map<String ,Object> isOk = MessageUtils.sendTemplateSMS(cellphoneNo, MessageUtils.loginId, kaptcha,"1");
-        if (isOk != null && StringUtil.isNotBlank((String)isOk.get("statusCode"))){ // isOk != null && StringUtil.isNotBlank((String)isOk.get("statusCode"))
-            if ("000000".equals((String)isOk.get("statusCode"))){ // "000000".equals((String)isOk.get("statusCode"))
+//        Map<String ,Object> isOk = MessageUtils.sendTemplateSMS(cellphoneNo, MessageUtils.loginId, kaptcha,"1");
+        if (true){ // isOk != null && StringUtil.isNotBlank((String)isOk.get("statusCode"))
+            if (true){ // "000000".equals((String)isOk.get("statusCode"))
                 //验证码发送成功
                 redisService.set(cellphoneNo, kaptcha);
                 redisService.set(cellphoneNo, kaptcha, kaptchaSeconds);
@@ -73,55 +73,27 @@ public class UserLoginController extends BaseController {
     @ApiOperation(value = "用户登录", notes = "用户登录")
     @PostMapping("/loginInfo")
     @RequiresPermissions("upms/userLogin/loginInfo")
-    public ResultMap loginInfo(String cellphoneNo, String password, String type, String loginType, String kaptcha, String openid){
+    public ResultMap loginInfo(String cellphoneNo, String password, String type, String loginType, String kaptcha, String openid, String isHr){
+        UserBasic userBasic = null;
+        String token = null;
+        Map<String, Object> map = null;
 
-        // loginType为1：验证码登录  loginType为2：账号密码登录  loginType为3：微信登录
-        if (StringUtil.isBlank(loginType) || (!"1".equals(loginType) && !"2".equals(loginType) && !"3".equals(loginType))){
-            return ResultMap.error("请使用验证码或者账号密码登录或微信登录！");
+        if (StringUtil.isBlank(isHr)){
+            return ResultMap.error("参数(isHr)不能为空！");
         }
-        if (!("1").equals(type) && !"2".equals(type)){
-            return ResultMap.error("端不存在！");
-        }
-        if ("1".equals(loginType) || "2".equals(loginType)){
+
+        // HR登录
+        if ("y".equals(isHr)){
             if (StringUtil.isBlank(cellphoneNo)){
                 return ResultMap.error("账号不能为空！");
             }
-        }
-        if ("1".equals(loginType)){
-            if (StringUtil.isBlank(kaptcha)){
-                return ResultMap.error("验证码不能为空！");
-            }
-            if (!kaptcha.equals((String)redisService.get(cellphoneNo))){
-                return ResultMap.error("验证码无效！");
-            }
-        }
-        if ("2".equals(loginType)){
             if (StringUtil.isBlank(password)){
                 return ResultMap.error("密码不能为空！");
             }
-        }
-        if ("3".equals(loginType)){
-            if (StringUtil.isBlank(openid)){
-                return ResultMap.error("openid不能为空！");
-            }
-        }
-
-        UserBasic userBasic = null;
-
-        Map<String, Object> map = null;
-        if (!"3".equals(loginType)){
-            map = new HashMap <>();
-            map.put("cellphoneNo", cellphoneNo);
-            userBasic = iUserBasicService.selectByData(map);
-        }
-        if ("3".equals(loginType)){
-            map = new HashMap <>();
-            map.put("openid", openid);
-            userBasic = iUserBasicService.selectByData(map);
-        }
-
-        if ("2".equals(loginType)){
-            //账号密码登录
+            Map<String, Object> mapHr = new HashMap <>();
+            mapHr.put("cellphoneNo", cellphoneNo);
+            mapHr.put("isHr", 1);
+            userBasic = iUserBasicService.selectByData(mapHr);
             if (userBasic == null){
                 return ResultMap.error("用户不存在！");
             }
@@ -132,11 +104,69 @@ public class UserLoginController extends BaseController {
                 return ResultMap.error("账号或者密码输入错误，请检查！");
             }
             if (userBasic.getIsactive().equals("0")){
-                return ResultMap.error("用户未激活！");
+                return ResultMap.error("HR未激活！");
             }
         }
-        String token = null;
-//        if ("1".equals(type)){ // 用户端短信注册并跳转设置密码页面
+
+        if ("n".equals(isHr)){
+            // loginType为1：验证码登录  loginType为2：账号密码登录  loginType为3：微信登录
+            if (StringUtil.isBlank(loginType) || (!"1".equals(loginType) && !"2".equals(loginType) && !"3".equals(loginType))){
+                return ResultMap.error("请使用验证码或者账号密码登录或微信登录！");
+            }
+            if (!("1").equals(type) && !"2".equals(type)){
+                return ResultMap.error("端不存在！");
+            }
+            if ("1".equals(loginType) || "2".equals(loginType)){
+                if (StringUtil.isBlank(cellphoneNo)){
+                    return ResultMap.error("账号不能为空！");
+                }
+            }
+            if ("1".equals(loginType)){
+                if (StringUtil.isBlank(kaptcha)){
+                    return ResultMap.error("验证码不能为空！");
+                }
+                if (!kaptcha.equals((String)redisService.get(cellphoneNo))){
+                    return ResultMap.error("验证码无效！");
+                }
+            }
+            if ("2".equals(loginType)){
+                if (StringUtil.isBlank(password)){
+                    return ResultMap.error("密码不能为空！");
+                }
+            }
+            if ("3".equals(loginType)){
+                if (StringUtil.isBlank(openid)){
+                    return ResultMap.error("openid不能为空！");
+                }
+            }
+
+            if (!"3".equals(loginType)){
+                map = new HashMap <>();
+                map.put("cellphoneNo", cellphoneNo);
+                userBasic = iUserBasicService.selectByData(map);
+            }
+            if ("3".equals(loginType)){
+                map = new HashMap <>();
+                map.put("openid", openid);
+                userBasic = iUserBasicService.selectByData(map);
+            }
+
+            if ("2".equals(loginType)){
+                //账号密码登录
+                if (userBasic == null){
+                    return ResultMap.error("用户不存在！");
+                }
+                if (StringUtil.isBlank(userBasic.getPassword())){
+                    return ResultMap.error("账号或者密码输入错误，请检查！");
+                }
+                if (!password.equals(userBasic.getPassword())){
+                    return ResultMap.error("账号或者密码输入错误，请检查！");
+                }
+                if (userBasic.getIsactive().equals("0")){
+                    return ResultMap.error("用户未激活！");
+                }
+            }
+
             if ("1".equals(loginType) || "3".equals(loginType)){
                 // 1.短信登录  3.微信登录
                 if (userBasic == null){
@@ -191,9 +221,7 @@ public class UserLoginController extends BaseController {
                     }
                 }
             }
-//        }else if ("2".equals(type)){ // 医护端短因后台已经注册
-//
-//        }
+        }
 
         //判断是否是首次登陆
         Boolean firstLogin = false;
@@ -217,6 +245,7 @@ public class UserLoginController extends BaseController {
             return ResultMap.ok().put("data", userBasic);
         }
         boolean getDoctorNurse = true;
+        UserBasic userBasic1 = userBasic;
         //医生
         if ("2".equals(type)){
             userBasic = iUserBasicService.selectDoctorByData(map);
@@ -239,8 +268,9 @@ public class UserLoginController extends BaseController {
                 return ResultMap.ok().put("data", userBasic);
             }
         }
+        // 医生或护士不存在 ，则返回用户信息
         if (getDoctorNurse){
-            return ResultMap.error("该护士或者医生不存在！");
+            return ResultMap.ok().put("data", userBasic1);
         }
         return ResultMap.error("异常错误，请联系管理员");
 

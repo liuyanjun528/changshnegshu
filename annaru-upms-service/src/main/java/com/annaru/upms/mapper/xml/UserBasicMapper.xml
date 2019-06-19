@@ -82,9 +82,6 @@
         <result column="creation_time" property="creationTime" />
         <result column="openid" property="openid" />
 
-        <result column="siName" property="siName" />
-        <result column="departmentName" property="departmentName" />
-
         <association property="sysDoctor" column="user_id" javaType="com.annaru.upms.entity.SysDoctor" resultMap="SysDoctorBaseResultMap" />
 
     </resultMap>
@@ -112,9 +109,6 @@
         <result column="email_address" property="emailAddress" />
         <result column="creation_time" property="creationTime" />
         <result column="openid" property="openid" />
-
-        <result column="siName" property="siName" />
-        <result column="departmentName" property="departmentName" />
 
         <association property="sysNurse" column="user_id" javaType="com.annaru.upms.entity.SysNurse" resultMap="SysNurseBaseResultMap" />
 
@@ -144,6 +138,9 @@
         <result column="create_by" property="createBy" />
         <result column="edit_by" property="editBy" />
 
+        <result column="siName" property="siName" />
+        <result column="departmentName" property="departmentName" />
+
     </resultMap>
 
     <!-- 通用查询映射结果 护士 -->
@@ -166,6 +163,9 @@
         <result column="approve_time" property="approveTime" />
         <result column="creation_time" property="creationTime" />
         <result column="edit_time" property="editTime" />
+
+        <result column="siName" property="siName" />
+        <result column="departmentName" property="departmentName" />
 
     </resultMap>
 
@@ -247,12 +247,19 @@
             user_basic
         WHERE
             1 = 1
+            <if test="params.isHr == 1">
+                AND is_hr = 1
+            </if>
+            <if test="params.isHr != 1">
+                AND is_hr = 0
+            </if>
             <if test="params.cellphoneNo != null and params.cellphoneNo != ''">
                 AND cellphone_no = #{params.cellphoneNo}
             </if>
             <if test="params.openid != null and params.openid != ''">
                 AND openid = #{params.openid}
             </if>
+
     </select>
 
     <!-- 根据条件查询某个用户信息与医生信息 -->
@@ -304,7 +311,7 @@
         LEFT JOIN sys_institution si ON si.institution_id = d.belong_institution
         LEFT JOIN sys_department sd ON sd.sys_id = d.belong_office
         WHERE
-            1 = 1
+            1 = 1 AND b.is_hr = 0
             <if test="params.cellphoneNo != null and params.cellphoneNo != ''">
                 AND b.cellphone_no = #{params.cellphoneNo}
             </if>
@@ -360,7 +367,7 @@
         LEFT JOIN sys_institution si ON si.institution_id = n.belong_hospital
         LEFT JOIN sys_department sd ON sd.sys_id = n.belong_office
         WHERE
-            1 = 1
+            1 = 1 AND b.is_hr = 0
             <if test="params.cellphoneNo != null and params.cellphoneNo != ''">
                 AND b.cellphone_no = #{params.cellphoneNo}
             </if>
