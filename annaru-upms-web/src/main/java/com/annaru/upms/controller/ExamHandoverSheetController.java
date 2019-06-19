@@ -64,7 +64,7 @@ public class ExamHandoverSheetController extends BaseController {
     @RequiresPermissions("upms/examHandoverSheet/info")
     public ResultMap info(String orderNo){
         try {
-            List<ExamHandoverSheet> examHandoverSheets = examHandoverSheetService.selectExamHandoverSheet(orderNo);
+            ExamHandoverSheet examHandoverSheets = examHandoverSheetService.selectExamHandoverSheet(orderNo);
             return ResultMap.ok().put("data",examHandoverSheets);
         } catch (Exception e) {
             logger.error(e.getMessage());
@@ -113,13 +113,13 @@ public class ExamHandoverSheetController extends BaseController {
     @ApiOperation(value = "删除订单")
     @PostMapping("/delete")
     @RequiresPermissions("upms/examHandoverSheet/delete")
-    public ResultMap delete(String orderNo, int isHandovered) {
-        List<ExamHandoverSheet> examHandoverSheets = examHandoverSheetService.selectExamHandoverSheet(orderNo);
-            if (isHandovered==1&&isHandovered==examHandoverSheets.get(0).getIsHandovered()){
-                examHandoverSheetService.delExamHandoverSheet(orderNo, isHandovered);
+    public ResultMap delete(String orderNo) {
+        ExamHandoverSheet examHandoverSheets = examHandoverSheetService.selectExamHandoverSheet(orderNo);
+            if (1==examHandoverSheets.getIsHandovered()){
+                examHandoverSheetService.delExamHandoverSheet(orderNo);
                 return ResultMap.ok("删除成功！");
             }
-            return ResultMap.error("运行异常，请联系管理员");
+            return ResultMap.error("不能删除，因为交接单未完成");
 
     }
 

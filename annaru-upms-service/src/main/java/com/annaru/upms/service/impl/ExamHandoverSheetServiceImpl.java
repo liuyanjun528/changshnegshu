@@ -42,13 +42,13 @@ public class ExamHandoverSheetServiceImpl extends ServiceImpl<ExamHandoverSheetM
 
 
     @Override
-    public List<ExamHandoverSheet> selectExamHandoverSheet(String orderNo) {
+    public ExamHandoverSheet selectExamHandoverSheet(String orderNo) {
         return this.baseMapper.selectExamHandoverSheet(orderNo);
     }
 
     @Override
-    public int delExamHandoverSheet(String orderNo, int isHandovered) {
-        return this.baseMapper.delExamHandoverSheet(orderNo, isHandovered);
+    public int delExamHandoverSheet(String orderNo) {
+        return this.baseMapper.delExamHandoverSheet(orderNo);
     }
 
 }

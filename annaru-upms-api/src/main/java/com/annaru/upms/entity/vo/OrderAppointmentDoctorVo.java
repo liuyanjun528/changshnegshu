@@ -24,6 +24,9 @@ public class OrderAppointmentDoctorVo  implements Serializable {
     @TableField("user_age")
     private int userAge;
 
+    @TableField("entity_no")
+    private String entityNo;
+
     @TableField("entity_id")
     private String entityId;
 
@@ -84,6 +87,14 @@ public class OrderAppointmentDoctorVo  implements Serializable {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public String getEntityNo() {
+        return entityNo;
+    }
+
+    public void setEntityNo(String entityNo) {
+        this.entityNo = entityNo;
     }
 
     @Override

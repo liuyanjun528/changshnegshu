@@ -20,13 +20,14 @@ import java.util.Map;
 public interface OrderAppointmentMapper extends BaseMapper<OrderAppointment> {
 
     /**
-    * 多表页面信息查询
-    * @param page
-    * @param params
+    * 多表页面信息查询--->患者类型--》个人用户
     * @return
     */
     IPage<OrderAppointment> selectDataPage(Page page, @Param("params") Map<String, Object> params);
 
+    /**
+     * 护士订单列表
+     */
     IPage<NurseOrderList> getNurseOrderList(Page page, @Param("params") Map<String, Object> params);
 
 
@@ -38,6 +39,14 @@ public interface OrderAppointmentMapper extends BaseMapper<OrderAppointment> {
       * @Date: 2019/6/17 15:01
       */
     List<OrderAppointmentDoctorVo> selectList(@Param("relatedNo") String relatedNo,@Param("status") int status);
+
+
+    /**
+      * @Description:接收操作
+      * @Author: wh
+      * @Date: 2019/6/19 11:16
+      */
+    int updateStatus(@Param("status") int status,@Param("orderNo") String orderNo);
 
 
 }

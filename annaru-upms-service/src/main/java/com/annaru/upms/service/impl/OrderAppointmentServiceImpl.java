@@ -42,5 +42,10 @@ public class OrderAppointmentServiceImpl extends ServiceImpl<OrderAppointmentMap
         return this.baseMapper.selectList(relatedNo,status);
     }
 
+    @Override
+    public int updateStatus(int status, String orderNo) {
+        return this.baseMapper.updateStatus(status, orderNo);
+    }
+
 
 }

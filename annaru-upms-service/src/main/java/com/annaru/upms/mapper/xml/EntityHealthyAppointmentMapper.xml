@@ -29,6 +29,16 @@
         <result column="remark" property="remark"/>
     </resultMap>
 
+    <resultMap id="BaseResultMap2" type="com.annaru.upms.entity.vo.OrderAppointmentDoctorVo">
+        <result column="full_name" property="fullName"/>
+        <result column="gender" property="gender"/>
+        <result column="status" property="status"/>
+        <result column="user_age" property="userAge"/>
+        <result column="user_id" property="userId"/>
+        <result column="entity_no" property="entityNo"/>
+        <result column="time_to" property="timeTo"/>
+    </resultMap>
+
 
 	<!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.annaru.upms.entity.EntityHealthyAppointment" >
@@ -54,36 +64,23 @@
         <result column="edit_by" property="editBy" />
     </resultMap>
 
-    <!-- 多表页面信息查询分页 -->
-    <select id="selectDataPage" parameterType="map" resultMap="BaseResultMap">
-        SELECT
-              sys_id,
-              order_no,
-              entity_no,
-              user_cate,
-              user_id,
-              related_no,
-              appoint_date,
-              time_from,
-              time_to,
-              address,
-              status,
-              institution_id,
-              department_id,
-              service_option,
-              appraisal,
-              is_cancelled,
-              creation_time,
-              create_by,
-              edit_time,
-              edit_by,
-        FROM
-            entity_healthy_appointment
-        <where>
-            <if test="params.sysId != null and params.sysId != ''">
-                AND sys_id LIKE CONCAT('%', #{params.sysId}, '%')
+    <!-- 企业用户患者信息查询分页 -->
+    <select id="selectDataPage" parameterType="map" resultMap="BaseResultMap2">
+        select
+        eha.user_id,-- id
+        ub.full_name,-- 姓名
+        ub.gender,-- 性别
+        TIMESTAMPDIFF(YEAR, ub.date_of_birth, CURDATE()) AS user_age,
+        eha.entity_no,-- 公司名称
+        eha.time_to,-- 截至时间
+        eha.status -- 状态
+        from
+        entity_healthy_appointment as eha
+        LEFT JOIN user_basic as ub ON eha.user_id=ub.user_id
+            <if test="params.relatedNo != null and params.relatedNo != ''">
+                where eha.related_no=#{params.relatedNo} and eha.status=1
             </if>
-        </where>
+
     </select>
 
     <!-- 查询企业用户及亲属列表-->
@@ -160,5 +157,9 @@
         </if>
     </select>
 
+    <!--医生接收患者-->
+    <update id="updateStatusByOrderNo">
+        update entity_healthy_appointment SET status=#{status} WHERE order_no=#{orderNo}
+    </update>
 
 </mapper>
