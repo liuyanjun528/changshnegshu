@@ -61,6 +61,10 @@
         <result column="creationtime" property="creationtime" />
     </resultMap>
 
+    <resultMap id="UserPackages" type="com.annaru.upms.entity.vo.UserPackagesVo">
+        <result column="reference_no" property="referenceNo"/>
+        <result column="order_no" property="orderNo"/>
+    </resultMap>
 
     <!-- 通用查询映射结果 -->
     <resultMap id="advanceBaseResultMap" type="com.annaru.upms.entity.vo.OrderMainVoZ" >
@@ -349,6 +353,7 @@
         WHERE
         oa.appointment_cates = 3
         and oa.user_id = #{params.userId}
+        and om.reference_no = #{params.referenceNo}
         and oa.is_cancelled = 0
         and om.is_deleted = 0
     </select>
@@ -385,7 +390,9 @@
             on em.sys_id = oee.exam_master_id
             LEFT JOIN exam_detail ed
             on ed.sys_id = oee.exam_detail_id
-            where oa.user_id = #{params.userId} and (oa.appointment_cates = 2 or oa.appointment_cates = 4)
+            where oa.user_id = #{params.userId}
+            and om.reference_no = #{params.referenceNo}
+            and (oa.appointment_cates = 2 or oa.appointment_cates = 4)
             and om.is_deleted = 0
             and oa.is_cancelled = 0
     </select>
@@ -421,6 +428,16 @@
             where om.parent_no = #{params.parentNo} and (oa.appointment_cates = 2 or oa.appointment_cates = 4)
             and om.is_deleted = 0
             and oa.is_cancelled = 0
+    </select>
+
+    <select id="getToBPackages" parameterType="map" resultMap="UserPackages">
+        SELECT
+        reference_no,order_no
+        FROM order_main
+        WHERE user_id = #{params.userId}
+        AND order_cates = 3
+        AND is_deleted = 0
+        AND `status` = 2
     </select>
 
 </mapper>
