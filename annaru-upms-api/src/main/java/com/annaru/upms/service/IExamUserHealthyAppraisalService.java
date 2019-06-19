@@ -1,5 +1,6 @@
 package com.annaru.upms.service;
 
+import com.annaru.upms.entity.vo.ExamUserHealthyAppraisalDeatilVoZ;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.annaru.common.result.PageUtils;
 import com.annaru.upms.entity.ExamUserHealthyAppraisal;
@@ -28,6 +29,22 @@ public interface IExamUserHealthyAppraisalService extends IService<ExamUserHealt
      * @date 2019-6-17
      */
     ExamUserHealthyAppraisal getOneByExamUserHealthyAppraisal(ExamUserHealthyAppraisal examUserHealthyAppraisal);
+
+    /**
+     * 评估报告用户
+     * @return
+     * @author zk
+     * @date 2019-6-18
+     */
+    List<ExamUserHealthyAppraisalDeatilVoZ> getUserDeatailByExamUserHealthyAppraisal(String userId);
+
+    /**
+     * 评估报告亲属
+     * @return
+     * @author zk
+     * @date 2019-6-18
+     */
+    List<ExamUserHealthyAppraisalDeatilVoZ> getRelativesDeatailByExamUserHealthyAppraisal(String userId);
 
 
 }

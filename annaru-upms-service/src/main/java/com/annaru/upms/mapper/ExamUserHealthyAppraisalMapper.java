@@ -1,6 +1,7 @@
 package com.annaru.upms.mapper;
 
 import com.annaru.upms.entity.ExamUserHealthyAppraisal;
+import com.annaru.upms.entity.vo.ExamUserHealthyAppraisalDeatilVoZ;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -31,5 +32,21 @@ public interface ExamUserHealthyAppraisalMapper extends BaseMapper<ExamUserHealt
      * @date 2019-6-17
      */
     ExamUserHealthyAppraisal getOneByExamUserHealthyAppraisal(@Param("examUserHealthyAppraisal") ExamUserHealthyAppraisal examUserHealthyAppraisal);
+
+    /**
+     * 评估报告用户
+     * @return
+     * @author zk
+     * @date 2019-6-18
+     */
+    List<ExamUserHealthyAppraisalDeatilVoZ> getUserDeatailByExamUserHealthyAppraisal(@Param("userId") String userId);
+
+    /**
+     * 评估报告亲属
+     * @return
+     * @author zk
+     * @date 2019-6-18
+     */
+    List<ExamUserHealthyAppraisalDeatilVoZ> getRelativesDeatailByExamUserHealthyAppraisal(@Param("userId") String userId);
 
 }
