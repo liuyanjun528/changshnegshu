@@ -20,7 +20,7 @@ public interface ExamHandoverSheetVoMapper extends BaseMapper<ExamHandoverSheetV
   * @Author: wh
   * @Date: 2019/6/10 16:52
   */
-    List<ExamHandoverSheetVo> selectNurseOrderInfo(@Param("orderNo") String orderNo);
+    ExamHandoverSheetVo selectNurseOrderInfo(@Param("orderNo") String orderNo);
 
 
 }

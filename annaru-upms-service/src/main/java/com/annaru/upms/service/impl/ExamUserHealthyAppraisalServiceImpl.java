@@ -32,7 +32,7 @@ public class ExamUserHealthyAppraisalServiceImpl extends ServiceImpl<ExamUserHea
 
     @Override
     public ExamUserHealthyAppraisal getOneByExamUserHealthyAppraisal(ExamUserHealthyAppraisal examUserHealthyAppraisal) {
-        return null;
+        return this.baseMapper.getOneByExamUserHealthyAppraisal(examUserHealthyAppraisal);
     }
 
 }

@@ -111,6 +111,19 @@ public class OrderAppointmentController extends BaseController {
     }
 
 
+
+    /**
+     * 待确认患者列表
+     */
+    @ApiOperation(value = "待确认患者列表", notes = "待确认患者列表")
+    @GetMapping("/selectListInfo")
+    @RequiresPermissions("upms/orderAppointment/selectListInfo")
+    public ResultMap selectListInfo(String relatedNo, int status){
+        List<OrderAppointmentDoctorVo> orderAppointmentDoctorVos = orderAppointmentService.selectList(relatedNo, status);
+        return ResultMap.ok().put("data",orderAppointmentDoctorVos);
+    }
+
+
     /**
      * 信息
      */
@@ -169,9 +182,11 @@ public class OrderAppointmentController extends BaseController {
                             orderAppointmentService.save(appointment);
                         }
                     }
-            }else if (orderAppointment.getAppointmentCates()==2||orderAppointment.getAppointmentCates()==4
+            }else if (orderAppointment.getAppointmentCates()==2
                     &&orderAppointment.getInstitutionId()!=null
-                    &&orderAppointment.getParentNo()!=null){
+                    &&orderAppointment.getParentNo()!=null
+                    &&orderAppointment.getExamDetailId()!=null
+                    &&orderAppointment.getExamMasterId()!=null){
                 String orderNo = createOrderNo();
                 Integer orderCates = orderAppointment.getAppointmentCates();
                 String userId = orderAppointment.getUserId();
@@ -190,6 +205,35 @@ public class OrderAppointmentController extends BaseController {
                 orderExtensionExamService.save(orderExtensionExam);
                 orderMain.setUserId(userId);
                 orderMain.setParentNo(parentNo);
+                orderMain.setOrderNo(orderNo);
+                orderMain.setStatus(0);
+                orderMain.setOrderCates(orderCates);
+                orderMainService.save(orderMain);
+            }else if (orderAppointment.getAppointmentCates()==4
+                    &&orderAppointment.getInstitutionId()!=null
+                    &&orderAppointment.getParentNo()!=null
+                    &&orderAppointment.getExamDetailId()!=null
+                    &&orderAppointment.getExamMasterId()!=null
+            &&orderAppointment.getHrOppointmentId()!=null) {
+                String orderNo = createOrderNo();
+                Integer orderCates = orderAppointment.getAppointmentCates();
+                String userId = orderAppointment.getUserId();
+                String parentNo = orderAppointment.getParentNo();
+                appointment.setRelatedNo(parentNo);
+                appointment.setInstitutionId(orderAppointment.getInstitutionId());
+                appointment.setUserId(userId);
+                appointment.setAppointmentCates(orderCates);
+                appointment.setCreateBy(userId);
+                appointment.setOrderNo(orderNo);
+                orderAppointmentService.save(appointment);
+                orderExtensionExam.setCreateBy(userId);
+                orderExtensionExam.setExamDetailId(orderAppointment.getExamDetailId());
+                orderExtensionExam.setExamMasterId(orderAppointment.getExamMasterId());
+                orderExtensionExam.setOrderNo(orderNo);
+                orderExtensionExamService.save(orderExtensionExam);
+                orderMain.setUserId(userId);
+                orderMain.setParentNo(parentNo);
+                orderMain.setHrOppointmentId(orderAppointment.getHrOppointmentId());
                 orderMain.setOrderNo(orderNo);
                 orderMain.setStatus(0);
                 orderMain.setOrderCates(orderCates);
@@ -234,6 +278,14 @@ public class OrderAppointmentController extends BaseController {
                     orderAdditionalInfo.setAppointmentCates(6);
                     if (orderAppointment.getSituations()!=null){
                         orderAdditionalInfo.setSituations(orderAppointment.getSituations());
+                    }
+                    if (orderAppointment.getAmount()!=null&&orderAppointment.getAmount()!=0){
+                        orderMain.setOrderCates(6);
+                        orderMain.setOrderNo(orderNo);
+                        orderMain.setStatus(0);
+                        orderMain.setUserId(userId);
+                        orderMain.setAmount(orderAppointment.getAmount());
+                        orderMainService.save(orderMain);
                     }
                     orderAdditionalInfo.setAmount(orderAppointment.getAmount());
                     orderAdditionalInfoService.save(orderAdditionalInfo);

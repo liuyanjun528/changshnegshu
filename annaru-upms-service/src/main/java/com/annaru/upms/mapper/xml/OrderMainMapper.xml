@@ -17,6 +17,7 @@
         <result column="option_1" property="serviceOption" />
         <result column="package_name" property="packageName"/>
         <result column="appointment_status" property="appointmentStatus" />
+        <result column="hr_oppointment_id" property="hrOppointmentId"/>
         <result column="reference_no" property="referenceNo" />
         <result column="user_id" property="userId" />
         <result column="entity_id" property="entityId"/>
@@ -47,6 +48,7 @@
         <result column="sys_id" property="sysId" />
         <result column="order_no" property="orderNo" />
         <result column="reference_no" property="referenceNo" />
+        <result column="hr_oppointment_id" property="hrOppointmentId"/>
         <result column="order_cates" property="orderCates" />
         <result column="user_id" property="userId" />
         <result column="cellphone_no" property="cellphoneNo" />

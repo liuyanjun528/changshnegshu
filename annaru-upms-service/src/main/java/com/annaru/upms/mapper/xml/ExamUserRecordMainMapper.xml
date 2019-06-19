@@ -15,7 +15,7 @@
           sys_id,
           order_no,
           user_id,
-          creation_time,
+          creation_time
     </sql>
 
     <!-- 多表页面信息查询分页 -->

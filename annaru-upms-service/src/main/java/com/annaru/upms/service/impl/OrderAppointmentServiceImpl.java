@@ -4,6 +4,7 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.annaru.common.result.PageUtils;
 import com.annaru.upms.entity.OrderAppointment;
 import com.annaru.upms.entity.vo.NurseOrderList;
+import com.annaru.upms.entity.vo.OrderAppointmentDoctorVo;
 import com.annaru.upms.mapper.OrderAppointmentMapper;
 import com.annaru.upms.service.IOrderAppointmentService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -36,6 +37,10 @@ public class OrderAppointmentServiceImpl extends ServiceImpl<OrderAppointmentMap
         return new PageUtils<NurseOrderList>(iPage);
     }
 
+    @Override
+    public List<OrderAppointmentDoctorVo> selectList(String relatedNo, int status) {
+        return this.baseMapper.selectList(relatedNo,status);
+    }
 
 
 }

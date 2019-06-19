@@ -17,7 +17,7 @@
           main_id,
           question_id,
           remark,
-          answer_detail,
+          answer_detail
     </sql>
 
     <!-- 多表页面信息查询分页 -->

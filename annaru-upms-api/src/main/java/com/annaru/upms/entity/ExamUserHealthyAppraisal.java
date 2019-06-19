@@ -1,12 +1,14 @@
 package com.annaru.upms.entity;
 
 import com.annaru.common.util.JacksonUtils;
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.models.auth.In;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -28,7 +30,7 @@ public class ExamUserHealthyAppraisal extends Model<ExamUserHealthyAppraisal> im
 	 * 系统编号
 	 */
     @ApiModelProperty(value = "系统编号")
-	@TableId
+	@TableId(type = IdType.AUTO)
 	private Integer sysId;
 	/**
 	 * 订单号
@@ -36,6 +38,12 @@ public class ExamUserHealthyAppraisal extends Model<ExamUserHealthyAppraisal> im
     @ApiModelProperty(value = "订单号")
 	@TableField("order_no")
 	private String orderNo;
+	/**
+	 * 用户类别(1:本人/2:亲属)
+	 */
+	@ApiModelProperty(value = "用户类别(1:本人/2:亲属)")
+	@TableField("user_cate")
+	private Integer userCate;
 	/**
 	 * 用户编号
 	 */
@@ -64,6 +72,21 @@ public class ExamUserHealthyAppraisal extends Model<ExamUserHealthyAppraisal> im
 	 */
     @ApiModelProperty(value = "方案建议")
 	private String suggestions;
+	/**
+	 * 是否已经提交(0:未提交1:已提交)
+	 */
+	@ApiModelProperty(value = "是否已经提交(0:未提交1:已提交)")
+	private Integer isSubmitted;
+	/**
+	 * 提交时间
+	 */
+	@ApiModelProperty(value = "提交时间")
+	private Date submitTime;
+	/**
+	 * 评估人 医生编号
+	 */
+	@ApiModelProperty(value = "评估人 医生编号")
+	private String submitBy;
 
     /**
      * 获取：系统编号
@@ -150,7 +173,32 @@ public class ExamUserHealthyAppraisal extends Model<ExamUserHealthyAppraisal> im
 		this.suggestions = suggestions;
 	}
 
-    @Override
+	public Integer getIsSubmitted() {
+		return isSubmitted;
+	}
+	public void setIsSubmitted(Integer isSubmitted) {
+		this.isSubmitted = isSubmitted;
+	}
+	public Date getSubmitTime() {
+		return submitTime;
+	}
+	public void setSubmitTime(Date submitTime) {
+		this.submitTime = submitTime;
+	}
+	public String getSubmitBy() {
+		return submitBy;
+	}
+	public void setSubmitBy(String submitBy) {
+		this.submitBy = submitBy;
+	}
+	public Integer getUserCate() {
+		return userCate;
+	}
+	public void setUserCate(Integer userCate) {
+		this.userCate = userCate;
+	}
+
+	@Override
 	protected Serializable pkVal() {
 		return this.sysId;
 	}

@@ -24,6 +24,7 @@ public class SysLinkageVo extends Model<SysLinkageVo> implements Serializable {
 
 	private Integer seqno;
 	private String name;
+	private String value;
 
 	public Integer getSeqno() {
 		return seqno;
@@ -39,5 +40,13 @@ public class SysLinkageVo extends Model<SysLinkageVo> implements Serializable {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getValue() {
+		return value;
+	}
+
+	public void setValue(String value) {
+		this.value = value;
 	}
 }

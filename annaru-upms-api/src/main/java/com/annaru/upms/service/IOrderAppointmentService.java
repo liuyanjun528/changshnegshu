@@ -3,6 +3,7 @@ package com.annaru.upms.service;
 import com.annaru.common.result.PageUtils;
 import com.annaru.upms.entity.OrderAppointment;
 import com.annaru.upms.entity.vo.NurseOrderList;
+import com.annaru.upms.entity.vo.OrderAppointmentDoctorVo;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.apache.ibatis.annotations.Param;
 
@@ -26,6 +27,14 @@ public interface IOrderAppointmentService extends IService<OrderAppointment> {
 
     PageUtils getNurseOrderList(Map<String,Object> params);
 
+    /**
+     * @Description:待确认患者列表
+     * @Author: wh
+     * @param relatedNo  医生编号
+     * @param status 状态 0:待确认/1:已确认
+     * @Date: 2019/6/17 15:01
+     */
+    List<OrderAppointmentDoctorVo> selectList(String relatedNo, int status);
 
 }
 

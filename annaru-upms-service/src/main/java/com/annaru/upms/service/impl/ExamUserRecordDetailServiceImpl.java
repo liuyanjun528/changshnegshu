@@ -30,6 +30,7 @@ public class ExamUserRecordDetailServiceImpl extends ServiceImpl<ExamUserRecordD
 
     @Resource
     private IExamUserRecordMainService examUserRecordMainService;
+    @Resource
     private IExamUserRecordDetailService examUserRecordDetailService;
 
     @Override
