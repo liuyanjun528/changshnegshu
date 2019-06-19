@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.models.auth.In;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -204,23 +205,11 @@ public class UserBasic extends Model<UserBasic> implements Serializable {
 	private String openid;
 
 	/**
-	 * 所属机构医院
-	 * @return
-	 */
-	@TableField(exist = false)
-	private String siName;
-	/**
-	 * 所属科室
-	 * @return
-	 */
-	@TableField(exist = false)
-	private String departmentName;
-	/**
 	 * 是否是企业HR(0:不是/1是)
 	 * @return
 	 */
 	@ApiModelProperty(value = "是否是企业HR(0:不是/1是)")
-	private String isHr;
+	private Integer isHr;
 
 	public SysDoctor getSysDoctor() {
 		return sysDoctor;
@@ -523,22 +512,10 @@ public class UserBasic extends Model<UserBasic> implements Serializable {
 	public String getOpenid() {
 		return openid;
 	}
-	public String getSiName() {
-		return siName;
-	}
-	public void setSiName(String siName) {
-		this.siName = siName;
-	}
-	public String getDepartmentName() {
-		return departmentName;
-	}
-	public void setDepartmentName(String departmentName) {
-		this.departmentName = departmentName;
-	}
-	public String getIsHr() {
+	public Integer getIsHr() {
 		return isHr;
 	}
-	public void setIsHr(String isHr) {
+	public void setIsHr(Integer isHr) {
 		this.isHr = isHr;
 	}
 

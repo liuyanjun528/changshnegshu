@@ -5,7 +5,6 @@ import java.util.*;
 import com.annaru.upms.entity.ExamUserRecordMain;
 import com.annaru.upms.entity.vo.ExamUserRecordDetailVoSaveZ;
 import com.annaru.upms.service.IExamUserRecordMainService;
-import jodd.util.StringUtil;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import com.alibaba.dubbo.config.annotation.Reference;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +14,6 @@ import io.swagger.annotations.ApiParam;
 
 import com.annaru.common.base.BaseController;
 import com.annaru.common.result.PageUtils;
-import com.annaru.upms.shiro.ShiroKit;
 import com.annaru.common.result.ResultMap;
 
 import com.annaru.upms.entity.ExamUserRecordDetail;
@@ -96,7 +94,7 @@ public class ExamUserRecordDetailController extends BaseController {
             ExamUserRecordMain examUserRecordMain1 = examUserRecordMainService.getOneByExamUserRecordMain(examUserRecordMain);
             if (examUserRecordMain1 != null){
                 ExamUserRecordDetail examUserRecordDetail = new ExamUserRecordDetail();
-                examUserRecordDetail.setMainId(examUserRecordMain.getSysId());
+                examUserRecordDetail.setMainId(examUserRecordMain1.getSysId());
                 return ResultMap.ok().put("data", examUserRecordDetailService.getOneByExamUserRecordDetail(examUserRecordDetail));
             }else {
                 return ResultMap.error("此用户订单的数据登记不存在！");
@@ -125,7 +123,7 @@ public class ExamUserRecordDetailController extends BaseController {
                 return ResultMap.error("此用户订单的数据登记已存在！");
             }
             if (examUserRecordDetailService.recordDetailSave(examUserRecordDetailVoSaveZ.getOrderNo(), examUserRecordDetailVoSaveZ.getUserId(), examUserRecordDetailVoSaveZ.getExamUserRecordDetailList())){
-                return ResultMap.error("添加成功");
+                return ResultMap.ok("添加成功");
             }
             return ResultMap.error("运行异常，请联系管理员");
         } catch (Exception e) {

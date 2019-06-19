@@ -1,6 +1,7 @@
 package com.annaru.upms.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.annaru.upms.entity.vo.ExamUserHealthyAppraisalDeatilVoZ;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -33,6 +34,16 @@ public class ExamUserHealthyAppraisalServiceImpl extends ServiceImpl<ExamUserHea
     @Override
     public ExamUserHealthyAppraisal getOneByExamUserHealthyAppraisal(ExamUserHealthyAppraisal examUserHealthyAppraisal) {
         return this.baseMapper.getOneByExamUserHealthyAppraisal(examUserHealthyAppraisal);
+    }
+
+    @Override
+    public List<ExamUserHealthyAppraisalDeatilVoZ> getUserDeatailByExamUserHealthyAppraisal(String userId) {
+        return this.baseMapper.getUserDeatailByExamUserHealthyAppraisal(userId);
+    }
+
+    @Override
+    public List<ExamUserHealthyAppraisalDeatilVoZ> getRelativesDeatailByExamUserHealthyAppraisal(String userId) {
+        return this.baseMapper.getRelativesDeatailByExamUserHealthyAppraisal(userId);
     }
 
 }

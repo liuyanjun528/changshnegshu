@@ -180,7 +180,18 @@ public class SysDoctor extends Model<SysDoctor> implements Serializable {
 	@ApiModelProperty(value = "编辑人")
 	@TableField("edit_by")
 	private Integer editBy;
-
+	/**
+	 * 所属机构医院
+	 * @return
+	 */
+	@TableField(exist = false)
+	private String siName;
+	/**
+	 * 所属科室
+	 * @return
+	 */
+	@TableField(exist = false)
+	private String departmentName;
 	/**
 	 * 获取：系统编号
 	 */
@@ -447,6 +458,18 @@ public class SysDoctor extends Model<SysDoctor> implements Serializable {
 	}
 	public void setBelongInstitution(String belongInstitution) {
 		this.belongInstitution = belongInstitution;
+	}
+	public String getDepartmentName() {
+		return departmentName;
+	}
+	public void setDepartmentName(String departmentName) {
+		this.departmentName = departmentName;
+	}
+	public String getSiName() {
+		return siName;
+	}
+	public void setSiName(String siName) {
+		this.siName = siName;
 	}
 
 	@Override

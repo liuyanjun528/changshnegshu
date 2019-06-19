@@ -27,12 +27,21 @@ public class OrderInfoVo extends Model<OrderInfoVo> implements Serializable {
 	private String serviceOption;
 	private Integer appointmentStatus;
 	private Integer orderCates;
+	private Integer hrOppointmentId;
 	private String referenceNo;
 	private String parentNo;
 	private String userId;
 	private String packageName;
 	private String entityId;
 	private List<ExamChooseVo> examChooseList;
+
+	public Integer getHrOppointmentId() {
+		return hrOppointmentId;
+	}
+
+	public void setHrOppointmentId(Integer hrOppointmentId) {
+		this.hrOppointmentId = hrOppointmentId;
+	}
 
 	public String getPackageName() {
 		return packageName;

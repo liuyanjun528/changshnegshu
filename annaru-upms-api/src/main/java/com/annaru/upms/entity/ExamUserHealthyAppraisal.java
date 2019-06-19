@@ -87,6 +87,11 @@ public class ExamUserHealthyAppraisal extends Model<ExamUserHealthyAppraisal> im
 	 */
 	@ApiModelProperty(value = "评估人 医生编号")
 	private String submitBy;
+	/**
+	 * 评估人 医生姓名
+	 */
+	@TableField(exist = false)
+	private String fullName;
 
     /**
      * 获取：系统编号
@@ -196,6 +201,12 @@ public class ExamUserHealthyAppraisal extends Model<ExamUserHealthyAppraisal> im
 	}
 	public void setUserCate(Integer userCate) {
 		this.userCate = userCate;
+	}
+	public String getFullName() {
+		return fullName;
+	}
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
 	}
 
 	@Override

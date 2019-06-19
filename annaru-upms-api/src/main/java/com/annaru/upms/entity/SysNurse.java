@@ -130,6 +130,18 @@ public class SysNurse extends Model<SysNurse> implements Serializable {
 	 */
 	@ApiModelProperty(value = "个人简介")
 	private String introductions;
+	/**
+	 * 所属机构医院
+	 * @return
+	 */
+	@TableField(exist = false)
+	private String siName;
+	/**
+	 * 所属科室
+	 * @return
+	 */
+	@TableField(exist = false)
+	private String departmentName;
     /**
      * 获取：系统编号
      */
@@ -327,6 +339,18 @@ public class SysNurse extends Model<SysNurse> implements Serializable {
 	}
 	public void setIntroductions(String introductions) {
 		this.introductions = introductions;
+	}
+	public String getDepartmentName() {
+		return departmentName;
+	}
+	public void setDepartmentName(String departmentName) {
+		this.departmentName = departmentName;
+	}
+	public String getSiName() {
+		return siName;
+	}
+	public void setSiName(String siName) {
+		this.siName = siName;
 	}
 
 	@Override
