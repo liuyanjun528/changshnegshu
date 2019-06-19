@@ -51,14 +51,14 @@
     </update>
 
     <!--上传交接单 通过订单号-->
-    <insert id="updateExamHandoverSheetByOrderNo">
+    <update id="updateExamHandoverSheetByOrderNo">
         update exam_handover_sheet set
         sample_code=#{sampleCode},
         handover_by=#{handoverBy},
         handover_time=#{handoverTime},
         images=#{images}
         WHERE order_no=#{orderNo}
-    </insert>
+    </update>
 
     <!--查看交接单 通过订单号-->
     <select id="selectExamHandoverSheet" parameterType="map" resultMap="BaseResultMap">
