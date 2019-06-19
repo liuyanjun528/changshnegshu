@@ -54,9 +54,9 @@ public class UserLoginController extends BaseController {
         }
 
         String kaptcha = kaptcha();
-//        Map<String ,Object> isOk = MessageUtils.sendTemplateSMS(cellphoneNo, MessageUtils.loginId, kaptcha,"1");
-        if (true){ // isOk != null && StringUtil.isNotBlank((String)isOk.get("statusCode"))
-            if (true){ // "000000".equals((String)isOk.get("statusCode"))
+        Map<String ,Object> isOk = MessageUtils.sendTemplateSMS(cellphoneNo, MessageUtils.loginId, kaptcha,"1");
+        if (isOk != null && StringUtil.isNotBlank((String)isOk.get("statusCode"))){ // isOk != null && StringUtil.isNotBlank((String)isOk.get("statusCode"))
+            if ("000000".equals((String)isOk.get("statusCode"))){ // "000000".equals((String)isOk.get("statusCode"))
                 //验证码发送成功
                 redisService.set(cellphoneNo, kaptcha);
                 redisService.set(cellphoneNo, kaptcha, kaptchaSeconds);
