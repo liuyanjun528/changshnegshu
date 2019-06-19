@@ -7,6 +7,7 @@
     <resultMap id="BaseResultMap" type="com.annaru.upms.entity.ExamUserHealthyAppraisal" >
         <result column="sys_id" property="sysId" />
         <result column="order_no" property="orderNo" />
+        <result column="user_cate" property="userCate" />
         <result column="user_id" property="userId" />
         <result column="risk_cate" property="riskCate" />
         <result column="existed_issue" property="existedIssue" />
@@ -15,8 +16,62 @@
         <result column="is_submitted" property="isSubmitted" />
         <result column="submit_time" property="submitTime" />
         <result column="submit_by" property="submitBy" />
+        <result column="full_name" property="fullName" />
     </resultMap>
-    
+
+    <!-- 通用查询映射结果 评估报告 -->
+    <resultMap id="BaseResultMap1" type="com.annaru.upms.entity.vo.ExamUserHealthyAppraisalDeatilVoZ" >
+        <result column="remark" property="remark" />
+        <result column="answerDetail" property="answerDetail" />
+        <result column="sysId" property="sysId" />
+        <result column="submitTime" property="submitTime" />
+        <result column="riskCate" property="riskCate" />
+        <result column="existedIssue" property="existedIssue" />
+        <result column="suggestions" property="suggestions" />
+        <result column="remarks" property="remarks" />
+        <result column="fullName" property="fullName" />
+        <result column="relativeName" property="relativeName" />
+        <result column="entityName" property="entityName" />
+        <result column="entityId" property="entityId" />
+        <result column="gender" property="gender" />
+    </resultMap>
+
+    <select id="getUserDeatailByExamUserHealthyAppraisal" parameterType="string" resultMap="BaseResultMap1">
+        SELECT
+        erd.remark remark, erd.answer_detail answerDetail,
+        eha.sys_id sysId, eha.submit_time submitTime, eha.risk_cate riskCate, eha.existed_issue existedIssue, eha.suggestions suggestions, eha.remarks remarks,
+        ub.full_name fullName, se.entity_name relativeName, se.entity_id entityName, ub.gender gender
+        FROM exam_user_healthy_appraisal eha
+        LEFT JOIN exam_user_record_main erm ON eha.user_id = erm.user_id
+        LEFT JOIN exam_user_record_detail erd ON erm.sys_id = erd.main_id
+
+        LEFT JOIN user_basic ub ON ub.user_id = eha.user_id
+        LEFT JOIN user_entity_mapping uem ON uem.user_id = ub.user_id
+        LEFT JOIN sys_entity se ON se.entity_id = uem.entity_id
+        WHERE 1 = 1
+        <if test="userId != null and userId != ''">
+            AND eha.user_id = #{userId}
+        </if>
+    </select>
+
+    <select id="getRelativesDeatailByExamUserHealthyAppraisal" parameterType="string" resultMap="BaseResultMap1">
+        SELECT
+        erd.remark remark, erd.answer_detail answerDetail,
+        eha.sys_id sysId, eha.submit_time submitTime, eha.risk_cate riskCate, eha.existed_issue existedIssue, eha.suggestions suggestions, eha.remarks remarks,
+        ur.relative_name relativeName, se.entity_name entityName, se.entity_id, ur.gender gender
+        FROM exam_user_healthy_appraisal eha
+        LEFT JOIN exam_user_record_main erm ON eha.user_id = erm.user_id
+        LEFT JOIN exam_user_record_detail erd ON erm.sys_id = erd.main_id
+
+        LEFT JOIN user_relatives ur ON ur.relative_id = eha.user_id
+        LEFT JOIN user_entity_mapping uem ON uem.user_id = ur.user_id
+        LEFT JOIN sys_entity se ON se.entity_id = uem.entity_id
+        WHERE 1 = 1
+        <if test="userId != null and userId != ''">
+            AND eha.user_id = #{userId}
+        </if>
+    </select>
+
     <sql id="BaseClounmSql">
           sys_id,
           order_no,
@@ -43,17 +98,30 @@
     <select id="getOneByExamUserHealthyAppraisal" parameterType="com.annaru.upms.entity.ExamUserHealthyAppraisal" resultMap="BaseResultMap">
 
         SELECT
-        <include refid="BaseClounmSql"></include>
+        eha.sys_id,
+        eha.order_no,
+        eha.user_cate,
+        eha.user_id,
+        eha.risk_cate,
+        eha.existed_issue,
+        eha.remarks,
+        eha.suggestions,
+        eha.is_submitted,
+        eha.submit_time,
+        eha.submit_by,
+        ub.full_name
         FROM
-        exam_user_healthy_appraisal
+        exam_user_healthy_appraisal eha
+        LEFT JOIN user_basic ub ON ub.user_id = eha.submit_by
         WHERE 1 = 1
         <if test="examUserHealthyAppraisal.orderNo != null and examUserHealthyAppraisal.orderNo != ''">
-            AND order_no = #{examUserHealthyAppraisal.orderNo}
+            AND eha.order_no = #{examUserHealthyAppraisal.orderNo}
         </if>
         <if test="examUserHealthyAppraisal.userId != null and examUserHealthyAppraisal.userId != ''">
-            AND user_id = #{examUserHealthyAppraisal.userId}
+            AND eha.user_id = #{examUserHealthyAppraisal.userId}
         </if>
 
     </select>
+
 
 </mapper>

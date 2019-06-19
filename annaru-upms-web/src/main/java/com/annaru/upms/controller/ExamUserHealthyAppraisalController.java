@@ -124,17 +124,21 @@ public class ExamUserHealthyAppraisalController extends BaseController {
             examUserRecordMain.setOrderNo(orderNo);
             examUserRecordMain.setUserId(userId);
             ExamUserRecordMain examUserRecordMainIf = examUserRecordMainService.getOneByExamUserRecordMain(examUserRecordMain);
+            if (examUserRecordMainIf == null){
+                return ResultMap.error("数据登记未完成！");
+            }
             ExamUserHealthyAppraisal examUserHealthyAppraisal = new ExamUserHealthyAppraisal();
             examUserHealthyAppraisal.setOrderNo(orderNo);
             examUserHealthyAppraisal.setUserId(userId);
             ExamUserHealthyAppraisal examUserHealthyAppraisal1 = examUserHealthyAppraisalService.getOneByExamUserHealthyAppraisal(examUserHealthyAppraisal);
-            if (examUserRecordMainIf != null && examUserHealthyAppraisal1 != null){
-                examUserHealthyAppraisal1.setIsSubmitted(1);
-                examUserHealthyAppraisal1.setSubmitTime(new Date());
-                examUserHealthyAppraisal1.setSubmitBy(submitBy);
-                if (examUserHealthyAppraisalService.updateById(examUserHealthyAppraisal1)){
-                    return ResultMap.error("提交成功！");
-                }
+            if (examUserHealthyAppraisal1 == null){
+                return ResultMap.error("健康评估未完成！");
+            }
+            examUserHealthyAppraisal1.setIsSubmitted(1);
+            examUserHealthyAppraisal1.setSubmitTime(new Date());
+            examUserHealthyAppraisal1.setSubmitBy(submitBy);
+            if (examUserHealthyAppraisalService.updateById(examUserHealthyAppraisal1)){
+                return ResultMap.error("提交成功！");
             }
             return ResultMap.error("运行异常，请联系管理员");
         } catch (Exception e) {
@@ -144,11 +148,11 @@ public class ExamUserHealthyAppraisalController extends BaseController {
     }
 
     /**
-     * @description 健康评估自己/亲属列表
+     * @description 健康评估与风险预测
      * @author zk
      * @date 2019-6-18
      */
-    @ApiOperation(value = "健康评估自己/亲属列表", notes = "健康评估自己/亲属列表")
+    @ApiOperation(value = "健康评估与风险预测", notes = "健康评估与风险预测")
     @GetMapping("/liExamUserHealthyAppraisal")
     @RequiresPermissions("upms/examUserHealthyAppraisal/liExamUserHealthyAppraisal")
     public ResultMap liExamUserHealthyAppraisal(@RequestParam("userId") String userId){
@@ -164,19 +168,24 @@ public class ExamUserHealthyAppraisalController extends BaseController {
     }
 
     /**
-     * @description 健康评估自己/亲属详情
+     * @description 健康评估详情
      * @author zk
      * @date 2019-6-18
      */
-    @ApiOperation(value = "健康评估自己/亲属详情", notes = "健康评估自己/亲属详情")
+    @ApiOperation(value = "健康评估详情", notes = "健康评估详情")
     @GetMapping("/deatiaExamUserHealthyAppraisal")
     @RequiresPermissions("upms/examUserHealthyAppraisal/deatiaExamUserHealthyAppraisal")
     public ResultMap deatiaExamUserHealthyAppraisal(@RequestParam("userId") String userId, @RequestParam("userCate") Integer userCate){
         try {
-            ExamUserHealthyAppraisal examUserHealthyAppraisal = new ExamUserHealthyAppraisal();
-            examUserHealthyAppraisal.setUserId(userId);
-            ExamUserHealthyAppraisal examUserHealthyAppraisal1 = examUserHealthyAppraisalService.getOneByExamUserHealthyAppraisal(examUserHealthyAppraisal);
-            return ResultMap.ok().put("data",examUserHealthyAppraisal1);
+            // 本人
+            if (userCate == 1){
+                return ResultMap.ok().put("data", examUserHealthyAppraisalService.getUserDeatailByExamUserHealthyAppraisal(userId));
+            }
+            // 亲属
+            if (userCate == 2){
+                return ResultMap.ok().put("data", examUserHealthyAppraisalService.getRelativesDeatailByExamUserHealthyAppraisal(userId));
+            }
+            return ResultMap.ok().put("data",null);
         } catch (Exception e) {
             logger.error(e.getMessage());
             return ResultMap.error("运行异常，请联系管理员");
