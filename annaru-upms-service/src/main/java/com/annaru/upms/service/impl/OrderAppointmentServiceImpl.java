@@ -48,11 +48,6 @@ public class OrderAppointmentServiceImpl extends ServiceImpl<OrderAppointmentMap
     }
 
     @Override
-    public List<OrderAppointmentDoctorVo> selectOutpatientAppointment(String relatedNo, int status) {
-        return this.baseMapper.selectOutpatientAppointment(relatedNo, status);
-    }
-
-    @Override
     public boolean updateIsCancelled(int isCancelled, String orderNo) {
         if (this.baseMapper.updateIsCancelled(isCancelled, orderNo) > 0){
             return true;
@@ -65,5 +60,9 @@ public class OrderAppointmentServiceImpl extends ServiceImpl<OrderAppointmentMap
         return this.baseMapper.getOrderAppointment(orderAppointment);
     }
 
+    @Override
+    public List<OrderAppointmentDoctorVo> selectOutpatientAppointment(String relatedNo, int status) {
+        return this.baseMapper.selectOutpatientAppointment(relatedNo, status);
+    }
 
 }
