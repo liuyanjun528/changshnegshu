@@ -49,5 +49,10 @@ public class EntityHealthyAppointmentServiceImpl extends ServiceImpl<EntityHealt
         return this.baseMapper.updateStatusByOrderNo(status,orderNo);
     }
 
+    @Override
+    public List<EntityHealthyAppointmentVo> selectUpDoorServer(int status, String relatedNo, int isSubmitted) {
+        return this.baseMapper.selectUpDoorServer(status, relatedNo, isSubmitted);
+    }
+
 
 }

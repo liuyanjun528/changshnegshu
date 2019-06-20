@@ -48,5 +48,12 @@ public interface EntityHealthyAppointmentMapper extends BaseMapper<EntityHealthy
     int updateStatusByOrderNo(@Param("status") int status,@Param("orderNo") String orderNo);
 
 
+    /**
+      * @Description:待上门服务列表
+      * @Author: wh
+      * @Date: 2019/6/20 11:36
+      */
+    List<EntityHealthyAppointmentVo> selectUpDoorServer(@Param("status") int status,@Param("relatedNo") String relatedNo,@Param("isSubmitted") int isSubmitted);
+
 
 }

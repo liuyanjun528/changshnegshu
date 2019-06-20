@@ -50,6 +50,25 @@ public class EntityHealthyAppointmentController extends BaseController {
 
 
     /**
+     * 待上门服务列表
+     */
+    @ApiOperation(value = "待上门服务列表", notes = "待上门服务列表")
+    @GetMapping("/selectUpDoorList")
+    public ResultMap selectUpDoorList(Integer status, String relatedNo, Integer isSubmitted){
+        if(status==null){
+            status=100;
+        }
+        if(isSubmitted==null){
+            isSubmitted=100;
+        }
+        List<EntityHealthyAppointmentVo> entityHealthyAppointmentVos = entityHealthyAppointmentService.selectUpDoorServer(status, relatedNo, isSubmitted);
+        return ResultMap.ok().put("data",entityHealthyAppointmentVos);
+    }
+
+
+
+
+    /**
      * 医生接收患者 修改status状态
      */
     @ApiOperation(value = "医生接收患者")

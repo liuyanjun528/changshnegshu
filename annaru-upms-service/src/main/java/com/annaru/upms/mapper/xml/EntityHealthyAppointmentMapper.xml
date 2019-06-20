@@ -37,6 +37,10 @@
         <result column="user_id" property="userId"/>
         <result column="entity_no" property="entityNo"/>
         <result column="time_to" property="timeTo"/>
+        <result column="total_qty" property="totalQty"/>
+        <result column="address" property="address"/>
+        <result column="appoint_date" property="appointDate"/>
+
     </resultMap>
 
 
@@ -161,5 +165,32 @@
     <update id="updateStatusByOrderNo">
         update entity_healthy_appointment SET status=#{status} WHERE order_no=#{orderNo}
     </update>
+
+
+    <!--待上门服务列表-->
+    <select id="selectUpDoorServer" parameterType="map" resultMap="BaseResultMap2">
+         select
+		        ub.full_name,-- 姓名
+			    ub.gender,-- 性别
+			    TIMESTAMPDIFF(YEAR, ub.date_of_birth, CURDATE()) AS user_age,
+			    eha.address,-- 预约地址
+			    eha.appoint_date,-- 预约时间
+			    eha.status,
+			    om.total_qty-- 人数
+        from
+                entity_healthy_appointment as eha
+        LEFT JOIN user_basic as ub ON eha.user_id=ub.user_id
+		LEFT JOIN order_main as om ON eha.order_no=om.order_no
+		LEFT JOIN exam_user_healthy_appraisal as euha ON euha.order_no=eha.order_no
+        WHERE eha.related_no=#{relatedNo} and eha.pkg_main_id=8 and eha.pkg_detail_id=801
+
+        <if test="status==0 or status==1">
+            and eha.status=#{status}
+        </if>
+        <if test="isSubmitted==0">
+            and euha.is_submitted=#{isSubmitted}
+        </if>
+
+    </select>
 
 </mapper>

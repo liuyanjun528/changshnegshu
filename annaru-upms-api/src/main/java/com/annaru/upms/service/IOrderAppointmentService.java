@@ -43,5 +43,13 @@ public interface IOrderAppointmentService extends IService<OrderAppointment> {
      */
     int updateStatus(int status,String orderNo);
 
+
+    /**
+     * @Description:医生端待确认预约
+     * @Author: wh
+     * @Date: 2019/6/19 17:06
+     */
+    List<OrderAppointmentDoctorVo> selectOutpatientAppointment(String relatedNo,int status);
+
 }
 

@@ -1,6 +1,7 @@
 package com.annaru.upms.entity;
 
 import com.annaru.common.util.JacksonUtils;
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -29,7 +30,7 @@ public class EntityHrAppointmentMain extends Model<EntityHrAppointmentMain> impl
 	 * 系统编号
 	 */
     @ApiModelProperty(value = "系统编号")
-	@TableId
+	@TableId(type = IdType.AUTO)
 	private Integer sysId;
 	/**
 	 * 企业编号(分布式体检B端必填)

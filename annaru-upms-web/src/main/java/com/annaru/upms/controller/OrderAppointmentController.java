@@ -48,6 +48,42 @@ public class OrderAppointmentController extends BaseController {
     @Reference
     private IExamPackageDetailService examPackageDetailService;
 
+
+    /**
+     * 门诊预约确认
+     */
+    @ApiOperation(value = "门诊预约确认操作", notes = "门诊预约确认操作")
+    @GetMapping("/updateStatus")
+    @RequiresPermissions("upms/updateStatus")
+    public ResultMap updateStatus(String orderNo){
+        try {
+            orderAppointmentService.updateStatus(1,orderNo);
+            return ResultMap.ok("修改成功");
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return ResultMap.error("运行异常，请联系管理员");
+        }
+    }
+
+
+
+
+    /**
+     * 待确认预约列表
+     */
+    @ApiOperation(value = "待确认预约列表", notes = "待确认预约列表")
+    @GetMapping("/selectOutpatientAppointment")
+    @RequiresPermissions("upms/selectOutpatientAppointment")
+    public ResultMap selectOutpatientAppointment(String relatedNo, int status){
+        List<OrderAppointmentDoctorVo> orderAppointmentDoctorVos = orderAppointmentService.selectOutpatientAppointment(relatedNo, status);
+        return ResultMap.ok().put("data",orderAppointmentDoctorVos);
+    }
+
+
+
+
+
+
     /**
      * 个人用户患者信息分页查询
      */

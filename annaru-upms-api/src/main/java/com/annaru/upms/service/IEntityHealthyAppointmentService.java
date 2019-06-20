@@ -50,6 +50,12 @@ public interface IEntityHealthyAppointmentService extends IService<EntityHealthy
      */
     int updateStatusByOrderNo(int status,String orderNo);
 
+    /**
+     * @Description:待上门服务列表
+     * @Author: wh
+     * @Date: 2019/6/20 11:36
+     */
+    List<EntityHealthyAppointmentVo> selectUpDoorServer(int status,String relatedNo,int isSubmitted);
 
 
 }
