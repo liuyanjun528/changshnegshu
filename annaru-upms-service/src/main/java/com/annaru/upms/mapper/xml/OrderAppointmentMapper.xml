@@ -26,6 +26,11 @@
         <result column="edit_time" property="editTime" />
         <result column="edit_by" property="editBy" />
     </resultMap>
+    <sql id="getOneOrderAppointmentSql">
+        sys_id, order_no, entity_id, user_id, appointment_cates, related_no, appoint_date, time_from, time_to,
+        address, status, institution_id, department_id, service_option, appraisal, is_cancelled, creation_time,
+        create_by, edit_time, edit_by
+    </sql>
 
     <resultMap id="NurseOrderList" type="com.annaru.upms.entity.vo.NurseOrderList">
         <result column="full_name" property="name"/>
@@ -146,5 +151,23 @@ UNION
     <update id="updateStatus">
         update order_appointment SET status=#{status} WHERE order_no=#{orderNo}
     </update>
+
+    <update id="updateIsCancelled">
+        update order_appointment SET is_cancelled=#{isCancelled} WHERE order_no=#{orderNo}
+    </update>
+
+    <select id="getOrderAppointment" parameterType="com.annaru.upms.entity.OrderAppointment" resultMap="BaseResultMap">
+        SELECT
+           <include refid="getOneOrderAppointmentSql"></include>
+        FROM
+           order_appointment
+        WHERE 1 = 1
+        <if test="orderAppointment.orderNo != null and orderAppointment.orderNo != ''">
+            AND order_no = #{orderAppointment.orderNo}
+        </if>
+        <if test="orderAppointment.appointmentCates != null and orderAppointment.appointmentCates != ''">
+            AND appointment_cates = #{orderAppointment.appointmentCates}
+        </if>
+    </select>
 
 </mapper>

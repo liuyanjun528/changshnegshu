@@ -337,6 +337,37 @@ public class OrderAppointmentController extends BaseController {
     }
 
     /**
+     * @Description toB分布式体检预约取消
+     * @Author zk
+     * @Date 2019/6/20
+     */
+    @ApiOperation(value = "toB分布式体检预约取消")
+    @PostMapping("/updateCancelledByOrderNo")
+    @RequiresPermissions("upms/orderAppointment/updateCancelledByOrderNo")
+    public ResultMap updateCancelledByOrderNo(@RequestParam("orderNo") String orderNo) {
+        try {
+            OrderAppointment orderAppointment = new OrderAppointment();
+            orderAppointment.setOrderNo(orderNo);
+            orderAppointment.setAppointmentCates(3);
+            OrderAppointment orderAppointment1 = orderAppointmentService.getOrderAppointment(orderAppointment);
+            if (orderAppointment1 == null){
+                return ResultMap.error("该toB分布式体检预约不存在！");
+            }
+            if (orderAppointment1.getIsCancelled() == 1){
+                return ResultMap.ok("取消预约成功！");
+            }
+            if (orderAppointmentService.updateIsCancelled(1, orderNo)){
+                return ResultMap.ok("取消预约成功！");
+            }
+            return ResultMap.error("运行异常，请联系管理员！");
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return ResultMap.error("运行异常，请联系管理员");
+        }
+
+    }
+
+    /**
      * 修改
      */
     @ApiOperation(value = "修改")
