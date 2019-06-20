@@ -74,16 +74,13 @@ public class UserLoginController extends BaseController {
     @PostMapping("/loginInfo")
     @RequiresPermissions("upms/userLogin/loginInfo")
     public ResultMap loginInfo(String cellphoneNo, String password, String type, String loginType, String kaptcha, String openid, String isHr){
+
         UserBasic userBasic = null;
         String token = null;
         Map<String, Object> map = null;
 
-        if (StringUtil.isBlank(isHr)){
-            return ResultMap.error("参数(isHr)不能为空！");
-        }
-
         // HR登录
-        if ("y".equals(isHr)){
+        if (StringUtil.isNotBlank(isHr) && "y".equals(isHr)){
             if (StringUtil.isBlank(cellphoneNo)){
                 return ResultMap.error("账号不能为空！");
             }
@@ -106,9 +103,7 @@ public class UserLoginController extends BaseController {
             if (userBasic.getIsactive().equals("0")){
                 return ResultMap.error("HR未激活！");
             }
-        }
-
-        if ("n".equals(isHr)){
+        }else {
             // loginType为1：验证码登录  loginType为2：账号密码登录  loginType为3：微信登录
             if (StringUtil.isBlank(loginType) || (!"1".equals(loginType) && !"2".equals(loginType) && !"3".equals(loginType))){
                 return ResultMap.error("请使用验证码或者账号密码登录或微信登录！");
