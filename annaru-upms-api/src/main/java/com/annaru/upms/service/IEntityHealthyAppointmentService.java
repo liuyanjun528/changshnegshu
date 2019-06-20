@@ -43,6 +43,12 @@ public interface IEntityHealthyAppointmentService extends IService<EntityHealthy
     List<EntityHealthyAppointmentVo> selectServiceAppointment(@Param("orderNo") String orderNo);
 
 
+    /**
+     * @Description:医生接收患者 修改status状态 通过订单编号
+     * @Author: wh
+     * @Date: 2019/6/19 9:26
+     */
+    int updateStatusByOrderNo(int status,String orderNo);
 
 
 

@@ -49,19 +49,19 @@ public class OrderAppointmentController extends BaseController {
     private IExamPackageDetailService examPackageDetailService;
 
     /**
-     * 列表
+     * 个人用户患者信息分页查询
      */
-    @ApiOperation(value = "列表")
+    @ApiOperation(value = "个人用户患者信息分页查询")
     @GetMapping("/list")
     @RequiresPermissions("upms/orderAppointment/list")
     public ResultMap list(@ApiParam(value = "当前页")@RequestParam(defaultValue="1") int page,
                           @ApiParam(value = "每页数量")@RequestParam(defaultValue = "10") int limit,
-                          @ApiParam(value = "关键字")@RequestParam(required = false)String key){
+                          @ApiParam(value = "医生编号")@RequestParam(required = false)String relatedNo){
 
         Map<String, Object> params = new HashMap<>();
         params.put("page",page);
         params.put("limit", limit);
-        params.put("key", key);
+        params.put("relatedNo", relatedNo);
         PageUtils<Map<String, Object>> pageList = orderAppointmentService.getDataPage(params);
         return ResultMap.ok().put("data",pageList);
     }

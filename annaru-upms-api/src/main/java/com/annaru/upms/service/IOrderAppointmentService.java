@@ -20,7 +20,6 @@ public interface IOrderAppointmentService extends IService<OrderAppointment> {
 
     /**
     * 多表页面信息查询
-    * @param params
     * @return
     */
     PageUtils getDataPage(Map<String, Object> params);
@@ -35,6 +34,14 @@ public interface IOrderAppointmentService extends IService<OrderAppointment> {
      * @Date: 2019/6/17 15:01
      */
     List<OrderAppointmentDoctorVo> selectList(String relatedNo, int status);
+
+
+    /**
+     * @Description:接收操作
+     * @Author: wh
+     * @Date: 2019/6/19 11:16
+     */
+    int updateStatus(int status,String orderNo);
 
 }
 

@@ -19,7 +19,7 @@ import java.util.Map;
 public interface EntityHealthyAppointmentMapper extends BaseMapper<EntityHealthyAppointment> {
 
     /**
-    * 多表页面信息查询
+    * 我的患者--》企业用户信息分页查询
     * @param page
     * @param params
     * @return
@@ -39,6 +39,13 @@ public interface EntityHealthyAppointmentMapper extends BaseMapper<EntityHealthy
      * @return
      */
     List<EntityHealthyAppointmentVo> selectServiceAppointment(@Param("orderNo") String orderNo);
+
+    /**
+      * @Description:医生接收患者 修改status状态 通过订单编号
+      * @Author: wh
+      * @Date: 2019/6/19 9:26
+      */
+    int updateStatusByOrderNo(@Param("status") int status,@Param("orderNo") String orderNo);
 
 
 

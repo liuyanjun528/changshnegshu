@@ -49,32 +49,22 @@
     </resultMap>
 
 
-    <!-- 多表页面信息查询分页 -->
-    <select id="selectDataPage" parameterType="map" resultMap="BaseResultMap">
-
-        SELECT
-              sys_id,
-              order_no,
-              entity_id,
-              user_id,
-              appointment_cates,
-              related_no,
-              appoint_date,
-              time_from,
-              time_to,
-              address,
-              status,
-              institution_id,
-              department_id,
-              service_option,
-              appraisal,
-              is_cancelled,
-              creation_time,
-              create_by,
-              edit_time,
-              edit_by
-        FROM
-            order_appointment
+    <!-- 个人用户患者信息查询分页 -->
+    <select id="selectDataPage" parameterType="map" resultMap="BaseResultMap1">
+        select
+        ub.user_id,-- id
+        ub.full_name,-- 姓名
+        ub.gender,-- 性别
+        TIMESTAMPDIFF(YEAR, ub.date_of_birth, CURDATE()) AS user_age,-- 年龄
+        oa.entity_id,-- 公司名称
+        oa.time_to,-- 截至时间
+        oa.status -- 状态
+        from
+        order_appointment as oa
+        LEFT JOIN user_basic as ub ON oa.user_id=ub.user_id
+        <if test="params.relatedNo != null and params.relatedNo!=''">
+            where oa.related_no=#{params.relatedNo} and oa.status=1
+        </if>
     </select>
 
     <select id="getNurseOrderList" parameterType="map" resultMap="NurseOrderList">
@@ -136,7 +126,7 @@
         from
               order_appointment as oa
         LEFT JOIN user_basic as ub ON oa.user_id=ub.user_id
-        where oa.related_no=#{relatedNo}  and oa.status=#{status}
+        where oa.related_no=#{relatedNo}  and oa.status=#{status} and oa.appointment_cates=5
 UNION
         select
 			eha.user_id,-- id
@@ -149,7 +139,12 @@ UNION
         from
             entity_healthy_appointment as eha
         LEFT JOIN user_basic as ub ON eha.user_id=ub.user_id
-        WHERE eha.related_no=#{relatedNo} and eha.status=#{status}
+        WHERE eha.related_no=#{relatedNo} and eha.status=#{status} and eha.pkg_main_id=8 and eha.pkg_detail_id=801
     </select>
+
+    <!--确认接收 修改status-->
+    <update id="updateStatus">
+        update order_appointment SET status=#{status} WHERE order_no=#{orderNo}
+    </update>
 
 </mapper>
