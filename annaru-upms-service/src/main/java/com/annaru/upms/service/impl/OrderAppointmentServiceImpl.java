@@ -52,5 +52,18 @@ public class OrderAppointmentServiceImpl extends ServiceImpl<OrderAppointmentMap
         return this.baseMapper.selectOutpatientAppointment(relatedNo, status);
     }
 
+    @Override
+    public boolean updateIsCancelled(int isCancelled, String orderNo) {
+        if (this.baseMapper.updateIsCancelled(isCancelled, orderNo) > 0){
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public OrderAppointment getOrderAppointment(OrderAppointment orderAppointment) {
+        return this.baseMapper.getOrderAppointment(orderAppointment);
+    }
+
 
 }

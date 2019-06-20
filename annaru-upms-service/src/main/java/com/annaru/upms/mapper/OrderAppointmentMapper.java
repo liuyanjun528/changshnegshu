@@ -54,5 +54,19 @@ public interface OrderAppointmentMapper extends BaseMapper<OrderAppointment> {
       * @Date: 2019/6/19 17:06
       */
     List<OrderAppointmentDoctorVo> selectOutpatientAppointment(@Param("relatedNo") String relatedNo,@Param("status") int status);
+    /**
+     * @Description:取消预约
+     * @Author: zk
+     * @Date: 2019/6/20
+     */
+    int updateIsCancelled(@Param("isCancelled") int isCancelled,@Param("orderNo") String orderNo);
+
+    /**
+     * @Description: 根据这个实体类某参数得到这个实体类
+     * @Author: zk
+     * @Date: 2019/6/20
+     */
+    OrderAppointment getOrderAppointment(@Param("orderAppointment") OrderAppointment orderAppointment);
+
 
 }

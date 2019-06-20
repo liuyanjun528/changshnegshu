@@ -51,5 +51,19 @@ public interface IOrderAppointmentService extends IService<OrderAppointment> {
      */
     List<OrderAppointmentDoctorVo> selectOutpatientAppointment(String relatedNo,int status);
 
+    /**
+     * @Description:取消预约
+     * @Author: zk
+     * @Date: 2019/6/20
+     */
+    boolean updateIsCancelled(int isCancelled, String orderNo);
+
+    /**
+     * @Description: 根据这个实体类某参数得到这个实体类
+     * @Author: zk
+     * @Date: 2019/6/20
+     */
+    OrderAppointment getOrderAppointment(OrderAppointment orderAppointment);
+
 }
 
