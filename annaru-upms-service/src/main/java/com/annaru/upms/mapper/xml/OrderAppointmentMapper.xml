@@ -187,4 +187,13 @@ UNION
         </if>
     </select>
 
+
+    <select id="getAppointInfoByOrderNo" parameterType="map" resultMap="BaseResultMap">
+            SELECT
+            *
+            FROM
+            order_appointment
+            WHERE
+            order_no = #{params.orderNo}
+    </select>
 </mapper>

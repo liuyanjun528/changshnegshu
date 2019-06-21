@@ -68,5 +68,6 @@ public interface OrderAppointmentMapper extends BaseMapper<OrderAppointment> {
      */
     OrderAppointment getOrderAppointment(@Param("orderAppointment") OrderAppointment orderAppointment);
 
+    List<OrderAppointment> getAppointInfoByOrderNo(@Param("params") Map<String, Object> params);
 
 }
