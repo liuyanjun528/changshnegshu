@@ -211,6 +211,21 @@ public class UserBasic extends Model<UserBasic> implements Serializable {
 	@ApiModelProperty(value = "是否是企业HR(0:不是/1是)")
 	private Integer isHr;
 
+	/**
+	 * 是否拥有企业服务(false:不是/true:是)
+	 */
+	@ApiModelProperty(value = "是否拥有企业服务(false:不是/true:是)")
+	@TableField(exist = false)
+	private boolean entityHealthy;
+
+	public boolean isEntityHealthy() {
+		return entityHealthy;
+	}
+
+	public void setEntityHealthy(boolean entityHealthy) {
+		this.entityHealthy = entityHealthy;
+	}
+
 	public SysDoctor getSysDoctor() {
 		return sysDoctor;
 	}

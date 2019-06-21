@@ -375,6 +375,18 @@
                 AND b.openid = #{params.openid}
             </if>
     </select>
+    <select id="selectEntityHealthy" resultType="int">
+        select COUNT(*)
+        from user_entity_mapping uem
+        INNER JOIN user_basic ub on uem.user_id = ub.user_id
+        INNER JOIN entity_purchse_main epm on uem.entity_id = epm.entity_no
+        where
+        uem.is_active = 1
+        and epm.is_active = 1
+        and epm.effect_from &lt;= NOW()
+        and epm.effect_to &gt;= NOW()
+        and ub.user_id = #{userId}
+    </select>
 
     <!-- 通过用户编号修改个人信息和医保卡号-->
     <update id="updateCardAndBasics">

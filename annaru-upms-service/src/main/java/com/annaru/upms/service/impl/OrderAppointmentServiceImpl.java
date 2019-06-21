@@ -60,5 +60,9 @@ public class OrderAppointmentServiceImpl extends ServiceImpl<OrderAppointmentMap
         return this.baseMapper.getOrderAppointment(orderAppointment);
     }
 
+    @Override
+    public List<OrderAppointmentDoctorVo> selectOutpatientAppointment(String relatedNo, int status) {
+        return this.baseMapper.selectOutpatientAppointment(relatedNo, status);
+    }
 
 }

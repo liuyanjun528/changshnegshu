@@ -55,5 +55,19 @@ public interface EntityHealthyAppointmentMapper extends BaseMapper<EntityHealthy
     EntityHealthyAppointment getTimeByUserIdZ(@Param("userId") String userId, @Param("startDate") String startDate);
 
 
+    /**
+      * @Description:待上门服务列表
+      * @Author: wh
+      * @Date: 2019/6/20 11:36
+      */
+    List<EntityHealthyAppointmentVo> selectUpDoorServer(@Param("status") int status,@Param("relatedNo") String relatedNo,@Param("isSubmitted") int isSubmitted);
+
+    /**
+     * 删除订单
+     * @param orderNo
+     * @return
+     */
+    Integer updateByOderNo(@Param("orderNo") String orderNo);
+
 
 }

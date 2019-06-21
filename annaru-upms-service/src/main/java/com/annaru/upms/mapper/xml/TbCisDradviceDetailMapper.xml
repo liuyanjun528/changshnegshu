@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.annaru.upms.mapper.TbCisDradviceDetailMapper">
+	<!-- 通用查询映射结果 tb_cis_dradvice_detail(住院医嘱明细表) -->
+    <resultMap id="BaseResultMap" type="com.annaru.upms.entity.medical.TbCisDradviceDetail" >
+        <result column="CSID" property="csid" />
+        <result column="YLJGDM" property="yzid" />
+        <result column="YZID" property="yzid" />
+        <result column="JZLSH" property="jzlsh" />
+        <result column="CXBZ" property="cxbz" />
+        <result column="KLX" property="klx" />
+        <result column="BQ" property="bq" />
+        <result column="XDKSBM" property="xdksbm" />
+        <result column="XDRGH" property="xdrgh" />
+        <result column="XDRXM" property="xdrxm" />
+        <result column="YZXDSJ" property="yzxdsj" />
+        <result column="ZXKSBM" property="zxksbm" />
+        <result column="ZXRGH" property="zxrgh" />
+        <result column="ZXRXM" property="zxrxm" />
+        <result column="YZZXSJ" property="yzzxsj" />
+        <result column="YZZZSJ" property="yzzzsj" />
+        <result column="YZSM" property="yzsm" />
+        <result column="YZZH" property="yzzh" />
+        <result column="YZLB" property="yzlb" />
+        <result column="YZMXBM" property="yzmxbm" />
+        <result column="YZMXBMYB" property="yzmxbmyb" />
+        <result column="YZMXMC" property="yzmxmc" />
+        <result column="YZLX" property="yzlx" />
+        <result column="YPGG" property="ypgg" />
+        <result column="YPYF" property="ypyf" />
+        <result column="YYPDDM" property="yypddm" />
+        <result column="YYPD" property="yypd" />
+        <result column="JL" property="jl" />
+        <result column="DW" property="dw" />
+        <result column="MCSL" property="mcsl" />
+        <result column="MCDW" property="mcdw" />
+        <result column="YF" property="yf" />
+        <result column="YYTS" property="yyts" />
+        <result column="SFPS" property="sfps" />
+        <result column="YPSL" property="ypsl" />
+        <result column="YPDW" property="ypdw" />
+        <result column="JYDM" property="jydm" />
+        <result column="JCBW" property="jcbw" />
+        <result column="BZ" property="bz" />
+        <result column="UPDATE_TIME" property="updateTime" />
+    </resultMap>
+
+    <!-- 根据原主键获取对象 -->
+    <select id="getCisDradviceDetail" parameterType="map" resultMap="BaseResultMap">
+      SELECT
+        CSID,
+        YLJGDM,
+        YZID,
+        JZLSH,
+        CXBZ,
+        KLX,
+        BQ,
+        XDKSBM,
+        XDRGH,
+        XDRXM,
+        YZXDSJ,
+        ZXKSBM,
+        ZXRGH,
+        ZXRXM,
+        YZZXSJ,
+        YZZZSJ,
+        YZSM,
+        YZZH,
+        YZLB,
+        YZMXBM,
+        YZMXBMYB,
+        YZMXMC,
+        YZLX,
+        YPGG,
+        YPYF,
+        YYPDDM,
+        YYPD,
+        JL,
+        DW,
+        MCSL,
+        MCDW,
+        YF,
+        YYTS,
+        SFPS,
+        YPSL,
+        YPDW,
+        JYDM,
+        JYDM,
+        BZ,
+        UPDATE_TIME
+       FROM
+        TB_CIS_DRADVICE_DETAIL
+       WHERE YLJGDM=#{yljgdm} AND YZID=#{yzid}
+    </select>
+</mapper>

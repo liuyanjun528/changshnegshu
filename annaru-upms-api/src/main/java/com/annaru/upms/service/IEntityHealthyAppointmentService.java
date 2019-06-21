@@ -51,6 +51,21 @@ public interface IEntityHealthyAppointmentService extends IService<EntityHealthy
     int updateStatusByOrderNo(int status,String orderNo);
 
     /**
+     * @Description:待上门服务列表
+     * @Author: wh
+     * @Date: 2019/6/20 11:36
+     */
+    List<EntityHealthyAppointmentVo> selectUpDoorServer(int status,String relatedNo,int isSubmitted);
+
+    /**
+     * 删除订单
+     * @param orderNo
+     * @return
+     */
+    Integer updateByOderNo(@Param("orderNo") String orderNo);
+
+
+    /**
      * 根据用户编号和开始时间查询这条记录
      * @author zk
      * @date 2019-06-21

@@ -51,6 +51,8 @@
         <result column="user_id" property="userId"/>
         <result column="entity_id" property="entityId"/>
         <result column="time_to" property="timeTo"/>
+        <result column="cellphone_no" property="cellphoneNo"/>
+
     </resultMap>
 
 
@@ -151,6 +153,21 @@ UNION
     <update id="updateStatus">
         update order_appointment SET status=#{status} WHERE order_no=#{orderNo}
     </update>
+
+    <!--医生端待确认预约-->
+    <select id="selectOutpatientAppointment" parameterType="map" resultMap="BaseResultMap1">
+        SELECT
+		        ub.full_name,-- 姓名
+				ub.gender,-- 性别
+				TIMESTAMPDIFF(YEAR, ub.date_of_birth, CURDATE()) AS user_age,
+				ub.cellphone_no,-- 手机号
+				oa.time_to,-- 预约时间
+				oa.status -- 状态
+        from
+            order_appointment as oa
+        LEFT JOIN user_basic as ub ON oa.user_id=ub.user_id
+        WHERE oa.related_no=#{relatedNo}  and oa.status=#{status}  and oa.appointment_cates=6
+    </select>
 
     <update id="updateIsCancelled">
         update order_appointment SET is_cancelled=#{isCancelled} WHERE order_no=#{orderNo}

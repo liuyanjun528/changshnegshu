@@ -55,4 +55,11 @@ public interface UserBasicMapper extends BaseMapper<UserBasic> {
      * @Date: 2019/6/11 11:00
      */
     int updateCardAndBasics(UserCardVo userCardVo);
+
+    /**
+     * 查询用户是否拥有健康服务
+     * @param userId
+     * @return
+     */
+    int selectEntityHealthy(@Param("userId") String userId);
 }

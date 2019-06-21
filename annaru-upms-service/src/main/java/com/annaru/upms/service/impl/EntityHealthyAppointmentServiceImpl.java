@@ -12,6 +12,7 @@ import com.annaru.common.result.PageUtils;
 import com.annaru.upms.mapper.EntityHealthyAppointmentMapper;
 import com.annaru.upms.entity.EntityHealthyAppointment;
 import com.annaru.upms.service.IEntityHealthyAppointmentService;
+import jodd.util.StringUtil;
 
 import java.util.List;
 import java.util.Map;
@@ -50,9 +51,20 @@ public class EntityHealthyAppointmentServiceImpl extends ServiceImpl<EntityHealt
     }
 
     @Override
+    public List<EntityHealthyAppointmentVo> selectUpDoorServer(int status, String relatedNo, int isSubmitted) {
+        return this.baseMapper.selectUpDoorServer(status, relatedNo, isSubmitted);
+    }
+    @Override
     public EntityHealthyAppointment getTimeByUserIdZ(String userId, String startDate) {
         return null;
     }
 
 
+    @Override
+    public Integer updateByOderNo(String orderNo) {
+        if(StringUtil.isNotBlank(orderNo)){
+            return this.baseMapper.updateByOderNo(orderNo);
+        }
+        return 0;
+    }
 }

@@ -1,6 +1,7 @@
 package com.annaru.upms.entity;
 
 import com.annaru.common.util.JacksonUtils;
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -14,7 +15,7 @@ import java.util.Date;
 
 
 /**
- * 
+ *
  *
  * @author xck
  * @date 2019-05-22 14:30:19
@@ -28,7 +29,7 @@ public class SysDistrict extends Model<SysDistrict> implements Serializable {
 	 * 序号
 	 */
     @ApiModelProperty(value = "序号")
-	@TableId
+	@TableId(type = IdType.AUTO)
 	private Integer sysId;
 	/**
 	 * 城市编号

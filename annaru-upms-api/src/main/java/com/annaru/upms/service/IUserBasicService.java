@@ -71,5 +71,12 @@ public interface IUserBasicService extends IService<UserBasic> {
      */
     int updateCardAndBasics(UserCardVo userCardVo);
 
+    /**
+     * 查询用户是否拥有健康服务
+     * @param userId
+     * @return
+     */
+    boolean selectEntityHealthy(String userId);
+
 }
 
