@@ -28,4 +28,11 @@ public interface UserSurveyMainMapper extends BaseMapper<UserSurveyMain> {
     IPage<UserSurveyMain> selectDataPage(Page page, @Param("params") Map<String, Object> params);
 
     UserSurveyVo getByUserId(@Param("params") Map<String, Object> params);
+
+    /**
+     * 数据登记主表
+     * @author zk
+     * @date 2019-06-121
+     */
+    UserSurveyMain getTimeByUserIdZ(@Param("userId") String userId, @Param("startDate") String startDate);
 }

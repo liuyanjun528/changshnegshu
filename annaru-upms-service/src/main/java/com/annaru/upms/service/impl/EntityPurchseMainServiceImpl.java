@@ -42,4 +42,9 @@ public class EntityPurchseMainServiceImpl extends ServiceImpl<EntityPurchseMainM
         return this.baseMapper.selectEntityPurchseMainListByUserId(userId);
     }
 
+    @Override
+    public EntityPurchseMain getTimeByUserIdZ(String userId, String startDate) {
+        return this.baseMapper.getTimeByUserIdZ(userId, startDate);
+    }
+
 }

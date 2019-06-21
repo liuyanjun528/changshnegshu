@@ -49,5 +49,10 @@ public class EntityHealthyAppointmentServiceImpl extends ServiceImpl<EntityHealt
         return this.baseMapper.updateStatusByOrderNo(status,orderNo);
     }
 
+    @Override
+    public EntityHealthyAppointment getTimeByUserIdZ(String userId, String startDate) {
+        return null;
+    }
+
 
 }

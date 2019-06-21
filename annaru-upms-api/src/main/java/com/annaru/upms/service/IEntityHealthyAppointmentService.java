@@ -50,6 +50,13 @@ public interface IEntityHealthyAppointmentService extends IService<EntityHealthy
      */
     int updateStatusByOrderNo(int status,String orderNo);
 
+    /**
+     * 根据用户编号和开始时间查询这条记录
+     * @author zk
+     * @date 2019-06-21
+     */
+    EntityHealthyAppointment getTimeByUserIdZ(String userId, String startDate);
+
 
 
 }

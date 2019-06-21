@@ -1,6 +1,7 @@
 package com.annaru.upms.mapper;
 
 import com.annaru.upms.entity.ExamUserRecordMain;
+import com.annaru.upms.entity.vo.ExamUserRecordMainVoZ;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -31,6 +32,14 @@ public interface ExamUserRecordMainMapper extends BaseMapper<ExamUserRecordMain>
      * @date 2019-6-17
      */
     ExamUserRecordMain getOneByExamUserRecordMain(@Param("examUserRecordMain") ExamUserRecordMain examUserRecordMain);
+
+    /**
+     * 根据userId查询 数据登记主表 和 详情表
+     * @param userId
+     * @author zk
+     * @date 2019-6-21
+     */
+    List<ExamUserRecordMainVoZ> selectMainDetailByUserId(@Param("userId") String userId);
 
 
 }

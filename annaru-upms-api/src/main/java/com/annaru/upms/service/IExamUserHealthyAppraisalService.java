@@ -46,6 +46,13 @@ public interface IExamUserHealthyAppraisalService extends IService<ExamUserHealt
      */
     List<ExamUserHealthyAppraisalDeatilVoZ> getRelativesDeatailByExamUserHealthyAppraisal(String userId);
 
+    /**
+     * 根据用户编号和开始时间查询这条记录
+     * @author zk
+     * @date 2019-06-21
+     */
+    ExamUserHealthyAppraisal getTimeByUserIdZ(String userId, String startDate);
+
 
 }
 

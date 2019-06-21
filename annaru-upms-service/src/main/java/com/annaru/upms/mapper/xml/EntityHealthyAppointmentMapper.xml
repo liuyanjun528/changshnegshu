@@ -64,6 +64,27 @@
         <result column="edit_by" property="editBy" />
     </resultMap>
 
+    <!-- 多表页面信息查询分页 -->
+    <select id="getTimeByUserIdZ" parameterType="map" resultMap="BaseResultMap">
+        SELECT
+        eha.creation_time -- 企业服务预约记录
+        FROM entity_purchse_main epm
+        LEFT JOIN user_entity_mapping uem ON uem.entity_id = epm.entity_no
+        LEFT JOIN entity_healthy_appointment eha ON eha.user_id = uem.user_id AND eha.entity_no = uem.entity_id
+        WHERE 1 = 1
+        AND epm.cates = 2 AND epm.is_active = 1 AND epm.is_terminated = 0
+        AND eha.`status` = 3 AND eha.service_option = 1 AND eha.is_cancelled = 0 AND eha.user_confirm = 1 AND eha.is_deleted = 0
+
+        <if test="userId != null and userId != ''">
+            AND uem.user_id = #{userId}
+        </if>
+        <if test="startDate != null and startDate != ''">
+            AND DATE_FORMAT(eha.creation_time , '%Y-%m') = DATE_FORMAT(startDate , '%Y-%m')
+        </if>
+
+        ORDER BY eha.creation_time DESC LIMIT 0,1
+    </select>
+
     <!-- 企业用户患者信息查询分页 -->
     <select id="selectDataPage" parameterType="map" resultMap="BaseResultMap2">
         select

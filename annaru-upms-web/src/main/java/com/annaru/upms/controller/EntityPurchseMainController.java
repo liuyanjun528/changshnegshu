@@ -2,8 +2,13 @@ package com.annaru.upms.controller;
 
 import java.util.*;
 
-import com.annaru.upms.entity.vo.EntityHealthyAppointmentVo;
+import com.annaru.common.util.DateUtil;
+import com.annaru.upms.entity.EntityHealthyAppointment;
+import com.annaru.upms.entity.UserSurveyMain;
 import com.annaru.upms.entity.vo.EntityPurchseMainVo;
+import com.annaru.upms.service.IEntityHealthyAppointmentService;
+import com.annaru.upms.service.IExamUserHealthyAppraisalService;
+import com.annaru.upms.service.IUserSurveyMainService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import com.alibaba.dubbo.config.annotation.Reference;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +18,6 @@ import io.swagger.annotations.ApiParam;
 
 import com.annaru.common.base.BaseController;
 import com.annaru.common.result.PageUtils;
-import com.annaru.upms.shiro.ShiroKit;
 import com.annaru.common.result.ResultMap;
 
 import com.annaru.upms.entity.EntityPurchseMain;
@@ -32,8 +36,15 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping("upms/entityPurchseMain")
 public class EntityPurchseMainController extends BaseController {
+
     @Reference
-    private IEntityPurchseMainService entityPurchseMainService;
+    private IEntityPurchseMainService entityPurchseMainService; //开启健康服务
+    @Reference
+    private IEntityHealthyAppointmentService entityHealthyAppointmentService; //预约
+    @Reference
+    private IExamUserHealthyAppraisalService examUserHealthyAppraisalService; //健康评估
+    @Reference
+    private IUserSurveyMainService userSurveyMainService; //问券调查
 
     /**
      * 列表
@@ -51,6 +62,32 @@ public class EntityPurchseMainController extends BaseController {
             params.put("key", key);
             PageUtils<Map<String, Object>> pageList = entityPurchseMainService.getDataPage(params);
             return ResultMap.ok().put("page",pageList);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return ResultMap.error("运行异常，请联系管理员");
+        }
+    }
+
+    /**
+     * 企业健康服务首页的健康日志按月筛选
+     * @author zk
+     * @date 2019-06-21
+     */
+    @ApiOperation(value = "企业健康服务首页的健康日志按月筛选", notes = "企业健康服务首页的健康日志按月筛选")
+    @GetMapping("/selectUserOrRelativeInfo/getTimeByUserIdZ")
+    public ResultMap getTimeByUserIdZ(@RequestParam("userId") String userId, @RequestParam("startDate") String startDate) {
+        try {
+            List<String> list = new ArrayList<>();
+            EntityPurchseMain entityPurchseMain = entityPurchseMainService.getTimeByUserIdZ(userId, startDate);
+            if (entityPurchseMain != null){
+                list.add(DateUtil.format(entityPurchseMain.getTerminatedDate()));
+                UserSurveyMain userSurveyMain = userSurveyMainService.getTimeByUserIdZ(userId, startDate);
+                if (userSurveyMain != null){
+                    list.add(DateUtil.format(userSurveyMain.getSurveyTime()));
+                    EntityHealthyAppointment entityHealthyAppointment = entityHealthyAppointmentService.getTimeByUserIdZ(userId, startDate);
+                }
+            }
+            return null;
         } catch (Exception e) {
             logger.error(e.getMessage());
             return ResultMap.error("运行异常，请联系管理员");
