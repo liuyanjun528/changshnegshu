@@ -7,14 +7,12 @@ import com.annaru.common.result.ResultMap;
 import com.annaru.upms.controllerutil.SysConfigUtil;
 import com.annaru.upms.entity.*;
 import com.annaru.upms.entity.vo.EntityHealthyAppointmentVo;
-import com.annaru.upms.entity.vo.EntityPurchseMainVo;
 import com.annaru.upms.service.*;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.*;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.*;
 
@@ -47,7 +45,25 @@ public class EntityHealthyAppointmentController extends BaseController {
     @Reference
     private ISysConfigService iSysConfigService; //系统配置表
 
-
+    /**
+     * 删除订单
+     */
+    @ApiOperation(value = "待上门服务列表（删除订单）", notes = "待上门服务列表（删除订单）")
+    @PostMapping("/deleteAI")
+    @ApiImplicitParam(name = "orderNo",value = "订单号",dataType = "spring",paramType = "query")
+    public ResultMap refresh(String orderNo) {
+        try {
+            Integer b = entityHealthyAppointmentService.updateByOderNo(orderNo);
+            if(0 < b){
+                return ResultMap.ok("删除成功!");
+            }else {
+                return ResultMap.error("删除失败!");
+            }
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return ResultMap.error("运行异常，请联系管理员");
+        }
+    }
 
     /**
      * 待上门服务列表

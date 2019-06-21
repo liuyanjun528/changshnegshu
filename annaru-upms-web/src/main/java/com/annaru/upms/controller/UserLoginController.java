@@ -211,6 +211,8 @@ public class UserLoginController extends BaseController {
                             }
                             userBasic.setToken(token);
                             userBasic.setFirstLogin(true);
+                            //查询是否拥有企业服务
+                            userBasic.setEntityHealthy(iUserBasicService.selectEntityHealthy(userBasic.getUserId()));
                             return ResultMap.ok().put("data", userBasic);
                         }
                     }
@@ -234,7 +236,8 @@ public class UserLoginController extends BaseController {
 
         userBasic.setToken(token);
         userBasic.setFirstLogin(firstLogin);
-
+        //查询是否拥有企业服务
+        userBasic.setEntityHealthy(iUserBasicService.selectEntityHealthy(userBasic.getUserId()));
         //用户
         if (("1").equals(type)){
             return ResultMap.ok().put("data", userBasic);

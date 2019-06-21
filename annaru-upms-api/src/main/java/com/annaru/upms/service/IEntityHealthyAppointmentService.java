@@ -1,6 +1,5 @@
 package com.annaru.upms.service;
 
-import com.annaru.upms.entity.UserBasic;
 import com.annaru.upms.entity.vo.EntityHealthyAppointmentVo;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.annaru.common.result.PageUtils;
@@ -56,6 +55,15 @@ public interface IEntityHealthyAppointmentService extends IService<EntityHealthy
      * @Date: 2019/6/20 11:36
      */
     List<EntityHealthyAppointmentVo> selectUpDoorServer(int status,String relatedNo,int isSubmitted);
+
+    /**
+     * 删除订单
+     * @param orderNo
+     * @return
+     */
+    Integer updateByOderNo(@Param("orderNo") String orderNo);
+
+
 
 
 }

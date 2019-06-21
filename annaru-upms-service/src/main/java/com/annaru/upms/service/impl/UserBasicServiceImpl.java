@@ -15,6 +15,7 @@ import com.annaru.upms.service.IUserBasicService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import jodd.util.StringUtil;
 
 import java.util.List;
 import java.util.Map;
@@ -74,5 +75,14 @@ public class UserBasicServiceImpl extends ServiceImpl<UserBasicMapper, UserBasic
         return this.baseMapper.updateCardAndBasics(userCardVo);
     }
 
-
+    @Override
+    public boolean selectEntityHealthy(String userId) {
+        Boolean flag = false;
+        if(StringUtil.isNotBlank(userId)){
+            if(0 < this.baseMapper.selectEntityHealthy(userId)){
+               flag = true;
+            }
+        }
+        return flag;
+    }
 }
