@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.annaru.upms.mapper.TbCisPrescriptionDetailMapper">
+	<!-- 通用查询映射结果 tb_cis_prescription_detail(门诊处方明细表) -->
+    <resultMap id="BaseResultMap" type="com.annaru.upms.entity.medical.TbCisPrescriptionDetail" >
+        <result column="CSID" property="csid" />
+        <result column="CYH" property="cyh" />
+        <result column="CFMXH" property="cfmxh" />
+        <result column="YLJGDM" property="yljgdm" />
+        <result column="JZLSH" property="jzlsh" />
+        <result column="CXBZ" property="cxbz" />
+        <result column="KH" property="kh" />
+        <result column="KLX" property="klx" />
+        <result column="KFRQ" property="kfrq" />
+        <result column="XMBM" property="xmbm" />
+        <result column="XMBMYB" property="xmbmyb" />
+        <result column="XMMC" property="xmmc" />
+        <result column="CFLX" property="cflx" />
+        <result column="JXDM" property="jxdm" />
+        <result column="YPGG" property="ypgg" />
+        <result column="YPYF" property="ypyf" />
+        <result column="YPSL" property="ypsl" />
+        <result column="YPDW" property="ypdw" />
+        <result column="CFTS" property="cfts" />
+        <result column="YZZH" property="yzzh" />
+        <result column="SYPCDM" property="sypcdm" />
+        <result column="SYPC" property="sypc" />
+        <result column="JL" property="jl" />
+        <result column="DW" property="dw" />
+        <result column="MCSL" property="mcsl" />
+        <result column="MCDW" property="mcdw" />
+        <result column="YF" property="yf" />
+        <result column="YYTS" property="yyts" />
+        <result column="JYDM" property="jydm" />
+        <result column="SFPS" property="sfps" />
+        <result column="JCBW" property="jcbw" />
+        <result column="BZ" property="bz" />
+        <result column="UPDATE_TIME" property="updateTime" />
+    </resultMap>
+    <!-- 通用查询映射结果 查询门诊处方明细 -->
+    <resultMap id="BaseResultMapVo" type="com.annaru.upms.entity.medical.vo.TbCisPrescriptionDetailVo" >
+        <result column="XMMC" property="xmmc" />
+        <result column="YPGG" property="ypgg" />
+        <result column="YPYF" property="ypyf" />
+        <result column="YPSL" property="ypsl" />
+        <result column="YPDW" property="ypdw" />
+        <result column="JL" property="jl" />
+        <result column="DW" property="dw" />
+        <result column="SYPCDM" property="sypcdm" />
+        <result column="SYPC" property="sypc" />
+        <result column="YF" property="yf" />
+        <result column="MCSL" property="mcsl" />
+        <result column="MCDW" property="mcdw" />
+    </resultMap>
+
+    <!-- 通用查询映射结果 根据卡号查询用药记录 -->
+    <resultMap id="BaseResultMapListVo" type="com.annaru.upms.entity.medical.vo.TbCisPrescriptionDetailListVo" >
+        <result column="HOSPITAL_NAME" property="hospitalName" />
+        <result column="JZLSH" property="jzlsh" />
+        <result column="KFRQ" property="kfrq" />
+        <result column="JZLSH" property="jzlsh" />
+    </resultMap>
+
+    <!-- 根据原主键获取对象 -->
+    <select id="getCisPrescriptionDetail" parameterType="map" resultMap="BaseResultMap">
+      SELECT
+        *
+       FROM
+        TB_CIS_PRESCRIPTION_DETAIL
+       WHERE CYH=#{cyh} AND CFMXH=#{cfmxh} AND YLJGDM=#{yljgdm}
+    </select>
+
+    <!-- 根据就诊流水号查询药品 -->
+    <select id="getYp" parameterType="map" resultMap="BaseResultMapVo">
+    SELECT
+        D .xmmc,
+        D .ypgg,
+        D .ypyf,
+        D .ypsl,
+        D .ypdw,
+        D .jl,
+        D .dw,
+        D .sypcdm,
+        D .sypc,
+        D .yf,
+        D .mcsl,
+        D .mcdw
+    FROM
+        TB_CIS_Prescription_Detail D
+    LEFT JOIN TB_HOSPITAL H ON H .HOSPITAL_ID = D .YLJGDM
+    WHERE
+        D .JZLSH = #{jzlsh}
+    AND D .CFLX = 1
+    ORDER BY
+        D .kfrq DESC
+    </select>
+
+    <!-- 根据卡号查询用药记录 -->
+    <select id="getYyjl" parameterType="map" resultMap="BaseResultMapListVo">
+    SELECT DISTINCT
+        d.JZLSH,
+        substr (d.kfrq, 0, 10) AS kfrq,
+        h.HOSPITAL_NAME
+    FROM
+        TB_CIS_Prescription_Detail d
+    LEFT JOIN TB_HOSPITAL h ON h.HOSPITAL_ID = d.YLJGDM
+    WHERE d.KH =#{kh} AND d.CFLX = 1 ORDER BY kfrq DESC
+    </select>
+
+    <!-- 根据就诊流水号查询用药记录 -->
+    <select id="getYyjlByJzlsh" parameterType="map" resultMap="BaseResultMapListVo">
+        SELECT DISTINCT
+        d.JZLSH,
+        substr (d.kfrq, 0, 10) AS kfrq,
+        h.HOSPITAL_NAME,
+        r.jzksmc
+        FROM
+        TB_CIS_Prescription_Detail d
+        LEFT JOIN TB_HOSPITAL h ON h.HOSPITAL_ID = d.YLJGDM
+        LEFT JOIN tb_yl_mz_medical_record r ON r.JZLSH = d.JZLSH
+        WHERE d.JZLSH =#{jzlsh} AND d.CFLX = 1 ORDER BY kfrq DESC
+    </select>
+</mapper>

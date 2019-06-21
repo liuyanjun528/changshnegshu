@@ -1,11 +1,10 @@
 package com.annaru.upms.service;
 
 import com.annaru.common.result.PageUtils;
+import com.annaru.upms.entity.INTERFACE_AUTHORIZATION;
 import com.annaru.upms.entity.UserCards;
 import com.annaru.upms.entity.vo.UserCardInfoVo;
-import com.annaru.upms.entity.vo.UserCardVo;
 import com.baomidou.mybatisplus.extension.service.IService;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -48,5 +47,7 @@ public interface IUserCardsService extends IService<UserCards> {
      * @Date: 2019/6/11 11:00
      */
     int updateCardAndBasic(String userId,String cardNo);
+
+    List<INTERFACE_AUTHORIZATION> selectByUserId(String userId);
 }
 

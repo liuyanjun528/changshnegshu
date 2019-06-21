@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.annaru.upms.mapper.TbLisBacteriaResultMapper">
+	<!-- 通用查询映射结果 tb_lis_bacteria_result(细菌结果表)  -->
+    <resultMap id="BaseResultMap" type="com.annaru.upms.entity.medical.TbLisBacteriaResult" >
+        <result column="CSID" property="csid" />
+        <result column="XJJGLSH" property="xjjglsh" />
+        <result column="YLJGDM" property="yljgdm" />
+        <result column="BGDH" property="bgdh" />
+        <result column="BGRQ" property="bgrq" />
+        <result column="XJDH" property="xjdh" />
+        <result column="XJMC" property="xjmc" />
+        <result column="JLJS" property="jljs" />
+        <result column="BYJ" property="byj" />
+        <result column="BYSJ" property="bysj" />
+        <result column="PYTJ" property="pytj" />
+        <result column="FXFS" property="fxfs" />
+        <result column="JCJG" property="jcjg" />
+        <result column="JCJGWZ" property="jcjgwz" />
+        <result column="SBBM" property="sbbm" />
+        <result column="YQBH" property="yqbh" />
+        <result column="YQMC" property="yqmc" />
+        <result column="XGBZ" property="xgbz" />
+        <result column="UPDATE_TIME" property="updateTime" />
+    </resultMap>
+
+    <!-- 根据原主键获取对象 -->
+    <select id="getLisBacteriaResult" parameterType="map" resultMap="BaseResultMap">
+      SELECT
+        *
+       FROM
+        TB_LIS_BACTERIA_RESULT
+       WHERE YLJGDM=#{yljgdm} AND XJJGLSH=#{xjjglsh}
+    </select>
+</mapper>

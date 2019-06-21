@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.annaru.upms.mapper.TbYlMzMedicalRecordMapper">
+	<!-- 通用查询映射结果 tb_yl_mz_medical_record(门诊就诊记录表)  -->
+    <resultMap id="BaseResultMap" type="com.annaru.upms.entity.medical.TbYlMzMedicalRecord" >
+        <result column="CSID" property="csid" />
+        <result column="YLJGDM" property="yljgdm" />
+        <result column="JZLSH" property="jzlsh" />
+        <result column="CISID" property="cisid" />
+        <result column="KH" property="kh" />
+        <result column="KLX" property="klx" />
+        <result column="HZXM" property="hzxm" />
+        <result column="JZLX" property="jzlx" />
+        <result column="BXLX" property="bxlx" />
+        <result column="YBZHBZ" property="ybzhbz" />
+        <result column="JZKSBM" property="jzksbm" />
+        <result column="JZKSMC" property="jzksmc" />
+        <result column="JZKSRQ" property="jzksrq" />
+        <result column="ZZYSGH" property="zzysgh" />
+        <result column="ZZYSXM" property="zzysxm" />
+        <result column="JZZDBM" property="jzzdbm" />
+        <result column="BMLX" property="bmlx" />
+        <result column="JZZDSM" property="jzzdsm" />
+        <result column="ZZMS" property="zzms" />
+        <result column="XGBZ" property="xgbz" />
+        <result column="UPDATE_TIME" property="updateTime" />
+    </resultMap>
+
+    <!-- 通用查询映射结果 查询门诊记录列表  -->
+    <resultMap id="BaseResultMapList" type="com.annaru.upms.entity.medical.vo.TbYlMzMedicalRecordListVo" >
+        <result column="CSID" property="csid" />
+        <result column="HOSPITAL_NAME" property="hospitalName" />
+        <result column="ZZYSXM" property="zzysxm" />
+        <result column="JZKSMC" property="jzksmc" />
+        <result column="JZZDSM" property="jzzdsm" />
+        <result column="JZLX" property="jzlx" />
+        <result column="JZKSRQ" property="jzksrq" />
+    </resultMap>
+
+    <!-- 根据原主键获取对象 -->
+    <select id="getYlMzMedicalRecord" parameterType="map" resultMap="BaseResultMap">
+      SELECT
+        *
+       FROM
+        TB_YL_MZ_MEDICAL_RECORD
+       WHERE YLJGDM=#{yljgdm} AND JZLSH=#{jzlsh}
+    </select>
+
+    <!-- 根据卡号查询就诊记录 -->
+    <select id="getJzjl" parameterType="map" resultMap="BaseResultMapList">
+    SELECT
+        r.CSID,
+        h.HOSPITAL_NAME,
+        r.zzysxm,
+        r.JZKSMC,
+        r.JZZDSM,
+        r.jzlx,
+        SUBSTR (r.JZKSRQ, 0, 10) AS JZKSRQ
+    FROM
+	    TB_YL_MZ_Medical_Record r
+    LEFT JOIN TB_HOSPITAL h ON r.YLJGDM = h.HOSPITAL_ID
+    WHERE r.KH = #{kh} ORDER BY JZKSRQ DESC
+    </select>
+
+    <!-- 根据就诊记录id查询对应的就诊记录 -->
+    <select id="getJzjlById" parameterType="map" resultMap="BaseResultMapList">
+        SELECT
+        r.CSID,
+        h.HOSPITAL_NAME,
+        r.zzysxm,
+        r.JZKSMC,
+        r.JZZDSM,
+        r.jzlx,
+        SUBSTR (r.JZKSRQ, 0, 10) AS JZKSRQ
+        FROM
+        TB_YL_MZ_Medical_Record r
+        LEFT JOIN TB_HOSPITAL h ON r.YLJGDM = h.HOSPITAL_ID
+        WHERE r.CSID = #{csid} ORDER BY JZKSRQ DESC
+    </select>
+
+    <!-- 根据就诊流水号查询就诊记录 -->
+    <select id="getJzjlByJzlsh" parameterType="map" resultMap="BaseResultMap">
+    SELECT
+        r.CSID,
+        r.JZLSH,
+        SUBSTR (r.JZKSRQ, 0, 10) AS JZKSRQ,
+        r.JZKSMC,
+        r.zs,
+        h.HOSPITAL_NAME
+    FROM
+        TB_YL_MZ_Medical_Record r
+    LEFT JOIN TB_HOSPITAL h ON r.YLJGDM = h.HOSPITAL_ID
+    WHERE r.jzlsh = #{jzlsh} ORDER BY JZKSRQ DESC
+    </select>
+
+</mapper>

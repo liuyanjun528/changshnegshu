@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.annaru.upms.mapper.TbLisReportMapper">
+	<!-- 通用查询映射结果 tb_lis_report(实验室检验报告表)  -->
+    <resultMap id="BaseResultMap" type="com.annaru.upms.entity.medical.TbLisReport" >
+        <result column="CSID" property="csid" />
+        <result column="YLJGDM" property="yljgdm" />
+        <result column="BGDH" property="bgdh" />
+        <result column="BGRQ" property="bgrq" />
+        <result column="JZLSH" property="jzlsh" />
+        <result column="MZZYBZ" property="mzzybz" />
+        <result column="KH" property="kh" />
+        <result column="KLX" property="klx" />
+        <result column="BRXM" property="brxm" />
+        <result column="BRXB" property="brxb" />
+        <result column="BRNL" property="brnl" />
+        <result column="SQRGH" property="sqrgh" />
+        <result column="SQRXM" property="sqrxm" />
+        <result column="BGRGH" property="bgrgh" />
+        <result column="BGRXM" property="bgrxm" />
+        <result column="SHRGH" property="shrgh" />
+        <result column="SHRXM" property="shrxm" />
+        <result column="SQKS" property="sqks" />
+        <result column="BQ" property="bq" />
+        <result column="CH" property="ch" />
+        <result column="DYRQ" property="dyrq" />
+        <result column="SQRQ" property="sqrq" />
+        <result column="CJRQ" property="cjrq" />
+        <result column="JYRQ" property="jyrq" />
+        <result column="BGBZ" property="bgbz" />
+        <result column="BBDM" property="bbdm" />
+        <result column="BBMC" property="bbmc" />
+        <result column="BGDLBBM" property="bgdlbbm" />
+        <result column="BGDLB" property="bgdlb" />
+        <result column="WJLJ" property="wjlj" />
+        <result column="XGBZ" property="xgbz" />
+        <result column="UPDATE_TIME" property="updateTime" />
+    </resultMap>
+
+    <!-- 通用查询映射结果 查询实验室检验报告列表)  -->
+    <resultMap id="BaseResultMapList" type="com.annaru.upms.entity.medical.vo.TbLisReportListVo" >
+        <result column="CSID" property="csid" />
+        <result column="BGDH" property="bgdh" />
+        <result column="HOSPITAL_NAME" property="hospitalName" />
+        <result column="BGRQ" property="bgrq" />
+        <result column="BGDLB" property="bgdlb" />
+        <result column="MZZYBZ" property="mzzybz" />
+    </resultMap>
+
+    <!-- 根据原主键获取对象 -->
+    <select id="getLisReport" parameterType="map" resultMap="BaseResultMap">
+      SELECT
+        *
+       FROM
+        TB_LIS_REPORT
+       WHERE YLJGDM=#{yljgdm} AND BGDH=#{bgdh} AND BGRQ=#{bgrq}
+    </select>
+
+    <!-- 根据卡号查询检验报告 -->
+    <select id="getJybg" parameterType="map" resultMap="BaseResultMapList">
+     SELECT
+        r.CSID,
+        r.BGDH,
+        h.HOSPITAL_NAME,
+        r.BGDLB,
+        SUBSTR (r.BGRQ, 0, 10) AS BGRQ,
+        r.mzzybz
+     FROM
+        TB_LIS_Report r,
+        TB_HOSPITAL h
+     WHERE
+	    r.YLJGDM = h.HOSPITAL_ID AND r.KH = #{kh} ORDER BY BGRQ DESC
+    </select>
+
+    <!-- 根据就诊流水号查询检验报告 -->
+    <select id="getJybgByJzlsh" parameterType="map" resultMap="BaseResultMap">
+    SELECT
+        r.BGDH,
+        r.JZLSH,
+        r.jyrq,
+        h.HOSPITAL_NAME,
+        r.bgdlb
+    FROM
+        TB_LIS_Report r,
+        TB_HOSPITAL h
+    WHERE
+        r.YLJGDM = h.HOSPITAL_ID AND r.JZLSH = #{jzlsh}
+    </select>
+
+    <!-- 根据报告单号查询检验报告 -->
+    <select id="getJybgByBgdh" parameterType="map" resultMap="BaseResultMap">
+    SELECT
+        r.BGDH,
+        r.JZLSH,
+        r.jyrq,
+        h.HOSPITAL_NAME,
+        r.bgdlb
+    FROM
+        TB_LIS_Report r,
+        TB_HOSPITAL h
+    WHERE
+        r.YLJGDM = h.HOSPITAL_ID AND r.BGDH = #{bgdh}
+    </select>
+</mapper>

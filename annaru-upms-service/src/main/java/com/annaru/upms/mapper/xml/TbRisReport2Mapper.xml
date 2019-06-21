@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.annaru.upms.mapper.TbRisReport2Mapper">
+	<!-- 通用查询映射结果 tb_ris_report2(影像检查报告表—通用格式) -->
+    <resultMap id="BaseResultMap" type="com.annaru.upms.entity.medical.TbRisReport2" >
+        <result column="CSID" property="csid" />
+        <result column="STUDYUID" property="studyuid" />
+        <result column="INSTANCEUID" property="instanceuid" />
+        <result column="YLJGDM" property="yljgdm" />
+        <result column="JZLSH" property="jzlsh" />
+        <result column="MZZYBZ" property="mzzybz" />
+        <result column="KH" property="kh" />
+        <result column="KLX" property="klx" />
+        <result column="BRXM" property="brxm" />
+        <result column="BRXB" property="brxb" />
+        <result column="PATIENTID" property="patientid" />
+        <result column="JCXMDM" property="jcxmdm" />
+        <result column="JCXMDMYB" property="jcxmdmyb" />
+        <result column="SQDH" property="sqdh" />
+        <result column="KDSJ" property="kdsj" />
+        <result column="JYSJ" property="jysj" />
+        <result column="EXAMTYPE" property="examtype" />
+        <result column="SBBM" property="sbbm" />
+        <result column="YQBM" property="yqbm" />
+        <result column="SQKS" property="sqks" />
+        <result column="SQRGH" property="sqrgh" />
+        <result column="SQRXM" property="sqrxm" />
+        <result column="JCKS" property="jcks" />
+        <result column="JCYS" property="jcys" />
+        <result column="JCYSGH" property="jcysgh" />
+        <result column="BGRQ" property="bgrq" />
+        <result column="BGSJ" property="bgsj" />
+        <result column="BGRGH" property="bgrgh" />
+        <result column="BGRXM" property="bgrxm" />
+        <result column="SHRGH" property="shrgh" />
+        <result column="SHRXM" property="shrxm" />
+        <result column="JCBW" property="jcbw" />
+        <result column="JCFF" property="jcff" />
+        <result column="BWACR" property="bwacr" />
+        <result column="JCMC" property="jcmc" />
+        <result column="BT1BM" property="bt1bm" />
+        <result column="BT1MC" property="bt1mc" />
+        <result column="BT1NR" property="bt1nr" />
+        <result column="BT2BM" property="bt2bm" />
+        <result column="BT2MC" property="bt2mc" />
+        <result column="BT2NR" property="bt2nr" />
+        <result column="BT3BM" property="bt3bm" />
+        <result column="BT3MC" property="bt3mc" />
+        <result column="BT3NR" property="bt3nr" />
+        <result column="BT4BM" property="bt4bm" />
+        <result column="BT4MC" property="bt4mc" />
+        <result column="BT4NR" property="bt4nr" />
+        <result column="BT5BM" property="bt5bm" />
+        <result column="BT5MC" property="bt5mc" />
+        <result column="BT5NR" property="bt5nr" />
+        <result column="BT6BM" property="bt6bm" />
+        <result column="BT6MC" property="bt6mc" />
+        <result column="BT6NR" property="bt6nr" />
+        <result column="BT7BM" property="bt7bm" />
+        <result column="BT7MC" property="bt7mc" />
+        <result column="BT7NR" property="bt7nr" />
+        <result column="BT8BM" property="bt8bm" />
+        <result column="BT8MC" property="bt8mc" />
+        <result column="BT8NR" property="bt8nr" />
+        <result column="BT9BM" property="bt9bm" />
+        <result column="BT9MC" property="bt9mc" />
+        <result column="BT9NR" property="bt9nr" />
+        <result column="BT0BM" property="bt0bm" />
+        <result column="BT0MC" property="bt0mc" />
+        <result column="BT0NR" property="bt0nr" />
+        <result column="BT11BM" property="bt11bm" />
+        <result column="BT11MC" property="bt11mc" />
+        <result column="BT11NR" property="bt11nr" />
+        <result column="BT12BM" property="bt12bm" />
+        <result column="BT12MC" property="bt12mc" />
+        <result column="BT12NR" property="bt12nr" />
+        <result column="BT13BM" property="bt13bm" />
+        <result column="BT13MC" property="bt13mc" />
+        <result column="BT13NR" property="bt13nr" />
+        <result column="BT14BM" property="bt14bm" />
+        <result column="BT14MC" property="bt14mc" />
+        <result column="BT14NR" property="bt14nr" />
+        <result column="BT15BM" property="bt15bm" />
+        <result column="BT15MC" property="bt15mc" />
+        <result column="BT15NR" property="bt15nr" />
+        <result column="XGBZ" property="xgbz" />
+        <result column="UPDATE_TIME" property="updateTime" />
+    </resultMap>
+
+    <!-- 根据原主键获取对象 -->
+    <select id="getRisReport2" parameterType="map" resultMap="BaseResultMap">
+      SELECT
+        *
+       FROM
+        TB_RIS_REPORT2
+       WHERE YLJGDM=#{yljgdm} AND STUDYUID=#{studyuid} AND INSTANCEUID=#{instanceuid}
+    </select>
+
+    <!-- 根据卡号查询影像报告 -->
+    <select id="getYxbg" parameterType="map" resultMap="BaseResultMap">
+    SELECT
+        r.jcsj,
+        h.HOSPITAL_NAME,
+        r.jcmc,
+        r.bt1nr
+    FROM
+        TB_RIS_REPORT2 r,
+        TB_HOSPITAL h
+    WHERE
+        h.HOSPITAL_ID = r.YLJGDM AND r.KH = #{kh}
+    </select>
+
+    <!-- 根据就诊流水号查询影像报告 -->
+    <select id="getYxbgByJzlsh" parameterType="map" resultMap="BaseResultMap">
+    SELECT
+        r.jcsj,
+        h.HOSPITAL_NAME,
+        r.jcmc,
+        r.bt1nr
+    FROM
+        TB_RIS_REPORT2 r,
+        TB_HOSPITAL h
+    WHERE
+        h.HOSPITAL_ID = r.YLJGDM AND r.JZLSH = #{jzlsh}
+    </select>
+
+</mapper>
