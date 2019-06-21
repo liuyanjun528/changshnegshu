@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.annaru.upms.mapper.SysNotificationMapper">
+
+	<!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.annaru.upms.entity.SysNotification" >
+        <result column="sys_id" property="sysId" />
+        <result column="title" property="title" />
+        <result column="details" property="details" />
+        <result column="is_active" property="isActive" />
+        <result column="link_url" property="linkUrl" />
+        <result column="publish_time" property="publishTime" />
+    </resultMap>
+    
+    <sql id="BaseClounmSql">
+          sys_id,
+          title,
+          details,
+          is_active,
+          link_url,
+          publish_time
+    </sql>
+
+    <!-- 多表页面信息查询分页 -->
+    <select id="selectDataPage" parameterType="map" resultMap="BaseResultMap">
+
+        SELECT
+            <include refid="BaseClounmSql"></include>
+        FROM
+            sys_notification
+
+
+    </select>
+    <select id="selectAll" resultType="com.annaru.upms.entity.SysNotification">
+        SELECT
+        <include refid="BaseClounmSql"></include>
+        FROM
+        sys_notification
+        where is_active = 1
+    </select>
+
+</mapper>

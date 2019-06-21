@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.annaru.upms.mapper.TbLisAllergyResultMapper">
+	<!-- 通用查询映射结果 tb_lis_allergy_result(药敏结果表) -->
+    <resultMap id="BaseResultMap" type="com.annaru.upms.entity.medical.TbLisAllergyResult" >
+        <result column="CSID" property="csid" />
+        <result column="YMJGLSH" property="ymjglsh" />
+        <result column="YLJGDM" property="yljgdm" />
+        <result column="BGDH" property="bgdh" />
+        <result column="BGRQ" property="bgrq" />
+        <result column="XJDH" property="xjdh" />
+        <result column="DYXH" property="dyxh" />
+        <result column="YMDM" property="ymdm" />
+        <result column="YMMC" property="ymmc" />
+        <result column="JCJG" property="jcjg" />
+        <result column="ZPHYL" property="zphyl" />
+        <result column="YJND" property="yjnd" />
+        <result column="YJHZJ" property="yjhzj" />
+        <result column="XGBZ" property="xgbz" />
+        <result column="UPDATE_TIME" property="updateTime" />
+    </resultMap>
+
+    <!-- 根据原主键获取对象 -->
+    <select id="getLisAllergyResult" parameterType="map" resultMap="BaseResultMap">
+      SELECT
+        *
+       FROM
+        TB_LIS_ALLERGY_RESULT
+       WHERE YLJGDM=#{yljgdm} AND YMJGLSH=#{ymjglsh}
+    </select>
+</mapper>

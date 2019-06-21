@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.annaru.upms.mapper.TbHisZyFeeDetailFsMapper">
+	<!-- 通用查询映射结果 tb_his_zy_fee_detail_fs(住院费用发生明细表) -->
+    <resultMap id="BaseResultMap" type="com.annaru.upms.entity.medical.TbHisZyFeeDetailFs" >
+        <result column="CSID" property="csid" />
+        <result column="YLJGDM" property="sfmxid" />
+        <result column="MXFSID" property="xgbz" />
+        <result column="XGBZ" property="yljgdm" />
+        <result column="JZLSH" property="jzlsh" />
+        <result column="KH" property="kh" />
+        <result column="KLX" property="klx" />
+        <result column="YZID" property="yzid" />
+        <result column="FPH" property="fph" />
+        <result column="BXLX" property="bxlx" />
+        <result column="MXFYLB" property="mxfylb" />
+        <result column="STFSJ" property="stfsj" />
+        <result column="MXXMBM" property="mxxmbm" />
+        <result column="MXXMBMYB" property="mxxmbmyb" />
+        <result column="MXXMMC" property="mxxmmc" />
+        <result column="MXXMDW" property="mxxmdw" />
+        <result column="MXXMDJ" property="mxxmdj" />
+        <result column="MXXMSL" property="mxxmsl" />
+        <result column="MXXMJE" property="mxxmje" />
+        <result column="UPDATE_TIME" property="updateTime" />
+    </resultMap>
+
+    <!-- 根据原主键获取对象 -->
+    <select id="getHisZyFeeDetailFs" parameterType="map" resultMap="BaseResultMap">
+      SELECT
+        *
+       FROM
+        TB_HIS_ZY_FEE_DETAIL_FS
+       WHERE YLJGDM=#{yljgdm} AND MXFSID=#{mxfsid} AND XGBZ=#{xgbz}
+    </select>
+</mapper>
