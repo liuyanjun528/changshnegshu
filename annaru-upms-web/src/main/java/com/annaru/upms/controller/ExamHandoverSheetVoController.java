@@ -41,8 +41,8 @@ public class ExamHandoverSheetVoController extends BaseController {
     @GetMapping("/handoverSheetList")
     public ResultMap HandoverSheetList(String orderNo){
         try {
-            List<ExamHandoverSheetVo> examHandoverSheetVos = examHandoverSheetVoService.selectNurseOrderInfo(orderNo);
-            return ResultMap.ok().put("data",examHandoverSheetVos);
+            ExamHandoverSheetVo examHandoverSheetVo = examHandoverSheetVoService.selectNurseOrderInfo(orderNo);
+            return ResultMap.ok().put("data",examHandoverSheetVo);
         } catch (Exception e) {
             logger.error(e.getMessage());
             return ResultMap.error("运行异常，请联系管理员");

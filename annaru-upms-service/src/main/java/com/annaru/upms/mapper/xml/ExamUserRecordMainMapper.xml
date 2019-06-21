@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.annaru.upms.mapper.ExamUserRecordMainMapper">
+
+	<!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.annaru.upms.entity.ExamUserRecordMain" >
+        <result column="sys_id" property="sysId" />
+        <result column="order_no" property="orderNo" />
+        <result column="user_id" property="userId" />
+        <result column="creation_time" property="creationTime" />
+    </resultMap>
+    
+    <sql id="BaseClounmSql">
+          sys_id,
+          order_no,
+          user_id,
+          creation_time
+    </sql>
+
+    <!-- 多表页面信息查询分页 -->
+    <select id="selectDataPage" parameterType="map" resultMap="BaseResultMap">
+
+        SELECT
+            <include refid="BaseClounmSql"></include>
+        FROM
+            exam_user_record_main
+
+    </select>
+
+    <!-- 根据实体类得这条数据 -->
+    <select id="getOneByExamUserRecordMain" parameterType="com.annaru.upms.entity.ExamUserRecordMain" resultMap="BaseResultMap">
+
+        SELECT
+        <include refid="BaseClounmSql"></include>
+        FROM
+        exam_user_record_main
+        WHERE 1 = 1
+        <if test="examUserRecordMain.orderNo != null and examUserRecordMain.orderNo != ''">
+            AND order_no = #{examUserRecordMain.orderNo}
+        </if>
+        <if test="examUserRecordMain.userId != null and examUserRecordMain.userId != ''">
+            AND user_id = #{examUserRecordMain.userId}
+        </if>
+
+    </select>
+
+</mapper>
