@@ -464,6 +464,7 @@
         and om.user_id = #{params.userId}
         and om.is_deleted = 0
         GROUP BY order_no
+        ORDER BY oa.creation_time DESC
     </select>
 
 </mapper>
