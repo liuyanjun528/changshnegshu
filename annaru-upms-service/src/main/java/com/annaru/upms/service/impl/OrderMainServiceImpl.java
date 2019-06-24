@@ -147,7 +147,11 @@ public class OrderMainServiceImpl extends ServiceImpl<OrderMainMapper, OrderMain
         return this.baseMapper.getBase(params);
     }
 
-    public List<UserPackagesVo> getToBPackages(Map<String,Object> params){
+    public UserPackagesVo getToBPackages(Map<String,Object> params){
         return this.baseMapper.getToBPackages(params);
+    }
+
+    public List<UserPackagesVo> getPackages(Map<String,Object> params){
+        return this.baseMapper.getPackages(params);
     }
 }

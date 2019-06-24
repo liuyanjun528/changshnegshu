@@ -8,9 +8,19 @@ public class UserPackagesVo extends Model<UserPackagesVo> implements Serializabl
 
     private static final long serialVersionUID = 1L;
 
-    private String referenceNo;
+    private String packageName;
 
     private String orderNo;
+
+    private String referenceNo;
+
+    public String getReferenceNo() {
+        return referenceNo;
+    }
+
+    public void setReferenceNo(String referenceNo) {
+        this.referenceNo = referenceNo;
+    }
 
     public String getOrderNo() {
         return orderNo;
@@ -20,11 +30,11 @@ public class UserPackagesVo extends Model<UserPackagesVo> implements Serializabl
         this.orderNo = orderNo;
     }
 
-    public String getReferenceNo() {
-        return referenceNo;
+    public String getPackageName() {
+        return packageName;
     }
 
-    public void setReferenceNo(String referenceNo) {
-        this.referenceNo = referenceNo;
+    public void setPackageName(String packageName) {
+        this.packageName = packageName;
     }
 }

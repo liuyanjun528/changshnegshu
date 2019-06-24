@@ -84,5 +84,7 @@ public interface OrderMainMapper extends BaseMapper<OrderMain> {
 
     OrderInfoVo getBase(@Param("params") Map<String,Object> params);
 
-    List<UserPackagesVo> getToBPackages(@Param("params") Map<String,Object> params);
+    UserPackagesVo getToBPackages(@Param("params") Map<String,Object> params);
+
+    List<UserPackagesVo> getPackages(@Param("params") Map<String,Object> params);
 }
