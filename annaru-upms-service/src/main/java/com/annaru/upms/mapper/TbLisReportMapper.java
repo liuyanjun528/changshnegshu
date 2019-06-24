@@ -1,6 +1,7 @@
 package com.annaru.upms.mapper;
 
 import com.annaru.upms.entity.medical.TbLisReport;
+import com.annaru.upms.entity.medical.vo.TbLisReportDetailVo;
 import com.annaru.upms.entity.medical.vo.TbLisReportListVo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
@@ -35,7 +36,7 @@ public interface TbLisReportMapper extends BaseMapper<TbLisReport> {
      * @param jzlsh 就诊流水号
      * @return
      */
-    List<TbLisReport> getJybgByJzlsh(@Param("jzlsh") String jzlsh);
+    List<TbLisReportDetailVo> getJybgByJzlsh(@Param("jzlsh") String jzlsh);
 
     /**
      *根据报告单号查询检验报告

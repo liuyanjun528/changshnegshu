@@ -65,5 +65,7 @@ public interface IOrderAppointmentService extends IService<OrderAppointment> {
      */
     OrderAppointment getOrderAppointment(OrderAppointment orderAppointment);
 
+    List<OrderAppointment> getAppointInfoByOrderNo(Map<String, Object> params);
+
 }
 

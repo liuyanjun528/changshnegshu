@@ -47,6 +47,8 @@ public class OrderAppointmentController extends BaseController {
     private ISysDoctorOppointmentService sysDoctorOppointmentService;
     @Reference
     private IExamPackageDetailService examPackageDetailService;
+    @Reference
+    private IOrderExtensionSuggestionService orderExtensionSuggestionService;
 
 
     /**
@@ -102,23 +104,71 @@ public class OrderAppointmentController extends BaseController {
         return ResultMap.ok().put("data",pageList);
     }
 
-    @ApiOperation(value = "用户toB套餐信息")
+    @ApiOperation(value = "用户套餐对应预约信息")
     @GetMapping("/toBPackages")
     @RequiresPermissions("upms/orderAppointment/toBPackages")
-    public ResultMap toBPackages(@ApiParam(value = "用户ID")@RequestParam String userId){
+    public ResultMap toBPackages(@ApiParam(value = "用户ID")@RequestParam String userId,
+    @ApiParam(value = "订单编号")@RequestParam(required = false) String orderNo){
         Map<String, Object> params = new HashMap<>();
+        OrderExtensionInfoVo orderInfoVo = new OrderExtensionInfoVo();
         params.put("userId",userId);
-        List<UserPackagesVo> userPackageList = orderMainService.getToBPackages(params);
-        return ResultMap.ok().put("data",userPackageList);
+        params.put("orderNo",orderNo);
+        UserPackagesVo userPackage = orderMainService.getToBPackages(params);
+        params.put("examId",userPackage.getReferenceNo());
+        if (orderNo==null){
+            params.put("orderNo",userPackage.getOrderNo());
+        }
+        List<OrderExtensionSuggestion> orderExtensionSuggestion = orderExtensionSuggestionService.getItems(params);
+        List<ExamChooseVo> examChooseVo = examPackageDetailService.getChoosen(params);
+        List<OrderAppointment> orderAppointments = orderAppointmentService.getAppointInfoByOrderNo(params);
+        if (orderAppointments==null){
+            params.clear();
+            params.put("examList",examChooseVo);
+            params.put("packageName",userPackage.getPackageName());
+            params.put("appointed",0);
+            return ResultMap.ok().put("data",params);
+        }
+
+        for(int i = 0;i<orderAppointments.size();i++){
+            if (orderAppointments.get(i).getAppointmentCates()==2||orderAppointments.get(i).getAppointmentCates()==4){
+                orderInfoVo = orderMainService.getExtensionInfo(params);
+                orderAppointments.remove(i);
+            }
+        }
+        params.clear();
+        params.put("appointed",1);
+        if (null==orderExtensionSuggestion||orderExtensionSuggestion.size()==0){
+            params.put("extensionSuggestion","");
+        }else {
+            params.put("extensionSuggestion",orderExtensionSuggestion);
+        }
+        if (orderInfoVo==null){
+            params.put("extensioncheck","");
+        }else {
+            params.put("extensioncheck",orderInfoVo);
+        }
+        params.put("packageName",userPackage.getPackageName());
+        params.put("examList",examChooseVo);
+        params.put("commoncheck",orderAppointments.get(0));
+        return ResultMap.ok().put("data",params);
     }
 
-    @ApiOperation(value = "toB基础预约信息")
+    @ApiOperation(value = "用户套餐订单列表")
+    @GetMapping("/packages")
+    @RequiresPermissions("upms/orderAppointment/packages")
+    public ResultMap packages(@ApiParam(value = "用户ID")@RequestParam String userId){
+        Map<String,Object> params = new HashMap<>();
+        params.put("userId",userId);
+        List<UserPackagesVo> userPackagesVos = orderMainService.getPackages(params);
+        return ResultMap.ok().put("data",userPackagesVos);
+    }
+
+    @ApiOperation(value = "用户预约信息")
     @GetMapping("/toBInfo")
     @RequiresPermissions("upms/orderAppointment/toBInfo")
-    public ResultMap toCInfo(@ApiParam(value = "用户ID")@RequestParam String userId,String referenceNo){
+    public ResultMap toCInfo(@ApiParam(value = "用户ID")@RequestParam String orderNo){
         Map<String, Object> params = new HashMap<>();
-        params.put("userId",userId);
-        params.put("referenceNo",referenceNo);
+        params.put("orderNo",orderNo);
         OrderInfoVo orderInfoVo = orderMainService.getToB(params);
         params.put("examId",Integer.valueOf(orderInfoVo.getReferenceNo()));
         List<ExamChooseVo> examChooseVo = examPackageDetailService.getChoosen(params);
@@ -142,7 +192,7 @@ public class OrderAppointmentController extends BaseController {
         params.put("examId",Integer.valueOf(infoVo.getReferenceNo()));
         List<ExamChooseVo> examChooseVo = examPackageDetailService.getChoosen(params);
         infoVo.setExamChooseList(examChooseVo);
-        orderInfoVo.setOrderInfoVo(infoVo);
+      //  orderInfoVo.setOrderInfoVo(infoVo);
         return ResultMap.ok().put("data",orderInfoVo);
     }
 
