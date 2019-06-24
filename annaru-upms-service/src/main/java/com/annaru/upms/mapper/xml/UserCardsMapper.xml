@@ -6,12 +6,16 @@
     <resultMap id="BaseResultMap" type="com.annaru.upms.entity.UserCards" >
         <result column="sys_id" property="sysId" />
         <result column="user_id" property="userId" />
+        <result column="user_cates" property="userCates" />
         <result column="card_cates" property="cardCates" />
         <result column="card_no" property="cardNo" />
         <result column="cellphone_no" property="cellphoneNo" />
         <result column="status" property="status" />
         <result column="remark" property="remark" />
         <result column="creation_time" property="creationTime" />
+        <result column="full_name" property="fullName" />
+        <result column="id_card_no" property="idCardNo" />
+
     </resultMap>
 
     <resultMap id="BaseResultMap1" type="com.annaru.upms.entity.vo.UserCardInfoVo" >
@@ -69,15 +73,31 @@
         </where>
     </select>
 
-    <!-- 通过已绑卡查询 -->
+    <!-- 绑卡查询 -->
     <select id="selectByStatus" parameterType="map" resultMap="BaseResultMap">
-        select
-              user_id,
-              cellphone_no,
-              card_cates,
-              status,
-              card_no
-        from user_cards where  user_id=#{userId}
+       select
+              ub.full_name,-- 用户名
+			  ub.id_card_no,-- 身份证号
+              uc.cellphone_no, -- 手机号
+              uc.card_cates,-- 卡类型
+              uc.status,-- 是否绑卡
+              uc.card_no-- 卡号
+
+        from  user_cards as uc
+		LEFT JOIN user_basic as ub ON uc.user_id=ub.user_id
+	    where  uc.user_id=#{userId}
+UNION
+        SELECT
+		      ur.relative_name,-- 亲属名称
+		      ur.id_card_no,-- 亲属身份证号
+		      ur.cellphone_no,-- 亲属手机号
+              uc.card_cates,-- 卡类型
+              uc.status, -- 卡状态
+              uc.card_no-- 卡号
+        FROM user_relatives as ur
+        LEFT  JOIN  user_cards as uc ON uc.user_id=ur.relative_id
+        WHERE ur.user_id=#{userId}
+
     </select>
 
     <!-- 查询企业门诊绿通预约人信息 -->
