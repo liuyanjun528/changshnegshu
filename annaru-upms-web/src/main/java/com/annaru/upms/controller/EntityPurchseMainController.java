@@ -4,8 +4,10 @@ import java.util.*;
 
 import com.annaru.common.util.DateUtil;
 import com.annaru.upms.entity.EntityHealthyAppointment;
+import com.annaru.upms.entity.ExamUserHealthyAppraisal;
 import com.annaru.upms.entity.UserSurveyMain;
 import com.annaru.upms.entity.vo.EntityPurchseMainVo;
+import com.annaru.upms.entity.vo.EntityPurchseVo;
 import com.annaru.upms.service.IEntityHealthyAppointmentService;
 import com.annaru.upms.service.IExamUserHealthyAppraisalService;
 import com.annaru.upms.service.IUserSurveyMainService;
@@ -69,25 +71,54 @@ public class EntityPurchseMainController extends BaseController {
     }
 
     /**
-     * 企业健康服务首页的健康日志按月筛选
+     * 企业健康服务首页的健康日志筛选
      * @author zk
      * @date 2019-06-21
      */
-    @ApiOperation(value = "企业健康服务首页的健康日志按月筛选", notes = "企业健康服务首页的健康日志按月筛选")
+    @ApiOperation(value = "企业健康服务首页的健康日志筛选", notes = "企业健康服务首页的健康日志筛选")
     @GetMapping("/selectUserOrRelativeInfo/getTimeByUserIdZ")
-    public ResultMap getTimeByUserIdZ(@RequestParam("userId") String userId, @RequestParam("startDate") String startDate) {
+    public ResultMap getTimeByUserIdZ(@RequestParam("userId") String userId, @RequestParam("startDate") String startDate,
+                                    @RequestParam("bs") Integer bs) {
         try {
-            List<String> list = new ArrayList<>();
-            EntityPurchseMain entityPurchseMain = entityPurchseMainService.getTimeByUserIdZ(userId, startDate);
+            List<EntityPurchseVo> list = new ArrayList<>();
+            Map<String,Object> params = new HashMap<>();
+            params.put("userId", userId);
+            params.put("startDate", startDate);
+            params.put("bs", bs);
+            EntityPurchseVo entityPurchseVo = null;
+            EntityPurchseMain entityPurchseMain = entityPurchseMainService.getTimeByUserIdZ(params);
             if (entityPurchseMain != null){
-                list.add(DateUtil.format(entityPurchseMain.getTerminatedDate()));
-                UserSurveyMain userSurveyMain = userSurveyMainService.getTimeByUserIdZ(userId, startDate);
+                entityPurchseVo = new EntityPurchseVo();
+                entityPurchseVo.setTime(DateUtil.format(entityPurchseMain.getEffectFrom()));
+                entityPurchseVo.setSign(1);
+                list.add(entityPurchseVo);
+                UserSurveyMain userSurveyMain = userSurveyMainService.getTimeByUserIdZ(params);
                 if (userSurveyMain != null){
-                    list.add(DateUtil.format(userSurveyMain.getSurveyTime()));
-                    EntityHealthyAppointment entityHealthyAppointment = entityHealthyAppointmentService.getTimeByUserIdZ(userId, startDate);
+                    entityPurchseVo = new EntityPurchseVo();
+                    entityPurchseVo.setTime(DateUtil.format(userSurveyMain.getSurveyTime()));
+                    entityPurchseVo.setSign(2);
+                    list.add(entityPurchseVo);
+                    EntityHealthyAppointment entityHealthyAppointment = entityHealthyAppointmentService.getTimeByUserIdZ(params);
+                    if (entityHealthyAppointment != null){
+                        entityPurchseVo = new EntityPurchseVo();
+                        entityPurchseVo.setTime(DateUtil.format(entityHealthyAppointment.getCreationTime()));
+                        entityPurchseVo.setSign(3);
+                        list.add(entityPurchseVo);
+                        ExamUserHealthyAppraisal examUserHealthyAppraisal = examUserHealthyAppraisalService.getTimeByUserIdZ(params);
+                        if (examUserHealthyAppraisal != null){
+                            entityPurchseVo = new EntityPurchseVo();
+                            entityPurchseVo.setTime(DateUtil.format(examUserHealthyAppraisal.getSubmitTime()));
+                            entityPurchseVo.setSign(4);
+                            list.add(entityPurchseVo);
+                            entityPurchseVo = new EntityPurchseVo();
+                            entityPurchseVo.setTime(DateUtil.format(entityPurchseMain.getEffectTo()));
+                            entityPurchseVo.setSign(5);
+                            list.add(entityPurchseVo);
+                        }
+                    }
                 }
             }
-            return null;
+            return ResultMap.ok().put("data", list);
         } catch (Exception e) {
             logger.error(e.getMessage());
             return ResultMap.error("运行异常，请联系管理员");

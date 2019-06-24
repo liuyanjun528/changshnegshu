@@ -7,6 +7,7 @@ import com.annaru.upms.entity.vo.UserSurveyVo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.swagger.models.auth.In;
 import org.apache.ibatis.annotations.Param;
 import java.util.List;
 import java.util.Map;
@@ -34,5 +35,5 @@ public interface UserSurveyMainMapper extends BaseMapper<UserSurveyMain> {
      * @author zk
      * @date 2019-06-121
      */
-    UserSurveyMain getTimeByUserIdZ(@Param("userId") String userId, @Param("startDate") String startDate);
+    UserSurveyMain getTimeByUserIdZ(@Param("params") Map<String, Object> params);
 }

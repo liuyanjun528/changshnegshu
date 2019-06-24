@@ -5,6 +5,7 @@ import com.annaru.upms.entity.vo.EntityHealthyAppointmentVo;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.annaru.common.result.PageUtils;
 import com.annaru.upms.entity.EntityHealthyAppointment;
+import io.swagger.models.auth.In;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -70,7 +71,7 @@ public interface IEntityHealthyAppointmentService extends IService<EntityHealthy
      * @author zk
      * @date 2019-06-21
      */
-    EntityHealthyAppointment getTimeByUserIdZ(String userId, String startDate);
+    EntityHealthyAppointment getTimeByUserIdZ(Map<String,Object> params);
 
 
 

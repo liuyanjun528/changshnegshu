@@ -47,8 +47,8 @@ public class ExamUserHealthyAppraisalServiceImpl extends ServiceImpl<ExamUserHea
     }
 
     @Override
-    public ExamUserHealthyAppraisal getTimeByUserIdZ(String userId, String startDate) {
-        return null;
+    public ExamUserHealthyAppraisal getTimeByUserIdZ(Map<String,Object> params) {
+        return this.baseMapper.getTimeByUserIdZ(params);
     }
 
 }

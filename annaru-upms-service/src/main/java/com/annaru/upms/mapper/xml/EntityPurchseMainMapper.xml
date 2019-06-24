@@ -99,11 +99,14 @@
         LEFT JOIN user_entity_mapping uem ON uem.entity_id = epm.entity_no
         WHERE 1 = 1
         AND epm.cates = 2 AND epm.is_active = 1 AND epm.is_terminated = 0
-        <if test="userId != null and userId != ''">
-            AND uem.user_id = #{userId}
+        <if test="params.userId != null and params.userId != ''">
+            AND uem.user_id = #{params.userId}
         </if>
-        <if test="startDate != null and startDate != ''">
-            AND DATE_FORMAT(epm.effect_from , '%Y-%m') = DATE_FORMAT(startDate , '%Y-%m')
+        <if test="params.bs == 1">
+            AND DATE_FORMAT(epm.effect_from , '%Y') = DATE_FORMAT(#{params.startDate} , '%Y')
+        </if>
+        <if test="params.bs == 2">
+            AND DATE_FORMAT(epm.effect_from , '%Y-%m') = DATE_FORMAT(#{params.startDate} , '%Y-%m')
         </if>
     </select>
 

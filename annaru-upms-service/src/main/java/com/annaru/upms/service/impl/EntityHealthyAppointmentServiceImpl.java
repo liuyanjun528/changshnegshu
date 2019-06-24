@@ -55,8 +55,8 @@ public class EntityHealthyAppointmentServiceImpl extends ServiceImpl<EntityHealt
         return this.baseMapper.selectUpDoorServer(status, relatedNo, isSubmitted);
     }
     @Override
-    public EntityHealthyAppointment getTimeByUserIdZ(String userId, String startDate) {
-        return null;
+    public EntityHealthyAppointment getTimeByUserIdZ(Map<String,Object> params) {
+        return this.baseMapper.getTimeByUserIdZ(params);
     }
 
 

@@ -32,6 +32,6 @@ public interface IUserSurveyMainService extends IService<UserSurveyMain> {
      * @author zk
      * @date 2019-06-21
      */
-    UserSurveyMain getTimeByUserIdZ(String userId, String startDate);
+    UserSurveyMain getTimeByUserIdZ(Map<String,Object> params);
 }
 

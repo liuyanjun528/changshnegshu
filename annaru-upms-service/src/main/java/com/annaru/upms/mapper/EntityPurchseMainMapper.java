@@ -45,6 +45,6 @@ public interface EntityPurchseMainMapper extends BaseMapper<EntityPurchseMain> {
      * @author zk
      * @date 2019-06-121
      */
-    EntityPurchseMain getTimeByUserIdZ(@Param("userId") String userId, @Param("startDate") String startDate);
+    EntityPurchseMain getTimeByUserIdZ(@Param("params") Map<String, Object> params);
 
 }

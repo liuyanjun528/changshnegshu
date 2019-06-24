@@ -51,7 +51,7 @@ public interface IExamUserHealthyAppraisalService extends IService<ExamUserHealt
      * @author zk
      * @date 2019-06-21
      */
-    ExamUserHealthyAppraisal getTimeByUserIdZ(String userId, String startDate);
+    ExamUserHealthyAppraisal getTimeByUserIdZ(Map<String,Object> params);
 
 
 }

@@ -44,7 +44,7 @@ public interface IEntityPurchseMainService extends IService<EntityPurchseMain> {
      * @author zk
      * @date 2019-06-21
      */
-    EntityPurchseMain getTimeByUserIdZ(String userId, String startDate);
+    EntityPurchseMain getTimeByUserIdZ(Map<String,Object> params);
 
 }
 

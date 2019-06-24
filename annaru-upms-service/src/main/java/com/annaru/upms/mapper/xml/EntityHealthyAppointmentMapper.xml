@@ -80,11 +80,14 @@
         AND epm.cates = 2 AND epm.is_active = 1 AND epm.is_terminated = 0
         AND eha.`status` = 3 AND eha.service_option = 1 AND eha.is_cancelled = 0 AND eha.user_confirm = 1 AND eha.is_deleted = 0
 
-        <if test="userId != null and userId != ''">
-            AND uem.user_id = #{userId}
+        <if test="params.userId != null and params.userId != ''">
+            AND uem.user_id = #{params.userId}
         </if>
-        <if test="startDate != null and startDate != ''">
-            AND DATE_FORMAT(eha.creation_time , '%Y-%m') = DATE_FORMAT(startDate , '%Y-%m')
+        <if test="params.bs == 1">
+            AND DATE_FORMAT(eha.creation_time , '%Y') = DATE_FORMAT(#{params.startDate} , '%Y')
+        </if>
+        <if test="params.bs == 2">
+            AND DATE_FORMAT(eha.creation_time , '%Y-%m') = DATE_FORMAT(#{params.startDate} , '%Y-%m')
         </if>
 
         ORDER BY eha.creation_time DESC LIMIT 0,1
