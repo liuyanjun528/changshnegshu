@@ -1,6 +1,7 @@
 package com.annaru.upms.service;
 
 import com.annaru.upms.entity.medical.TbLisIndicators;
+import com.annaru.upms.entity.medical.vo.TbLisIndicatorsListVo;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;
@@ -25,6 +26,6 @@ public interface ITbLisIndicatorsService extends IService<TbLisIndicators> {
      * @param bgdh
      * @return
      */
-    List<TbLisIndicators> getJybg(String bgdh);
+    List<TbLisIndicatorsListVo> getJybg(String bgdh);
 }
 

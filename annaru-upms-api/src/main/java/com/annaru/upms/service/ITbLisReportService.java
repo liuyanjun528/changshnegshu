@@ -1,6 +1,7 @@
 package com.annaru.upms.service;
 
 import com.annaru.upms.entity.medical.TbLisReport;
+import com.annaru.upms.entity.medical.vo.TbLisReportDetailVo;
 import com.annaru.upms.entity.medical.vo.TbLisReportListVo;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -34,7 +35,7 @@ public interface ITbLisReportService extends IService<TbLisReport> {
      * @param jzlsh 就诊流水号
      * @return
      */
-    List<TbLisReport> getJybgByJzlsh(String jzlsh);
+    List<TbLisReportDetailVo> getJybgByJzlsh(String jzlsh);
 
     /**
      * 根据报告单号查询检验报告

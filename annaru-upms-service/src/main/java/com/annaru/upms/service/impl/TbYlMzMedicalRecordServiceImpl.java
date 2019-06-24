@@ -2,6 +2,7 @@ package com.annaru.upms.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.annaru.upms.entity.medical.TbYlMzMedicalRecord;
+import com.annaru.upms.entity.medical.vo.TbYlMzMedicalRecordDetailVo;
 import com.annaru.upms.entity.medical.vo.TbYlMzMedicalRecordListVo;
 import com.annaru.upms.mapper.TbYlMzMedicalRecordMapper;
 import com.annaru.upms.service.ITbYlMzMedicalRecordService;
@@ -59,7 +60,7 @@ public class TbYlMzMedicalRecordServiceImpl extends ServiceImpl<TbYlMzMedicalRec
      */
     @Override
     @DS("oracle")
-    public TbYlMzMedicalRecordListVo getJzjlById(String csid) {
+    public TbYlMzMedicalRecordDetailVo getJzjlById(String csid) {
         return this.baseMapper.getJzjlById(csid);
     }
 }
