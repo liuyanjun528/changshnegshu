@@ -24,7 +24,7 @@ import java.util.Map;
  * @author lft
  * @date 2019-05-09 11:14:28
  */
-@Api(tags = {"健康档案管理111"}, description = "健康档案管理111")
+@Api(tags = {"健康档案管理"}, description = "健康档案管理")
 @RestController
 @RequestMapping("upms/medical")
 public class TbMedicalController extends BaseController {
@@ -62,8 +62,16 @@ public class TbMedicalController extends BaseController {
     @RequiresPermissions("upms/medical/getIndex")
     public ResultMap getIndex(String kh) {
         try {
+            Map<String, Object> map = new HashMap<>();
             List<TbYlMzMedicalRecordListVo> listYlMzMedicalRecord = iTbYlMzMedicalRecordService.getJzjl(kh);
-            return ResultMap.ok().put("data",listYlMzMedicalRecord);
+            Integer mzjl = listYlMzMedicalRecord.size();
+            List<TbYlZyMedicalRecordListVo> listYlZyMedicalRecord = iTbYlZyMedicalRecordService.getJyjl(kh);
+            Integer zyjl = listYlZyMedicalRecord.size();
+            //String hospitalName = "闵行区七宝社区卫生服务中心";
+            map.put("mzjl",mzjl);
+            map.put("zyjl",zyjl);
+            map.put("hospitalName", "闵行区七宝社区卫生服务中心");
+            return ResultMap.ok().put("data",map);
         } catch (Exception e) {
             logger.error(e.getMessage());
             return ResultMap.error("运行异常，请联系管理员");

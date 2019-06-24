@@ -54,6 +54,7 @@
         FROM
         TB_YL_ZY_MEDICAL_RECORD r
         LEFT JOIN TB_HOSPITAL h ON r.YLJGDM = h.HOSPITAL_ID
-        WHERE r.KH = #{kh} ORDER BY RYSJ DESC
+        WHERE r.KH = #{kh}
+        AND (select add_months(sysdate,-12) from dual) > to_date(substr(r.RYSJ,1,10),'yyyy-mm-dd')
     </select>
 </mapper>
