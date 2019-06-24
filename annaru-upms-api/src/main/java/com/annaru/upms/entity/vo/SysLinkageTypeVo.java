@@ -24,6 +24,9 @@ public class SysLinkageTypeVo extends Model<SysLinkageTypeVo> implements Seriali
 
 	private String name;
 	private String nid;
+	private Integer isMust;
+	private Integer checkOption;
+	private Integer needInput;
 	private List<SysLinkageVo> linkageList;
 
     public String getName() {
@@ -37,6 +40,24 @@ public class SysLinkageTypeVo extends Model<SysLinkageTypeVo> implements Seriali
     }
 	public void setNid(String nid) {
 		this.nid = nid;
+	}
+	public Integer getCheckOption() {
+		return checkOption;
+	}
+	public void setCheckOption(Integer checkOption) {
+		this.checkOption = checkOption;
+	}
+	public Integer getIsMust() {
+		return isMust;
+	}
+	public void setIsMust(Integer isMust) {
+		this.isMust = isMust;
+	}
+	public Integer getNeedInput() {
+		return needInput;
+	}
+	public void setNeedInput(Integer needInput) {
+		this.needInput = needInput;
 	}
 
 	public List<SysLinkageVo> getLinkageList() {

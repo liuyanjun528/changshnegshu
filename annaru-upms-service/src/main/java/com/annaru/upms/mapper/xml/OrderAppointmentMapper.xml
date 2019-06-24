@@ -133,7 +133,7 @@
         from
               order_appointment as oa
         LEFT JOIN user_basic as ub ON oa.user_id=ub.user_id
-        where oa.related_no=#{relatedNo}  and oa.status=#{status} and oa.appointment_cates=5
+        where oa.related_no=#{params.relatedNo}  and oa.status=#{params.status} and oa.appointment_cates=5
 UNION
         select
 			eha.user_id,-- id
@@ -146,7 +146,7 @@ UNION
         from
             entity_healthy_appointment as eha
         LEFT JOIN user_basic as ub ON eha.user_id=ub.user_id
-        WHERE eha.related_no=#{relatedNo} and eha.status=#{status} and eha.pkg_main_id=8 and eha.pkg_detail_id=801
+        WHERE eha.related_no=#{params.relatedNo} and eha.status=#{params.status} and eha.pkg_main_id=8 and eha.pkg_detail_id=801
     </select>
 
     <!--确认接收 修改status-->
@@ -166,7 +166,7 @@ UNION
         from
             order_appointment as oa
         LEFT JOIN user_basic as ub ON oa.user_id=ub.user_id
-        WHERE oa.related_no=#{relatedNo}  and oa.status=#{status}  and oa.appointment_cates=6
+        WHERE oa.related_no=#{params.relatedNo}  and oa.status=#{params.status}  and oa.appointment_cates=6
     </select>
 
     <update id="updateIsCancelled">

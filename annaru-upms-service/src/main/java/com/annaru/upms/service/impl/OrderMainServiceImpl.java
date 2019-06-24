@@ -88,8 +88,10 @@ public class OrderMainServiceImpl extends ServiceImpl<OrderMainMapper, OrderMain
     public int insertOrderMain(OrderMain orderMain) {
         int i=0;
         try {
+            //添加订单主表
             i = this.baseMapper.insertOrderMain(orderMain);
 
+            //如果套餐编号大于3
             if (i > 0 && Integer.parseInt(orderMain.getReferenceNo()) > 3) {
                 List<ExamPackageAppend> examPackageAppends = examPackageAppendService.selectExamName(Integer.parseInt(orderMain.getReferenceNo()));
                 OrderDetail detail = new OrderDetail();
@@ -101,11 +103,12 @@ public class OrderMainServiceImpl extends ServiceImpl<OrderMainMapper, OrderMain
                     detail.setAppendId(exam.getAppendId());
                     detail.setCreationtime(new Date());
                     detail.setOrderNo(orderMain.getOrderNo());
-                    i=orderDetailService.insertOrderDetail(detail);
+                    i=orderDetailService.insertOrderDetail(detail);//添订单详情表
                 }
             }
 
             if (i > 0) {
+                //如果订单总数大于1
                 if (orderMain.getTotalQty() > 1) {
                     List<UserRelatives> list = userRelativesService.selectAll(orderMain.getUserId());
                     Boolean result=false;
@@ -121,7 +124,7 @@ public class OrderMainServiceImpl extends ServiceImpl<OrderMainMapper, OrderMain
                     }
                     if (result) {
                         orderMain.getOrderCustomer().setOrderNo(orderMain.getOrderNo());
-                        i=orderCustomerService.insertOrderCustomer(orderMain.getOrderCustomer());
+                        i=orderCustomerService.insertOrderCustomer(orderMain.getOrderCustomer());//添加订单亲属表
                     }
                 }
             }

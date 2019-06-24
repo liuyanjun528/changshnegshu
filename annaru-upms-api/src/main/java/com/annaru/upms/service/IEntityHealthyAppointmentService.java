@@ -1,9 +1,11 @@
 package com.annaru.upms.service;
 
+import com.annaru.upms.entity.UserBasic;
 import com.annaru.upms.entity.vo.EntityHealthyAppointmentVo;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.annaru.common.result.PageUtils;
 import com.annaru.upms.entity.EntityHealthyAppointment;
+import io.swagger.models.auth.In;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -63,6 +65,13 @@ public interface IEntityHealthyAppointmentService extends IService<EntityHealthy
      */
     Integer updateByOderNo(@Param("orderNo") String orderNo);
 
+
+    /**
+     * 根据用户编号和开始时间查询这条记录
+     * @author zk
+     * @date 2019-06-21
+     */
+    EntityHealthyAppointment getTimeByUserIdZ(Map<String,Object> params);
 
 
 

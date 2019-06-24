@@ -30,7 +30,7 @@ public interface IEntityPurchseMainService extends IService<EntityPurchseMain> {
      * @param orderNo
      * @return
      */
-    EntityPurchseMainVo getEntityPurchseMainByOrderNo(@Param("orderNo") String orderNo);
+    EntityPurchseMainVo getEntityPurchseMainByOrderNo(String orderNo);
 
     /**
      * 查询购买企业套餐的用户及其亲属列表
@@ -38,5 +38,13 @@ public interface IEntityPurchseMainService extends IService<EntityPurchseMain> {
      * @return
      */
     List<EntityPurchseMainVo> selectEntityPurchseMainListByUserId(String userId);
+
+    /**
+     * 根据用户编号和开始时间查询这条记录
+     * @author zk
+     * @date 2019-06-21
+     */
+    EntityPurchseMain getTimeByUserIdZ(Map<String,Object> params);
+
 }
 

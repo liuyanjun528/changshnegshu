@@ -26,5 +26,12 @@ public interface IUserSurveyMainService extends IService<UserSurveyMain> {
     int saveOne(UserSurveyMain userSurveyMain);
 
     UserSurveyVo getByUserId(Map<String,Object> params);
+
+    /**
+     * 根据用户编号和开始时间查询这条记录
+     * @author zk
+     * @date 2019-06-21
+     */
+    UserSurveyMain getTimeByUserIdZ(Map<String,Object> params);
 }
 

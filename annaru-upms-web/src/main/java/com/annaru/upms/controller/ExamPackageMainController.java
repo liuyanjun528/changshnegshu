@@ -2,6 +2,7 @@ package com.annaru.upms.controller;
 
 import java.util.*;
 
+import com.annaru.upms.entity.vo.ExamPackageMainVo;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import com.alibaba.dubbo.config.annotation.Reference;
 import org.springframework.web.bind.annotation.*;
@@ -73,9 +74,23 @@ public class ExamPackageMainController extends BaseController {
     public ResultMap selectInfoBySysId(@PathVariable("sysId") Integer sysId){
         Map<String, Object> params = new HashMap<>();
         params.put("sysId",sysId);
-        List<ExamPackageMain> examPackageMain = examPackageMainService.selectInfoBySysId(params);
+        List<ExamPackageMainVo> examPackageMain = examPackageMainService.selectInfoBySysId(params);
         return ResultMap.ok().put("data",examPackageMain);
     }
+
+    /**
+     * 根据套餐编号查询套餐详情
+     */
+    @ApiOperation(value = "根据套餐编号查询套餐详情", notes = "根据套餐编号查询套餐详情")
+    @GetMapping("/selectInfoBySysIdZ/{sysId}")
+    @RequiresPermissions("upms/examPackageMain/selectInfoBySysIdZ")
+    public ResultMap selectInfoBySysIdZ(@PathVariable("sysId") Integer sysId){
+        Map<String, Object> params = new HashMap<>();
+        params.put("sysId",sysId);
+        List<ExamPackageMainVo> examPackageMain = examPackageMainService.selectInfoBySysIdZ(params);
+        return ResultMap.ok().put("data",examPackageMain);
+    }
+
     /**
      * 查看全部套餐
      */

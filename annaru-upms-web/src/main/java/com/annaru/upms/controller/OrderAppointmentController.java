@@ -76,9 +76,20 @@ public class OrderAppointmentController extends BaseController {
     @ApiOperation(value = "待确认预约列表", notes = "待确认预约列表")
     @GetMapping("/selectOutpatientAppointment")
     @RequiresPermissions("upms/selectOutpatientAppointment")
-    public ResultMap selectOutpatientAppointment(String relatedNo, int status){
-        List<OrderAppointmentDoctorVo> orderAppointmentDoctorVos = orderAppointmentService.selectOutpatientAppointment(relatedNo, status);
-        return ResultMap.ok().put("data",orderAppointmentDoctorVos);
+    public ResultMap selectOutpatientAppointment(
+            @ApiParam(value = "当前页")@RequestParam(defaultValue="1") int page,
+            @ApiParam(value = "每页数量")@RequestParam(defaultValue = "10") int limit,
+            @ApiParam(value = "医生编号")@RequestParam(required = false)String relatedNo,
+            @ApiParam(value = "状态")@RequestParam(required = false) int status
+            ){
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("page",page);
+        params.put("limit", limit);
+        params.put("relatedNo", relatedNo);
+        params.put("status",status);
+        PageUtils<Map<String, Object>> pageList = orderAppointmentService.selectOutpatientAppointment(params);
+        return ResultMap.ok().put("data",pageList);
     }
 
 
@@ -204,9 +215,19 @@ public class OrderAppointmentController extends BaseController {
     @ApiOperation(value = "待确认患者列表", notes = "待确认患者列表")
     @GetMapping("/selectListInfo")
     @RequiresPermissions("upms/orderAppointment/selectListInfo")
-    public ResultMap selectListInfo(String relatedNo, int status){
-        List<OrderAppointmentDoctorVo> orderAppointmentDoctorVos = orderAppointmentService.selectList(relatedNo, status);
-        return ResultMap.ok().put("data",orderAppointmentDoctorVos);
+    public ResultMap selectListInfo(
+            @ApiParam(value = "当前页")@RequestParam(defaultValue="1") int page,
+            @ApiParam(value = "每页数量")@RequestParam(defaultValue = "10") int limit,
+            @ApiParam(value = "医生编号")@RequestParam(required = false)String relatedNo,
+            @ApiParam(value = "状态")@RequestParam(required = false) int status){
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("page",page);
+        params.put("limit", limit);
+        params.put("relatedNo", relatedNo);
+        params.put("status",status);
+        PageUtils<Map<String, Object>> pageList = orderAppointmentService.selectList(params);
+        return ResultMap.ok().put("data",pageList);
     }
 
 
