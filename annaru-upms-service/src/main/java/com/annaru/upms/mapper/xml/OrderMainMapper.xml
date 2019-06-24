@@ -17,6 +17,7 @@
         <result column="option_1" property="serviceOption" />
         <result column="package_name" property="packageName"/>
         <result column="appointment_status" property="appointmentStatus" />
+        <result column="hr_oppointment_id" property="hrOppointmentId"/>
         <result column="reference_no" property="referenceNo" />
         <result column="user_id" property="userId" />
         <result column="entity_id" property="entityId"/>
@@ -24,17 +25,13 @@
 
     <resultMap id="BaseResultMapOEVo" type="com.annaru.upms.entity.vo.OrderExtensionInfoVo" >
         <result column="address" property="address" />
-        <result column="appointment_cates" property="appointmentCates" />
         <result column="appoint_date" property="appointDate" />
         <result column="time_from" property="timeFrom" />
         <result column="pay_status" property="payStatus" />
         <result column="institution_id" property="institutionId" />
-        <result column="order_no" property="orderNo"/>
         <result column="parent_no" property="parentNo"/>
-        <result column="order_cates" property="orderCates"/>
         <result column="option_1" property="serviceOption" />
         <result column="appointment_status" property="appointmentStatus" />
-        <result column="user_id" property="userId" />
         <result column="entity_id" property="entityId"/>
         <collection property="chooseVoList" ofType="com.annaru.upms.entity.vo.OrderExtensionChooseVo">
             <result column="name" property="name"/>
@@ -47,6 +44,7 @@
         <result column="sys_id" property="sysId" />
         <result column="order_no" property="orderNo" />
         <result column="reference_no" property="referenceNo" />
+        <result column="hr_oppointment_id" property="hrOppointmentId"/>
         <result column="order_cates" property="orderCates" />
         <result column="user_id" property="userId" />
         <result column="cellphone_no" property="cellphoneNo" />
@@ -61,6 +59,11 @@
         <result column="creationtime" property="creationtime" />
     </resultMap>
 
+    <resultMap id="UserPackages" type="com.annaru.upms.entity.vo.UserPackagesVo">
+        <result column="package_name" property="packageName"/>
+        <result column="order_no" property="orderNo"/>
+        <result column="reference_no" property="referenceNo"/>
+    </resultMap>
 
     <!-- 通用查询映射结果 -->
     <resultMap id="advanceBaseResultMap" type="com.annaru.upms.entity.vo.OrderMainVoZ" >
@@ -349,6 +352,7 @@
         WHERE
         oa.appointment_cates = 3
         and oa.user_id = #{params.userId}
+        and om.reference_no = #{params.referenceNo}
         and oa.is_cancelled = 0
         and om.is_deleted = 0
     </select>
@@ -359,16 +363,12 @@
             oa.appointment_cates,
             oa.appoint_date,
             oa.department_id,
-            oa.entity_id,
             oa.institution_id,
             oa.`status` appointment_status,
-            oa.order_no,
             oa.related_no,
             oa.service_option,
             oai.option_1,
             oa.time_from,
-            oa.user_id,
-            om.order_cates,
             om.parent_no,
             om.`status` pay_status,
             ed.item_name,
@@ -385,7 +385,8 @@
             on em.sys_id = oee.exam_master_id
             LEFT JOIN exam_detail ed
             on ed.sys_id = oee.exam_detail_id
-            where oa.user_id = #{params.userId} and (oa.appointment_cates = 2 or oa.appointment_cates = 4)
+            where oa.order_no = #{params.orderNo}
+            and (oa.appointment_cates = 2 or oa.appointment_cates = 4)
             and om.is_deleted = 0
             and oa.is_cancelled = 0
     </select>
@@ -421,6 +422,49 @@
             where om.parent_no = #{params.parentNo} and (oa.appointment_cates = 2 or oa.appointment_cates = 4)
             and om.is_deleted = 0
             and oa.is_cancelled = 0
+    </select>
+
+    <select id="getToBPackages" parameterType="map" resultMap="UserPackages">
+                    SELECT
+                    epm.package_name,
+                    om.order_no,
+                    oa.creation_time,
+                    om.reference_no
+                    FROM
+                    order_main om
+                    LEFT JOIN exam_package_main epm
+                    on epm.sys_id = om.reference_no
+                    LEFT JOIN order_appointment oa
+                    on om.order_no = oa.order_no
+                    WHERE
+                    (om.order_cates = 3 or om.order_cates = 1)
+                    and om.user_id = #{params.userId}
+                    and om.is_deleted = 0
+                    <if test="params.orderNo != null and params.orderNo != ''">
+                    AND oa.order_no = #{params.orderNo}
+                    </if>
+                    ORDER BY  oa.creation_time DESC
+                    LIMIT 1
+    </select>
+
+    <select id="getPackages" parameterType="map" resultMap="UserPackages">
+        SELECT
+        epm.package_name,
+        om.order_no,
+        oa.creation_time,
+        om.reference_no
+        FROM
+        order_main om
+        LEFT JOIN exam_package_main epm
+        on epm.sys_id = om.reference_no
+        LEFT JOIN order_appointment oa
+        on om.order_no = oa.order_no
+        WHERE
+        (om.order_cates = 3 or om.order_cates = 1)
+        and om.user_id = #{params.userId}
+        and om.is_deleted = 0
+        GROUP BY order_no
+        ORDER BY oa.creation_time DESC
     </select>
 
 </mapper>

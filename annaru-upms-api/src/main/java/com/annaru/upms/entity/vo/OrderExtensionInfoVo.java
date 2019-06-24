@@ -10,28 +10,15 @@ public class OrderExtensionInfoVo extends Model<OrderExtensionInfoVo> implements
 	private static final long serialVersionUID = 1L;
 
 	private String address;
-	private Integer appointmentCates;
 	private Date appointDate;
 	private Date timeFrom;
 	private Integer payStatus;
 	private String institutionId;
-	private String orderNo;
 	private String serviceOption;
 	private Integer appointmentStatus;
-	private Integer orderCates;
 	private String parentNo;
-	private String userId;
 	private String entityId;
 	private List<OrderExtensionChooseVo> chooseVoList;
-	private OrderInfoVo orderInfoVo;
-
-	public OrderInfoVo getOrderInfoVo() {
-		return orderInfoVo;
-	}
-
-	public void setOrderInfoVo(OrderInfoVo orderInfoVo) {
-		this.orderInfoVo = orderInfoVo;
-	}
 
 	public List<OrderExtensionChooseVo> getChooseVoList() {
 		return chooseVoList;
@@ -47,14 +34,6 @@ public class OrderExtensionInfoVo extends Model<OrderExtensionInfoVo> implements
 
 	public void setParentNo(String parentNo) {
 		this.parentNo = parentNo;
-	}
-
-	public Integer getOrderCates() {
-		return orderCates;
-	}
-
-	public void setOrderCates(Integer orderCates) {
-		this.orderCates = orderCates;
 	}
 
 	public Date getTimeFrom() {
@@ -73,14 +52,6 @@ public class OrderExtensionInfoVo extends Model<OrderExtensionInfoVo> implements
 		this.address = address;
 	}
 
-	public Integer getAppointmentCates() {
-		return appointmentCates;
-	}
-
-	public void setAppointmentCates(Integer appointmentCates) {
-		this.appointmentCates = appointmentCates;
-	}
-
 	public Date getAppointDate() {
 		return appointDate;
 	}
@@ -95,14 +66,6 @@ public class OrderExtensionInfoVo extends Model<OrderExtensionInfoVo> implements
 
 	public void setInstitutionId(String institutionId) {
 		this.institutionId = institutionId;
-	}
-
-	public String getOrderNo() {
-		return orderNo;
-	}
-
-	public void setOrderNo(String orderNo) {
-		this.orderNo = orderNo;
 	}
 
 	public String getServiceOption() {
@@ -127,14 +90,6 @@ public class OrderExtensionInfoVo extends Model<OrderExtensionInfoVo> implements
 
 	public void setPayStatus(Integer payStatus) {
 		this.payStatus = payStatus;
-	}
-
-	public String getUserId() {
-		return userId;
-	}
-
-	public void setUserId(String userId) {
-		this.userId = userId;
 	}
 
 	public String getEntityId() {

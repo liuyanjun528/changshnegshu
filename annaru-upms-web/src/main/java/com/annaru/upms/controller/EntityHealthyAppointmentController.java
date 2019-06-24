@@ -7,14 +7,12 @@ import com.annaru.common.result.ResultMap;
 import com.annaru.upms.controllerutil.SysConfigUtil;
 import com.annaru.upms.entity.*;
 import com.annaru.upms.entity.vo.EntityHealthyAppointmentVo;
-import com.annaru.upms.entity.vo.EntityPurchseMainVo;
 import com.annaru.upms.service.*;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.*;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.*;
 
@@ -42,8 +40,69 @@ public class EntityHealthyAppointmentController extends BaseController {
     private IOrderMainService orderMainService;
 
     @Reference
+    private IOrderAppointmentService orderAppointmentService;
+
+    @Reference
     private ISysConfigService iSysConfigService; //系统配置表
 
+    /**
+     * 删除订单
+     */
+    @ApiOperation(value = "待上门服务列表（删除订单）", notes = "待上门服务列表（删除订单）")
+    @PostMapping("/deleteAI")
+    @ApiImplicitParam(name = "orderNo",value = "订单号",dataType = "spring",paramType = "query")
+    public ResultMap refresh(String orderNo) {
+        try {
+            Integer b = entityHealthyAppointmentService.updateByOderNo(orderNo);
+            if(0 < b){
+                return ResultMap.ok("删除成功!");
+            }else {
+                return ResultMap.error("删除失败!");
+            }
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return ResultMap.error("运行异常，请联系管理员");
+        }
+    }
+
+    /**
+     * 待上门服务列表
+     */
+    @ApiOperation(value = "待上门服务列表", notes = "待上门服务列表")
+    @GetMapping("/selectUpDoorList")
+    public ResultMap selectUpDoorList(Integer status, String relatedNo, Integer isSubmitted){
+        if(status==null){
+            status=100;
+        }
+        if(isSubmitted==null){
+            isSubmitted=100;
+        }
+        List<EntityHealthyAppointmentVo> entityHealthyAppointmentVos = entityHealthyAppointmentService.selectUpDoorServer(status, relatedNo, isSubmitted);
+        return ResultMap.ok().put("data",entityHealthyAppointmentVos);
+    }
+
+
+
+
+    /**
+     * 医生接收患者 修改status状态
+     */
+    @ApiOperation(value = "医生接收患者")
+    @PostMapping("/updateStatus")
+    @RequiresPermissions("upms/entityHealthyAppointment/updateStatus")
+    public ResultMap updateStatus(String orderNo) {
+        try {
+            //修改健康预约表状态
+            entityHealthyAppointmentService.updateStatusByOrderNo(1,orderNo);
+            //修改订单预约表状态
+            orderAppointmentService.updateStatus(1,orderNo);
+            return ResultMap.ok("修改成功");
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return ResultMap.error("运行异常，请联系管理员");
+        }
+
+    }
 
 
 
@@ -69,19 +128,19 @@ public class EntityHealthyAppointmentController extends BaseController {
     }
 
     /**
-     * 列表
+     * 企业用户患者信息查询分页
      */
-    @ApiOperation(value = "列表")
+    @ApiOperation(value = "企业用户患者信息分页查询")
     @GetMapping("/list")
     @RequiresPermissions("upms/entityHealthyAppointment/list")
     public ResultMap list(@ApiParam(value = "当前页", defaultValue="1")@RequestParam(required = false) long page,
                        @ApiParam(value = "每页数量", defaultValue = "10")@RequestParam(required = false) long limit,
-                       @ApiParam(value = "关键字")@RequestParam(required = false)String key){
+                       @ApiParam(value = "关键字")@RequestParam(required = false)String relatedNo){
 
         Map<String, Object> params = new HashMap<>();
         params.put("page",page);
         params.put("limit", limit);
-        params.put("key", key);
+        params.put("relatedNo", relatedNo);
         PageUtils<Map<String, Object>> pageList = entityHealthyAppointmentService.getDataPage(params);
         return ResultMap.ok().put("data",pageList);
     }

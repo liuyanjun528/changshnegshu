@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.annaru.upms.mapper.TbYlZyMedicalRecordMapper">
+	<!-- 通用查询映射结果 tb_yl_zy_medical_record(住院就诊记录表) -->
+    <resultMap id="BaseResultMap" type="com.annaru.upms.entity.medical.TbYlZyMedicalRecord" >
+        <result column="CSID" property="csid" />
+        <result column="YLJGDM" property="yljgdm" />
+        <result column="JZLSH" property="jzlsh" />
+        <result column="CISID" property="cisid" />
+        <result column="BAH" property="bah" />
+        <result column="KH" property="kh" />
+        <result column="KLX" property="klx" />
+        <result column="HZXM" property="hzxm" />
+        <result column="JZLX" property="jzlx" />
+        <result column="JZKSBM" property="jzksbm" />
+        <result column="JZKSMC" property="jzksmc" />
+        <result column="CYKSBM" property="cyksbm" />
+        <result column="CYKSMC" property="cyksmc" />
+        <result column="RYSJ" property="rysj" />
+        <result column="CYSJ" property="cysj" />
+        <result column="XGBZ" property="xgbz" />
+        <result column="UPDATE_TIME" property="updateTime" />
+    </resultMap>
+
+    <!-- 通用查询映射结果 查询住院记录列表  -->
+    <resultMap id="BaseResultMapList" type="com.annaru.upms.entity.medical.vo.TbYlZyMedicalRecordListVo" >
+        <result column="CSID" property="csid" />
+        <result column="HOSPITAL_NAME" property="hospitalName" />
+        <result column="HZXM" property="hzxm" />
+        <result column="JZKSMC" property="jzksmc" />
+        <result column="RYSJ" property="rysj" />
+        <result column="CYSJ" property="cysj" />
+    </resultMap>
+
+    <!-- 根据原主键获取对象 -->
+    <select id="getYlZyMedicalRecord" parameterType="map" resultMap="BaseResultMap">
+      SELECT
+        *
+       FROM
+        TB_YL_ZY_MEDICAL_RECORD
+       WHERE YLJGDM=#{yljgdm} AND JZLSH=#{jzlsh}
+    </select>
+
+    <!-- 根据卡号查询就诊记录 -->
+    <select id="getJyjl" parameterType="map" resultMap="BaseResultMapList">
+        SELECT
+        r.CSID,
+        h.HOSPITAL_NAME,
+        r.HZXM,
+        r.JZKSMC,
+        SUBSTR (r.RYSJ, 0, 10) AS RYSJ,
+        SUBSTR (r.CYSJ, 0, 10) AS CYSJ
+        FROM
+        TB_YL_ZY_MEDICAL_RECORD r
+        LEFT JOIN TB_HOSPITAL h ON r.YLJGDM = h.HOSPITAL_ID
+        WHERE r.KH = #{kh} ORDER BY RYSJ DESC
+    </select>
+</mapper>

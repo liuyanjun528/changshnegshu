@@ -18,7 +18,7 @@ import java.util.List;
 public class ExamHandoverSheetVoServiceImpl extends ServiceImpl<ExamHandoverSheetVoMapper, ExamHandoverSheetVo> implements IExamHandoverSheetVoService{
 
     @Override
-    public List<ExamHandoverSheetVo> selectNurseOrderInfo(String orderNo) {
+    public ExamHandoverSheetVo selectNurseOrderInfo(String orderNo) {
         return this.baseMapper.selectNurseOrderInfo(orderNo);
     }
 

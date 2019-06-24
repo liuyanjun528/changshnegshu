@@ -9,6 +9,7 @@ import com.annaru.upms.entity.OrderMain;
 import com.annaru.upms.entity.UserRelatives;
 import com.annaru.upms.entity.vo.OrderExtensionInfoVo;
 import com.annaru.upms.entity.vo.OrderInfoVo;
+import com.annaru.upms.entity.vo.UserPackagesVo;
 import com.annaru.upms.mapper.OrderMainMapper;
 import com.annaru.upms.service.*;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -134,11 +135,11 @@ public class OrderMainServiceImpl extends ServiceImpl<OrderMainMapper, OrderMain
         return this.baseMapper.getTimes(params);
     }
 
-    public List<OrderInfoVo> getToB(Map<String,Object> params){
+    public OrderInfoVo getToB(Map<String,Object> params){
         return this.baseMapper.getToB(params);
     }
 
-    public List<OrderExtensionInfoVo> getExtensionInfo(Map<String,Object> params){
+    public OrderExtensionInfoVo getExtensionInfo(Map<String,Object> params){
         return this.baseMapper.getExtensionInfo(params);
     }
 
@@ -146,4 +147,11 @@ public class OrderMainServiceImpl extends ServiceImpl<OrderMainMapper, OrderMain
         return this.baseMapper.getBase(params);
     }
 
+    public UserPackagesVo getToBPackages(Map<String,Object> params){
+        return this.baseMapper.getToBPackages(params);
+    }
+
+    public List<UserPackagesVo> getPackages(Map<String,Object> params){
+        return this.baseMapper.getPackages(params);
+    }
 }

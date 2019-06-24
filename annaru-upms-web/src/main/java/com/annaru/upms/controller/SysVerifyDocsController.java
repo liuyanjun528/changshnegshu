@@ -3,9 +3,11 @@ package com.annaru.upms.controller;
 import java.util.*;
 
 import com.annaru.upms.controllerutil.SysConfigUtil;
-import com.annaru.upms.entity.SysConfig;
+import com.annaru.upms.entity.*;
 import com.annaru.upms.entity.vo.SysVerifyDocsVoZ;
 import com.annaru.upms.service.ISysConfigService;
+import com.annaru.upms.service.ISysDoctorService;
+import com.annaru.upms.service.ISysNurseService;
 import io.swagger.annotations.*;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import com.alibaba.dubbo.config.annotation.Reference;
@@ -15,7 +17,6 @@ import com.annaru.common.base.BaseController;
 import com.annaru.common.result.PageUtils;
 import com.annaru.common.result.ResultMap;
 
-import com.annaru.upms.entity.SysVerifyDocs;
 import com.annaru.upms.service.ISysVerifyDocsService;
 
 import javax.annotation.Resource;
@@ -37,6 +38,10 @@ public class SysVerifyDocsController extends BaseController {
     private ISysVerifyDocsService sysVerifyDocsService;
     @Reference
     private ISysConfigService iSysConfigService;
+    @Reference
+    private ISysDoctorService iSysDoctorService;
+    @Reference
+    private ISysNurseService iSysNurseService;
     /**
      * 列表
      */
@@ -99,6 +104,17 @@ public class SysVerifyDocsController extends BaseController {
     @PostMapping("/saveDocsBasics")
     @RequiresPermissions("upms/sysVerifyDocs/saveDocsBasics")
     public ResultMap saveDocsBasics(@Valid @RequestBody SysVerifyDocsVoZ sysVerifyDocsVoZ) {
+
+        Map<String, Object> params = new HashMap <>();
+        params.put("userId", sysVerifyDocsVoZ.getUserId());
+        SysDoctor sysDoctor = iSysDoctorService.getOne(params);
+        if (sysDoctor != null){
+            return ResultMap.error("该医生已经存在！");
+        }
+        SysNurse sysNurse = iSysNurseService.getOne(params);
+        if (sysNurse != null){
+            return ResultMap.error("该护士已经存在！");
+        }
 
             SysConfig sysConfig = null;
             if (sysVerifyDocsVoZ.getIdentification() == 2){

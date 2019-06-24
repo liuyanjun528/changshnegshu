@@ -41,14 +41,14 @@ public interface IExamHandoverSheetService extends IService<ExamHandoverSheet> {
      * @Author: wh
      * @Date: 2019/6/12 13:06
      */
-    List<ExamHandoverSheet> selectExamHandoverSheet(String orderNo);
+    ExamHandoverSheet selectExamHandoverSheet(String orderNo);
 
     /**
      * @Description:删除定单通过 是否交接和订单编号
      * @Author: wh
      * @Date: 2019/6/12 13:06
      */
-    int delExamHandoverSheet(String orderNo,int isHandovered);
+    int delExamHandoverSheet(String orderNo);
 
 }
 

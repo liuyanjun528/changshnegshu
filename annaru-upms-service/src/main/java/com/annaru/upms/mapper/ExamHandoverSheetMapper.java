@@ -44,13 +44,13 @@ public interface ExamHandoverSheetMapper extends BaseMapper<ExamHandoverSheet> {
      * @Author: wh
      * @Date: 2019/6/12 13:06
      */
-    List<ExamHandoverSheet> selectExamHandoverSheet(@Param("orderNo") String orderNo);
+    ExamHandoverSheet selectExamHandoverSheet(@Param("orderNo") String orderNo);
 
     /**
      * @Description:删除定单通过 是否交接和订单编号
      * @Author: wh
      * @Date: 2019/6/12 13:06
      */
-    int delExamHandoverSheet(@Param("orderNo") String orderNo,@Param("isHandovered") int isHandovered);
+    int delExamHandoverSheet(@Param("orderNo") String orderNo);
 
 }

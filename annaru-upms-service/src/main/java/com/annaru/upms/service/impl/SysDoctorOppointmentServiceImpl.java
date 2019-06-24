@@ -11,6 +11,7 @@ import com.annaru.upms.mapper.SysDoctorOppointmentMapper;
 import com.annaru.upms.entity.SysDoctorOppointment;
 import com.annaru.upms.service.ISysDoctorOppointmentService;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -28,6 +29,16 @@ public class SysDoctorOppointmentServiceImpl extends ServiceImpl<SysDoctorOppoin
         Page<SysDoctorOppointment> page = new PageUtils<SysDoctorOppointment>(params).getPage();
         IPage<SysDoctorOppointment> iPage = this.baseMapper.selectDataPage(page, params);
         return new PageUtils<SysDoctorOppointment>(iPage);
+    }
+
+    @Override
+    public List<SysDoctorOppointment> selectTodayInfo(String doctorNurseNo, Date dateFormat) {
+        return this.baseMapper.selectTodayInfo(doctorNurseNo, dateFormat);
+    }
+
+    @Override
+    public int updateOppointmentDate(SysDoctorOppointment sysDoctorOppointment) {
+        return this.baseMapper.updateOppointmentDate(sysDoctorOppointment);
     }
 
 }

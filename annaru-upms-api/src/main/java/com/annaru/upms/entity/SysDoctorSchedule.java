@@ -1,6 +1,7 @@
 package com.annaru.upms.entity;
 
 import com.annaru.common.util.JacksonUtils;
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -19,7 +20,7 @@ import java.util.Date;
  * @date 2019-05-09 11:14:29
  */
 @ApiModel(value = "家庭医生日程")
-@TableName("sys_doctor_schedule")
+@TableName("sys_doctor_nurse_schedule")
 public class SysDoctorSchedule extends Model<SysDoctorSchedule> implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -27,14 +28,22 @@ public class SysDoctorSchedule extends Model<SysDoctorSchedule> implements Seria
 	 * 系统编号
 	 */
     @ApiModelProperty(value = "系统编号")
-	@TableId
+	@TableId(type = IdType.AUTO)
 	private Integer sysId;
+
+	/**
+	 * 类别(1:护士/2:医生)
+	 */
+	@ApiModelProperty(value = "类别")
+	@TableField("user_cates")
+	private String userCates;
+
 	/**
 	 * 医生编号
 	 */
     @ApiModelProperty(value = "医生编号")
-	@TableField("doctor_no")
-	private String doctorNo;
+	@TableField("doctor_nurse_no")
+	private String doctorNurseNo;
 	/**
 	 * 开始日期
 	 */
@@ -93,14 +102,14 @@ public class SysDoctorSchedule extends Model<SysDoctorSchedule> implements Seria
     /**
      * 获取：医生编号
      */
-    public String getDoctorNo() {
-        return doctorNo;
+    public String getDoctorNurseNo() {
+        return doctorNurseNo;
     }
 	/**
 	 * 设置：医生编号
 	 */
-	public void setDoctorNo(String doctorNo) {
-		this.doctorNo = doctorNo;
+	public void setDoctorNurseNo(String doctorNurseNo) {
+		this.doctorNurseNo = doctorNurseNo;
 	}
     /**
      * 获取：开始日期
@@ -187,7 +196,15 @@ public class SysDoctorSchedule extends Model<SysDoctorSchedule> implements Seria
 		this.editTime = editTime;
 	}
 
-    @Override
+	public String getUserCates() {
+		return userCates;
+	}
+
+	public void setUserCates(String userCates) {
+		this.userCates = userCates;
+	}
+
+	@Override
 	protected Serializable pkVal() {
 		return this.sysId;
 	}

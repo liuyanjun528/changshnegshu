@@ -7,8 +7,9 @@
     <resultMap id="BaseResultMap" type="com.annaru.upms.entity.SysDoctorOppointment" >
         <result column="sys_id" property="sysId" />
         <result column="user_id" property="userId" />
+        <result column="user_cate" property="userCate" />
         <result column="appointment_cates" property="appointmentCates" />
-        <result column="related_no" property="relatedNo" />
+        <result column="doctor_nurse_no" property="doctorNurseNo" />
         <result column="appoint_date" property="appointDate" />
         <result column="time_from" property="timeFrom" />
         <result column="time_to" property="timeTo" />
@@ -19,14 +20,31 @@
         <result column="edit_by" property="editBy" />
     </resultMap>
 
+    <resultMap id="BaseVoMap" type="com.annaru.upms.entity.vo.sysDoctorNurseOppointmentVo" >
+        <result column="date_from" property="dateFrom" />
+        <result column="doctor_nurse_no" property="doctorNurseNo" />
+        <result column="appointDates" property="appointDates" />
+        <result column="time_from" property="timeFrom" />
+        <result column="time_to" property="timeTo" />
+        <result column="appointment_cates" property="appointmentCates" />
+        <result column="full_name" property="fullName" />
+        <result column="gender" property="gender" />
+        <result column="userAge" property="userAge" />
+        <result column="appoint_date" property="appointDate" />
+        <result column="address" property="address" />
+        <result column="amount" property="amount" />
+    </resultMap>
+
+
+
     <!-- 多表页面信息查询分页 -->
     <select id="selectDataPage" parameterType="map" resultMap="BaseResultMap">
-
         SELECT
               sys_id,
               user_id,
+              user_cate,
               appointment_cates,
-              related_no,
+              doctor_nurse_no,
               appoint_date,
               time_from,
               time_to,
@@ -36,10 +54,44 @@
               edit_time,
               edit_by
         FROM
-            sys_doctor_oppointment
+        sys_doctor_nurse_oppointment
+        1=1
             <if test="params.userId != null and params.userId != ''">
                 WHERE user_id = #{params.userId}
             </if>
     </select>
+
+
+    <!--按照选择时间当前护士查询排班信息-->
+    <select id="selectTodayInfo" parameterType="map" resultMap="BaseVoMap">
+        select
+              sdns.date_from,
+              sdno.doctor_nurse_no,
+			  sdno.appoint_date as appointDates,-- 开始日期
+			  sdno.time_from,-- 开始时间
+			  sdno.time_to,-- 结束时间
+			  sdno.appointment_cates,-- 状态
+			  ub.full_name, --  用户姓名
+			  ub.gender, --  用户性别
+			  TIMESTAMPDIFF(YEAR, ub.date_of_birth, CURDATE()) as userAge, --  用户年龄
+			  oa.appoint_date,-- 预约时间
+			  oa.address,   --  预约地址
+			  om.amount -- 费用
+        from sys_doctor_nurse_oppointment as sdno
+        LEFT JOIN user_basic as ub ON sdno.user_id=ub.user_id
+        LEFT JOIN order_appointment as oa ON sdno.user_id=oa.user_id
+        LEFT JOIN order_main as om ON sdno.user_id=om.user_id
+        LEFT JOIN sys_doctor_nurse_schedule as sdns ON sdno.doctor_nurse_no=sdns.doctor_nurse_no
+        where sdno.doctor_nurse_no=#{doctorNurseNo} and date_format(sdns.date_from,'%Y-%m')=date_format(#{dateFormat},'%Y-%m')
+        GROUP BY sdns.date_from
+    </select>
+
+    <!--根据当前护士的预约日期 修改预约时间-->
+    <update id="updateOppointmentDate">
+        update sys_doctor_nurse_oppointment set
+        time_from=#{timeFrom},
+        time_to=#{timeTo}
+		WHERE doctor_nurse_no=#{doctorNurseNo} and appoint_date=#{appointDate}
+    </update>
 
 </mapper>

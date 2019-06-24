@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.models.auth.In;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -204,17 +205,26 @@ public class UserBasic extends Model<UserBasic> implements Serializable {
 	private String openid;
 
 	/**
-	 * 所属机构医院
+	 * 是否是企业HR(0:不是/1是)
 	 * @return
 	 */
-	@TableField(exist = false)
-	private String siName;
+	@ApiModelProperty(value = "是否是企业HR(0:不是/1是)")
+	private Integer isHr;
+
 	/**
-	 * 所属科室
-	 * @return
+	 * 是否拥有企业服务(false:不是/true:是)
 	 */
+	@ApiModelProperty(value = "是否拥有企业服务(false:不是/true:是)")
 	@TableField(exist = false)
-	private String departmentName;
+	private boolean entityHealthy;
+
+	public boolean isEntityHealthy() {
+		return entityHealthy;
+	}
+
+	public void setEntityHealthy(boolean entityHealthy) {
+		this.entityHealthy = entityHealthy;
+	}
 
 	public SysDoctor getSysDoctor() {
 		return sysDoctor;
@@ -517,17 +527,11 @@ public class UserBasic extends Model<UserBasic> implements Serializable {
 	public String getOpenid() {
 		return openid;
 	}
-	public String getSiName() {
-		return siName;
+	public Integer getIsHr() {
+		return isHr;
 	}
-	public void setSiName(String siName) {
-		this.siName = siName;
-	}
-	public String getDepartmentName() {
-		return departmentName;
-	}
-	public void setDepartmentName(String departmentName) {
-		this.departmentName = departmentName;
+	public void setIsHr(Integer isHr) {
+		this.isHr = isHr;
 	}
 
 	@Override

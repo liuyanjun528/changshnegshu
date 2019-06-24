@@ -81,20 +81,22 @@
         score,
         focus_on,
         goodat,
-        content,
         belong_office,
         belong_province,
         belong_city,
         belong_district,
-        price_year,
-        status
+        price_year
         FROM
         sys_doctor
         WHERE
-        status = 1
+            1 = 1
         <if test="params.doctorNo != null and params.doctorNo != ''">
-            AND   doctor_no=#{params.doctorNo}
+            AND   doctor_no = #{params.doctorNo}
         </if>
+        <if test="params.userId != null and params.userId != ''">
+            AND   user_id = #{params.userId}
+        </if>
+
     </select>
 
 </mapper>

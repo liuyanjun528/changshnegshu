@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -20,11 +22,23 @@ public interface SysDoctorScheduleMapper extends BaseMapper<SysDoctorSchedule> {
      * 多表页面信息查询
      * @param page
      * @param params
-     * @return
      */
     IPage<SysDoctorSchedule> selectDataPage(Page page, @Param("params") Map <String, Object> params);
 
-    SysDoctorSchedule updateActive(@Param("params") Map <String, Object> params);
-
+    /**
+     * ql
+     * @param params
+     * @return
+     */
     List<SysDoctorSchedule> getDocSchedule(@Param("params") Map <String, Object> params);
+
+
+    /**
+      * @Description:医护端 护士的排班
+      * @Author: wh
+      * @Date: 2019/6/13 11:19
+      */
+    List<SysDoctorSchedule> selectDoctorScheduleList(@Param("dateFrom") Date dateFrom,@Param("doctorNurseNo") String doctorNurseNo);
+
+
 }

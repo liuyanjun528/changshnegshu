@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.annaru.upms.mapper.TbLisIndicatorsMapper">
+	<!-- 通用查询映射结果 tb_lis_indicators(检验结果指标表)  -->
+    <resultMap id="BaseResultMap" type="com.annaru.upms.entity.medical.TbLisIndicators" >
+        <result column="CSID" property="csid" />
+        <result column="JYZBLSH" property="jyzblsh" />
+        <result column="YLJGDM" property="yljgdm" />
+        <result column="BGDH" property="bgdh" />
+        <result column="BGRQ" property="bgrq" />
+        <result column="JCRGH" property="jcrgh" />
+        <result column="JCRXM" property="jcrxm" />
+        <result column="SHRGH" property="shrgh" />
+        <result column="BYJ" property="byj" />
+        <result column="SHRXM" property="shrxm" />
+        <result column="YBSFDM" property="ybsfdm" />
+        <result column="YBSFDMYB" property="ybsfdmyb" />
+        <result column="JCZBDM" property="jczbdm" />
+        <result column="JCFF" property="jcff" />
+        <result column="JCZBMC" property="jczbmc" />
+        <result column="JCZBJG" property="jczbjg" />
+        <result column="LOINC" property="loinc" />
+        <result column="SBBM" property="sbbm" />
+        <result column="YQBH" property="yqbh" />
+        <result column="YQMC" property="yqmc" />
+        <result column="CKZ" property="ckz" />
+        <result column="JLDW" property="jldw" />
+        <result column="YCTS" property="ycts" />
+        <result column="YZID" property="yzid" />
+        <result column="DYXH" property="dyxh" />
+        <result column="XGBZ" property="xgbz" />
+        <result column="UPDATE_TIME" property="updateTime" />
+    </resultMap>
+
+    <!-- 根据原主键获取对象 -->
+    <select id="getLisIndicators" parameterType="map" resultMap="BaseResultMap">
+      SELECT
+        *
+       FROM
+        TB_LIS_INDICATORS
+       WHERE YLJGDM=#{yljgdm} AND JYZBLSH=#{jyzblsh}
+    </select>
+
+    <!-- 根据卡号查询检验报告列表 -->
+    <select id="getJybg" parameterType="map" resultMap="BaseResultMap">
+     SELECT
+        r.BGDH,
+        r.JZLSH,
+        SUBSTR (r.jyrq, 0, 10) AS jyrq,
+        h.HOSPITAL_NAME,
+        r.bgdlb
+     FROM
+        TB_LIS_Report r,
+        TB_HOSPITAL h
+     WHERE
+	    r.YLJGDM = h.HOSPITAL_ID AND r.KH = #{kh} ORDER BY jyrq DESC
+    </select>
+
+
+    <!-- 根据检验报告单号查询检验结果 -->
+    <select id="getJybgDetail" parameterType="map" resultMap="BaseResultMap">
+        SELECT
+        jczbmc,
+        jczbjg,
+        ckz
+        FROM
+        TB_LIS_INDICATORS
+        WHERE BGDH=#{bgdh}
+    </select>
+</mapper>

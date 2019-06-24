@@ -24,5 +24,6 @@ public interface SysNurseMapper extends BaseMapper<SysNurse> {
     */
     IPage<SysNurse> selectDataPage(Page page, @Param("params") Map<String, Object> params);
 
+    SysNurse getOne(@Param("params") Map <String, Object> params);
 
 }
