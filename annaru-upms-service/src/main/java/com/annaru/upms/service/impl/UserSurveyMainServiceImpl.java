@@ -36,6 +36,11 @@ public class UserSurveyMainServiceImpl extends ServiceImpl<UserSurveyMainMapper,
         return this.baseMapper.getByUserId(params);
     }
 
+    @Override
+    public UserSurveyMain getTimeByUserIdZ(Map<String,Object> params) {
+        return this.baseMapper.getTimeByUserIdZ(params);
+    }
+
     public int saveOne(UserSurveyMain userSurveyMain){
          this.baseMapper.insert(userSurveyMain);
          return userSurveyMain.getSurveyId();

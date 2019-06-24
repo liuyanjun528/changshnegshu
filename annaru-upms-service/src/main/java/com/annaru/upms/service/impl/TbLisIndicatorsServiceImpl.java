@@ -2,6 +2,7 @@ package com.annaru.upms.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.annaru.upms.entity.medical.TbLisIndicators;
+import com.annaru.upms.entity.medical.vo.TbLisIndicatorsListVo;
 import com.annaru.upms.mapper.TbLisIndicatorsMapper;
 import com.annaru.upms.service.ITbLisIndicatorsService;
 import com.baomidou.dynamic.datasource.annotation.DS;
@@ -25,7 +26,7 @@ public class TbLisIndicatorsServiceImpl extends ServiceImpl<TbLisIndicatorsMappe
 
     @Override
     @DS("oracle")
-    public List<TbLisIndicators> getJybg(String bgdh) {
+    public List<TbLisIndicatorsListVo> getJybg(String bgdh) {
         return this.baseMapper.getJybg(bgdh);
     }
 

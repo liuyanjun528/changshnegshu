@@ -14,26 +14,18 @@ public class TbYlMzMedicalRecordDetailVo extends Model<TbYlMzMedicalRecordDetail
 
 	/** 门诊就诊记录ID*/
 	private String csid;
-	/** 卡号*/
-	private String kh;
+	/** 门诊就诊流水号*/
+	private String jzlsh;
 	/** 医院名称*/
 	private String hospitalName;
-	/** 患者姓名*/
-	private String hzxm;
-	/** 就诊类型*/
-	private String jzlx;
-	/** 就诊科室名称*/
-	private String jzksmc;
-	/** 门诊就诊日期*/
-	private String jzksrq;
 	/** 主诊医生姓名*/
 	private String zzysxm;
-	/** 门诊诊断说明*/
-	private String jzzdsm;
+	/** 就诊科室名称*/
+	private String jzksmc;
 	/** 主诉*/
 	private String zs;
-	/** 症状描述*/
-	private String zzms;
+	/** 门诊就诊日期*/
+	private String jzksrq;
 
 	public String getCsid() {
 		return csid;
@@ -43,12 +35,12 @@ public class TbYlMzMedicalRecordDetailVo extends Model<TbYlMzMedicalRecordDetail
 		this.csid = csid;
 	}
 
-	public String getKh() {
-		return kh;
+	public String getJzlsh() {
+		return jzlsh;
 	}
 
-	public void setKh(String kh) {
-		this.kh = kh;
+	public void setJzlsh(String jzlsh) {
+		this.jzlsh = jzlsh;
 	}
 
 	public String getHospitalName() {
@@ -59,20 +51,12 @@ public class TbYlMzMedicalRecordDetailVo extends Model<TbYlMzMedicalRecordDetail
 		this.hospitalName = hospitalName;
 	}
 
-	public String getHzxm() {
-		return hzxm;
+	public String getZzysxm() {
+		return zzysxm;
 	}
 
-	public void setHzxm(String hzxm) {
-		this.hzxm = hzxm;
-	}
-
-	public String getJzlx() {
-		return jzlx;
-	}
-
-	public void setJzlx(String jzlx) {
-		this.jzlx = jzlx;
+	public void setZzysxm(String zzysxm) {
+		this.zzysxm = zzysxm;
 	}
 
 	public String getJzksmc() {
@@ -83,30 +67,6 @@ public class TbYlMzMedicalRecordDetailVo extends Model<TbYlMzMedicalRecordDetail
 		this.jzksmc = jzksmc;
 	}
 
-	public String getJzksrq() {
-		return jzksrq;
-	}
-
-	public void setJzksrq(String jzksrq) {
-		this.jzksrq = jzksrq;
-	}
-
-	public String getZzysxm() {
-		return zzysxm;
-	}
-
-	public void setZzysxm(String zzysxm) {
-		this.zzysxm = zzysxm;
-	}
-
-	public String getJzzdsm() {
-		return jzzdsm;
-	}
-
-	public void setJzzdsm(String jzzdsm) {
-		this.jzzdsm = jzzdsm;
-	}
-
 	public String getZs() {
 		return zs;
 	}
@@ -115,11 +75,11 @@ public class TbYlMzMedicalRecordDetailVo extends Model<TbYlMzMedicalRecordDetail
 		this.zs = zs;
 	}
 
-	public String getZzms() {
-		return zzms;
+	public String getJzksrq() {
+		return jzksrq;
 	}
 
-	public void setZzms(String zzms) {
-		this.zzms = zzms;
+	public void setJzksrq(String jzksrq) {
+		this.jzksrq = jzksrq;
 	}
 }

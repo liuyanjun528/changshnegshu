@@ -38,6 +38,17 @@
         <result column="JZKSRQ" property="jzksrq" />
     </resultMap>
 
+    <!-- 通用查询映射结果 根据就诊记录id查询对应的就诊记录  -->
+    <resultMap id="BaseResultMapDetail" type="com.annaru.upms.entity.medical.vo.TbYlMzMedicalRecordDetailVo" >
+        <result column="CSID" property="csid" />
+        <result column="JZLSH" property="jzlsh" />
+        <result column="HOSPITAL_NAME" property="hospitalName" />
+        <result column="ZZYSXM" property="zzysxm" />
+        <result column="JZKSMC" property="jzksmc" />
+        <result column="ZS" property="zs" />
+        <result column="JZKSRQ" property="jzksrq" />
+    </resultMap>
+
     <!-- 根据原主键获取对象 -->
     <select id="getYlMzMedicalRecord" parameterType="map" resultMap="BaseResultMap">
       SELECT
@@ -52,10 +63,10 @@
     SELECT
         r.CSID,
         h.HOSPITAL_NAME,
-        r.zzysxm,
+        r.ZZYSXM,
         r.JZKSMC,
         r.JZZDSM,
-        r.jzlx,
+        r.JZLX,
         SUBSTR (r.JZKSRQ, 0, 10) AS JZKSRQ
     FROM
 	    TB_YL_MZ_Medical_Record r
@@ -64,21 +75,20 @@
     </select>
 
     <!-- 根据就诊记录id查询对应的就诊记录 -->
-    <select id="getJzjlById" parameterType="map" resultMap="BaseResultMapList">
-        SELECT
+    <select id="getJzjlById" parameterType="map" resultMap="BaseResultMapDetail">
+    SELECT
         r.CSID,
-        h.HOSPITAL_NAME,
-        r.zzysxm,
+        r.JZLSH,
+        SUBSTR (r.JZKSRQ, 0, 10) AS JZKSRQ,
+        r.ZZYSXM,
         r.JZKSMC,
-        r.JZZDSM,
-        r.jzlx,
-        SUBSTR (r.JZKSRQ, 0, 10) AS JZKSRQ
-        FROM
+        r.ZS,
+        h.HOSPITAL_NAME
+    FROM
         TB_YL_MZ_Medical_Record r
-        LEFT JOIN TB_HOSPITAL h ON r.YLJGDM = h.HOSPITAL_ID
-        WHERE r.CSID = #{csid} ORDER BY JZKSRQ DESC
+    LEFT JOIN TB_HOSPITAL h ON r.YLJGDM = h.HOSPITAL_ID
+    WHERE r.CSID =#{csid}
     </select>
-
     <!-- 根据就诊流水号查询就诊记录 -->
     <select id="getJzjlByJzlsh" parameterType="map" resultMap="BaseResultMap">
     SELECT

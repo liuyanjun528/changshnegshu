@@ -2,8 +2,15 @@ package com.annaru.upms.controller;
 
 import java.util.*;
 
-import com.annaru.upms.entity.vo.EntityHealthyAppointmentVo;
+import com.annaru.common.util.DateUtil;
+import com.annaru.upms.entity.EntityHealthyAppointment;
+import com.annaru.upms.entity.ExamUserHealthyAppraisal;
+import com.annaru.upms.entity.UserSurveyMain;
 import com.annaru.upms.entity.vo.EntityPurchseMainVo;
+import com.annaru.upms.entity.vo.EntityPurchseVo;
+import com.annaru.upms.service.IEntityHealthyAppointmentService;
+import com.annaru.upms.service.IExamUserHealthyAppraisalService;
+import com.annaru.upms.service.IUserSurveyMainService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import com.alibaba.dubbo.config.annotation.Reference;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +20,6 @@ import io.swagger.annotations.ApiParam;
 
 import com.annaru.common.base.BaseController;
 import com.annaru.common.result.PageUtils;
-import com.annaru.upms.shiro.ShiroKit;
 import com.annaru.common.result.ResultMap;
 
 import com.annaru.upms.entity.EntityPurchseMain;
@@ -32,8 +38,15 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping("upms/entityPurchseMain")
 public class EntityPurchseMainController extends BaseController {
+
     @Reference
-    private IEntityPurchseMainService entityPurchseMainService;
+    private IEntityPurchseMainService entityPurchseMainService; //开启健康服务
+    @Reference
+    private IEntityHealthyAppointmentService entityHealthyAppointmentService; //预约
+    @Reference
+    private IExamUserHealthyAppraisalService examUserHealthyAppraisalService; //健康评估
+    @Reference
+    private IUserSurveyMainService userSurveyMainService; //问券调查
 
     /**
      * 列表
@@ -51,6 +64,61 @@ public class EntityPurchseMainController extends BaseController {
             params.put("key", key);
             PageUtils<Map<String, Object>> pageList = entityPurchseMainService.getDataPage(params);
             return ResultMap.ok().put("page",pageList);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return ResultMap.error("运行异常，请联系管理员");
+        }
+    }
+
+    /**
+     * 企业健康服务首页的健康日志筛选
+     * @author zk
+     * @date 2019-06-21
+     */
+    @ApiOperation(value = "企业健康服务首页的健康日志筛选", notes = "企业健康服务首页的健康日志筛选")
+    @GetMapping("/selectUserOrRelativeInfo/getTimeByUserIdZ")
+    public ResultMap getTimeByUserIdZ(@RequestParam("userId") String userId, @RequestParam("startDate") String startDate,
+                                    @RequestParam("bs") Integer bs) {
+        try {
+            List<EntityPurchseVo> list = new ArrayList<>();
+            Map<String,Object> params = new HashMap<>();
+            params.put("userId", userId);
+            params.put("startDate", startDate);
+            params.put("bs", bs);
+            EntityPurchseVo entityPurchseVo = null;
+            EntityPurchseMain entityPurchseMain = entityPurchseMainService.getTimeByUserIdZ(params);
+            if (entityPurchseMain != null){
+                entityPurchseVo = new EntityPurchseVo();
+                entityPurchseVo.setTime(DateUtil.format(entityPurchseMain.getEffectFrom()));
+                entityPurchseVo.setSign(1);
+                list.add(entityPurchseVo);
+                UserSurveyMain userSurveyMain = userSurveyMainService.getTimeByUserIdZ(params);
+                if (userSurveyMain != null){
+                    entityPurchseVo = new EntityPurchseVo();
+                    entityPurchseVo.setTime(DateUtil.format(userSurveyMain.getSurveyTime()));
+                    entityPurchseVo.setSign(2);
+                    list.add(entityPurchseVo);
+                    EntityHealthyAppointment entityHealthyAppointment = entityHealthyAppointmentService.getTimeByUserIdZ(params);
+                    if (entityHealthyAppointment != null){
+                        entityPurchseVo = new EntityPurchseVo();
+                        entityPurchseVo.setTime(DateUtil.format(entityHealthyAppointment.getCreationTime()));
+                        entityPurchseVo.setSign(3);
+                        list.add(entityPurchseVo);
+                        ExamUserHealthyAppraisal examUserHealthyAppraisal = examUserHealthyAppraisalService.getTimeByUserIdZ(params);
+                        if (examUserHealthyAppraisal != null){
+                            entityPurchseVo = new EntityPurchseVo();
+                            entityPurchseVo.setTime(DateUtil.format(examUserHealthyAppraisal.getSubmitTime()));
+                            entityPurchseVo.setSign(4);
+                            list.add(entityPurchseVo);
+                            entityPurchseVo = new EntityPurchseVo();
+                            entityPurchseVo.setTime(DateUtil.format(entityPurchseMain.getEffectTo()));
+                            entityPurchseVo.setSign(5);
+                            list.add(entityPurchseVo);
+                        }
+                    }
+                }
+            }
+            return ResultMap.ok().put("data", list);
         } catch (Exception e) {
             logger.error(e.getMessage());
             return ResultMap.error("运行异常，请联系管理员");

@@ -1,6 +1,7 @@
 package com.annaru.upms.mapper;
 
 import com.annaru.upms.entity.medical.TbLisIndicators;
+import com.annaru.upms.entity.medical.vo.TbLisIndicatorsListVo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -26,6 +27,6 @@ public interface TbLisIndicatorsMapper extends BaseMapper<TbLisIndicators> {
      * @param bgdh
      * @return
      */
-    List<TbLisIndicators> getJybg(String bgdh);
+    List<TbLisIndicatorsListVo> getJybg(String bgdh);
 
 }

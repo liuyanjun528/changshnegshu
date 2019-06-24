@@ -4,7 +4,6 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.annaru.common.base.BaseController;
 import com.annaru.common.result.ResultMap;
 import com.annaru.upms.controllerutil.AppConst;
-import com.annaru.upms.entity.medical.TbLisReport;
 import com.annaru.upms.entity.medical.vo.*;
 import com.annaru.upms.service.*;
 import io.swagger.annotations.Api;
@@ -40,6 +39,9 @@ public class TbMedicalController extends BaseController {
     private ITbLisReportService iTbLisReportService; //实验室检验报告
 
     @Reference
+    private ITbLisIndicatorsService iTbLisIndicatorsService; //检验结果指标
+
+    @Reference
     private ITbRisReportService iTbRisReportService; //影像检查报告表—放射类格式
 
     @Reference
@@ -48,8 +50,26 @@ public class TbMedicalController extends BaseController {
     @Reference
     private ITbCisPrescriptionDetailService iTbCisPrescriptionDetailService; //门诊处方明细
 
-    @Reference
-    private IUserBasicService iUserBasicService; //用户
+   /* @Reference
+    private IUserBasicService iUserBasicService; //用户*/
+
+    /**
+     *  根据卡号查询健康档案首页信息
+     * @param kh 卡号
+     */
+    @ApiOperation(value = "查询首页信息")
+    @GetMapping("/getIndex")
+    @RequiresPermissions("upms/medical/getIndex")
+    public ResultMap getIndex(String kh) {
+        try {
+            List<TbYlMzMedicalRecordListVo> listYlMzMedicalRecord = iTbYlMzMedicalRecordService.getJzjl(kh);
+            return ResultMap.ok().put("data",listYlMzMedicalRecord);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return ResultMap.error("运行异常，请联系管理员");
+        }
+    }
+
 
     /**
      *  根据卡号查询门诊记录列表
@@ -79,7 +99,7 @@ public class TbMedicalController extends BaseController {
     public ResultMap getMzjlDetail(String csid){
         Map<String, Object> map = new HashMap<>();
         // 就诊记录
-        TbYlMzMedicalRecordListVo jzjl = iTbYlMzMedicalRecordService.getJzjlById(csid);
+        TbYlMzMedicalRecordDetailVo jzjl = iTbYlMzMedicalRecordService.getJzjlById(csid);
         map.put("jzjl", jzjl);
 
         if (jzjl!=null) {
@@ -100,9 +120,7 @@ public class TbMedicalController extends BaseController {
             map.put("yxbg", tbRisReports);
 
             // 检验报告
-            List<TbLisReport> tbLisReports = iTbLisReportService.getJybgByJzlsh(jzjl.getJzlsh());
-            for (TbLisReport t : tbLisReports) {
-            }
+            List<TbLisReportDetailVo> tbLisReports = iTbLisReportService.getJybgByJzlsh(jzjl.getJzlsh());
             map.put("jybg", tbLisReports);
             return ResultMap.ok().put("data",map);
         }else {
@@ -110,6 +128,8 @@ public class TbMedicalController extends BaseController {
         }
 
     }
+
+
 
     /**
      * 根据卡号查询住院就诊记录
@@ -143,6 +163,30 @@ public class TbMedicalController extends BaseController {
             logger.error(e.getMessage());
             return ResultMap.error("运行异常，请联系管理员");
         }
+    }
+
+    /**
+     * 查询检验报告详情
+     * @param csid
+     * @return
+     */
+    @ApiOperation(value = "检验报告详情")
+    @GetMapping("/getJybgDetail")
+    @RequiresPermissions("upms/medical/getJybgDetail")
+    public ResultMap getJybgDetail(String csid, String bgdh){
+        Map<String, Object> map = new HashMap<>();
+        // 就诊记录
+        TbYlMzMedicalRecordDetailVo jzjl = iTbYlMzMedicalRecordService.getJzjlById(csid);
+        map.put("jzjl", jzjl);
+        if (jzjl!=null) {
+            // 检验报告
+            List<TbLisIndicatorsListVo> tbLisReports = iTbLisIndicatorsService.getJybg(bgdh);
+            map.put("jybg", tbLisReports);
+            return ResultMap.ok().put("data",map);
+        }else {
+            return ResultMap.error("报告不存在！");
+        }
+
     }
 
     /**
@@ -247,5 +291,6 @@ public class TbMedicalController extends BaseController {
         }
 
     }
+
 
 }
