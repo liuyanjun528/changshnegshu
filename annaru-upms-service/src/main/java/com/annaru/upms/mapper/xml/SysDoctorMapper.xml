@@ -125,4 +125,33 @@
         </if>
     </select>
 
+    <select id="getDoctor" parameterType="map" resultMap="BaseResultMap">
+        SELECT
+        doctor_no,
+        user_id,
+        doctor_name,
+        head_image,
+        degrees,
+        star_count,
+        score,
+        focus_on,
+        goodat,
+        belong_office,
+        belong_province,
+        belong_city,
+        belong_district,
+        price_year
+        FROM
+        sys_doctor
+        WHERE
+        1 = 1
+        <if test="params.doctorNo != null and params.doctorNo != ''">
+            AND   doctor_no = #{params.doctorNo}
+        </if>
+        <if test="params.userId != null and params.userId != ''">
+            AND   user_id = #{params.userId}
+        </if>
+
+    </select>
+
 </mapper>
