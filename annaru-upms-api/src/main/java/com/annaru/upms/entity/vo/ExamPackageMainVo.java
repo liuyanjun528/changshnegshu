@@ -99,6 +99,10 @@ public class ExamPackageMainVo implements Serializable {
 	 */
 	private String remark;
 	/**
+	 * 项目备注类别1
+	 */
+	private String remark1;
+	/**
 	 * 检查项目名称
 	 */
 	private String emName;
@@ -259,6 +263,12 @@ public class ExamPackageMainVo implements Serializable {
 	}
 	public void setEmName(String emName) {
 		this.emName = emName;
+	}
+	public String getRemark1() {
+		return remark1;
+	}
+	public void setRemark1(String remark1) {
+		this.remark1 = remark1;
 	}
 
 	@Override

@@ -81,6 +81,11 @@ public class UserBasic extends Model<UserBasic> implements Serializable {
 	@TableField("id_card_no")
 	private String idCardNo;
 	/**
+	 * 医保卡号
+	 */
+	@ApiModelProperty(value = "医保卡号")
+	private String cardNo;
+	/**
 	 * 藉贯(省)
 	 */
     @ApiModelProperty(value = "藉贯(省)")
@@ -532,6 +537,12 @@ public class UserBasic extends Model<UserBasic> implements Serializable {
 	}
 	public void setIsHr(Integer isHr) {
 		this.isHr = isHr;
+	}
+	public String getCardNo() {
+		return cardNo;
+	}
+	public void setCardNo(String cardNo) {
+		this.cardNo = cardNo;
 	}
 
 	@Override

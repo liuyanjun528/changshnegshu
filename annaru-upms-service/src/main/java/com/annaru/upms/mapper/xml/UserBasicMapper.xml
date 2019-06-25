@@ -55,6 +55,7 @@
         <result column="creation_time" property="creationTime" />
         <result column="openid" property="openid" />
         <result column="is_hr" property="isHr" />
+        <result column="cardNo" property="cardNo" />
     </resultMap>
 
     <!-- 通用查询映射结果 UserBasicVoZ -->
@@ -220,31 +221,33 @@
     <!-- 根据条件查询某个用户信息 -->
     <select id="selectByData" parameterType="map" resultMap="BaseResultMapVoZ">
         SELECT
-              sys_id,
-              user_id,
-              full_name,
-              chinese_spell,
-              cellphone_no,
-              password,
-              id_card_no,
-              origin_province,
-              origin_city,
-              residence_province,
-              residence_city,
-              occupation,
-              gender,
-              date_of_birth,
-              head_image,
-              isactive,
-              last_logintime,
-              registration_time,
-              is_verified,
-              email_address,
-              creation_time,
-              openid,
-              is_hr
+            ub.sys_id,
+            ub.user_id,
+            full_name,
+            chinese_spell,
+            ub.cellphone_no,
+            password,
+            id_card_no,
+            origin_province,
+            origin_city,
+            residence_province,
+            residence_city,
+            occupation,
+            gender,
+            date_of_birth,
+            head_image,
+            isactive,
+            last_logintime,
+            registration_time,
+            is_verified,
+            email_address,
+            ub.creation_time,
+            openid,
+            is_hr,
+            uc.card_no cardNo
         FROM
-            user_basic
+        user_basic ub
+        LEFT JOIN user_cards uc ON uc.user_id = ub.user_id
         WHERE
             1 = 1
             <if test="params.isHr == 1">
@@ -254,7 +257,7 @@
                 AND is_hr = 0
             </if>
             <if test="params.cellphoneNo != null and params.cellphoneNo != ''">
-                AND cellphone_no = #{params.cellphoneNo}
+                AND ub.cellphone_no = #{params.cellphoneNo}
             </if>
             <if test="params.openid != null and params.openid != ''">
                 AND openid = #{params.openid}
@@ -392,6 +395,11 @@
     <update id="updateCardAndBasics">
       UPDATE user_basic SET full_name=#{fullName},gender=#{gender},id_card_no=#{idCardNo},cellphone_no=#{cellphoneNo},head_image=#{headImage}
        WHERE user_id=#{userId}
+    </update>
+
+    <update id="updateLastTimeBySysId" parameterType="com.annaru.upms.entity.UserBasic">
+      UPDATE user_basic SET last_logintime = #{userBasic.lastLogintime}
+       WHERE sys_id = #{userBasic.sysId}
     </update>
 
 </mapper>

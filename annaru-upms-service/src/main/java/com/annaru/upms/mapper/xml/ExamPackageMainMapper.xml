@@ -57,9 +57,8 @@
         <result column="countDetail" property="countDetail"/>
         <result column="periods" property="periods"/>
         <result column="eaCates" property="eaCates"/>
-        <result column="emName" property="emName"/>
-        <result column="remark" property="remark"/>
         <collection property="examPackageMainVoZList" ofType="com.annaru.upms.entity.vo.ExamPackageMainVoZ">
+            <result column="emName" property="emName"/>
             <result column="edItemName" property="edItemName"/>
             <result column="abstracts" property="abstracts"/>
         </collection>
@@ -84,6 +83,7 @@
         <result column="eaCates" property="eaCates"/>
         <result column="emName" property="emName"/>
         <result column="remark" property="remark"/>
+        <result column="remark1" property="remark1"/>
     </resultMap>
 
 
@@ -200,6 +200,7 @@
         epdd.count_detail countDetail,
         em3.name emName,
         em3.remark,
+        em3.remark1,
         epa.periods periods,
         ea.cates eaCates
         FROM
