@@ -287,10 +287,6 @@
         </if>
     </select>
 
-    <select id="getOrderNo" resultType="com.annaru.upms.entity.OrderMain">
-
-    </select>
-
     <select id="selectByOrderNo" resultMap="BaseResultMap">
         SELECT
             <include refid="BaseColumn"></include>
