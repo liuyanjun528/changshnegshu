@@ -29,7 +29,7 @@ public interface ISysMessageService extends IService<SysMessage> {
      * @param msgCate 消息类型
      * @return
      */
-    List<SysMessage> selectMsgByMsgCate(@Param("msgCate") int msgCate,@Param("userId") String userId);
+    PageUtils selectMsgByMsgCate(Map<String, Object> params);
 
 }
 

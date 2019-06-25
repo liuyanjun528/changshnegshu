@@ -7,6 +7,7 @@ import com.annaru.common.result.PageUtils;
 import com.annaru.common.result.ResultMap;
 import com.annaru.upms.controllerutil.SysConfigUtil;
 import com.annaru.upms.entity.*;
+import com.annaru.upms.entity.vo.AppendOrderMain;
 import com.annaru.upms.im.rong.models.Result;
 import com.annaru.upms.service.*;
 import io.swagger.annotations.Api;
@@ -66,6 +67,9 @@ public class OrderMainController extends BaseController {
             boolean save = orderMainService.save(orderMain);
             if(save=true){
                 orderMain.getUserFamilyDoctor().setOrderNo(SysConfigUtil.getNoBySysConfig());
+                orderMain.getUserFamilyDoctor().setEffectFrom(new Date());
+                orderMain.getUserFamilyDoctor().setCreationTime(new Date());
+                orderMain.getUserFamilyDoctor().setUserId(orderMain.getUserId());
                 userFamilyDoctorService.save(orderMain.getUserFamilyDoctor());
             }
             if(save=true){
@@ -85,12 +89,12 @@ public class OrderMainController extends BaseController {
     @ApiOperation(value = "Toc套餐下订单")
     @PostMapping("/saveOrderMain")
     @RequiresPermissions("upms/orderMain/saveOrderMain")
-    public ResultMap saveOrderMain(@RequestBody OrderMain orderMain) {
+    public ResultMap saveOrderMain(@RequestBody OrderMain orderMain,String []RelativeId) {
         int i=0;
         try {
             SysConfig sysConfig = SysConfigUtil.getSysConfig(iSysConfigService, SysConfigUtil.ORDERNO);
             orderMain.setOrderNo(SysConfigUtil.getNoBySysConfig());
-            i = orderMainService.insertOrderMain(orderMain);
+            i = orderMainService.insertOrderMain(orderMain,RelativeId);
 
             if (i > 0) {
                     SysConfigUtil.saveRefNo(sysConfig.getRefNo());

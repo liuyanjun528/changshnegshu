@@ -41,9 +41,9 @@
 
     <insert id="insertOrderDetail" parameterType="com.annaru.upms.entity.OrderDetail">
         insert into order_detail
-                  (order_no,rest_count,total_count,effect_from,effect_to,append_id)
+                  (order_no,append_id)
         VALUES
-                (#{orderNo},#{restCount},#{totalCount},#{effectFrom},#{effectTo},#{appendId})
+                (#{orderNo},#{appendId})
     </insert>
 
     <select id="hasRestTimes" parameterType="map" resultMap="BaseResultMap">

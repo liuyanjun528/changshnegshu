@@ -1,6 +1,7 @@
 package com.annaru.upms.mapper;
 
 import com.annaru.upms.entity.OrderMain;
+import com.annaru.upms.entity.vo.AppendOrderMain;
 import com.annaru.upms.entity.vo.OrderExtensionInfoVo;
 import com.annaru.upms.entity.vo.OrderInfoVo;
 import com.annaru.upms.entity.vo.UserPackagesVo;
@@ -61,11 +62,13 @@ public interface OrderMainMapper extends BaseMapper<OrderMain> {
 
 
     /**
-     * 添加订单主表
-     * @param
-     * @return
+     * TOC下订单 OrderMain  wh
      */
     int insertOrderMain(OrderMain orderMain);
+
+    //根据套餐编号查询赠送服务 wh
+    List<AppendOrderMain> selectAppendByOrderNo(@Param("orderNo") String orderNo);
+
 
 	List<Integer> getTimes(@Param("params") Map <String, Object> params);
 
