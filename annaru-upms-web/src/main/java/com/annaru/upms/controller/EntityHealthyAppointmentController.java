@@ -133,8 +133,8 @@ public class EntityHealthyAppointmentController extends BaseController {
     @ApiOperation(value = "企业用户患者信息分页查询")
     @GetMapping("/list")
     @RequiresPermissions("upms/entityHealthyAppointment/list")
-    public ResultMap list(@ApiParam(value = "当前页", defaultValue="1")@RequestParam(required = false) long page,
-                       @ApiParam(value = "每页数量", defaultValue = "10")@RequestParam(required = false) long limit,
+    public ResultMap list(@ApiParam(value = "当前页", defaultValue="1")@RequestParam(required = false) int page,
+                       @ApiParam(value = "每页数量", defaultValue = "10")@RequestParam(required = false) int limit,
                        @ApiParam(value = "关键字")@RequestParam(required = false)String relatedNo){
 
         Map<String, Object> params = new HashMap<>();

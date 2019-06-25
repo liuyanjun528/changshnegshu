@@ -46,4 +46,9 @@ public class ExamUserHealthyAppraisalServiceImpl extends ServiceImpl<ExamUserHea
         return this.baseMapper.getRelativesDeatailByExamUserHealthyAppraisal(userId);
     }
 
+    @Override
+    public ExamUserHealthyAppraisal getTimeByUserIdZ(Map<String,Object> params) {
+        return this.baseMapper.getTimeByUserIdZ(params);
+    }
+
 }

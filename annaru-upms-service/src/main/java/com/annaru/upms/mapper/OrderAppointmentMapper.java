@@ -34,11 +34,9 @@ public interface OrderAppointmentMapper extends BaseMapper<OrderAppointment> {
     /**
       * @Description:待确认患者列表
       * @Author: wh
-      * @param relatedNo  医生编号
-      * @param status 状态 0:待确认/1:已确认
       * @Date: 2019/6/17 15:01
       */
-    List<OrderAppointmentDoctorVo> selectList(@Param("relatedNo") String relatedNo,@Param("status") int status);
+    IPage<OrderAppointmentDoctorVo> selectList(Page page, @Param("params") Map<String, Object> params);
 
 
     /**
@@ -53,7 +51,7 @@ public interface OrderAppointmentMapper extends BaseMapper<OrderAppointment> {
       * @Author: wh
       * @Date: 2019/6/19 17:06
       */
-    List<OrderAppointmentDoctorVo> selectOutpatientAppointment(@Param("relatedNo") String relatedNo,@Param("status") int status);
+    IPage<OrderAppointmentDoctorVo> selectOutpatientAppointment(Page page, @Param("params") Map<String, Object> params);
     /**
      * @Description:取消预约
      * @Author: zk

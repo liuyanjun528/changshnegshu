@@ -41,6 +41,8 @@
         <result column="BYH" property="BYH" />
         <result column="BRKS" property="BRKS" />
         <result column="BGDURL" property="BGDURL" />
+        <result column="is_posted" property="isPosted" />
+        <result column="post_time" property="postTime" />
     </resultMap>
     
     <sql id="BaseClounmSql">
@@ -79,7 +81,9 @@
           BRID,
           BYH,
           BRKS,
-          BGDURL
+          BGDURL,
+          is_posted,
+          postTime
     </sql>
 
     <select id="selectDataPage" resultMap="BaseResultMap">

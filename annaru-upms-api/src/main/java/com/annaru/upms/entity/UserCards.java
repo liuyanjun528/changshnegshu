@@ -36,6 +36,14 @@ public class UserCards extends Model<UserCards> implements Serializable {
     @ApiModelProperty(value = "户用编号")
 	@TableField("user_id")
 	private String userId;
+
+	/**
+	 * 类别(1:用户/2:亲属)
+	 */
+	@ApiModelProperty(value = "类别(1:用户/2:亲属)")
+	@TableField("user_cates")
+	private Integer userCates;
+
 	/**
 	 * 卡类别(1:社保卡/2:医保卡/3:自费卡/4:其他卡)
 	 */
@@ -77,7 +85,32 @@ public class UserCards extends Model<UserCards> implements Serializable {
 	@TableField("creation_time")
 	private Date creationTime;
 
-    /**
+	@TableField(exist = false)
+    private String fullName;
+
+
+	@TableField(exist = false)
+	private String idCardNo;
+
+	public String getIdCardNo() {
+		return idCardNo;
+	}
+
+	public void setIdCardNo(String idCardNo) {
+		this.idCardNo = idCardNo;
+	}
+
+	public String getFullName() {
+		return fullName;
+	}
+
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
+	}
+
+
+
+	/**
      * 获取：系统编号
      */
     public Integer getSysId() {
@@ -152,9 +185,15 @@ public class UserCards extends Model<UserCards> implements Serializable {
 		this.status = status;
 	}
 
+	public Integer getUserCates() {
+		return userCates;
+	}
 
+	public void setUserCates(Integer userCates) {
+		this.userCates = userCates;
+	}
 
-    /**
+	/**
      * 获取：备注
      */
     public String getRemark() {

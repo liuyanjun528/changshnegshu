@@ -2,6 +2,7 @@ package com.annaru.upms.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.annaru.upms.entity.medical.TbLisReport;
+import com.annaru.upms.entity.medical.vo.TbLisReportDetailVo;
 import com.annaru.upms.entity.medical.vo.TbLisReportListVo;
 import com.annaru.upms.mapper.TbLisReportMapper;
 import com.annaru.upms.service.ITbLisReportService;
@@ -32,7 +33,7 @@ public class TbLisReportServiceImpl extends ServiceImpl<TbLisReportMapper, TbLis
 
     @Override
     @DS("oracle")
-    public List<TbLisReport> getJybgByJzlsh(String jzlsh) {
+    public List<TbLisReportDetailVo> getJybgByJzlsh(String jzlsh) {
         return this.baseMapper.getJybgByJzlsh(jzlsh);
     }
 

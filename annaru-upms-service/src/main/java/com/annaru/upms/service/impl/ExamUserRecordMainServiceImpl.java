@@ -1,6 +1,7 @@
 package com.annaru.upms.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.annaru.upms.entity.vo.ExamUserRecordMainVoZ;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -34,5 +35,11 @@ public class ExamUserRecordMainServiceImpl extends ServiceImpl<ExamUserRecordMai
     public ExamUserRecordMain getOneByExamUserRecordMain(ExamUserRecordMain examUserRecordMain) {
         return this.baseMapper.getOneByExamUserRecordMain(examUserRecordMain);
     }
+
+    @Override
+    public List<ExamUserRecordMainVoZ> selectMainDetailByUserId(String userId) {
+        return this.baseMapper.selectMainDetailByUserId(userId);
+    }
+
 
 }

@@ -130,8 +130,11 @@ public class UserRelativesController extends BaseController {
     @RequiresPermissions("upms/userRelatives/delete")
     public ResultMap delete(String userId, String relativeId) {
         try {
-            userRelativesService.DeleteRelative(userId, relativeId);
-            return ResultMap.ok("删除成功！");
+            int i = userRelativesService.DeleteRelative(userId, relativeId);
+            if(i>0){
+                return ResultMap.ok("删除成功！");
+            }
+            return ResultMap.error("删除失败！");
         } catch (Exception e) {
             logger.error(e.getMessage());
             return ResultMap.error("运行异常，请联系管理员");

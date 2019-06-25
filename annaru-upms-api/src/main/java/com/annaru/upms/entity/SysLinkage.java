@@ -53,6 +53,21 @@ public class SysLinkage extends Model<SysLinkage> implements Serializable {
     @ApiModelProperty(value = "当前状态")
 	@TableField("is_active")
 	private Integer isActive;
+	/**
+	 * 是否必选(1:是 2:否)
+	 */
+	@ApiModelProperty(value = "是否必选(1:是 2:否)")
+	private String isMust;
+	/**
+	 *  单选或多选或下拉(1.单选 2:多选 3:下拉)
+	 */
+	@ApiModelProperty(value = "单选或多选或下拉(1.单选 2:多选 3:下拉)")
+	private String checkOption;
+	/**
+	 *   是否可以输入(0:不可以 1:可以)
+	 */
+	@ApiModelProperty(value = " 是否可以输入(0:不可以 1:可以)")
+	private String needInput;
 
     public Integer getId() {
         return id;
@@ -120,6 +135,24 @@ public class SysLinkage extends Model<SysLinkage> implements Serializable {
 	public void setIsActive(Integer isActive) {
 		this.isActive = isActive;
 	}
+    public String getIsMust() {
+        return isMust;
+    }
+    public void setIsMust(String isMust) {
+        this.isMust = isMust;
+    }
+    public String getCheckOption() {
+        return checkOption;
+    }
+    public void setCheckOption(String checkOption) {
+        this.checkOption = checkOption;
+    }
+    public String getNeedInput() {
+        return needInput;
+    }
+    public void setNeedInput(String needInput) {
+        this.needInput = needInput;
+    }
 
     @Override
 	protected Serializable pkVal() {

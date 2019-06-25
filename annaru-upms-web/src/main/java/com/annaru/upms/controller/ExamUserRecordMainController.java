@@ -2,6 +2,7 @@ package com.annaru.upms.controller;
 
 import java.util.*;
 
+import com.annaru.upms.entity.vo.ExamUserRecordMainVoZ;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import com.alibaba.dubbo.config.annotation.Reference;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +24,7 @@ import javax.validation.Valid;
 /**
  * 数据登记主表
  *
- * @author xck
+ * @author zk
  * @date 2019-06-17 13:19:24
  */
 @Api(tags = {"数据登记主表管理"}, description = "数据登记主表管理")
@@ -55,6 +56,23 @@ public class ExamUserRecordMainController extends BaseController {
         }
     }
 
+    /**
+     * 企业健康评估首页
+     * @author zk
+     * @date 2019-06-21
+     */
+    @ApiOperation(value = "企业健康评估首页", notes = "企业健康评估首页")
+    @GetMapping("/selectMainDetailByUserId")
+    @RequiresPermissions("upms/examUserRecordMain/selectMainDetailByUserId")
+    public ResultMap selectMainDetailByUserId(@RequestParam("userId") String userId){
+        try {
+            List<ExamUserRecordMainVoZ> examUserRecordMainVoZ = examUserRecordMainService.selectMainDetailByUserId(userId);
+            return ResultMap.ok().put("data",examUserRecordMainVoZ);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return ResultMap.error("运行异常，请联系管理员");
+        }
+    }
 
     /**
      * 信息

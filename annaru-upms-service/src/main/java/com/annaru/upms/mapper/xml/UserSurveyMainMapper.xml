@@ -23,6 +23,31 @@
         </collection>
     </resultMap>
 
+
+    <!-- 多表页面信息查询分页 -->
+    <select id="getTimeByUserIdZ" parameterType="map" resultMap="BaseResultMap">
+        SELECT
+        usm.survey_time -- 用户问券调查
+        FROM entity_purchse_main epm
+        LEFT JOIN user_entity_mapping uem ON uem.entity_id = epm.entity_no
+        LEFT JOIN user_survey_main usm ON usm.user_id = uem.user_id
+        WHERE 1 = 1
+        AND epm.cates = 2 AND epm.is_active = 1 AND epm.is_terminated = 0
+        AND usm.is_active = 1
+
+        <if test="params.userId != null and params.userId != ''">
+            AND uem.user_id = #{params.userId}
+        </if>
+        <if test="params.bs == 1">
+            AND DATE_FORMAT(usm.survey_time , '%Y') = DATE_FORMAT(#{params.startDate} , '%Y')
+        </if>
+        <if test="params.bs == 2">
+            AND DATE_FORMAT(usm.survey_time , '%Y-%m') = DATE_FORMAT(#{params.startDate} , '%Y-%m')
+        </if>
+
+        ORDER BY usm.survey_time DESC LIMIT 0,1
+    </select>
+
     <!-- 多表页面信息查询分页 -->
     <select id="selectDataPage" parameterType="map" resultMap="BaseResultMap">
 

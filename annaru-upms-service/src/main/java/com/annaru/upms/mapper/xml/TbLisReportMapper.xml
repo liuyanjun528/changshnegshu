@@ -43,9 +43,19 @@
         <result column="CSID" property="csid" />
         <result column="BGDH" property="bgdh" />
         <result column="HOSPITAL_NAME" property="hospitalName" />
-        <result column="BGRQ" property="bgrq" />
+        <result column="JYRQ" property="jyrq" />
         <result column="BGDLB" property="bgdlb" />
         <result column="MZZYBZ" property="mzzybz" />
+    </resultMap>
+
+    <!-- 通用查询映射结果 根据就诊流水号查询检验报告)  -->
+    <resultMap id="BaseResultMapDetail" type="com.annaru.upms.entity.medical.vo.TbLisReportDetailVo" >
+        <result column="CSID" property="csid" />
+        <result column="BGDH" property="bgdh" />
+        <result column="JZLSH" property="jzlsh" />
+        <result column="HOSPITAL_NAME" property="hospitalName" />
+        <result column="JYRQ" property="jyrq" />
+        <result column="BGDLB" property="bgdlb" />
     </resultMap>
 
     <!-- 根据原主键获取对象 -->
@@ -74,11 +84,12 @@
     </select>
 
     <!-- 根据就诊流水号查询检验报告 -->
-    <select id="getJybgByJzlsh" parameterType="map" resultMap="BaseResultMap">
+    <select id="getJybgByJzlsh" parameterType="map" resultMap="BaseResultMapDetail">
     SELECT
+        r.CSID,
         r.BGDH,
         r.JZLSH,
-        r.jyrq,
+        r.JYRQ,
         h.HOSPITAL_NAME,
         r.bgdlb
     FROM
@@ -89,7 +100,7 @@
     </select>
 
     <!-- 根据报告单号查询检验报告 -->
-    <select id="getJybgByBgdh" parameterType="map" resultMap="BaseResultMap">
+    <select id="getJybgByBgdh" parameterType="map" resultMap="BaseResultMapDetail">
     SELECT
         r.BGDH,
         r.JZLSH,
