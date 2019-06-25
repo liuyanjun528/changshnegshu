@@ -65,12 +65,15 @@ public interface IOrderMainService extends IService<OrderMain> {
     OrderMain getByOrderNo(String orderNo);
 
    /**
-     * @Description:添加订单主表
+     * @Description:TOC下订单 添加订单主表
      * @Param:  orderMain
      * @Author: wh
      * @Date: 2019/6/4 11:37
      */
-    int insertOrderMain(OrderMain orderMain);
+    int insertOrderMain(OrderMain orderMain,String []RelativeId);
+    //根据套餐编号查询赠送服务 wh
+    List<AppendOrderMain> selectAppendByOrderNo(String orderNo);
+
 
     OrderInfoVo getToB(@Param("params") Map <String, Object> params);
 

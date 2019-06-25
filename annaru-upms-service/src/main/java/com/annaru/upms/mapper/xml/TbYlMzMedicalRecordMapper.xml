@@ -60,7 +60,7 @@
 
     <!-- 根据卡号查询就诊记录 -->
     <select id="getJzjl" parameterType="map" resultMap="BaseResultMapList">
-    SELECT
+        SELECT
         r.CSID,
         h.HOSPITAL_NAME,
         r.ZZYSXM,
@@ -68,10 +68,11 @@
         r.JZZDSM,
         r.JZLX,
         SUBSTR (r.JZKSRQ, 0, 10) AS JZKSRQ
-    FROM
-	    TB_YL_MZ_Medical_Record r
-    LEFT JOIN TB_HOSPITAL h ON r.YLJGDM = h.HOSPITAL_ID
-    WHERE r.KH = #{kh} ORDER BY JZKSRQ DESC
+        FROM
+        TB_YL_MZ_Medical_Record r
+        LEFT JOIN TB_HOSPITAL h ON r.YLJGDM = h.HOSPITAL_ID
+        WHERE r.KH = #{kh}
+        AND (select add_months(sysdate,-12) from dual) > to_date(substr(r.JZKSRQ,1,10),'yyyy-mm-dd')
     </select>
 
     <!-- 根据就诊记录id查询对应的就诊记录 -->

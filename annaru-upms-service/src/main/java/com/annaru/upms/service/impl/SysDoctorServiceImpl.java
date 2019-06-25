@@ -2,6 +2,7 @@ package com.annaru.upms.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.annaru.upms.entity.SysDepartment;
+import com.annaru.upms.entity.vo.SysDoctorVo;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -32,8 +33,12 @@ public class SysDoctorServiceImpl extends ServiceImpl<SysDoctorMapper, SysDoctor
     }
 
     @Override
-    public SysDoctor getOne(Map <String, Object> params) {
+    public SysDoctorVo getOne(Map <String, Object> params) {
         return this.baseMapper.getOne(params);
+    }
+
+    public SysDoctor getDoctor(Map<String,Object> params){
+        return this.baseMapper.getDoctor(params);
     }
 
 }

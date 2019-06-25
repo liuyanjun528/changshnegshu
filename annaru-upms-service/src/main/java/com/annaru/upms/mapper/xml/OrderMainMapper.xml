@@ -65,6 +65,12 @@
         <result column="reference_no" property="referenceNo"/>
     </resultMap>
 
+
+    <resultMap id="AppendOrderMain" type="com.annaru.upms.entity.vo.AppendOrderMain">
+        <result column="append_id" property="appendId"/>
+        <result column="order_no" property="orderNo"/>
+    </resultMap>
+
     <!-- 通用查询映射结果 -->
     <resultMap id="advanceBaseResultMap" type="com.annaru.upms.entity.vo.OrderMainVoZ" >
         <result column="sysId" property="sysId" />
@@ -371,10 +377,6 @@
         </if>
     </select>
 
-    <select id="getOrderNo" resultType="com.annaru.upms.entity.OrderMain">
-
-    </select>
-
     <select id="selectByOrderNo" resultMap="BaseResultMap">
         SELECT
             <include refid="BaseColumn"></include>
@@ -407,12 +409,22 @@
         and od.rest_count is not NULL
     </select>
 
+    <!-- TOC下订单 OrderMain-->
     <insert id="insertOrderMain" parameterType="com.annaru.upms.entity.OrderMain">
         insert into order_main
-                (order_no,reference_no,total_qty,user_id,order_cates,status,amount)
+                (order_no,reference_no,total_qty,user_id,order_cates,amount)
         VALUES
-                (#{orderNo},#{referenceNo},#{totalQty},#{userId},#{orderCates},#{status},#{amount})
+                (#{orderNo},#{referenceNo},#{totalQty},#{userId},#{orderCates},#{amount})
     </insert>
+
+    <select id="selectAppendByOrderNo" parameterType="map" resultMap="AppendOrderMain">
+        SELECT
+			epa.append_id -- 套餐下的服务
+        FROM order_main as om
+        LEFT JOIN exam_package_append as epa ON om.reference_no=epa.package_main_id
+        where order_no=#{orderNo}
+    </select>
+
 
     <select id="getToB" parameterType="map" resultMap="BaseResultMapVo">
         SELECT

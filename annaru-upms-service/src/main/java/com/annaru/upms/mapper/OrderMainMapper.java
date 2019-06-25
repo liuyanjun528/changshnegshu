@@ -59,11 +59,13 @@ public interface OrderMainMapper extends BaseMapper<OrderMain> {
 
 
     /**
-     * 添加订单主表
-     * @param
-     * @return
+     * TOC下订单 OrderMain  wh
      */
     int insertOrderMain(OrderMain orderMain);
+
+    //根据套餐编号查询赠送服务 wh
+    List<AppendOrderMain> selectAppendByOrderNo(@Param("orderNo") String orderNo);
+
 
 	List<Integer> getTimes(@Param("params") Map <String, Object> params);
 

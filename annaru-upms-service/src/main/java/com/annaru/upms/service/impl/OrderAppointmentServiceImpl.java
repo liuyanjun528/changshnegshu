@@ -38,8 +38,10 @@ public class OrderAppointmentServiceImpl extends ServiceImpl<OrderAppointmentMap
     }
 
     @Override
-    public List<OrderAppointmentDoctorVo> selectList(String relatedNo, int status) {
-        return this.baseMapper.selectList(relatedNo,status);
+    public PageUtils selectList(Map<String, Object> params) {
+        Page<OrderAppointmentDoctorVo> page = new PageUtils<OrderAppointmentDoctorVo>(params).getPage();
+        IPage<OrderAppointmentDoctorVo> iPage = this.baseMapper.selectList(page, params);
+        return new PageUtils<OrderAppointmentDoctorVo>(iPage);
     }
 
     @Override
@@ -61,8 +63,10 @@ public class OrderAppointmentServiceImpl extends ServiceImpl<OrderAppointmentMap
     }
 
     @Override
-    public List<OrderAppointmentDoctorVo> selectOutpatientAppointment(String relatedNo, int status) {
-        return this.baseMapper.selectOutpatientAppointment(relatedNo, status);
+    public PageUtils selectOutpatientAppointment(Map<String,Object> params) {
+        Page<OrderAppointmentDoctorVo> page = new PageUtils<OrderAppointmentDoctorVo>(params).getPage();
+        IPage<OrderAppointmentDoctorVo> iPage = this.baseMapper.selectOutpatientAppointment(page, params);
+        return new PageUtils<OrderAppointmentDoctorVo>(iPage);
     }
 
     public List<OrderAppointment> getAppointInfoByOrderNo(Map<String,Object> params){

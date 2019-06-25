@@ -1,5 +1,6 @@
 package com.annaru.upms.service;
 
+import com.annaru.upms.entity.vo.SysDoctorVo;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.annaru.common.result.PageUtils;
 import com.annaru.upms.entity.SysDoctor;
@@ -22,7 +23,9 @@ public interface ISysDoctorService extends IService<SysDoctor> {
     PageUtils getDataPage(Map <String, Object> params);
 
 
-    SysDoctor getOne(Map <String, Object> params);
+    SysDoctorVo getOne(Map <String, Object> params);
+
+    SysDoctor getDoctor(Map<String,Object> params);
 
 }
 

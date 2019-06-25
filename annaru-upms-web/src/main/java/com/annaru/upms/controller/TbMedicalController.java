@@ -8,10 +8,12 @@ import com.annaru.upms.entity.medical.vo.*;
 import com.annaru.upms.service.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
@@ -24,7 +26,7 @@ import java.util.Map;
  * @author lft
  * @date 2019-05-09 11:14:28
  */
-@Api(tags = {"健康档案管理111"}, description = "健康档案管理111")
+@Api(tags = {"健康档案管理"}, description = "健康档案管理")
 @RestController
 @RequestMapping("upms/medical")
 public class TbMedicalController extends BaseController {
@@ -60,10 +62,18 @@ public class TbMedicalController extends BaseController {
     @ApiOperation(value = "查询首页信息")
     @GetMapping("/getIndex")
     @RequiresPermissions("upms/medical/getIndex")
-    public ResultMap getIndex(String kh) {
+    public ResultMap getIndex(@ApiParam(value = "身份证号", required = true) @RequestParam String kh) {
         try {
+            Map<String, Object> map = new HashMap<>();
             List<TbYlMzMedicalRecordListVo> listYlMzMedicalRecord = iTbYlMzMedicalRecordService.getJzjl(kh);
-            return ResultMap.ok().put("data",listYlMzMedicalRecord);
+            Integer mzjl = listYlMzMedicalRecord.size();
+            List<TbYlZyMedicalRecordListVo> listYlZyMedicalRecord = iTbYlZyMedicalRecordService.getJyjl(kh);
+            Integer zyjl = listYlZyMedicalRecord.size();
+            //String hospitalName = "闵行区七宝社区卫生服务中心";
+            map.put("mzjl",mzjl);
+            map.put("zyjl",zyjl);
+            map.put("hospitalName", "闵行区七宝社区卫生服务中心");
+            return ResultMap.ok().put("data",map);
         } catch (Exception e) {
             logger.error(e.getMessage());
             return ResultMap.error("运行异常，请联系管理员");
@@ -78,7 +88,7 @@ public class TbMedicalController extends BaseController {
     @ApiOperation(value = "门诊记录列表")
     @GetMapping("/getJzjl")
     @RequiresPermissions("upms/medical/getJzjl")
-    public ResultMap getJzjl(String kh) {
+    public ResultMap getJzjl(@ApiParam(value = "身份证号", required = true) @RequestParam String kh) {
         try {
             List<TbYlMzMedicalRecordListVo> listYlMzMedicalRecord = iTbYlMzMedicalRecordService.getJzjl(kh);
             return ResultMap.ok().put("data",listYlMzMedicalRecord);
@@ -96,7 +106,7 @@ public class TbMedicalController extends BaseController {
     @ApiOperation(value = "门诊记录详情")
     @GetMapping("/getMzjlDetail")
     @RequiresPermissions("upms/medical/getMzjlDetail")
-    public ResultMap getMzjlDetail(String csid){
+    public ResultMap getMzjlDetail(@ApiParam(value = "就诊记录id", required = true) @RequestParam String csid){
         Map<String, Object> map = new HashMap<>();
         // 就诊记录
         TbYlMzMedicalRecordDetailVo jzjl = iTbYlMzMedicalRecordService.getJzjlById(csid);
@@ -138,7 +148,7 @@ public class TbMedicalController extends BaseController {
     @ApiOperation(value = "住院记录列表")
     @GetMapping("/getJzjzjlList")
     @RequiresPermissions("upms/medical/getJzjzjlList")
-    public ResultMap getJzjzjlList(String kh) {
+    public ResultMap getJzjzjlList(@ApiParam(value = "身份证号", required = true) @RequestParam String kh) {
         try {
             List<TbYlZyMedicalRecordListVo> listYlZyMedicalRecord = iTbYlZyMedicalRecordService.getJyjl(kh);
             return ResultMap.ok().put("data",listYlZyMedicalRecord);
@@ -155,7 +165,7 @@ public class TbMedicalController extends BaseController {
     @ApiOperation(value = "检验报告列表")
     @GetMapping("/getJybgList")
     @RequiresPermissions("upms/medical/getJybgList")
-    public ResultMap getJybgList(String kh) {
+    public ResultMap getJybgList(@ApiParam(value = "身份证号", required = true) @RequestParam String kh) {
         try {
             List<TbLisReportListVo> listLisReport = iTbLisReportService.getJybg(kh);
             return ResultMap.ok().put("data",listLisReport);
@@ -173,7 +183,7 @@ public class TbMedicalController extends BaseController {
     @ApiOperation(value = "检验报告详情")
     @GetMapping("/getJybgDetail")
     @RequiresPermissions("upms/medical/getJybgDetail")
-    public ResultMap getJybgDetail(String csid, String bgdh){
+    public ResultMap getJybgDetail(@ApiParam(value = "就诊记录id", required = true) @RequestParam String csid, @ApiParam(value = "报告单号", required = true) @RequestParam String bgdh){
         Map<String, Object> map = new HashMap<>();
         // 就诊记录
         TbYlMzMedicalRecordDetailVo jzjl = iTbYlMzMedicalRecordService.getJzjlById(csid);
@@ -196,7 +206,7 @@ public class TbMedicalController extends BaseController {
     @ApiOperation(value = "影像检查报告列表")
     @GetMapping("/getYxbgList")
     @RequiresPermissions("upms/medical/getYxbgList")
-    public ResultMap getYxbgList(String kh) {
+    public ResultMap getYxbgList(@ApiParam(value = "身份证号", required = true) @RequestParam String kh) {
         try {
             List<TbRisReportListVo> listRisReport = iTbRisReportService.getYxbg(kh);
             return ResultMap.ok().put("data",listRisReport);
@@ -214,7 +224,7 @@ public class TbMedicalController extends BaseController {
     @ApiOperation(value = "用药记录列表")
     @GetMapping("/getYyjl")
     @RequiresPermissions("upms/medical/getYyjl")
-    public ResultMap getYyjl(String kh){
+    public ResultMap getYyjl(@ApiParam(value = "身份证号", required = true) @RequestParam String kh){
         try {
             Map<String, Object> map = new HashMap<>();
         /*if (StringUtils.isBlank(userId)) {
@@ -225,31 +235,31 @@ public class TbMedicalController extends BaseController {
             return ResultMap.error("用户尚未实名认证！");
         }
         String kh = user.getIdCardNo();*/
-                List<TbCisPrescriptionDetailListVo> tbCisPrescriptionDetails= iTbCisPrescriptionDetailService.getYyjl(kh);
-                for (TbCisPrescriptionDetailListVo detail: tbCisPrescriptionDetails) {
-                    List<TbCisPrescriptionDetailVo> yp_list = iTbCisPrescriptionDetailService.getYp(detail.getJzlsh());
-                    for (TbCisPrescriptionDetailVo i : yp_list) {
-                        if (StringUtils.isNotBlank(i.getSypcdm())) {
-                            String sypcdm = i.getSypcdm().toLowerCase();
-                            i.setSypc(AppConst.sypc_dm.get(sypcdm));
-                        }else {
-                            i.setJl(null);
-                            i.setDw(null);
-                        }
-                        i.setYf(AppConst.yf_dm.get(i.getYf()));
+            List<TbCisPrescriptionDetailListVo> tbCisPrescriptionDetails= iTbCisPrescriptionDetailService.getYyjl(kh);
+            for (TbCisPrescriptionDetailListVo detail: tbCisPrescriptionDetails) {
+                List<TbCisPrescriptionDetailVo> yp_list = iTbCisPrescriptionDetailService.getYp(detail.getJzlsh());
+                for (TbCisPrescriptionDetailVo i : yp_list) {
+                    if (StringUtils.isNotBlank(i.getSypcdm())) {
+                        String sypcdm = i.getSypcdm().toLowerCase();
+                        i.setSypc(AppConst.sypc_dm.get(sypcdm));
+                    }else {
+                        i.setJl(null);
+                        i.setDw(null);
                     }
-                    map.put("yp", yp_list);
-                    map.put("yyjl",tbCisPrescriptionDetails);
+                    i.setYf(AppConst.yf_dm.get(i.getYf()));
                 }
-                if(tbCisPrescriptionDetails.size()>0){
-                    return ResultMap.ok().put("data",map);
-                }else {
-                    return ResultMap.error("没有用药记录数据！");
-                }
-            } catch (Exception e) {
-                logger.error(e.getMessage());
-                return ResultMap.error("运行异常，请联系管理员");
+                map.put("yp", yp_list);
+                map.put("yyjl",tbCisPrescriptionDetails);
             }
+            if(tbCisPrescriptionDetails.size()>0){
+                return ResultMap.ok().put("data",map);
+            }else {
+                return ResultMap.error("没有用药记录数据！");
+            }
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return ResultMap.error("运行异常，请联系管理员");
+        }
 
     }
 
@@ -261,7 +271,7 @@ public class TbMedicalController extends BaseController {
     @ApiOperation(value = "用药记录详情")
     @GetMapping("/getYyjlDetail")
     @RequiresPermissions("upms/medical/getYyjlDetail")
-    public ResultMap getYyjlDetail(String jzlsh){
+    public ResultMap getYyjlDetail(@ApiParam(value = "就诊流水号", required = true) @RequestParam String jzlsh){
         try {
             Map<String, Object> map = new HashMap<>();
             if (StringUtils.isBlank(jzlsh)) {

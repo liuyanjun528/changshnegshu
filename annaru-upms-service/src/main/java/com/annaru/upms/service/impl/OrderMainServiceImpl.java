@@ -83,35 +83,44 @@ public class OrderMainServiceImpl extends ServiceImpl<OrderMainMapper, OrderMain
 
     @Override
     @Transactional
-    public int insertOrderMain(OrderMain orderMain) {
+    public int insertOrderMain(OrderMain orderMain,String []RelativeId) {
         int i=0;
         try {
+            //添加订单主表
             i = this.baseMapper.insertOrderMain(orderMain);
 
-            if (i > 0 && Integer.parseInt(orderMain.getReferenceNo()) > 3) {
+            //根据套餐编号查询 如果有赠送服务
+            List<AppendOrderMain> appendOrderMains = this.baseMapper.selectAppendByOrderNo(orderMain.getOrderNo());
+
+            if (i > 0 && null!=appendOrderMains ) {
                 List<ExamPackageAppend> examPackageAppends = examPackageAppendService.selectExamName(Integer.parseInt(orderMain.getReferenceNo()));
                 OrderDetail detail = new OrderDetail();
-                detail.setRestCount(orderMain.getOrderDetail().getRestCount());
-                detail.setTotalCount(orderMain.getOrderDetail().getTotalCount());
-                detail.setEffectFrom(orderMain.getOrderDetail().getEffectFrom());
-                detail.setEffectTo(orderMain.getOrderDetail().getEffectTo());
+                detail.setCreationtime(orderMain.getCreationtime());
+//                detail.setRestCount(orderMain.getOrderDetail().getRestCount());
+//                detail.setTotalCount(orderMain.getOrderDetail().getTotalCount());
+//                detail.setEffectFrom(orderMain.getOrderDetail().getEffectFrom());
+//                detail.setEffectTo(orderMain.getOrderDetail().getEffectTo());
                 for (ExamPackageAppend exam : examPackageAppends) {
                     detail.setAppendId(exam.getAppendId());
                     detail.setCreationtime(new Date());
                     detail.setOrderNo(orderMain.getOrderNo());
-                    i=orderDetailService.insertOrderDetail(detail);
+                    i=orderDetailService.insertOrderDetail(detail);//添订单详情表
                 }
             }
 
             if (i > 0) {
+                //如果订单总数大于1
                 if (orderMain.getTotalQty() > 1) {
                     List<UserRelatives> list = userRelativesService.selectAll(orderMain.getUserId());
                     Boolean result=false;
                     for (UserRelatives relative : list) {
-                        if (relative.getRelativeId().equals(orderMain.getOrderCustomer().getRelativeId())) {
-                            result=true;
-                            break;
+                        for (String  rela:RelativeId ){
+                            if (relative.getRelativeId().equals(rela)) {
+                                result=true;
+                                break;
+                            }
                         }
+
                     }
                     if(result==false){
                         i=0;
@@ -119,7 +128,11 @@ public class OrderMainServiceImpl extends ServiceImpl<OrderMainMapper, OrderMain
                     }
                     if (result) {
                         orderMain.getOrderCustomer().setOrderNo(orderMain.getOrderNo());
-                        i=orderCustomerService.insertOrderCustomer(orderMain.getOrderCustomer());
+                        for (String relativeId :RelativeId){
+                            orderMain.getOrderCustomer().setRelativeId(relativeId);
+                            i=orderCustomerService.insertOrderCustomer(orderMain.getOrderCustomer());//添加订单亲属表
+                        }
+
                     }
                 }
             }
@@ -127,6 +140,11 @@ public class OrderMainServiceImpl extends ServiceImpl<OrderMainMapper, OrderMain
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
         }
         return i;
+    }
+
+    @Override
+    public List<AppendOrderMain> selectAppendByOrderNo(String orderNo) {
+        return this.baseMapper.selectAppendByOrderNo(orderNo);
     }
 
     public List<Integer>  getTimes(Map<String,Object> params){
