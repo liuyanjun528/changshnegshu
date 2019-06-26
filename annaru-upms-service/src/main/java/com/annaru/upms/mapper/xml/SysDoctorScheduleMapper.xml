@@ -42,15 +42,15 @@
 
     <select id="getDocSchedule" parameterType="map" resultMap="BaseResultMap">
         select sds.date_from,sds.date_to,sds.time_from,sds.time_to,sdo.is_active
-        from sys_doctor_schedule sds
-        left JOIN sys_doctor_oppointment sdo
+        from sys_doctor_nurse_schedule sds
+        left JOIN sys_doctor_nurse_oppointment sdo
         on sds.date_from = sdo.appoint_date
         where
         sds.is_active = 1
-        <if test="params.doctorNurseNo != null and params.doctorNurseNo != ''">
-            and doctor_nurse_no = #{params.doctorNurseNo}
+        <if test="params.doctorNo != null and params.doctorNo != ''">
+        and sds.doctor_nurse_no = #{params.doctorNo}
         </if>
-        order by sds.time_to
+        order by sds.date_from,sds.time_to
     </select>
 
     <!-- 医护端护士的排班-->
