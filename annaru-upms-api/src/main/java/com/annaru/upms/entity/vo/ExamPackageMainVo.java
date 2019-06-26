@@ -90,18 +90,22 @@ public class ExamPackageMainVo implements Serializable {
 	 * 检查项数量
 	 */
 	private Integer countDetail;
-
+	/**
+	 * 检查项目名称、检查项目详情名称、检查项目详情简介
+	 */
+	private List<ExamPackageMainVoZ> examPackageMainVoZList;
+	/**
+	 * 项目备注类别
+	 */
+	private String remark;
+	/**
+	 * 项目备注类别1
+	 */
+	private String remark1;
 	/**
 	 * 检查项目名称
 	 */
 	private String emName;
-
-	/**
-	 * 检查项目详情名称
-	 */
-	private String edItemName;
-
-
 	/**
      * 获取：系统编号
      */
@@ -224,18 +228,11 @@ public class ExamPackageMainVo implements Serializable {
 	public void setCountPsersion(Integer countPsersion) {
 		this.countPsersion = countPsersion;
 	}
-	public String getEdItemName() {
-		return edItemName;
+	public List<ExamPackageMainVoZ> getExamPackageMainVoZList() {
+		return examPackageMainVoZList;
 	}
-	public void setEdItemName(String edItemName) {
-		this.edItemName = edItemName;
-	}
-	public String getEmName() {
-		return emName;
-	}
-
-	public void setEmName(String emName) {
-		this.emName = emName;
+	public void setExamPackageMainVoZList(List<ExamPackageMainVoZ> examPackageMainVoZList) {
+		this.examPackageMainVoZList = examPackageMainVoZList;
 	}
 	public String getServiceName() {
 		return serviceName;
@@ -254,6 +251,24 @@ public class ExamPackageMainVo implements Serializable {
 	}
 	public void setEaCates(Integer eaCates) {
 		this.eaCates = eaCates;
+	}
+	public String getRemark() {
+		return remark;
+	}
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+	public String getEmName() {
+		return emName;
+	}
+	public void setEmName(String emName) {
+		this.emName = emName;
+	}
+	public String getRemark1() {
+		return remark1;
+	}
+	public void setRemark1(String remark1) {
+		this.remark1 = remark1;
 	}
 
 	@Override

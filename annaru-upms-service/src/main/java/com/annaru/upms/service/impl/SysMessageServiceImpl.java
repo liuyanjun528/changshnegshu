@@ -29,8 +29,10 @@ public class SysMessageServiceImpl extends ServiceImpl<SysMessageMapper, SysMess
     }
 
     @Override
-    public List<SysMessage> selectMsgByMsgCate(int msgCate, String userId) {
-        return this.baseMapper.selectMsgByMsgCate(msgCate,userId);
+    public PageUtils selectMsgByMsgCate(Map<String, Object> params) {
+        Page<SysMessage> page = new PageUtils<SysMessage>(params).getPage();
+        IPage<SysMessage> iPage = this.baseMapper.selectMsgByMsgCate(page, params);
+        return new PageUtils<SysMessage>(iPage);
     }
 
 

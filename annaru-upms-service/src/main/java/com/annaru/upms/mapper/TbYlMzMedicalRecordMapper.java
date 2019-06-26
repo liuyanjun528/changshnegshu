@@ -1,6 +1,7 @@
 package com.annaru.upms.mapper;
 
 import com.annaru.upms.entity.medical.TbYlMzMedicalRecord;
+import com.annaru.upms.entity.medical.vo.TbYlMzMedicalRecordDetailVo;
 import com.annaru.upms.entity.medical.vo.TbYlMzMedicalRecordListVo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
@@ -41,5 +42,5 @@ public interface TbYlMzMedicalRecordMapper extends BaseMapper<TbYlMzMedicalRecor
      * @param csid
      * @return
      */
-    TbYlMzMedicalRecordListVo getJzjlById(@Param("csid") String csid);
+    TbYlMzMedicalRecordDetailVo getJzjlById(@Param("csid") String csid);
 }

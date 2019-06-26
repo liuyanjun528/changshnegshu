@@ -1,6 +1,7 @@
 package com.annaru.upms.service;
 
 import com.annaru.upms.entity.medical.TbYlMzMedicalRecord;
+import com.annaru.upms.entity.medical.vo.TbYlMzMedicalRecordDetailVo;
 import com.annaru.upms.entity.medical.vo.TbYlMzMedicalRecordListVo;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -40,6 +41,6 @@ public interface ITbYlMzMedicalRecordService extends IService<TbYlMzMedicalRecor
      * @param csid 就诊记录id
      * @return
      */
-    TbYlMzMedicalRecordListVo getJzjlById(String csid);
+    TbYlMzMedicalRecordDetailVo getJzjlById(String csid);
 }
 

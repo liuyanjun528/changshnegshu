@@ -107,7 +107,7 @@ public class SysVerifyDocsController extends BaseController {
 
         Map<String, Object> params = new HashMap <>();
         params.put("userId", sysVerifyDocsVoZ.getUserId());
-        SysDoctor sysDoctor = iSysDoctorService.getOne(params);
+        SysDoctor sysDoctor = iSysDoctorService.getDoctor(params);
         if (sysDoctor != null){
             return ResultMap.error("该医生已经存在！");
         }

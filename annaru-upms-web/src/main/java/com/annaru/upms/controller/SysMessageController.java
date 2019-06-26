@@ -38,9 +38,18 @@ public class SysMessageController extends BaseController {
      */
     @ApiOperation(value = "通过当前用户的消息类型查看消息", notes = "通过当前用户的消息类型查看消息")
     @GetMapping("/getMsg")
-    public ResultMap selectMsgByMsgCate(int msgCate,String userId){
-        List<SysMessage> listMsg = sysMessageService.selectMsgByMsgCate(msgCate,userId);
-        return ResultMap.ok().put("data",listMsg);
+    public ResultMap selectMsgByMsgCate(
+            @ApiParam(value = "当前页")@RequestParam(defaultValue="1") int page,
+            @ApiParam(value = "每页数量")@RequestParam(defaultValue = "10") int limit,
+            @ApiParam(value = "用户Id")@RequestParam(required = false)String userId,
+            @ApiParam(value = "消息类型")@RequestParam(required = false)int msgCate){
+        Map<String, Object> params = new HashMap<>();
+        params.put("page",page);
+        params.put("limit", limit);
+        params.put("userId", userId);
+        params.put("msgCate", msgCate);
+        PageUtils<Map<String, Object>> pageList = sysMessageService.getDataPage(params);
+        return ResultMap.ok().put("data",pageList);
     }
 
 

@@ -2,6 +2,7 @@ package com.annaru.upms.controller;
 
 import java.util.*;
 
+import com.annaru.upms.entity.vo.SysDoctorVo;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import com.alibaba.dubbo.config.annotation.Reference;
 import org.springframework.web.bind.annotation.*;
@@ -66,7 +67,7 @@ public class SysDoctorController extends BaseController {
     public ResultMap info(@PathVariable("doctorNo") String doctorNo){
         Map<String, Object> params = new HashMap<>();
         params.put("doctorNo",doctorNo);
-        SysDoctor sysDoctor = sysDoctorService.getOne(params);
+        SysDoctorVo sysDoctor = sysDoctorService.getOne(params);
         return ResultMap.ok().put("data",sysDoctor);
     }
 

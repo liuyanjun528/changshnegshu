@@ -29,36 +29,58 @@
         <result column="edit_by" property="editBy" />
     </resultMap>
 
-    <!-- 多表页面信息查询分页 -->
-    <select id="selectDataPage" parameterType="map" resultMap="BaseResultMap">
+    <resultMap id="BaseResultMapVo" type="com.annaru.upms.entity.vo.SysDoctorVo" >
+        <result column="doctor_no" property="doctorNo" />
+        <result column="doctor_name" property="doctorName" />
+        <result column="head_image" property="headImage" />
+        <result column="degrees" property="degrees" />
+        <result column="star_count" property="starCount" />
+        <result column="score" property="score" />
+        <result column="focus_on" property="focusOn" />
+        <result column="goodat" property="goodat" />
+        <result column="content" property="content" />
+        <result column="institutionName" property="belongInstitution"/>
+        <result column="department_name" property="belongOffice" />
+        <result column="belong_province" property="belongProvince" />
+        <result column="belong_city" property="belongCity" />
+        <result column="belong_district" property="belongDistrict" />
+        <result column="price_year" property="priceYear" />
+        <result column="cellphone_no" property="cellphoneNo"/>
+        <result column="job_title" property="jobTitle" />
+        <result column="duties" property="duties" />
+        <result column="introductions" property="introductions" />
+        <result column="is_approved" property="isApproved" />
+    </resultMap>
 
+    <!-- 多表页面信息查询分页 -->
+    <select id="selectDataPage" parameterType="map" resultMap="BaseResultMapVo">
         SELECT
-        sys_id,
-        doctor_no,
-        user_id,
-        doctor_name,
-        head_image,
-        degrees,
-        star_count,
-        score,
-        focus_on,
-        goodat,
-        content,
-        belong_office,
-        belong_province,
-        belong_city,
-        belong_district,
-        price_year,
-        cellphone_no,
-        status,
-        creation_time,
-        edit_time,
-        create_by,
-        edit_by
+        sd.belong_city,
+        sd.belong_district,
+        sd.belong_province,
+        sd.cellphone_no,
+        sd.content,
+        sd.degrees,
+        sd.doctor_name,
+        sd.doctor_no,
+        sd.duties,
+        sd.focus_on,
+        sd.goodat,
+        sd.head_image,
+        sd.introductions,
+        sd.is_approved,
+        sd.job_title,
+        sd.price_year,
+        sd.score,
+        sd.star_count,
+        si.`name` institutionName,
+        sdp.department_name
         FROM
-        sys_doctor
+        sys_doctor sd
+        LEFT JOIN sys_institution si ON sd.belong_institution = si.institution_id
+        LEFT JOIN sys_department sdp ON sdp.sys_id = sd.belong_office
         WHERE
-        status=1
+        sd.is_approved = 1
         <if test="params.province != null and params.province != ''">
             AND belong_province LIKE CONCAT('%', #{params.province}, '%')
         </if>
@@ -70,7 +92,40 @@
         </if>
     </select>
 
-    <select id="getOne" parameterType="map" resultMap="BaseResultMap">
+    <select id="getOne" parameterType="map" resultMap="BaseResultMapVo">
+        SELECT
+        sd.belong_city,
+        sd.belong_district,
+        sd.belong_province,
+        sd.cellphone_no,
+        sd.content,
+        sd.degrees,
+        sd.doctor_name,
+        sd.doctor_no,
+        sd.duties,
+        sd.focus_on,
+        sd.goodat,
+        sd.head_image,
+        sd.introductions,
+        sd.is_approved,
+        sd.job_title,
+        sd.price_year,
+        sd.score,
+        sd.star_count,
+        si.`name` institutionName,
+        sdp.department_name
+        FROM
+        sys_doctor sd
+        LEFT JOIN sys_institution si ON sd.belong_institution = si.institution_id
+        LEFT JOIN sys_department sdp ON sdp.sys_id = sd.belong_office
+        WHERE
+            1 = 1
+        <if test="params.doctorNo != null and params.doctorNo != ''">
+            AND   doctor_no = #{params.doctorNo}
+        </if>
+    </select>
+
+    <select id="getDoctor" parameterType="map" resultMap="BaseResultMap">
         SELECT
         doctor_no,
         user_id,
@@ -89,7 +144,7 @@
         FROM
         sys_doctor
         WHERE
-            1 = 1
+        1 = 1
         <if test="params.doctorNo != null and params.doctorNo != ''">
             AND   doctor_no = #{params.doctorNo}
         </if>

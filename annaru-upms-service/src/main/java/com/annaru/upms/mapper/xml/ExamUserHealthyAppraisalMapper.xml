@@ -36,6 +36,30 @@
         <result column="gender" property="gender" />
     </resultMap>
 
+    <!-- 多表页面信息查询分页 -->
+    <select id="getTimeByUserIdZ" parameterType="map" resultMap="BaseResultMap">
+        SELECT
+        eua.submit_time -- 个人健康评估
+        FROM entity_purchse_main epm
+        LEFT JOIN user_entity_mapping uem ON uem.entity_id = epm.entity_no
+        LEFT JOIN exam_user_healthy_appraisal eua ON eua.user_id = uem.user_id
+        WHERE 1 = 1
+        AND epm.cates = 2 AND epm.is_active = 1 AND epm.is_terminated = 0
+        AND eua.is_submitted = 1
+
+        <if test="params.userId != null and params.userId != ''">
+            AND uem.user_id = #{params.userId}
+        </if>
+        <if test="params.bs == 1">
+            AND DATE_FORMAT(eua.submit_time , '%Y') = DATE_FORMAT(#{params.startDate} , '%Y')
+        </if>
+        <if test="params.bs == 2">
+            AND DATE_FORMAT(eua.submit_time , '%Y-%m') = DATE_FORMAT(#{params.startDate} , '%Y-%m')
+        </if>
+
+        ORDER BY eua.submit_time DESC LIMIT 0,1
+    </select>
+
     <select id="getUserDeatailByExamUserHealthyAppraisal" parameterType="string" resultMap="BaseResultMap1">
         SELECT
         erd.remark remark, erd.answer_detail answerDetail,

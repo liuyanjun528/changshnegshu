@@ -33,6 +33,13 @@
         <result column="UPDATE_TIME" property="updateTime" />
     </resultMap>
 
+    <!-- 通用查询映射结果 根据检验报告单号查询检验结果  -->
+    <resultMap id="BaseResultMapListVo" type="com.annaru.upms.entity.medical.vo.TbLisIndicatorsListVo" >
+        <result column="JCZBMC" property="jczbmc" />
+        <result column="JCZBJG" property="jczbjg" />
+        <result column="CKZ" property="ckz" />
+    </resultMap>
+
     <!-- 根据原主键获取对象 -->
     <select id="getLisIndicators" parameterType="map" resultMap="BaseResultMap">
       SELECT
@@ -43,7 +50,7 @@
     </select>
 
     <!-- 根据卡号查询检验报告列表 -->
-    <select id="getJybg" parameterType="map" resultMap="BaseResultMap">
+    <select id="getJybgDetail" parameterType="map" resultMap="BaseResultMap">
      SELECT
         r.BGDH,
         r.JZLSH,
@@ -59,7 +66,7 @@
 
 
     <!-- 根据检验报告单号查询检验结果 -->
-    <select id="getJybgDetail" parameterType="map" resultMap="BaseResultMap">
+    <select id="getJybg" parameterType="map" resultMap="BaseResultMapListVo">
         SELECT
         jczbmc,
         jczbjg,

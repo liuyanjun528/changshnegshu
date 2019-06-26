@@ -1,5 +1,6 @@
 package com.annaru.upms.service;
 
+import com.annaru.upms.entity.vo.ExamUserRecordMainVoZ;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.annaru.common.result.PageUtils;
 import com.annaru.upms.entity.ExamUserRecordMain;
@@ -28,6 +29,13 @@ public interface IExamUserRecordMainService extends IService<ExamUserRecordMain>
      * @date 2019-6-17
      */
     ExamUserRecordMain getOneByExamUserRecordMain(ExamUserRecordMain examUserRecordMain);
+
+    /**
+     * 根据userId 数据登记主表 和 详情表
+     * @author zk
+     * @date 2019-6-21
+     */
+    List<ExamUserRecordMainVoZ> selectMainDetailByUserId(String userId);
 
 
 }

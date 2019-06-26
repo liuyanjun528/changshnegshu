@@ -232,7 +232,7 @@ public class UserLoginController extends BaseController {
         }
         //更新最后的登陆时间
         userBasic.setLastLogintime(new Date());
-        iUserBasicService.updateById(userBasic);
+        iUserBasicService.updateLastTimeBySysId(userBasic);
 
         userBasic.setToken(token);
         userBasic.setFirstLogin(firstLogin);

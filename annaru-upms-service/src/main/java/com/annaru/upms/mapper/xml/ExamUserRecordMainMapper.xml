@@ -10,6 +10,17 @@
         <result column="user_id" property="userId" />
         <result column="creation_time" property="creationTime" />
     </resultMap>
+
+    <resultMap id="BaseResultMapZ" type="com.annaru.upms.entity.vo.ExamUserRecordMainVoZ" >
+        <result column="sys_id" property="sysId" />
+        <result column="order_no" property="orderNo" />
+        <result column="creation_time" property="creationTime" />
+        <result column="main_id" property="mainId" />
+        <result column="question_id" property="questionId" />
+        <result column="remark" property="remark" />
+        <result column="answer_detail" property="answerDetail" />
+
+    </resultMap>
     
     <sql id="BaseClounmSql">
           sys_id,
@@ -42,6 +53,25 @@
         <if test="examUserRecordMain.userId != null and examUserRecordMain.userId != ''">
             AND user_id = #{examUserRecordMain.userId}
         </if>
+
+    </select>
+
+    <!-- 根据主表查询 数据登记主表 和 详情表 -->
+    <select id="selectMainDetailByUserId" parameterType="map" resultMap="BaseResultMapZ">
+
+        SELECT
+          erm.sys_id, erm.order_no, erm.user_id, erm.creation_time, erd.question_id, erd.remark, erd.answer_detail
+        FROM
+            (
+                SELECT erm1.sys_id sys_id, erm1.order_no order_no, erm1.user_id user_id,  erm1.creation_time creation_time
+                FROM exam_user_record_main erm1 ORDER BY erm1.creation_time DESC LIMIT 0,2
+            ) erm
+        LEFT JOIN exam_user_record_detail erd ON erd.main_id = erm.sys_id
+        WHERE 1 = 1
+        <if test="userId != null and userId != ''">
+            AND erm.user_id = #{userId}
+        </if>
+        ORDER BY erm.creation_time DESC
 
     </select>
 

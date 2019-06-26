@@ -2,9 +2,7 @@ package com.annaru.upms.service;
 
 import com.annaru.common.result.PageUtils;
 import com.annaru.upms.entity.OrderMain;
-import com.annaru.upms.entity.vo.OrderExtensionInfoVo;
-import com.annaru.upms.entity.vo.OrderInfoVo;
-import com.annaru.upms.entity.vo.UserPackagesVo;
+import com.annaru.upms.entity.vo.*;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,21 +37,21 @@ public interface IOrderMainService extends IService<OrderMain> {
      * @param params
      * @return
      */
-    List<OrderMain> selectPackageOrder(Map<String, Object> params);
+    List<OrderMainVoZTC> selectPackageOrder(Map<String, Object> params);
 
     /**
      * 查询自费(进阶)订单详情
      * @param params
      * @return
      */
-    List<OrderMain> selectPackageAdvance(Map<String, Object> params);
+    List<OrderMainVoZZF> selectPackageAdvance(Map<String, Object> params);
 
     /**
      * 查询门诊绿通订单详情
      * @param params
      * @return
      */
-    List<OrderMain> selectPackageGreen(Map<String, Object> params);
+    List<OrderMainVoZMzlt> selectPackageGreen(Map<String, Object> params);
 
     OrderMain getOrderNo(Map<String,Object> params);
 
@@ -67,12 +65,15 @@ public interface IOrderMainService extends IService<OrderMain> {
     OrderMain getByOrderNo(String orderNo);
 
    /**
-     * @Description:添加订单主表
+     * @Description:TOC下订单 添加订单主表
      * @Param:  orderMain
      * @Author: wh
      * @Date: 2019/6/4 11:37
      */
-    int insertOrderMain(OrderMain orderMain);
+    int insertOrderMain(OrderMain orderMain,String []RelativeId);
+    //根据套餐编号查询赠送服务 wh
+    List<AppendOrderMain> selectAppendByOrderNo(String orderNo);
+
 
     OrderInfoVo getToB(@Param("params") Map <String, Object> params);
 

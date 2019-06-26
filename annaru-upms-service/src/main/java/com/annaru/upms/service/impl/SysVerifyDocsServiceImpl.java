@@ -15,6 +15,7 @@ import com.annaru.common.result.PageUtils;
 import com.annaru.upms.mapper.SysVerifyDocsMapper;
 import com.annaru.upms.entity.SysVerifyDocs;
 import com.annaru.upms.service.ISysVerifyDocsService;
+import jodd.util.StringUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -53,12 +54,16 @@ public class SysVerifyDocsServiceImpl extends ServiceImpl<SysVerifyDocsMapper, S
     @Transactional
     public boolean saveDocsBasics(SysVerifyDocsVoZ sysVerifyDocsVoZ) {
          boolean isSave = false;
+         String getBelongOffice = "";
+         if (sysVerifyDocsVoZ.getBelongOffice() != null && sysVerifyDocsVoZ.getBelongOffice() != 0){
+             getBelongOffice = sysVerifyDocsVoZ.getBelongOffice().toString();
+         }
          if (sysVerifyDocsVoZ.getIdentification() == 2){// 医生
              SysDoctor sysDoctor = new SysDoctor();
              sysDoctor.setDoctorNo(sysVerifyDocsVoZ.getUserNo());
              sysDoctor.setUserId(sysVerifyDocsVoZ.getUserId());
              sysDoctor.setBelongInstitution(sysVerifyDocsVoZ.getBelongHospital());
-             sysDoctor.setBelongOffice(sysVerifyDocsVoZ.getBelongOffice().toString());
+             sysDoctor.setBelongOffice(getBelongOffice);
              sysDoctor.setJobTitle(sysVerifyDocsVoZ.getJobTitle());
              sysDoctor.setIntroductions(sysVerifyDocsVoZ.getIntroductions());
              sysDoctor.setCreationTime(new Date());
@@ -70,7 +75,7 @@ public class SysVerifyDocsServiceImpl extends ServiceImpl<SysVerifyDocsMapper, S
              sysNurse.setNurseNo(sysVerifyDocsVoZ.getUserNo());
              sysNurse.setUserId(sysVerifyDocsVoZ.getUserId());
              sysNurse.setBelongHospital(sysVerifyDocsVoZ.getBelongHospital());
-             sysNurse.setBelongOffice(sysVerifyDocsVoZ.getBelongOffice().toString());
+             sysNurse.setBelongOffice(getBelongOffice);
              sysNurse.setJobTitle(sysVerifyDocsVoZ.getJobTitle());
              sysNurse.setIntroductions(sysVerifyDocsVoZ.getIntroductions());
              sysNurse.setCreationTime(new Date());
@@ -89,7 +94,7 @@ public class SysVerifyDocsServiceImpl extends ServiceImpl<SysVerifyDocsMapper, S
                 sysVerifyDocs = new SysVerifyDocs();
                 sysVerifyDocs.setUserId(sysVerifyDocsVoZ.getUserId());
                 sysVerifyDocs.setCates(sysVerifyDocsVoZ.getIdentification());
-                sysVerifyDocs.setDocCates(2);
+                sysVerifyDocs.setDocCates(3);
                 sysVerifyDocs.setImages(sysVerifyDocsVoZ.getImg2());
                 sysVerifyDocs.setCreationTime(new Date());
                 if (iSysVerifyDocsService.save(sysVerifyDocs)){

@@ -85,4 +85,12 @@ public class UserBasicServiceImpl extends ServiceImpl<UserBasicMapper, UserBasic
         }
         return flag;
     }
+
+    @Override
+    public boolean updateLastTimeBySysId(UserBasic userBasic) {
+        if (this.baseMapper.updateLastTimeBySysId(userBasic) > 0){
+            return true;
+        }
+        return false;
+    }
 }

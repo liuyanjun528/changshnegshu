@@ -62,4 +62,11 @@ public interface UserBasicMapper extends BaseMapper<UserBasic> {
      * @return
      */
     int selectEntityHealthy(@Param("userId") String userId);
+
+    /**
+     * @Description: 通过sysId修改最后登录时间
+     * @Author: zk
+     * @Date: 2019/6/24
+     */
+    int updateLastTimeBySysId(@Param("userBasic") UserBasic userBasic);
 }

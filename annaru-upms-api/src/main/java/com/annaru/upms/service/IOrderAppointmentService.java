@@ -29,11 +29,9 @@ public interface IOrderAppointmentService extends IService<OrderAppointment> {
     /**
      * @Description:待确认患者列表
      * @Author: wh
-     * @param relatedNo  医生编号
-     * @param status 状态 0:待确认/1:已确认
      * @Date: 2019/6/17 15:01
      */
-    List<OrderAppointmentDoctorVo> selectList(String relatedNo, int status);
+    PageUtils selectList(Map<String, Object> params);
 
 
     /**
@@ -49,7 +47,7 @@ public interface IOrderAppointmentService extends IService<OrderAppointment> {
      * @Author: wh
      * @Date: 2019/6/19 17:06
      */
-    List<OrderAppointmentDoctorVo> selectOutpatientAppointment(String relatedNo,int status);
+    PageUtils selectOutpatientAppointment(Map<String, Object> params);
 
     /**
      * @Description:取消预约

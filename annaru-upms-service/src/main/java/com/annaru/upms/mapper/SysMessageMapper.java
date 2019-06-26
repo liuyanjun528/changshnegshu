@@ -30,7 +30,8 @@ public interface SysMessageMapper extends BaseMapper<SysMessage> {
      * @param msgCate 消息类型
      * @return
      */
-    List<SysMessage> selectMsgByMsgCate(@Param("msgCate") int msgCate,@Param("userId") String userId);
+    IPage<SysMessage> selectMsgByMsgCate(Page page, @Param("params") Map<String, Object> params);
+   // List<SysMessage> selectMsgByMsgCate(@Param("msgCate") int msgCate,@Param("userId") String userId);
 
 
 
