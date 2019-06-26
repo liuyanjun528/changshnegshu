@@ -22,11 +22,11 @@
         <result column="belong_district" property="belongDistrict" />
         <result column="price_year" property="priceYear" />
         <result column="cellphone_no" property="cellphoneNo"/>
-        <result column="status" property="status" />
         <result column="creation_time" property="creationTime" />
         <result column="edit_time" property="editTime" />
         <result column="create_by" property="createBy" />
         <result column="edit_by" property="editBy" />
+        <result column="reference_no" property="referenceNo" />
     </resultMap>
 
     <resultMap id="BaseResultMapVo" type="com.annaru.upms.entity.vo.SysDoctorVo" >
@@ -152,6 +152,13 @@
             AND   user_id = #{params.userId}
         </if>
 
+    </select>
+
+
+    <select id="selectByDoctorNoAndUserId" parameterType="map" resultMap="BaseResultMap">
+        SELECT sd.*,(select count(*) from sys_appraisal c where c.user_id=#{userId} and c.reference_no=#{doctorNo}) as sa
+        from sys_doctor as sd
+        where sd.doctor_no=#{doctorNo}
     </select>
 
 </mapper>

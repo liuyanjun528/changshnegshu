@@ -35,6 +35,21 @@ public class SysDoctorController extends BaseController {
     @Reference
     private ISysDoctorService sysDoctorService;
 
+
+
+    /**
+      * @Description:家庭医生详情并判断是否已评价
+      * @Author: wh
+      * @Date: 2019/6/26 16:06
+      */
+    @ApiOperation(value = "家庭医生详情", notes = "家庭医生详情")
+    @GetMapping("/doctorInfo")
+    @RequiresPermissions("upms/sysDoctor/doctorInfo")
+    public ResultMap info(String doctorNo,String userId){
+        SysDoctor sysDoctor = sysDoctorService.selectByDoctorNoAndUserId(doctorNo, userId);
+        return ResultMap.ok().put("data",sysDoctor);
+    }
+
     /**
      * 列表
      **/
@@ -95,7 +110,6 @@ public class SysDoctorController extends BaseController {
     @RequiresPermissions("upms/sysDoctor/update")
     public ResultMap update(@Valid @RequestBody SysDoctor sysDoctor) {
         try {
-//            sysDoctor.setUpdateTime(new Date());
             sysDoctorService.updateById(sysDoctor);
             return ResultMap.ok("修改成功");
         } catch (Exception e) {

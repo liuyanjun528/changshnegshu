@@ -1,10 +1,12 @@
 package com.annaru.upms.service;
 
+import com.annaru.common.result.PageUtils;
 import com.annaru.upms.entity.medical.TbYlZyMedicalRecord;
 import com.annaru.upms.entity.medical.vo.TbYlZyMedicalRecordListVo;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * tb_yl_zy_medical_record(住院就诊记录表)
@@ -22,7 +24,14 @@ public interface ITbYlZyMedicalRecordService extends IService<TbYlZyMedicalRecor
     TbYlZyMedicalRecord getYlZyMedicalRecord(String yljgdm, String jzlsh);
 
     /**
-     * 根据卡号查询住院就诊记录
+     * 根据卡号分页查询住院记录
+     * @param params
+     * @return
+     */
+    PageUtils getJyjlPage(Map<String, Object> params);
+
+    /**
+     * 根据卡号查询住院住院记录
      * @param kh 卡号
      * @return
      */

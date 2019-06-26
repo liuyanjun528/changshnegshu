@@ -20,16 +20,14 @@
 
 
     <resultMap id="BaseResultMapVo" type="com.annaru.upms.entity.vo.UserFamilyDoctorVo" >
-        <result column="sys_id" property="sysId" />
         <result column="order_no" property="orderNo" />
         <result column="user_id" property="userId" />
         <result column="doctor_no" property="doctorNo" />
         <result column="effect_from" property="effectFrom" />
         <result column="effect_to" property="effectTo" />
-        <result column="status" property="status" />
         <result column="is_terminated" property="isTerminated" />
         <result column="terminated_time" property="terminatedTime" />
-        <result column="full_name" property="fullName" />
+        <result column="doctor_name" property="doctorName" />
         <result column="head_image" property="headImage" />
         <result column="degrees" property="degrees" />
         <result column="star_count" property="starCount" />
@@ -37,7 +35,7 @@
         <result column="focus_on" property="focusOn" />
         <result column="goodat" property="goodat" />
         <result column="content" property="content" />
-        <result column="belong_office" property="belongOffice" />
+        <result column="department_name" property="belongOffice" />
         <result column="belong_province" property="belongProvince" />
         <result column="belong_city" property="belongCity" />
         <result column="belong_district" property="belongDistrict" />
@@ -77,7 +75,7 @@
         ufd.effect_to,
         ufd.is_terminated,
         ufd.terminated_time,
-        sd.full_name,
+        sd.doctor_name,
         sd.head_image,
         sd.degrees,
         sd.star_count,

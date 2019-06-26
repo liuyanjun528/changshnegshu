@@ -67,6 +67,25 @@
        WHERE YLJGDM=#{yljgdm} AND BGDH=#{bgdh} AND BGRQ=#{bgrq}
     </select>
 
+    <!-- 根据卡号分页查询检验报告 -->
+    <select id="getJybgPage" parameterType="map" resultMap="BaseResultMapList">
+        SELECT
+        r.CSID,
+        r.BGDH,
+        h.HOSPITAL_NAME,
+        r.BGDLB,
+        SUBSTR (r.BGRQ, 0, 10) AS BGRQ,
+        r.mzzybz
+        FROM
+        TB_LIS_Report r,
+        TB_HOSPITAL h
+        WHERE
+        <if test="params.kh != null and params.kh != ''">
+            r.KH =  #{params.kh}
+        </if>
+        r.YLJGDM = h.HOSPITAL_ID AND r.KH = #{kh} ORDER BY BGRQ DESC
+    </select>
+
     <!-- 根据卡号查询检验报告 -->
     <select id="getJybg" parameterType="map" resultMap="BaseResultMapList">
      SELECT
