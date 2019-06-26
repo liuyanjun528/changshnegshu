@@ -54,6 +54,7 @@ public class SysDoctorOppointmentController extends BaseController {
 
     /**
      * 按照选择时间当前护士查询排班信息
+     * @Author:wh
      */
     @ApiOperation(value = "按照选择时间当前护士查询排班信息", notes = "按照选择时间当前护士查询排班信息")
     @GetMapping("/todayInfo")
@@ -81,6 +82,7 @@ public class SysDoctorOppointmentController extends BaseController {
 
     /**
      * 根据当前护士的预约日期 修改预约时间
+     * @Author:wh
      */
     @ApiOperation(value = "根据选择的预约日期 修改预约时间")
     @PostMapping("/update")

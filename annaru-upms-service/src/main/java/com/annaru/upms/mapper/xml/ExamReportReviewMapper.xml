@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.annaru.upms.mapper.ExamReportReviewMapper">
+
+	<!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.annaru.upms.entity.ExamReportReview" >
+        <result column="sys_id" property="sysId" />
+        <result column="user_id" property="userId" />
+        <result column="report_no" property="reportNo" />
+        <result column="byh" property="byh" />
+        <result column="review_no" property="reviewNo" />
+        <result column="review_time" property="reviewTime" />
+        <result column="is_deleted" property="isDeleted" />
+        <result column="status" property="status" />
+        <result column="creation_time" property="creationTime" />
+        <result column="create_by" property="createBy" />
+    </resultMap>
+
+
+    <resultMap id="BaseResultMap1" type="com.annaru.upms.entity.vo.ExamReportReviewVo" >
+        <result column="BRXM" property="BRXM" />
+        <result column="BRXB" property="BRXB" />
+        <result column="BGLX" property="BGLX" />
+        <result column="JGPD" property="JGPD" />
+        <result column="XMMC" property="XMMC" />
+        <result column="SHSJ" property="SHSJ" />
+        <result column="status" property="status" />
+        <result column="review_no" property="reviewNo" />
+    </resultMap>
+
+
+
+    <sql id="BaseClounmSql">
+          sys_id,
+          user_id,
+          report_no,
+          byh,
+          review_no,
+          review_time,
+          is_deleted,
+          status,
+          creation_time,
+          create_by,
+    </sql>
+
+    <!-- 多表页面信息查询分页 -->
+    <select id="selectDataPage" parameterType="map" resultMap="BaseResultMap">
+
+        SELECT
+            <include refid="BaseClounmSql"></include>
+        FROM
+            exam_report_review
+
+    </select>
+
+
+    <!-- 待解读报告-->
+    <select id="selectReport" parameterType="map" resultMap="BaseResultMap1">
+        SELECT
+			eir.BRXM,-- 报告人
+			eir.BRXB,-- 性别
+			eir.BGLX,-- 报告类型
+			eirc.JGPD,-- 报告状态
+			eirc.XMMC,-- 报告所属项目
+			eir.SHSJ,-- 报告生成时间
+			err.status-- 报告状态
+        FROM exam_report_review as err
+        LEFT JOIN exam_inspect_report as eir ON err.report_no=eir.report_no
+        LEFT JOIN exam_inspect_report_clinic as eirc ON eir.id=eirc.inspect_report_id
+        WHERE err.review_no=#{params.reviewNo}
+        <if test="params.status==0 or params.status==1">
+            and err.status=#{params.status}
+        </if>
+        <if test="params.JGPD==1">
+            and eirc.JGPD='N'
+        </if>
+        <if test="params.JGPD==2">
+            and eirc.JGPD!='N'
+        </if>
+
+
+    </select>
+
+</mapper>
