@@ -27,5 +27,12 @@ public interface ISysDoctorService extends IService<SysDoctor> {
 
     SysDoctor getDoctor(Map<String,Object> params);
 
+    /**
+      * @Description:家庭医生详情
+      * @Author: wh
+      * @Date: 2019/6/26 15:52
+      */
+    SysDoctor selectByDoctorNoAndUserId(String doctorNo,String userId);
+
 }
 

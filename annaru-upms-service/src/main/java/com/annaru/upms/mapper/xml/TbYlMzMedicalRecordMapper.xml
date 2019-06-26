@@ -58,6 +58,27 @@
        WHERE YLJGDM=#{yljgdm} AND JZLSH=#{jzlsh}
     </select>
 
+    <!-- 根据卡号分页查询就诊记录 -->
+    <select id="getJzjlPage" parameterType="map" resultMap="BaseResultMapList">
+        SELECT
+        r.CSID,
+        h.HOSPITAL_NAME,
+        r.ZZYSXM,
+        r.JZKSMC,
+        r.JZZDSM,
+        r.JZLX,
+        SUBSTR (r.JZKSRQ, 0, 10) AS JZKSRQ
+        FROM
+        TB_YL_MZ_Medical_Record r
+        LEFT JOIN TB_HOSPITAL h ON r.YLJGDM = h.HOSPITAL_ID
+        WHERE
+            <if test="params.kh != null and params.kh != ''">
+                  r.KH =  #{params.kh}
+            </if>
+        AND (select add_months(sysdate,-12) from dual) > to_date(substr(r.JZKSRQ,1,10),'yyyy-mm-dd')
+
+    </select>
+
     <!-- 根据卡号查询就诊记录 -->
     <select id="getJzjl" parameterType="map" resultMap="BaseResultMapList">
         SELECT

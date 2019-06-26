@@ -208,19 +208,19 @@
         LEFT JOIN user_basic as ub ON eha.user_id=ub.user_id
 		LEFT JOIN order_main as om ON eha.order_no=om.order_no
 		LEFT JOIN exam_user_healthy_appraisal as euha ON euha.order_no=eha.order_no
-        WHERE eha.related_no=#{relatedNo} and eha.pkg_main_id=8 and eha.pkg_detail_id=801 and eha.is_deleted = 0
-        <if test="status==0 or status==1">
-            and eha.status=#{status}
+        WHERE eha.related_no=#{params.relatedNo} and eha.pkg_main_id=8 and eha.pkg_detail_id=801 and eha.is_deleted = 0
+        <if test="params.status==0 or params.status==1">
+            and eha.status=#{params.status}
         </if>
-        <if test="isSubmitted==0">
-            and euha.is_submitted=#{isSubmitted}
+        <if test="params.isSubmitted==0">
+            and euha.is_submitted=#{params.isSubmitted}
         </if>
 
     </select>
     <update id="updateByOderNo">
         UPDATE entity_healthy_appointment
         SET is_deleted = 1
-        where order_no = #{orderNo}
+        where order_no = #{orderNo} and status=1
     </update>
 
 </mapper>
