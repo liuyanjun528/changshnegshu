@@ -63,7 +63,7 @@ public class OrderMainVoZTC implements Serializable {
 	private List<OrderMainVoZTC2> orderMainVoZTC2List;
 	private List<OrderMainVoZTC3> orderMainVoZTC3List;
 	private List<OrderMainVoZTC4> orderMainVoZTC4List;
-
+	private List<OrderMainVoZTC6> orderMainVoZTC6List;
 
 	public Integer getSysId() {
 		return sysId;
@@ -139,6 +139,12 @@ public class OrderMainVoZTC implements Serializable {
 	}
 	public void setOrderMainVoZTC4List(List<OrderMainVoZTC4> orderMainVoZTC4List) {
 		this.orderMainVoZTC4List = orderMainVoZTC4List;
+	}
+	public List<OrderMainVoZTC6> getOrderMainVoZTC6List() {
+		return orderMainVoZTC6List;
+	}
+	public void setOrderMainVoZTC6List(List<OrderMainVoZTC6> orderMainVoZTC6List) {
+		this.orderMainVoZTC6List = orderMainVoZTC6List;
 	}
 
 	@Override

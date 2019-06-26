@@ -28,6 +28,7 @@ public interface IOrderMainService extends IService<OrderMain> {
     /**
      * 查询我的订单列表
      * @param params
+     * @author zk
      * @return
      */
     PageUtils selectOrderPage(Map <String, Object> params);
@@ -35,6 +36,7 @@ public interface IOrderMainService extends IService<OrderMain> {
     /**
      * 查询套餐订单详情
      * @param params
+     * @author zk
      * @return
      */
     List<OrderMainVoZTC> selectPackageOrder(Map<String, Object> params);
@@ -42,6 +44,7 @@ public interface IOrderMainService extends IService<OrderMain> {
     /**
      * 查询自费(进阶)订单详情
      * @param params
+     * @author zk
      * @return
      */
     List<OrderMainVoZZF> selectPackageAdvance(Map<String, Object> params);
@@ -49,6 +52,7 @@ public interface IOrderMainService extends IService<OrderMain> {
     /**
      * 查询门诊绿通订单详情
      * @param params
+     * @author zk
      * @return
      */
     List<OrderMainVoZMzlt> selectPackageGreen(Map<String, Object> params);

@@ -33,12 +33,13 @@
         <result column="label" property="label" />
         <result column="suite_gender" property="suiteGender" />
         <result column="countPsersion" property="countPsersion"/>
-        <collection property="examPackageDetailList" ofType="com.annaru.upms.entity.ExamPackageDetail">
-            <result column="sys_id" property="sysId" />
-            <result column="exam_main_id" property="examMainId" />
-            <result column="exam_master_id" property="examMasterId" />
-            <result column="exam_detail_id" property="examDetailId" />
-        </collection>
+        <result column="imageUrl" property="imageUrl"/>
+        <!--<collection property="examPackageDetailList" ofType="com.annaru.upms.entity.ExamPackageDetail">-->
+            <!--<result column="sys_id" property="sysId" />-->
+            <!--<result column="exam_main_id" property="examMainId" />-->
+            <!--<result column="exam_master_id" property="examMasterId" />-->
+            <!--<result column="exam_detail_id" property="examDetailId" />-->
+        <!--</collection>-->
     </resultMap>
 
     <resultMap id="selectInfoBySysIdVo" type="com.annaru.upms.entity.vo.ExamPackageMainVo" >
@@ -79,6 +80,7 @@
         <result column="suiteGender" property="suiteGender" />
         <result column="countPsersion" property="countPsersion"/>
         <result column="countDetail" property="countDetail"/>
+        <result column="imageUrl" property="imageUrl"/>
         <collection property="examPackageMainVoZsfwZList" ofType="com.annaru.upms.entity.vo.ExamPackageMainVoZsfwZ">
             <result column="serviceName" property="serviceName"/>
             <result column="periods" property="periods"/>
@@ -109,7 +111,9 @@
                 age_to,
                 label,
                 suite_gender,
-                op.count_person countPsersion
+                op.count_person countPsersion,
+                epm.image_url imageUrl
+
         FROM
             exam_package_main epm
         LEFT JOIN exam_package_detail epd ON epd.exam_main_id = epm.sys_id
@@ -216,7 +220,8 @@
         em3.remark,
         em3.remark1,
         epa.periods periods,
-        ea.cates eaCates
+        ea.cates eaCates,
+        epm.image_url imageUrl
         FROM
         exam_package_main epm
         LEFT JOIN (

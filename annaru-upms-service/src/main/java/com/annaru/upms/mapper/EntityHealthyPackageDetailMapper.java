@@ -24,5 +24,12 @@ public interface EntityHealthyPackageDetailMapper extends BaseMapper<EntityHealt
     */
     IPage<EntityHealthyPackageDetail> selectDataPage(Page page, @Param("params") Map<String, Object> params);
 
+    /**
+     * 根据userId得到这个企业健康服务详细
+     * @author zk
+     * @param userId
+     * @return
+     */
+    List<EntityHealthyPackageDetail> getEyHyPeDlByUserId(@Param("userId") String userId);
 
 }

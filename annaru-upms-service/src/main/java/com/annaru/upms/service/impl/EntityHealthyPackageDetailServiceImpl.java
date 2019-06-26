@@ -30,4 +30,9 @@ public class EntityHealthyPackageDetailServiceImpl extends ServiceImpl<EntityHea
         return new PageUtils<EntityHealthyPackageDetail>(iPage);
     }
 
+    @Override
+    public List<EntityHealthyPackageDetail> getEyHyPeDlByUserId(String userId) {
+        return this.baseMapper.getEyHyPeDlByUserId(userId);
+    }
+
 }

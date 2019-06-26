@@ -40,7 +40,6 @@
     <!-- 多表页面信息查询分页 -->
     <select id="selectDataPage" parameterType="map" resultMap="BaseResultMap">
         SELECT
-              sys_id,
               user_id,
               user_cate,
               appointment_cates,
@@ -55,7 +54,6 @@
               edit_by
         FROM
         sys_doctor_nurse_oppointment
-        1=1
             <if test="params.userId != null and params.userId != ''">
                 WHERE user_id = #{params.userId}
             </if>

@@ -57,6 +57,22 @@ public class EntityHealthyPackageDetailController extends BaseController {
 
 
     /**
+     * @descirption 根据userId得到这个企业健康服务详细
+     */
+    @ApiOperation(value = "根据userId得到这个企业健康服务详细", notes = "根据userId得到这个企业健康服务详细")
+    @GetMapping("/getEyHyPeDlByUserId")
+    @RequiresPermissions("upms/entityHealthyPackageDetail/getEyHyPeDlByUserId")
+    public ResultMap getEyHyPeDlByUserId(@RequestParam(required = true) String userId){
+        try {
+            List<EntityHealthyPackageDetail> entityHealthyPackageDetailList = entityHealthyPackageDetailService.getEyHyPeDlByUserId(userId);
+            return ResultMap.ok().put("data",entityHealthyPackageDetailList);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return ResultMap.error("运行异常，请联系管理员");
+        }
+    }
+
+    /**
      * 信息
      */
     @ApiOperation(value = "查看详情", notes = "查看upms详情")

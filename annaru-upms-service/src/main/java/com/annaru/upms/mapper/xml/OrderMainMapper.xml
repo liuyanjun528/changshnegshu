@@ -115,6 +115,9 @@
         <collection property="orderMainVoZTC4List" ofType="com.annaru.upms.entity.vo.OrderMainVoZTC4">
             <result column="customerName" property="customerName"/>
         </collection>
+        <collection property="orderMainVoZTC5List" ofType="com.annaru.upms.entity.vo.OrderMainVoZTC5">
+            <result column="fullName" property="fullName"/>
+        </collection>
     </resultMap>
 
     <!-- 通用查询映射结果 套餐订单详情 -->
@@ -143,6 +146,9 @@
         </collection>
         <collection property="orderMainVoZTC4List" ofType="com.annaru.upms.entity.vo.OrderMainVoZTC4">
             <result column="customerName" property="customerName"/>
+        </collection>
+        <collection property="orderMainVoZTC6List" ofType="com.annaru.upms.entity.vo.OrderMainVoZTC6">
+            <result column="fullName1" property="fullName1"/>
         </collection>
     </resultMap>
 
@@ -245,6 +251,7 @@
         om.order_no orderNo,
         om.order_time orderTime,
         ur.relative_name customerName,
+        ub.full_name fullName,
 
         epm.package_name packageName,
         oex.exam_master_item examMasterItem,
@@ -258,6 +265,7 @@
         LEFT JOIN order_additional_info oai ON oai.order_no = om.order_no
         LEFT JOIN order_customer oc ON oc.order_no = om.order_no
         LEFT JOIN user_relatives ur ON ur.relative_id = oc.relative_id
+        LEFT JOIN user_basic ub ON ub.user_id = oc.relative_id
         LEFT JOIN exam_package_main epm ON epm.sys_id = om.reference_no
         LEFT JOIN order_extension_exam oex ON oex.order_no = om.order_no
         WHERE
@@ -286,7 +294,8 @@
         ub.full_name fullName,
         om.total_qty totalQty,
         ur.relative_name customerName,
-        om.status
+        ub1.full_name fullName1,
+        om.status,
         (SELECT SUM(ed.sys_id) FROM exam_detail ed WHERE ed.sys_id = epd.exam_detail_id ) itemNameCount
         FROM
         order_main om
@@ -299,6 +308,7 @@
         LEFT JOIN user_basic ub ON ub.user_id = om.user_id
         LEFT JOIN order_customer oc ON oc.order_no = om.order_no
         LEFT JOIN user_relatives ur ON ur.relative_id = oc.relative_id
+        LEFT JOIN user_basic ub1 ON ub.user_id = oc.relative_id
         WHERE
         1=1 AND om.is_deleted = 0
         <if test="params.sysId != null and params.sysId != ''">
