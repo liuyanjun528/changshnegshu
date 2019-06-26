@@ -17,19 +17,19 @@ import java.util.Map;
 public interface ITbYlMzMedicalRecordService extends IService<TbYlMzMedicalRecord> {
 
     /**
-     * 根据卡号分页查询就诊记录
-     * @param params
-     * @return
-     */
-    PageUtils getJzjlPage(Map<String, Object> params);
-
-    /**
      * 根据原主键获取对象
      * @param yljgdm 医疗机构代码
      * @param jzlsh	 门诊就诊流水号
      * @return
      */
     TbYlMzMedicalRecord getYlMzMedicalRecord(String yljgdm, String jzlsh);
+
+    /**
+     * 根据卡号分页查询就诊记录
+     * @param params
+     * @return
+     */
+    PageUtils getJzjlPage(Map<String, Object> params);
 
     /**
      * 根据卡号查询就诊记录

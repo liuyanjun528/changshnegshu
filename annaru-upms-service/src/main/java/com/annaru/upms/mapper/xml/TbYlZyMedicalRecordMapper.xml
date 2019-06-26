@@ -43,6 +43,26 @@
     </select>
 
     <!-- 根据卡号查询就诊记录 -->
+    <select id="getJyjlPage" parameterType="map" resultMap="BaseResultMapList">
+        SELECT
+        r.CSID,
+        h.HOSPITAL_NAME,
+        r.HZXM,
+        r.JZKSMC,
+        SUBSTR (r.RYSJ, 0, 10) AS RYSJ,
+        SUBSTR (r.CYSJ, 0, 10) AS CYSJ
+        FROM
+        TB_YL_ZY_MEDICAL_RECORD r
+        LEFT JOIN TB_HOSPITAL h ON r.YLJGDM = h.HOSPITAL_ID
+        WHERE
+        WHERE
+        <if test="params.kh != null and params.kh != ''">
+            r.KH =  #{params.kh}
+        </if>
+        AND (select add_months(sysdate,-12) from dual) > to_date(substr(r.RYSJ,1,10),'yyyy-mm-dd')
+    </select>
+
+    <!-- 根据卡号查询就诊记录 -->
     <select id="getJyjl" parameterType="map" resultMap="BaseResultMapList">
         SELECT
         r.CSID,

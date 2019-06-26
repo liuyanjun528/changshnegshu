@@ -1,11 +1,13 @@
 package com.annaru.upms.service;
 
+import com.annaru.common.result.PageUtils;
 import com.annaru.upms.entity.medical.TbLisReport;
 import com.annaru.upms.entity.medical.vo.TbLisReportDetailVo;
 import com.annaru.upms.entity.medical.vo.TbLisReportListVo;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * tb_lis_indicators(实验室检验报告表)
@@ -22,6 +24,13 @@ public interface ITbLisReportService extends IService<TbLisReport> {
      * @return
      */
     TbLisReport getLisReport(String yljgdm, String bgdh, String bgrq);
+
+    /**
+     * 根据卡号分页查询检验报告
+     * @param params
+     * @return
+     */
+    PageUtils getJybgPage(Map<String, Object> params);
 
     /**
      * 根据卡号查询检验报告
