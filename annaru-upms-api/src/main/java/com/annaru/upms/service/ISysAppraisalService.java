@@ -31,6 +31,7 @@ public interface ISysAppraisalService extends IService<SysAppraisal> {
      */
     List<SysAppraisal> selectStart(String userId);
 
+    SysAppraisal selectOne(Map<String, Object> params);
 
 }
 
