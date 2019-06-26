@@ -27,5 +27,8 @@ public interface SysDoctorMapper extends BaseMapper<SysDoctor> {
 
     SysDoctorVo getOne(@Param("params") Map <String, Object> params);
 
+    /**
+     * @author zk
+     */
     SysDoctor getDoctor(@Param("params") Map <String, Object> params);
 }

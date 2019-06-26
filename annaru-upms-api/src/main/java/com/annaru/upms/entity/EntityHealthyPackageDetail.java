@@ -73,7 +73,7 @@ public class EntityHealthyPackageDetail extends Model<EntityHealthyPackageDetail
 	@TableField("creation_time")
 	private Date creationTime;
 	@TableField("create_by")
-	private Integer createBy;
+	private String createBy;
 
     /**
      * 获取：系统编号
@@ -177,10 +177,10 @@ public class EntityHealthyPackageDetail extends Model<EntityHealthyPackageDetail
 	public void setCreationTime(Date creationTime) {
 		this.creationTime = creationTime;
 	}
-    public Integer getCreateBy() {
+    public String getCreateBy() {
         return createBy;
     }
-	public void setCreateBy(Integer createBy) {
+	public void setCreateBy(String createBy) {
 		this.createBy = createBy;
 	}
 

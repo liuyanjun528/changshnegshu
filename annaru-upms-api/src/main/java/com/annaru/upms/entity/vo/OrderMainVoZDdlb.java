@@ -62,6 +62,7 @@ public class OrderMainVoZDdlb implements Serializable {
 
 	private List<OrderMainVoZTC3> orderMainVoZTC3List;
 	private List<OrderMainVoZTC4> orderMainVoZTC4List;
+	private List<OrderMainVoZTC5> orderMainVoZTC5List;
 
 	public Integer getStatus() {
 		return status;
@@ -125,6 +126,12 @@ public class OrderMainVoZDdlb implements Serializable {
 	}
 	public void setOrderMainVoZTC4List(List<OrderMainVoZTC4> orderMainVoZTC4List) {
 		this.orderMainVoZTC4List = orderMainVoZTC4List;
+	}
+	public List<OrderMainVoZTC5> getOrderMainVoZTC5List() {
+		return orderMainVoZTC5List;
+	}
+	public void setOrderMainVoZTC5List(List<OrderMainVoZTC5> orderMainVoZTC5List) {
+		this.orderMainVoZTC5List = orderMainVoZTC5List;
 	}
 
 	@Override
