@@ -22,7 +22,7 @@ public interface EntityHealthyAppointmentMapper extends BaseMapper<EntityHealthy
     * 我的患者--》企业用户信息分页查询
     * @param page
     * @param params
-    * @return
+    * @Author: wh
     */
     IPage<EntityHealthyAppointment> selectDataPage(Page page, @Param("params") Map<String, Object> params);
 
@@ -60,12 +60,12 @@ public interface EntityHealthyAppointmentMapper extends BaseMapper<EntityHealthy
       * @Author: wh
       * @Date: 2019/6/20 11:36
       */
-    List<EntityHealthyAppointmentVo> selectUpDoorServer(@Param("status") int status,@Param("relatedNo") String relatedNo,@Param("isSubmitted") int isSubmitted);
+    IPage<EntityHealthyAppointmentVo> selectUpDoorServer(Page page, @Param("params") Map<String, Object> params);
 
     /**
      * 删除订单
      * @param orderNo
-     * @return
+     * @Author: jyh
      */
     Integer updateByOderNo(@Param("orderNo") String orderNo);
 

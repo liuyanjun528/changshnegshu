@@ -70,15 +70,27 @@ public class EntityHealthyAppointmentController extends BaseController {
      */
     @ApiOperation(value = "待上门服务列表", notes = "待上门服务列表")
     @GetMapping("/selectUpDoorList")
-    public ResultMap selectUpDoorList(Integer status, String relatedNo, Integer isSubmitted){
+    public ResultMap selectUpDoorList(
+            @ApiParam(value = "当前页", defaultValue="1")@RequestParam(required = false) int page,
+            @ApiParam(value = "每页数量", defaultValue = "10")@RequestParam(required = false) int limit,
+            @ApiParam(value = "医生编号")@RequestParam(required = false)String relatedNo,
+            @ApiParam(value = "带服务/已完成")@RequestParam(required = false)Integer status,
+            @ApiParam(value = "待评估")@RequestParam(required = false)Integer isSubmitted){
         if(status==null){
             status=100;
         }
         if(isSubmitted==null){
             isSubmitted=100;
         }
-        List<EntityHealthyAppointmentVo> entityHealthyAppointmentVos = entityHealthyAppointmentService.selectUpDoorServer(status, relatedNo, isSubmitted);
-        return ResultMap.ok().put("data",entityHealthyAppointmentVos);
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("page",page);
+        params.put("limit", limit);
+        params.put("relatedNo", relatedNo);
+        params.put("status", status);
+        params.put("isSubmitted", isSubmitted);
+        PageUtils<Map<String, Object>> pageList = entityHealthyAppointmentService.selectUpDoorServer(params);
+        return ResultMap.ok().put("data",pageList);
     }
 
 

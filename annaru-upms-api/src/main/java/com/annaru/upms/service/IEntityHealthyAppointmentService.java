@@ -56,7 +56,7 @@ public interface IEntityHealthyAppointmentService extends IService<EntityHealthy
      * @Author: wh
      * @Date: 2019/6/20 11:36
      */
-    List<EntityHealthyAppointmentVo> selectUpDoorServer(int status,String relatedNo,int isSubmitted);
+    PageUtils selectUpDoorServer(Map<String, Object> params);
 
     /**
      * 删除订单

@@ -41,4 +41,9 @@ public class SysDoctorServiceImpl extends ServiceImpl<SysDoctorMapper, SysDoctor
         return this.baseMapper.getDoctor(params);
     }
 
+    @Override
+    public SysDoctor selectByDoctorNoAndUserId(String doctorNo, String userId) {
+        return this.baseMapper.selectByDoctorNoAndUserId(doctorNo, userId);
+    }
+
 }
