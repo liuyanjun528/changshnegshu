@@ -1,11 +1,13 @@
 package com.annaru.upms.service;
 
+import com.annaru.common.result.PageUtils;
 import com.annaru.upms.entity.medical.TbYlMzMedicalRecord;
 import com.annaru.upms.entity.medical.vo.TbYlMzMedicalRecordDetailVo;
 import com.annaru.upms.entity.medical.vo.TbYlMzMedicalRecordListVo;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * tb_yl_mz_medical_record(门诊就诊记录表)
@@ -13,6 +15,13 @@ import java.util.List;
  * @date 2019-05-09 11:14:28
  */
 public interface ITbYlMzMedicalRecordService extends IService<TbYlMzMedicalRecord> {
+
+    /**
+     * 根据卡号分页查询就诊记录
+     * @param params
+     * @return
+     */
+    PageUtils getJzjlPage(Map<String, Object> params);
 
     /**
      * 根据原主键获取对象

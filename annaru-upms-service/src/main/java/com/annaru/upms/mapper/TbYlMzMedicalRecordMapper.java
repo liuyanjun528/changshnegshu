@@ -1,12 +1,16 @@
 package com.annaru.upms.mapper;
 
+import com.annaru.upms.entity.UserAddress;
 import com.annaru.upms.entity.medical.TbYlMzMedicalRecord;
 import com.annaru.upms.entity.medical.vo.TbYlMzMedicalRecordDetailVo;
 import com.annaru.upms.entity.medical.vo.TbYlMzMedicalRecordListVo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * tb_yl_mz_medical_record(门诊就诊记录表)
@@ -14,6 +18,13 @@ import java.util.List;
  * @date 2019-05-09 11:14:28
  */
 public interface TbYlMzMedicalRecordMapper extends BaseMapper<TbYlMzMedicalRecord> {
+
+    /**
+     * 根据卡号分页查询就诊记录
+     * @param params
+     * @return
+     */
+    IPage<TbYlMzMedicalRecordListVo> getJzjlPage(Page page, @Param("params") Map<String, Object> params);
 
     /**
      * 根据原主键获取对象
