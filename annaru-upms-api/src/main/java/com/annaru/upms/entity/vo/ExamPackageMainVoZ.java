@@ -15,6 +15,10 @@ public class ExamPackageMainVoZ implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	/**
+	 * 检查项目名称
+	 */
+	private String emName;
+	/**
 	 * 检查项目详情名称
 	 */
 	private String edItemName;
@@ -34,6 +38,12 @@ public class ExamPackageMainVoZ implements Serializable {
 	}
 	public void setAbstracts(String abstracts) {
 		this.abstracts = abstracts;
+	}
+	public String getEmName() {
+		return emName;
+	}
+	public void setEmName(String emName) {
+		this.emName = emName;
 	}
 
 	@Override

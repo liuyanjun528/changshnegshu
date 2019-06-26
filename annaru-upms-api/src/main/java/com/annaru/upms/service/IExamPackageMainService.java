@@ -1,6 +1,7 @@
 package com.annaru.upms.service;
 
 import com.annaru.upms.entity.vo.ExamPackageMainVo;
+import com.annaru.upms.entity.vo.ExamPackageMainVoTcxqZ;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.annaru.common.result.PageUtils;
 import com.annaru.upms.entity.ExamPackageMain;
@@ -34,7 +35,7 @@ public interface IExamPackageMainService extends IService<ExamPackageMain> {
      * @param params
      * @return
      */
-    List<ExamPackageMainVo> selectInfoBySysIdZ(Map <String, Object> params);
+    List<ExamPackageMainVoTcxqZ> selectInfoBySysIdZ(Map <String, Object> params);
 
     /**
      * wh查询全部套餐

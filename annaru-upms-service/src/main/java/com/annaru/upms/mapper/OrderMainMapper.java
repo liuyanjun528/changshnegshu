@@ -1,10 +1,7 @@
 package com.annaru.upms.mapper;
 
 import com.annaru.upms.entity.OrderMain;
-import com.annaru.upms.entity.vo.AppendOrderMain;
-import com.annaru.upms.entity.vo.OrderExtensionInfoVo;
-import com.annaru.upms.entity.vo.OrderInfoVo;
-import com.annaru.upms.entity.vo.UserPackagesVo;
+import com.annaru.upms.entity.vo.*;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -35,28 +32,28 @@ public interface OrderMainMapper extends BaseMapper<OrderMain> {
      * @param params
      * @return
      */
-    IPage<OrderMain> selectOrderPage(Page page, @Param("params") Map <String, Object> params);
+    IPage<OrderMainVoZDdlb> selectOrderPage(Page page, @Param("params") Map <String, Object> params);
 
     /**
      * 多表页面信息查询 ，查询套餐订单详情
      * @param params
      * @return
      */
-    List<OrderMain> selectPackageOrder(@Param("params") Map <String, Object> params);
+    List<OrderMainVoZTC> selectPackageOrder(@Param("params") Map <String, Object> params);
 
     /**
      * 多表页面信息查询 ，查询自费(进阶)订单详情
      * @param params
      * @return
      */
-    List<OrderMain> selectPackageAdvance(@Param("params") Map <String, Object> params);
+    List<OrderMainVoZZF> selectPackageAdvance(@Param("params") Map <String, Object> params);
 
     /**
      * 多表页面信息查询 ，查询门诊绿通订单详情
      * @param params
      * @return
      */
-    List<OrderMain> selectPackageGreen(@Param("params") Map <String, Object> params);
+    List<OrderMainVoZMzlt> selectPackageGreen(@Param("params") Map <String, Object> params);
 
     OrderMain getOrderNo(@Param("params") Map <String, Object> params);
 

@@ -2,6 +2,7 @@ package com.annaru.upms.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.annaru.common.base.BaseController;
+import com.annaru.common.result.PageUtils;
 import com.annaru.common.result.ResultMap;
 import com.annaru.upms.controllerutil.AppConst;
 import com.annaru.upms.entity.medical.vo.*;
@@ -86,12 +87,19 @@ public class TbMedicalController extends BaseController {
      * @param kh 卡号
      */
     @ApiOperation(value = "门诊记录列表")
-    @GetMapping("/getJzjl")
-    @RequiresPermissions("upms/medical/getJzjl")
-    public ResultMap getJzjl(@ApiParam(value = "身份证号", required = true) @RequestParam String kh) {
+    @GetMapping("/getJzjlPage")
+    @RequiresPermissions("upms/medical/getJzjlPage")
+    public ResultMap getJzjlPage(@ApiParam(value = "当前页")@RequestParam(defaultValue="1") int page,
+                             @ApiParam(value = "每页数量")@RequestParam(defaultValue = "10") int limit,
+                             @ApiParam(value = "身份证号", required = true) @RequestParam String kh) {
         try {
-            List<TbYlMzMedicalRecordListVo> listYlMzMedicalRecord = iTbYlMzMedicalRecordService.getJzjl(kh);
-            return ResultMap.ok().put("data",listYlMzMedicalRecord);
+            Map<String, Object> params = new HashMap<>();
+            params.put("page",page);
+            params.put("limit", limit);
+            params.put("kh", kh);
+            PageUtils<Map<String, Object>> pageList = iTbYlMzMedicalRecordService.getJzjlPage(params);
+
+            return ResultMap.ok().put("data",pageList);
         } catch (Exception e) {
             logger.error(e.getMessage());
             return ResultMap.error("运行异常，请联系管理员");
@@ -148,7 +156,9 @@ public class TbMedicalController extends BaseController {
     @ApiOperation(value = "住院记录列表")
     @GetMapping("/getJzjzjlList")
     @RequiresPermissions("upms/medical/getJzjzjlList")
-    public ResultMap getJzjzjlList(@ApiParam(value = "身份证号", required = true) @RequestParam String kh) {
+    public ResultMap getJzjzjlList(@ApiParam(value = "当前页")@RequestParam(defaultValue="1") int page,
+                                   @ApiParam(value = "每页数量")@RequestParam(defaultValue = "10") int limit,
+                                   @ApiParam(value = "身份证号", required = true) @RequestParam String kh) {
         try {
             List<TbYlZyMedicalRecordListVo> listYlZyMedicalRecord = iTbYlZyMedicalRecordService.getJyjl(kh);
             return ResultMap.ok().put("data",listYlZyMedicalRecord);
@@ -165,7 +175,9 @@ public class TbMedicalController extends BaseController {
     @ApiOperation(value = "检验报告列表")
     @GetMapping("/getJybgList")
     @RequiresPermissions("upms/medical/getJybgList")
-    public ResultMap getJybgList(@ApiParam(value = "身份证号", required = true) @RequestParam String kh) {
+    public ResultMap getJybgList(@ApiParam(value = "当前页")@RequestParam(defaultValue="1") int page,
+                                 @ApiParam(value = "每页数量")@RequestParam(defaultValue = "10") int limit,
+                                 @ApiParam(value = "身份证号", required = true) @RequestParam String kh) {
         try {
             List<TbLisReportListVo> listLisReport = iTbLisReportService.getJybg(kh);
             return ResultMap.ok().put("data",listLisReport);
@@ -206,7 +218,9 @@ public class TbMedicalController extends BaseController {
     @ApiOperation(value = "影像检查报告列表")
     @GetMapping("/getYxbgList")
     @RequiresPermissions("upms/medical/getYxbgList")
-    public ResultMap getYxbgList(@ApiParam(value = "身份证号", required = true) @RequestParam String kh) {
+    public ResultMap getYxbgList(@ApiParam(value = "当前页")@RequestParam(defaultValue="1") int page,
+                                 @ApiParam(value = "每页数量")@RequestParam(defaultValue = "10") int limit,
+                                 @ApiParam(value = "身份证号", required = true) @RequestParam String kh) {
         try {
             List<TbRisReportListVo> listRisReport = iTbRisReportService.getYxbg(kh);
             return ResultMap.ok().put("data",listRisReport);
@@ -224,7 +238,9 @@ public class TbMedicalController extends BaseController {
     @ApiOperation(value = "用药记录列表")
     @GetMapping("/getYyjl")
     @RequiresPermissions("upms/medical/getYyjl")
-    public ResultMap getYyjl(@ApiParam(value = "身份证号", required = true) @RequestParam String kh){
+    public ResultMap getYyjl(@ApiParam(value = "当前页")@RequestParam(defaultValue="1") int page,
+                             @ApiParam(value = "每页数量")@RequestParam(defaultValue = "10") int limit,
+                             @ApiParam(value = "身份证号", required = true) @RequestParam String kh) {
         try {
             Map<String, Object> map = new HashMap<>();
         /*if (StringUtils.isBlank(userId)) {

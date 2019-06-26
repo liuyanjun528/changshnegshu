@@ -7,10 +7,7 @@ import com.annaru.upms.entity.ExamPackageAppend;
 import com.annaru.upms.entity.OrderDetail;
 import com.annaru.upms.entity.OrderMain;
 import com.annaru.upms.entity.UserRelatives;
-import com.annaru.upms.entity.vo.AppendOrderMain;
-import com.annaru.upms.entity.vo.OrderExtensionInfoVo;
-import com.annaru.upms.entity.vo.OrderInfoVo;
-import com.annaru.upms.entity.vo.UserPackagesVo;
+import com.annaru.upms.entity.vo.*;
 import com.annaru.upms.mapper.OrderMainMapper;
 import com.annaru.upms.service.*;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -52,26 +49,26 @@ public class OrderMainServiceImpl extends ServiceImpl<OrderMainMapper, OrderMain
 
     @Override
     public PageUtils selectOrderPage(Map<String, Object> params) {
-        Page<OrderMain> page = new PageUtils<OrderMain>(params).getPage();
-        IPage<OrderMain> iPage = this.baseMapper.selectOrderPage(page, params);
-        return new PageUtils<OrderMain>(iPage);
+        Page<OrderMainVoZDdlb> page = new PageUtils<OrderMainVoZDdlb>(params).getPage();
+        IPage<OrderMainVoZDdlb> iPage = this.baseMapper.selectOrderPage(page, params);
+        return new PageUtils<OrderMainVoZDdlb>(iPage);
     }
 
     @Override
-    public List<OrderMain> selectPackageOrder(Map<String, Object> params) {
-        List<OrderMain> list = this.baseMapper.selectPackageOrder(params);
+    public List<OrderMainVoZTC> selectPackageOrder(Map<String, Object> params) {
+        List<OrderMainVoZTC> list = this.baseMapper.selectPackageOrder(params);
         return list;
     }
 
     @Override
-    public List<OrderMain> selectPackageAdvance(Map<String, Object> params) {
-        List<OrderMain> list = this.baseMapper.selectPackageAdvance(params);
+    public List<OrderMainVoZZF> selectPackageAdvance(Map<String, Object> params) {
+        List<OrderMainVoZZF> list = this.baseMapper.selectPackageAdvance(params);
         return list;
     }
 
     @Override
-    public List<OrderMain> selectPackageGreen(Map<String, Object> params) {
-        List<OrderMain> list = this.baseMapper.selectPackageGreen(params);
+    public List<OrderMainVoZMzlt> selectPackageGreen(Map<String, Object> params) {
+        List<OrderMainVoZMzlt> list = this.baseMapper.selectPackageGreen(params);
         return list;
     }
 

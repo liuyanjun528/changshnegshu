@@ -1,15 +1,19 @@
 package com.annaru.upms.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.annaru.common.result.PageUtils;
 import com.annaru.upms.entity.medical.TbYlMzMedicalRecord;
 import com.annaru.upms.entity.medical.vo.TbYlMzMedicalRecordDetailVo;
 import com.annaru.upms.entity.medical.vo.TbYlMzMedicalRecordListVo;
 import com.annaru.upms.mapper.TbYlMzMedicalRecordMapper;
 import com.annaru.upms.service.ITbYlMzMedicalRecordService;
 import com.baomidou.dynamic.datasource.annotation.DS;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * tb_yl_mz_medical_record(门诊就诊记录表)
@@ -18,6 +22,19 @@ import java.util.List;
  */
 @Service
 public class TbYlMzMedicalRecordServiceImpl extends ServiceImpl<TbYlMzMedicalRecordMapper, TbYlMzMedicalRecord> implements ITbYlMzMedicalRecordService {
+
+    /**
+     * 根据卡号分页查询就诊记录
+     * @param params
+     * @return
+     */
+    @Override
+    @DS("oracle")
+    public PageUtils getJzjlPage(Map<String, Object> params){
+        Page<TbYlMzMedicalRecordListVo> page = new PageUtils<TbYlMzMedicalRecordListVo>(params).getPage();
+        IPage<TbYlMzMedicalRecordListVo> iPage = this.baseMapper.getJzjlPage(page, params);
+        return new PageUtils<TbYlMzMedicalRecordListVo>(iPage);
+    }
 
     /**
      * 根据原主键获取对象

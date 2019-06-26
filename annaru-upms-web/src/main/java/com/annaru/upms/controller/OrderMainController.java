@@ -7,6 +7,9 @@ import com.annaru.common.result.PageUtils;
 import com.annaru.common.result.ResultMap;
 import com.annaru.upms.controllerutil.SysConfigUtil;
 import com.annaru.upms.entity.*;
+import com.annaru.upms.entity.vo.OrderMainVoZMzlt;
+import com.annaru.upms.entity.vo.OrderMainVoZTC;
+import com.annaru.upms.entity.vo.OrderMainVoZZF;
 import com.annaru.upms.entity.vo.AppendOrderMain;
 import com.annaru.upms.im.rong.models.Result;
 import com.annaru.upms.service.*;
@@ -183,7 +186,7 @@ public class OrderMainController extends BaseController {
     public ResultMap selectPackageOrder(@PathVariable("sysId") Integer sysId){
         Map<String, Object> params = new HashMap<>();
         params.put("sysId", sysId);
-        List<OrderMain> orderMainList = orderMainService.selectPackageOrder(params);
+        List<OrderMainVoZTC> orderMainList = orderMainService.selectPackageOrder(params);
         return ResultMap.ok().put("data",orderMainList);
     }
 
@@ -198,7 +201,7 @@ public class OrderMainController extends BaseController {
     public ResultMap selectPackageAdvance(@PathVariable("sysId") Integer sysId){
         Map<String, Object> params = new HashMap<>();
         params.put("sysId", sysId);
-        List<OrderMain> orderMainList = orderMainService.selectPackageAdvance(params);
+        List<OrderMainVoZZF> orderMainList = orderMainService.selectPackageAdvance(params);
         return ResultMap.ok().put("data",orderMainList);
     }
 
@@ -213,7 +216,7 @@ public class OrderMainController extends BaseController {
     public ResultMap selectPackageGreen(@PathVariable("sysId") Integer sysId){
         Map<String, Object> params = new HashMap<>();
         params.put("sysId", sysId);
-        List<OrderMain> orderMainList = orderMainService.selectPackageGreen(params);
+        List<OrderMainVoZMzlt> orderMainList = orderMainService.selectPackageGreen(params);
         return ResultMap.ok().put("data",orderMainList);
     }
 

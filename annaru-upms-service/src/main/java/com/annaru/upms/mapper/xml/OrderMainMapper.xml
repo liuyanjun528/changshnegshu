@@ -97,6 +97,100 @@
         <result column="parentNo" property="parentNo" />
     </resultMap>
 
+    <!-- 通用查询映射结果 订单列表分页 -->
+    <resultMap id="advanceBaseResultMapZDdlb" type="com.annaru.upms.entity.vo.OrderMainVoZDdlb" >
+        <result column="sysId" property="sysId" />
+        <result column="orderNo" property="orderNo" />
+        <result column="orderTime" property="orderTime" />
+        <result column="packageName" property="packageName" />
+        <result column="appointmentCates" property="appointmentCates" />
+        <result column="option_1" property="option_1" />
+        <result column="parentNo" property="parentNo" />
+        <result column="status" property="status" />
+        <result column="amount" property="amount" />
+
+        <collection property="orderMainVoZTC3List" ofType="com.annaru.upms.entity.vo.OrderMainVoZTC3">
+            <result column="examMasterItem" property="examMasterItem"/>
+        </collection>
+        <collection property="orderMainVoZTC4List" ofType="com.annaru.upms.entity.vo.OrderMainVoZTC4">
+            <result column="customerName" property="customerName"/>
+        </collection>
+    </resultMap>
+
+    <!-- 通用查询映射结果 套餐订单详情 -->
+    <resultMap id="advanceBaseResultMapTcZ" type="com.annaru.upms.entity.vo.OrderMainVoZTC" >
+        <result column="sysId" property="sysId" />
+        <result column="orderNo" property="orderNo" />
+        <result column="packageName" property="packageName" />
+        <result column="subtitle" property="subtitle" />
+        <result column="content" property="content" />
+        <result column="amount" property="amount" />
+        <result column="fullName" property="fullName" />
+        <result column="totalQty" property="totalQty" />
+        <result column="status" property="status" />
+
+        <collection property="orderMainVoZTC1List" ofType="com.annaru.upms.entity.vo.OrderMainVoZTC1">
+            <result column="serviceName" property="serviceName"/>
+            <result column="periods" property="periods"/>
+            <result column="cates" property="cates"/>
+        </collection>
+        <collection property="orderMainVoZTC2List" ofType="com.annaru.upms.entity.vo.OrderMainVoZTC2">
+            <result column="emName" property="emName"/>
+            <result column="itemNameCount" property="itemNameCount"/>
+        </collection>
+        <collection property="orderMainVoZTC3List" ofType="com.annaru.upms.entity.vo.OrderMainVoZTC3">
+            <result column="examMasterItem" property="examMasterItem"/>
+        </collection>
+        <collection property="orderMainVoZTC4List" ofType="com.annaru.upms.entity.vo.OrderMainVoZTC4">
+            <result column="customerName" property="customerName"/>
+        </collection>
+    </resultMap>
+
+    <!-- 通用查询映射结果 自费订单详情 -->
+    <resultMap id="advanceBaseResultMapZfZ" type="com.annaru.upms.entity.vo.OrderMainVoZZF" >
+        <result column="sysId" property="sysId" />
+        <result column="orderNo" property="orderNo" />
+        <result column="status" property="status" />
+        <result column="customerName" property="customerName" />
+        <result column="idNo" property="idNo" />
+        <result column="gender" property="gender" />
+        <result column="cellphoneNo1" property="cellphoneNo1" />
+        <result column="cardCates" property="cardCates" />
+        <result column="cardNo" property="cardNo" />
+        <result column="siName" property="siName" />
+        <result column="timeFrom" property="timeFrom" />
+        <result column="timeTo" property="timeTo" />
+        <result column="orderTime" property="orderTime" />
+        <result column="userChannel" property="userChannel" />
+        <result column="amount" property="amount" />
+
+        <collection property="orderMainVoZTC3List" ofType="com.annaru.upms.entity.vo.OrderMainVoZTC3">
+            <result column="examMasterItem" property="examMasterItem"/>
+        </collection>
+    </resultMap>
+
+    <!-- 通用查询映射结果 门诊绿通订单详情 -->
+    <resultMap id="advanceBaseResultMapMzltZ" type="com.annaru.upms.entity.vo.OrderMainVoZMzlt" >
+        <result column="sysId" property="sysId" />
+        <result column="orderNo" property="orderNo" />
+        <result column="status" property="status" />
+        <result column="customerName" property="customerName" />
+        <result column="idNo" property="idNo" />
+        <result column="gender" property="gender" />
+        <result column="cellphoneNo1" property="cellphoneNo1" />
+        <result column="cardCates" property="cardCates" />
+        <result column="cardNo" property="cardNo" />
+        <result column="siName" property="siName" />
+        <result column="timeFrom" property="timeFrom" />
+        <result column="timeTo" property="timeTo" />
+        <result column="orderTime" property="orderTime" />
+        <result column="userChannel" property="userChannel" />
+        <result column="amount" property="amount" />
+        <result column="departmentName" property="departmentName"/>
+        <result column="option_2" property="option_2"/>
+    </resultMap>
+
+
     <sql id="BaseColumn">
         sys_id,
         order_no,
@@ -144,7 +238,7 @@
     </select>
 
     <!-- 多表页面信息查询分页 -->
-    <select id="selectOrderPage" parameterType="map" resultMap="advanceBaseResultMap">
+    <select id="selectOrderPage" parameterType="map" resultMap="advanceBaseResultMapZDdlb">
 
         SELECT
         om.sys_id sysId,
@@ -154,10 +248,11 @@
 
         epm.package_name packageName,
         oex.exam_master_item examMasterItem,
-        oai.appointment_cates appointmentCates,
+        om.order_cates appointmentCates,
         oai.option_1 option_1,
         om.parent_no parentNo,
-        om.status
+        om.status,
+        oai.amount
 
         FROM order_main om
         LEFT JOIN order_additional_info oai ON oai.order_no = om.order_no
@@ -165,17 +260,16 @@
         LEFT JOIN user_relatives ur ON ur.relative_id = oc.relative_id
         LEFT JOIN exam_package_main epm ON epm.sys_id = om.reference_no
         LEFT JOIN order_extension_exam oex ON oex.order_no = om.order_no
-        LEFT JOIN order_payment op ON op.order_no = om.order_no
         WHERE
         1=1 AND om.is_deleted = 0
         <if test="params.status != null and params.status != ''">
             AND om.status = #{params.status}
         </if>
-
+        GROUP BY om.sys_id,ur.relative_name
     </select>
 
     <!-- 多表页面信息查询分页  套餐订单-->
-    <select id="selectPackageOrder" parameterType="map" resultMap="advanceBaseResultMap">
+    <select id="selectPackageOrder" parameterType="map" resultMap="advanceBaseResultMapTcZ">
 
         SELECT
         om.sys_id sysId,
@@ -186,13 +280,14 @@
         ea.service_name serviceName,
         epa.periods,
         ea.cates,
-        oai.amount,
+        om.amount,
         em.name emName,
-        ed.item_name itemName,
         oee.exam_master_item examMasterItem,
         ub.full_name fullName,
         om.total_qty totalQty,
-        ur.relative_name customerName
+        ur.relative_name customerName,
+        om.status
+        (SELECT SUM(ed.sys_id) FROM exam_detail ed WHERE ed.sys_id = epd.exam_detail_id ) itemNameCount
         FROM
         order_main om
         LEFT JOIN exam_package_main epm ON epm.sys_id = om.reference_no
@@ -200,8 +295,6 @@
         LEFT JOIN exam_append ea ON ea.sys_id = epa.append_id
         LEFT JOIN exam_package_detail epd ON epd.exam_main_id = epm.sys_id
         LEFT JOIN exam_master em ON em.sys_id = epd.exam_master_id
-        LEFT JOIN exam_detail ed ON ed.sys_id = epd.exam_detail_id
-        LEFT JOIN order_additional_info oai ON oai.order_no = om.order_no
         LEFT JOIN order_extension_exam oee ON oee.order_no = om.order_no
         LEFT JOIN user_basic ub ON ub.user_id = om.user_id
         LEFT JOIN order_customer oc ON oc.order_no = om.order_no
@@ -211,20 +304,21 @@
         <if test="params.sysId != null and params.sysId != ''">
             AND om.sys_id = #{params.sysId}
         </if>
+        GROUP BY em.name,ea.service_name,oee.exam_master_item,ur.relative_name
     </select>
 
     <!-- 多表页面信息查询分页  自费订单-->
-    <select id="selectPackageAdvance" parameterType="map" resultMap="advanceBaseResultMap">
+    <select id="selectPackageAdvance" parameterType="map" resultMap="advanceBaseResultMapZfZ">
 
         SELECT
         om.sys_id sysId,
         om.order_no orderNo,
         oee.exam_master_item examMasterItem,
         om.status,
-        ur.relative_name customerName,
-        ur.id_card_no idNo,
-        ur.gender,
-        ur.cellphone_no cellphoneNo1,
+        ub.full_name customerName,
+        ub.id_card_no idNo,
+        ub.gender,
+        om.cellphone_no cellphoneNo1,
         uc.card_cates cardCates,
         uc.card_no cardNo,
         si.name siName,
@@ -232,16 +326,14 @@
         oa.time_to timeTo,
         om.order_time orderTime,
         om.user_channel userChannel,
-        oai.amount
+        om.amount
         FROM
         order_main om
         LEFT JOIN order_extension_exam oee ON oee.order_no = om.order_no
-        LEFT JOIN order_customer oc ON oc.order_no = om.order_no
-        LEFT JOIN user_relatives ur ON ur.relative_id = oc.relative_id
         LEFT JOIN order_appointment oa ON oa.order_no = om.order_no
-        LEFT JOIN order_additional_info oai ON oai.order_no = om.order_no
         LEFT JOIN sys_institution si ON si.institution_id = oa.institution_id
         LEFT JOIN user_cards uc ON om.user_id = uc.user_id
+        LEFT JOIN user_basic ub ON ub.user_id = om.user_id
         WHERE
         1=1 AND om.is_deleted = 0
         <if test="params.sysId != null and params.sysId != ''">
@@ -250,17 +342,16 @@
     </select>
 
     <!-- 多表页面信息查询分页  门诊绿通订单详情-->
-    <select id="selectPackageGreen" parameterType="map" resultMap="advanceBaseResultMap">
+    <select id="selectPackageGreen" parameterType="map" resultMap="advanceBaseResultMapMzltZ">
 
         SELECT
         om.sys_id sysId,
         om.order_no orderNo,
-        oee.exam_master_item examMasterItem,
         om.status,
-        ur.relative_name customerName,
-        ur.id_card_no idNo,
-        ur.gender,
-        ur.cellphone_no cellphoneNo1,
+        ub.full_name customerName,
+        ub.id_card_no idNo,
+        ub.gender,
+        om.cellphone_no cellphoneNo1,
         uc.card_cates cardCates,
         uc.card_no cardNo,
         si.name siName,
@@ -268,18 +359,17 @@
         oa.time_to timeTo,
         om.order_time orderTime,
         om.user_channel userChannel,
-        oai.amount,
-        sd.department_name departmentName
+        om.amount,
+        sd.department_name departmentName,
+        oai.option_2
         FROM
         order_main om
-        LEFT JOIN order_extension_exam oee ON oee.order_no = om.order_no
-        LEFT JOIN order_customer oc ON oc.order_no = om.order_no
-        LEFT JOIN user_relatives ur ON ur.relative_id = oc.relative_id
         LEFT JOIN order_appointment oa ON oa.order_no = om.order_no
-        LEFT JOIN order_additional_info oai ON oai.order_no = om.order_no
         LEFT JOIN sys_institution si ON si.institution_id = oa.institution_id
         LEFT JOIN user_cards uc ON om.user_id = uc.user_id
+        LEFT JOIN user_basic ub ON ub.user_id = om.user_id
         LEFT JOIN sys_department sd ON sd.sys_id = oa.department_id
+        LEFT JOIN order_additional_info oai ON oai.order_no = om.order_no
         WHERE
         1=1 AND om.is_deleted = 0
         <if test="params.sysId != null and params.sysId != ''">

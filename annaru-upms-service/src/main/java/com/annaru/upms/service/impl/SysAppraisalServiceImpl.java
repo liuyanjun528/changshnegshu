@@ -33,4 +33,8 @@ public class SysAppraisalServiceImpl extends ServiceImpl<SysAppraisalMapper, Sys
         return this.baseMapper.selectStart(userId);
     }
 
+    public SysAppraisal selectOne(Map<String, Object> params){
+        return this.baseMapper.getOne(params);
+    }
+
 }

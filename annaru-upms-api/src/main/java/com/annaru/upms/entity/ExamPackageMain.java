@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.models.auth.In;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -91,6 +92,12 @@ public class ExamPackageMain extends Model<ExamPackageMain> implements Serializa
 	@ApiModelProperty(value = "预约人数")
 	@TableField(exist = false)
     private Integer countPsersion;
+
+	/**
+	 * 年龄段筛选(1:中青年/2:中老年/3:中青年中老年都适用)
+	 */
+	@ApiModelProperty(value = "年龄段筛选(1:中青年/2:中老年/3:中青年中老年都适用)")
+	private Integer label;
 
 	public Integer getCountPsersion() {
 		return countPsersion;
@@ -213,6 +220,12 @@ public class ExamPackageMain extends Model<ExamPackageMain> implements Serializa
 	}
 	public void setExamPackageDetailList(List<ExamPackageDetail> examPackageDetailList) {
 		this.examPackageDetailList = examPackageDetailList;
+	}
+	public Integer getLabel() {
+		return label;
+	}
+	public void setLabel(Integer label) {
+		this.label = label;
 	}
 
 	@Override
