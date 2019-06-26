@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -94,10 +95,30 @@ public class SysVerifyDocsServiceImpl extends ServiceImpl<SysVerifyDocsMapper, S
                 sysVerifyDocs = new SysVerifyDocs();
                 sysVerifyDocs.setUserId(sysVerifyDocsVoZ.getUserId());
                 sysVerifyDocs.setCates(sysVerifyDocsVoZ.getIdentification());
-                sysVerifyDocs.setDocCates(3);
+                sysVerifyDocs.setDocCates(2);
                 sysVerifyDocs.setImages(sysVerifyDocsVoZ.getImg2());
                 sysVerifyDocs.setCreationTime(new Date());
                 if (iSysVerifyDocsService.save(sysVerifyDocs)){
+                    List<SysVerifyDocs> sysVerifyDocsList = new ArrayList<>();
+                    List<String> stringList = sysVerifyDocsVoZ.getStringList();
+                    if (stringList != null && stringList.size() > 0){
+                        for (int i = 0 ; i < stringList.size() ; i++){
+                            if (StringUtil.isNotBlank(stringList.get(i))){
+                                sysVerifyDocs = new SysVerifyDocs();
+                                sysVerifyDocs.setUserId(sysVerifyDocsVoZ.getUserId());
+                                sysVerifyDocs.setCates(sysVerifyDocsVoZ.getIdentification());
+                                sysVerifyDocs.setDocCates(3);
+                                sysVerifyDocs.setImages(stringList.get(i));
+                                sysVerifyDocs.setCreationTime(new Date());
+                                sysVerifyDocsList.add(sysVerifyDocs);
+                            }
+                        }
+                        if (sysVerifyDocsList != null && sysVerifyDocsList.size() > 0){
+                            if (iSysVerifyDocsService.saveBatch(sysVerifyDocsList)){
+                                return true;
+                            }
+                        }
+                    }
                     return true;
                 }
             }

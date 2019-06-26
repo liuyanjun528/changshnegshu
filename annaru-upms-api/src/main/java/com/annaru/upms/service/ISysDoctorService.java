@@ -25,6 +25,9 @@ public interface ISysDoctorService extends IService<SysDoctor> {
 
     SysDoctorVo getOne(Map <String, Object> params);
 
+    /**
+     * @author zk
+     */
     SysDoctor getDoctor(Map<String,Object> params);
 
     /**

@@ -20,19 +20,19 @@ import java.util.Map;
 public interface TbYlMzMedicalRecordMapper extends BaseMapper<TbYlMzMedicalRecord> {
 
     /**
-     * 根据卡号分页查询就诊记录
-     * @param params
-     * @return
-     */
-    IPage<TbYlMzMedicalRecordListVo> getJzjlPage(Page page, @Param("params") Map<String, Object> params);
-
-    /**
      * 根据原主键获取对象
      * @param yljgdm 医疗机构代码
      * @param jzlsh	 门诊就诊流水号
      * @return
      */
     TbYlMzMedicalRecord getYlMzMedicalRecord(@Param("yljgdm") String yljgdm, @Param("jzlsh") String jzlsh);
+
+    /**
+     * 根据卡号分页查询就诊记录
+     * @param params
+     * @return
+     */
+    IPage<TbYlMzMedicalRecordListVo> getJzjlPage(Page page, @Param("params") Map<String, Object> params);
 
     /**
      * 根据卡号查询就诊记录

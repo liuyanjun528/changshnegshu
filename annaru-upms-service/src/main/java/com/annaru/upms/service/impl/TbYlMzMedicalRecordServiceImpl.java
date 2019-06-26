@@ -24,6 +24,18 @@ import java.util.Map;
 public class TbYlMzMedicalRecordServiceImpl extends ServiceImpl<TbYlMzMedicalRecordMapper, TbYlMzMedicalRecord> implements ITbYlMzMedicalRecordService {
 
     /**
+     * 根据原主键获取对象
+     * @param yljgdm 医疗机构代码
+     * @param jzlsh	 门诊就诊流水号
+     * @return
+     */
+    @Override
+    @DS("oracle")
+    public TbYlMzMedicalRecord getYlMzMedicalRecord(String yljgdm, String jzlsh) {
+        return this.baseMapper.getYlMzMedicalRecord(yljgdm, jzlsh);
+    }
+
+    /**
      * 根据卡号分页查询就诊记录
      * @param params
      * @return
@@ -34,18 +46,6 @@ public class TbYlMzMedicalRecordServiceImpl extends ServiceImpl<TbYlMzMedicalRec
         Page<TbYlMzMedicalRecordListVo> page = new PageUtils<TbYlMzMedicalRecordListVo>(params).getPage();
         IPage<TbYlMzMedicalRecordListVo> iPage = this.baseMapper.getJzjlPage(page, params);
         return new PageUtils<TbYlMzMedicalRecordListVo>(iPage);
-    }
-
-    /**
-     * 根据原主键获取对象
-     * @param yljgdm 医疗机构代码
-     * @param jzlsh	 门诊就诊流水号
-     * @return
-     */
-    @Override
-    @DS("oracle")
-    public TbYlMzMedicalRecord getYlMzMedicalRecord(String yljgdm, String jzlsh) {
-        return this.baseMapper.getYlMzMedicalRecord(yljgdm, jzlsh);
     }
 
     /**

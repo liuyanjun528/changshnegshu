@@ -98,7 +98,6 @@ public class TbMedicalController extends BaseController {
             params.put("limit", limit);
             params.put("kh", kh);
             PageUtils<Map<String, Object>> pageList = iTbYlMzMedicalRecordService.getJzjlPage(params);
-
             return ResultMap.ok().put("data",pageList);
         } catch (Exception e) {
             logger.error(e.getMessage());
@@ -147,8 +146,6 @@ public class TbMedicalController extends BaseController {
 
     }
 
-
-
     /**
      * 根据卡号查询住院就诊记录
      * @param kh 卡号
@@ -160,8 +157,12 @@ public class TbMedicalController extends BaseController {
                                    @ApiParam(value = "每页数量")@RequestParam(defaultValue = "10") int limit,
                                    @ApiParam(value = "身份证号", required = true) @RequestParam String kh) {
         try {
-            List<TbYlZyMedicalRecordListVo> listYlZyMedicalRecord = iTbYlZyMedicalRecordService.getJyjl(kh);
-            return ResultMap.ok().put("data",listYlZyMedicalRecord);
+            Map<String, Object> params = new HashMap<>();
+            params.put("page",page);
+            params.put("limit", limit);
+            params.put("kh", kh);
+            PageUtils<Map<String, Object>> pageList = iTbYlZyMedicalRecordService.getJyjlPage(params);
+            return ResultMap.ok().put("data",pageList);
         } catch (Exception e) {
             logger.error(e.getMessage());
             return ResultMap.error("运行异常，请联系管理员");
@@ -179,8 +180,12 @@ public class TbMedicalController extends BaseController {
                                  @ApiParam(value = "每页数量")@RequestParam(defaultValue = "10") int limit,
                                  @ApiParam(value = "身份证号", required = true) @RequestParam String kh) {
         try {
-            List<TbLisReportListVo> listLisReport = iTbLisReportService.getJybg(kh);
-            return ResultMap.ok().put("data",listLisReport);
+            Map<String, Object> params = new HashMap<>();
+            params.put("page",page);
+            params.put("limit", limit);
+            params.put("kh", kh);
+            PageUtils<Map<String, Object>> pageList = iTbLisReportService.getJybgPage(params);
+            return ResultMap.ok().put("data",pageList);
         } catch (Exception e) {
             logger.error(e.getMessage());
             return ResultMap.error("运行异常，请联系管理员");
@@ -222,6 +227,7 @@ public class TbMedicalController extends BaseController {
                                  @ApiParam(value = "每页数量")@RequestParam(defaultValue = "10") int limit,
                                  @ApiParam(value = "身份证号", required = true) @RequestParam String kh) {
         try {
+
             List<TbRisReportListVo> listRisReport = iTbRisReportService.getYxbg(kh);
             return ResultMap.ok().put("data",listRisReport);
         } catch (Exception e) {

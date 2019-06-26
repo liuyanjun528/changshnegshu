@@ -99,6 +99,14 @@ public class ExamPackageMain extends Model<ExamPackageMain> implements Serializa
 	@ApiModelProperty(value = "年龄段筛选(1:中青年/2:中老年/3:中青年中老年都适用)")
 	private Integer label;
 
+	/**
+	 * 套餐图片
+	 */
+	@ApiModelProperty(value = "套餐图片")
+	private String imageUrl;
+
+
+
 	public Integer getCountPsersion() {
 		return countPsersion;
 	}
@@ -226,6 +234,12 @@ public class ExamPackageMain extends Model<ExamPackageMain> implements Serializa
 	}
 	public void setLabel(Integer label) {
 		this.label = label;
+	}
+	public String getImageUrl() {
+		return imageUrl;
+	}
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
 	}
 
 	@Override
