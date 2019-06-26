@@ -78,5 +78,12 @@ public interface IUserBasicService extends IService<UserBasic> {
      */
     boolean selectEntityHealthy(String userId);
 
+    /**
+     * @Description: 通过sysId修改最后登录时间
+     * @Author: zk
+     * @Date: 2019/6/24
+     */
+    boolean updateLastTimeBySysId(UserBasic userBasic);
+
 }
 

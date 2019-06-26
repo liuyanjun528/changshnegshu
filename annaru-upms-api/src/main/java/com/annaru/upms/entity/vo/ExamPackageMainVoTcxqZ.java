@@ -1,13 +1,7 @@
 package com.annaru.upms.entity.vo;
 
 import com.annaru.common.util.JacksonUtils;
-import com.annaru.upms.entity.ExamPackageDetail;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
 import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -15,13 +9,11 @@ import java.util.List;
 
 
 /**
- * 套餐Vo
- *
+ * 套餐详情
  * @author zk
- * @date 2019-05-09 11:14:28
+ * @date 2019-06-26
  */
-@ApiModel(value = "套餐Vo")
-public class ExamPackageMainVo implements Serializable {
+public class ExamPackageMainVoTcxqZ implements Serializable {
 	private static final long serialVersionUID = 1L;
 	/**
 	 * 系统编号
@@ -44,9 +36,18 @@ public class ExamPackageMainVo implements Serializable {
 	 */
 	private Integer cates;
 	/**
+	 * 创建时间
+	 */
+	private Date creationTime;
+	/**
+	 * 编辑时间
+	 */
+	private Date editTime;
+	/**
 	 * 副标题(逗号分隔)
 	 */
 	private String subtitle;
+
 	/**
 	 * 开始年龄
 	 */
@@ -60,52 +61,18 @@ public class ExamPackageMainVo implements Serializable {
 	 */
 	private Integer suiteGender;
 	/**
-	 * 创建时间
-	 */
-	private Date creationTime;
-	/**
-	 * 编辑时间
-	 */
-	private Date editTime;
-	/**
-	 * 周期 单位：天/次
-	 */
-	private Integer periods;
-	/**
-	 * 类别  5:家庭医生 6.门诊绿通预约
-	 */
-	private Integer eaCates;
-
-	/**
 	 * 预约人数
 	 */
-    private Integer countPsersion;
-
-	/**
-	 * 赠送服务名称
-	 */
-	private String serviceName;
-
+	private Integer countPsersion;
 	/**
 	 * 检查项数量
 	 */
 	private Integer countDetail;
-	/**
-	 * 检查项目名称、检查项目详情名称、检查项目详情简介
-	 */
-	private List<ExamPackageMainVoZ> examPackageMainVoZList;
-	/**
-	 * 项目备注类别
-	 */
-	private String remark;
-	/**
-	 * 项目备注类别1
-	 */
-	private String remark1;
-	/**
-	 * 检查项目名称
-	 */
-	private String emName;
+
+	private List<ExamPackageMainVoZsfwZ> examPackageMainVoZsfwZList;
+	private List<ExamPackageMainVoXmZ> examPackageMainVoXmZList;
+
+
 	/**
      * 获取：系统编号
      */
@@ -215,7 +182,6 @@ public class ExamPackageMainVo implements Serializable {
 	public Integer getSuiteGender() {
 		return suiteGender;
 	}
-
 	public Integer getCountDetail() {
 		return countDetail;
 	}
@@ -228,47 +194,17 @@ public class ExamPackageMainVo implements Serializable {
 	public void setCountPsersion(Integer countPsersion) {
 		this.countPsersion = countPsersion;
 	}
-	public List<ExamPackageMainVoZ> getExamPackageMainVoZList() {
-		return examPackageMainVoZList;
+	public List<ExamPackageMainVoXmZ> getExamPackageMainVoXmZList() {
+		return examPackageMainVoXmZList;
 	}
-	public void setExamPackageMainVoZList(List<ExamPackageMainVoZ> examPackageMainVoZList) {
-		this.examPackageMainVoZList = examPackageMainVoZList;
+	public void setExamPackageMainVoXmZList(List<ExamPackageMainVoXmZ> examPackageMainVoXmZList) {
+		this.examPackageMainVoXmZList = examPackageMainVoXmZList;
 	}
-	public String getServiceName() {
-		return serviceName;
+	public List<ExamPackageMainVoZsfwZ> getExamPackageMainVoZsfwZList() {
+		return examPackageMainVoZsfwZList;
 	}
-	public void setServiceName(String serviceName) {
-		this.serviceName = serviceName;
-	}
-	public Integer getPeriods() {
-		return periods;
-	}
-	public void setPeriods(Integer periods) {
-		this.periods = periods;
-	}
-	public Integer getEaCates() {
-		return eaCates;
-	}
-	public void setEaCates(Integer eaCates) {
-		this.eaCates = eaCates;
-	}
-	public String getRemark() {
-		return remark;
-	}
-	public void setRemark(String remark) {
-		this.remark = remark;
-	}
-	public String getEmName() {
-		return emName;
-	}
-	public void setEmName(String emName) {
-		this.emName = emName;
-	}
-	public String getRemark1() {
-		return remark1;
-	}
-	public void setRemark1(String remark1) {
-		this.remark1 = remark1;
+	public void setExamPackageMainVoZsfwZList(List<ExamPackageMainVoZsfwZ> examPackageMainVoZsfwZList) {
+		this.examPackageMainVoZsfwZList = examPackageMainVoZsfwZList;
 	}
 
 	@Override

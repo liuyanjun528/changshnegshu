@@ -89,10 +89,10 @@ public class SysDoctorOppointmentController extends BaseController {
         try {
             //sysDoctorOppointment.getAppointDate().getTime()返回long毫秒数形式,毫秒转为秒所以除以1000
             //1天=24小时，1小时=60分，1分=60秒，所以两个时间的差再除以60 * 60 * 24换算成天的形式
-            long a=(sysDoctorOppointment.getAppointDate().getTime()/ 1000)/ (60 * 60 * 24);
-            long b=(new Date().getTime()/1000)/ (60 * 60 * 24);
-            System.out.println("选择的时间a"+a);
-            System.out.println("当前时间b"+b);
+            long a=(sysDoctorOppointment.getAppointDate().getTime()/ 1000)/ (60 * 60 * 24);//预约的时间
+            long b=(new Date().getTime()/1000)/ (60 * 60 * 24);//当前时间
+            System.out.println("选择的时间a："+a);
+            System.out.println("当前时间b："+b);
             if(b+7<=a){
                 sysDoctorOppointmentService.updateOppointmentDate(sysDoctorOppointment);
                 return ResultMap.ok("修改成功");

@@ -3,6 +3,7 @@ package com.annaru.upms.controller;
 import java.util.*;
 
 import com.annaru.upms.entity.vo.ExamPackageMainVo;
+import com.annaru.upms.entity.vo.ExamPackageMainVoTcxqZ;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import com.alibaba.dubbo.config.annotation.Reference;
 import org.springframework.web.bind.annotation.*;
@@ -44,22 +45,22 @@ public class ExamPackageMainController extends BaseController {
                        @ApiParam(value = "每页数量")@RequestParam(defaultValue = "10") int limit,
                        @ApiParam(value = "价格区间开始")@RequestParam(required = false)Double amountFrom,
                        @ApiParam(value = "价格区间结束")@RequestParam(required = false)Double amountTo,
-                       @ApiParam(value = "年龄开始")@RequestParam(required = false)Integer ageFrom,
-                       @ApiParam(value = "年龄结束")@RequestParam(required = false)Integer ageTo,
+                       @ApiParam(value = "年龄")@RequestParam(required = false)Integer label,
                        @ApiParam(value = "适用性别:(1:男/2:女/3:男女都适用)")@RequestParam(required = false)Integer suiteGender,
                        @ApiParam(value = "检查项目主表编号")@RequestParam(required = false)Integer examMasterI,
-                       @ApiParam(value = "根据预约排序")@RequestParam(required = false)Integer sortCountPerson){
+                       @ApiParam(value = "根据预约排序")@RequestParam(required = false)Integer sortCountPerson,
+                       @ApiParam(value = "根据价格排序")@RequestParam(required = false)Integer amountSort){
 
         Map<String, Object> params = new HashMap<>();
         params.put("page",page);
         params.put("limit", limit);
         params.put("amountFrom", amountFrom);
         params.put("amountTo", amountTo);
-        params.put("ageFrom", ageFrom);
-        params.put("ageTo", ageTo);
+        params.put("label", label);
         params.put("suiteGender", suiteGender);
         params.put("examMasterI", examMasterI);
         params.put("sort_count_person", sortCountPerson);
+        params.put("amountSort", amountSort);
         PageUtils<Map<String, Object>> pageList = examPackageMainService.selectDataPageZ(params);
         return ResultMap.ok().put("data",pageList);
     }
@@ -87,7 +88,7 @@ public class ExamPackageMainController extends BaseController {
     public ResultMap selectInfoBySysIdZ(@PathVariable("sysId") Integer sysId){
         Map<String, Object> params = new HashMap<>();
         params.put("sysId",sysId);
-        List<ExamPackageMainVo> examPackageMain = examPackageMainService.selectInfoBySysIdZ(params);
+        List<ExamPackageMainVoTcxqZ> examPackageMain = examPackageMainService.selectInfoBySysIdZ(params);
         return ResultMap.ok().put("data",examPackageMain);
     }
 

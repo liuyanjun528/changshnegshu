@@ -4,6 +4,7 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.annaru.common.result.PageUtils;
 import com.annaru.upms.entity.ExamPackageMain;
 import com.annaru.upms.entity.vo.ExamPackageMainVo;
+import com.annaru.upms.entity.vo.ExamPackageMainVoTcxqZ;
 import com.annaru.upms.mapper.ExamPackageMainMapper;
 import com.annaru.upms.service.IExamPackageMainService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -36,8 +37,8 @@ public class ExamPackageMainServiceImpl extends ServiceImpl<ExamPackageMainMappe
     }
 
     @Override
-    public List<ExamPackageMainVo> selectInfoBySysIdZ(Map<String, Object> params) {
-        List<ExamPackageMainVo> examPackageMain = this.baseMapper.selectInfoBySysIdZ(params);
+    public List<ExamPackageMainVoTcxqZ> selectInfoBySysIdZ(Map<String, Object> params) {
+        List<ExamPackageMainVoTcxqZ> examPackageMain = this.baseMapper.selectInfoBySysIdZ(params);
         return examPackageMain;
     }
 

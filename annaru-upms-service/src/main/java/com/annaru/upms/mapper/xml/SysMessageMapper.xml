@@ -43,8 +43,8 @@
         from
               sys_message
         where
-              msg_cate=#{msgCate}
-        and   user_id=#{userId}
+              msg_cate=#{params.msgCate}
+        and   user_id=#{params.userId}
     </select>
 
 
