@@ -50,7 +50,7 @@ public class SysDoctorScheduleController extends BaseController {
 
 
     /**
-     * 医护端 护士的排班
+     * 医护端 护士的排班 -->wh
      */
     @ApiOperation(value = "护士的排班", notes = "护士的排班")
     @GetMapping("/nurseListInfo")
@@ -61,7 +61,7 @@ public class SysDoctorScheduleController extends BaseController {
     }
 
     /**
-     * 添加护士的排班
+     * 添加护士的排班 -->wh
      */
     @ApiOperation(value = "添加护士的排班")
     @PostMapping("/save")
@@ -79,6 +79,7 @@ public class SysDoctorScheduleController extends BaseController {
 
     /**
      * 删除护士的排班---实为-->修改
+     * @author wh
      */
     @ApiOperation(value = "删除护士的排班")
     @PostMapping("/update")
