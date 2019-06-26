@@ -42,7 +42,7 @@
        WHERE YLJGDM=#{yljgdm} AND JZLSH=#{jzlsh}
     </select>
 
-    <!-- 根据卡号查询就诊记录 -->
+    <!-- 根据卡号分页查询就诊记录 -->
     <select id="getJyjlPage" parameterType="map" resultMap="BaseResultMapList">
         SELECT
         r.CSID,
@@ -54,7 +54,6 @@
         FROM
         TB_YL_ZY_MEDICAL_RECORD r
         LEFT JOIN TB_HOSPITAL h ON r.YLJGDM = h.HOSPITAL_ID
-        WHERE
         WHERE
         <if test="params.kh != null and params.kh != ''">
             r.KH =  #{params.kh}

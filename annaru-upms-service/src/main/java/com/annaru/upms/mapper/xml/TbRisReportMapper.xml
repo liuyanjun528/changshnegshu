@@ -67,6 +67,22 @@
        WHERE YLJGDM=#{yljgdm} AND STUDYUID=#{studyuid} AND INSTANCEUID=#{instanceuid}
     </select>
 
+    <!-- 根据卡号分页查询影像报告 -->
+    <select id="getYxbgPage" parameterType="map" resultMap="BaseResultMapList">
+        SELECT
+        r.csid,
+        h.HOSPITAL_NAME,
+        r.jysj,
+        r.jcmc,
+        r.mzzybz
+        FROM TB_RIS_REPORT r
+        LEFT JOIN TB_HOSPITAL h ON r.YLJGDM = h.HOSPITAL_ID
+        WHERE
+        <if test="params.kh != null and params.kh != ''">
+            r.KH =  #{params.kh}
+        </if>
+    </select>
+
     <!-- 根据卡号查询影像报告 -->
     <select id="getYxbg" parameterType="map" resultMap="BaseResultMapList">
     SELECT
