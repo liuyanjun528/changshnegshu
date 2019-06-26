@@ -1,110 +1,77 @@
-package com.annaru.upms.entity;
+package com.annaru.upms.entity.vo;
 
 import com.annaru.common.util.JacksonUtils;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
 import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import io.swagger.models.auth.In;
 
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-/**
- * 套餐
- *
- * @author zk
- * @date 2019-05-09 11:14:28
- */
-@ApiModel(value = "套餐")
-@TableName("exam_package_main")
-public class ExamPackageMain extends Model<ExamPackageMain> implements Serializable {
-	private static final long serialVersionUID = 1L;
 
+/**
+ * 套餐详情
+ * @author zk
+ * @date 2019-06-26
+ */
+public class ExamPackageMainVoTcxqZ implements Serializable {
+	private static final long serialVersionUID = 1L;
 	/**
 	 * 系统编号
 	 */
-    @ApiModelProperty(value = "系统编号")
-	@TableId(type = IdType.AUTO)
 	private Integer sysId;
 	/**
 	 * 套餐全称
 	 */
-    @ApiModelProperty(value = "套餐全称")
-	@TableField("package_name")
 	private String packageName;
 	/**
 	 * 总金额
 	 */
-    @ApiModelProperty(value = "总金额")
 	private Double amount;
 	/**
 	 * 套餐内容说明
 	 */
-    @ApiModelProperty(value = "套餐内容说明")
 	private String content;
 	/**
 	 * 类别(1:标准套餐/2:其他)
 	 */
-    @ApiModelProperty(value = "类别(1:标准套餐/2:其他)")
 	private Integer cates;
-
-	/**
-	 * 副标题(逗号分隔)
-	 */
-	@ApiModelProperty(value = "副标题(逗号分隔)")
-	private String subtitle;
-	/**
-	 * 开始年龄
-	 */
-	@ApiModelProperty(value = "开始年龄")
-	private Integer ageFrom;
-	/**
-	 * 结束年龄
-	 */
-	@ApiModelProperty(value = "结束年龄")
-	private Integer ageTo;
-	/**
-	 * 适用性别:(1:男/2:女/3:男女都适用)
-	 */
-	@ApiModelProperty(value = "适用性别:(1:男/2:女/3:男女都适用)")
-	private Integer suiteGender;
-
 	/**
 	 * 创建时间
 	 */
-    @ApiModelProperty(value = "创建时间")
-	@TableField("creation_time")
 	private Date creationTime;
 	/**
 	 * 编辑时间
 	 */
-    @ApiModelProperty(value = "编辑时间")
-	@TableField("edit_time")
 	private Date editTime;
-    @ApiModelProperty(value = "套餐详细")
-    private List<ExamPackageDetail> examPackageDetailList;
-
-	@ApiModelProperty(value = "预约人数")
-	@TableField(exist = false)
-    private Integer countPsersion;
+	/**
+	 * 副标题(逗号分隔)
+	 */
+	private String subtitle;
 
 	/**
-	 * 年龄段筛选(1:中青年/2:中老年/3:中青年中老年都适用)
+	 * 开始年龄
 	 */
-	@ApiModelProperty(value = "年龄段筛选(1:中青年/2:中老年/3:中青年中老年都适用)")
-	private Integer label;
+	private Integer ageFrom;
+	/**
+	 * 结束年龄
+	 */
+	private Integer ageTo;
+	/**
+	 * 适用性别:(1:男/2:女/3:男女都适用)
+	 */
+	private Integer suiteGender;
+	/**
+	 * 预约人数
+	 */
+	private Integer countPsersion;
+	/**
+	 * 检查项数量
+	 */
+	private Integer countDetail;
 
-	public Integer getCountPsersion() {
-		return countPsersion;
-	}
-	public void setCountPsersion(Integer countPsersion) {
-		this.countPsersion = countPsersion;
-	}
+	private List<ExamPackageMainVoZsfwZ> examPackageMainVoZsfwZList;
+	private List<ExamPackageMainVoXmZ> examPackageMainVoXmZList;
+
 
 	/**
      * 获取：系统编号
@@ -215,22 +182,29 @@ public class ExamPackageMain extends Model<ExamPackageMain> implements Serializa
 	public Integer getSuiteGender() {
 		return suiteGender;
 	}
-	public List<ExamPackageDetail> getExamPackageDetailList() {
-		return examPackageDetailList;
+	public Integer getCountDetail() {
+		return countDetail;
 	}
-	public void setExamPackageDetailList(List<ExamPackageDetail> examPackageDetailList) {
-		this.examPackageDetailList = examPackageDetailList;
+	public void setCountDetail(Integer countDetail) {
+		this.countDetail = countDetail;
 	}
-	public Integer getLabel() {
-		return label;
+	public Integer getCountPsersion() {
+		return countPsersion;
 	}
-	public void setLabel(Integer label) {
-		this.label = label;
+	public void setCountPsersion(Integer countPsersion) {
+		this.countPsersion = countPsersion;
 	}
-
-	@Override
-	protected Serializable pkVal() {
-		return this.sysId;
+	public List<ExamPackageMainVoXmZ> getExamPackageMainVoXmZList() {
+		return examPackageMainVoXmZList;
+	}
+	public void setExamPackageMainVoXmZList(List<ExamPackageMainVoXmZ> examPackageMainVoXmZList) {
+		this.examPackageMainVoXmZList = examPackageMainVoXmZList;
+	}
+	public List<ExamPackageMainVoZsfwZ> getExamPackageMainVoZsfwZList() {
+		return examPackageMainVoZsfwZList;
+	}
+	public void setExamPackageMainVoZsfwZList(List<ExamPackageMainVoZsfwZ> examPackageMainVoZsfwZList) {
+		this.examPackageMainVoZsfwZList = examPackageMainVoZsfwZList;
 	}
 
 	@Override

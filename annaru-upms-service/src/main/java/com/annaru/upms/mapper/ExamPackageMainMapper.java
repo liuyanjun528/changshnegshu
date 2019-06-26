@@ -2,6 +2,7 @@ package com.annaru.upms.mapper;
 
 import com.annaru.upms.entity.ExamPackageMain;
 import com.annaru.upms.entity.vo.ExamPackageMainVo;
+import com.annaru.upms.entity.vo.ExamPackageMainVoTcxqZ;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -38,7 +39,7 @@ public interface ExamPackageMainMapper extends BaseMapper<ExamPackageMain> {
      * @param params
      * @return
      */
-    List<ExamPackageMainVo> selectInfoBySysIdZ(@Param("params") Map <String, Object> params);
+    List<ExamPackageMainVoTcxqZ> selectInfoBySysIdZ(@Param("params") Map <String, Object> params);
 
     /**
      * wh查询全部套餐
