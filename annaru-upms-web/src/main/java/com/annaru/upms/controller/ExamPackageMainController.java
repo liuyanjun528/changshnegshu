@@ -88,7 +88,7 @@ public class ExamPackageMainController extends BaseController {
     public ResultMap selectInfoBySysIdZ(@PathVariable("sysId") Integer sysId){
         Map<String, Object> params = new HashMap<>();
         params.put("sysId",sysId);
-        List<ExamPackageMainVoTcxqZ> examPackageMain = examPackageMainService.selectInfoBySysIdZ(params);
+        ExamPackageMainVoTcxqZ examPackageMain = examPackageMainService.selectInfoBySysIdZ(params);
         return ResultMap.ok().put("data",examPackageMain);
     }
 

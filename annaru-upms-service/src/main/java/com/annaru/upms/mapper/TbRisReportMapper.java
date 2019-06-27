@@ -2,10 +2,14 @@ package com.annaru.upms.mapper;
 
 import com.annaru.upms.entity.medical.TbRisReport;
 import com.annaru.upms.entity.medical.vo.TbRisReportListVo;
+import com.annaru.upms.entity.medical.vo.TbYlMzMedicalRecordListVo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * tb_ris_report(影像检查报告表—放射类格式)
@@ -22,6 +26,14 @@ public interface TbRisReportMapper extends BaseMapper<TbRisReport> {
      * @return
      */
     TbRisReport getRisReport(@Param("yljgdm") String yljgdm, @Param("studyuid") String studyuid, @Param("instanceuid") String instanceuid);
+
+    /**
+     * 根据卡号分页查询影像检查报告
+     * @param params
+     * @return
+     */
+    IPage<TbRisReportListVo> getYxbgPage(Page page, @Param("params") Map<String, Object> params);
+
 
     /**
      * 根据卡号查询影像报告

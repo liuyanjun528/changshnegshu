@@ -58,6 +58,7 @@
         LEFT JOIN entity_purchse_detail epd ON epd.order_no = epm.order_no
         LEFT JOIN entity_healthy_package_detail ehp ON ehp.main_id = epd.pkg_main_id
         WHERE 1 = 1
+        AND ub.isactive = 1
         AND uem.is_active = 1
         AND epm.is_active = 1 AND epm.is_terminated = 0
         AND epd.is_active = 1 AND epd.is_deleted = 0

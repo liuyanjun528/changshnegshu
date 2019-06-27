@@ -39,21 +39,21 @@ public interface OrderMainMapper extends BaseMapper<OrderMain> {
      * @param params
      * @return
      */
-    List<OrderMainVoZTC> selectPackageOrder(@Param("params") Map <String, Object> params);
+    OrderMainVoZTC selectPackageOrder(@Param("params") Map <String, Object> params);
 
     /**
      * 多表页面信息查询 ，查询自费(进阶)订单详情
      * @param params
      * @return
      */
-    List<OrderMainVoZZF> selectPackageAdvance(@Param("params") Map <String, Object> params);
+    OrderMainVoZZF selectPackageAdvance(@Param("params") Map <String, Object> params);
 
     /**
      * 多表页面信息查询 ，查询门诊绿通订单详情
      * @param params
      * @return
      */
-    List<OrderMainVoZMzlt> selectPackageGreen(@Param("params") Map <String, Object> params);
+    OrderMainVoZMzlt selectPackageGreen(@Param("params") Map <String, Object> params);
 
     OrderMain getOrderNo(@Param("params") Map <String, Object> params);
 
