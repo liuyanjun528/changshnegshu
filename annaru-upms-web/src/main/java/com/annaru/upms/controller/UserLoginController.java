@@ -52,6 +52,8 @@ public class UserLoginController extends BaseController {
         if (StringUtil.isBlank(cellphoneNo)) {
             return ResultMap.error("手机号不能为空！");
         }
+        String regex = "^1[3|4|5|8][0-9]\\d{8}$";
+        if (!cellphoneNo.matches(regex)) return ResultMap.error("请填入正确的手机号");
 
         String kaptcha = kaptcha();
         Map<String ,Object> isOk = MessageUtils.sendTemplateSMS(cellphoneNo, MessageUtils.loginId, kaptcha,"1");
@@ -75,6 +77,7 @@ public class UserLoginController extends BaseController {
     @RequiresPermissions("upms/userLogin/loginInfo")
     public ResultMap loginInfo(String cellphoneNo, String password, String type, String loginType, String kaptcha, String openid, String isHr){
 
+        String regex = "^1[3|4|5|8][0-9]\\d{8}$";
         UserBasic userBasic = null;
         String token = null;
         Map<String, Object> map = null;
@@ -83,6 +86,9 @@ public class UserLoginController extends BaseController {
         if (StringUtil.isNotBlank(isHr) && "y".equals(isHr)){
             if (StringUtil.isBlank(cellphoneNo)){
                 return ResultMap.error("账号不能为空！");
+            }
+            if (!cellphoneNo.matches(regex)){
+                return ResultMap.error("请填入正确的手机号! ");
             }
             if (StringUtil.isBlank(password)){
                 return ResultMap.error("密码不能为空！");
@@ -114,6 +120,9 @@ public class UserLoginController extends BaseController {
             if ("1".equals(loginType) || "2".equals(loginType)){
                 if (StringUtil.isBlank(cellphoneNo)){
                     return ResultMap.error("账号不能为空！");
+                }
+                if (!cellphoneNo.matches(regex)){
+                    return ResultMap.error("请填入正确的手机号! ");
                 }
             }
             if ("1".equals(loginType)){

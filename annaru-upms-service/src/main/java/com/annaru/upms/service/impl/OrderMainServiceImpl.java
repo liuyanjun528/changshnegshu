@@ -55,20 +55,20 @@ public class OrderMainServiceImpl extends ServiceImpl<OrderMainMapper, OrderMain
     }
 
     @Override
-    public List<OrderMainVoZTC> selectPackageOrder(Map<String, Object> params) {
-        List<OrderMainVoZTC> list = this.baseMapper.selectPackageOrder(params);
+    public OrderMainVoZTC selectPackageOrder(Map<String, Object> params) {
+        OrderMainVoZTC list = this.baseMapper.selectPackageOrder(params);
         return list;
     }
 
     @Override
-    public List<OrderMainVoZZF> selectPackageAdvance(Map<String, Object> params) {
-        List<OrderMainVoZZF> list = this.baseMapper.selectPackageAdvance(params);
+    public OrderMainVoZZF selectPackageAdvance(Map<String, Object> params) {
+        OrderMainVoZZF list = this.baseMapper.selectPackageAdvance(params);
         return list;
     }
 
     @Override
-    public List<OrderMainVoZMzlt> selectPackageGreen(Map<String, Object> params) {
-        List<OrderMainVoZMzlt> list = this.baseMapper.selectPackageGreen(params);
+    public OrderMainVoZMzlt selectPackageGreen(Map<String, Object> params) {
+        OrderMainVoZMzlt list = this.baseMapper.selectPackageGreen(params);
         return list;
     }
 
