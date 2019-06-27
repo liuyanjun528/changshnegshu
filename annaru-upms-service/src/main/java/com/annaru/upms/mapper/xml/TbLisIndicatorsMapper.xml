@@ -51,6 +51,24 @@
 
     <!-- 根据卡号查询检验报告列表 -->
     <select id="getJybgDetail" parameterType="map" resultMap="BaseResultMap">
+        SELECT
+        r.BGDH,
+        r.JZLSH,
+        SUBSTR (r.jyrq, 0, 10) AS jyrq,
+        h.HOSPITAL_NAME,
+        r.bgdlb
+        FROM
+        TB_LIS_Report r,
+        TB_HOSPITAL h
+        WHERE
+        <if test="params.kh != null and params.kh != ''">
+            r.KH =  #{params.kh}
+        </if>
+        AND r.YLJGDM = h.HOSPITAL_ID AND r.KH = #{kh} ORDER BY jyrq DESC
+    </select>
+
+    <!-- 根据卡号查询检验报告列表 -->
+    <select id="getJybgDetail" parameterType="map" resultMap="BaseResultMap">
      SELECT
         r.BGDH,
         r.JZLSH,

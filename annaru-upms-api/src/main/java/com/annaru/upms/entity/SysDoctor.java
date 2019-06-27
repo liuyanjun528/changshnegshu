@@ -192,7 +192,19 @@ public class SysDoctor extends Model<SysDoctor> implements Serializable {
 	 */
 	@TableField(exist = false)
 	private String departmentName;
-	/**
+
+    @TableField(exist = false)
+    private String sa;
+
+    public String getSa() {
+        return sa;
+    }
+
+    public void setSa(String sa) {
+        this.sa = sa;
+    }
+
+    /**
 	 * 获取：系统编号
 	 */
 	public Integer getSysId() {

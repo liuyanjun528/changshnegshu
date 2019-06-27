@@ -96,10 +96,6 @@ public class OrderMainServiceImpl extends ServiceImpl<OrderMainMapper, OrderMain
                 List<ExamPackageAppend> examPackageAppends = examPackageAppendService.selectExamName(Integer.parseInt(orderMain.getReferenceNo()));
                 OrderDetail detail = new OrderDetail();
                 detail.setCreationtime(orderMain.getCreationtime());
-//                detail.setRestCount(orderMain.getOrderDetail().getRestCount());
-//                detail.setTotalCount(orderMain.getOrderDetail().getTotalCount());
-//                detail.setEffectFrom(orderMain.getOrderDetail().getEffectFrom());
-//                detail.setEffectTo(orderMain.getOrderDetail().getEffectTo());
                 for (ExamPackageAppend exam : examPackageAppends) {
                     detail.setAppendId(exam.getAppendId());
                     detail.setCreationtime(new Date());
@@ -109,7 +105,7 @@ public class OrderMainServiceImpl extends ServiceImpl<OrderMainMapper, OrderMain
             }
 
             if (i > 0) {
-                //如果订单总数大于1
+                //只要生成订单 就往OrderCustomer表添加一条记录
                 if (orderMain.getTotalQty() > 1) {
                     List<UserRelatives> list = userRelativesService.selectAll(orderMain.getUserId());
                     Boolean result=false;
