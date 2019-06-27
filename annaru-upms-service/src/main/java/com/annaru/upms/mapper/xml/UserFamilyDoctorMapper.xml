@@ -35,11 +35,17 @@
         <result column="focus_on" property="focusOn" />
         <result column="goodat" property="goodat" />
         <result column="content" property="content" />
+        <result column="institutionName" property="belongInstitution"/>
         <result column="department_name" property="belongOffice" />
         <result column="belong_province" property="belongProvince" />
         <result column="belong_city" property="belongCity" />
         <result column="belong_district" property="belongDistrict" />
         <result column="price_year" property="priceYear" />
+        <result column="cellphone_no" property="cellphoneNo"/>
+        <result column="job_title" property="jobTitle" />
+        <result column="duties" property="duties" />
+        <result column="introductions" property="introductions" />
+        <result column="is_approved" property="isApproved" />
     </resultMap>
 
     <!-- 多表页面信息查询分页 -->
@@ -83,15 +89,22 @@
         sd.focus_on,
         sd.goodat,
         sd.content,
-        sd.belong_office,
         sd.belong_province,
         sd.belong_city,
         sd.belong_district,
         sd.price_year,
-        sd.cellphone_no
+        sd.cellphone_no,
+        sd.introductions,
+        sd.is_approved,
+        sd.job_title,
+        sd.duties,
+        si.`name` institutionName,
+        sdp.department_name
         from
         user_family_doctor ufd
         left join sys_doctor sd on sd.doctor_no = ufd.doctor_no
+        LEFT JOIN sys_institution si ON sd.belong_institution = si.institution_id
+        LEFT JOIN sys_department sdp ON sdp.sys_id = sd.belong_office
         where ufd.is_terminated = 0
         <if test="params.userId != null and params.userId != ''">
             AND ufd.user_id= #{params.userId}
