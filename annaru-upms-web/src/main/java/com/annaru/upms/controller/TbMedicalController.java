@@ -200,7 +200,8 @@ public class TbMedicalController extends BaseController {
     @ApiOperation(value = "检验报告详情")
     @GetMapping("/getJybgDetail")
     @RequiresPermissions("upms/medical/getJybgDetail")
-    public ResultMap getJybgDetail(@ApiParam(value = "就诊记录id", required = true) @RequestParam String csid, @ApiParam(value = "报告单号", required = true) @RequestParam String bgdh){
+    public ResultMap getJybgDetail(@ApiParam(value = "就诊记录id", required = true) @RequestParam String csid,
+                                   @ApiParam(value = "报告单号", required = true) @RequestParam String bgdh){
         Map<String, Object> map = new HashMap<>();
         // 就诊记录
         TbYlMzMedicalRecordDetailVo jzjl = iTbYlMzMedicalRecordService.getJzjlById(csid);
@@ -227,9 +228,12 @@ public class TbMedicalController extends BaseController {
                                  @ApiParam(value = "每页数量")@RequestParam(defaultValue = "10") int limit,
                                  @ApiParam(value = "身份证号", required = true) @RequestParam String kh) {
         try {
-
-            List<TbRisReportListVo> listRisReport = iTbRisReportService.getYxbg(kh);
-            return ResultMap.ok().put("data",listRisReport);
+            Map<String, Object> params = new HashMap<>();
+            params.put("page",page);
+            params.put("limit", limit);
+            params.put("kh", kh);
+            PageUtils<Map<String, Object>> pageList = iTbRisReportService.getYxbgPage(params);
+            return ResultMap.ok().put("data",pageList);
         } catch (Exception e) {
             logger.error(e.getMessage());
             return ResultMap.error("运行异常，请联系管理员");
@@ -244,9 +248,7 @@ public class TbMedicalController extends BaseController {
     @ApiOperation(value = "用药记录列表")
     @GetMapping("/getYyjl")
     @RequiresPermissions("upms/medical/getYyjl")
-    public ResultMap getYyjl(@ApiParam(value = "当前页")@RequestParam(defaultValue="1") int page,
-                             @ApiParam(value = "每页数量")@RequestParam(defaultValue = "10") int limit,
-                             @ApiParam(value = "身份证号", required = true) @RequestParam String kh) {
+    public ResultMap getYyjl(@ApiParam(value = "身份证号", required = true) @RequestParam String kh) {
         try {
             Map<String, Object> map = new HashMap<>();
         /*if (StringUtils.isBlank(userId)) {

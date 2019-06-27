@@ -26,7 +26,7 @@
         <result column="edit_time" property="editTime" />
         <result column="create_by" property="createBy" />
         <result column="edit_by" property="editBy" />
-        <result column="reference_no" property="referenceNo" />
+        <result column="sa" property="sa" />
     </resultMap>
 
     <resultMap id="BaseResultMapVo" type="com.annaru.upms.entity.vo.SysDoctorVo" >

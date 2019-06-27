@@ -35,6 +35,7 @@ public interface IUserBasicService extends IService<UserBasic> {
 
     /**
      * 根据条件查询某个用户信息与医生信息
+     * @author zk
      * @param params
      * @return
      */
@@ -42,6 +43,7 @@ public interface IUserBasicService extends IService<UserBasic> {
 
     /**
      * 根据条件查询某个用户信息与护士信息
+     * @author zk
      * @param params
      * @return
      */

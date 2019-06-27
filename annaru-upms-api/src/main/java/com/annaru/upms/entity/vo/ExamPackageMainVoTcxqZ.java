@@ -68,6 +68,10 @@ public class ExamPackageMainVoTcxqZ implements Serializable {
 	 * 检查项数量
 	 */
 	private Integer countDetail;
+	/**
+	 * 套餐图片
+	 */
+	private String imageUrl;
 
 	private List<ExamPackageMainVoZsfwZ> examPackageMainVoZsfwZList;
 	private List<ExamPackageMainVoXmZ> examPackageMainVoXmZList;
@@ -205,6 +209,12 @@ public class ExamPackageMainVoTcxqZ implements Serializable {
 	}
 	public void setExamPackageMainVoZsfwZList(List<ExamPackageMainVoZsfwZ> examPackageMainVoZsfwZList) {
 		this.examPackageMainVoZsfwZList = examPackageMainVoZsfwZList;
+	}
+	public String getImageUrl() {
+		return imageUrl;
+	}
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
 	}
 
 	@Override

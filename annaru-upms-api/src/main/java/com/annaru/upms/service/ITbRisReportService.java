@@ -1,10 +1,12 @@
 package com.annaru.upms.service;
 
+import com.annaru.common.result.PageUtils;
 import com.annaru.upms.entity.medical.TbRisReport;
 import com.annaru.upms.entity.medical.vo.TbRisReportListVo;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * tb_ris_report(影像检查报告表—放射类格式)
@@ -21,6 +23,13 @@ public interface ITbRisReportService extends IService<TbRisReport> {
      * @return
      */
     TbRisReport getRisReport(String yljgdm, String studyuid, String instanceuid);
+
+    /**
+     * 根据卡号分页查询影像检查报告
+     * @param params
+     * @return
+     */
+    PageUtils getYxbgPage(Map<String, Object> params);
 
     /**
      * 根据卡号查询影像报告

@@ -21,6 +21,15 @@ public interface IEntityHealthyPackageDetailService extends IService<EntityHealt
     */
     PageUtils getDataPage(Map<String, Object> params);
 
+    /**
+     * 根据userId得到这个企业健康服务详细
+     * @author zk
+     * @date 2019-6-26
+     * @param userId
+     * @return
+     */
+    List<EntityHealthyPackageDetail> getEyHyPeDlByUserId(String userId);
+
 
 }
 
