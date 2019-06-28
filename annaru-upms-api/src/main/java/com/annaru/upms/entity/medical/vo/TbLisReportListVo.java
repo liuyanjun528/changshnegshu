@@ -14,6 +14,8 @@ public class TbLisReportListVo extends Model<TbLisReportListVo> implements Seria
 
 	/** 实验室检验报告ID*/
 	private String csid;
+	/** 门诊就诊流水号*/
+	private String jzlsh;
 	/** 检验报告单号*/
 	private String bgdh;
 	/** 医院名称*/
@@ -31,6 +33,14 @@ public class TbLisReportListVo extends Model<TbLisReportListVo> implements Seria
 
 	public void setCsid(String csid) {
 		this.csid = csid;
+	}
+
+	public String getJzlsh() {
+		return jzlsh;
+	}
+
+	public void setJzlsh(String jzlsh) {
+		this.jzlsh = jzlsh;
 	}
 
 	public String getBgdh() {

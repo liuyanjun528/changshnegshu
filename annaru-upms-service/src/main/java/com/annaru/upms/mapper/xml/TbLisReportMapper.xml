@@ -41,6 +41,7 @@
     <!-- 通用查询映射结果 查询实验室检验报告列表)  -->
     <resultMap id="BaseResultMapList" type="com.annaru.upms.entity.medical.vo.TbLisReportListVo" >
         <result column="CSID" property="csid" />
+        <result column="JZLSH" property="jzlsh" />
         <result column="BGDH" property="bgdh" />
         <result column="HOSPITAL_NAME" property="hospitalName" />
         <result column="JYRQ" property="jyrq" />
@@ -71,6 +72,7 @@
     <select id="getJybgPage" parameterType="map" resultMap="BaseResultMapList">
         SELECT
         r.CSID,
+        r.JZLSH,
         r.BGDH,
         h.HOSPITAL_NAME,
         r.BGDLB,

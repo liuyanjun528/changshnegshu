@@ -1,15 +1,20 @@
 package com.annaru.upms.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.annaru.common.result.PageUtils;
 import com.annaru.upms.entity.medical.TbCisPrescriptionDetail;
 import com.annaru.upms.entity.medical.vo.TbCisPrescriptionDetailListVo;
 import com.annaru.upms.entity.medical.vo.TbCisPrescriptionDetailVo;
+import com.annaru.upms.entity.medical.vo.TbRisReportListVo;
 import com.annaru.upms.mapper.TbCisPrescriptionDetailMapper;
 import com.annaru.upms.service.ITbCisPrescriptionDetailService;
 import com.baomidou.dynamic.datasource.annotation.DS;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 门诊处方明细表
@@ -35,6 +40,19 @@ public class TbCisPrescriptionDetailServiceImpl extends ServiceImpl<TbCisPrescri
     @DS("oracle")
     public List<TbCisPrescriptionDetailVo> getYp(String jzlsh) {
          return this.baseMapper.getYp(jzlsh);
+    }
+
+    /**
+     * 根据卡号分页查询药品
+     * @param params
+     * @return
+     */
+    @Override
+    @DS("oracle")
+    public PageUtils getYyjlPage(Map<String, Object> params){
+        Page<TbCisPrescriptionDetailListVo> page = new PageUtils<TbCisPrescriptionDetailListVo>(params).getPage();
+        IPage<TbCisPrescriptionDetailListVo> iPage = this.baseMapper.getYyjlPage(page, params);
+        return new PageUtils<TbCisPrescriptionDetailListVo>(iPage);
     }
 
     /**

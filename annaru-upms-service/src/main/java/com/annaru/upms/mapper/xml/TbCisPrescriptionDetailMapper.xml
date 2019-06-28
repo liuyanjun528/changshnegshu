@@ -98,7 +98,7 @@
     </select>
 
     <!-- 根据卡号查询用药记录 -->
-    <select id="getYyjl" parameterType="map" resultMap="BaseResultMapListVo">
+    <select id="getYyjlPage" parameterType="map" resultMap="BaseResultMapListVo">
     SELECT
         d.JZLSH,
         h.HOSPITAL_NAME,
@@ -110,20 +110,30 @@
     LEFT JOIN TB_HOSPITAL h ON h.HOSPITAL_ID = d.YLJGDM
     LEFT JOIN TB_YL_MZ_MEDICAL_RECORD r ON r.JZLSH = d.JZLSH
     LEFT JOIN TB_LIS_REPORT lr ON lr.JZLSH = d.JZLSH
-    WHERE d.KH = #{kh} AND d.CFLX = 1 GROUP BY d.JZLSH, r.JZKSRQ, h.HOSPITAL_NAME, r.JZKSMC, lr.MZZYBZ ORDER BY r.JZKSRQ DESC
+    WHERE
+        <if test="params.kh != null and params.kh != ''">
+            r.KH =  #{params.kh}
+        </if>
+        <if test="params.dateFrom != null and params.dateFrom != '' and params.dateTo != null and params.dateTo != ''">
+            AND to_date(SUBSTR(r.JZKSRQ, 0, 10),'yyyy-mm-dd') Between to_date(#{params.dateFrom},'yyyy-mm-dd') AND to_date(#{params.dateTo},'yyyy-mm-dd')
+        </if>
+            AND d.CFLX = 1 GROUP BY d.JZLSH, r.JZKSRQ, h.HOSPITAL_NAME, r.JZKSMC, lr.MZZYBZ ORDER BY r.JZKSRQ DESC
     </select>
 
     <!-- 根据就诊流水号查询用药记录 -->
     <select id="getYyjlByJzlsh" parameterType="map" resultMap="BaseResultMapListVo">
-        SELECT DISTINCT
+        SELECT
         d.JZLSH,
-        substr (d.kfrq, 0, 10) AS kfrq,
         h.HOSPITAL_NAME,
-        r.jzksmc
+        r.JZKSMC,
+        substr (r.JZKSRQ, 0, 10) AS JZKSRQ,
+        lr.MZZYBZ
         FROM
         TB_CIS_Prescription_Detail d
         LEFT JOIN TB_HOSPITAL h ON h.HOSPITAL_ID = d.YLJGDM
         LEFT JOIN tb_yl_mz_medical_record r ON r.JZLSH = d.JZLSH
-        WHERE d.JZLSH =#{jzlsh} AND d.CFLX = 1 ORDER BY kfrq DESC
+        LEFT JOIN TB_LIS_REPORT lr ON lr.JZLSH = d.JZLSH
+        WHERE d.JZLSH =#{jzlsh}
+        AND d.CFLX = 1 GROUP BY d.JZLSH, r.JZKSRQ, h.HOSPITAL_NAME, r.JZKSMC, lr.MZZYBZ ORDER BY r.JZKSRQ DESC
     </select>
 </mapper>

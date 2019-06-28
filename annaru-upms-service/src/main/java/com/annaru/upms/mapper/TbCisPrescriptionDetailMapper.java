@@ -3,10 +3,14 @@ package com.annaru.upms.mapper;
 import com.annaru.upms.entity.medical.TbCisPrescriptionDetail;
 import com.annaru.upms.entity.medical.vo.TbCisPrescriptionDetailListVo;
 import com.annaru.upms.entity.medical.vo.TbCisPrescriptionDetailVo;
+import com.annaru.upms.entity.medical.vo.TbRisReportListVo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 门诊处方明细表
@@ -30,6 +34,13 @@ public interface TbCisPrescriptionDetailMapper extends BaseMapper<TbCisPrescript
      * @return
      */
     List<TbCisPrescriptionDetailVo> getYp(@Param("jzlsh") String jzlsh);
+
+    /**
+     * 根据卡号分页查询影像检查报告
+     * @param params
+     * @return
+     */
+    IPage<TbCisPrescriptionDetailListVo> getYyjlPage(Page page, @Param("params") Map<String, Object> params);
 
     /**
      * 根据卡号查询药品
