@@ -91,12 +91,16 @@ public class TbMedicalController extends BaseController {
     @RequiresPermissions("upms/medical/getJzjlPage")
     public ResultMap getJzjlPage(@ApiParam(value = "当前页")@RequestParam(defaultValue="1") int page,
                              @ApiParam(value = "每页数量")@RequestParam(defaultValue = "10") int limit,
-                             @ApiParam(value = "身份证号", required = true) @RequestParam String kh) {
+                             @ApiParam(value = "身份证号", required = true) @RequestParam String kh,
+                             @ApiParam(value = "开始日期") @RequestParam(required = false) String dateFrom,
+                             @ApiParam(value = "结束日期") @RequestParam(required = false) String dateTo) {
         try {
             Map<String, Object> params = new HashMap<>();
             params.put("page",page);
             params.put("limit", limit);
             params.put("kh", kh);
+            params.put("dateFrom", dateFrom);
+            params.put("dateTo", dateTo);
             PageUtils<Map<String, Object>> pageList = iTbYlMzMedicalRecordService.getJzjlPage(params);
             return ResultMap.ok().put("data",pageList);
         } catch (Exception e) {
@@ -155,12 +159,16 @@ public class TbMedicalController extends BaseController {
     @RequiresPermissions("upms/medical/getJzjzjlList")
     public ResultMap getJzjzjlList(@ApiParam(value = "当前页")@RequestParam(defaultValue="1") int page,
                                    @ApiParam(value = "每页数量")@RequestParam(defaultValue = "10") int limit,
-                                   @ApiParam(value = "身份证号", required = true) @RequestParam String kh) {
+                                   @ApiParam(value = "身份证号", required = true) @RequestParam String kh,
+                                   @ApiParam(value = "开始日期") @RequestParam(required = false) String dateFrom,
+                                   @ApiParam(value = "结束日期") @RequestParam(required = false) String dateTo) {
         try {
             Map<String, Object> params = new HashMap<>();
             params.put("page",page);
             params.put("limit", limit);
             params.put("kh", kh);
+            params.put("dateFrom", dateFrom);
+            params.put("dateTo", dateTo);
             PageUtils<Map<String, Object>> pageList = iTbYlZyMedicalRecordService.getJyjlPage(params);
             return ResultMap.ok().put("data",pageList);
         } catch (Exception e) {
@@ -178,12 +186,16 @@ public class TbMedicalController extends BaseController {
     @RequiresPermissions("upms/medical/getJybgList")
     public ResultMap getJybgList(@ApiParam(value = "当前页")@RequestParam(defaultValue="1") int page,
                                  @ApiParam(value = "每页数量")@RequestParam(defaultValue = "10") int limit,
-                                 @ApiParam(value = "身份证号", required = true) @RequestParam String kh) {
+                                 @ApiParam(value = "身份证号", required = true) @RequestParam String kh,
+                                 @ApiParam(value = "开始日期") @RequestParam(required = false) String dateFrom,
+                                 @ApiParam(value = "结束日期") @RequestParam(required = false) String dateTo) {
         try {
             Map<String, Object> params = new HashMap<>();
             params.put("page",page);
             params.put("limit", limit);
             params.put("kh", kh);
+            params.put("dateFrom", dateFrom);
+            params.put("dateTo", dateTo);
             PageUtils<Map<String, Object>> pageList = iTbLisReportService.getJybgPage(params);
             return ResultMap.ok().put("data",pageList);
         } catch (Exception e) {
@@ -226,12 +238,16 @@ public class TbMedicalController extends BaseController {
     @RequiresPermissions("upms/medical/getYxbgList")
     public ResultMap getYxbgList(@ApiParam(value = "当前页")@RequestParam(defaultValue="1") int page,
                                  @ApiParam(value = "每页数量")@RequestParam(defaultValue = "10") int limit,
-                                 @ApiParam(value = "身份证号", required = true) @RequestParam String kh) {
+                                 @ApiParam(value = "身份证号", required = true) @RequestParam String kh,
+                                 @ApiParam(value = "开始日期") @RequestParam(required = false) String dateFrom,
+                                 @ApiParam(value = "结束日期") @RequestParam(required = false) String dateTo) {
         try {
             Map<String, Object> params = new HashMap<>();
             params.put("page",page);
             params.put("limit", limit);
             params.put("kh", kh);
+            params.put("dateFrom", dateFrom);
+            params.put("dateTo", dateTo);
             PageUtils<Map<String, Object>> pageList = iTbRisReportService.getYxbgPage(params);
             return ResultMap.ok().put("data",pageList);
         } catch (Exception e) {

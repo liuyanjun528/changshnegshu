@@ -3,6 +3,7 @@ package com.annaru.upms.entity.medical.vo;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * 表名：tb_cis_prescription_detail(门诊处方明细表) 
@@ -16,10 +17,12 @@ public class TbCisPrescriptionDetailListVo extends Model<TbCisPrescriptionDetail
 	private String hospitalName;
 	/** 门诊就诊流水号*/
 	private String jzlsh;
-	/** 开方时间*/
-	private String kfrq;
 	/** 就诊科室名称*/
 	private String jzksmc;
+	/** 门诊就诊日期*/
+	private String jzksrq;
+	/** 门诊/住院标志*/
+	private String mzzybz;
 
 	public String getHospitalName() {
 		return hospitalName;
@@ -37,19 +40,19 @@ public class TbCisPrescriptionDetailListVo extends Model<TbCisPrescriptionDetail
 		this.jzlsh = jzlsh;
 	}
 
-	public String getKfrq() {
-		return kfrq;
-	}
-
-	public void setKfrq(String kfrq) {
-		this.kfrq = kfrq;
-	}
-
 	public String getJzksmc() {
 		return jzksmc;
 	}
 
 	public void setJzksmc(String jzksmc) {
 		this.jzksmc = jzksmc;
+	}
+
+	public String getMzzybz() {
+		return mzzybz;
+	}
+
+	public void setMzzybz(String mzzybz) {
+		this.mzzybz = mzzybz;
 	}
 }
