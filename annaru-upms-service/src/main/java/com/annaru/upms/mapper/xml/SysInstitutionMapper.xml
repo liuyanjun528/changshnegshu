@@ -74,6 +74,9 @@
         <if test="params.level !=null and params.level !=''">
             and  si.level LIKE CONCAT('%', #{params.level}, '%')
         </if>
+        <if test="params.forAppointment !=null and params.forAppointment !=''">
+            and  si.appoint_available = 1
+        </if>
         GROUP BY si.sys_id
         <if test="params.number !=null and params.number !='' and params.number == 0">
             ORDER BY apNumber desc,si.sys_id

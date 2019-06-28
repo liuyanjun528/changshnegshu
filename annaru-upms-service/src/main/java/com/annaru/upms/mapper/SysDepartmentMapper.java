@@ -1,6 +1,7 @@
 package com.annaru.upms.mapper;
 
 import com.annaru.upms.entity.SysDepartment;
+import com.annaru.upms.entity.vo.SysDepartmentVo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -25,7 +26,7 @@ public interface SysDepartmentMapper extends BaseMapper<SysDepartment> {
     */
     IPage<SysDepartment> selectDataPage(Page page, @Param("params") Map<String, Object> params);
 
-    List<SysDepartment> getDepartmentCommonList(@Param("params") Map<String, Object> params);
+    List<SysDepartmentVo> getDepartmentCommonList(@Param("params") Map<String, Object> params);
 
-
+    List<SysDepartment> getFrequentUsedList(@Param("params") Map<String, Object> params);
 }
