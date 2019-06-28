@@ -14,13 +14,13 @@ public class SysCityVo extends Model<SysCityVo> implements Serializable {
     private String cityId;
     private String city;
     private String provinceId;
-    private List<SysDistrict> districtList;
+    private List<SysDistrictVo> districtList;
 
-    public List<SysDistrict> getDistrictList() {
+    public List<SysDistrictVo> getDistrictList() {
         return districtList;
     }
 
-    public void setDistrictList(List<SysDistrict> districtList) {
+    public void setDistrictList(List<SysDistrictVo> districtList) {
         this.districtList = districtList;
     }
 

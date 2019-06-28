@@ -58,8 +58,9 @@
         FROM
         sys_doctor_nurse_schedule
         WHERE
+        state = 2
         <if test="params.doctorNo != null and params.doctorNo != ''">
-        doctor_nurse_no = #{params.doctorNo}
+        and doctor_nurse_no = #{params.doctorNo}
         </if>
         ORDER BY
         date_from,
