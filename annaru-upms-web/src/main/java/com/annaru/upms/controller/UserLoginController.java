@@ -21,6 +21,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * APP端用户登录
@@ -52,8 +54,9 @@ public class UserLoginController extends BaseController {
         if (StringUtil.isBlank(cellphoneNo)) {
             return ResultMap.error("手机号不能为空！");
         }
-        String regex = "^1[3|4|5|8][0-9]\\d{8}$";
-        if (!cellphoneNo.matches(regex)) return ResultMap.error("请填入正确的手机号");
+        if (!isTrue(cellphoneNo)){
+            return ResultMap.error("请填入正确的手机号");
+        }
 
         String kaptcha = kaptcha();
         Map<String ,Object> isOk = MessageUtils.sendTemplateSMS(cellphoneNo, MessageUtils.loginId, kaptcha,"1");
@@ -77,7 +80,6 @@ public class UserLoginController extends BaseController {
     @RequiresPermissions("upms/userLogin/loginInfo")
     public ResultMap loginInfo(String cellphoneNo, String password, String type, String loginType, String kaptcha, String openid, String isHr){
 
-        String regex = "^1[3|4|5|8][0-9]\\d{8}$";
         UserBasic userBasic = null;
         String token = null;
         Map<String, Object> map = null;
@@ -87,8 +89,8 @@ public class UserLoginController extends BaseController {
             if (StringUtil.isBlank(cellphoneNo)){
                 return ResultMap.error("账号不能为空！");
             }
-            if (!cellphoneNo.matches(regex)){
-                return ResultMap.error("请填入正确的手机号! ");
+            if (!isTrue(cellphoneNo)){
+                return ResultMap.error("请填入正确的手机号");
             }
             if (StringUtil.isBlank(password)){
                 return ResultMap.error("密码不能为空！");
@@ -106,7 +108,7 @@ public class UserLoginController extends BaseController {
             if (!password.equals(userBasic.getPassword())){
                 return ResultMap.error("账号或者密码输入错误，请检查！");
             }
-            if (userBasic.getIsactive().equals("0")){
+            if (userBasic.getIsactive() == 0){
                 return ResultMap.error("HR未激活！");
             }
         }else {
@@ -121,8 +123,8 @@ public class UserLoginController extends BaseController {
                 if (StringUtil.isBlank(cellphoneNo)){
                     return ResultMap.error("账号不能为空！");
                 }
-                if (!cellphoneNo.matches(regex)){
-                    return ResultMap.error("请填入正确的手机号! ");
+                if (!isTrue(cellphoneNo)){
+                    return ResultMap.error("请填入正确的手机号");
                 }
             }
             if ("1".equals(loginType)){
@@ -165,9 +167,6 @@ public class UserLoginController extends BaseController {
                 }
                 if (!password.equals(userBasic.getPassword())){
                     return ResultMap.error("账号或者密码输入错误，请检查！");
-                }
-                if (userBasic.getIsactive().equals("0")){
-                    return ResultMap.error("用户未激活！");
                 }
             }
 
@@ -229,6 +228,9 @@ public class UserLoginController extends BaseController {
             }
         }
 
+        if (userBasic.getIsactive() == 0){
+            return ResultMap.error("用户未激活！");
+        }
         //判断是否是首次登陆
         Boolean firstLogin = false;
         if (userBasic.getLastLogintime() == null){
@@ -257,6 +259,9 @@ public class UserLoginController extends BaseController {
         if ("2".equals(type)){
             userBasic = iUserBasicService.selectDoctorByData(map);
             if (userBasic != null && userBasic.getSysDoctor().getDoctorNo() != null){
+                if (userBasic.getIsactive() == 0){
+                    return ResultMap.error("医生未激活！");
+                }
                 userBasic.setToken(token);
                 userBasic.setFirstLogin(firstLogin);
                 userBasic.setDoctorOrNurse(1);
@@ -268,6 +273,9 @@ public class UserLoginController extends BaseController {
         if ("2".equals(type)){
             userBasic = iUserBasicService.selectNurseByData(map);
             if (userBasic != null && userBasic.getSysNurse().getNurseNo() != null){
+                if (userBasic.getIsactive() == 0){
+                    return ResultMap.error("护士未激活！");
+                }
                 userBasic.setToken(token);
                 userBasic.setFirstLogin(firstLogin);
                 userBasic.setDoctorOrNurse(2);
@@ -347,6 +355,16 @@ public class UserLoginController extends BaseController {
             result+=random.nextInt(10);
         }
         return result;
+    }
+
+    public boolean isTrue(String cellphoneNo){
+        String regex="^[1](([3|5|8][\\d])|([4][4,5,6,7,8,9])|([6][2,5,6,7])|([7][^9])|([9][1,8,9]))[\\d]{8}$";// 验证手机号
+        Pattern p = Pattern.compile(regex);
+        Matcher m = p.matcher(cellphoneNo);
+        if (m.matches()){
+            return true;
+        }
+        return false;
     }
 
 }

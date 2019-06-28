@@ -20,7 +20,7 @@
         </collection>
     </resultMap>
 
-    <select id="getDepartmentCommonList" parameterType="map" resultMap="BaseResultMap">
+    <select id="getDepartmentCommonList" parameterType="map" resultMap="BaseResultMapVo">
         SELECT
         sd.department_name,
         ssd.dep_parent_id,

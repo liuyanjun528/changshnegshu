@@ -81,6 +81,7 @@
         <result column="countPsersion" property="countPsersion"/>
         <result column="countDetail" property="countDetail"/>
         <result column="imageUrl" property="imageUrl"/>
+        <result column="label" property="label" />
         <collection property="examPackageMainVoZsfwZList" ofType="com.annaru.upms.entity.vo.ExamPackageMainVoZsfwZ">
             <result column="serviceName" property="serviceName"/>
             <result column="periods" property="periods"/>
@@ -221,7 +222,8 @@
         em3.remark1,
         epa.periods periods,
         ea.cates eaCates,
-        epm.image_url imageUrl
+        epm.image_url imageUrl,
+        epm.label
         FROM
         exam_package_main epm
         LEFT JOIN (

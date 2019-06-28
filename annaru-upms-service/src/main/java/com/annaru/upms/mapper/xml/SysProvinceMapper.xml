@@ -17,8 +17,15 @@
         <collection property="sysCityList" ofType="com.annaru.upms.entity.vo.SysCityVo">
             <result column="city_id" property="cityId" />
             <result column="city" property="city" />
-            <collection property="districtList" ofType="com.annaru.upms.entity.SysDistrict">
+            <collection property="districtList" ofType="com.annaru.upms.entity.vo.SysDistrictVo">
                 <result column="district_name" property="districtName" />
+                <result column="district_id" property="districtId"/>
+                <collection property="streets" ofType="com.annaru.upms.entity.SysStreet">
+                    <result column="street_id" property="streetId"/>
+                    <result column="street_name" property="streetName"/>
+                    <result column="longitude" property="longitude"/>
+                    <result column="latitude" property="latitude"/>
+                </collection>
             </collection>
         </collection>
     </resultMap>
@@ -39,9 +46,22 @@
     </select>
 
     <select id="getlistAll" resultMap="BaseResultMapVo">
-        SELECT  sp.province,sp.province_id,sc.city,sc.city_id,sd.district_name FROM sys_province sp
-LEFT JOIN sys_city sc on sp.province_id = sc.province_id
-LEFT JOIN sys_district sd on sd.city_id = sc.city_id
+            SELECT
+            	sp.province,
+            	sp.province_id,
+            	sc.city,
+            	sc.city_id,
+            	sd.district_name,
+            	sd.district_id,
+            	ss.street_name,
+            	ss.street_id,
+            	ss.longitude,
+            	ss.latitude
+            FROM
+            	sys_province sp
+            LEFT JOIN sys_city sc ON sp.province_id = sc.province_id
+            LEFT JOIN sys_district sd ON sd.city_id = sc.city_id
+            LEFT JOIN sys_street ss ON sd.district_id = ss.district_id
     </select>
 
 </mapper>

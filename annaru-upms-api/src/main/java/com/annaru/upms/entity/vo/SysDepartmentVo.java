@@ -21,7 +21,7 @@ public class SysDepartmentVo extends Model<SysDepartmentVo> implements Serializa
 	private Integer parentId;
 	private String departmentName;
 	private Integer frequentUsed;
-	private List<SysSubDepartment> subDepartments;
+	private List<SysSubDepartmentVo> subDepartments;
 
 	public Integer getParentId() {
 		return parentId;
@@ -47,11 +47,11 @@ public class SysDepartmentVo extends Model<SysDepartmentVo> implements Serializa
 		this.frequentUsed = frequentUsed;
 	}
 
-	public List<SysSubDepartment> getSubDepartments() {
+	public List<SysSubDepartmentVo> getSubDepartments() {
 		return subDepartments;
 	}
 
-	public void setSubDepartments(List<SysSubDepartment> subDepartments) {
+	public void setSubDepartments(List<SysSubDepartmentVo> subDepartments) {
 		this.subDepartments = subDepartments;
 	}
 }
