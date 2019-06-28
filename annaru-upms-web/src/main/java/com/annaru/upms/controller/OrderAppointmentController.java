@@ -133,7 +133,7 @@ public class OrderAppointmentController extends BaseController {
         List<OrderExtensionSuggestion> orderExtensionSuggestion = orderExtensionSuggestionService.getItems(params);
         List<ExamChooseVo> examChooseVo = examPackageDetailService.getChoosen(params);
         List<OrderAppointment> orderAppointments = orderAppointmentService.getAppointInfoByOrderNo(params);
-        if (orderAppointments==null){
+        if (orderAppointments.size()==0){
             params.clear();
             params.put("examList",examChooseVo);
             params.put("packageName",userPackage.getPackageName());
@@ -293,8 +293,7 @@ public class OrderAppointmentController extends BaseController {
             }else if (orderAppointment.getAppointmentCates()==2
                     &&orderAppointment.getInstitutionId()!=null
                     &&orderAppointment.getParentNo()!=null
-                    &&orderAppointment.getExamDetailId()!=null
-                    &&orderAppointment.getExamMasterId()!=null){
+                    &&orderAppointment.getExtensionItems()!=null){
                 String orderNo = createOrderNo();
                 Integer orderCates = orderAppointment.getAppointmentCates();
                 String userId = orderAppointment.getUserId();
@@ -307,8 +306,8 @@ public class OrderAppointmentController extends BaseController {
                 appointment.setOrderNo(orderNo);
                 orderAppointmentService.save(appointment);
                 orderExtensionExam.setCreateBy(userId);
-                orderExtensionExam.setExamDetailId(orderAppointment.getExamDetailId());
-                orderExtensionExam.setExamMasterId(orderAppointment.getExamMasterId());
+//                orderExtensionExam.setExamDetailId(orderAppointment.getExamDetailId());
+//                orderExtensionExam.setExamMasterId(orderAppointment.getExamMasterId());
                 orderExtensionExam.setOrderNo(orderNo);
                 orderExtensionExamService.save(orderExtensionExam);
                 orderMain.setUserId(userId);
@@ -320,8 +319,7 @@ public class OrderAppointmentController extends BaseController {
             }else if (orderAppointment.getAppointmentCates()==4
                     &&orderAppointment.getInstitutionId()!=null
                     &&orderAppointment.getParentNo()!=null
-                    &&orderAppointment.getExamDetailId()!=null
-                    &&orderAppointment.getExamMasterId()!=null
+                    &&orderAppointment.getExtensionItems()!=null
             &&orderAppointment.getHrOppointmentId()!=null) {
                 String orderNo = createOrderNo();
                 Integer orderCates = orderAppointment.getAppointmentCates();
@@ -335,8 +333,8 @@ public class OrderAppointmentController extends BaseController {
                 appointment.setOrderNo(orderNo);
                 orderAppointmentService.save(appointment);
                 orderExtensionExam.setCreateBy(userId);
-                orderExtensionExam.setExamDetailId(orderAppointment.getExamDetailId());
-                orderExtensionExam.setExamMasterId(orderAppointment.getExamMasterId());
+//                orderExtensionExam.setExamDetailId(orderAppointment.getExamDetailId());
+//                orderExtensionExam.setExamMasterId(orderAppointment.getExamMasterId());
                 orderExtensionExam.setOrderNo(orderNo);
                 orderExtensionExamService.save(orderExtensionExam);
                 orderMain.setUserId(userId);
