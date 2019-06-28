@@ -37,8 +37,8 @@ public class ExamPackageMainServiceImpl extends ServiceImpl<ExamPackageMainMappe
     }
 
     @Override
-    public List<ExamPackageMainVoTcxqZ> selectInfoBySysIdZ(Map<String, Object> params) {
-        List<ExamPackageMainVoTcxqZ> examPackageMain = this.baseMapper.selectInfoBySysIdZ(params);
+    public ExamPackageMainVoTcxqZ selectInfoBySysIdZ(Map<String, Object> params) {
+        ExamPackageMainVoTcxqZ examPackageMain = this.baseMapper.selectInfoBySysIdZ(params);
         return examPackageMain;
     }
 

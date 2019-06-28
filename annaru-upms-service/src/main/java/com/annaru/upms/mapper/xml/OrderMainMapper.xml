@@ -270,7 +270,7 @@
         LEFT JOIN order_extension_exam oex ON oex.order_no = om.order_no
         WHERE
         1=1 AND om.is_deleted = 0
-        <if test="params.status != null and params.status != ''">
+        <if test="params.status != null and params.status != '' or params.status == 0">
             AND om.status = #{params.status}
         </if>
         GROUP BY om.sys_id,ur.relative_name

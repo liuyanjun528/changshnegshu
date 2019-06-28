@@ -49,9 +49,9 @@ public class UserBasicController extends BaseController {
     @PostMapping("/getKaptchaUpdate")
     public ResultMap getKaptchaUpdate(@ApiParam(value="手机号")@RequestParam String cellphoneNo) {
 
-        if (StringUtil.isBlank(cellphoneNo)) {
-            return ResultMap.error("手机号不能为空！");
-        }
+        String regex = "^1[3|4|5|8][0-9]\\d{8}$";
+        if (!cellphoneNo.matches(regex)) return ResultMap.error("请填入正确的手机号");
+
         Map<String, Object> params = new HashMap<>();
         params.put("cellphoneNo",cellphoneNo);
         if (iUserBasicService.selectByData(params) != null){
