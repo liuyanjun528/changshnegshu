@@ -90,6 +90,10 @@ public class OrderMainVoZZF implements Serializable {
 	 * @return
 	 */
 	private Double amount;
+	/**
+	 * 预约地址
+	 */
+	private String address;
 
 	private List<OrderMainVoZTC3> orderMainVoZTC3List;
 
@@ -186,6 +190,12 @@ public class OrderMainVoZZF implements Serializable {
 	}
 	public void setOrderMainVoZTC3List(List<OrderMainVoZTC3> orderMainVoZTC3List) {
 		this.orderMainVoZTC3List = orderMainVoZTC3List;
+	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
 	}
 
 	@Override

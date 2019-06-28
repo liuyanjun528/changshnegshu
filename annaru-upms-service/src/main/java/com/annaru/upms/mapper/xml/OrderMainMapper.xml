@@ -146,9 +146,15 @@
         </collection>
         <collection property="orderMainVoZTC4List" ofType="com.annaru.upms.entity.vo.OrderMainVoZTC4">
             <result column="customerName" property="customerName"/>
+            <result column="gender" property="gender"/>
+            <result column="idCardNo" property="idCardNo"/>
+            <result column="cellphoneNo" property="cellphoneNo"/>
         </collection>
         <collection property="orderMainVoZTC6List" ofType="com.annaru.upms.entity.vo.OrderMainVoZTC6">
             <result column="fullName1" property="fullName1"/>
+            <result column="gender1" property="gender1"/>
+            <result column="idCardNo1" property="idCardNo1"/>
+            <result column="cellphoneNo1" property="cellphoneNo1"/>
         </collection>
     </resultMap>
 
@@ -169,6 +175,7 @@
         <result column="orderTime" property="orderTime" />
         <result column="userChannel" property="userChannel" />
         <result column="amount" property="amount" />
+        <result column="address" property="address" />
 
         <collection property="orderMainVoZTC3List" ofType="com.annaru.upms.entity.vo.OrderMainVoZTC3">
             <result column="examMasterItem" property="examMasterItem"/>
@@ -194,6 +201,7 @@
         <result column="amount" property="amount" />
         <result column="departmentName" property="departmentName"/>
         <result column="option_2" property="option_2"/>
+        <result column="address" property="address" />
     </resultMap>
 
 
@@ -294,7 +302,13 @@
         ub.full_name fullName,
         om.total_qty totalQty,
         ur.relative_name customerName,
+        ur.gender,
+        ur.id_card_no idCardNo,
+        ur.cellphone_no cellphoneNo,
         ub1.full_name fullName1,
+        ub1.gender gender1,
+        ub1.id_card_no idCardNo1,
+        ub1.cellphone_no cellphoneNo1,
         om.status,
         (SELECT SUM(ed.sys_id) FROM exam_detail ed WHERE ed.sys_id = epd.exam_detail_id ) itemNameCount
         FROM
@@ -336,7 +350,8 @@
         oa.time_to timeTo,
         om.order_time orderTime,
         om.user_channel userChannel,
-        om.amount
+        om.amount,
+        oa.address
         FROM
         order_main om
         LEFT JOIN order_extension_exam oee ON oee.order_no = om.order_no
@@ -371,7 +386,8 @@
         om.user_channel userChannel,
         om.amount,
         sd.department_name departmentName,
-        oai.option_2
+        oai.option_2,
+        oa.address
         FROM
         order_main om
         LEFT JOIN order_appointment oa ON oa.order_no = om.order_no
