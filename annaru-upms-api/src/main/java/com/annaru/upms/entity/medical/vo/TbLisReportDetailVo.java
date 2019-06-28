@@ -20,7 +20,7 @@ public class TbLisReportDetailVo extends Model<TbLisReportDetailVo> implements S
 	private String jzlsh;
 	/** 医院名称*/
 	private String hospitalName;
-	/** 报告日期*/
+	/** 检验日期*/
 	private String jyrq;
 	/** 报告单类别名称*/
 	private String bgdlb;

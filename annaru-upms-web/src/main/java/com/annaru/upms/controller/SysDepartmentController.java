@@ -4,6 +4,7 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.annaru.common.base.BaseController;
 import com.annaru.common.result.ResultMap;
 import com.annaru.upms.entity.SysDepartment;
+import com.annaru.upms.entity.vo.SysDepartmentVo;
 import com.annaru.upms.service.ISysDepartmentService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -38,14 +39,16 @@ public class SysDepartmentController extends BaseController {
     @ApiOperation(value = "列表")
     @GetMapping("/list")
     @RequiresPermissions("upms/sysDepartment/list")
-    public ResultMap list(@ApiParam(value = "常用")
-                              @RequestParam(required = false) String frequentUsed,
-                          @RequestParam String institutionId){
+    public ResultMap list(@RequestParam String institutionId){
         Map<String, Object> params = new HashMap<>();
-        params.put("frequentUsed", frequentUsed);
+//        params.put("frequentUsed", frequentUsed);
         params.put("institutionId",institutionId);
-        List<SysDepartment> commonList = sysDepartmentService.getDepartmentCommonList(params);
-        return ResultMap.ok().put("data",commonList);
+        List<SysDepartmentVo> commonList = sysDepartmentService.getDepartmentCommonList(params);
+        List<SysDepartment> frequentUsedList = sysDepartmentService.getFrequentUsedList(params);
+        params.clear();
+        params.put("frequentUsedList",frequentUsedList);
+        params.put("commonList",commonList);
+        return ResultMap.ok().put("data",params);
     }
 
 }

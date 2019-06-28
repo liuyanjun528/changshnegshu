@@ -18,8 +18,8 @@ public class TbLisReportListVo extends Model<TbLisReportListVo> implements Seria
 	private String bgdh;
 	/** 医院名称*/
 	private String hospitalName;
-	/** 报告日期*/
-	private String bgrq;
+	/** 检验日期*/
+	private String jyrq;
 	/** 报告单类别名称*/
 	private String bgdlb;
 	/** 门诊/住院标志*/
@@ -49,12 +49,12 @@ public class TbLisReportListVo extends Model<TbLisReportListVo> implements Seria
 		this.hospitalName = hospitalName;
 	}
 
-	public String getBgrq() {
-		return bgrq;
+	public String getJyrq() {
+		return jyrq;
 	}
 
-	public void setBgrq(String bgrq) {
-		this.bgrq = bgrq;
+	public void setJyrq(String jyrq) {
+		this.jyrq = jyrq;
 	}
 
 	public String getBgdlb() {
