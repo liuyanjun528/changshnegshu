@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -212,7 +213,7 @@ public class TbMedicalController extends BaseController {
     @ApiOperation(value = "检验报告详情")
     @GetMapping("/getJybgDetail")
     @RequiresPermissions("upms/medical/getJybgDetail")
-    public ResultMap getJybgDetail(@ApiParam(value = "就诊记录id", required = true) @RequestParam String csid,
+    public ResultMap getJybgDetail(@ApiParam(value = "就诊流水号", required = true) @RequestParam String csid,
                                    @ApiParam(value = "报告单号", required = true) @RequestParam String bgdh){
         Map<String, Object> map = new HashMap<>();
         // 就诊记录
@@ -264,35 +265,37 @@ public class TbMedicalController extends BaseController {
     @ApiOperation(value = "用药记录列表")
     @GetMapping("/getYyjl")
     @RequiresPermissions("upms/medical/getYyjl")
-    public ResultMap getYyjl(@ApiParam(value = "身份证号", required = true) @RequestParam String kh) {
+    public ResultMap getYyjl(@ApiParam(value = "当前页")@RequestParam(defaultValue="1") int page,
+                             @ApiParam(value = "每页数量")@RequestParam(defaultValue = "10") int limit,
+                             @ApiParam(value = "身份证号", required = true) @RequestParam String kh,
+                             @ApiParam(value = "开始日期") @RequestParam(required = false) String dateFrom,
+                             @ApiParam(value = "结束日期") @RequestParam(required = false) String dateTo) {
         try {
-            Map<String, Object> map = new HashMap<>();
-        /*if (StringUtils.isBlank(userId)) {
-            return ResultMap.error("该用户不存在！");
-        }
-        UserBasic user = iUserBasicService.selectByUid(userId);
-        if (StringUtils.isBlank(user.getIdCardNo())) {
-            return ResultMap.error("用户尚未实名认证！");
-        }
-        String kh = user.getIdCardNo();*/
-            List<TbCisPrescriptionDetailListVo> tbCisPrescriptionDetails= iTbCisPrescriptionDetailService.getYyjl(kh);
-            for (TbCisPrescriptionDetailListVo detail: tbCisPrescriptionDetails) {
-                List<TbCisPrescriptionDetailVo> yp_list = iTbCisPrescriptionDetailService.getYp(detail.getJzlsh());
-                for (TbCisPrescriptionDetailVo i : yp_list) {
-                    if (StringUtils.isNotBlank(i.getSypcdm())) {
-                        String sypcdm = i.getSypcdm().toLowerCase();
-                        i.setSypc(AppConst.sypc_dm.get(sypcdm));
+            Map<String, Object> params = new HashMap<>();
+            params.put("page",page);
+            params.put("limit", limit);
+            params.put("kh", kh);
+            params.put("dateFrom", dateFrom);
+            params.put("dateTo", dateTo);
+            PageUtils<Map<String, Object>> map_list = iTbCisPrescriptionDetailService.getYyjlPage(params);
+            List<TbCisPrescriptionDetailListVo> yyjl_list = map_list.getList();
+            for (TbCisPrescriptionDetailListVo listVo: yyjl_list) {
+                List<TbCisPrescriptionDetailVo> yp_list = iTbCisPrescriptionDetailService.getYp(listVo.getJzlsh());
+                for (TbCisPrescriptionDetailVo detailVo : yp_list) {
+                    if (StringUtils.isNotBlank(detailVo.getSypcdm())) {
+                        String sypcdm = detailVo.getSypcdm().toLowerCase();
+                        detailVo.setSypc(AppConst.sypc_dm.get(sypcdm));
                     }else {
-                        i.setJl(null);
-                        i.setDw(null);
+                        detailVo.setJl(null);
+                        detailVo.setDw(null);
                     }
-                    i.setYf(AppConst.yf_dm.get(i.getYf()));
+                    detailVo.setYf(AppConst.yf_dm.get(detailVo.getYf()));
+                    listVo.setTbCisPrescriptionDetailVo(detailVo);
                 }
-                map.put("yp", yp_list);
-                map.put("yyjl",tbCisPrescriptionDetails);
             }
-            if(tbCisPrescriptionDetails.size()>0){
-                return ResultMap.ok().put("data",map);
+            if(yyjl_list.size()>0){
+                map_list.setList(yyjl_list);
+                return ResultMap.ok().put("data",map_list);
             }else {
                 return ResultMap.error("没有用药记录数据！");
             }
