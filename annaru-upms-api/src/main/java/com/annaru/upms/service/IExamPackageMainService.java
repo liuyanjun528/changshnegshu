@@ -35,7 +35,7 @@ public interface IExamPackageMainService extends IService<ExamPackageMain> {
      * @param params
      * @return
      */
-    List<ExamPackageMainVoTcxqZ> selectInfoBySysIdZ(Map <String, Object> params);
+    ExamPackageMainVoTcxqZ selectInfoBySysIdZ(Map <String, Object> params);
 
     /**
      * wh查询全部套餐

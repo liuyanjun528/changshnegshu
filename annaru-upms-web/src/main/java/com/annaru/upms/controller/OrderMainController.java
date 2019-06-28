@@ -186,7 +186,7 @@ public class OrderMainController extends BaseController {
     public ResultMap selectPackageOrder(@PathVariable("sysId") Integer sysId){
         Map<String, Object> params = new HashMap<>();
         params.put("sysId", sysId);
-        List<OrderMainVoZTC> orderMainList = orderMainService.selectPackageOrder(params);
+        OrderMainVoZTC orderMainList = orderMainService.selectPackageOrder(params);
         return ResultMap.ok().put("data",orderMainList);
     }
 
@@ -201,7 +201,7 @@ public class OrderMainController extends BaseController {
     public ResultMap selectPackageAdvance(@PathVariable("sysId") Integer sysId){
         Map<String, Object> params = new HashMap<>();
         params.put("sysId", sysId);
-        List<OrderMainVoZZF> orderMainList = orderMainService.selectPackageAdvance(params);
+        OrderMainVoZZF orderMainList = orderMainService.selectPackageAdvance(params);
         return ResultMap.ok().put("data",orderMainList);
     }
 
@@ -216,7 +216,7 @@ public class OrderMainController extends BaseController {
     public ResultMap selectPackageGreen(@PathVariable("sysId") Integer sysId){
         Map<String, Object> params = new HashMap<>();
         params.put("sysId", sysId);
-        List<OrderMainVoZMzlt> orderMainList = orderMainService.selectPackageGreen(params);
+        OrderMainVoZMzlt orderMainList = orderMainService.selectPackageGreen(params);
         return ResultMap.ok().put("data",orderMainList);
     }
 

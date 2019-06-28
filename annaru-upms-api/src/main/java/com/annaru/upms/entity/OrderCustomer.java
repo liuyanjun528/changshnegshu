@@ -37,11 +37,25 @@ public class OrderCustomer extends Model<OrderCustomer> implements Serializable 
 	private String orderNo;
 
 	/**
+	 * 定单状态
+	 */
+	@ApiModelProperty(value = "1:本人 2:亲属")
+	@TableField("user_cates")
+	private int userCates;
+
+	/**
 	 * 证件号
 	 */
     @ApiModelProperty(value = "相关亲属编号")
 	@TableField("relative_id")
 	private String relativeId;
+
+	/**
+	 * 删除标记(0:未删除/1:已删除)
+	 */
+	@ApiModelProperty(value = "删除标记(0:未删除/1:已删除)")
+	@TableField("is_deleted")
+	private int isDeleted;
 
 	public Integer getSysId() {
 		return sysId;
@@ -65,6 +79,23 @@ public class OrderCustomer extends Model<OrderCustomer> implements Serializable 
 
 	public void setRelativeId(String relativeId) {
 		this.relativeId = relativeId;
+	}
+
+
+	public int getUserCates() {
+		return userCates;
+	}
+
+	public void setUserCates(int userCates) {
+		this.userCates = userCates;
+	}
+
+	public int getIsDeleted() {
+		return isDeleted;
+	}
+
+	public void setIsDeleted(int isDeleted) {
+		this.isDeleted = isDeleted;
 	}
 
 	@Override

@@ -32,5 +32,7 @@ public interface ISysDoctorScheduleService extends IService<SysDoctorSchedule> {
      * @Date: 2019/6/13 11:19
      */
     List<SysDoctorSchedule> selectDoctorScheduleList(Date dateFrom, String doctorNurseNo);
+
+    SysDoctorSchedule updateActive(Map<String,Object> params);
 }
 

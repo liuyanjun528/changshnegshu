@@ -8,6 +8,7 @@
         <result column="sys_id" property="sysId" />
         <result column="order_no" property="orderNo" />
         <result column="relative_id" property="relativeId" />
+        <result column="user_cates" property="userCates" />
     </resultMap>
 
     <!-- 多表页面信息查询分页 -->
@@ -28,9 +29,9 @@
 
     <insert id="insertOrderCustomer" parameterType="com.annaru.upms.entity.OrderCustomer">
         insert into order_customer
-                (order_no,relative_id)
+                (order_no,relative_id,user_cates)
         values
-                (#{orderNo},#{relativeId})
+                (#{orderNo},#{relativeId},#{userCates})
     </insert>
 
 

@@ -41,4 +41,7 @@ public class SysDoctorScheduleServiceImpl extends ServiceImpl<SysDoctorScheduleM
         return this.baseMapper.selectDoctorScheduleList(dateFrom, doctorNurseNo);
     }
 
+    public SysDoctorSchedule updateActive(Map<String,Object> params){
+        return this.baseMapper.updateActive(params);
+    }
 }
