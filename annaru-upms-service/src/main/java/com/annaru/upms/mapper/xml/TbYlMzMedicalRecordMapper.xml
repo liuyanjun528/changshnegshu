@@ -30,6 +30,7 @@
     <!-- 通用查询映射结果 查询门诊记录列表  -->
     <resultMap id="BaseResultMapList" type="com.annaru.upms.entity.medical.vo.TbYlMzMedicalRecordListVo" >
         <result column="CSID" property="csid" />
+        <result column="JZLSH" property="jzlsh" />
         <result column="HOSPITAL_NAME" property="hospitalName" />
         <result column="ZZYSXM" property="zzysxm" />
         <result column="JZKSMC" property="jzksmc" />
@@ -62,6 +63,7 @@
     <select id="getJzjlPage" parameterType="map" resultMap="BaseResultMapList">
         SELECT
         r.CSID,
+        r.JZLSH,
         h.HOSPITAL_NAME,
         r.ZZYSXM,
         r.JZKSMC,
@@ -73,10 +75,12 @@
         LEFT JOIN TB_HOSPITAL h ON r.YLJGDM = h.HOSPITAL_ID
         WHERE
             <if test="params.kh != null and params.kh != ''">
-                  r.KH =  #{params.kh}
+                r.KH =  #{params.kh}
             </if>
-        AND (select add_months(sysdate,-12) from dual) > to_date(substr(r.JZKSRQ,1,10),'yyyy-mm-dd')
-
+            <if test="params.dateFrom != null and params.dateFrom != '' and params.dateTo != null and params.dateTo != ''">
+                AND to_date(SUBSTR(r.JZKSRQ, 0, 10),'yyyy-mm-dd') Between to_date(#{params.dateFrom},'yyyy-mm-dd') AND to_date(#{params.dateTo},'yyyy-mm-dd')
+            </if>
+        ORDER BY r.JZKSRQ DESC
     </select>
 
     <!-- 根据卡号查询就诊记录 -->

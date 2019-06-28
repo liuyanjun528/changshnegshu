@@ -58,7 +58,10 @@
         <if test="params.kh != null and params.kh != ''">
             r.KH =  #{params.kh}
         </if>
-        AND (select add_months(sysdate,-12) from dual) > to_date(substr(r.RYSJ,1,10),'yyyy-mm-dd')
+        <if test="params.dateFrom != null and params.dateFrom != '' and params.dateTo != null and params.dateTo != ''">
+            AND to_date(SUBSTR(r.RYSJ, 0, 10),'yyyy-mm-dd') Between to_date(#{params.dateFrom},'yyyy-mm-dd') AND to_date(#{params.dateTo},'yyyy-mm-dd')
+        </if>
+        ORDER BY r.RYSJ DESC
     </select>
 
     <!-- 根据卡号查询就诊记录 -->
