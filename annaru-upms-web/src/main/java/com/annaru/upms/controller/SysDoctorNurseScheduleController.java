@@ -124,7 +124,6 @@ public class SysDoctorNurseScheduleController extends BaseController {
     @RequiresPermissions("upms/sysDoctorNurseSchedule/save")*/
     public ResultMap save(@Valid @RequestBody SysDoctorNurseSchedule sysDoctorNurseSchedule) {
         try {
-
             sysDoctorNurseScheduleService.save(sysDoctorNurseSchedule);
             return ResultMap.ok("添加成功");
         } catch (Exception e) {

@@ -74,7 +74,7 @@
         r.BGDH,
         h.HOSPITAL_NAME,
         r.BGDLB,
-        SUBSTR (r.BGRQ, 0, 10) AS BGRQ,
+        SUBSTR (r.JYRQ, 0, 10) AS JYRQ,
         r.mzzybz
         FROM TB_LIS_Report r
         LEFT JOIN TB_HOSPITAL h ON r.YLJGDM = h.HOSPITAL_ID
@@ -82,7 +82,10 @@
         <if test="params.kh != null and params.kh != ''">
             r.KH =  #{params.kh}
         </if>
-        ORDER BY BGRQ DESC
+        <if test="params.dateFrom != null and params.dateFrom != '' and params.dateTo != null and params.dateTo != ''">
+            AND to_date(SUBSTR(r.JYRQ, 0, 10),'yyyy-mm-dd') Between to_date(#{params.dateFrom},'yyyy-mm-dd') AND to_date(#{params.dateTo},'yyyy-mm-dd')
+        </if>
+        ORDER BY r.JYRQ DESC
     </select>
 
     <!-- 根据卡号查询检验报告 -->
@@ -92,13 +95,13 @@
         r.BGDH,
         h.HOSPITAL_NAME,
         r.BGDLB,
-        SUBSTR (r.BGRQ, 0, 10) AS BGRQ,
+        SUBSTR (r.JYRQ, 0, 10) AS JYRQ,
         r.mzzybz
      FROM
         TB_LIS_Report r,
         TB_HOSPITAL h
      WHERE
-	    r.YLJGDM = h.HOSPITAL_ID AND r.KH = #{kh} ORDER BY BGRQ DESC
+	    r.YLJGDM = h.HOSPITAL_ID AND r.KH = #{kh} ORDER BY JYRQ DESC
     </select>
 
     <!-- 根据就诊流水号查询检验报告 -->
@@ -122,9 +125,9 @@
     SELECT
         r.BGDH,
         r.JZLSH,
-        r.jyrq,
+        r.JYRQ,
         h.HOSPITAL_NAME,
-        r.bgdlb
+        r.BGDLB
     FROM
         TB_LIS_Report r,
         TB_HOSPITAL h

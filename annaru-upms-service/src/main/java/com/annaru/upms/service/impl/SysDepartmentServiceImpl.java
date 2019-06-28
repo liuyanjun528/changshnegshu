@@ -3,6 +3,7 @@ package com.annaru.upms.service.impl;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.annaru.common.result.PageUtils;
 import com.annaru.upms.entity.SysDepartment;
+import com.annaru.upms.entity.vo.SysDepartmentVo;
 import com.annaru.upms.mapper.SysDepartmentMapper;
 import com.annaru.upms.service.ISysDepartmentService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -29,8 +30,12 @@ public class SysDepartmentServiceImpl extends ServiceImpl<SysDepartmentMapper, S
     }
 
     @Override
-    public List<SysDepartment> getDepartmentCommonList(Map<String, Object> params){
+    public List<SysDepartmentVo> getDepartmentCommonList(Map<String, Object> params){
         return this.baseMapper.getDepartmentCommonList(params);
+    }
+
+    public List<SysDepartment> getFrequentUsedList(Map<String, Object> params){
+        return this.baseMapper.getFrequentUsedList(params);
     }
 
 }

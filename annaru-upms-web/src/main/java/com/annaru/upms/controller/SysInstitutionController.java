@@ -43,14 +43,15 @@ public class SysInstitutionController extends BaseController {
                           @ApiParam(value = "每页数量")@RequestParam(defaultValue = "10") int limit,
                           @ApiParam(value = "行政区")@RequestParam(required = false) String district,
                           @ApiParam(value = "预约量")@RequestParam(required = false) Integer number,
-                          @ApiParam(value = "机构等级")@RequestParam(required = false) String level){
-
+                          @ApiParam(value = "机构等级")@RequestParam(required = false) String level,
+                          @ApiParam(value = "是否为合作机构(可预约机构)")@RequestParam(required = false)String forAppointment){
         Map<String, Object> params = new HashMap<>();
         params.put("page",page);
         params.put("limit", limit);
         params.put("district", district);
         params.put("number", number);
         params.put("level",level);
+        params.put("forAppointment",forAppointment);
         PageUtils<Map<String, Object>> pageList = sysInstitutionService.getDataPage(params);
         return ResultMap.ok().put("data",pageList);
     }
