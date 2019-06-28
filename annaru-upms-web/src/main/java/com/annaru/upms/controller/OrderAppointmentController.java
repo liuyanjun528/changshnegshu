@@ -357,11 +357,11 @@ public class OrderAppointmentController extends BaseController {
                 sysDoctorOppointment.setAppointDate(orderAppointment.getAppointDate());
                 sysDoctorOppointment.setTimeFrom(orderAppointment.getTimeFrom());
                 sysDoctorOppointment.setTimeTo(orderAppointment.getTimeTo());
-                Map<String, Object> params = new HashMap<>();
-                params.put("appointDate",orderAppointment.getAppointDate());
-                params.put("timeFrom",orderAppointment.getTimeFrom());
-                params.put("timeTo",orderAppointment.getTimeTo());
-                sysDoctorScheduleService.updateActive(params);
+//                Map<String, Object> params = new HashMap<>();
+//                params.put("appointDate",orderAppointment.getAppointDate());
+//                params.put("timeFrom",orderAppointment.getTimeFrom());
+//                params.put("timeTo",orderAppointment.getTimeTo());
+//                sysDoctorScheduleService.updateActive(params);
                 sysDoctorOppointmentService.save(sysDoctorOppointment);
             }else if (orderAppointment.getAppointmentCates()==6
                     &&orderAppointment.getInstitutionId()!=null

@@ -1,6 +1,7 @@
-package com.annaru.upms.entity;
+package com.annaru.upms.entity.vo;
 
 import com.annaru.common.util.JacksonUtils;
+import com.annaru.upms.entity.SysStreet;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -10,53 +11,35 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
 
 
-/**
- *
- *
- * @author xck
- * @date 2019-05-22 14:30:19
- */
-@ApiModel(value = "")
-@TableName("sys_district")
-public class SysDistrict extends Model<SysDistrict> implements Serializable {
+public class SysDistrictVo extends Model<SysDistrictVo> implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * 序号
-	 */
-    @ApiModelProperty(value = "序号")
-	@TableId(type = IdType.AUTO)
-	private Integer sysId;
-	/**
-	 * 城市编号
-	 */
-    @ApiModelProperty(value = "城市编号")
-	@TableField("city_id")
+	private Integer districtId;
 	private String cityId;
-	/**
-	 * 行政区名称
-	 */
-    @ApiModelProperty(value = "行政区名称")
-	@TableField("district_name")
 	private String districtName;
+    private List<SysStreet> streets;
+
+
+	public List<SysStreet> getStreets() {
+		return streets;
+	}
+
+	public void setStreets(List<SysStreet> streets) {
+		this.streets = streets;
+	}
+
+	public Integer getDistrictId() {
+		return districtId;
+	}
+
+	public void setDistrictId(Integer districtId) {
+		this.districtId = districtId;
+	}
 
 	/**
-     * 获取：序号
-     */
-    public Integer getSysId() {
-        return sysId;
-    }
-	/**
-	 * 设置：序号
-	 */
-	public void setSysId(Integer sysId) {
-		this.sysId = sysId;
-	}
-    /**
      * 获取：城市编号
      */
     public String getCityId() {
@@ -81,13 +64,4 @@ public class SysDistrict extends Model<SysDistrict> implements Serializable {
 		this.districtName = districtName;
 	}
 
-    @Override
-	protected Serializable pkVal() {
-		return this.sysId;
-	}
-
-	@Override
-	public String toString() {
-        return JacksonUtils.toJson(this);
-	}
 }
