@@ -14,7 +14,7 @@
     <resultMap id="BaseResultMapVo" type="com.annaru.upms.entity.vo.SysDepartmentVo">
         <result column="department_name" property="departmentName"/>
         <result column="dep_parent_id" property="parentId"/>
-        <collection property="subDepartments" ofType="com.annaru.upms.entity.Vo.SysSubDepartmentVo">
+        <collection property="subDepartments" ofType="com.annaru.upms.entity.vo.SysSubDepartmentVo">
             <result column="sub_name" property="subDepartmentName"/>
             <result column="sys_id" property="depSubId"/>
         </collection>
