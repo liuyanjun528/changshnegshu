@@ -4,6 +4,7 @@ import com.annaru.common.result.PageUtils;
 import com.annaru.upms.entity.medical.TbYlZyMedicalRecord;
 import com.annaru.upms.entity.medical.vo.TbYlZyMedicalRecordListVo;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -36,6 +37,13 @@ public interface ITbYlZyMedicalRecordService extends IService<TbYlZyMedicalRecor
      * @return
      */
     List<TbYlZyMedicalRecordListVo> getJyjl(String kh);
+
+    /**
+     * 根据卡号查询近一年的住院记录
+     * @param kh 卡号
+     * @return
+     */
+    List<TbYlZyMedicalRecordListVo> getJyjlCs(String kh);
 
 }
 

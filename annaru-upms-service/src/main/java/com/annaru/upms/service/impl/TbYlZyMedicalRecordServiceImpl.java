@@ -59,5 +59,15 @@ public class TbYlZyMedicalRecordServiceImpl extends ServiceImpl<TbYlZyMedicalRec
         return this.baseMapper.getJyjl(kh);
     }
 
+    /**
+     * 根据卡号查询近一年的住院记录
+     * @param kh 卡号
+     * @return
+     */
+    @Override
+    @DS("oracle")
+    public List<TbYlZyMedicalRecordListVo> getJyjlCs(String kh) {
+        return this.baseMapper.getJyjl(kh);
+    }
 
 }
