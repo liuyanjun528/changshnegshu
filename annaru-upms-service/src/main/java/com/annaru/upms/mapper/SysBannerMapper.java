@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -23,6 +24,14 @@ public interface SysBannerMapper extends BaseMapper<SysBanner> {
     * @return
     */
     IPage<SysBanner> selectDataPage(Page page, @Param("params") Map<String, Object> params);
+
+    /*** 方法描述:查询所有Banner
+    * @params: []
+    * @return: java.util.List<com.annaru.upms.entity.SysBanner>
+    * @Author: jyehui
+    * @Date: 2019/7/1 12:07
+    */
+    List<SysBanner> selectAll();
 
 
 }

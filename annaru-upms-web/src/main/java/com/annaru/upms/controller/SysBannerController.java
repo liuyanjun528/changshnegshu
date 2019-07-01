@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -30,6 +31,20 @@ import java.util.Map;
 public class SysBannerController extends BaseController {
     @Reference
     private ISysBannerService sysBannerService;
+
+    /*** 方法描述:查询所有Banner
+    * @params: []
+    * @return: com.annaru.common.result.ResultMap
+    * @Author: jyehui
+    * @Date: 2019/7/1 12:12
+    */
+    @ApiOperation(value = "查询所有Banner")
+    @GetMapping("/listAll")
+    public ResultMap listAll(){
+        List<SysBanner> sysBanners = sysBannerService.selectAll();
+
+        return ResultMap.ok().put("data",sysBanners);
+    }
 
     /**
      * 列表
