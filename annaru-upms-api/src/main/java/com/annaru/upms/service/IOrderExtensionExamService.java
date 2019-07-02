@@ -21,6 +21,8 @@ public interface IOrderExtensionExamService extends IService<OrderExtensionExam>
     */
     PageUtils getDataPage(Map<String, Object> params);
 
+    int saveOne(OrderExtensionExam orderExtensionExam);
+
 
 }
 

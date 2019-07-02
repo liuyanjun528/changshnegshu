@@ -47,12 +47,6 @@ public interface OrderAppointmentMapper extends BaseMapper<OrderAppointment> {
     int updateStatus(@Param("status") int status,@Param("orderNo") String orderNo);
 
     /**
-      * @Description:医生端待确认预约
-      * @Author: wh
-      * @Date: 2019/6/19 17:06
-      */
-    IPage<OrderAppointmentDoctorVo> selectOutpatientAppointment(Page page, @Param("params") Map<String, Object> params);
-    /**
      * @Description:取消预约
      * @Author: zk
      * @Date: 2019/6/20
