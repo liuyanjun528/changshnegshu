@@ -4,6 +4,8 @@ import java.util.*;
 
 import com.annaru.upms.controllerutil.SysConfigUtil;
 import com.annaru.upms.entity.SysConfig;
+import com.annaru.upms.entity.vo.UserRelativesDetailVoZ;
+import com.annaru.upms.entity.vo.UserRelativesVoZ;
 import com.annaru.upms.service.ISysConfigService;
 import jodd.util.StringUtil;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -42,6 +44,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("upms/userRelatives")
 public class UserRelativesController extends BaseController {
+
     @Reference
     private IUserRelativesService userRelativesService;
     @Reference
@@ -69,6 +72,99 @@ public class UserRelativesController extends BaseController {
         return ResultMap.ok().put("data",pageList);
     }
 
+
+    /**
+     * 亲属管理列表
+     * @author zk
+     * @date 2019-07-02
+     */
+    @ApiOperation(value = "亲属管理列表", notes = "亲属管理列表")
+    @GetMapping("/managerUserRelativesVoZ")
+    @RequiresPermissions("upms/userRelatives/managerUserRelativesVoZ")
+    public ResultMap managerUserRelativesVoZ(@RequestParam String userId){
+        UserRelativesVoZ userRelativesVoZ = userRelativesService.managerUserRelativesVoZ(userId);
+        return ResultMap.ok().put("data",userRelativesVoZ);
+    }
+
+    /**
+     * 添加亲属基本信息
+     * @author zk
+     * @date 2019-07-02
+     */
+    @ApiOperation(value = "添加亲属基本信息")
+    @PostMapping("/saveUserRelatives")
+    @RequiresPermissions("upms/userRelatives/saveUserRelatives")
+    public ResultMap saveUserRelatives(@Valid @RequestBody UserRelativesDetailVoZ userRelativesDetailVoZ) {
+        try {
+            List<UserRelatives> userRelatives1 = userRelativesService.getUserRelativesList(userRelativesDetailVoZ.getUserId());
+            if (userRelatives1 != null && userRelatives1.size() >= 3){
+                return ResultMap.error("该用户已有三条亲属！");
+            }
+            SysConfig sysConfig = SysConfigUtil.getSysConfig(iSysConfigService, SysConfigUtil.RELATIVENO);
+            userRelativesDetailVoZ.setRelativeId(SysConfigUtil.getNoBySysConfig());
+            if (userRelativesService.saveUserRelatives(userRelativesDetailVoZ)){
+                if (SysConfigUtil.saveRefNo(userRelativesDetailVoZ.getRelativeId())){
+                    return ResultMap.ok("添加成功");
+                }
+            }
+            return ResultMap.error("运行异常，请联系管理员");
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return ResultMap.error("运行异常，请联系管理员");
+        }
+
+    }
+
+    /**
+     * 修改亲属基本信息
+     * @author zk
+     * @date 2019-07-02
+     */
+    @ApiOperation(value = "修改亲属基本信息")
+    @PostMapping("/updateUserRelatives")
+    @RequiresPermissions("upms/userRelatives/updateUserRelatives")
+    public ResultMap updateUserRelatives(@Valid @RequestBody UserRelativesDetailVoZ userRelativesDetailVoZ) {
+        try {
+            UserRelatives userRelatives1 = userRelativesService.getById(userRelativesDetailVoZ.getUrSysId());
+            if (userRelatives1 == null){
+                return ResultMap.error("该亲属不存在！");
+            }
+            if (userRelativesService.updateUserRelatives(userRelatives1, userRelativesDetailVoZ)){
+                return ResultMap.ok("修改成功");
+            }
+            return ResultMap.error("运行异常，请联系管理员");
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return ResultMap.error("运行异常，请联系管理员");
+        }
+
+    }
+
+
+    /**
+     * 删除亲属基本信息
+     * @author zk
+     * @date 2019-07-02
+     */
+    @ApiOperation(value = "删除亲属基本信息")
+    @PostMapping("/deleteUserRelatives")
+    @RequiresPermissions("upms/userRelatives/deleteUserRelatives")
+    public ResultMap deleteUserRelatives(@Valid @RequestBody UserRelativesDetailVoZ userRelativesDetailVoZ) {
+        try {
+            UserRelatives userRelatives1 = userRelativesService.getById(userRelativesDetailVoZ.getUrSysId());
+            if (userRelatives1 == null){
+                return ResultMap.error("该亲属不存在！");
+            }
+            if (userRelativesService.deleteUserRelatives(userRelatives1, userRelativesDetailVoZ)){
+                return ResultMap.ok("删除成功");
+            }
+            return ResultMap.error("运行异常，请联系管理员");
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return ResultMap.error("运行异常，请联系管理员");
+        }
+
+    }
 
     /**
      * 信息

@@ -31,7 +31,16 @@ public interface ExamUserHealthyAppraisalMapper extends BaseMapper<ExamUserHealt
      * @author zk
      * @date 2019-6-17
      */
-    ExamUserHealthyAppraisal getOneByExamUserHealthyAppraisal(@Param("examUserHealthyAppraisal") ExamUserHealthyAppraisal examUserHealthyAppraisal);
+    List<ExamUserHealthyAppraisal> getOneByExamUserHealthyAppraisal(@Param("examUserHealthyAppraisal") ExamUserHealthyAppraisal examUserHealthyAppraisal);
+
+    /**
+     * 根据实体类得到这条数据
+     * @return
+     * @author zk
+     * @date 2019-6-17
+     */
+    ExamUserHealthyAppraisal getOneByExamUserHealthyAppraisal1(@Param("examUserHealthyAppraisal") ExamUserHealthyAppraisal examUserHealthyAppraisal);
+
 
     /**
      * 评估报告用户
@@ -39,7 +48,7 @@ public interface ExamUserHealthyAppraisalMapper extends BaseMapper<ExamUserHealt
      * @author zk
      * @date 2019-6-18
      */
-    List<ExamUserHealthyAppraisalDeatilVoZ> getUserDeatailByExamUserHealthyAppraisal(@Param("userId") String userId);
+    List<ExamUserHealthyAppraisalDeatilVoZ> getUserDeatailByExamUserHealthyAppraisal(@Param("userId") String userId, @Param("sysId") Integer sysId);
 
     /**
      * 评估报告亲属
@@ -47,7 +56,7 @@ public interface ExamUserHealthyAppraisalMapper extends BaseMapper<ExamUserHealt
      * @author zk
      * @date 2019-6-18
      */
-    List<ExamUserHealthyAppraisalDeatilVoZ> getRelativesDeatailByExamUserHealthyAppraisal(@Param("userId") String userId);
+    List<ExamUserHealthyAppraisalDeatilVoZ> getRelativesDeatailByExamUserHealthyAppraisal(@Param("userId") String userId, @Param("sysId") Integer sysId);
 
     /**
      * 数据登记主表
