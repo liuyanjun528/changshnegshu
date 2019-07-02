@@ -156,4 +156,12 @@ public class ExamInspectReportServiceImpl extends ServiceImpl<ExamInspectReportM
         }
         return true;
     }
+
+    @Override
+    public String selectByRno(String reportNO) {
+        if(StringUtils.isNotBlank(reportNO)){
+          return this.baseMapper.selectByRno(reportNO);
+        }
+        return null;
+    }
 }

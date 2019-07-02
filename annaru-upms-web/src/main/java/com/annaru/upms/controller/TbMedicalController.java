@@ -67,14 +67,21 @@ public class TbMedicalController extends BaseController {
     public ResultMap getIndex(@ApiParam(value = "身份证号", required = true) @RequestParam String kh) {
         try {
             Map<String, Object> map = new HashMap<>();
-            List<TbYlMzMedicalRecordListVo> listYlMzMedicalRecord = iTbYlMzMedicalRecordService.getJzjl(kh);
-            Integer mzjl = listYlMzMedicalRecord.size();
-            List<TbYlZyMedicalRecordListVo> listYlZyMedicalRecord = iTbYlZyMedicalRecordService.getJyjl(kh);
-            Integer zyjl = listYlZyMedicalRecord.size();
-            //String hospitalName = "闵行区七宝社区卫生服务中心";
-            map.put("mzjl",mzjl);
-            map.put("zyjl",zyjl);
-            map.put("hospitalName", "闵行区七宝社区卫生服务中心");
+            //根据卡号查询近一年的门诊记录
+            List<TbYlMzMedicalRecordListVo> listYlMzMedicalRecord = iTbYlMzMedicalRecordService.getJzjlCsByKh(kh);
+            if (listYlMzMedicalRecord.size() > 0 ) {
+                map.put("mzjl",listYlMzMedicalRecord.size());
+            }
+            //根据卡号查询近三年门诊次数最多医院
+            TbYlMzMedicalRecordListVo tbYlMzMedicalRecordListVo = iTbYlMzMedicalRecordService.getHospitalNameByKh(kh);
+            if(tbYlMzMedicalRecordListVo != null){
+                map.put("hospitalName", tbYlMzMedicalRecordListVo.getHospitalName());
+            }
+            //根据卡号查询近一年的住院记录
+            List<TbYlZyMedicalRecordListVo> listYlZyMedicalRecord = iTbYlZyMedicalRecordService.getJyjlCs(kh);
+            if (listYlZyMedicalRecord.size() > 0 ) {
+                map.put("zyjl",listYlZyMedicalRecord.size());
+            }
             return ResultMap.ok().put("data",map);
         } catch (Exception e) {
             logger.error(e.getMessage());
@@ -112,13 +119,13 @@ public class TbMedicalController extends BaseController {
 
     /**
      * 门诊记录详情
-     * @param csid 就诊记录id
+     * @param csid 门诊记录id
      * @return
      */
     @ApiOperation(value = "门诊记录详情")
     @GetMapping("/getMzjlDetail")
     @RequiresPermissions("upms/medical/getMzjlDetail")
-    public ResultMap getMzjlDetail(@ApiParam(value = "就诊记录id", required = true) @RequestParam String csid){
+    public ResultMap getMzjlDetail(@ApiParam(value = "门诊记录id", required = true) @RequestParam String csid){
         Map<String, Object> map = new HashMap<>();
         // 就诊记录
         TbYlMzMedicalRecordDetailVo jzjl = iTbYlMzMedicalRecordService.getJzjlById(csid);
