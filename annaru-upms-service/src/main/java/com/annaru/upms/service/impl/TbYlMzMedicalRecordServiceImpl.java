@@ -36,7 +36,7 @@ public class TbYlMzMedicalRecordServiceImpl extends ServiceImpl<TbYlMzMedicalRec
     }
 
     /**
-     * 根据卡号分页查询就诊记录
+     * 根据卡号分页查询门诊记录
      * @param params
      * @return
      */
@@ -49,7 +49,7 @@ public class TbYlMzMedicalRecordServiceImpl extends ServiceImpl<TbYlMzMedicalRec
     }
 
     /**
-     * 根据卡号查询就诊记录
+     * 根据卡号查询门诊记录
      * @param kh 卡号
      * @return
      */
@@ -60,7 +60,29 @@ public class TbYlMzMedicalRecordServiceImpl extends ServiceImpl<TbYlMzMedicalRec
     }
 
     /**
-     * 根据就诊流水号查询就诊记录
+     * 根据卡号查询近一年的门诊记录
+     * @param kh 卡号
+     * @return
+     */
+    @Override
+    @DS("oracle")
+    public List<TbYlMzMedicalRecordListVo> getJzjlCsByKh(String kh) {
+        return this.baseMapper.getJzjlCsByKh(kh);
+    }
+
+    /**
+     * 根据卡号查询近三年门诊次数最多医院
+     * @param kh 卡号
+     * @return
+     */
+    @Override
+    @DS("oracle")
+    public TbYlMzMedicalRecordListVo getHospitalNameByKh(String kh) {
+        return this.baseMapper.getHospitalNameByKh(kh);
+    }
+
+    /**
+     * 根据就诊流水号查询门诊记录
      * @param jzlsh 就诊流水号
      * @return
      */
@@ -71,7 +93,7 @@ public class TbYlMzMedicalRecordServiceImpl extends ServiceImpl<TbYlMzMedicalRec
     }
 
     /**
-     * 根据就诊记录id查询对应的就诊记录
+     * 根据就诊记录id查询对应的门诊记录
      * @param csid 就诊记录id
      * @return
      */
