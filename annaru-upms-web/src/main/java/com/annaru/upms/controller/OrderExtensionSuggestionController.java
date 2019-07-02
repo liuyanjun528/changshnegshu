@@ -2,16 +2,14 @@ package com.annaru.upms.controller;
 
 import java.util.*;
 
+import com.annaru.upms.service.IExamInspectReportService;
+import io.swagger.annotations.*;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import com.alibaba.dubbo.config.annotation.Reference;
 import org.springframework.web.bind.annotation.*;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 
 import com.annaru.common.base.BaseController;
 import com.annaru.common.result.PageUtils;
-import com.annaru.upms.shiro.ShiroKit;
 import com.annaru.common.result.ResultMap;
 
 import com.annaru.upms.entity.OrderExtensionSuggestion;
@@ -32,6 +30,48 @@ import javax.validation.Valid;
 public class OrderExtensionSuggestionController extends BaseController {
     @Reference
     private IOrderExtensionSuggestionService orderExtensionSuggestionService;
+    @Reference
+    private IExamInspectReportService examInspectReportService;
+
+   /***添加建议进阶项目
+   * @params: [reportNo, masterId, itemName, sysId, doctorNo]
+   * @return: com.annaru.common.result.ResultMap
+   * @Author: jyehui
+   * @Date: 2019/7/2 11:11
+   */
+    @ApiOperation(value = "添加建议进阶项目")
+    @PostMapping("/savaOE")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "reportNo",value = "检查报告编号",dataType = "spring",paramType = "query"),
+            @ApiImplicitParam(name = "masterId",value = "进阶检查项目总编号",dataType = "spring",paramType = "query"),
+            @ApiImplicitParam(name = "itemName",value = "项目名称",dataType = "spring",paramType = "query"),
+            @ApiImplicitParam(name = "sysId",value = "体检项目编号",dataType = "spring",paramType = "query"),
+            @ApiImplicitParam(name = "doctorNo",value = "医生编号",dataType = "spring",paramType = "query")
+    })
+    public ResultMap savaOE(String reportNo,Integer masterId,String itemName,Integer sysId,String doctorNo) {
+        try {
+            String selectByRno = examInspectReportService.selectByRno(reportNo);
+            if(null != selectByRno ){
+                OrderExtensionSuggestion orderExtensionExam = new OrderExtensionSuggestion();
+                orderExtensionExam.setOrderNo(selectByRno);//订单编号
+                orderExtensionExam.setExamMasterId(masterId);//进阶检查项目总编号
+                orderExtensionExam.setExamDetailId(sysId);//体检项目编号
+                orderExtensionExam.setExamMasterItem(itemName);//项目名称
+                orderExtensionExam.setDoctorNo(doctorNo);//医生编号
+                orderExtensionExam.setCreationTime(new Date());
+                //orderExtensionExam.setCreateBy();
+                boolean save = orderExtensionSuggestionService.save(orderExtensionExam);
+                if(save)
+                return ResultMap.ok();
+                return ResultMap.error("增加失败！");
+            }else{
+                return ResultMap.error("检查报告编号没有找到!");
+            }
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return ResultMap.error("运行异常，请联系管理员");
+        }
+    }
 
     /**
      * 列表
