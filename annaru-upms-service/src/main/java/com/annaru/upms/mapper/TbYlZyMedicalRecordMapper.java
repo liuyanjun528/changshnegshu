@@ -39,4 +39,11 @@ public interface TbYlZyMedicalRecordMapper extends BaseMapper<TbYlZyMedicalRecor
      * @return
      */
     List<TbYlZyMedicalRecordListVo> getJyjl(@Param("kh") String kh);
+
+    /**
+     * 根据卡号查询近一年的住院记录
+     * @param kh 卡号
+     * @return
+     */
+    List<TbYlZyMedicalRecordListVo> getJyjlCs(@Param("kh") String kh);
 }

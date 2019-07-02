@@ -24,6 +24,8 @@ public class TbCisPrescriptionDetailListVo extends Model<TbCisPrescriptionDetail
 	/** 门诊/住院标志*/
 	private String mzzybz;
 
+	private TbCisPrescriptionDetailVo tbCisPrescriptionDetailVo;
+
 	public String getHospitalName() {
 		return hospitalName;
 	}
@@ -48,11 +50,27 @@ public class TbCisPrescriptionDetailListVo extends Model<TbCisPrescriptionDetail
 		this.jzksmc = jzksmc;
 	}
 
+	public String getJzksrq() {
+		return jzksrq;
+	}
+
+	public void setJzksrq(String jzksrq) {
+		this.jzksrq = jzksrq;
+	}
+
 	public String getMzzybz() {
 		return mzzybz;
 	}
 
 	public void setMzzybz(String mzzybz) {
 		this.mzzybz = mzzybz;
+	}
+
+	public TbCisPrescriptionDetailVo getTbCisPrescriptionDetailVo() {
+		return tbCisPrescriptionDetailVo;
+	}
+
+	public void setTbCisPrescriptionDetailVo(TbCisPrescriptionDetailVo tbCisPrescriptionDetailVo) {
+		this.tbCisPrescriptionDetailVo = tbCisPrescriptionDetailVo;
 	}
 }

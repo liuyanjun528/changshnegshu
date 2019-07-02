@@ -1,11 +1,13 @@
 package com.annaru.upms.service;
 
+import com.annaru.common.result.PageUtils;
 import com.annaru.upms.entity.medical.TbCisPrescriptionDetail;
 import com.annaru.upms.entity.medical.vo.TbCisPrescriptionDetailListVo;
 import com.annaru.upms.entity.medical.vo.TbCisPrescriptionDetailVo;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * tb_cis_prescription_detail(门诊处方明细表)
@@ -22,6 +24,13 @@ public interface ITbCisPrescriptionDetailService extends IService<TbCisPrescript
      * @return
      */
     List<TbCisPrescriptionDetailVo> getYp(String jzlsh);
+
+    /**
+     * 根据卡号分页查询药品
+     * @param params
+     * @return
+     */
+    PageUtils getYyjlPage(Map<String, Object> params);
 
     /**
      * 根据卡号查询药品

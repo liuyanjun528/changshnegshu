@@ -4,6 +4,7 @@ import com.annaru.common.result.PageUtils;
 import com.annaru.upms.entity.SysBanner;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -20,6 +21,14 @@ public interface ISysBannerService extends IService<SysBanner> {
     * @return
     */
     PageUtils getDataPage(Map<String, Object> params);
+
+    /*** 方法描述:查询所有Banner
+     * @params: []
+     * @return: java.util.List<com.annaru.upms.entity.SysBanner>
+     * @Author: jyehui
+     * @Date: 2019/7/1 12:07
+     */
+    List<SysBanner> selectAll();
 
 
 }

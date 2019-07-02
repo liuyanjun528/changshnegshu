@@ -23,6 +23,7 @@
         <result column="is_cancelled" property="isCancelled" />
         <result column="creation_time" property="creationTime" />
         <result column="create_by" property="createBy" />
+        <result column="parent_no" property="parentNo"/>
         <result column="edit_time" property="editTime" />
         <result column="edit_by" property="editBy" />
     </resultMap>
@@ -154,20 +155,6 @@ UNION
         update order_appointment SET status=#{status} WHERE order_no=#{orderNo}
     </update>
 
-    <!--医生端待确认预约-->
-    <select id="selectOutpatientAppointment" parameterType="map" resultMap="BaseResultMap1">
-        SELECT
-		        ub.full_name,-- 姓名
-				ub.gender,-- 性别
-				TIMESTAMPDIFF(YEAR, ub.date_of_birth, CURDATE()) AS user_age,
-				ub.cellphone_no,-- 手机号
-				oa.time_to,-- 预约时间
-				oa.status -- 状态
-        from
-            order_appointment as oa
-        LEFT JOIN user_basic as ub ON oa.user_id=ub.user_id
-        WHERE oa.related_no=#{params.relatedNo}  and oa.status=#{params.status}  and oa.appointment_cates=6
-    </select>
 
     <update id="updateIsCancelled">
         update order_appointment SET is_cancelled=#{isCancelled} WHERE order_no=#{orderNo}
@@ -194,6 +181,6 @@ UNION
             FROM
             order_appointment
             WHERE
-            order_no = #{params.orderNo}
+            order_no = #{params.orderNo} or parent_no = #{params.orderNo}
     </select>
 </mapper>

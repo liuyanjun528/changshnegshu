@@ -9,6 +9,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -27,4 +28,8 @@ public class SysBannerServiceImpl extends ServiceImpl<SysBannerMapper, SysBanner
         return new PageUtils<SysBanner>(iPage);
     }
 
+    @Override
+    public List<SysBanner> selectAll() {
+        return this.baseMapper.selectAll();
+    }
 }
