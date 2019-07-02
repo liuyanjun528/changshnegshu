@@ -22,6 +22,7 @@
         <result column="abstracts" property="abstracts" />
         <result column="standard_value" property="standardValue" />
         <result column="master_id" property="masterId" />
+        <result column="extension_cates_id" property="extensionCatesId" />
     </resultMap>
 
     <!-- 多表页面信息查询分页 -->
@@ -54,7 +55,8 @@
         item_name,
         abstracts,
         standard_value,
-        master_id
+        master_id,
+        extension_cates_id
         from exam_detail
         where extension_cates_id = #{ecId};
     </select>
