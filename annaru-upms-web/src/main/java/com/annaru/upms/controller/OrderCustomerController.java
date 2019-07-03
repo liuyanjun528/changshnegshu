@@ -5,6 +5,7 @@ import com.annaru.common.base.BaseController;
 import com.annaru.common.result.PageUtils;
 import com.annaru.common.result.ResultMap;
 import com.annaru.upms.entity.OrderCustomer;
+import com.annaru.upms.entity.vo.OrderCustomerDeatilVoZ;
 import com.annaru.upms.service.IOrderCustomerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -49,6 +51,18 @@ public class OrderCustomerController extends BaseController {
         return ResultMap.ok().put("data",pageList);
     }
 
+    /**
+     * 上门服务详情的健康评估
+     * @author zk
+     * @date 2019-07-03
+     */
+    @ApiOperation(value = "上门服务详情的健康评估", notes = "上门服务详情的健康评估")
+    @GetMapping("/OrderCustomerDeatilVoList")
+    @RequiresPermissions("upms/orderCustomer/OrderCustomerDeatilVoList")
+    public ResultMap OrderCustomerDeatilVoList(@RequestParam String orderId){
+        List<OrderCustomerDeatilVoZ> orderCustomerDeatilVoZList = orderCustomerService.OrderCustomerDeatilVoList(orderId);
+        return ResultMap.ok().put("data",orderCustomerDeatilVoZList);
+    }
 
     /**
      * 信息

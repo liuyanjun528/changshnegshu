@@ -9,94 +9,41 @@ import java.util.List;
 public class OrderExtensionInfoVo extends Model<OrderExtensionInfoVo> implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	private String address;
-	private Date appointDate;
-	private Date timeFrom;
-	private Integer payStatus;
-	private String institutionId;
-	private String serviceOption;
-	private Integer appointmentStatus;
-	private String parentNo;
-	private String entityId;
-	private List<OrderExtensionChooseVo> chooseVoList;
+	private String institutionName;
+	private Integer isCancelled;
+	private String orderNo;
 
-	public List<OrderExtensionChooseVo> getChooseVoList() {
-		return chooseVoList;
+	private List<ExtensionDetail> details;
+
+	public String getInstitutionName() {
+		return institutionName;
 	}
 
-	public void setChooseVoList(List<OrderExtensionChooseVo> chooseVoList) {
-		this.chooseVoList = chooseVoList;
+	public void setInstitutionName(String institutionName) {
+		this.institutionName = institutionName;
 	}
 
-	public String getParentNo() {
-		return parentNo;
+	public Integer getIsCancelled() {
+		return isCancelled;
 	}
 
-	public void setParentNo(String parentNo) {
-		this.parentNo = parentNo;
+	public void setIsCancelled(Integer isCancelled) {
+		this.isCancelled = isCancelled;
 	}
 
-	public Date getTimeFrom() {
-		return timeFrom;
+	public String getOrderNo() {
+		return orderNo;
 	}
 
-	public void setTimeFrom(Date timeFrom) {
-		this.timeFrom = timeFrom;
+	public void setOrderNo(String orderNo) {
+		this.orderNo = orderNo;
 	}
 
-	public String getAddress() {
-		return address;
+	public List<ExtensionDetail> getDetails() {
+		return details;
 	}
 
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
-	public Date getAppointDate() {
-		return appointDate;
-	}
-
-	public void setAppointDate(Date appointDate) {
-		this.appointDate = appointDate;
-	}
-
-	public String getInstitutionId() {
-		return institutionId;
-	}
-
-	public void setInstitutionId(String institutionId) {
-		this.institutionId = institutionId;
-	}
-
-	public String getServiceOption() {
-		return serviceOption;
-	}
-
-	public void setServiceOption(String serviceOption) {
-		this.serviceOption = serviceOption;
-	}
-
-	public Integer getAppointmentStatus() {
-		return appointmentStatus;
-	}
-
-	public void setAppointmentStatus(Integer appointmentStatus) {
-		this.appointmentStatus = appointmentStatus;
-	}
-
-	public Integer getPayStatus() {
-		return payStatus;
-	}
-
-	public void setPayStatus(Integer payStatus) {
-		this.payStatus = payStatus;
-	}
-
-	public String getEntityId() {
-		return entityId;
-	}
-
-	public void setEntityId(String entityId) {
-		this.entityId = entityId;
+	public void setDetails(List<ExtensionDetail> details) {
+		this.details = details;
 	}
 }
