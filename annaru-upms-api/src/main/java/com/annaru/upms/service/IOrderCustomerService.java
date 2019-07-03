@@ -2,9 +2,11 @@ package com.annaru.upms.service;
 
 import com.annaru.common.result.PageUtils;
 import com.annaru.upms.entity.OrderCustomer;
+import com.annaru.upms.entity.vo.OrderCustomerDeatilVoZ;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -22,14 +24,18 @@ public interface IOrderCustomerService extends IService<OrderCustomer> {
     */
     PageUtils getDataPage(Map<String, Object> params);
 
+    /**
+     * 上门服务详情的健康评估
+     * @author zk
+     * @date 2019-07-03
+     */
+    List<OrderCustomerDeatilVoZ> OrderCustomerDeatilVoList(String orderId);
 
     /**
      * 增加订单用户表
-     * @param params
      * @return
      */
     int insertOrderCustomer(OrderCustomer orderCustomer);
-
 
 }
 
