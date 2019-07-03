@@ -45,7 +45,6 @@ public class UserFamilyDoctorController extends BaseController {
     public ResultMap list(@ApiParam(value = "当前页")@RequestParam(defaultValue="1") int page,
                           @ApiParam(value = "每页数量")@RequestParam(defaultValue = "10") int limit,
                           @ApiParam(value = "关键字")@RequestParam(required = false)String key){
-
         Map<String, Object> params = new HashMap<>();
         params.put("page",page);
         params.put("limit", limit);
@@ -77,7 +76,6 @@ public class UserFamilyDoctorController extends BaseController {
         }else {
             return ResultMap.ok().put("data","尚未绑定家庭医生");
         }
-
     }
 
     /**

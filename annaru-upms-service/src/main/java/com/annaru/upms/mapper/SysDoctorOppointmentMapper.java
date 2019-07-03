@@ -2,6 +2,7 @@ package com.annaru.upms.mapper;
 
 import com.annaru.upms.entity.SysDoctorNurseSchedule;
 import com.annaru.upms.entity.SysDoctorOppointment;
+import com.annaru.upms.entity.vo.DoctorUserOppointmentVo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -27,7 +28,9 @@ public interface SysDoctorOppointmentMapper extends BaseMapper<SysDoctorOppointm
     */
     IPage<SysDoctorOppointment> selectDataPage(Page page, @Param("params") Map<String, Object> params);
 
+    IPage<DoctorUserOppointmentVo> getAppointmentList(Page page, @Param("params") Map<String, Object> params);
 
+    boolean updateSceduleStatus(@Param("params") Map<String, Object> params);
     /**
       * @Description:按照选择时间当前护士的查询排班信息
       * @Author: wh

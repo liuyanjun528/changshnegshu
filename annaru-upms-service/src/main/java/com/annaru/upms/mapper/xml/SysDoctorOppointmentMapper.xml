@@ -20,6 +20,18 @@
         <result column="edit_by" property="editBy" />
     </resultMap>
 
+    <resultMap id="BaseMap" type="com.annaru.upms.entity.vo.DoctorUserOppointmentVo">
+        <result column="doctor_nurse_no" property="doctorNurseNo"/>
+        <result column="user_id" property="userId"/>
+        <result column="appoint_date" property="appointDate"/>
+        <result column="time_from" property="timeFrom"/>
+        <result column="time_to" property="timeTo"/>
+        <result column="cellphone_no" property="teleNo"/>
+        <result column="full_name" property="userName"/>
+        <result column="gender" property="gender"/>
+        <result column="age" property="age"/>
+    </resultMap>
+
     <resultMap id="BaseVoMap" type="com.annaru.upms.entity.vo.sysDoctorNurseOppointmentVo" >
         <result column="date_from" property="dateFrom" />
         <result column="doctor_nurse_no" property="doctorNurseNo" />
@@ -34,6 +46,33 @@
         <result column="amount" property="amount" />
     </resultMap>
 
+    <select id="getAppointmentList" parameterType="map" resultMap="BaseMap">
+        SELECT
+            so.user_id,
+	        so.doctor_nurse_no,
+	        so.appoint_date,
+	        so.time_from,
+	        so.time_to,
+	        ub.cellphone_no,
+	        ub.full_name,
+	        ub.gender,
+	        TIMESTAMPDIFF(
+	        	YEAR,
+	        	ub.date_of_birth,
+	        	CURDATE()
+	        ) age
+        FROM
+        	sys_doctor_nurse_oppointment so
+        LEFT JOIN user_basic ub ON so.user_id = ub.user_id
+        WHERE
+	        so.is_active = 1
+        <if test="params.doctorNo != null and params.doctorNo != ''">
+            and so.doctor_nurse_no = #{params.doctorNo}
+        </if>
+        <if test="params.status != null and params.status != ''">
+            and so.is_confirmed = #{params.status}
+        </if>
+    </select>
 
 
     <!-- 多表页面信息查询分页 -->
@@ -88,6 +127,19 @@
         time_from=#{timeFrom},
         time_to=#{timeTo}
 		WHERE doctor_nurse_no=#{doctorNurseNo} and date_from=#{dateFrom}
+    </update>
+
+    <update id="updateSceduleStatus" parameterType="map">
+                UPDATE
+                sys_doctor_nurse_oppointment
+                SET
+                is_confirmed=1
+                WHERE
+                TO_DAYS(appoint_date)=TO_DAYS(#{params.appointDate})
+                and user_id=#{params.userId}
+                and time_from=#{params.timeFrom}
+                and time_to=#{params.timeTo}
+                and doctor_nurse_no=#{params.doctorNo}
     </update>
 
 </mapper>

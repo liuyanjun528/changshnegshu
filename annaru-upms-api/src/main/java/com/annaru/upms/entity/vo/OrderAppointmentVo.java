@@ -8,6 +8,7 @@ import io.swagger.annotations.ApiModelProperty;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 public class OrderAppointmentVo extends Model<OrderAppointmentVo> implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -32,8 +33,12 @@ public class OrderAppointmentVo extends Model<OrderAppointmentVo> implements Ser
     private Double amount;
     private String relatedNo;
     private Date appointDate;
-    private Date timeFrom;
-    private Date timeTo;
+    private String timeFrom;
+    private String timeTo;
+    private String province;
+    private String city;
+    private String district;
+    private String streetName;
     private String address;
     private Integer status = 2;
     private String institutionId;
@@ -42,10 +47,58 @@ public class OrderAppointmentVo extends Model<OrderAppointmentVo> implements Ser
     private String createBy;
     private Date editTime;
     private String editBy;
-    private Integer examMasterId;
-    private Integer examDetailId;
+    private List<ExtensionItem> extensionItems;
     private Integer departmentId;
+    private Integer subDepartmentId;
     private Integer times;
+
+    public String getProvince() {
+        return province;
+    }
+
+    public void setProvince(String province) {
+        this.province = province;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getDistrict() {
+        return district;
+    }
+
+    public void setDistrict(String district) {
+        this.district = district;
+    }
+
+    public String getStreetName() {
+        return streetName;
+    }
+
+    public void setStreetName(String streetName) {
+        this.streetName = streetName;
+    }
+
+    public Integer getSubDepartmentId() {
+        return subDepartmentId;
+    }
+
+    public void setSubDepartmentId(Integer subDepartmentId) {
+        this.subDepartmentId = subDepartmentId;
+    }
+
+    public List<ExtensionItem> getExtensionItems() {
+        return extensionItems;
+    }
+
+    public void setExtensionItems(List<ExtensionItem> extensionItems) {
+        this.extensionItems = extensionItems;
+    }
 
     public Integer getHrOppointmentId() {
         return hrOppointmentId;
@@ -69,22 +122,6 @@ public class OrderAppointmentVo extends Model<OrderAppointmentVo> implements Ser
 
     public void setTimes(Integer times) {
         this.times = times;
-    }
-
-    public Integer getExamDetailId() {
-        return examDetailId;
-    }
-
-    public void setExamDetailId(Integer examDetailId) {
-        this.examDetailId = examDetailId;
-    }
-
-    public Integer getExamMasterId() {
-        return examMasterId;
-    }
-
-    public void setExamMasterId(Integer examMasterId) {
-        this.examMasterId = examMasterId;
     }
 
     public static long getSerialVersionUID() {
@@ -211,19 +248,19 @@ public class OrderAppointmentVo extends Model<OrderAppointmentVo> implements Ser
         this.appointDate = appointDate;
     }
 
-    public Date getTimeFrom() {
+    public String getTimeFrom() {
         return timeFrom;
     }
 
-    public void setTimeFrom(Date timeFrom) {
+    public void setTimeFrom(String timeFrom) {
         this.timeFrom = timeFrom;
     }
 
-    public Date getTimeTo() {
+    public String getTimeTo() {
         return timeTo;
     }
 
-    public void setTimeTo(Date timeTo) {
+    public void setTimeTo(String timeTo) {
         this.timeTo = timeTo;
     }
 

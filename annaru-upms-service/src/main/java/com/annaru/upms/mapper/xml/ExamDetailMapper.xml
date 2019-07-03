@@ -12,6 +12,18 @@
         <result column="creation_time" property="creationTime" />
         <result column="edit_time" property="editTime" />
     </resultMap>
+    <resultMap id="row" type="com.annaru.upms.entity.ExamDetail" >
+        <result column="sys_id" property="eecId" />
+        <result column="name" property="eecName" />
+    </resultMap>
+    <resultMap id="row2" type="com.annaru.upms.entity.ExamDetail" >
+        <result column="sys_id" property="sysId" />
+        <result column="item_name" property="itemName" />
+        <result column="abstracts" property="abstracts" />
+        <result column="standard_value" property="standardValue" />
+        <result column="master_id" property="masterId" />
+        <result column="extension_cates_id" property="extensionCatesId" />
+    </resultMap>
 
     <!-- 多表页面信息查询分页 -->
     <select id="selectDataPage" parameterType="map" resultMap="BaseResultMap">
@@ -30,6 +42,23 @@
             <if test="params.key != null and params.key != ''">
                 AND key LIKE CONCAT('%', #{params.key}, '%')
             </if>
+    </select>
+    <select id="selectType" resultMap="row">
+        select
+        sys_id,
+        name
+        from exam_extention_cates
+    </select>
+    <select id="selectByType" resultMap="row2">
+        select
+        sys_id,
+        item_name,
+        abstracts,
+        standard_value,
+        master_id,
+        extension_cates_id
+        from exam_detail
+        where extension_cates_id = #{ecId};
     </select>
 
 </mapper>

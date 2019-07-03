@@ -73,8 +73,8 @@ public class ExamUserHealthyAppraisalController extends BaseController {
             if (examUserHealthyAppraisal == null || StringUtil.isBlank(examUserHealthyAppraisal.getOrderNo()) || StringUtil.isBlank(examUserHealthyAppraisal.getUserId())){
                 return ResultMap.error("参数不能为空！");
             }
-            ExamUserHealthyAppraisal examUserHealthyAppraisal1 = examUserHealthyAppraisalService.getOneByExamUserHealthyAppraisal(examUserHealthyAppraisal);
-            if (examUserHealthyAppraisal1 != null){
+            List<ExamUserHealthyAppraisal> examUserHealthyAppraisal1 = examUserHealthyAppraisalService.getOneByExamUserHealthyAppraisal(examUserHealthyAppraisal);
+            if (examUserHealthyAppraisal1 != null || examUserHealthyAppraisal1.size() > 0){
                 return ResultMap.error("该订单编号和用户已存在！");
             }
             if (examUserHealthyAppraisalService.save(examUserHealthyAppraisal)){
@@ -94,7 +94,7 @@ public class ExamUserHealthyAppraisalController extends BaseController {
      */
     @ApiOperation(value = "健康评估查看", notes = "健康评估查看")
     @GetMapping("/info/getExamUserHealthyAppraisal")
-    @RequiresPermissions("upms/examUserHealthyAppraisal/getExamUserHealthyAppraisal")
+    @RequiresPermissions("upms/examUserHealthyAppraisal/info/getExamUserHealthyAppraisal")
     public ResultMap getExamUserHealthyAppraisal(@RequestParam("orderNo") String orderNo,
                                                  @RequestParam("userId") String userId){
         try {
@@ -115,7 +115,7 @@ public class ExamUserHealthyAppraisalController extends BaseController {
      */
     @ApiOperation(value = "健康评估提交", notes = "健康评估提交")
     @PostMapping("/info/submitExamUserHealthyAppraisal")
-    @RequiresPermissions("upms/examUserHealthyAppraisal/submitExamUserHealthyAppraisal")
+    @RequiresPermissions("upms/examUserHealthyAppraisal/info/gsubmitExamUserHealthyAppraisal")
     public ResultMap submitExamUserHealthyAppraisal(@RequestParam("orderNo") String orderNo,
                                                     @RequestParam("userId") String userId,
                                                     @RequestParam("submitBy") String submitBy){
@@ -130,7 +130,8 @@ public class ExamUserHealthyAppraisalController extends BaseController {
             ExamUserHealthyAppraisal examUserHealthyAppraisal = new ExamUserHealthyAppraisal();
             examUserHealthyAppraisal.setOrderNo(orderNo);
             examUserHealthyAppraisal.setUserId(userId);
-            ExamUserHealthyAppraisal examUserHealthyAppraisal1 = examUserHealthyAppraisalService.getOneByExamUserHealthyAppraisal(examUserHealthyAppraisal);
+            examUserHealthyAppraisal.setSubmitBy(submitBy);
+            ExamUserHealthyAppraisal examUserHealthyAppraisal1 = examUserHealthyAppraisalService.getOneByExamUserHealthyAppraisal1(examUserHealthyAppraisal);
             if (examUserHealthyAppraisal1 == null){
                 return ResultMap.error("健康评估未完成！");
             }
@@ -159,7 +160,7 @@ public class ExamUserHealthyAppraisalController extends BaseController {
         try {
             ExamUserHealthyAppraisal examUserHealthyAppraisal = new ExamUserHealthyAppraisal();
             examUserHealthyAppraisal.setUserId(userId);
-            ExamUserHealthyAppraisal examUserHealthyAppraisal1 = examUserHealthyAppraisalService.getOneByExamUserHealthyAppraisal(examUserHealthyAppraisal);
+            List<ExamUserHealthyAppraisal> examUserHealthyAppraisal1 = examUserHealthyAppraisalService.getOneByExamUserHealthyAppraisal(examUserHealthyAppraisal);
             return ResultMap.ok().put("data",examUserHealthyAppraisal1);
         } catch (Exception e) {
             logger.error(e.getMessage());
@@ -175,15 +176,15 @@ public class ExamUserHealthyAppraisalController extends BaseController {
     @ApiOperation(value = "健康评估详情", notes = "健康评估详情")
     @GetMapping("/deatiaExamUserHealthyAppraisal")
     @RequiresPermissions("upms/examUserHealthyAppraisal/deatiaExamUserHealthyAppraisal")
-    public ResultMap deatiaExamUserHealthyAppraisal(@RequestParam("userId") String userId, @RequestParam("userCate") Integer userCate){
+    public ResultMap deatiaExamUserHealthyAppraisal(@RequestParam("userId") String userId, @RequestParam("sysId") Integer sysId, @RequestParam("userCate") Integer userCate){
         try {
             // 本人
             if (userCate == 1){
-                return ResultMap.ok().put("data", examUserHealthyAppraisalService.getUserDeatailByExamUserHealthyAppraisal(userId));
+                return ResultMap.ok().put("data", examUserHealthyAppraisalService.getUserDeatailByExamUserHealthyAppraisal(userId, sysId));
             }
             // 亲属
             if (userCate == 2){
-                return ResultMap.ok().put("data", examUserHealthyAppraisalService.getRelativesDeatailByExamUserHealthyAppraisal(userId));
+                return ResultMap.ok().put("data", examUserHealthyAppraisalService.getRelativesDeatailByExamUserHealthyAppraisal(userId, sysId));
             }
             return ResultMap.ok().put("data",null);
         } catch (Exception e) {

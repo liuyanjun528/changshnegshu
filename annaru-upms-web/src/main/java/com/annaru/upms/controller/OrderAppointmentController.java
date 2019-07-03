@@ -17,6 +17,8 @@ import org.omg.CORBA.OBJ_ADAPTER;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 
@@ -57,10 +59,28 @@ public class OrderAppointmentController extends BaseController {
      */
     @ApiOperation(value = "门诊预约确认操作", notes = "门诊预约确认操作")
     @GetMapping("/updateStatus")
-    @RequiresPermissions("upms/updateStatus")
-    public ResultMap updateStatus(String orderNo){
+    @RequiresPermissions("upms/orderAppointment/updateStatus")
+    public ResultMap updateStatus(@RequestParam String userId,
+                                  @RequestParam String doctorNo,
+                                  @RequestParam Date appointDate,
+                                  @RequestParam String timeFrom,
+                                  @RequestParam String timeTo) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("doctorNo",doctorNo);
+        params.put("userId",userId);
+        params.put("appointDate",appointDate);
+        params.put("timeFrom",timeFrom);
+        params.put("timeTo",timeTo);
+        OrderAppointment appointment = new OrderAppointment();
+        appointment.setUserId(userId);
+        appointment.setRelatedNo(doctorNo);
+        appointment.setTimeFrom(timeFrom);
+        appointment.setAppointDate(appointDate);
+        appointment.setAppointmentCates(5);
         try {
-            orderAppointmentService.updateStatus(1,orderNo);
+            sysDoctorScheduleService.updateSceduleStatus(params);
+            sysDoctorOppointmentService.updateSceduleStatus(params);
+            orderAppointmentService.save(appointment);
             return ResultMap.ok("修改成功");
         } catch (Exception e) {
             logger.error(e.getMessage());
@@ -76,20 +96,20 @@ public class OrderAppointmentController extends BaseController {
      */
     @ApiOperation(value = "待确认预约列表", notes = "待确认预约列表")
     @GetMapping("/selectOutpatientAppointment")
-    @RequiresPermissions("upms/selectOutpatientAppointment")
+    @RequiresPermissions("upms/orderAppointment/selectOutpatientAppointment")
     public ResultMap selectOutpatientAppointment(
             @ApiParam(value = "当前页")@RequestParam(defaultValue="1") int page,
             @ApiParam(value = "每页数量")@RequestParam(defaultValue = "10") int limit,
-            @ApiParam(value = "医生编号")@RequestParam(required = false)String relatedNo,
+            @ApiParam(value = "医生编号")@RequestParam(required = false)String doctorNo,
             @ApiParam(value = "状态")@RequestParam(required = false) int status
             ){
 
         Map<String, Object> params = new HashMap<>();
         params.put("page",page);
         params.put("limit", limit);
-        params.put("relatedNo", relatedNo);
+        params.put("doctorNo", doctorNo);
         params.put("status",status);
-        PageUtils<Map<String, Object>> pageList = orderAppointmentService.selectOutpatientAppointment(params);
+        PageUtils<Map<String, Object>> pageList = sysDoctorOppointmentService.getAppointmentList(params);
         return ResultMap.ok().put("data",pageList);
     }
 
@@ -133,7 +153,7 @@ public class OrderAppointmentController extends BaseController {
         List<OrderExtensionSuggestion> orderExtensionSuggestion = orderExtensionSuggestionService.getItems(params);
         List<ExamChooseVo> examChooseVo = examPackageDetailService.getChoosen(params);
         List<OrderAppointment> orderAppointments = orderAppointmentService.getAppointInfoByOrderNo(params);
-        if (orderAppointments==null){
+        if (orderAppointments.size()==0){
             params.clear();
             params.put("examList",examChooseVo);
             params.put("packageName",userPackage.getPackageName());
@@ -264,16 +284,11 @@ public class OrderAppointmentController extends BaseController {
                 appointment.setAppointmentCates(1);
                 appointment.setAppointDate(orderAppointment.getAppointDate());
                 appointment.setTimeFrom(orderAppointment.getTimeFrom());
-                //appointment.setTimeTo(orderAppointment.getTimeTo());
                 appointment.setUserId(orderAppointment.getUserId());
                 appointment.setCreateBy(orderAppointment.getUserId());
                 appointment.setCreationTime(new Date());
-               // Map<String,Object> params = new HashMap<>();
-               // params.put("referenceNo",orderAppointment.getReferenceNo());
-               // String orderNo = orderMainService.getOrderNo(params).getOrderNo();
                 String orderNo = orderAppointment.getOrderNo();
                 appointment.setOrderNo(orderNo);
-                //appointment.setRelatedNo(orderAppointment.getReferenceNo());
                 orderAdditionalInfo.setAppointmentCates(1);
                 orderAdditionalInfo.setCreateBy(orderAppointment.getUserId());
                 orderAdditionalInfo.setOption1(orderAppointment.getOption1());
@@ -293,24 +308,26 @@ public class OrderAppointmentController extends BaseController {
             }else if (orderAppointment.getAppointmentCates()==2
                     &&orderAppointment.getInstitutionId()!=null
                     &&orderAppointment.getParentNo()!=null
-                    &&orderAppointment.getExamDetailId()!=null
-                    &&orderAppointment.getExamMasterId()!=null){
+                    &&orderAppointment.getExtensionItems()!=null){
                 String orderNo = createOrderNo();
                 Integer orderCates = orderAppointment.getAppointmentCates();
                 String userId = orderAppointment.getUserId();
                 String parentNo = orderAppointment.getParentNo();
-                appointment.setRelatedNo(parentNo);
-                appointment.setInstitutionId(orderAppointment.getInstitutionId());
-                appointment.setUserId(userId);
-                appointment.setAppointmentCates(orderCates);
-                appointment.setCreateBy(userId);
-                appointment.setOrderNo(orderNo);
-                orderAppointmentService.save(appointment);
-                orderExtensionExam.setCreateBy(userId);
-                orderExtensionExam.setExamDetailId(orderAppointment.getExamDetailId());
-                orderExtensionExam.setExamMasterId(orderAppointment.getExamMasterId());
-                orderExtensionExam.setOrderNo(orderNo);
-                orderExtensionExamService.save(orderExtensionExam);
+                for(int i = 0;i<orderAppointment.getExtensionItems().size();i++){
+                    orderExtensionExam.setCreateBy(userId);
+                    orderExtensionExam.setExamDetailId(orderAppointment.getExtensionItems().get(i).getExamDetailId());
+                    orderExtensionExam.setExamMasterId(orderAppointment.getExtensionItems().get(i).getExamMasterId());
+                    orderExtensionExam.setOrderNo(orderNo);
+                    orderExtensionExamService.save(orderExtensionExam);
+                    appointment.setExtensionItemId(orderExtensionExam.getSysId());
+                    appointment.setParentNo(parentNo);
+                    appointment.setInstitutionId(orderAppointment.getInstitutionId());
+                    appointment.setUserId(userId);
+                    appointment.setAppointmentCates(orderCates);
+                    appointment.setCreateBy(userId);
+                    appointment.setOrderNo(orderNo);
+                    orderAppointmentService.save(appointment);
+                }
                 orderMain.setUserId(userId);
                 orderMain.setParentNo(parentNo);
                 orderMain.setOrderNo(orderNo);
@@ -320,25 +337,27 @@ public class OrderAppointmentController extends BaseController {
             }else if (orderAppointment.getAppointmentCates()==4
                     &&orderAppointment.getInstitutionId()!=null
                     &&orderAppointment.getParentNo()!=null
-                    &&orderAppointment.getExamDetailId()!=null
-                    &&orderAppointment.getExamMasterId()!=null
+                    &&orderAppointment.getExtensionItems()!=null
             &&orderAppointment.getHrOppointmentId()!=null) {
                 String orderNo = createOrderNo();
                 Integer orderCates = orderAppointment.getAppointmentCates();
                 String userId = orderAppointment.getUserId();
                 String parentNo = orderAppointment.getParentNo();
-                appointment.setRelatedNo(parentNo);
-                appointment.setInstitutionId(orderAppointment.getInstitutionId());
-                appointment.setUserId(userId);
-                appointment.setAppointmentCates(orderCates);
-                appointment.setCreateBy(userId);
-                appointment.setOrderNo(orderNo);
-                orderAppointmentService.save(appointment);
-                orderExtensionExam.setCreateBy(userId);
-                orderExtensionExam.setExamDetailId(orderAppointment.getExamDetailId());
-                orderExtensionExam.setExamMasterId(orderAppointment.getExamMasterId());
-                orderExtensionExam.setOrderNo(orderNo);
-                orderExtensionExamService.save(orderExtensionExam);
+                for(int i = 0;i<orderAppointment.getExtensionItems().size();i++){
+                    orderExtensionExam.setCreateBy(userId);
+                    orderExtensionExam.setExamDetailId(orderAppointment.getExtensionItems().get(i).getExamDetailId());
+                    orderExtensionExam.setExamMasterId(orderAppointment.getExtensionItems().get(i).getExamMasterId());
+                    orderExtensionExam.setOrderNo(orderNo);
+                    orderExtensionExamService.save(orderExtensionExam);
+                    appointment.setExtensionItemId(orderExtensionExam.getSysId());
+                    appointment.setParentNo(parentNo);
+                    appointment.setInstitutionId(orderAppointment.getInstitutionId());
+                    appointment.setUserId(userId);
+                    appointment.setAppointmentCates(orderCates);
+                    appointment.setCreateBy(userId);
+                    appointment.setOrderNo(orderNo);
+                    orderAppointmentService.save(appointment);
+                }
                 orderMain.setUserId(userId);
                 orderMain.setParentNo(parentNo);
                 orderMain.setHrOppointmentId(orderAppointment.getHrOppointmentId());

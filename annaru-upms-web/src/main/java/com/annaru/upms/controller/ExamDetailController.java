@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -30,6 +31,35 @@ import java.util.Map;
 public class ExamDetailController extends BaseController {
     @Reference
     private IExamDetailService examDetailService;
+
+    /*** 方法描述:查询所有进阶项目类别
+    * @params: []
+    * @return: com.annaru.common.result.ResultMap
+    * @Author: jyehui
+    * @Date: 2019/7/1 13:37
+    */
+    @ApiOperation(value = "查询所有进阶项目类别")
+    @GetMapping("/listType")
+    public ResultMap listType(){
+        List<ExamDetail> examDetails = examDetailService.selectType();
+
+        return ResultMap.ok().put("data",examDetails);
+    }
+
+    /*** 方法描述:根据进阶项目类别查询项目
+     * @params: [ecId]
+     * @return: com.annaru.common.result.ResultMap
+     * @Author: jyehui
+     * @Date: 2019/7/1 13:37
+     */
+    @ApiOperation(value = "根据进阶项目类别查询项目")
+    @GetMapping("/listByType")
+    public ResultMap listByType(@ApiParam(value = "进阶项目类别ID")@RequestParam(required = true)Integer ecId){
+        List<ExamDetail> examDetails = examDetailService.selectByType(ecId);
+
+        return ResultMap.ok().put("data",examDetails);
+    }
+
 
     /**
      * 列表

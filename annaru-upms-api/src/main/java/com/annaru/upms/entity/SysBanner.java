@@ -49,11 +49,7 @@ public class SysBanner extends Model<SysBanner> implements Serializable {
     @ApiModelProperty(value = "激活状态(0未激活1已激活)")
 	@TableField("is_active")
 	private Integer isActive;
-	/**
-	 * 类型 1.用户  2.医护/家庭医生 3.专家
-	 */
-    @ApiModelProperty(value = "类型 1.用户  2.医护/家庭医生 3.专家")
-	private Integer cates;
+
 	/**
 	 * 排序
 	 */
@@ -139,18 +135,7 @@ public class SysBanner extends Model<SysBanner> implements Serializable {
 	public void setIsActive(Integer isActive) {
 		this.isActive = isActive;
 	}
-    /**
-     * 获取：类型 1.用户  2.医护/家庭医生 3.专家
-     */
-    public Integer getCates() {
-        return cates;
-    }
-	/**
-	 * 设置：类型 1.用户  2.医护/家庭医生 3.专家
-	 */
-	public void setCates(Integer cates) {
-		this.cates = cates;
-	}
+
     /**
      * 获取：排序
      */

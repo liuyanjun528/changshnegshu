@@ -26,6 +26,8 @@ public interface ISysDoctorScheduleService extends IService<SysDoctorSchedule> {
 
     List<SysDoctorSchedule> getDocSchedule(Map<String,Object> params);
 
+    boolean updateSceduleStatus(Map<String,Object> params);
+
     /**
      * @Description:医护端 护士的排班
      * @Author: wh
@@ -48,6 +50,5 @@ public interface ISysDoctorScheduleService extends IService<SysDoctorSchedule> {
 
 
 
-    SysDoctorSchedule updateActive(Map<String,Object> params);
 }
 

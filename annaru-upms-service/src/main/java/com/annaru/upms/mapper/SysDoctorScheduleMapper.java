@@ -56,6 +56,5 @@ public interface SysDoctorScheduleMapper extends BaseMapper<SysDoctorSchedule> {
 
 
 
-
-    SysDoctorSchedule updateActive(@Param("params") Map <String, Object> params);
+    boolean updateSceduleStatus(@Param("params") Map <String, Object> params);
 }

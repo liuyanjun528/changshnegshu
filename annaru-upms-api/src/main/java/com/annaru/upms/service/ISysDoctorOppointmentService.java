@@ -24,6 +24,9 @@ public interface ISysDoctorOppointmentService extends IService<SysDoctorOppointm
     */
     PageUtils getDataPage(Map<String, Object> params);
 
+    PageUtils getAppointmentList(Map<String,Object> params);
+
+    boolean updateSceduleStatus(Map<String,Object> params);
 
     /**
      * @Description:按照选择时间当前护士的查询排班信息

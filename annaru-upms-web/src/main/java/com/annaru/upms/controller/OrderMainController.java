@@ -7,10 +7,7 @@ import com.annaru.common.result.PageUtils;
 import com.annaru.common.result.ResultMap;
 import com.annaru.upms.controllerutil.SysConfigUtil;
 import com.annaru.upms.entity.*;
-import com.annaru.upms.entity.vo.OrderMainVoZMzlt;
-import com.annaru.upms.entity.vo.OrderMainVoZTC;
-import com.annaru.upms.entity.vo.OrderMainVoZZF;
-import com.annaru.upms.entity.vo.AppendOrderMain;
+import com.annaru.upms.entity.vo.*;
 import com.annaru.upms.im.rong.models.Result;
 import com.annaru.upms.service.*;
 import io.swagger.annotations.Api;
@@ -163,25 +160,30 @@ public class OrderMainController extends BaseController {
     @RequiresPermissions("upms/orderMain/selectOrderPage")
     public ResultMap selectOrderPage(@ApiParam(value = "当前页")@RequestParam(defaultValue="1") int page,
                                      @ApiParam(value = "每页数量")@RequestParam(defaultValue = "10") int limit,
-                                     Integer status){
-//        OrderMain orderMain = orderMainService.getById();
-//        return ResultMap.ok().put("orderMain",orderMain);
-        /*
-        如果 appointmentCates 等于 1 ，则为套餐订单
-        如果 appointmentCates 等于 3 ，并且 option_1 不等于 1 ，则为套餐订单
-        如果 appointmentCates 等于 3 ，并且 option_1 等于 1 ，则为护士上门
-        如果 appointmentCates 等于 2 或者 等于 4 ，并且 parentNo 不等于空 ，则为进阶体检
-        如果 appointmentCates 等于 6 ，则为门诊绿通陪诊服务
-        如果 status 等于 0 ，则为未支付 ，
-        若status 等于 1 ，并且 opOderNo 不等于空 ，则为已支付
-        若status 等于 2 ，并且 opOderNo 不等于空 ，则为完成
-        */
+                                     Integer status, String userId){
+
         Map<String, Object> params = new HashMap<>();
         params.put("page",page);
         params.put("limit", limit);
         params.put("status", status);
+        params.put("userId", userId);
         PageUtils<Map<String, Object>> pageList = orderMainService.selectOrderPage(params);
         return ResultMap.ok().put("data",pageList);
+    }
+
+    /**
+     * 订单各状态的总数
+     * @author zk
+     * @date 2019-07-01
+     */
+    @ApiOperation(value = "订单各状态的总数", notes = "订单各状态的总数")
+    @GetMapping("/selectSumByStatus")
+    @RequiresPermissions("upms/orderMain/selectSumByStatus")
+    public ResultMap selectSumByStatus(String userId){
+        Map<String, Object> params = new HashMap<>();
+        params.put("userId", userId);
+        OrderMainVoSumByStatusZ orderMainVoSumByStatusZ = orderMainService.selectSumByStatus(params);
+        return ResultMap.ok().put("data",orderMainVoSumByStatusZ);
     }
 
     /**

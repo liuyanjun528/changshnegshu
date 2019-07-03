@@ -62,12 +62,6 @@ public class OrderAppointmentServiceImpl extends ServiceImpl<OrderAppointmentMap
         return this.baseMapper.getOrderAppointment(orderAppointment);
     }
 
-    @Override
-    public PageUtils selectOutpatientAppointment(Map<String,Object> params) {
-        Page<OrderAppointmentDoctorVo> page = new PageUtils<OrderAppointmentDoctorVo>(params).getPage();
-        IPage<OrderAppointmentDoctorVo> iPage = this.baseMapper.selectOutpatientAppointment(page, params);
-        return new PageUtils<OrderAppointmentDoctorVo>(iPage);
-    }
 
     public List<OrderAppointment> getAppointInfoByOrderNo(Map<String,Object> params){
         return this.baseMapper.getAppointInfoByOrderNo(params);

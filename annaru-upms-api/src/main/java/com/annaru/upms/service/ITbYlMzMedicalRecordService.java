@@ -5,6 +5,7 @@ import com.annaru.upms.entity.medical.TbYlMzMedicalRecord;
 import com.annaru.upms.entity.medical.vo.TbYlMzMedicalRecordDetailVo;
 import com.annaru.upms.entity.medical.vo.TbYlMzMedicalRecordListVo;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -39,11 +40,25 @@ public interface ITbYlMzMedicalRecordService extends IService<TbYlMzMedicalRecor
     List<TbYlMzMedicalRecordListVo> getJzjl(String kh);
 
     /**
+     * 根据卡号查询近一年的门诊记录
+     * @param kh
+     * @return
+     */
+    List<TbYlMzMedicalRecordListVo> getJzjlCsByKh(String kh);
+
+    /**
+     * 根据卡号查询近三年门诊次数最多医院
+     * @param kh
+     * @return
+     */
+    TbYlMzMedicalRecordListVo getHospitalNameByKh(String kh);
+
+    /**
      * 根据就诊流水号查询就诊记录
      * @param jzlsh 就诊流水号
      * @return
      */
-    TbYlMzMedicalRecord getJzjlByJzlsh(String jzlsh);
+    TbYlMzMedicalRecordDetailVo getJzjlByJzlsh(String jzlsh);
 
     /**
      * 根据就诊记录id查询对应的就诊记录

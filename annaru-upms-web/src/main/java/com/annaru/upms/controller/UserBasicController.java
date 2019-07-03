@@ -22,6 +22,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static com.annaru.common.util.PinyinUtil.getPinYin;
 
@@ -45,12 +47,23 @@ public class UserBasicController extends BaseController {
     @Autowired
     private IRedisService redisService;
 
+    public boolean isTrue(String cellphoneNo){
+        String regex="^[1](([3|5|8][\\d])|([4][4,5,6,7,8,9])|([6][2,5,6,7])|([7][^9])|([9][1,8,9]))[\\d]{8}$";// 验证手机号
+        Pattern p = Pattern.compile(regex);
+        Matcher m = p.matcher(cellphoneNo);
+        if (m.matches()){
+            return true;
+        }
+        return false;
+    }
+
     @ApiOperation(value = "手机发送验证码更换手机号")
     @PostMapping("/getKaptchaUpdate")
     public ResultMap getKaptchaUpdate(@ApiParam(value="手机号")@RequestParam String cellphoneNo) {
 
-        String regex = "^1[3|4|5|8][0-9]\\d{8}$";
-        if (!cellphoneNo.matches(regex)) return ResultMap.error("请填入正确的手机号");
+        if (!isTrue(cellphoneNo)){
+            return ResultMap.error("请填入正确的手机号");
+        }
 
         Map<String, Object> params = new HashMap<>();
         params.put("cellphoneNo",cellphoneNo);

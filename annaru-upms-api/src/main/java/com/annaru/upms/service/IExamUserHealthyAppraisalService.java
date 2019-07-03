@@ -23,12 +23,20 @@ public interface IExamUserHealthyAppraisalService extends IService<ExamUserHealt
     PageUtils getDataPage(Map<String, Object> params);
 
     /**
-     * 根据实体类得到这条数据
+     * 根据实体类得到这个集合
      * @return
      * @author zk
      * @date 2019-6-17
      */
-    ExamUserHealthyAppraisal getOneByExamUserHealthyAppraisal(ExamUserHealthyAppraisal examUserHealthyAppraisal);
+    List<ExamUserHealthyAppraisal> getOneByExamUserHealthyAppraisal(ExamUserHealthyAppraisal examUserHealthyAppraisal);
+
+    /**
+     * 根据实体类得到这条数据 最新的一条
+     * @return
+     * @author zk
+     * @date 2019-7-1
+     */
+    ExamUserHealthyAppraisal getOneByExamUserHealthyAppraisal1(ExamUserHealthyAppraisal examUserHealthyAppraisal);
 
     /**
      * 评估报告用户
@@ -36,7 +44,7 @@ public interface IExamUserHealthyAppraisalService extends IService<ExamUserHealt
      * @author zk
      * @date 2019-6-18
      */
-    List<ExamUserHealthyAppraisalDeatilVoZ> getUserDeatailByExamUserHealthyAppraisal(String userId);
+    List<ExamUserHealthyAppraisalDeatilVoZ> getUserDeatailByExamUserHealthyAppraisal(String userId, Integer sysId);
 
     /**
      * 评估报告亲属
@@ -44,7 +52,7 @@ public interface IExamUserHealthyAppraisalService extends IService<ExamUserHealt
      * @author zk
      * @date 2019-6-18
      */
-    List<ExamUserHealthyAppraisalDeatilVoZ> getRelativesDeatailByExamUserHealthyAppraisal(String userId);
+    List<ExamUserHealthyAppraisalDeatilVoZ> getRelativesDeatailByExamUserHealthyAppraisal(String userId, Integer sysId);
 
     /**
      * 根据用户编号和开始时间查询这条记录
