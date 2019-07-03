@@ -51,8 +51,10 @@ public class OrderAppointment extends Model<OrderAppointment> implements Seriali
 	@NotNull
 	private String userId;
 
+    @TableField("parent_no")
     private String parentNo;
 
+    @TableField("extensionItem_id")
     private Integer extensionItemId;
 	/**
 	 * 类别：
@@ -115,7 +117,7 @@ public class OrderAppointment extends Model<OrderAppointment> implements Seriali
 	 */
     @ApiModelProperty(value = "服务选项(1:护士上门/2:指定地点)")
 	@TableField("service_option")
-	private String serviceOption;
+	private Integer serviceOption;
 	/**
 	 * 评分
 	 */
@@ -326,19 +328,16 @@ public class OrderAppointment extends Model<OrderAppointment> implements Seriali
 	public void setInstitutionId(String institutionId) {
 		this.institutionId = institutionId;
 	}
-    /**
-     * 获取：服务选项(1:护士上门/2:指定地点)
-     */
-    public String getServiceOption() {
-        return serviceOption;
-    }
-	/**
-	 * 设置：服务选项(1:护士上门/2:指定地点)
-	 */
-	public void setServiceOption(String serviceOption) {
+
+	public Integer getServiceOption() {
+		return serviceOption;
+	}
+
+	public void setServiceOption(Integer serviceOption) {
 		this.serviceOption = serviceOption;
 	}
-    /**
+
+	/**
      * 获取：评分
      */
     public Double getAppraisal() {
