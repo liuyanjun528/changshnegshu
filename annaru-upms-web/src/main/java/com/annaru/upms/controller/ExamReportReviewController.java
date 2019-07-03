@@ -68,7 +68,21 @@ public class ExamReportReviewController extends BaseController {
     }
 
 
-
+    /**
+     * 添加报告建议---->wh
+     */
+    @ApiOperation(value = "添加报告建议")
+    @PostMapping("/saveSuggestions")
+    //@RequiresPermissions("upms/examReportReview/saveSuggestions")
+    public ResultMap saveSuggestions(String reportNo,String reviewNo,String suggestions) {
+        try {
+            examReportReviewService.updateSuggestions(reportNo, reviewNo, suggestions);
+            return ResultMap.ok("添加成功");
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return ResultMap.error("运行异常，请联系管理员");
+        }
+    }
 
 
 

@@ -1,5 +1,6 @@
 package com.annaru.upms.mapper;
 
+import com.annaru.upms.entity.SysDoctorNurseSchedule;
 import com.annaru.upms.entity.SysDoctorOppointment;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -36,11 +37,11 @@ public interface SysDoctorOppointmentMapper extends BaseMapper<SysDoctorOppointm
 
 
     /**
-      * @Description:根据当前护士的预约日期 修改预约时间
+      * @Description:根据当前护士的预约日期修改预约时间
       * @Author: wh
       * @Date: 2019/6/14 10:22
       */
-    int updateOppointmentDate(SysDoctorOppointment sysDoctorOppointment);
+    int updateOppointmentDate(SysDoctorNurseSchedule sysDoctorNurseSchedule);
 
 
 }

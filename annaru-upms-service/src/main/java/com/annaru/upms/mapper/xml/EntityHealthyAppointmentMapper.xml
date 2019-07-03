@@ -217,6 +217,7 @@
         </if>
 
     </select>
+
     <update id="updateByOderNo">
         UPDATE entity_healthy_appointment
         SET is_deleted = 1

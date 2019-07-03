@@ -1,6 +1,7 @@
 package com.annaru.upms.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.annaru.upms.entity.SysDoctorNurseSchedule;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -37,8 +38,8 @@ public class SysDoctorOppointmentServiceImpl extends ServiceImpl<SysDoctorOppoin
     }
 
     @Override
-    public int updateOppointmentDate(SysDoctorOppointment sysDoctorOppointment) {
-        return this.baseMapper.updateOppointmentDate(sysDoctorOppointment);
+    public int updateOppointmentDate(SysDoctorNurseSchedule sysDoctorNurseSchedule) {
+        return this.baseMapper.updateOppointmentDate(sysDoctorNurseSchedule);
     }
 
 }
