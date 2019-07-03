@@ -48,7 +48,7 @@ public class SysMessageController extends BaseController {
         params.put("limit", limit);
         params.put("userId", userId);
         params.put("msgCate", msgCate);
-        PageUtils<Map<String, Object>> pageList = sysMessageService.getDataPage(params);
+        PageUtils<Map<String, Object>> pageList = sysMessageService.selectMsgByMsgCate(params);
         return ResultMap.ok().put("data",pageList);
     }
 

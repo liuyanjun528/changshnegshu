@@ -40,6 +40,12 @@ public interface ExamReportReviewMapper extends BaseMapper<ExamReportReview> {
       */
     int updateSuggestions(@Param("reportNo")String reportNo,@Param("reviewNo")String reviewNo,@Param("suggestions")String suggestions);
 
+    /**
+      * @Description:确认解读接口
+      * @Author: wh
+      * @Date: 2019/7/3 16:08
+      */
+    int updateReportStatus(@Param("reportNo")String reportNo);
 
 
 

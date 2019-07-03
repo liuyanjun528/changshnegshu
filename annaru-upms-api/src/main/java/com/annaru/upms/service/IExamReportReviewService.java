@@ -36,5 +36,13 @@ public interface IExamReportReviewService extends IService<ExamReportReview> {
      */
     int updateSuggestions(String reportNo,String reviewNo,String suggestions);
 
+
+    /**
+     * @Description:确认解读接口
+     * @Author: wh
+     * @Date: 2019/7/3 16:08
+     */
+    int updateReportStatus(String reportNo);
+
 }
 

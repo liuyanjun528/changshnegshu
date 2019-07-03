@@ -31,9 +31,11 @@
 
     <resultMap id="BaseResultMap2" type="com.annaru.upms.entity.vo.OrderAppointmentDoctorVo">
         <result column="order_no" property="orderNo"/>
+        <result column="head_image" property="headImage"/>
         <result column="full_name" property="fullName"/>
         <result column="gender" property="gender"/>
         <result column="status" property="status"/>
+        <result column="is_submitted" property="isSubmitted"/>
         <result column="user_age" property="userAge"/>
         <result column="user_id" property="userId"/>
         <result column="entity_no" property="entityNo"/>
@@ -197,12 +199,14 @@
     <select id="selectUpDoorServer" parameterType="map" resultMap="BaseResultMap2">
          select
                 eha.order_no,
+                ub.head_image,-- 头像
 		        ub.full_name,-- 姓名
 			    ub.gender,-- 性别
 			    TIMESTAMPDIFF(YEAR, ub.date_of_birth, CURDATE()) AS user_age,
 			    eha.address,-- 预约地址
 			    eha.appoint_date,-- 预约时间
 			    eha.status,
+                euha.is_submitted,
 			    om.total_qty-- 人数
         from
                 entity_healthy_appointment as eha
