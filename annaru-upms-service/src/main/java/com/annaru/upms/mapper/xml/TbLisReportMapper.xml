@@ -96,11 +96,12 @@
     <select id="getJybg" parameterType="map" resultMap="BaseResultMapList">
      SELECT
         r.CSID,
+        r.JZLSH,
         r.BGDH,
         h.HOSPITAL_NAME,
         r.BGDLB,
         SUBSTR (r.JYRQ, 0, 10) AS JYRQ,
-        r.mzzybz
+        r.MZZYBZ
      FROM
         TB_LIS_Report r,
         TB_HOSPITAL h
