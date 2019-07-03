@@ -59,7 +59,7 @@ public interface TbYlMzMedicalRecordMapper extends BaseMapper<TbYlMzMedicalRecor
      * @param jzlsh
      * @return
      */
-    TbYlMzMedicalRecord getJzjlByJzlsh(@Param("jzlsh") String jzlsh);
+    TbYlMzMedicalRecordDetailVo getJzjlByJzlsh(@Param("jzlsh") String jzlsh);
 
     /**
      * 根据门诊记录id查询对应的门诊记录

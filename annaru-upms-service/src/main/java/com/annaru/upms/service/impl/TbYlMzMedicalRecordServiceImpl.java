@@ -88,7 +88,7 @@ public class TbYlMzMedicalRecordServiceImpl extends ServiceImpl<TbYlMzMedicalRec
      */
     @Override
     @DS("oracle")
-    public TbYlMzMedicalRecord getJzjlByJzlsh(String jzlsh) {
+    public TbYlMzMedicalRecordDetailVo getJzjlByJzlsh(String jzlsh) {
         return this.baseMapper.getJzjlByJzlsh(jzlsh);
     }
 

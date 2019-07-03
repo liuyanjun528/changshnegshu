@@ -51,11 +51,13 @@
 
     <!-- 通用查询映射结果 根据就诊流水号查询检验报告)  -->
     <resultMap id="BaseResultMapDetail" type="com.annaru.upms.entity.medical.vo.TbLisReportDetailVo" >
-        <result column="CSID" property="csid" />
-        <result column="BGDH" property="bgdh" />
-        <result column="JZLSH" property="jzlsh" />
         <result column="HOSPITAL_NAME" property="hospitalName" />
+        <result column="JZKSMC" property="jzksmc" />
         <result column="JYRQ" property="jyrq" />
+        <result column="MZZYBZ" property="mzzybz" />
+        <result column="BRXM" property="brxm" />
+        <result column="BRXB" property="brxb" />
+        <result column="BRNL" property="brnl" />
         <result column="BGDLB" property="bgdlb" />
     </resultMap>
 
@@ -120,6 +122,24 @@
         TB_HOSPITAL h
     WHERE
         r.YLJGDM = h.HOSPITAL_ID AND r.JZLSH = #{jzlsh}
+    </select>
+
+    <!-- 根据就诊流水号和报告单号查询检验报告 -->
+    <select id="getJybgByJzlshAndBgdh" parameterType="map" resultMap="BaseResultMapDetail">
+       SELECT
+        h.HOSPITAL_NAME,
+         r.JZKSMC,
+        SUBSTR (lr.JYRQ, 0, 10) AS JYRQ,
+        lr.MZZYBZ,
+        lr.BRXM,
+        lr.BRXB,
+        lr.BRNL,
+        lr.BGDLB
+    FROM
+        TB_YL_MZ_Medical_Record r
+    LEFT JOIN TB_HOSPITAL h ON r.YLJGDM = h.HOSPITAL_ID
+		LEFT JOIN TB_LIS_REPORT lr ON lr.JZLSH = r.JZLSH
+    WHERE lr.JZLSH = #{jzlsh} AND lr.BGDH = #{bgdh}
     </select>
 
     <!-- 根据报告单号查询检验报告 -->

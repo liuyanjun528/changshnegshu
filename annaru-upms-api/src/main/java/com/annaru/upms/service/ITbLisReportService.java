@@ -5,6 +5,7 @@ import com.annaru.upms.entity.medical.TbLisReport;
 import com.annaru.upms.entity.medical.vo.TbLisReportDetailVo;
 import com.annaru.upms.entity.medical.vo.TbLisReportListVo;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -45,6 +46,14 @@ public interface ITbLisReportService extends IService<TbLisReport> {
      * @return
      */
     List<TbLisReportDetailVo> getJybgByJzlsh(String jzlsh);
+
+    /**
+     *根据就诊流水号和报告单号查询检验报告
+     * @param jzlsh 就诊流水号
+     *@param jzlsh 报告单号
+     * @return
+     */
+    TbLisReportDetailVo getJybgByJzlshAndBgdh(String jzlsh, String bgdh);
 
     /**
      * 根据报告单号查询检验报告
