@@ -83,7 +83,7 @@ public interface IOrderMainService extends IService<OrderMain> {
 
 	List<Integer> getTimes(Map<String,Object> params);
 
-    OrderExtensionInfoVo getExtensionInfo(@Param("params") Map <String, Object> params);
+    List<OrderExtensionInfoVo> getExtensionInfo(@Param("params") Map <String, Object> params);
 
     OrderInfoVo getBase(@Param("params") Map<String,Object> params);
 

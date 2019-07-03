@@ -80,7 +80,7 @@ public interface OrderMainMapper extends BaseMapper<OrderMain> {
 
     OrderInfoVo getToB(@Param("params") Map <String, Object> params);
 
-    OrderExtensionInfoVo getExtensionInfo(@Param("params") Map <String, Object> params);
+    List<OrderExtensionInfoVo> getExtensionInfo(@Param("params") Map <String, Object> params);
 
     OrderInfoVo getBase(@Param("params") Map<String,Object> params);
 

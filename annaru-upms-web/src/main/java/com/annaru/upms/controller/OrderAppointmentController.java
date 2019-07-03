@@ -142,15 +142,17 @@ public class OrderAppointmentController extends BaseController {
     public ResultMap toBPackages(@ApiParam(value = "用户ID")@RequestParam String userId,
     @ApiParam(value = "订单编号")@RequestParam(required = false) String orderNo){
         Map<String, Object> params = new HashMap<>();
-        OrderExtensionInfoVo orderInfoVo = new OrderExtensionInfoVo();
         params.put("userId",userId);
         params.put("orderNo",orderNo);
+        //套餐信息 订单号
         UserPackagesVo userPackage = orderMainService.getToBPackages(params);
         params.put("examId",userPackage.getReferenceNo());
         if (orderNo==null){
             params.put("orderNo",userPackage.getOrderNo());
         }
+        //建议检查项
         List<OrderExtensionSuggestion> orderExtensionSuggestion = orderExtensionSuggestionService.getItems(params);
+        //套餐项
         List<ExamChooseVo> examChooseVo = examPackageDetailService.getChoosen(params);
         List<OrderAppointment> orderAppointments = orderAppointmentService.getAppointInfoByOrderNo(params);
         if (orderAppointments.size()==0){
@@ -161,12 +163,8 @@ public class OrderAppointmentController extends BaseController {
             return ResultMap.ok().put("data",params);
         }
 
-        for(int i = 0;i<orderAppointments.size();i++){
-            if (orderAppointments.get(i).getAppointmentCates()==2||orderAppointments.get(i).getAppointmentCates()==4){
-                orderInfoVo = orderMainService.getExtensionInfo(params);
-                orderAppointments.remove(i);
-            }
-        }
+        List<OrderExtensionInfoVo> orderInfoVo = orderMainService.getExtensionInfo(params);
+
         params.clear();
         params.put("appointed",1);
         if (null==orderExtensionSuggestion||orderExtensionSuggestion.size()==0){
@@ -209,26 +207,6 @@ public class OrderAppointmentController extends BaseController {
         params.put("orderInfoVo",orderInfoVo);
         return ResultMap.ok().put("data",params);
     }
-
-
-    @ApiOperation(value = "进阶体检预约信息")
-    @GetMapping("/extensionInfo")
-    @RequiresPermissions("upms/orderAppointment/extensionInfo")
-    public ResultMap extensionInfo(@ApiParam(value = "用户ID")@RequestParam String userId,@RequestParam String referenceNo){
-        Map<String, Object> params = new HashMap<>();
-        params.put("userId",userId);
-        params.put("referenceNo",referenceNo);
-        OrderExtensionInfoVo orderInfoVo = orderMainService.getExtensionInfo(params);
-        params.put("parentNo",orderInfoVo.getParentNo());
-        OrderInfoVo infoVo = orderMainService.getBase(params);
-        params.put("examId",Integer.valueOf(infoVo.getReferenceNo()));
-        List<ExamChooseVo> examChooseVo = examPackageDetailService.getChoosen(params);
-        infoVo.setExamChooseList(examChooseVo);
-      //  orderInfoVo.setOrderInfoVo(infoVo);
-        return ResultMap.ok().put("data",orderInfoVo);
-    }
-
-
 
     /**
      * 待确认患者列表
@@ -289,6 +267,7 @@ public class OrderAppointmentController extends BaseController {
                 appointment.setCreationTime(new Date());
                 String orderNo = orderAppointment.getOrderNo();
                 appointment.setOrderNo(orderNo);
+                appointment.setServiceOption(orderAppointment.getOption1());
                 orderAdditionalInfo.setAppointmentCates(1);
                 orderAdditionalInfo.setCreateBy(orderAppointment.getUserId());
                 orderAdditionalInfo.setOption1(orderAppointment.getOption1());
@@ -318,8 +297,9 @@ public class OrderAppointmentController extends BaseController {
                     orderExtensionExam.setExamDetailId(orderAppointment.getExtensionItems().get(i).getExamDetailId());
                     orderExtensionExam.setExamMasterId(orderAppointment.getExtensionItems().get(i).getExamMasterId());
                     orderExtensionExam.setOrderNo(orderNo);
-                    orderExtensionExamService.save(orderExtensionExam);
-                    appointment.setExtensionItemId(orderExtensionExam.getSysId());
+                   // orderExtensionExamService.save(orderExtensionExam);
+                    int sysId = orderExtensionExamService.saveOne(orderExtensionExam);
+                    appointment.setExtensionItemId(sysId);
                     appointment.setParentNo(parentNo);
                     appointment.setInstitutionId(orderAppointment.getInstitutionId());
                     appointment.setUserId(userId);
@@ -348,8 +328,8 @@ public class OrderAppointmentController extends BaseController {
                     orderExtensionExam.setExamDetailId(orderAppointment.getExtensionItems().get(i).getExamDetailId());
                     orderExtensionExam.setExamMasterId(orderAppointment.getExtensionItems().get(i).getExamMasterId());
                     orderExtensionExam.setOrderNo(orderNo);
-                    orderExtensionExamService.save(orderExtensionExam);
-                    appointment.setExtensionItemId(orderExtensionExam.getSysId());
+                    int sysId = orderExtensionExamService.saveOne(orderExtensionExam);
+                    appointment.setExtensionItemId(sysId);
                     appointment.setParentNo(parentNo);
                     appointment.setInstitutionId(orderAppointment.getInstitutionId());
                     appointment.setUserId(userId);

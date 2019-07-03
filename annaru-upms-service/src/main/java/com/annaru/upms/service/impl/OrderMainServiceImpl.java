@@ -181,7 +181,7 @@ public class OrderMainServiceImpl extends ServiceImpl<OrderMainMapper, OrderMain
         return this.baseMapper.getToB(params);
     }
 
-    public OrderExtensionInfoVo getExtensionInfo(Map<String,Object> params){
+    public List<OrderExtensionInfoVo> getExtensionInfo(Map<String,Object> params){
         return this.baseMapper.getExtensionInfo(params);
     }
 
