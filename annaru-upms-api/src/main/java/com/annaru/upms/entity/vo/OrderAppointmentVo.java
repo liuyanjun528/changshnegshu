@@ -33,8 +33,8 @@ public class OrderAppointmentVo extends Model<OrderAppointmentVo> implements Ser
     private Double amount;
     private String relatedNo;
     private Date appointDate;
-    private Date timeFrom;
-    private Date timeTo;
+    private String timeFrom;
+    private String timeTo;
     private String province;
     private String city;
     private String district;
@@ -248,19 +248,19 @@ public class OrderAppointmentVo extends Model<OrderAppointmentVo> implements Ser
         this.appointDate = appointDate;
     }
 
-    public Date getTimeFrom() {
+    public String getTimeFrom() {
         return timeFrom;
     }
 
-    public void setTimeFrom(Date timeFrom) {
+    public void setTimeFrom(String timeFrom) {
         this.timeFrom = timeFrom;
     }
 
-    public Date getTimeTo() {
+    public String getTimeTo() {
         return timeTo;
     }
 
-    public void setTimeTo(Date timeTo) {
+    public void setTimeTo(String timeTo) {
         this.timeTo = timeTo;
     }
 

@@ -76,6 +76,9 @@
         <if test="userId != null and userId != ''">
             AND eha.user_id = #{userId}
         </if>
+        <if test="sysId != null and sysId != ''">
+            AND eha.sys_id = #{sysId}
+        </if>
     </select>
 
     <select id="getRelativesDeatailByExamUserHealthyAppraisal" parameterType="string" resultMap="BaseResultMap1">
@@ -93,6 +96,9 @@
         WHERE 1 = 1
         <if test="userId != null and userId != ''">
             AND eha.user_id = #{userId}
+        </if>
+        <if test="sysId != null and sysId != ''">
+            AND eha.sys_id = #{sysId}
         </if>
     </select>
 
@@ -144,6 +150,40 @@
         <if test="examUserHealthyAppraisal.userId != null and examUserHealthyAppraisal.userId != ''">
             AND eha.user_id = #{examUserHealthyAppraisal.userId}
         </if>
+        ORDER BY eha.submit_time DESC
+
+    </select>
+
+    <select id="getOneByExamUserHealthyAppraisal1" parameterType="com.annaru.upms.entity.ExamUserHealthyAppraisal" resultMap="BaseResultMap">
+
+        SELECT
+        eha.sys_id,
+        eha.order_no,
+        eha.user_cate,
+        eha.user_id,
+        eha.risk_cate,
+        eha.existed_issue,
+        eha.remarks,
+        eha.suggestions,
+        eha.is_submitted,
+        eha.submit_time,
+        eha.submit_by,
+        ub.full_name
+        FROM
+        exam_user_healthy_appraisal eha
+        LEFT JOIN user_basic ub ON ub.user_id = eha.submit_by
+        WHERE 1 = 1
+        <if test="examUserHealthyAppraisal.orderNo != null and examUserHealthyAppraisal.orderNo != ''">
+            AND eha.order_no = #{examUserHealthyAppraisal.orderNo}
+        </if>
+        <if test="examUserHealthyAppraisal.userId != null and examUserHealthyAppraisal.userId != ''">
+            AND eha.user_id = #{examUserHealthyAppraisal.userId}
+        </if>
+        <if test="examUserHealthyAppraisal.submitBy != null and examUserHealthyAppraisal.submitBy != ''">
+            AND eha.submit_by = #{examUserHealthyAppraisal.submitBy}
+        </if>
+        ORDER BY eha.submit_time DESC
+        LIMIT 0,1
 
     </select>
 

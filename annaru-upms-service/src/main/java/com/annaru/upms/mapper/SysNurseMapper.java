@@ -1,6 +1,7 @@
 package com.annaru.upms.mapper;
 
 import com.annaru.upms.entity.SysNurse;
+import com.annaru.upms.entity.vo.SysNurseVoZ;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -25,5 +26,14 @@ public interface SysNurseMapper extends BaseMapper<SysNurse> {
     IPage<SysNurse> selectDataPage(Page page, @Param("params") Map<String, Object> params);
 
     SysNurse getOne(@Param("params") Map <String, Object> params);
+
+    /**
+     * 得到一个护士对象
+     * @author zk
+     * @date 2019-07-01
+     * @param params
+     * @return
+     */
+    SysNurseVoZ getOneNurse(@Param("params") Map <String, Object> params);
 
 }

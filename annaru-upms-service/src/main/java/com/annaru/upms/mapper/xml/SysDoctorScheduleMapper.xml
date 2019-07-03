@@ -83,15 +83,16 @@
 	        doctor_nurse_no=#{doctorNurseNo}
     </select>
 
-    <update id="updateActive" parameterType="map">
-            UPDATE
+    <update id="updateSceduleStatus" parameterType="map">
+                UPDATE
                 sys_doctor_nurse_schedule
                 SET
                 is_active=1
                 WHERE
-                date_from=#{params.appointDate}
+                TO_DAYS(date_from)=TO_DAYS(#{params.appointDate})
                 and time_from=#{params.timeFrom}
                 and time_to=#{params.timeTo}
+                and doctor_nurse_no=#{params.doctorNo}
     </update>
 
 
