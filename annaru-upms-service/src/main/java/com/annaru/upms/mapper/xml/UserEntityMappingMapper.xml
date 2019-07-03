@@ -44,6 +44,21 @@
             </collection>
         </association>
     </resultMap>
+
+    <resultMap id="getEntityPurchseMainVoZBase" type="com.annaru.upms.entity.vo.EntityPurchseMainVoZ" >
+        <result column="entityNo" property="entityNo" />
+        <result column="userId" property="userId" />
+        <result column="supplier" property="supplier" />
+        <result column="logoUrl" property="logoUrl" />
+        <result column="ehmDesr" property="ehmDesr" />
+
+        <collection property="entityPurchseMainDeatailVoZList" ofType="com.annaru.upms.entity.vo.EntityPurchseMainDeatailVoZ">
+            <result column="ehpDesr" property="ehpDesr" />
+            <result column="introductions" property="introductions" />
+            <result column="counts" property="counts" />
+            <result column="perYear" property="perYear" />
+        </collection>
+    </resultMap>
     
     <sql id="BaseClounmSql">
           sys_id,
@@ -85,6 +100,29 @@
         where
         <if test="userId != null and userId != ''">
             uem.user_id=#{userId}
+        </if>
+    </select>
+
+    <select id="getEntityPurchseMainVoZ" parameterType="java.lang.String" resultMap="getEntityPurchseMainVoZBase">
+        SELECT
+            uem.entity_id entityNo, uem.user_id userId,
+            ehs.supplier, ehs.logo_url logoUrl,
+            ehm.descr ehmDesr,
+            ehp.descr ehpDesr, ehp.introductions, ehp.counts, ehp.per_year perYear
+        FROM
+        user_entity_mapping uem
+        LEFT JOIN entity_purchse_main epm ON epm.entity_no = uem.entity_id
+        LEFT JOIN entity_purchse_detail epd ON epd.order_no = epm.order_no
+        LEFT JOIN entity_healthy_package_main ehm ON ehm.sys_id = epd.pkg_main_id
+        LEFT JOIN entity_healthy_package_detail ehp ON ehp.main_id = ehm.sys_id
+        LEFT JOIN entity_healthy_supplier ehs ON ehs.sys_id = ehm.supplier_id
+        WHERE 1 = 1
+        AND uem.is_active = 1
+        AND epm.is_active = 1 AND epm.is_terminated = 0
+        AND epd.is_active = 1 AND epd.is_deleted = 0
+        AND ehp.is_active = 1
+        <if test="userId != null and userId != ''">
+            AND uem.user_id = #{userId}
         </if>
     </select>
 

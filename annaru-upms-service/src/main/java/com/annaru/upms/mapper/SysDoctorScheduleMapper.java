@@ -39,6 +39,22 @@ public interface SysDoctorScheduleMapper extends BaseMapper<SysDoctorSchedule> {
       * @Date: 2019/6/13 11:19
       */
     List<SysDoctorSchedule> selectDoctorScheduleList(@Param("dateFrom") Date dateFrom,@Param("doctorNurseNo") String doctorNurseNo);
+    /**
+      * @Description:删除护士的排班
+      * @Author: wh
+      * @Date: 2019/7/2 9:20
+      */
+    int deleteNurseSchedule(@Param("sysId") int sysId);
+
+    /**
+      * @Description:添加护士的排班
+      * @Author: wh
+      * @Date: 2019/7/3 9:07
+      */
+    int insertNuserSchedule(SysDoctorSchedule sysDoctorSchedule);
+
+
+
 
     boolean updateSceduleStatus(@Param("params") Map <String, Object> params);
 }

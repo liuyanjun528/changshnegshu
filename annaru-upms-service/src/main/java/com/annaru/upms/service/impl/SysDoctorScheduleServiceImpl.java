@@ -46,4 +46,13 @@ public class SysDoctorScheduleServiceImpl extends ServiceImpl<SysDoctorScheduleM
         return this.baseMapper.selectDoctorScheduleList(dateFrom, doctorNurseNo);
     }
 
+    @Override
+    public int deleteNurseSchedule(int sysId) {
+        return this.baseMapper.deleteNurseSchedule(sysId);
+    }
+
+    @Override
+    public int insertNuserSchedule(SysDoctorSchedule sysDoctorSchedule) {
+        return this.baseMapper.insertNuserSchedule(sysDoctorSchedule);
+    }
 }

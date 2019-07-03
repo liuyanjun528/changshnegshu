@@ -67,6 +67,11 @@ public class OrderMainServiceImpl extends ServiceImpl<OrderMainMapper, OrderMain
     }
 
     @Override
+    public OrderMainVoSumByStatusZ selectSumByStatus(Map<String, Object> params) {
+        return this.baseMapper.selectSumByStatus(params);
+    }
+
+    @Override
     public OrderMainVoZMzlt selectPackageGreen(Map<String, Object> params) {
         OrderMainVoZMzlt list = this.baseMapper.selectPackageGreen(params);
         return list;

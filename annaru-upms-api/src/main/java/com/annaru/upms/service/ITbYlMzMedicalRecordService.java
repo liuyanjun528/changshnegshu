@@ -58,7 +58,7 @@ public interface ITbYlMzMedicalRecordService extends IService<TbYlMzMedicalRecor
      * @param jzlsh 就诊流水号
      * @return
      */
-    TbYlMzMedicalRecord getJzjlByJzlsh(String jzlsh);
+    TbYlMzMedicalRecordDetailVo getJzjlByJzlsh(String jzlsh);
 
     /**
      * 根据就诊记录id查询对应的就诊记录

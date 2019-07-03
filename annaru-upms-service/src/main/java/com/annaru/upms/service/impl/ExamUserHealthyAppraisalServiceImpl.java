@@ -32,18 +32,23 @@ public class ExamUserHealthyAppraisalServiceImpl extends ServiceImpl<ExamUserHea
     }
 
     @Override
-    public ExamUserHealthyAppraisal getOneByExamUserHealthyAppraisal(ExamUserHealthyAppraisal examUserHealthyAppraisal) {
+    public List<ExamUserHealthyAppraisal> getOneByExamUserHealthyAppraisal(ExamUserHealthyAppraisal examUserHealthyAppraisal) {
         return this.baseMapper.getOneByExamUserHealthyAppraisal(examUserHealthyAppraisal);
     }
 
     @Override
-    public List<ExamUserHealthyAppraisalDeatilVoZ> getUserDeatailByExamUserHealthyAppraisal(String userId) {
-        return this.baseMapper.getUserDeatailByExamUserHealthyAppraisal(userId);
+    public ExamUserHealthyAppraisal getOneByExamUserHealthyAppraisal1(ExamUserHealthyAppraisal examUserHealthyAppraisal) {
+        return this.baseMapper.getOneByExamUserHealthyAppraisal1(examUserHealthyAppraisal);
     }
 
     @Override
-    public List<ExamUserHealthyAppraisalDeatilVoZ> getRelativesDeatailByExamUserHealthyAppraisal(String userId) {
-        return this.baseMapper.getRelativesDeatailByExamUserHealthyAppraisal(userId);
+    public List<ExamUserHealthyAppraisalDeatilVoZ> getUserDeatailByExamUserHealthyAppraisal(String userId, Integer sysyId) {
+        return this.baseMapper.getUserDeatailByExamUserHealthyAppraisal(userId, sysyId);
+    }
+
+    @Override
+    public List<ExamUserHealthyAppraisalDeatilVoZ> getRelativesDeatailByExamUserHealthyAppraisal(String userId, Integer sysId) {
+        return this.baseMapper.getRelativesDeatailByExamUserHealthyAppraisal(userId, sysId);
     }
 
     @Override

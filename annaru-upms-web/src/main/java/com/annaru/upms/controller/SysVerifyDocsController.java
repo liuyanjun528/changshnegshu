@@ -19,7 +19,6 @@ import com.annaru.common.result.ResultMap;
 
 import com.annaru.upms.service.ISysVerifyDocsService;
 
-import javax.annotation.Resource;
 import javax.validation.Valid;
 
 
