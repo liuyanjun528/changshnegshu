@@ -6,6 +6,7 @@ import com.annaru.common.result.PageUtils;
 import com.annaru.common.result.ResultMap;
 import com.annaru.upms.entity.UserCards;
 import com.annaru.upms.entity.INTERFACE_AUTHORIZATION;
+import com.annaru.upms.entity.UserRelatives;
 import com.annaru.upms.entity.vo.UserCardInfoVo;
 import com.annaru.upms.entity.vo.UserCardVo;
 import com.annaru.upms.service.IUserBasicService;
@@ -56,12 +57,22 @@ public class UserCardsController extends BaseController {
      * 查询企业门诊绿通预约人信息
      */
     @ApiOperation(value = "查询企业家庭医生预约人信息")
-    @GetMapping("/getGreenPassUserInfo/{userId}")
+    @GetMapping("/getGreenPassUserInfo")
     @RequiresPermissions("upms/userCards/getGreenPassUserInfo")
-    public ResultMap getGreenPassUserInfo(@PathVariable("userId") String userId) {
+    public ResultMap getGreenPassUserInfo(String userId, String[]relativeId) {
         try {
-            List<UserCardInfoVo> userCardInfoVo = userCardsService.getGreenPassUserInfo(userId);
-            return ResultMap.ok().put("data", userCardInfoVo);
+            List<UserCardInfoVo> list=new ArrayList();
+
+            UserCardInfoVo greenPassUserInfoByUserId = userCardsService.getGreenPassUserInfoByUserId(userId);
+            list.add(greenPassUserInfoByUserId);
+            if(null!=relativeId){
+                for (String rel:relativeId){
+                    UserCardInfoVo greenPassUserInfoByRelativeId = userCardsService.getGreenPassUserInfoByRelativeId(rel);
+                    list.add(greenPassUserInfoByRelativeId);
+                }
+
+            }
+            return ResultMap.ok().put("data", list);
         } catch (Exception e) {
             logger.error(e.getMessage());
             return ResultMap.error("运行异常，请联系管理员");

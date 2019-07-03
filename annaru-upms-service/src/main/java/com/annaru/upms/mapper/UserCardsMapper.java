@@ -43,8 +43,8 @@ public interface UserCardsMapper extends BaseMapper<UserCards> {
      * @param userId 用户ID
      * @return
      */
-    List<UserCardInfoVo> getGreenPassUserInfo(@Param("userId") String userId);
-
+    UserCardInfoVo getGreenPassUserInfoByUserId(@Param("userId") String userId);
+    UserCardInfoVo getGreenPassUserInfoByRelativeId(@Param("relativeId") String relativeId);
 
     /**
       * @Description: 通过用户编号修改个人信息和医保卡号

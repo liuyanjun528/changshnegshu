@@ -91,5 +91,10 @@
         update exam_report_review set suggestions=#{suggestions} where review_no=#{reviewNo} and report_no=#{reportNo}
     </update>
 
+    <!--确认解读-->
+    <update id="updateReportStatus">
+        UPDATE exam_report_review SET status=1 WHERE report_no=#{reportNo}
+    </update>
+
 
 </mapper>

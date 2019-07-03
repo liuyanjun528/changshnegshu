@@ -43,4 +43,9 @@ public class ExamReportReviewServiceImpl extends ServiceImpl<ExamReportReviewMap
         return this.baseMapper.updateSuggestions(reportNo, reviewNo, suggestions);
     }
 
+    @Override
+    public int updateReportStatus(String reportNo) {
+        return this.baseMapper.updateReportStatus(reportNo);
+    }
+
 }

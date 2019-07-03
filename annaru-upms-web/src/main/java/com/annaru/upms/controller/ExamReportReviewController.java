@@ -85,6 +85,27 @@ public class ExamReportReviewController extends BaseController {
     }
 
 
+    /**
+     * 确认解读接口
+     */
+    @ApiOperation(value = "确认解读接口")
+    @PostMapping("/update")
+   // @RequiresPermissions("upms/examReportReview/update")
+    public ResultMap update(String reportNo) {
+        try {
+            examReportReviewService.updateReportStatus(reportNo);
+            return ResultMap.ok("解读成功");
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return ResultMap.error("运行异常，请联系管理员");
+        }
+
+    }
+
+
+
+
+
 
 
     /**

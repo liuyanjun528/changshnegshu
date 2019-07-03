@@ -12,6 +12,9 @@ public class OrderAppointmentDoctorVo  implements Serializable {
     @TableField("user_id")
     private String userId;
 
+    @TableField("head_image")
+    private String headImage;
+
     @TableField("full_name")
     private String fullName;
 
@@ -20,6 +23,9 @@ public class OrderAppointmentDoctorVo  implements Serializable {
 
     @TableField("status")
     private int status;
+
+    @TableField("is_submitted")
+    private int isSubmitted;
 
     @TableField("user_age")
     private int userAge;
@@ -46,6 +52,22 @@ public class OrderAppointmentDoctorVo  implements Serializable {
     private String appointDate;
 
     private String orderNo;
+
+    public String getHeadImage() {
+        return headImage;
+    }
+
+    public void setHeadImage(String headImage) {
+        this.headImage = headImage;
+    }
+
+    public int getIsSubmitted() {
+        return isSubmitted;
+    }
+
+    public void setIsSubmitted(int isSubmitted) {
+        this.isSubmitted = isSubmitted;
+    }
 
     public String getOrderNo() {
         return orderNo;
