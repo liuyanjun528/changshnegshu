@@ -5,7 +5,6 @@ import com.annaru.upms.entity.OrderMain;
 import com.annaru.upms.entity.vo.*;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -50,6 +49,15 @@ public interface IOrderMainService extends IService<OrderMain> {
     OrderMainVoZZF selectPackageAdvance(Map<String, Object> params);
 
     /**
+     * 订单各状态的总数
+     * @author zk
+     * @date 2019-07-01
+     * @param params
+     * @return
+     */
+    OrderMainVoSumByStatusZ selectSumByStatus(Map <String, Object> params);
+
+    /**
      * 查询门诊绿通订单详情
      * @param params
      * @author zk
@@ -83,7 +91,7 @@ public interface IOrderMainService extends IService<OrderMain> {
 
 	List<Integer> getTimes(Map<String,Object> params);
 
-    OrderExtensionInfoVo getExtensionInfo(@Param("params") Map <String, Object> params);
+    List<OrderExtensionInfoVo> getExtensionInfo(@Param("params") Map <String, Object> params);
 
     OrderInfoVo getBase(@Param("params") Map<String,Object> params);
 

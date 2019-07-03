@@ -57,6 +57,12 @@ public class TbLisReportServiceImpl extends ServiceImpl<TbLisReportMapper, TbLis
 
     @Override
     @DS("oracle")
+    public TbLisReportDetailVo getJybgByJzlshAndBgdh(String jzlsh, String bgdh) {
+        return this.baseMapper.getJybgByJzlshAndBgdh(jzlsh, bgdh);
+    }
+
+    @Override
+    @DS("oracle")
     public TbLisReport getJybgByBgdh(String bgdh) {
         return this.baseMapper.getJybgByBgdh(bgdh);
     }

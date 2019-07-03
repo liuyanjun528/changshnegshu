@@ -3,6 +3,7 @@ package com.annaru.upms.controller;
 import java.util.*;
 
 import com.annaru.upms.entity.vo.EntityHealthyAppointmentVo;
+import com.annaru.upms.entity.vo.EntityPurchseMainVoZ;
 import com.annaru.upms.entity.vo.UserEntityMappingVo;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import com.alibaba.dubbo.config.annotation.Reference;
@@ -28,7 +29,7 @@ import javax.validation.Valid;
  * @author xck
  * @date 2019-06-03 12:21:40
  */
-@Api(tags = {"管理"}, description = "管理")
+@Api(tags = {"用户企业管理"}, description = "用户企业管理")
 @RestController
 @RequestMapping("upms/userEntityMapping")
 public class UserEntityMappingController extends BaseController {
@@ -65,6 +66,25 @@ public class UserEntityMappingController extends BaseController {
     public ResultMap selectUserAndRelativeInfoByUserId(@PathVariable("userId") String userId){
         List<UserEntityMappingVo> UserEntityMappingVo = userEntityMappingService.selectUserAndRelativeInfoByUserId(userId);
         return ResultMap.ok().put("data",UserEntityMappingVo);
+    }
+
+    /**
+     * @description 企业健康管理首次登陆
+     * @author zk
+     * @date 2019-07-02
+     * @return
+     */
+    @ApiOperation(value = "企业健康管理首次登陆", notes = "企业健康管理首次登陆")
+    @GetMapping("/getEntityPurchseMainVoZ")
+    @RequiresPermissions("upms/userEntityMapping/getEntityPurchseMainVoZ")
+    public ResultMap getEntityPurchseMainVoZ(@RequestParam String userId){
+        try {
+            EntityPurchseMainVoZ entityPurchseMainVoZ = userEntityMappingService.getEntityPurchseMainVoZ(userId);
+            return ResultMap.ok().put("data",entityPurchseMainVoZ);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return ResultMap.error("运行异常，请联系管理员");
+        }
     }
 
     /**

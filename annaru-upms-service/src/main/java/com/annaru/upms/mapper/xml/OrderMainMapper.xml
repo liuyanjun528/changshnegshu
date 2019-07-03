@@ -24,18 +24,14 @@
     </resultMap>
 
     <resultMap id="BaseResultMapOEVo" type="com.annaru.upms.entity.vo.OrderExtensionInfoVo" >
-        <result column="address" property="address" />
-        <result column="appoint_date" property="appointDate" />
-        <result column="time_from" property="timeFrom" />
-        <result column="pay_status" property="payStatus" />
-        <result column="institution_id" property="institutionId" />
-        <result column="parent_no" property="parentNo"/>
-        <result column="option_1" property="serviceOption" />
-        <result column="appointment_status" property="appointmentStatus" />
-        <result column="entity_id" property="entityId"/>
-        <collection property="chooseVoList" ofType="com.annaru.upms.entity.vo.OrderExtensionChooseVo">
-            <result column="name" property="name"/>
-            <result column="item_name" property="itemName"/>
+        <result column="institutionName" property="institutionName" />
+        <result column="order_no" property="orderNo"/>
+        <result column="is_cancelled" property="isCancelled"/>
+        <collection property="details" ofType="com.annaru.upms.entity.vo.ExtensionDetail">
+            <result column="itemName" property="itemName"/>
+            <result column="itemDetailName" property="itemDetailName"/>
+            <result column="time_from" property="timeFrom" />
+            <result column="appoint_date" property="appointDate" />
         </collection>
     </resultMap>
 
@@ -204,6 +200,13 @@
         <result column="address" property="address" />
     </resultMap>
 
+    <resultMap id="selectSumByStatusResultMap" type="com.annaru.upms.entity.vo.OrderMainVoSumByStatusZ">
+        <result column="sum1" property="sum1" />
+        <result column="sum2" property="sum2" />
+        <result column="sum3" property="sum3" />
+        <result column="sum4" property="sum4" />
+    </resultMap>
+
 
     <sql id="BaseColumn">
         sys_id,
@@ -251,9 +254,19 @@
         </where>
     </select>
 
+    <!-- 订单各状态的总数 -->
+    <select id="selectSumByStatus" parameterType="map" resultMap="selectSumByStatusResultMap">
+        SELECT
+            sum(om.status = 0) sum1 ,sum(om.status = 1) sum2 ,sum(om.status = 2) sum3 ,sum(om.status = 3) sum4
+        FROM order_main om
+        WHERE 1 = 1 AND om.is_deleted = 0
+        <if test="params.userId != null and params.userId != ''">
+            AND om.user_id = #{params.userId}
+        </if>
+    </select>
+
     <!-- 多表页面信息查询分页 -->
     <select id="selectOrderPage" parameterType="map" resultMap="advanceBaseResultMapZDdlb">
-
         SELECT
         om.sys_id sysId,
         om.order_no orderNo,
@@ -281,12 +294,14 @@
         <if test="params.status != null and params.status != '' or params.status == 0">
             AND om.status = #{params.status}
         </if>
+        <if test="params.userId != null and params.userId != ''">
+            AND om.user_id = #{params.userId}
+        </if>
         GROUP BY om.sys_id,ur.relative_name
     </select>
 
     <!-- 多表页面信息查询分页  套餐订单-->
     <select id="selectPackageOrder" parameterType="map" resultMap="advanceBaseResultMapTcZ">
-
         SELECT
         om.sys_id sysId,
         om.order_no orderNo,
@@ -333,7 +348,6 @@
 
     <!-- 多表页面信息查询分页  自费订单-->
     <select id="selectPackageAdvance" parameterType="map" resultMap="advanceBaseResultMapZfZ">
-
         SELECT
         om.sys_id sysId,
         om.order_no orderNo,
@@ -368,7 +382,6 @@
 
     <!-- 多表页面信息查询分页  门诊绿通订单详情-->
     <select id="selectPackageGreen" parameterType="map" resultMap="advanceBaseResultMapMzltZ">
-
         SELECT
         om.sys_id sysId,
         om.order_no orderNo,
@@ -486,37 +499,22 @@
     </select>
 
     <select id="getExtensionInfo" parameterType="map" resultMap="BaseResultMapOEVo">
-            SELECT
-            oa.address,
-            oa.appointment_cates,
-            oa.appoint_date,
-            oa.department_id,
-            oa.institution_id,
-            oa.`status` appointment_status,
-            oa.related_no,
-            oa.service_option,
-            oai.option_1,
-            oa.time_from,
-            om.parent_no,
-            om.`status` pay_status,
-            ed.item_name,
-            em.`name`
-            FROM
-            order_appointment oa
-            LEFT JOIN order_main om
-            on oa.order_no = om.order_no
-            LEFT JOIN order_additional_info oai
-            on oai.order_no = oa.order_no
-            LEFT JOIN order_extension_exam oee
-            on oee.order_no = om.order_no
-            LEFT JOIN exam_master em
-            on em.sys_id = oee.exam_master_id
-            LEFT JOIN exam_detail ed
-            on ed.sys_id = oee.exam_detail_id
-            where oa.order_no = #{params.orderNo}
-            and (oa.appointment_cates = 2 or oa.appointment_cates = 4)
-            and om.is_deleted = 0
-            and oa.is_cancelled = 0
+ SELECT
+	oa.appoint_date,
+	em.`name` itemName,
+	ed.item_name itemDetailName,
+	oa.order_no,
+	oa.time_from,
+	si.`name` institutionName,
+	oa.is_cancelled
+FROM
+	order_appointment oa
+LEFT JOIN order_extension_exam oee ON oee.sys_id = oa.extensionItem_id
+LEFT JOIN exam_master em ON em.sys_id = oee.exam_master_id
+LEFT JOIN exam_detail ed ON ed.sys_id = oee.exam_detail_id
+LEFT JOIN sys_institution si ON si.institution_id = oa.institution_id
+WHERE
+	oa.parent_no = #{params.orderNo}
     </select>
 
     <select id="getBase" parameterType="map" resultMap="BaseResultMapVo">

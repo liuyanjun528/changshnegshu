@@ -45,6 +45,7 @@ public interface UserCardsMapper extends BaseMapper<UserCards> {
      */
     List<UserCardInfoVo> getGreenPassUserInfo(@Param("userId") String userId);
 
+
     /**
       * @Description: 通过用户编号修改个人信息和医保卡号
       * @Author: wh

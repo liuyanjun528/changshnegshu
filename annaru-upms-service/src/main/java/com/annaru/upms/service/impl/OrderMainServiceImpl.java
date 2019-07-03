@@ -67,6 +67,11 @@ public class OrderMainServiceImpl extends ServiceImpl<OrderMainMapper, OrderMain
     }
 
     @Override
+    public OrderMainVoSumByStatusZ selectSumByStatus(Map<String, Object> params) {
+        return this.baseMapper.selectSumByStatus(params);
+    }
+
+    @Override
     public OrderMainVoZMzlt selectPackageGreen(Map<String, Object> params) {
         OrderMainVoZMzlt list = this.baseMapper.selectPackageGreen(params);
         return list;
@@ -181,7 +186,7 @@ public class OrderMainServiceImpl extends ServiceImpl<OrderMainMapper, OrderMain
         return this.baseMapper.getToB(params);
     }
 
-    public OrderExtensionInfoVo getExtensionInfo(Map<String,Object> params){
+    public List<OrderExtensionInfoVo> getExtensionInfo(Map<String,Object> params){
         return this.baseMapper.getExtensionInfo(params);
     }
 

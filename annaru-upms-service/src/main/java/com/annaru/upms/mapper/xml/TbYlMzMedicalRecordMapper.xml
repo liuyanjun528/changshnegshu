@@ -148,7 +148,7 @@
     WHERE r.CSID =#{csid}
     </select>
     <!-- 根据门诊流水号查询门诊记录 -->
-    <select id="getJzjlByJzlsh" parameterType="map" resultMap="BaseResultMap">
+    <select id="getJzjlByJzlsh" parameterType="map" resultMap="BaseResultMapDetail">
     SELECT
         r.CSID,
         r.JZLSH,

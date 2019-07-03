@@ -29,5 +29,12 @@ public interface IExamReportReviewService extends IService<ExamReportReview> {
     PageUtils selectReport(Map<String, Object> params);
 
 
+    /**
+     * @Description:添加报告建议
+     * @Author: wh
+     * @Date: 2019/7/1 11:12
+     */
+    int updateSuggestions(String reportNo,String reviewNo,String suggestions);
+
 }
 

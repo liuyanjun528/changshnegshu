@@ -1,6 +1,7 @@
 package com.annaru.upms.mapper;
 
 import com.annaru.upms.entity.UserRelatives;
+import com.annaru.upms.entity.vo.UserRelativesVoZ;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -31,6 +32,20 @@ public interface UserRelativesMapper extends BaseMapper<UserRelatives> {
       * @Date: 2019/6/4 9:35
       */
     List<UserRelatives> selectAll(@Param("userId") String userId);
+
+    /**
+     * 亲属管理列表
+     * @author zk
+     * @date 2019-07-02
+     */
+    UserRelativesVoZ managerUserRelativesVoZ(@Param("userId") String userId);
+
+    /**
+     * 亲属列表
+     * @author zk
+     * @date 2019-07-02
+     */
+    List<UserRelatives> getUserRelativesList(@Param("userId") String userId);
 
     /**
       * @Description:删除亲属

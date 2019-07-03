@@ -1,5 +1,6 @@
 package com.annaru.upms.service;
 
+import com.annaru.upms.entity.SysDoctorNurseSchedule;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.annaru.common.result.PageUtils;
 import com.annaru.upms.entity.SysDoctorOppointment;
@@ -23,6 +24,9 @@ public interface ISysDoctorOppointmentService extends IService<SysDoctorOppointm
     */
     PageUtils getDataPage(Map<String, Object> params);
 
+    PageUtils getAppointmentList(Map<String,Object> params);
+
+    boolean updateSceduleStatus(Map<String,Object> params);
 
     /**
      * @Description:按照选择时间当前护士的查询排班信息
@@ -32,10 +36,10 @@ public interface ISysDoctorOppointmentService extends IService<SysDoctorOppointm
     List<SysDoctorOppointment> selectTodayInfo(String doctorNurseNo, Date dateFormat);
 
     /**
-     * @Description:根据当前护士的预约日期 修改预约时间
+     * @Description:根据当前护士的预约日期修改预约时间
      * @Author: wh
      * @Date: 2019/6/14 10:22
      */
-    int updateOppointmentDate(SysDoctorOppointment sysDoctorOppointment);
+    int updateOppointmentDate(SysDoctorNurseSchedule sysDoctorNurseSchedule);
 }
 

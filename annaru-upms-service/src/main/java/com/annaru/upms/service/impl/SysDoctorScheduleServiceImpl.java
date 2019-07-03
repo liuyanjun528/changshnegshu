@@ -36,12 +36,23 @@ public class SysDoctorScheduleServiceImpl extends ServiceImpl<SysDoctorScheduleM
         return this.baseMapper.getDocSchedule(params);
     }
 
+    public boolean updateSceduleStatus(Map<String,Object> params){
+        return this.baseMapper.updateSceduleStatus(params);
+    }
+
+
     @Override
     public List<SysDoctorSchedule> selectDoctorScheduleList(Date dateFrom, String doctorNurseNo) {
         return this.baseMapper.selectDoctorScheduleList(dateFrom, doctorNurseNo);
     }
 
-    public SysDoctorSchedule updateActive(Map<String,Object> params){
-        return this.baseMapper.updateActive(params);
+    @Override
+    public int deleteNurseSchedule(int sysId) {
+        return this.baseMapper.deleteNurseSchedule(sysId);
+    }
+
+    @Override
+    public int insertNuserSchedule(SysDoctorSchedule sysDoctorSchedule) {
+        return this.baseMapper.insertNuserSchedule(sysDoctorSchedule);
     }
 }

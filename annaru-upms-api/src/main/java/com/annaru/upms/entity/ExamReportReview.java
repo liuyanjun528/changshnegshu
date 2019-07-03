@@ -43,6 +43,14 @@ public class ExamReportReview extends Model<ExamReportReview> implements Seriali
 	 */
     @ApiModelProperty(value = "同步编号   拼音+订单号")
 	private String byh;
+
+	/**
+	 * 建议
+	 */
+	@ApiModelProperty(value = "建议")
+	@TableField("suggestions")
+	private String suggestions;
+
 	/**
 	 * 医生编号 解读人
 	 */
@@ -55,6 +63,14 @@ public class ExamReportReview extends Model<ExamReportReview> implements Seriali
     @ApiModelProperty(value = "医生解读时间")
 	@TableField("review_time")
 	private Date reviewTime;
+
+	/**
+	 *
+	 */
+	@ApiModelProperty(value = "解读结果(1:正常/0:异常)")
+	@TableField("result")
+	private int result;
+
 	/**
 	 * 删除(0:未删除/1:已删除)
 	 */
@@ -174,7 +190,23 @@ public class ExamReportReview extends Model<ExamReportReview> implements Seriali
 		this.createBy = createBy;
 	}
 
-    @Override
+	public String getSuggestions() {
+		return suggestions;
+	}
+
+	public void setSuggestions(String suggestions) {
+		this.suggestions = suggestions;
+	}
+
+	public int getResult() {
+		return result;
+	}
+
+	public void setResult(int result) {
+		this.result = result;
+	}
+
+	@Override
 	protected Serializable pkVal() {
 		return this.sysId;
 	}
