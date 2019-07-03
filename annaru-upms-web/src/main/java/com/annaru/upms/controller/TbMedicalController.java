@@ -95,8 +95,8 @@ public class TbMedicalController extends BaseController {
      * @param kh 卡号
      */
     @ApiOperation(value = "门诊记录列表")
-    @GetMapping("/getJzjlPage")
-    @RequiresPermissions("upms/medical/getJzjlPage")
+    @GetMapping("/getJzjlList")
+    @RequiresPermissions("upms/medical/getJzjlPList")
     public ResultMap getJzjlPage(@ApiParam(value = "当前页")@RequestParam(defaultValue="1") int page,
                              @ApiParam(value = "每页数量")@RequestParam(defaultValue = "10") int limit,
                              @ApiParam(value = "身份证号", required = true) @RequestParam String kh,
@@ -214,19 +214,20 @@ public class TbMedicalController extends BaseController {
 
     /**
      * 查询检验报告详情
-     * @param csid
+     * @param jzlsh
+     * @param bgdh
      * @return
      */
     @ApiOperation(value = "检验报告详情")
     @GetMapping("/getJybgDetail")
     @RequiresPermissions("upms/medical/getJybgDetail")
-    public ResultMap getJybgDetail(@ApiParam(value = "就诊流水号", required = true) @RequestParam String csid,
+    public ResultMap getJybgDetail(@ApiParam(value = "就诊流水号", required = true) @RequestParam String jzlsh,
                                    @ApiParam(value = "报告单号", required = true) @RequestParam String bgdh){
         Map<String, Object> map = new HashMap<>();
         // 就诊记录
-        TbYlMzMedicalRecordDetailVo jzjl = iTbYlMzMedicalRecordService.getJzjlById(csid);
+        TbLisReportDetailVo jzjl = iTbLisReportService.getJybgByJzlshAndBgdh(jzlsh, bgdh);
         map.put("jzjl", jzjl);
-        if (jzjl!=null) {
+        if (jzjl != null) {
             // 检验报告
             List<TbLisIndicatorsListVo> tbLisReports = iTbLisIndicatorsService.getJybg(bgdh);
             map.put("jybg", tbLisReports);
@@ -270,9 +271,9 @@ public class TbMedicalController extends BaseController {
      * @return
      */
     @ApiOperation(value = "用药记录列表")
-    @GetMapping("/getYyjl")
-    @RequiresPermissions("upms/medical/getYyjl")
-    public ResultMap getYyjl(@ApiParam(value = "当前页")@RequestParam(defaultValue="1") int page,
+    @GetMapping("/getYyjlList")
+    @RequiresPermissions("upms/medical/getYyjlList")
+    public ResultMap getYyjlList(@ApiParam(value = "当前页")@RequestParam(defaultValue="1") int page,
                              @ApiParam(value = "每页数量")@RequestParam(defaultValue = "10") int limit,
                              @ApiParam(value = "身份证号", required = true) @RequestParam String kh,
                              @ApiParam(value = "开始日期") @RequestParam(required = false) String dateFrom,
@@ -287,6 +288,7 @@ public class TbMedicalController extends BaseController {
             PageUtils<Map<String, Object>> map_list = iTbCisPrescriptionDetailService.getYyjlPage(params);
             List<TbCisPrescriptionDetailListVo> yyjl_list = map_list.getList();
             for (TbCisPrescriptionDetailListVo listVo: yyjl_list) {
+                List<TbCisPrescriptionDetailVo> ypxx = new ArrayList<>();
                 List<TbCisPrescriptionDetailVo> yp_list = iTbCisPrescriptionDetailService.getYp(listVo.getJzlsh());
                 for (TbCisPrescriptionDetailVo detailVo : yp_list) {
                     if (StringUtils.isNotBlank(detailVo.getSypcdm())) {
@@ -297,8 +299,9 @@ public class TbMedicalController extends BaseController {
                         detailVo.setDw(null);
                     }
                     detailVo.setYf(AppConst.yf_dm.get(detailVo.getYf()));
-                    listVo.setTbCisPrescriptionDetailVo(detailVo);
+                    ypxx.add(detailVo);
                 }
+                listVo.setYpList(ypxx);
             }
             if(yyjl_list.size()>0){
                 map_list.setList(yyjl_list);
