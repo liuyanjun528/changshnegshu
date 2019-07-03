@@ -22,6 +22,7 @@ import java.util.List;
 public class EntityPurchseMainVoZ implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	private Integer sysId;
 	/**
 	 * 企业编号
 	 */
@@ -42,8 +43,20 @@ public class EntityPurchseMainVoZ implements Serializable {
 	 * 标题 如：企业专属医生家庭健康服务包
 	 */
 	private String ehmDesr;
+	/**
+	 * 状态:(0:无效/1:有效)
+	 */
+	private Integer isActive;
 
 	private List<EntityPurchseMainDeatailVoZ> entityPurchseMainDeatailVoZList;
+
+	public Integer getSysId() {
+		return sysId;
+	}
+
+	public void setSysId(Integer sysId) {
+		this.sysId = sysId;
+	}
 
 	public String getEntityNo() {
 		return entityNo;
@@ -91,6 +104,14 @@ public class EntityPurchseMainVoZ implements Serializable {
 
 	public void setEntityPurchseMainDeatailVoZList(List<EntityPurchseMainDeatailVoZ> entityPurchseMainDeatailVoZList) {
 		this.entityPurchseMainDeatailVoZList = entityPurchseMainDeatailVoZList;
+	}
+
+	public Integer getIsActive() {
+		return isActive;
+	}
+
+	public void setIsActive(Integer isActive) {
+		this.isActive = isActive;
 	}
 
 	@Override

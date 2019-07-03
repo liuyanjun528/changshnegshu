@@ -2,9 +2,11 @@ package com.annaru.upms.controller;
 
 import java.util.*;
 
+import com.annaru.upms.entity.EntityPurchseMain;
 import com.annaru.upms.entity.vo.EntityHealthyAppointmentVo;
 import com.annaru.upms.entity.vo.EntityPurchseMainVoZ;
 import com.annaru.upms.entity.vo.UserEntityMappingVo;
+import com.annaru.upms.service.IEntityPurchseMainService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import com.alibaba.dubbo.config.annotation.Reference;
 import org.springframework.web.bind.annotation.*;
@@ -33,8 +35,11 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping("upms/userEntityMapping")
 public class UserEntityMappingController extends BaseController {
+
     @Reference
     private IUserEntityMappingService userEntityMappingService;
+    @Reference
+    private IEntityPurchseMainService entityPurchseMainService;
 
     /**
      * 列表
@@ -85,6 +90,33 @@ public class UserEntityMappingController extends BaseController {
             logger.error(e.getMessage());
             return ResultMap.error("运行异常，请联系管理员");
         }
+    }
+
+    /**
+     * 企业健康管理首次登陆激活
+     */
+    @ApiOperation(value = "企业健康管理首次登陆激活")
+    @PostMapping("/getEntityPurchseMainVoZUpdate")
+    @RequiresPermissions("upms/userEntityMapping/getEntityPurchseMainVoZUpdate")
+    public ResultMap getEntityPurchseMainVoZUpdate(@RequestParam Integer sysId) {
+        try {
+            EntityPurchseMain entityPurchseMain = entityPurchseMainService.getById(sysId);
+            if (entityPurchseMain == null){
+                return ResultMap.error("该企业健康服务不存在！");
+            }
+            if (entityPurchseMain.getIsActive() == 1){
+                return ResultMap.ok("该企业健康管理激活成功！");
+            }
+            entityPurchseMain.setIsActive(1);
+            if (entityPurchseMainService.updateById(entityPurchseMain)){
+                return ResultMap.ok("该企业健康管理激活成功！");
+            }
+            return ResultMap.error("运行异常，请联系管理员");
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return ResultMap.error("运行异常，请联系管理员");
+        }
+
     }
 
     /**
