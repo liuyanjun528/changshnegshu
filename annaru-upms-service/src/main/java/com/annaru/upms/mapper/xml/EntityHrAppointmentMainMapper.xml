@@ -242,8 +242,68 @@
         </if>
     </select>
 
+    <resultMap id="homePage" type="com.annaru.upms.entity.vo.HrHomePageInfo">
+        <result column="baseCheckNum" property="baseCheckNum"/>
+        <result column="extensionCheckNum" property="extensionCheckNum"/>
+        <result column="familyDoctorNum" property="familyDoctorNum"/>
+        <result column="greenChannelNum" property="greenChannelNum"/>
+        <result column="total" property="total"/>
+    </resultMap>
 
+    <select id="getHomePageInfo" parameterType="map" resultMap="homePage">
+        SELECT
+        om.order_no,
+        om.reference_no,
+        om.hr_oppointment_id,
+        om.order_cates,
+        om.user_id,
+        eham.sys_id,
+        eham.entity_no,
+        eham.package_id,
+        SUM(om.order_cates=3) baseCheckNum,
+        SUM(om.order_cates=4) extensionCheckNum,
+        SUM(om.order_cates=5) familyDoctorNum,
+        SUM(om.order_cates=6) greenChannelNum
+        FROM
+        entity_hr_appointment_main eham
+        LEFT JOIN order_main om
+        on eham.sys_id = om.hr_oppointment_id
+        WHERE
+        eham.entity_no = #{params.entityId}
+        <if test="params.hrOppointmentId != null and params.hrOppointmentId != ''">
+            AND eham.sys_id = #{params.hrOppointmentId}
+        </if>
+    </select>
 
+    <select id="getTotal" parameterType="map" resultMap="homePage">
+        SELECT
+        sum(eham.hr_total_count) total
+        FROM
+        entity_hr_appointment_main eham
+        WHERE
+        eham.entity_no = #{params.entityId}
+        <if test="params.hrOppointmentId != null and params.hrOppointmentId != ''">
+            AND eham.sys_id = #{params.hrOppointmentId}
+        </if>
+    </select>
+
+    <resultMap id="packageList" type="com.annaru.upms.entity.vo.HrPackageList">
+        <result column="entity_no" property="entityNo"/>
+        <result column="sys_id" property="hrOppointmentId"/>
+        <result column="package_name" property="packageName"/>
+    </resultMap>
+
+    <select id="getPackageList" parameterType="map" resultMap="packageList">
+        SELECT
+            eham.entity_no,
+            eham.sys_id,
+            epm.package_name
+            FROM
+            entity_hr_appointment_main eham
+            LEFT JOIN exam_package_main epm
+            on eham.package_id = epm.sys_id
+            WHERE eham.entity_no = #{params.entityId}
+    </select>
 </mapper>
 
 

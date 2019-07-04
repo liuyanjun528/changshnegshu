@@ -1,7 +1,6 @@
 package com.annaru.upms.service;
 
 import com.annaru.common.result.PageUtils;
-import com.annaru.upms.entity.INTERFACE_AUTHORIZATION;
 import com.annaru.upms.entity.UserCards;
 import com.annaru.upms.entity.vo.UserCardInfoVo;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -38,8 +37,7 @@ public interface IUserCardsService extends IService<UserCards> {
      * @param userId 用户ID
      * @return
      */
-    UserCardInfoVo getGreenPassUserInfoByUserId(String userId);
-    UserCardInfoVo getGreenPassUserInfoByRelativeId(String relativeId);
+    List<UserCardInfoVo> getGreenPassUserInfo(String userId);
 
 
     /**
@@ -49,6 +47,5 @@ public interface IUserCardsService extends IService<UserCards> {
      */
     int updateCardAndBasic(String userId,String cardNo);
 
-    List<INTERFACE_AUTHORIZATION> selectByUserId(String userId);
 }
 

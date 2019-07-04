@@ -38,14 +38,4 @@ public class ExamReportReviewServiceImpl extends ServiceImpl<ExamReportReviewMap
         return new PageUtils<ExamReportReviewVo>(iPage);
     }
 
-    @Override
-    public int updateSuggestions(String reportNo,String reviewNo,String suggestions) {
-        return this.baseMapper.updateSuggestions(reportNo, reviewNo, suggestions);
-    }
-
-    @Override
-    public int updateReportStatus(String reportNo) {
-        return this.baseMapper.updateReportStatus(reportNo);
-    }
-
 }

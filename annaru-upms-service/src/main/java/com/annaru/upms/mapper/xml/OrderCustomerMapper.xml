@@ -11,25 +11,6 @@
         <result column="user_cates" property="userCates" />
     </resultMap>
 
-    <resultMap id="OrderCustomerDeatilVoListBase" type="com.annaru.upms.entity.vo.OrderCustomerDeatilVoZ">
-        <result column="userId" property="userId" />
-        <result column="fullName" property="fullName" />
-        <result column="dateOfBirth" property="dateOfBirth" />
-        <result column="ubIdCardNo" property="ubIdCardNo" />
-        <result column="ubGender" property="ubGender" />
-        <result column="entityId" property="entityId" />
-        <result column="entityName" property="entityName" />
-        <result column="relativeId" property="relativeId" />
-        <result column="relativeName" property="relativeName" />
-        <result column="urIdCardNo" property="urIdCardNo" />
-        <result column="urGender" property="urGender" />
-        <result column="urDateOfBirth" property="urDateOfBirth" />
-        <result column="cardNo" property="cardNo" />
-        <result column="submitTime" property="submitTime" />
-        <result column="orderNo" property="orderNo" />
-        <result column="userCates" property="userCates" />
-    </resultMap>
-
     <!-- 多表页面信息查询分页 -->
     <select id="selectDataPage" parameterType="map" resultMap="BaseResultMap">
 
@@ -44,29 +25,6 @@
                 AND order_no LIKE CONCAT('%', #{params.orderNo}, '%')
             </if>
         </where>
-    </select>
-
-    <select id="OrderCustomerDeatilVoList" parameterType="java.lang.String" resultMap="OrderCustomerDeatilVoListBase">
-        SELECT
-            ub.user_id userId,ub.full_name fullName, ub.date_of_birth dateOfBirth, ub.id_card_no ubIdCardNo, ub.gender ubGender,
-            se.entity_id entityId, se.entity_name entityName,
-            ur.relative_id relativeId, ur.relative_name relativeName, ur.id_card_no urIdCardNo, ur.gender urGender, ur.date_of_birth urDateOfBirth,
-            uc.card_no cardNo,
-            euh.submit_time submitTime,
-            oc.order_no orderNo,
-            oc.user_cates userCates
-        FROM order_customer oc
-        LEFT JOIN user_entity_mapping uem ON uem.user_id = oc.relative_id
-        LEFT JOIN sys_entity se ON se.entity_id = uem.entity_id
-        LEFT JOIN user_basic ub ON ub.user_id = uem.user_id
-        LEFT JOIN user_relatives ur ON ur.relative_id = oc.relative_id
-        LEFT JOIN user_cards uc ON uc.user_id = oc.relative_id
-        LEFT JOIN exam_user_healthy_appraisal euh ON euh.user_id = oc.relative_id
-        WHERE 1 = 1
-        AND oc.is_deleted = 0
-        <if test="orderId != null and orderId != ''" >
-            AND oc.order_no = #{orderId}
-        </if>
     </select>
 
     <insert id="insertOrderCustomer" parameterType="com.annaru.upms.entity.OrderCustomer">

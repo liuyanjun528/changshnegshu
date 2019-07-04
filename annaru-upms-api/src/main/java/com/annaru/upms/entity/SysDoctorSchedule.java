@@ -1,7 +1,6 @@
 package com.annaru.upms.entity;
 
 import com.annaru.common.util.JacksonUtils;
-import com.annaru.upms.entity.vo.NurseScheduleTime;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -12,7 +11,6 @@ import io.swagger.annotations.ApiModelProperty;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 
 /**
@@ -36,9 +34,9 @@ public class SysDoctorSchedule extends Model<SysDoctorSchedule> implements Seria
 	/**
 	 * 类别(1:护士/2:医生)
 	 */
-	@ApiModelProperty(value = "类别(1:护士/2:医生)")
+	@ApiModelProperty(value = "类别")
 	@TableField("user_cates")
-	private int userCates;
+	private String userCates;
 
 	/**
 	 * 医生编号
@@ -70,14 +68,6 @@ public class SysDoctorSchedule extends Model<SysDoctorSchedule> implements Seria
     @ApiModelProperty(value = "结束时间")
 	@TableField("time_to")
 	private String timeTo;
-
-	/**
-	 * 删除(0:未删除/1:已删除)
-	 */
-	@ApiModelProperty(value = "删除(0:未删除/1:已删除)")
-	@TableField("is_deleted")
-	private Integer isDeleted;
-
 	/**
 	 * 激活状态(0:未激活/1:已激活)
 	 */
@@ -96,20 +86,6 @@ public class SysDoctorSchedule extends Model<SysDoctorSchedule> implements Seria
     @ApiModelProperty(value = "编辑时间")
 	@TableField("edit_time")
 	private Date editTime;
-
-	@ApiModelProperty(value = "护士时间段实体类")
-	@TableField(exist = false)
-	private List<NurseScheduleTime> nurseScheduleTimes;
-
-	public List<NurseScheduleTime> getNurseScheduleTimes() {
-		return nurseScheduleTimes;
-	}
-
-	public void setNurseScheduleTimes(List<NurseScheduleTime> nurseScheduleTimes) {
-		this.nurseScheduleTimes = nurseScheduleTimes;
-	}
-
-
 
     /**
      * 获取：系统编号
@@ -177,19 +153,9 @@ public class SysDoctorSchedule extends Model<SysDoctorSchedule> implements Seria
     public String getTimeTo() {
         return timeTo;
     }
-
-	public Integer getIsDeleted() {
-		return isDeleted;
-	}
-
-	public void setIsDeleted(Integer isDeleted) {
-		this.isDeleted = isDeleted;
-	}
-
 	/**
 	 * 设置：结束时间
 	 */
-
 	public void setTimeTo(String timeTo) {
 		this.timeTo = timeTo;
 	}
@@ -230,11 +196,11 @@ public class SysDoctorSchedule extends Model<SysDoctorSchedule> implements Seria
 		this.editTime = editTime;
 	}
 
-	public int getUserCates() {
+	public String getUserCates() {
 		return userCates;
 	}
 
-	public void setUserCates(int userCates) {
+	public void setUserCates(String userCates) {
 		this.userCates = userCates;
 	}
 

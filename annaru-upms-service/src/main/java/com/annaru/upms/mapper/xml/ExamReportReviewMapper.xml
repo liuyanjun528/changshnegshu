@@ -9,10 +9,8 @@
         <result column="user_id" property="userId" />
         <result column="report_no" property="reportNo" />
         <result column="byh" property="byh" />
-        <result column="suggestions" property="suggestions" />
         <result column="review_no" property="reviewNo" />
         <result column="review_time" property="reviewTime" />
-        <result column="result" property="result" />
         <result column="is_deleted" property="isDeleted" />
         <result column="status" property="status" />
         <result column="creation_time" property="creationTime" />
@@ -21,7 +19,6 @@
 
 
     <resultMap id="BaseResultMap1" type="com.annaru.upms.entity.vo.ExamReportReviewVo" >
-        <result column="report_no" property="reportNo" />
         <result column="BRXM" property="BRXM" />
         <result column="BRXB" property="BRXB" />
         <result column="BGLX" property="BGLX" />
@@ -61,7 +58,6 @@
     <!-- 待解读报告-->
     <select id="selectReport" parameterType="map" resultMap="BaseResultMap1">
         SELECT
-            eir.report_no,-- 体检报告编号
 			eir.BRXM,-- 报告人
 			eir.BRXB,-- 性别
 			eir.BGLX,-- 报告类型
@@ -85,16 +81,5 @@
 
 
     </select>
-
-    <!--添加报告建议-->
-    <update id="updateSuggestions">
-        update exam_report_review set suggestions=#{suggestions} where review_no=#{reviewNo} and report_no=#{reportNo}
-    </update>
-
-    <!--确认解读-->
-    <update id="updateReportStatus">
-        UPDATE exam_report_review SET status=1 WHERE report_no=#{reportNo}
-    </update>
-
 
 </mapper>

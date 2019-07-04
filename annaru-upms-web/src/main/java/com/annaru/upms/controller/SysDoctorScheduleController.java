@@ -5,12 +5,10 @@ import com.annaru.common.base.BaseController;
 import com.annaru.common.result.PageUtils;
 import com.annaru.common.result.ResultMap;
 import com.annaru.upms.entity.SysDoctorSchedule;
-import com.annaru.upms.entity.vo.NurseScheduleTime;
 import com.annaru.upms.service.ISysDoctorScheduleService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import javafx.beans.binding.ListExpression;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.web.bind.annotation.*;
 
@@ -83,12 +81,8 @@ public class SysDoctorScheduleController extends BaseController {
     @RequiresPermissions("upms/sysDoctorSchedule/save")
     public ResultMap save(@Valid @RequestBody SysDoctorSchedule sysDoctorSchedule) {
         try {
-            for (NurseScheduleTime size:sysDoctorSchedule.getNurseScheduleTimes()){
-                sysDoctorSchedule.setCreationTime(new Date());
-                sysDoctorSchedule.setTimeFrom(size.getTimeFrom());
-                sysDoctorSchedule.setTimeTo(size.getTimeTo());
-                sysDoctorScheduleService.insertNuserSchedule(sysDoctorSchedule);
-            }
+            sysDoctorSchedule.setCreationTime(new Date());
+            sysDoctorScheduleService.save(sysDoctorSchedule);
             return ResultMap.ok("添加成功");
         } catch (Exception e) {
             logger.error(e.getMessage());
@@ -101,11 +95,11 @@ public class SysDoctorScheduleController extends BaseController {
      * @author wh
      */
     @ApiOperation(value = "删除护士的排班")
-    @PostMapping("/deleteNurseSchedule")
-    @RequiresPermissions("upms/sysDoctorSchedule/deleteNurseSchedule")
-    public ResultMap deleteNurseSchedule(int sysId) {
+    @PostMapping("/update")
+    @RequiresPermissions("upms/sysDoctorSchedule/update")
+    public ResultMap update(@Valid @RequestBody SysDoctorSchedule sysDoctorSchedule) {
         try {
-            sysDoctorScheduleService.deleteNurseSchedule(sysId);
+            sysDoctorScheduleService.updateById(sysDoctorSchedule);
             return ResultMap.ok("删除成功");
         } catch (Exception e) {
             logger.error(e.getMessage());

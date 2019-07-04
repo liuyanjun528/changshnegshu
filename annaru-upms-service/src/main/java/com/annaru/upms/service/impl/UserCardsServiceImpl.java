@@ -2,12 +2,10 @@ package com.annaru.upms.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.annaru.common.result.PageUtils;
-import com.annaru.upms.entity.INTERFACE_AUTHORIZATION;
 import com.annaru.upms.entity.UserCards;
 import com.annaru.upms.entity.vo.UserCardInfoVo;
 import com.annaru.upms.mapper.UserCardsMapper;
 import com.annaru.upms.service.IUserCardsService;
-import com.baomidou.dynamic.datasource.annotation.DS;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -43,27 +41,13 @@ public class UserCardsServiceImpl extends ServiceImpl<UserCardsMapper, UserCards
      * @param userId 用户ID
      * @return
      */
-    @Override
-    public UserCardInfoVo getGreenPassUserInfoByUserId(String userId) {
-        return this.baseMapper.getGreenPassUserInfoByUserId(userId);
+    public List<UserCardInfoVo> getGreenPassUserInfo(String userId) {
+        return this.baseMapper.getGreenPassUserInfo(userId);
     }
-
-    @Override
-    public UserCardInfoVo getGreenPassUserInfoByRelativeId(String relativeId) {
-        return this.baseMapper.getGreenPassUserInfoByRelativeId(relativeId);
-    }
-
-
 
     @Override
     public int updateCardAndBasic(String userId,String cardNo) {
         return this.baseMapper.updateCardAndBasic(userId, cardNo);
-    }
-
-    @Override
-    @DS("oracle")
-    public List<INTERFACE_AUTHORIZATION> selectByUserId(String userId) {
-        return this.baseMapper.selectByUserId(userId);
     }
 
 }

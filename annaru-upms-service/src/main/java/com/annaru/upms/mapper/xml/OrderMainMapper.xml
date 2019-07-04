@@ -59,6 +59,8 @@
         <result column="package_name" property="packageName"/>
         <result column="order_no" property="orderNo"/>
         <result column="reference_no" property="referenceNo"/>
+        <result column="hr_oppointment_id" property="hrOppointmentId"/>
+        <result column="order_cates" property="orderCates"/>
     </resultMap>
 
 
@@ -257,7 +259,7 @@
     <!-- 订单各状态的总数 -->
     <select id="selectSumByStatus" parameterType="map" resultMap="selectSumByStatusResultMap">
         SELECT
-            sum(om.status = 0) sum1 ,sum(om.status = 1) sum2 ,sum(om.status = 2) sum3 ,sum(om.status = 3) sum4
+        sum(om.status = 0) sum1 ,sum(om.status = 1) sum2 ,sum(om.status = 2) sum3 ,sum(om.status = 3) sum4
         FROM order_main om
         WHERE 1 = 1 AND om.is_deleted = 0
         <if test="params.userId != null and params.userId != ''">
@@ -418,11 +420,11 @@
 
     <select id="selectByOrderNo" resultMap="BaseResultMap">
         SELECT
-            <include refid="BaseColumn"></include>
+        <include refid="BaseColumn"></include>
         FROM
-            order_main
+        order_main
         WHERE
-            order_no = #{orderNo}
+        order_no = #{orderNo}
         LIMIT 1
 
     </select>
@@ -551,26 +553,28 @@ WHERE
     </select>
 
     <select id="getToBPackages" parameterType="map" resultMap="UserPackages">
-                    SELECT
-                    epm.package_name,
-                    om.order_no,
-                    oa.creation_time,
-                    om.reference_no
-                    FROM
-                    order_main om
-                    LEFT JOIN exam_package_main epm
-                    on epm.sys_id = om.reference_no
-                    LEFT JOIN order_appointment oa
-                    on om.order_no = oa.order_no
-                    WHERE
-                    (om.order_cates = 3 or om.order_cates = 1)
-                    and om.user_id = #{params.userId}
-                    and om.is_deleted = 0
-                    <if test="params.orderNo != null and params.orderNo != ''">
-                    AND oa.order_no = #{params.orderNo}
-                    </if>
-                    ORDER BY  oa.creation_time DESC
-                    LIMIT 1
+        SELECT
+        epm.package_name,
+        om.order_no,
+        oa.creation_time,
+        om.reference_no,
+        om.hr_oppointment_id,
+        om.order_cates
+        FROM
+        order_main om
+        LEFT JOIN exam_package_main epm
+        on epm.sys_id = om.reference_no
+        LEFT JOIN order_appointment oa
+        on om.order_no = oa.order_no
+        WHERE
+        (om.order_cates = 3 or om.order_cates = 1)
+        and om.user_id = #{params.userId}
+        and om.is_deleted = 0
+        <if test="params.orderNo != null and params.orderNo != ''">
+            AND oa.order_no = #{params.orderNo}
+        </if>
+        ORDER BY  oa.creation_time DESC
+        LIMIT 1
     </select>
 
     <select id="getPackages" parameterType="map" resultMap="UserPackages">
@@ -578,7 +582,9 @@ WHERE
         epm.package_name,
         om.order_no,
         oa.creation_time,
-        om.reference_no
+        om.reference_no,
+        om.hr_oppointment_id,
+        om.order_cates
         FROM
         order_main om
         LEFT JOIN exam_package_main epm

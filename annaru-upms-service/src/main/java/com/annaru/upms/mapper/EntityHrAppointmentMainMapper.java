@@ -3,6 +3,8 @@ package com.annaru.upms.mapper;
 import com.annaru.upms.entity.EntityHrAppointmentMain;
 import com.annaru.upms.entity.vo.EntityHrAppointmentMainVoZ;
 import com.annaru.upms.entity.vo.EntityHrAppointmentMainVoZ1;
+import com.annaru.upms.entity.vo.HrHomePageInfo;
+import com.annaru.upms.entity.vo.HrPackageList;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -68,5 +70,9 @@ public interface EntityHrAppointmentMainMapper extends BaseMapper<EntityHrAppoin
      */
     List<EntityHrAppointmentMainVoZ1> selectHrHealthAppointmentBs(@Param("params") Map <String, Object> params);
 
+    HrHomePageInfo getHomePageInfo(@Param("params") Map<String,Object> params);
 
+    HrHomePageInfo getTotal(@Param("params") Map<String,Object> params);
+
+    List<HrPackageList> getPackageList(@Param("params") Map<String,Object> params);
 }

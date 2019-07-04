@@ -32,13 +32,6 @@ public class SysMessage extends Model<SysMessage> implements Serializable {
     @ApiModelProperty(value = "用户编号")
 	@TableField("user_id")
 	private String userId;
-
-	/**
-	 * 用户编号
-	 */
-	@ApiModelProperty(value = "订单号")
-	@TableField("order_no")
-	private String orderNo;
 	/**
 	 * 消息类别(1:系统消息/2:通知消息/3:上门消息)
 	 */
@@ -87,16 +80,7 @@ public class SysMessage extends Model<SysMessage> implements Serializable {
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
-
-	public String getOrderNo() {
-		return orderNo;
-	}
-
-	public void setOrderNo(String orderNo) {
-		this.orderNo = orderNo;
-	}
-
-	/**
+    /**
      * 获取：消息类别(1:系统消息/2:通知消息/3:上门消息)
      */
     public Integer getMsgCate() {
