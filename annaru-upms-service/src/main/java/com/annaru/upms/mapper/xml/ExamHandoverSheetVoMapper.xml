@@ -7,12 +7,7 @@
     <resultMap id="BaseResultMap" type="com.annaru.upms.entity.vo.ExamHandoverSheetVo" >
         <result column="related_no" property="relatedNo" />
         <result column="order_no" property="orderNo" />
-        <result column="head_image" property="headImage" />
-        <result column="full_name" property="fullName" />
-        <result column="gender" property="gender" />
-        <result column="age" property="age" />
-        <result column="id_card_no" property="idCardNo" />
-        <result column="cellphone_no" property="cellphoneNo" />
+        <result column="user_id" property="userId" />
         <result column="appoint_date" property="appointDate" />
         <result column="address" property="address" />
         <result column="person_barcode_confirmed" property="personBarcodeConfirmed" />
@@ -31,15 +26,10 @@
 
     <!-- 查询长生树护士端服务订单详情 -->
     <select id="selectNurseOrderInfo" parameterType="map" resultMap="BaseResultMap">
-    select
+        select
             oa.related_no,-- 护士编号
 			oa.order_no,-- 订单编号
-			ub.head_image,-- 头像
-			ub.full_name,-- 姓名
-			ub.gender,-- 性别
-			FLOOR(DATEDIFF(now(), ub.date_of_birth)/365.2422) as age,-- 年龄
-			ub.id_card_no,-- 身份证号
-			ub.cellphone_no,-- 患者手机号
+			oa.user_id, --  用户Id
 			oa.appoint_date,-- 预约时间
 			oa.address,  --  预约地址
 			ehs.person_barcode_confirmed, -- 体检人二维码是否确认(0:未确认/1:已确认)
@@ -50,13 +40,15 @@
 			ehs.handover_time, -- 提交时间
 			ehs.handover_by, -- 提交人
 			oa.appraisal, -- 评分
-			om.amount-- 费用
-        FROM exam_handover_sheet as ehs
-                LEFT JOIN order_appointment as oa ON ehs.order_no=oa.order_no
-				LEFT JOIN user_basic as ub ON oa.user_id=ub.user_id
-                LEFT JOIN order_main as om ON ehs.order_no=om.order_no
-                LEFT JOIN sys_nurse as sn ON oa.related_no=sn.nurse_no
-                WHERE ehs.order_no=#{orderNo}
+			om.amount,-- 费用
+			sn.contact_no1-- 护士手机号
+
+        FROM
+		    exam_handover_sheet as ehs
+        LEFT JOIN order_appointment as oa ON ehs.order_no=oa.order_no
+        LEFT JOIN order_main as om ON ehs.order_no=om.order_no
+        LEFT JOIN sys_nurse as sn ON oa.related_no=sn.nurse_no
+        WHERE ehs.order_no=#{orderNo}
 
     </select>
 

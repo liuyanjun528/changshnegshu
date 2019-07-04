@@ -16,15 +16,16 @@ public class sysDoctorNurseOppointmentVo implements Serializable {
 
     @TableField("doctor_nurse_no")
     private String doctorNurseNo;
+    private Date appointDates;
 
     @TableField("time_from")
-    private String timeFrom;
+    private Date timeFrom;
 
     @TableField("time_to")
-    private String timeTo;
+    private Date timeTo;
 
-    @TableField("service_option")
-    private int serviceOption;
+    @TableField("appointment_cates")
+    private int appointmentCates;
 
     @TableField("full_name")
     private String fullName;
@@ -55,28 +56,36 @@ public class sysDoctorNurseOppointmentVo implements Serializable {
         this.doctorNurseNo = doctorNurseNo;
     }
 
-    public String getTimeFrom() {
+    public Date getAppointDates() {
+        return appointDates;
+    }
+
+    public void setAppointDates(Date appointDates) {
+        this.appointDates = appointDates;
+    }
+
+    public Date getTimeFrom() {
         return timeFrom;
     }
 
-    public void setTimeFrom(String timeFrom) {
+    public void setTimeFrom(Date timeFrom) {
         this.timeFrom = timeFrom;
     }
 
-    public String getTimeTo() {
+    public Date getTimeTo() {
         return timeTo;
     }
 
-    public void setTimeTo(String timeTo) {
+    public void setTimeTo(Date timeTo) {
         this.timeTo = timeTo;
     }
 
-    public int getServiceOption() {
-        return serviceOption;
+    public int getAppointmentCates() {
+        return appointmentCates;
     }
 
-    public void setServiceOption(int serviceOption) {
-        this.serviceOption = serviceOption;
+    public void setAppointmentCates(int appointmentCates) {
+        this.appointmentCates = appointmentCates;
     }
 
     public String getFullName() {

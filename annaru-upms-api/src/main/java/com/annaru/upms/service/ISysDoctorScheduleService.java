@@ -34,21 +34,6 @@ public interface ISysDoctorScheduleService extends IService<SysDoctorSchedule> {
      * @Date: 2019/6/13 11:19
      */
     List<SysDoctorSchedule> selectDoctorScheduleList(Date dateFrom, String doctorNurseNo);
-    /**
-     * @Description:删除护士的排班
-     * @Author: wh
-     * @Date: 2019/7/2 9:20
-     */
-    int deleteNurseSchedule(int sysId);
-
-    /**
-     * @Description:添加护士的排班
-     * @Author: wh
-     * @Date: 2019/7/3 9:07
-     */
-    int insertNuserSchedule(SysDoctorSchedule sysDoctorSchedule);
-
-
 
 }
 

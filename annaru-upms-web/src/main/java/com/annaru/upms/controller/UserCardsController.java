@@ -5,7 +5,6 @@ import com.annaru.common.base.BaseController;
 import com.annaru.common.result.PageUtils;
 import com.annaru.common.result.ResultMap;
 import com.annaru.upms.entity.UserCards;
-import com.annaru.upms.entity.INTERFACE_AUTHORIZATION;
 import com.annaru.upms.entity.vo.UserCardInfoVo;
 import com.annaru.upms.entity.vo.UserCardVo;
 import com.annaru.upms.service.IUserBasicService;
@@ -151,21 +150,5 @@ public class UserCardsController extends BaseController {
 
     }
 
-    /**
-     * 用户授权信息查询
-     */
-    @ApiOperation(value = "用户授权信息查询")
-    @GetMapping("/selectByUserId")
-    @RequiresPermissions("upms/userCards/selectByUserId")
-    public ResultMap selectByUserId(String userId) {
-        try {
-            List<INTERFACE_AUTHORIZATION> authorization = userCardsService.selectByUserId(userId);
-            return ResultMap.ok().put("data",authorization);
-        } catch (Exception e) {
-            logger.error(e.getMessage());
-            return ResultMap.error("运行异常，请联系管理员");
-        }
-
-    }
 
 }
