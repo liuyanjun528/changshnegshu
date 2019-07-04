@@ -3,6 +3,8 @@ package com.annaru.upms.service;
 
 import com.annaru.upms.entity.vo.EntityHrAppointmentMainVoZ;
 import com.annaru.upms.entity.vo.EntityHrAppointmentMainVoZ1;
+import com.annaru.upms.entity.vo.HrHomePageInfo;
+import com.annaru.upms.entity.vo.HrPackageList;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.annaru.common.result.PageUtils;
 import com.annaru.upms.entity.EntityHrAppointmentMain;
@@ -65,6 +67,13 @@ public interface IEntityHrAppointmentMainService extends IService<EntityHrAppoin
      * @return
      */
     List<EntityHrAppointmentMainVoZ1> selectHrHealthAppointmentBs(Map <String, Object> params);
+
+
+    HrHomePageInfo getHomePageInfo(Map<String,Object> params);
+
+    HrHomePageInfo getTotal(Map<String,Object> params);
+
+    List<HrPackageList> getPackageList(Map<String,Object> params);
 
 
 }

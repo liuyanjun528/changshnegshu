@@ -5,6 +5,8 @@ import java.util.*;
 import com.annaru.upms.entity.EntityHrAppointmentDetail;
 import com.annaru.upms.entity.vo.EntityHrAppointmentMainVoZ;
 import com.annaru.upms.entity.vo.EntityHrAppointmentMainVoZ1;
+import com.annaru.upms.entity.vo.HrHomePageInfo;
+import com.annaru.upms.entity.vo.HrPackageList;
 import com.annaru.upms.service.IEntityHrAppointmentDetailService;
 import jodd.util.StringUtil;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -106,6 +108,48 @@ public class EntityHrAppointmentMainController extends BaseController {
             return ResultMap.error("运行异常，请联系管理员");
         }
     }
+
+    /**
+     * 企业管理首页
+     */
+    @ApiOperation(value = "企业管理首页",notes = "企业管理首页")
+    @GetMapping("/hrHomePage")
+    @RequiresPermissions("upms/entityHrAppointmentMain/hrHomePage")
+    public ResultMap hrHomePage(@RequestParam String entityId,
+                                @RequestParam(required = false) Integer hrOppointmentId){
+        try {
+            Map<String, Object> params = new HashMap<>();
+            params.put("entityId",entityId);
+            params.put("hrOppointmentId",hrOppointmentId);
+            HrHomePageInfo hrHomePageInfo = entityHrAppointmentMainService.getHomePageInfo(params);
+            HrHomePageInfo total = entityHrAppointmentMainService.getTotal(params);
+            hrHomePageInfo.setTotal(total.getTotal());
+            hrHomePageInfo.setUserd(hrHomePageInfo.getBaseCheckNum());
+            return ResultMap.ok().put("hrHomePageInfo",hrHomePageInfo);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return ResultMap.error("运行异常，请联系管理员");
+        }
+    }
+
+    /**
+     * hr套餐列表
+     */
+    @ApiOperation(value = "hr套餐列表",notes = "hr套餐列表")
+    @GetMapping("/hrPackageList")
+    @RequiresPermissions("upms/entityHrAppointmentMain/hrPackageList")
+    public ResultMap hrPackageList(@RequestParam String entityId){
+        try{
+            Map<String,Object> params = new HashMap<>();
+            params.put("entityId",entityId);
+            List<HrPackageList> hrPackageLists = entityHrAppointmentMainService.getPackageList(params);
+            return ResultMap.ok().put("data",hrPackageLists);
+        }catch (Exception e){
+            logger.error(e.getMessage());
+            return ResultMap.error("运行异常，请联系管理员");
+        }
+    }
+
 
     /**
      * HR记录详情

@@ -158,7 +158,7 @@ public class OrderAppointmentController extends BaseController {
         if (orderAppointments.size()==0){
             params.clear();
             params.put("examList",examChooseVo);
-            params.put("packageName",userPackage.getPackageName());
+            params.put("userPackage",userPackage);
             params.put("appointed",0);
             return ResultMap.ok().put("data",params);
         }
@@ -177,7 +177,7 @@ public class OrderAppointmentController extends BaseController {
         }else {
             params.put("extensioncheck",orderInfoVo);
         }
-        params.put("packageName",userPackage.getPackageName());
+        params.put("userPackage",userPackage);
         params.put("examList",examChooseVo);
         params.put("commoncheck",orderAppointments.get(0));
         return ResultMap.ok().put("data",params);
@@ -254,6 +254,7 @@ public class OrderAppointmentController extends BaseController {
         OrderDetail orderDetail = new OrderDetail();
         OrderAdditionalInfo orderAdditionalInfo = new OrderAdditionalInfo();
         SysDoctorOppointment sysDoctorOppointment = new SysDoctorOppointment();
+        String orderNo = "";
         try {
             if(orderAppointment.getAppointmentCates()==1
                     &&orderAppointment.getAppointDate()!=null
@@ -265,7 +266,7 @@ public class OrderAppointmentController extends BaseController {
                 appointment.setUserId(orderAppointment.getUserId());
                 appointment.setCreateBy(orderAppointment.getUserId());
                 appointment.setCreationTime(new Date());
-                String orderNo = orderAppointment.getOrderNo();
+                orderNo = orderAppointment.getOrderNo();
                 appointment.setOrderNo(orderNo);
                 appointment.setServiceOption(orderAppointment.getOption1());
                 orderAdditionalInfo.setAppointmentCates(1);
@@ -288,7 +289,7 @@ public class OrderAppointmentController extends BaseController {
                     &&orderAppointment.getInstitutionId()!=null
                     &&orderAppointment.getParentNo()!=null
                     &&orderAppointment.getExtensionItems()!=null){
-                String orderNo = createOrderNo();
+                orderNo = createOrderNo();
                 Integer orderCates = orderAppointment.getAppointmentCates();
                 String userId = orderAppointment.getUserId();
                 String parentNo = orderAppointment.getParentNo();
@@ -297,7 +298,6 @@ public class OrderAppointmentController extends BaseController {
                     orderExtensionExam.setExamDetailId(orderAppointment.getExtensionItems().get(i).getExamDetailId());
                     orderExtensionExam.setExamMasterId(orderAppointment.getExtensionItems().get(i).getExamMasterId());
                     orderExtensionExam.setOrderNo(orderNo);
-                   // orderExtensionExamService.save(orderExtensionExam);
                     int sysId = orderExtensionExamService.saveOne(orderExtensionExam);
                     appointment.setExtensionItemId(sysId);
                     appointment.setParentNo(parentNo);
@@ -319,7 +319,7 @@ public class OrderAppointmentController extends BaseController {
                     &&orderAppointment.getParentNo()!=null
                     &&orderAppointment.getExtensionItems()!=null
             &&orderAppointment.getHrOppointmentId()!=null) {
-                String orderNo = createOrderNo();
+                orderNo = createOrderNo();
                 Integer orderCates = orderAppointment.getAppointmentCates();
                 String userId = orderAppointment.getUserId();
                 String parentNo = orderAppointment.getParentNo();
@@ -356,11 +356,6 @@ public class OrderAppointmentController extends BaseController {
                 sysDoctorOppointment.setAppointDate(orderAppointment.getAppointDate());
                 sysDoctorOppointment.setTimeFrom(orderAppointment.getTimeFrom());
                 sysDoctorOppointment.setTimeTo(orderAppointment.getTimeTo());
-//                Map<String, Object> params = new HashMap<>();
-//                params.put("appointDate",orderAppointment.getAppointDate());
-//                params.put("timeFrom",orderAppointment.getTimeFrom());
-//                params.put("timeTo",orderAppointment.getTimeTo());
-//                sysDoctorScheduleService.updateActive(params);
                 sysDoctorOppointmentService.save(sysDoctorOppointment);
             }else if (orderAppointment.getAppointmentCates()==6
                     &&orderAppointment.getInstitutionId()!=null
@@ -373,7 +368,7 @@ public class OrderAppointmentController extends BaseController {
                     Map<String,Object> params = new HashMap<>();
                     params.put("userId",userId);
                     orderDetail = orderDetailService.hasRestTimes(params);
-                    String orderNo = orderDetail.getOrderNo();
+                    orderNo = orderDetail.getOrderNo();
                     Integer restTime = orderDetail.getRestCount();
                     orderDetail.setRestCount(restTime-1);
                     orderDetailService.updateById(orderDetail);
@@ -403,7 +398,7 @@ public class OrderAppointmentController extends BaseController {
                     orderAdditionalInfoService.save(orderAdditionalInfo);
                 }else {
                     //如果没有免费次数了，或需要陪诊 要往order_main里插入一条记录
-                    String orderNo = createOrderNo();
+                    orderNo = createOrderNo();
                     appointment.setDepartmentId(orderAppointment.getDepartmentId());
                     appointment.setInstitutionId(orderAppointment.getInstitutionId());
                     appointment.setOrderNo(orderNo);
@@ -432,7 +427,7 @@ public class OrderAppointmentController extends BaseController {
             }else {
                 return ResultMap.error("运行异常，请联系管理员");
             }
-            return ResultMap.ok("添加成功");
+            return ResultMap.ok().put("data",orderNo);
         } catch (Exception e) {
             logger.error(e.getMessage());
             return ResultMap.error("运行异常，请联系管理员");
