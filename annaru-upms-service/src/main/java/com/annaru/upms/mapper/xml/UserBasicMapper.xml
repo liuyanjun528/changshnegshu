@@ -321,6 +321,12 @@
             <if test="params.openid != null and params.openid != ''">
                 AND b.openid = #{params.openid}
             </if>
+            <if test="params.doctorNo != null and params.doctorNo != ''">
+                AND d.doctor_no = #{params.doctorNo}
+            </if>
+            <if test="params.userId != null and params.userId != ''">
+                AND d.user_id = #{params.userId}
+            </if>
     </select>
 
     <!-- 根据条件查询某个用户信息与护士信息 -->

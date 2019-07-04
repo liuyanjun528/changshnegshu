@@ -25,6 +25,10 @@ public class OrderMainVoZTC implements Serializable {
 	 */
 	private String orderNo;
 	/**
+	 * 下单时间
+	 */
+	private String orderTime;
+	/**
 	 * 套餐名称
 	 * @return
 	 */
@@ -58,6 +62,10 @@ public class OrderMainVoZTC implements Serializable {
 	 * 状态
 	 */
 	private Integer status;
+	/**
+	 * 用户渠道(长生树APP、线下)
+	 */
+	private String userChannel;
 
 	private List<OrderMainVoZTC1> orderMainVoZTC1List;
 	private List<OrderMainVoZTC2> orderMainVoZTC2List;
@@ -145,6 +153,12 @@ public class OrderMainVoZTC implements Serializable {
 	}
 	public void setOrderMainVoZTC6List(List<OrderMainVoZTC6> orderMainVoZTC6List) {
 		this.orderMainVoZTC6List = orderMainVoZTC6List;
+	}
+	public String getOrderTime() {
+		return orderTime;
+	}
+	public void setOrderTime(String orderTime) {
+		this.orderTime = orderTime;
 	}
 
 	@Override

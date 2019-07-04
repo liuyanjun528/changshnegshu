@@ -95,6 +95,14 @@ public class SysNurseVoZ implements Serializable {
 	 * @return
 	 */
 	private String departmentName;
+	/**
+	 * 所属机构医院编号
+	 */
+	private String belongHospital;
+	/**
+	 * 所属科室编号
+	 */
+	private String belongOffice;
     /**
      * 获取：系统编号
      */
@@ -280,6 +288,18 @@ public class SysNurseVoZ implements Serializable {
 	}
 	public void setSiName(String siName) {
 		this.siName = siName;
+	}
+	public String getBelongHospital() {
+		return belongHospital;
+	}
+	public void setBelongHospital(String belongHospital) {
+		this.belongHospital = belongHospital;
+	}
+	public String getBelongOffice() {
+		return belongOffice;
+	}
+	public void setBelongOffice(String belongOffice) {
+		this.belongOffice = belongOffice;
 	}
 
 	@Override

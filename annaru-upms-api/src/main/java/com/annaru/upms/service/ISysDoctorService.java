@@ -37,5 +37,12 @@ public interface ISysDoctorService extends IService<SysDoctor> {
       */
     SysDoctor selectByDoctorNoAndUserId(String doctorNo,String userId);
 
+    /**
+     * @Description 根据userId或doctorNo得到医生详情
+     * @Author zk
+     * @Date: 2019-07-04
+     */
+    SysDoctor getDoctorByUdD0(String doctorNo, String userId);
+
 }
 

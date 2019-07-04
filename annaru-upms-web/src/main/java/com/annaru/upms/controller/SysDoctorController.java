@@ -51,6 +51,19 @@ public class SysDoctorController extends BaseController {
     }
 
     /**
+     * @Description 根据userId或doctorNo得到医生详情
+     * @Author zk
+     * @Date: 2019-07-04
+     */
+    @ApiOperation(value = "根据userId或doctorNo得到医生详情", notes = "根据userId或doctorNo得到医生详情")
+    @GetMapping("/getDoctorByUdD0")
+    @RequiresPermissions("upms/sysDoctor/getDoctorByUdD0")
+    public ResultMap getDoctorByUdD0(String doctorNo,String userId){
+        SysDoctor sysDoctor = sysDoctorService.getDoctorByUdD0(doctorNo, userId);
+        return ResultMap.ok().put("data",sysDoctor);
+    }
+
+    /**
      * 列表
      **/
     @ApiOperation(value = "列表")

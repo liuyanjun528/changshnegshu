@@ -42,6 +42,9 @@
 
         <result column="siName" property="siName" />
         <result column="departmentName" property="departmentName" />
+
+        <result column="belongHospital" property="belongHospital" />
+        <result column="belongOffice" property="belongOffice" />
     </resultMap>
 
     <!-- 多表页面信息查询分页 -->
@@ -124,7 +127,9 @@
         sn.creation_time creationTime,
         sn.edit_time editTime,
         si.name siName,
-        sd.department_name departmentName
+        sd.department_name departmentName,
+        sn.belong_hospital belongHospital,
+        sn.belong_office belongOffice
         FROM
         sys_nurse sn
         LEFT JOIN sys_institution si ON si.institution_id = sn.belong_hospital

@@ -161,4 +161,14 @@
         where sd.doctor_no=#{doctorNo}
     </select>
 
+    <select id="getDoctorByUdD0" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT * FROM sys_doctor WHERE 1 = 1
+        <if test="doctorNo != null and doctorNo != ''">
+            AND doctor_no = #{doctorNo}
+        </if>
+        <if test="userId != null and userId != ''">
+            AND user_id = #{userId}
+        </if>
+    </select>
+
 </mapper>

@@ -1,6 +1,8 @@
 package com.annaru.upms.service;
 
 
+import com.annaru.upms.entity.vo.EntityHrAppointmentMainScreenSetVoZ;
+import com.annaru.upms.entity.vo.EntityHrAppointmentMainScreenVoZ;
 import com.annaru.upms.entity.vo.EntityHrAppointmentMainVoZ;
 import com.annaru.upms.entity.vo.EntityHrAppointmentMainVoZ1;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -12,7 +14,7 @@ import java.util.Map;
 /**
  * 企业体检预约主表
  *
- * @author xck
+ * @author zk
  * @date 2019-05-29 18:19:41
  */
 public interface IEntityHrAppointmentMainService extends IService<EntityHrAppointmentMain> {
@@ -65,6 +67,13 @@ public interface IEntityHrAppointmentMainService extends IService<EntityHrAppoin
      * @return
      */
     List<EntityHrAppointmentMainVoZ1> selectHrHealthAppointmentBs(Map <String, Object> params);
+
+    /**
+     * 多表页面信息查询 ，HR员工名单
+     * @return
+     */
+    List<EntityHrAppointmentMainScreenVoZ> selectHrHhAtScreen(EntityHrAppointmentMainScreenSetVoZ eyHrAtMainScreenSetVoZ);
+
 
 
 }
