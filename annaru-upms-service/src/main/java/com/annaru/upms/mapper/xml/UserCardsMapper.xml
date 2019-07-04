@@ -42,17 +42,6 @@
         <result column="gender" property="gender" />
     </resultMap>
 
-    <!--用户授权信息-->
-    <resultMap id="Authorization" type="com.annaru.upms.entity.INTERFACE_AUTHORIZATION" >
-        <result column="CSID" property="csid" />
-        <result column="USER_ID" property="user_id" />
-        <result column="USER_NAME" property="user_name" />
-        <result column="AUTHORIZATION" property="authorization" />
-        <result column="UPDATE_DATE" property="update_date" />
-        <result column="XGBZ" property="xgbz" />
-        <result column="PUSH_STATE" property="push_state" />
-    </resultMap>
-
     <!-- 多表页面信息查询分页 -->
     <select id="selectDataPage" parameterType="map" resultMap="BaseResultMap">
         SELECT
@@ -128,8 +117,4 @@ UNION
         UPDATE user_cards set card_no=#{cardNo} WHERE user_id=#{userId}
     </update>
 
-    <!-- 用户授权信息 -->
-    <select id="selectByUserId" parameterType="map" resultMap="Authorization">
-       SELECT ia.USER_ID FROM TB_INTERFACE_AUTHORIZATION ia WHERE ia.USER_ID=#{userId}
-    </select>
 </mapper>
