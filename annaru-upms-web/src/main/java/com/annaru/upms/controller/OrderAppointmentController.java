@@ -259,11 +259,12 @@ public class OrderAppointmentController extends BaseController {
         OrderAdditionalInfo orderAdditionalInfo = new OrderAdditionalInfo();
         SysDoctorOppointment sysDoctorOppointment = new SysDoctorOppointment();
         try {
-            if(orderAppointment.getAppointmentCates()==1
+            if((orderAppointment.getAppointmentCates()==1||orderAppointment.getAppointmentCates()==3)
                     &&orderAppointment.getAppointDate()!=null
                     &&orderAppointment.getOrderNo()!=null&&orderAppointment.getOption1()!=null
                     &&orderAppointment.getTimeFrom()!=null){
-                appointment.setAppointmentCates(1);
+                Integer cates = orderAppointment.getAppointmentCates();
+                appointment.setAppointmentCates(cates);
                 appointment.setAppointDate(orderAppointment.getAppointDate());
                 appointment.setTimeFrom(orderAppointment.getTimeFrom());
                 appointment.setUserId(orderAppointment.getUserId());
@@ -272,7 +273,7 @@ public class OrderAppointmentController extends BaseController {
                 String orderNo = orderAppointment.getOrderNo();
                 appointment.setOrderNo(orderNo);
                 appointment.setServiceOption(orderAppointment.getOption1());
-                orderAdditionalInfo.setAppointmentCates(1);
+                orderAdditionalInfo.setAppointmentCates(cates);
                 orderAdditionalInfo.setCreateBy(orderAppointment.getUserId());
                 orderAdditionalInfo.setOption1(orderAppointment.getOption1());
                 orderAdditionalInfo.setOrderNo(orderNo);
@@ -319,6 +320,35 @@ public class OrderAppointmentController extends BaseController {
                 orderMain.setStatus(0);
                 orderMain.setOrderCates(orderCates);
                 orderMainService.save(orderMain);
+            }else if(orderAppointment.getAppointmentCates()==1
+                    &&orderAppointment.getAppointDate()!=null
+                    &&orderAppointment.getOrderNo()!=null&&orderAppointment.getOption1()!=null
+                    &&orderAppointment.getTimeFrom()!=null){
+                appointment.setAppointmentCates(1);
+                appointment.setAppointDate(orderAppointment.getAppointDate());
+                appointment.setTimeFrom(orderAppointment.getTimeFrom());
+                appointment.setUserId(orderAppointment.getUserId());
+                appointment.setCreateBy(orderAppointment.getUserId());
+                appointment.setCreationTime(new Date());
+                String orderNo = orderAppointment.getOrderNo();
+                appointment.setOrderNo(orderNo);
+                appointment.setServiceOption(orderAppointment.getOption1());
+                orderAdditionalInfo.setAppointmentCates(1);
+                orderAdditionalInfo.setCreateBy(orderAppointment.getUserId());
+                orderAdditionalInfo.setOption1(orderAppointment.getOption1());
+                orderAdditionalInfo.setOrderNo(orderNo);
+                orderAdditionalInfoService.save(orderAdditionalInfo);
+                if (orderAppointment.getOption1()==1){
+                    if (orderAppointment.getAddress()!=null){
+                        appointment.setAddress(orderAppointment.getAddress());
+                        orderAppointmentService.save(appointment);
+                    }
+                }else if (orderAppointment.getOption1()==2){
+                    if (orderAppointment.getInstitutionId()!=null){
+                        appointment.setInstitutionId(orderAppointment.getInstitutionId());
+                        orderAppointmentService.save(appointment);
+                    }
+                }
             }else if (orderAppointment.getAppointmentCates()==4
                     &&orderAppointment.getInstitutionId()!=null
                     &&orderAppointment.getParentNo()!=null
