@@ -23,6 +23,7 @@ public class EntityExclusiveDoctorVo implements Serializable {
     @TableField("doctor_name")
     private String doctorName;
 
+    private String doctorNo;
     private String degrees;// 医生称谓
     private String name;// 所属医院
     private String level;// 等级
@@ -54,7 +55,24 @@ public class EntityExclusiveDoctorVo implements Serializable {
     @TableField("effect_to")
     private Date effectTo;	// 结束时间
     private Integer day; //天数
+    private int isAppraise; //是否评价
 
+
+    public String getDoctorNo() {
+        return doctorNo;
+    }
+
+    public void setDoctorNo(String doctorNo) {
+        this.doctorNo = doctorNo;
+    }
+
+    public int getIsAppraise() {
+        return isAppraise;
+    }
+
+    public void setIsAppraise(int isAppraise) {
+        this.isAppraise = isAppraise;
+    }
 
     public String getEntityId() {
         return entityId;

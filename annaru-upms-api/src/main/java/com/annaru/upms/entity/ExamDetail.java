@@ -48,12 +48,6 @@ public class ExamDetail extends Model<ExamDetail> implements Serializable {
 	@TableField("standard_value")
 	private String standardValue;
 	/**
-	 * 金额
-	 */
-	@ApiModelProperty(value = "金额")
-	@TableField("amount")
-	private Double amount;
-	/**
 	 * 进阶检查项目总编号
 	 */
 	@ApiModelProperty(value = "进阶检查项目总编号")
@@ -89,14 +83,6 @@ public class ExamDetail extends Model<ExamDetail> implements Serializable {
 	@ApiModelProperty(value = "进阶项目类别名称")
 	@TableField(exist = false)
 	private String eecName;
-
-	public Double getAmount() {
-		return amount;
-	}
-
-	public void setAmount(Double amount) {
-		this.amount = amount;
-	}
 
 	public Integer getMasterId() {
 		return masterId;

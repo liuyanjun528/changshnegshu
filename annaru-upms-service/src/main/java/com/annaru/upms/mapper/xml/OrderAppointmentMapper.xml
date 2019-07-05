@@ -188,7 +188,6 @@ UNION
         </if>
     </select>
 
-
     <select id="getAppointInfoByOrderNo" parameterType="map" resultMap="BaseAppointInfo">
             SELECT
             oa.order_no,

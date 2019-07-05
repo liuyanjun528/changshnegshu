@@ -35,9 +35,10 @@
     <resultMap id="BaseVoMap" type="com.annaru.upms.entity.vo.sysDoctorNurseOppointmentVo" >
         <result column="date_from" property="dateFrom" />
         <result column="doctor_nurse_no" property="doctorNurseNo" />
+        <result column="appointDates" property="appointDates" />
         <result column="time_from" property="timeFrom" />
         <result column="time_to" property="timeTo" />
-        <result column="service_option" property="serviceOption" />
+        <result column="appointment_cates" property="appointmentCates" />
         <result column="full_name" property="fullName" />
         <result column="gender" property="gender" />
         <result column="userAge" property="userAge" />
@@ -101,11 +102,12 @@
     <!--按照选择时间当前护士查询排班信息-->
     <select id="selectTodayInfo" parameterType="map" resultMap="BaseVoMap">
         select
-              sdns.date_from,-- 选择的日期
-              sdns.doctor_nurse_no,-- 护士编号
-			  sdns.time_from,-- 开始时间
-			  sdns.time_to,-- 结束时间
-			  oa.service_option,-- 护士上门
+              sdns.date_from,
+              sdno.doctor_nurse_no,
+			  sdno.appoint_date as appointDates,-- 开始日期
+			  sdno.time_from,-- 开始时间
+			  sdno.time_to,-- 结束时间
+			  sdno.appointment_cates,-- 状态
 			  ub.full_name, --  用户姓名
 			  ub.gender, --  用户性别
 			  TIMESTAMPDIFF(YEAR, ub.date_of_birth, CURDATE()) as userAge, --  用户年龄
@@ -117,16 +119,16 @@
         LEFT JOIN order_appointment as oa ON sdno.user_id=oa.user_id
         LEFT JOIN order_main as om ON sdno.user_id=om.user_id
         LEFT JOIN sys_doctor_nurse_schedule as sdns ON sdno.doctor_nurse_no=sdns.doctor_nurse_no
-        where sdns.doctor_nurse_no=#{doctorNurseNo}  and date_format(sdns.date_from,'%Y-%m-%d')=date_format(#{dateFormat},'%Y-%m-%d')
+        where sdno.doctor_nurse_no=#{doctorNurseNo} and date_format(sdns.date_from,'%Y-%m')=date_format(#{dateFormat},'%Y-%m')
         GROUP BY sdns.date_from
     </select>
 
     <!--根据当前护士的预约日期 修改预约时间-->
-    <update id="updateOppointmentDate" parameterType="com.annaru.upms.entity.SysDoctorNurseSchedule">
-        update sys_doctor_nurse_schedule set
+    <update id="updateOppointmentDate">
+        update sys_doctor_nurse_oppointment set
         time_from=#{timeFrom},
         time_to=#{timeTo}
-		WHERE doctor_nurse_no=#{doctorNurseNo} and date_from=#{dateFrom}
+		WHERE doctor_nurse_no=#{doctorNurseNo} and appoint_date=#{appointDate}
     </update>
 
     <update id="updateSceduleStatus" parameterType="map">

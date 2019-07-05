@@ -7,7 +7,6 @@
     <resultMap id="BaseResultMap" type="com.annaru.upms.entity.SysMessage" >
         <result column="sys_id" property="sysId" />
         <result column="user_id" property="userId" />
-        <result column="order_no" property="orderNo" />
         <result column="msg_cate" property="msgCate" />
         <result column="content" property="content" />
         <result column="is_read" property="isRead" />
@@ -21,7 +20,6 @@
         SELECT
               sys_id,
               user_id,
-              order_no,
               msg_cate,
               content,
               is_read,
@@ -37,16 +35,11 @@
     </select>
 
 
-    <!-- 通过当前用户的消息类别查看消息  ——wh-->
+    <!-- 通过当前用户的消息类别查看消息-->
     <select id="selectMsgByMsgCate" parameterType="map" resultMap="BaseResultMap">
         select
-              user_id,
-              order_no,
-              msg_cate,
               content,
-              is_read,
-              creation_time,
-              read_time
+              creation_time
         from
               sys_message
         where

@@ -25,9 +25,9 @@
         <result column="card_no" property="cardNo" />
         <result column="cellphone_no" property="cellphoneNo" />
         <result column="full_name" property="fullName" />
-        <result column="gender" property="userGender"/>
+        <result column="user_gender" property="userGender"/>
         <result column="user_age" property="userAge"/>
-        <result column="id_card_no" property="userIdCardNo"/>
+        <result column="user_id_card_no" property="userIdCardNo"/>
         <result column="status" property="status" />
         <result column="remark" property="remark" />
         <result column="creation_time" property="creationTime" />
@@ -40,17 +40,6 @@
         <result column="id_card_no" property="idCardNo" />
         <result column="cellphone_no" property="cellphoneNo" />
         <result column="gender" property="gender" />
-    </resultMap>
-
-    <!--用户授权信息-->
-    <resultMap id="Authorization" type="com.annaru.upms.entity.INTERFACE_AUTHORIZATION" >
-        <result column="CSID" property="csid" />
-        <result column="USER_ID" property="user_id" />
-        <result column="USER_NAME" property="user_name" />
-        <result column="AUTHORIZATION" property="authorization" />
-        <result column="UPDATE_DATE" property="update_date" />
-        <result column="XGBZ" property="xgbz" />
-        <result column="PUSH_STATE" property="push_state" />
     </resultMap>
 
     <!-- 多表页面信息查询分页 -->
@@ -101,37 +90,25 @@ UNION
     </select>
 
     <!-- 查询企业门诊绿通预约人信息 -->
-    <select id="getGreenPassUserInfoByUserId" parameterType="map" resultMap="BaseResultMap1">
+    <select id="getGreenPassUserInfo" parameterType="map" resultMap="BaseResultMap1">
         SELECT
-              ub.user_id,
-              ub.full_name, -- 姓名
-              ub.gender, -- 性别
-              ub.id_card_no,-- 身份证号
-              uc.card_cates,-- 卡类型
-              uc.card_no, -- 社保/医保卡号
-              ub.cellphone_no -- 手机号
+        uc.user_id,
+        ub.full_name,
+        ub.gender AS user_gender,
+        ub.id_card_no AS user_id_card_no,
+        ur.relative_id,
+        ur.relative_name,
+        ur.gender AS relative_gender,
+        ur.id_card_no AS relative_id_card_no,
+        uc.card_cates,
+        uc.card_no,
+        uc.cellphone_no
         FROM user_cards uc
-        LEFT JOIN user_basic ub ON ub.user_id = uc.user_id
-        WHERE
+	LEFT JOIN user_basic ub ON ub.user_id = uc.user_id
+	LEFT JOIN user_relatives ur ON ur.relative_id = uc.user_id
+	WHERE
         <if test="userId != null and userId != ''">
-            ub.user_id=#{userId}
-        </if>
-    </select>
-
-    <select id="getGreenPassUserInfoByRelativeId" parameterType="map" resultMap="BaseResultMap1">
-        SELECT
-              ur.relative_id, -- 亲属编号
-              ur.relative_name as full_name, -- 亲属姓名
-              ur.gender,-- 亲属性别
-              ur.id_card_no,-- 亲属身份证号
-              uc.card_cates,-- 卡类型
-              uc.card_no,-- 医保卡号
-              ur.cellphone_no-- 手机号
-        FROM  user_cards as uc
-        LEFT JOIN  user_relatives as ur ON ur.relative_id=uc.user_id
-        where
-        <if test="relativeId != null and relativeId != ''">
-            ur.relative_id=#{relativeId}
+            uc.user_id=#{userId}
         </if>
     </select>
 
@@ -140,8 +117,4 @@ UNION
         UPDATE user_cards set card_no=#{cardNo} WHERE user_id=#{userId}
     </update>
 
-    <!-- 用户授权信息 -->
-    <select id="selectByUserId" parameterType="map" resultMap="Authorization">
-       SELECT ia.USER_ID FROM TB_INTERFACE_AUTHORIZATION ia WHERE ia.USER_ID=#{userId}
-    </select>
 </mapper>

@@ -44,7 +44,12 @@ public class EntityPurchseMain extends Model<EntityPurchseMain> implements Seria
     @ApiModelProperty(value = "企业编号")
 	@TableField("entity_no")
 	private String entityNo;
-
+	/**
+	 * 基础体检编号/企业健康服务编号
+	 */
+    @ApiModelProperty(value = "基础体检编号/企业健康服务编号")
+	@TableField("pkg_main_id")
+	private String pkgMainId;
 	/**
 	 * 类别(1基础体检编号/2企业健康服务编号)
 	 */
@@ -148,7 +153,18 @@ public class EntityPurchseMain extends Model<EntityPurchseMain> implements Seria
 	public void setEntityNo(String entityNo) {
 		this.entityNo = entityNo;
 	}
-
+    /**
+     * 获取：基础体检编号/企业健康服务编号
+     */
+    public String getPkgMainId() {
+        return pkgMainId;
+    }
+	/**
+	 * 设置：基础体检编号/企业健康服务编号
+	 */
+	public void setPkgMainId(String pkgMainId) {
+		this.pkgMainId = pkgMainId;
+	}
     /**
      * 获取：类别(1基础体检编号/2企业健康服务编号)
      */

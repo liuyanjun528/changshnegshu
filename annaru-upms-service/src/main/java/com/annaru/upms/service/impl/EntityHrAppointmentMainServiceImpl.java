@@ -5,6 +5,8 @@ import com.annaru.upms.entity.vo.EntityHrAppointmentMainScreenSetVoZ;
 import com.annaru.upms.entity.vo.EntityHrAppointmentMainScreenVoZ;
 import com.annaru.upms.entity.vo.EntityHrAppointmentMainVoZ;
 import com.annaru.upms.entity.vo.EntityHrAppointmentMainVoZ1;
+import com.annaru.upms.entity.vo.HrHomePageInfo;
+import com.annaru.upms.entity.vo.HrPackageList;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -21,7 +23,7 @@ import java.util.Map;
 /**
  * 企业体检预约主表
  *
- * @author zk
+ * @author xck
  * @date 2019-05-29 18:19:41
  */
 @Service
@@ -71,4 +73,15 @@ public class EntityHrAppointmentMainServiceImpl extends ServiceImpl<EntityHrAppo
         return this.baseMapper.selectHrHhAtScreen(eyHrAtMainScreenSetVoZ);
     }
 
+    public HrHomePageInfo getHomePageInfo(Map<String,Object> params){
+        return this.baseMapper.getHomePageInfo(params);
+    }
+
+    public HrHomePageInfo getTotal(Map<String,Object> params){
+        return this.baseMapper.getTotal(params);
+    }
+
+    public List<HrPackageList> getPackageList(Map<String,Object> params){
+        return this.baseMapper.getPackageList(params);
+    }
 }

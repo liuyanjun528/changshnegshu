@@ -12,7 +12,6 @@
         <result column="date_to" property="dateTo" />
         <result column="time_from" property="timeFrom" />
         <result column="time_to" property="timeTo" />
-        <result column="is_deleted" property="isDeleted" />
         <result column="is_active" property="isActive" />
         <result column="creation_time" property="creationTime" />
         <result column="edit_time" property="editTime" />
@@ -71,8 +70,6 @@
     <!-- 医护端护士的排班-->
     <select id="selectDoctorScheduleList" parameterType="map" resultMap="BaseResultMap">
       SELECT
-            sys_id,
-            doctor_nurse_no,
 			date_from,-- 开始日期
 			date_to, -- 结束日期
 			time_from, --  开始时间
@@ -81,7 +78,7 @@
       FROM
 		    sys_doctor_nurse_schedule
       WHERE
-	        date_format(date_from,'%Y-%m-%d')=date_format(#{dateFrom},'%Y-%m-%d')
+	        date_format(date_from,'%Y-%m')=date_format(#{dateFrom},'%Y-%m')
 	  AND
 	        doctor_nurse_no=#{doctorNurseNo}
     </select>
@@ -98,18 +95,5 @@
                 and doctor_nurse_no=#{params.doctorNo}
     </update>
 
-
-    <!--删除护士的排班 wh-->
-   <update id="deleteNurseSchedule">
-        update sys_doctor_nurse_schedule set is_deleted=1
-        where sys_id=#{sysId}
-   </update>
-
-
-    <!--添加护士的排班 wh-->
-    <insert id="insertNuserSchedule">
-        insert into sys_doctor_nurse_schedule (user_cates,doctor_nurse_no,date_from,date_to,time_from,time_to,creation_time)
-        values (#{userCates},#{doctorNurseNo},#{dateFrom},#{dateTo},#{timeFrom},#{timeTo},#{creationTime})
-    </insert>
 
 </mapper>

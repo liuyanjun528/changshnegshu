@@ -2,7 +2,6 @@ package com.annaru.upms.controller;
 
 import java.util.*;
 
-import com.annaru.upms.entity.SysDoctorNurseSchedule;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import com.alibaba.dubbo.config.annotation.Reference;
 import org.springframework.web.bind.annotation.*;
@@ -57,7 +56,7 @@ public class SysDoctorOppointmentController extends BaseController {
      * 按照选择时间当前护士查询排班信息
      * @Author:wh
      */
-    @ApiOperation(value = "按照时间和护士查询排班信息", notes = "按照时间和护士查询排班信息")
+    @ApiOperation(value = "按照选择时间当前护士查询排班信息", notes = "按照选择时间当前护士查询排班信息")
     @GetMapping("/todayInfo")
     @RequiresPermissions("upms/sysDoctorOppointment/todayInfo")
     public ResultMap todayInfo(String doctorNurseNo, Date dateFormat){
@@ -88,19 +87,19 @@ public class SysDoctorOppointmentController extends BaseController {
     @ApiOperation(value = "根据选择的预约日期 修改预约时间")
     @PostMapping("/update")
     @RequiresPermissions("upms/sysDoctorOppointment/update")
-    public ResultMap update(@RequestBody SysDoctorNurseSchedule sysDoctorNurseSchedule) {
+    public ResultMap update(@RequestBody SysDoctorOppointment sysDoctorOppointment) {
         try {
-            //sysDoctorNurseSchedule.getDateFrom().getTime()返回long毫秒数形式,毫秒转为秒所以除以1000
+            //sysDoctorOppointment.getAppointDate().getTime()返回long毫秒数形式,毫秒转为秒所以除以1000
             //1天=24小时，1小时=60分，1分=60秒，所以两个时间的差再除以60 * 60 * 24换算成天的形式
-            long a=(sysDoctorNurseSchedule.getDateFrom().getTime()/ 1000)/ (60 * 60 * 24);//预约的时间
+            long a=(sysDoctorOppointment.getAppointDate().getTime()/ 1000)/ (60 * 60 * 24);//预约的时间
             long b=(new Date().getTime()/1000)/ (60 * 60 * 24);//当前时间
             System.out.println("选择的时间a："+a);
             System.out.println("当前时间b："+b);
             if(b+7<=a){
-                sysDoctorOppointmentService.updateOppointmentDate(sysDoctorNurseSchedule);
+                sysDoctorOppointmentService.updateOppointmentDate(sysDoctorOppointment);
                 return ResultMap.ok("修改成功");
             }
-            return ResultMap.error("选择的时间不满足一周，只有一周后的排班才能修改");
+            return ResultMap.error("选择的时间不满足修改条件");
         } catch (Exception e) {
             logger.error(e.getMessage());
             return ResultMap.error("运行异常，请联系管理员");

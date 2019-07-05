@@ -46,13 +46,11 @@
     </resultMap>
 
     <resultMap id="getEntityPurchseMainVoZBase" type="com.annaru.upms.entity.vo.EntityPurchseMainVoZ" >
-        <result column="sysId" property="sysId" />
         <result column="entityNo" property="entityNo" />
         <result column="userId" property="userId" />
         <result column="supplier" property="supplier" />
         <result column="logoUrl" property="logoUrl" />
         <result column="ehmDesr" property="ehmDesr" />
-        <result column="isActive" property="isActive" />
 
         <collection property="entityPurchseMainDeatailVoZList" ofType="com.annaru.upms.entity.vo.EntityPurchseMainDeatailVoZ">
             <result column="ehpDesr" property="ehpDesr" />
@@ -107,12 +105,10 @@
 
     <select id="getEntityPurchseMainVoZ" parameterType="java.lang.String" resultMap="getEntityPurchseMainVoZBase">
         SELECT
-            epm.sys_id sysId,
             uem.entity_id entityNo, uem.user_id userId,
             ehs.supplier, ehs.logo_url logoUrl,
             ehm.descr ehmDesr,
-            ehp.descr ehpDesr, ehp.introductions, ehp.counts, ehp.per_year perYear,
-            epm.is_active isActive
+            ehp.descr ehpDesr, ehp.introductions, ehp.counts, ehp.per_year perYear
         FROM
         user_entity_mapping uem
         LEFT JOIN entity_purchse_main epm ON epm.entity_no = uem.entity_id
@@ -122,7 +118,7 @@
         LEFT JOIN entity_healthy_supplier ehs ON ehs.sys_id = ehm.supplier_id
         WHERE 1 = 1
         AND uem.is_active = 1
-        AND epm.is_terminated = 0
+        AND epm.is_active = 1 AND epm.is_terminated = 0
         AND epd.is_active = 1 AND epd.is_deleted = 0
         AND ehp.is_active = 1
         <if test="userId != null and userId != ''">

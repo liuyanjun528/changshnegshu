@@ -68,7 +68,6 @@ public class UserRelativesServiceImpl extends ServiceImpl<UserRelativesMapper, U
         userRelatives1.setIdCardNo(userRelativesDetailVoZ.getIdCardNo());
         userRelatives1.setCellphoneNo(userRelativesDetailVoZ.getCellphoneNo());
         userRelatives1.setRemark(userRelativesDetailVoZ.getRemark());
-        userRelatives1.setCreationTime(new Date());
         if (userRelativesService.updateById(userRelatives1)){
             UserCards userCards = userCardsService.getById(userRelativesDetailVoZ.getUcSysId());
             if (userCards == null){
@@ -94,10 +93,9 @@ public class UserRelativesServiceImpl extends ServiceImpl<UserRelativesMapper, U
         userRelatives.setIdCardNo(userRelativesDetailVoZ.getIdCardNo());
         userRelatives.setCellphoneNo(userRelativesDetailVoZ.getCellphoneNo());
         userRelatives.setRemark(userRelativesDetailVoZ.getRemark());
-        userRelatives.setCreationTime(new Date());
         if (userRelativesService.save(userRelatives)){
             UserCards userCards = new UserCards();
-            userCards.setUserId(userRelativesDetailVoZ.getRelativeId());
+            userCards.setUserId(userRelativesDetailVoZ.getUserId());
             userCards.setUserCates(2);
             userCards.setCardCates(2);
             userCards.setCardNo(userRelativesDetailVoZ.getCardNo());
@@ -116,7 +114,6 @@ public class UserRelativesServiceImpl extends ServiceImpl<UserRelativesMapper, U
     @Transactional
     public boolean deleteUserRelatives(UserRelatives userRelatives1, UserRelativesDetailVoZ userRelativesDetailVoZ) {
         userRelatives1.setIsDeleted(1);
-        userRelatives1.setEditTime(new Date());
         if (userRelativesService.updateById(userRelatives1)){
             if (userCardsService.removeById(userRelativesDetailVoZ.getUcSysId())){
                 return true;

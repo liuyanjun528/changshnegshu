@@ -18,7 +18,6 @@ import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 
@@ -66,16 +65,9 @@ public class OrderMainController extends BaseController {
             SysConfig sysConfig = SysConfigUtil.getSysConfig(iSysConfigService , SysConfigUtil.ORDERNO);
             orderMain.setOrderNo(SysConfigUtil.getNoBySysConfig());
             boolean save = orderMainService.save(orderMain);
-
-            Calendar curr = Calendar.getInstance();
-            curr.set(Calendar.YEAR,curr.get(Calendar.YEAR)+1);
-            Date date=curr.getTime();
-
             if(save=true){
                 orderMain.getUserFamilyDoctor().setOrderNo(SysConfigUtil.getNoBySysConfig());
-                orderMain.getUserFamilyDoctor().setDoctorNo(orderMain.getUserFamilyDoctor().getDoctorNo());
                 orderMain.getUserFamilyDoctor().setEffectFrom(new Date());
-                orderMain.getUserFamilyDoctor().setEffectTo(date);
                 orderMain.getUserFamilyDoctor().setCreationTime(new Date());
                 orderMain.getUserFamilyDoctor().setUserId(orderMain.getUserId());
                 userFamilyDoctorService.save(orderMain.getUserFamilyDoctor());
@@ -111,8 +103,7 @@ public class OrderMainController extends BaseController {
             logger.error(e.getMessage());
         }
         if (i>0) {
-            OrderMain byOrderNo = orderMainService.getByOrderNo(orderMain.getOrderNo());
-            return ResultMap.ok("添加成功").put("data", orderMain.getOrderNo()).put("sysId",byOrderNo.getSysId());
+            return ResultMap.ok("添加成功").put("data", orderMain.getOrderNo());
         } else {
             return ResultMap.error("没有相关亲属，请先添加亲属");
         }

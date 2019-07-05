@@ -102,7 +102,7 @@ public class OrderAppointmentController extends BaseController {
             @ApiParam(value = "每页数量")@RequestParam(defaultValue = "10") int limit,
             @ApiParam(value = "医生编号")@RequestParam(required = false)String doctorNo,
             @ApiParam(value = "状态")@RequestParam(required = false) int status
-            ){
+    ){
 
         Map<String, Object> params = new HashMap<>();
         params.put("page",page);
@@ -140,7 +140,7 @@ public class OrderAppointmentController extends BaseController {
     @GetMapping("/toBPackages")
     @RequiresPermissions("upms/orderAppointment/toBPackages")
     public ResultMap toBPackages(@ApiParam(value = "用户ID")@RequestParam String userId,
-    @ApiParam(value = "订单编号")@RequestParam(required = false) String orderNo){
+                                 @ApiParam(value = "订单编号")@RequestParam(required = false) String orderNo){
         Map<String, Object> params = new HashMap<>();
         params.put("userId",userId);
         params.put("orderNo",orderNo);
@@ -158,7 +158,7 @@ public class OrderAppointmentController extends BaseController {
         if (orderAppointments.size()==0){
             params.clear();
             params.put("examList",examChooseVo);
-            params.put("packageName",userPackage.getPackageName());
+            params.put("userPackage",userPackage);
             params.put("appointed",0);
             return ResultMap.ok().put("data",params);
         }
@@ -177,7 +177,7 @@ public class OrderAppointmentController extends BaseController {
         }else {
             params.put("extensioncheck",orderInfoVo);
         }
-        params.put("packageName",userPackage.getPackageName());
+        params.put("userPackage",userPackage);
         params.put("examList",examChooseVo);
         params.put("commoncheck",orderAppointments.get(0));
         return ResultMap.ok().put("data",params);
@@ -257,8 +257,8 @@ public class OrderAppointmentController extends BaseController {
         try {
             if(orderAppointment.getAppointmentCates()==1
                     &&orderAppointment.getAppointDate()!=null
-            &&orderAppointment.getOrderNo()!=null&&orderAppointment.getOption1()!=null
-            &&orderAppointment.getTimeFrom()!=null){
+                    &&orderAppointment.getOrderNo()!=null&&orderAppointment.getOption1()!=null
+                    &&orderAppointment.getTimeFrom()!=null){
                 appointment.setAppointmentCates(1);
                 appointment.setAppointDate(orderAppointment.getAppointDate());
                 appointment.setTimeFrom(orderAppointment.getTimeFrom());
@@ -273,17 +273,17 @@ public class OrderAppointmentController extends BaseController {
                 orderAdditionalInfo.setOption1(orderAppointment.getOption1());
                 orderAdditionalInfo.setOrderNo(orderNo);
                 orderAdditionalInfoService.save(orderAdditionalInfo);
-                    if (orderAppointment.getOption1()==1){
-                        if (orderAppointment.getAddress()!=null){
-                            appointment.setAddress(orderAppointment.getAddress());
-                            orderAppointmentService.save(appointment);
-                        }
-                }else if (orderAppointment.getOption1()==2){
-                        if (orderAppointment.getInstitutionId()!=null){
-                            appointment.setInstitutionId(orderAppointment.getInstitutionId());
-                            orderAppointmentService.save(appointment);
-                        }
+                if (orderAppointment.getOption1()==1){
+                    if (orderAppointment.getAddress()!=null){
+                        appointment.setAddress(orderAppointment.getAddress());
+                        orderAppointmentService.save(appointment);
                     }
+                }else if (orderAppointment.getOption1()==2){
+                    if (orderAppointment.getInstitutionId()!=null){
+                        appointment.setInstitutionId(orderAppointment.getInstitutionId());
+                        orderAppointmentService.save(appointment);
+                    }
+                }
             }else if (orderAppointment.getAppointmentCates()==2
                     &&orderAppointment.getInstitutionId()!=null
                     &&orderAppointment.getParentNo()!=null
@@ -297,7 +297,7 @@ public class OrderAppointmentController extends BaseController {
                     orderExtensionExam.setExamDetailId(orderAppointment.getExtensionItems().get(i).getExamDetailId());
                     orderExtensionExam.setExamMasterId(orderAppointment.getExtensionItems().get(i).getExamMasterId());
                     orderExtensionExam.setOrderNo(orderNo);
-                   // orderExtensionExamService.save(orderExtensionExam);
+                    // orderExtensionExamService.save(orderExtensionExam);
                     int sysId = orderExtensionExamService.saveOne(orderExtensionExam);
                     appointment.setExtensionItemId(sysId);
                     appointment.setParentNo(parentNo);
@@ -318,7 +318,7 @@ public class OrderAppointmentController extends BaseController {
                     &&orderAppointment.getInstitutionId()!=null
                     &&orderAppointment.getParentNo()!=null
                     &&orderAppointment.getExtensionItems()!=null
-            &&orderAppointment.getHrOppointmentId()!=null) {
+                    &&orderAppointment.getHrOppointmentId()!=null) {
                 String orderNo = createOrderNo();
                 Integer orderCates = orderAppointment.getAppointmentCates();
                 String userId = orderAppointment.getUserId();
@@ -364,10 +364,10 @@ public class OrderAppointmentController extends BaseController {
                 sysDoctorOppointmentService.save(sysDoctorOppointment);
             }else if (orderAppointment.getAppointmentCates()==6
                     &&orderAppointment.getInstitutionId()!=null
-            &&orderAppointment.getDepartmentId()!=null
-            &&orderAppointment.getOption1()!=null
-            &&orderAppointment.getOption2()!=null
-            &&orderAppointment.getTimes()!=null){
+                    &&orderAppointment.getDepartmentId()!=null
+                    &&orderAppointment.getOption1()!=null
+                    &&orderAppointment.getOption2()!=null
+                    &&orderAppointment.getTimes()!=null){
                 String userId = orderAppointment.getUserId();
                 if (orderAppointment.getTimes()!=0){
                     Map<String,Object> params = new HashMap<>();

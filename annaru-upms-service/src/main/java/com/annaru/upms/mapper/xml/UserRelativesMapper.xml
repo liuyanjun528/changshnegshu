@@ -98,7 +98,7 @@
         LEFT JOIN user_cards uc ON uc.user_id = ur.relative_id
         WHERE 1 = 1
         AND ub.isactive = 1 AND ub.is_hr = 0
-        AND ur.is_deleted = 0
+        AND uem.is_active = 1
         <if test="userId != null and userId != ''">
             AND ub.user_id = #{userId}
         </if>

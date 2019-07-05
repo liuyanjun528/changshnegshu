@@ -51,10 +51,8 @@ public class OrderAppointment extends Model<OrderAppointment> implements Seriali
 	@NotNull
 	private String userId;
 
-    @TableField("parent_no")
     private String parentNo;
 
-    @TableField("extensionItem_id")
     private Integer extensionItemId;
 	/**
 	 * 类别：
@@ -190,7 +188,16 @@ public class OrderAppointment extends Model<OrderAppointment> implements Seriali
 	public void setSysId(Integer sysId) {
 		this.sysId = sysId;
 	}
-    /**
+
+	public Integer getServiceOption() {
+		return serviceOption;
+	}
+
+	public void setServiceOption(Integer serviceOption) {
+		this.serviceOption = serviceOption;
+	}
+
+	/**
      * 获取：定单号
      */
     public String getOrderNo() {
@@ -328,16 +335,7 @@ public class OrderAppointment extends Model<OrderAppointment> implements Seriali
 	public void setInstitutionId(String institutionId) {
 		this.institutionId = institutionId;
 	}
-
-	public Integer getServiceOption() {
-		return serviceOption;
-	}
-
-	public void setServiceOption(Integer serviceOption) {
-		this.serviceOption = serviceOption;
-	}
-
-	/**
+    /**
      * 获取：评分
      */
     public Double getAppraisal() {
