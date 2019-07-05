@@ -27,6 +27,7 @@
         <result column="institutionName" property="institutionName" />
         <result column="order_no" property="orderNo"/>
         <result column="is_cancelled" property="isCancelled"/>
+        <result column="status" property="appointStatus"/>
         <collection property="details" ofType="com.annaru.upms.entity.vo.ExtensionDetail">
             <result column="itemName" property="itemName"/>
             <result column="itemDetailName" property="itemDetailName"/>
@@ -504,6 +505,7 @@
  SELECT
 	oa.appoint_date,
 	em.`name` itemName,
+	oa.status,
 	ed.item_name itemDetailName,
 	oa.order_no,
 	oa.time_from,

@@ -3,6 +3,7 @@ package com.annaru.upms.service;
 import com.annaru.common.result.PageUtils;
 import com.annaru.upms.entity.OrderAppointment;
 import com.annaru.upms.entity.vo.NurseOrderList;
+import com.annaru.upms.entity.vo.OrderAppointmentBase;
 import com.annaru.upms.entity.vo.OrderAppointmentDoctorVo;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.apache.ibatis.annotations.Param;
@@ -55,7 +56,7 @@ public interface IOrderAppointmentService extends IService<OrderAppointment> {
      */
     OrderAppointment getOrderAppointment(OrderAppointment orderAppointment);
 
-    List<OrderAppointment> getAppointInfoByOrderNo(Map<String, Object> params);
+    List<OrderAppointmentBase> getAppointInfoByOrderNo(Map<String, Object> params);
 
 }
 

@@ -97,7 +97,6 @@ public class EntityHrAppointmentMainController extends BaseController {
     @GetMapping("/htOrderRecord/{sysId}")
     @RequiresPermissions("upms/entityHrAppointmentMain/htOrderRecord")
     public ResultMap htOrderRecord(@RequestParam("sysId") Integer sysId){
-
         try {
             Map<String, Object> params = new HashMap<>();
             params.put("sysId",sysId);

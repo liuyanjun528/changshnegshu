@@ -4,6 +4,7 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.annaru.common.result.PageUtils;
 import com.annaru.upms.entity.OrderAppointment;
 import com.annaru.upms.entity.vo.NurseOrderList;
+import com.annaru.upms.entity.vo.OrderAppointmentBase;
 import com.annaru.upms.entity.vo.OrderAppointmentDoctorVo;
 import com.annaru.upms.mapper.OrderAppointmentMapper;
 import com.annaru.upms.service.IOrderAppointmentService;
@@ -63,7 +64,7 @@ public class OrderAppointmentServiceImpl extends ServiceImpl<OrderAppointmentMap
     }
 
 
-    public List<OrderAppointment> getAppointInfoByOrderNo(Map<String,Object> params){
+    public List<OrderAppointmentBase> getAppointInfoByOrderNo(Map<String,Object> params){
         return this.baseMapper.getAppointInfoByOrderNo(params);
     }
 }
