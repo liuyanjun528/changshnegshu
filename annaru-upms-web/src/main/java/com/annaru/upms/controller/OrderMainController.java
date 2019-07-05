@@ -239,16 +239,25 @@ public class OrderMainController extends BaseController {
     }
 
     /**
-     * 修改
+     * 删除定单
      */
-    @ApiOperation(value = "修改")
-    @PostMapping("/update")
-    @RequiresPermissions("upms/orderMain/update")
-    public ResultMap update(@Valid @RequestBody OrderMain orderMain) {
+    @ApiOperation(value = "删除定单")
+    @PostMapping("/delteOrderMain")
+    @RequiresPermissions("upms/orderMain/delteOrderMain")
+    public ResultMap delteOrderMain(@RequestParam Integer sysId) {
         try {
-//            orderMain.setUpdateTime(new Date());
-            orderMainService.updateById(orderMain);
-            return ResultMap.ok("修改成功");
+            OrderMain orderMain = orderMainService.getById(sysId);
+            if (orderMain == null){
+                return ResultMap.error("该订单不存在！");
+            }
+            if (orderMain.getIsDeleted() == 1){
+                return ResultMap.error("该订单不存在！");
+            }
+            orderMain.setIsDeleted(1);
+            if (orderMainService.updateById(orderMain)){
+                return ResultMap.ok("删除定单成功！");
+            }
+            return ResultMap.error("运行异常，请联系管理员");
         } catch (Exception e) {
             logger.error(e.getMessage());
             return ResultMap.error("运行异常，请联系管理员");

@@ -3,6 +3,8 @@ package com.annaru.upms.controller;
 import java.util.*;
 
 import com.annaru.upms.entity.EntityHrAppointmentDetail;
+import com.annaru.upms.entity.vo.EntityHrAppointmentMainScreenSetVoZ;
+import com.annaru.upms.entity.vo.EntityHrAppointmentMainScreenVoZ;
 import com.annaru.upms.entity.vo.EntityHrAppointmentMainVoZ;
 import com.annaru.upms.entity.vo.EntityHrAppointmentMainVoZ1;
 import com.annaru.upms.entity.vo.HrHomePageInfo;
@@ -171,7 +173,7 @@ public class EntityHrAppointmentMainController extends BaseController {
     }
 
     /**
-     * HR记录详情
+     * HR已预约员工列表
      */
     @ApiOperation(value = "HR已预约员工列表", notes = "HR已预约员工列表")
     @GetMapping("/hrYetAppointmentUser/{sysId}")
@@ -211,7 +213,7 @@ public class EntityHrAppointmentMainController extends BaseController {
     }
 
     /**
-     * 体检预约名单保存
+     * HR体检预约名单保存
      */
     @ApiOperation(value = "HR体检预约名单保存")
     @PostMapping("/saveHrHealthAppointment")
@@ -253,6 +255,24 @@ public class EntityHrAppointmentMainController extends BaseController {
                 }
             }
             return ResultMap.ok("添加失败");
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return ResultMap.error("运行异常，请联系管理员");
+        }
+    }
+
+    /**
+     * HR员工名单
+     */
+    @ApiOperation(value = "HR员工名单", notes = "HR员工名单")
+    @PostMapping("/selectHrHhAtScreen")
+    @RequiresPermissions("upms/entityHrAppointmentMain/selectHrHhAtScreen")
+    public ResultMap selectHrHhAtScreen(@RequestBody EntityHrAppointmentMainScreenSetVoZ entityHrAppointmentMainScreenSetVoZ){
+
+        try {
+            Map<String, Object> params = new HashMap<>();
+            List<EntityHrAppointmentMainScreenVoZ> entityHrAppointmentMainScreenVoZS = entityHrAppointmentMainService.selectHrHhAtScreen(entityHrAppointmentMainScreenSetVoZ);
+            return ResultMap.ok().put("data",entityHrAppointmentMainScreenVoZS);
         } catch (Exception e) {
             logger.error(e.getMessage());
             return ResultMap.error("运行异常，请联系管理员");

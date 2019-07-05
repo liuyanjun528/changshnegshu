@@ -1,6 +1,8 @@
 package com.annaru.upms.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.annaru.upms.entity.vo.EntityHrAppointmentMainScreenSetVoZ;
+import com.annaru.upms.entity.vo.EntityHrAppointmentMainScreenVoZ;
 import com.annaru.upms.entity.vo.EntityHrAppointmentMainVoZ;
 import com.annaru.upms.entity.vo.EntityHrAppointmentMainVoZ1;
 import com.annaru.upms.entity.vo.HrHomePageInfo;
@@ -64,6 +66,11 @@ public class EntityHrAppointmentMainServiceImpl extends ServiceImpl<EntityHrAppo
     @Override
     public List<EntityHrAppointmentMainVoZ1> selectHrHealthAppointmentBs(Map<String, Object> params) {
         return this.baseMapper.selectHrHealthAppointmentBs(params);
+    }
+
+    @Override
+    public List<EntityHrAppointmentMainScreenVoZ> selectHrHhAtScreen(EntityHrAppointmentMainScreenSetVoZ eyHrAtMainScreenSetVoZ) {
+        return this.baseMapper.selectHrHhAtScreen(eyHrAtMainScreenSetVoZ);
     }
 
     public HrHomePageInfo getHomePageInfo(Map<String,Object> params){

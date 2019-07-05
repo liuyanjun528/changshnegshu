@@ -216,6 +216,38 @@ public class UserBasicController extends BaseController {
 
     }
 
+    /**
+     * @Description 根据userId或doctorNo得到医生详情
+     * @Author zk
+     * @Date: 2019-07-04
+     */
+    @ApiOperation(value = "根据userId或doctorNo得到医生详情", notes = "根据userId或doctorNo得到医生详情")
+    @GetMapping("/getDoctorByUdD0")
+    @RequiresPermissions("upms/sysDoctor/getDoctorByUdD0")
+    public ResultMap getDoctorByUdD0(String doctorNo,String userId){
+        Map<String, Object> params = new HashMap<>();
+        params.put("doctorNo", doctorNo);
+        params.put("userId", userId);
+        UserBasic userBasic = userBasicService.selectDoctorByData(params);
+        return ResultMap.ok().put("data",userBasic);
+    }
+
+//    /**
+//     * @Description 根据userId或doctorNo得到护士详情
+//     * @Author zk
+//     * @Date: 2019-07-04
+//     */
+//    @ApiOperation(value = "根据userId或doctorNo得到护士详情", notes = "根据userId或doctorNo得到护士详情")
+//    @GetMapping("/getNurseByUdD0")
+//    @RequiresPermissions("upms/sysDoctor/getNurseByUdD0")
+//    public ResultMap getNurseByUdD0(String doctorNo,String userId){
+//        Map<String, Object> params = new HashMap<>();
+//        params.put("doctorNo", doctorNo);
+//        params.put("userId", userId);
+//        UserBasic userBasic = userBasicService.selectNurseByData(params);
+//        return ResultMap.ok().put("data",userBasic);
+//    }
+
 
     /**
      * 列表
