@@ -113,45 +113,6 @@
 
     </select>
 
-    <!-- 查询企业用户及亲属列表-->
-    <select id="selectUserAndRelative" parameterType="map" resultMap="BaseResultMap1">
-        SELECT
-        eha.sys_id,
-        eha.order_no,
-        se.entity_name,
-        eha.user_cate,
-        eha.user_id,
-        ub_ur.full_name,
-        ub_ur.user_gender,
-        ub_ur.user_age,
-        ub_ur.relative_id,
-        ub_ur.relative_name,
-        ub_ur.relative_gender,
-        ub_ur.relative_age,
-        ub_ur.remark
-        FROM entity_healthy_appointment eha
-        LEFT JOIN sys_entity se ON se.entity_id = eha.entity_no
-        LEFT JOIN
-        (SELECT
-        ub.user_id,
-        ub.full_name,
-        TIMESTAMPDIFF(YEAR, ub.date_of_birth, CURDATE()) AS user_age,
-        ub.gender AS user_gender,
-        ur.relative_id,
-        ur.relative_name,
-        TIMESTAMPDIFF(YEAR, ur.date_of_birth, CURDATE()) AS relative_age,
-        ur.gender AS relative_gender,
-        ur.remark FROM user_basic ub
-        LEFT JOIN user_relatives ur ON ur.user_id = ub.user_id
-        )ub_ur ON ub_ur.user_id = eha.user_id
-        where
-        <if test="userId != null and userId != ''">
-            eha.user_id=#{userId}
-        </if>
-    </select>
-
-
-
     <!-- 企业查询服务预约 -->
     <select id="selectServiceAppointment" parameterType="map" resultMap="BaseResultMap1">
         SELECT
