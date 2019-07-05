@@ -1,8 +1,12 @@
 package com.annaru.upms.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.annaru.upms.entity.vo.EntityHrAppointmentMainScreenSetVoZ;
+import com.annaru.upms.entity.vo.EntityHrAppointmentMainScreenVoZ;
 import com.annaru.upms.entity.vo.EntityHrAppointmentMainVoZ;
 import com.annaru.upms.entity.vo.EntityHrAppointmentMainVoZ1;
+import com.annaru.upms.entity.vo.HrHomePageInfo;
+import com.annaru.upms.entity.vo.HrPackageList;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -64,4 +68,20 @@ public class EntityHrAppointmentMainServiceImpl extends ServiceImpl<EntityHrAppo
         return this.baseMapper.selectHrHealthAppointmentBs(params);
     }
 
+    @Override
+    public List<EntityHrAppointmentMainScreenVoZ> selectHrHhAtScreen(EntityHrAppointmentMainScreenSetVoZ eyHrAtMainScreenSetVoZ) {
+        return this.baseMapper.selectHrHhAtScreen(eyHrAtMainScreenSetVoZ);
+    }
+
+    public HrHomePageInfo getHomePageInfo(Map<String,Object> params){
+        return this.baseMapper.getHomePageInfo(params);
+    }
+
+    public HrHomePageInfo getTotal(Map<String,Object> params){
+        return this.baseMapper.getTotal(params);
+    }
+
+    public List<HrPackageList> getPackageList(Map<String,Object> params){
+        return this.baseMapper.getPackageList(params);
+    }
 }

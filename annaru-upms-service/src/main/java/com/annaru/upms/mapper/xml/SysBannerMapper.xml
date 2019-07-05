@@ -10,12 +10,18 @@
         <result column="link_url" property="linkUrl" />
         <result column="descr" property="descr" />
         <result column="is_active" property="isActive" />
-        <result column="cates" property="cates" />
         <result column="seq_no" property="seqNo" />
         <result column="creation_time" property="creationTime" />
         <result column="edit_time" property="editTime" />
         <result column="creat_by" property="creatBy" />
         <result column="edit_by" property="editBy" />
+    </resultMap>
+    <resultMap id="row" type="com.annaru.upms.entity.SysBanner" >
+        <result column="sys_id" property="sysId" />
+        <result column="banner_url" property="bannerUrl" />
+        <result column="link_url" property="linkUrl" />
+        <result column="descr" property="descr" />
+        <result column="seq_no" property="seqNo" />
     </resultMap>
 
     <!-- 多表页面信息查询分页 -->
@@ -40,6 +46,17 @@
             <if test="params.key != null and params.key != ''">
                 AND key LIKE CONCAT('%', #{params.key}, '%')
             </if>
+    </select>
+    <select id="selectAll" resultMap="row">
+        select
+        sys_id,
+        banner_url,
+        link_url,
+        descr,
+        seq_no
+        from sys_banner
+        where is_active = 1
+        ORDER BY seq_no
     </select>
 
 </mapper>

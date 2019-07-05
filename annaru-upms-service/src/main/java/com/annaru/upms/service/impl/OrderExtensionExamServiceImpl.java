@@ -27,4 +27,8 @@ public class OrderExtensionExamServiceImpl extends ServiceImpl<OrderExtensionExa
         return new PageUtils<OrderExtensionExam>(iPage);
     }
 
+    public int saveOne(OrderExtensionExam orderExtensionExam){
+        this.baseMapper.insert(orderExtensionExam);
+        return orderExtensionExam.getSysId();
+    }
 }

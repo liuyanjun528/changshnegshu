@@ -81,4 +81,9 @@
         and usi.question_id like CONCAT('%', #{params.type}, '%')
     </select>
 
+
+    <select id="selectCount" parameterType="String" resultType="int">
+      SELECT count(*) from user_survey_main where user_id=#{userId}
+    </select>
+
 </mapper>

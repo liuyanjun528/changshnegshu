@@ -5,6 +5,7 @@ import com.annaru.common.base.BaseController;
 import com.annaru.common.result.PageUtils;
 import com.annaru.common.result.ResultMap;
 import com.annaru.upms.entity.SysNurse;
+import com.annaru.upms.entity.vo.SysNurseVoZ;
 import com.annaru.upms.service.ISysNurseService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -28,13 +29,9 @@ import java.util.Map;
 @RestController
 @RequestMapping("upms/sysNurse")
 public class SysNurseController extends BaseController {
+
     @Reference
     private ISysNurseService sysNurseService;
-
-
-
-
-
 
     /**
      * 列表
@@ -54,6 +51,27 @@ public class SysNurseController extends BaseController {
         return ResultMap.ok().put("data",pageList);
     }
 
+
+    /**
+     * 得到一个护士
+     * @author zk
+     * @date 2019-07-01
+     */
+    @ApiOperation(value = "得到一个护士", notes = "得到一个护士")
+    @GetMapping("/getOneNurse")
+    @RequiresPermissions("upms/sysVerifyDocs/getOneNurse")
+    public ResultMap getOneNurse(@RequestParam(required = false) String nurseNo, @RequestParam(required = false) String userId){
+        try {
+            Map<String, Object> params = new HashMap<>();
+            params.put("nurseNo", nurseNo);
+            params.put("userId", userId);
+            SysNurseVoZ sysNurseVoZ = sysNurseService.getOneNurse(params);
+            return ResultMap.ok().put("data",sysNurseVoZ);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return ResultMap.error("运行异常，请联系管理员");
+        }
+    }
 
     /**
      * 信息

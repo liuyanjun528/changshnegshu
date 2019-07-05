@@ -30,6 +30,7 @@
     <!-- 通用查询映射结果 查询门诊记录列表  -->
     <resultMap id="BaseResultMapList" type="com.annaru.upms.entity.medical.vo.TbYlMzMedicalRecordListVo" >
         <result column="CSID" property="csid" />
+        <result column="JZLSH" property="jzlsh" />
         <result column="HOSPITAL_NAME" property="hospitalName" />
         <result column="ZZYSXM" property="zzysxm" />
         <result column="JZKSMC" property="jzksmc" />
@@ -38,7 +39,7 @@
         <result column="JZKSRQ" property="jzksrq" />
     </resultMap>
 
-    <!-- 通用查询映射结果 根据就诊记录id查询对应的就诊记录  -->
+    <!-- 通用查询映射结果 根据门诊记录id查询对应的门诊记录  -->
     <resultMap id="BaseResultMapDetail" type="com.annaru.upms.entity.medical.vo.TbYlMzMedicalRecordDetailVo" >
         <result column="CSID" property="csid" />
         <result column="JZLSH" property="jzlsh" />
@@ -58,7 +59,31 @@
        WHERE YLJGDM=#{yljgdm} AND JZLSH=#{jzlsh}
     </select>
 
-    <!-- 根据卡号查询就诊记录 -->
+    <!-- 根据卡号分页查询门诊记录 -->
+    <select id="getJzjlPage" parameterType="map" resultMap="BaseResultMapList">
+        SELECT
+        r.CSID,
+        r.JZLSH,
+        h.HOSPITAL_NAME,
+        r.ZZYSXM,
+        r.JZKSMC,
+        r.JZZDSM,
+        r.JZLX,
+        SUBSTR (r.JZKSRQ, 0, 10) AS JZKSRQ
+        FROM
+        TB_YL_MZ_Medical_Record r
+        LEFT JOIN TB_HOSPITAL h ON r.YLJGDM = h.HOSPITAL_ID
+        WHERE
+            <if test="params.kh != null and params.kh != ''">
+                r.KH =  #{params.kh}
+            </if>
+            <if test="params.dateFrom != null and params.dateFrom != '' and params.dateTo != null and params.dateTo != ''">
+                AND to_date(SUBSTR(r.JZKSRQ, 0, 10),'yyyy-mm-dd') Between to_date(#{params.dateFrom},'yyyy-mm-dd') AND to_date(#{params.dateTo},'yyyy-mm-dd')
+            </if>
+        ORDER BY r.JZKSRQ DESC
+    </select>
+
+    <!-- 根据卡号查询门诊记录 -->
     <select id="getJzjl" parameterType="map" resultMap="BaseResultMapList">
         SELECT
         r.CSID,
@@ -72,10 +97,42 @@
         TB_YL_MZ_Medical_Record r
         LEFT JOIN TB_HOSPITAL h ON r.YLJGDM = h.HOSPITAL_ID
         WHERE r.KH = #{kh}
-        AND (select add_months(sysdate,-12) from dual) > to_date(substr(r.JZKSRQ,1,10),'yyyy-mm-dd')
     </select>
 
-    <!-- 根据就诊记录id查询对应的就诊记录 -->
+    <!-- 根据卡号查询近一年的门诊记录 -->
+    <select id="getJzjlCsByKh" parameterType="map" resultMap="BaseResultMapList">
+        SELECT
+        r.CSID,
+        h.HOSPITAL_NAME,
+        r.ZZYSXM,
+        r.JZKSMC,
+        r.JZZDSM,
+        r.JZLX,
+        SUBSTR (r.JZKSRQ, 0, 10) AS JZKSRQ
+        FROM
+        TB_YL_MZ_Medical_Record r
+        LEFT JOIN TB_HOSPITAL h ON r.YLJGDM = h.HOSPITAL_ID
+        WHERE r.KH = #{kh}
+        AND to_date(substr(r.JZKSRQ,1,10),'yyyy-mm-dd') > (select add_months(sysdate,-12) from dual)
+    </select>
+
+    <!-- 根据卡号查询近三年门诊次数最多医院 -->
+    <select id="getHospitalNameByKh" parameterType="map" resultMap="BaseResultMapList">
+
+	SELECT max(HOSPITAL_NAME) keep(dense_rank FIRST ORDER BY num DESC) HOSPITAL_NAME
+    FROM
+     (
+        SELECT h.HOSPITAL_NAME AS HOSPITAL_NAME, COUNT(*) AS num
+        FROM TB_YL_MZ_Medical_Record r
+		LEFT JOIN TB_HOSPITAL h ON r.YLJGDM = h.HOSPITAL_ID
+	    WHERE
+		r.KH = #{kh}
+		AND to_date(substr(r.JZKSRQ,1,10),'yyyy-mm-dd') > (SELECT add_months(sysdate,-36) FROM dual)
+	    GROUP BY h.HOSPITAL_NAME
+       )
+    </select>
+
+    <!-- 根据门诊记录id查询对应的门诊记录 -->
     <select id="getJzjlById" parameterType="map" resultMap="BaseResultMapDetail">
     SELECT
         r.CSID,
@@ -90,8 +147,8 @@
     LEFT JOIN TB_HOSPITAL h ON r.YLJGDM = h.HOSPITAL_ID
     WHERE r.CSID =#{csid}
     </select>
-    <!-- 根据就诊流水号查询就诊记录 -->
-    <select id="getJzjlByJzlsh" parameterType="map" resultMap="BaseResultMap">
+    <!-- 根据门诊流水号查询门诊记录 -->
+    <select id="getJzjlByJzlsh" parameterType="map" resultMap="BaseResultMapDetail">
     SELECT
         r.CSID,
         r.JZLSH,

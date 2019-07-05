@@ -11,7 +11,7 @@ import io.swagger.annotations.ApiModelProperty;
 
 import java.io.Serializable;
 import java.util.Date;
-
+import java.util.List;
 
 
 /**
@@ -44,7 +44,7 @@ public class SysDistrict extends Model<SysDistrict> implements Serializable {
 	@TableField("district_name")
 	private String districtName;
 
-    /**
+	/**
      * 获取：序号
      */
     public Integer getSysId() {

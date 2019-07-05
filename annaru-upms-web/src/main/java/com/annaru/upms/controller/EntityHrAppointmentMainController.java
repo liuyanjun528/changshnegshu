@@ -3,8 +3,12 @@ package com.annaru.upms.controller;
 import java.util.*;
 
 import com.annaru.upms.entity.EntityHrAppointmentDetail;
+import com.annaru.upms.entity.vo.EntityHrAppointmentMainScreenSetVoZ;
+import com.annaru.upms.entity.vo.EntityHrAppointmentMainScreenVoZ;
 import com.annaru.upms.entity.vo.EntityHrAppointmentMainVoZ;
 import com.annaru.upms.entity.vo.EntityHrAppointmentMainVoZ1;
+import com.annaru.upms.entity.vo.HrHomePageInfo;
+import com.annaru.upms.entity.vo.HrPackageList;
 import com.annaru.upms.service.IEntityHrAppointmentDetailService;
 import jodd.util.StringUtil;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -108,6 +112,48 @@ public class EntityHrAppointmentMainController extends BaseController {
     }
 
     /**
+     * 企业管理首页
+     */
+    @ApiOperation(value = "企业管理首页",notes = "企业管理首页")
+    @GetMapping("/hrHomePage")
+    @RequiresPermissions("upms/entityHrAppointmentMain/hrHomePage")
+    public ResultMap hrHomePage(@RequestParam String entityId,
+                                @RequestParam(required = false) Integer hrOppointmentId){
+        try {
+            Map<String, Object> params = new HashMap<>();
+            params.put("entityId",entityId);
+            params.put("hrOppointmentId",hrOppointmentId);
+            HrHomePageInfo hrHomePageInfo = entityHrAppointmentMainService.getHomePageInfo(params);
+            HrHomePageInfo total = entityHrAppointmentMainService.getTotal(params);
+            hrHomePageInfo.setTotal(total.getTotal());
+            hrHomePageInfo.setUserd(hrHomePageInfo.getBaseCheckNum());
+            return ResultMap.ok().put("hrHomePageInfo",hrHomePageInfo);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return ResultMap.error("运行异常，请联系管理员");
+        }
+    }
+
+    /**
+     * hr套餐列表
+     */
+    @ApiOperation(value = "hr套餐列表",notes = "hr套餐列表")
+    @GetMapping("/hrPackageList")
+    @RequiresPermissions("upms/entityHrAppointmentMain/hrPackageList")
+    public ResultMap hrPackageList(@RequestParam String entityId){
+        try{
+            Map<String,Object> params = new HashMap<>();
+            params.put("entityId",entityId);
+            List<HrPackageList> hrPackageLists = entityHrAppointmentMainService.getPackageList(params);
+            return ResultMap.ok().put("data",hrPackageLists);
+        }catch (Exception e){
+            logger.error(e.getMessage());
+            return ResultMap.error("运行异常，请联系管理员");
+        }
+    }
+
+
+    /**
      * HR记录详情
      */
     @ApiOperation(value = "HR记录详情", notes = "HR记录详情")
@@ -127,7 +173,7 @@ public class EntityHrAppointmentMainController extends BaseController {
     }
 
     /**
-     * HR记录详情
+     * HR已预约员工列表
      */
     @ApiOperation(value = "HR已预约员工列表", notes = "HR已预约员工列表")
     @GetMapping("/hrYetAppointmentUser/{sysId}")
@@ -167,7 +213,7 @@ public class EntityHrAppointmentMainController extends BaseController {
     }
 
     /**
-     * 体检预约名单保存
+     * HR体检预约名单保存
      */
     @ApiOperation(value = "HR体检预约名单保存")
     @PostMapping("/saveHrHealthAppointment")
@@ -209,6 +255,24 @@ public class EntityHrAppointmentMainController extends BaseController {
                 }
             }
             return ResultMap.ok("添加失败");
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return ResultMap.error("运行异常，请联系管理员");
+        }
+    }
+
+    /**
+     * HR员工名单
+     */
+    @ApiOperation(value = "HR员工名单", notes = "HR员工名单")
+    @PostMapping("/selectHrHhAtScreen")
+    @RequiresPermissions("upms/entityHrAppointmentMain/selectHrHhAtScreen")
+    public ResultMap selectHrHhAtScreen(@RequestBody EntityHrAppointmentMainScreenSetVoZ entityHrAppointmentMainScreenSetVoZ){
+
+        try {
+            Map<String, Object> params = new HashMap<>();
+            List<EntityHrAppointmentMainScreenVoZ> entityHrAppointmentMainScreenVoZS = entityHrAppointmentMainService.selectHrHhAtScreen(entityHrAppointmentMainScreenSetVoZ);
+            return ResultMap.ok().put("data",entityHrAppointmentMainScreenVoZS);
         } catch (Exception e) {
             logger.error(e.getMessage());
             return ResultMap.error("运行异常，请联系管理员");

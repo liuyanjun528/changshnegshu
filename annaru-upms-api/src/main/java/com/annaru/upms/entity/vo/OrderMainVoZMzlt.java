@@ -101,6 +101,12 @@ public class OrderMainVoZMzlt implements Serializable {
 	 */
 	private Integer option_2;
 
+	/**
+	 * 预约地址
+	 * @return
+	 */
+	private String address;
+
 
 	public Integer getStatus() {
 		return status;
@@ -201,6 +207,12 @@ public class OrderMainVoZMzlt implements Serializable {
 	}
 	public void setOption_2(Integer option_2) {
 		this.option_2 = option_2;
+	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
 	}
 
 	@Override

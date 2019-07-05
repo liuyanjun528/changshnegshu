@@ -14,6 +14,26 @@ public class UserPackagesVo extends Model<UserPackagesVo> implements Serializabl
 
     private String referenceNo;
 
+    private Integer hrOppointmentId;
+
+    private Integer orderCates;
+
+    public Integer getHrOppointmentId() {
+        return hrOppointmentId;
+    }
+
+    public void setHrOppointmentId(Integer hrOppointmentId) {
+        this.hrOppointmentId = hrOppointmentId;
+    }
+
+    public Integer getOrderCates() {
+        return orderCates;
+    }
+
+    public void setOrderCates(Integer orderCates) {
+        this.orderCates = orderCates;
+    }
+
     public String getReferenceNo() {
         return referenceNo;
     }

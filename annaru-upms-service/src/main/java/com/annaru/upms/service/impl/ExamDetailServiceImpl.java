@@ -8,7 +8,9 @@ import com.annaru.upms.service.IExamDetailService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import jodd.util.StringUtil;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -27,4 +29,13 @@ public class ExamDetailServiceImpl extends ServiceImpl<ExamDetailMapper, ExamDet
         return new PageUtils<ExamDetail>(iPage);
     }
 
+    @Override
+    public List<ExamDetail> selectType() {
+        return this.baseMapper.selectType();
+    }
+
+    @Override
+    public List<ExamDetail> selectByType(Integer ecId) {
+            return this.baseMapper.selectByType(ecId);
+    }
 }

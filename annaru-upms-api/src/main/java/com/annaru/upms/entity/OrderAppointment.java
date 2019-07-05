@@ -50,6 +50,10 @@ public class OrderAppointment extends Model<OrderAppointment> implements Seriali
 	@TableField("user_id")
 	@NotNull
 	private String userId;
+
+    private String parentNo;
+
+    private Integer extensionItemId;
 	/**
 	 * 类别：
 1:一般体检预约(C端)
@@ -79,13 +83,13 @@ public class OrderAppointment extends Model<OrderAppointment> implements Seriali
 	 */
     @ApiModelProperty(value = "预约时间")
 	@TableField("time_from")
-	private Date timeFrom;
+	private String timeFrom;
 	/**
 	 * 预约结束时间
 	 */
     @ApiModelProperty(value = "预约结束时间")
 	@TableField("time_to")
-	private Date timeTo;
+	private String timeTo;
 	/**
 	 * 预约地址
 	 */
@@ -111,7 +115,7 @@ public class OrderAppointment extends Model<OrderAppointment> implements Seriali
 	 */
     @ApiModelProperty(value = "服务选项(1:护士上门/2:指定地点)")
 	@TableField("service_option")
-	private String serviceOption;
+	private Integer serviceOption;
 	/**
 	 * 评分
 	 */
@@ -148,6 +152,21 @@ public class OrderAppointment extends Model<OrderAppointment> implements Seriali
 	@TableField("edit_by")
 	private String editBy;
 
+	public Integer getExtensionItemId() {
+		return extensionItemId;
+	}
+
+	public void setExtensionItemId(Integer extensionItemId) {
+		this.extensionItemId = extensionItemId;
+	}
+
+	public String getParentNo() {
+		return parentNo;
+	}
+
+	public void setParentNo(String parentNo) {
+		this.parentNo = parentNo;
+	}
 
 	public Integer getDepartmentId() {
 		return departmentId;
@@ -169,7 +188,16 @@ public class OrderAppointment extends Model<OrderAppointment> implements Seriali
 	public void setSysId(Integer sysId) {
 		this.sysId = sysId;
 	}
-    /**
+
+	public Integer getServiceOption() {
+		return serviceOption;
+	}
+
+	public void setServiceOption(Integer serviceOption) {
+		this.serviceOption = serviceOption;
+	}
+
+	/**
      * 获取：定单号
      */
     public String getOrderNo() {
@@ -254,31 +282,24 @@ public class OrderAppointment extends Model<OrderAppointment> implements Seriali
 	public void setAppointDate(Date appointDate) {
 		this.appointDate = appointDate;
 	}
-    /**
-     * 获取：预约时间
-     */
-    public Date getTimeFrom() {
-        return timeFrom;
-    }
-	/**
-	 * 设置：预约时间
-	 */
-	public void setTimeFrom(Date timeFrom) {
+
+	public String getTimeFrom() {
+		return timeFrom;
+	}
+
+	public void setTimeFrom(String timeFrom) {
 		this.timeFrom = timeFrom;
 	}
-    /**
-     * 获取：预约结束时间
-     */
-    public Date getTimeTo() {
-        return timeTo;
-    }
-	/**
-	 * 设置：预约结束时间
-	 */
-	public void setTimeTo(Date timeTo) {
+
+	public String getTimeTo() {
+		return timeTo;
+	}
+
+	public void setTimeTo(String timeTo) {
 		this.timeTo = timeTo;
 	}
-    /**
+
+	/**
      * 获取：预约地址
      */
     public String getAddress() {
@@ -313,18 +334,6 @@ public class OrderAppointment extends Model<OrderAppointment> implements Seriali
 	 */
 	public void setInstitutionId(String institutionId) {
 		this.institutionId = institutionId;
-	}
-    /**
-     * 获取：服务选项(1:护士上门/2:指定地点)
-     */
-    public String getServiceOption() {
-        return serviceOption;
-    }
-	/**
-	 * 设置：服务选项(1:护士上门/2:指定地点)
-	 */
-	public void setServiceOption(String serviceOption) {
-		this.serviceOption = serviceOption;
 	}
     /**
      * 获取：评分

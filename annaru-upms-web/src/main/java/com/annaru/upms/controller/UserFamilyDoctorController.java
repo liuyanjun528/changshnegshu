@@ -4,8 +4,11 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.annaru.common.base.BaseController;
 import com.annaru.common.result.PageUtils;
 import com.annaru.common.result.ResultMap;
+import com.annaru.common.util.UUIDGenerator;
+import com.annaru.upms.entity.SysAppraisal;
 import com.annaru.upms.entity.UserFamilyDoctor;
 import com.annaru.upms.entity.vo.UserFamilyDoctorVo;
+import com.annaru.upms.service.ISysAppraisalService;
 import com.annaru.upms.service.IUserFamilyDoctorService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -31,7 +34,8 @@ import java.util.Map;
 public class UserFamilyDoctorController extends BaseController {
     @Reference
     private IUserFamilyDoctorService userFamilyDoctorService;
-
+    @Reference
+    private ISysAppraisalService sysAppraisalService;
     /**
      * 列表
      */
@@ -41,7 +45,6 @@ public class UserFamilyDoctorController extends BaseController {
     public ResultMap list(@ApiParam(value = "当前页")@RequestParam(defaultValue="1") int page,
                           @ApiParam(value = "每页数量")@RequestParam(defaultValue = "10") int limit,
                           @ApiParam(value = "关键字")@RequestParam(required = false)String key){
-
         Map<String, Object> params = new HashMap<>();
         params.put("page",page);
         params.put("limit", limit);
@@ -60,7 +63,19 @@ public class UserFamilyDoctorController extends BaseController {
         Map<String, Object> params = new HashMap<>();
         params.put("userId",userId);
         UserFamilyDoctorVo userFamilyDoctor = userFamilyDoctorService.getUserFDInfo(params);
-        return ResultMap.ok().put("data",userFamilyDoctor);
+        if (userFamilyDoctor!=null){
+            userFamilyDoctor.setRestDays(UUIDGenerator.differentDays(userFamilyDoctor.getEffectFrom(),userFamilyDoctor.getEffectTo()));
+            params.put("docNo",userFamilyDoctor.getDoctorNo());
+            SysAppraisal appraisal = sysAppraisalService.selectOne(params);
+            if (appraisal==null){
+                userFamilyDoctor.setAppraisalStatus(0);
+            }else {
+                userFamilyDoctor.setAppraisalStatus(1);
+            }
+            return ResultMap.ok().put("data",userFamilyDoctor);
+        }else {
+            return ResultMap.ok().put("data","尚未绑定家庭医生");
+        }
     }
 
     /**

@@ -40,5 +40,5 @@ public interface SysDoctorScheduleMapper extends BaseMapper<SysDoctorSchedule> {
       */
     List<SysDoctorSchedule> selectDoctorScheduleList(@Param("dateFrom") Date dateFrom,@Param("doctorNurseNo") String doctorNurseNo);
 
-
+    boolean updateSceduleStatus(@Param("params") Map <String, Object> params);
 }

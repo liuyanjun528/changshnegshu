@@ -20,16 +20,14 @@
 
 
     <resultMap id="BaseResultMapVo" type="com.annaru.upms.entity.vo.UserFamilyDoctorVo" >
-        <result column="sys_id" property="sysId" />
         <result column="order_no" property="orderNo" />
         <result column="user_id" property="userId" />
         <result column="doctor_no" property="doctorNo" />
         <result column="effect_from" property="effectFrom" />
         <result column="effect_to" property="effectTo" />
-        <result column="status" property="status" />
         <result column="is_terminated" property="isTerminated" />
         <result column="terminated_time" property="terminatedTime" />
-        <result column="full_name" property="fullName" />
+        <result column="doctor_name" property="doctorName" />
         <result column="head_image" property="headImage" />
         <result column="degrees" property="degrees" />
         <result column="star_count" property="starCount" />
@@ -37,11 +35,17 @@
         <result column="focus_on" property="focusOn" />
         <result column="goodat" property="goodat" />
         <result column="content" property="content" />
-        <result column="belong_office" property="belongOffice" />
+        <result column="institutionName" property="belongInstitution"/>
+        <result column="department_name" property="belongOffice" />
         <result column="belong_province" property="belongProvince" />
         <result column="belong_city" property="belongCity" />
         <result column="belong_district" property="belongDistrict" />
         <result column="price_year" property="priceYear" />
+        <result column="cellphone_no" property="cellphoneNo"/>
+        <result column="job_title" property="jobTitle" />
+        <result column="duties" property="duties" />
+        <result column="introductions" property="introductions" />
+        <result column="is_approved" property="isApproved" />
     </resultMap>
 
     <!-- 多表页面信息查询分页 -->
@@ -77,7 +81,7 @@
         ufd.effect_to,
         ufd.is_terminated,
         ufd.terminated_time,
-        sd.full_name,
+        sd.doctor_name,
         sd.head_image,
         sd.degrees,
         sd.star_count,
@@ -85,15 +89,22 @@
         sd.focus_on,
         sd.goodat,
         sd.content,
-        sd.belong_office,
         sd.belong_province,
         sd.belong_city,
         sd.belong_district,
         sd.price_year,
-        sd.cellphone_no
+        sd.cellphone_no,
+        sd.introductions,
+        sd.is_approved,
+        sd.job_title,
+        sd.duties,
+        si.`name` institutionName,
+        sdp.department_name
         from
         user_family_doctor ufd
         left join sys_doctor sd on sd.doctor_no = ufd.doctor_no
+        LEFT JOIN sys_institution si ON sd.belong_institution = si.institution_id
+        LEFT JOIN sys_department sdp ON sdp.sys_id = sd.belong_office
         where ufd.is_terminated = 0
         <if test="params.userId != null and params.userId != ''">
             AND ufd.user_id= #{params.userId}

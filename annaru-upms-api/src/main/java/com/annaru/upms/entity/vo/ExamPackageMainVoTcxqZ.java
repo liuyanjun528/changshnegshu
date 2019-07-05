@@ -68,6 +68,14 @@ public class ExamPackageMainVoTcxqZ implements Serializable {
 	 * 检查项数量
 	 */
 	private Integer countDetail;
+	/**
+	 * 套餐图片
+	 */
+	private String imageUrl;
+	/**
+	 * 年龄段筛选(1:中青年/2:中老年/3:中青年中老年都适用)
+	 */
+	private Integer label;
 
 	private List<ExamPackageMainVoZsfwZ> examPackageMainVoZsfwZList;
 	private List<ExamPackageMainVoXmZ> examPackageMainVoXmZList;
@@ -205,6 +213,18 @@ public class ExamPackageMainVoTcxqZ implements Serializable {
 	}
 	public void setExamPackageMainVoZsfwZList(List<ExamPackageMainVoZsfwZ> examPackageMainVoZsfwZList) {
 		this.examPackageMainVoZsfwZList = examPackageMainVoZsfwZList;
+	}
+	public String getImageUrl() {
+		return imageUrl;
+	}
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
+	public Integer getLabel() {
+		return label;
+	}
+	public void setLabel(Integer label) {
+		this.label = label;
 	}
 
 	@Override

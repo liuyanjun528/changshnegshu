@@ -19,7 +19,6 @@ import com.annaru.common.result.ResultMap;
 
 import com.annaru.upms.service.ISysVerifyDocsService;
 
-import javax.annotation.Resource;
 import javax.validation.Valid;
 
 
@@ -99,6 +98,8 @@ public class SysVerifyDocsController extends BaseController {
 
     /**
      * 选择职业：医生、护士认证
+     * @author zk
+     * @date 2019-06-10
      */
     @ApiOperation(value = "选择职业：医生、护士认证")
     @PostMapping("/saveDocsBasics")

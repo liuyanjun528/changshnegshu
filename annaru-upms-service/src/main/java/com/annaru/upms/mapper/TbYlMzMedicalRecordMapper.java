@@ -1,12 +1,16 @@
 package com.annaru.upms.mapper;
 
+import com.annaru.upms.entity.UserAddress;
 import com.annaru.upms.entity.medical.TbYlMzMedicalRecord;
 import com.annaru.upms.entity.medical.vo.TbYlMzMedicalRecordDetailVo;
 import com.annaru.upms.entity.medical.vo.TbYlMzMedicalRecordListVo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * tb_yl_mz_medical_record(门诊就诊记录表)
@@ -24,21 +28,41 @@ public interface TbYlMzMedicalRecordMapper extends BaseMapper<TbYlMzMedicalRecor
     TbYlMzMedicalRecord getYlMzMedicalRecord(@Param("yljgdm") String yljgdm, @Param("jzlsh") String jzlsh);
 
     /**
-     * 根据卡号查询就诊记录
+     * 根据卡号分页查询门诊记录
+     * @param params
+     * @return
+     */
+    IPage<TbYlMzMedicalRecordListVo> getJzjlPage(Page page, @Param("params") Map<String, Object> params);
+
+    /**
+     * 根据卡号查询门诊记录
      * @param kh
      * @return
      */
     List<TbYlMzMedicalRecordListVo> getJzjl(@Param("kh") String kh);
 
     /**
-     * 根据就诊流水号查询就诊记录
+     * 根据卡号查询近一年的门诊记录
+     * @param kh
+     * @return
+     */
+    List<TbYlMzMedicalRecordListVo> getJzjlCsByKh(@Param("kh") String kh);
+
+    /**
+     * 根据卡号查询近三年门诊次数最多医院
+     * @param kh
+     * @return
+     */
+    TbYlMzMedicalRecordListVo getHospitalNameByKh(@Param("kh") String kh);
+    /**
+     * 根据就诊流水号查询门诊记录
      * @param jzlsh
      * @return
      */
-    TbYlMzMedicalRecord getJzjlByJzlsh(@Param("jzlsh") String jzlsh);
+    TbYlMzMedicalRecordDetailVo getJzjlByJzlsh(@Param("jzlsh") String jzlsh);
 
     /**
-     * 根据就诊记录id查询对应的就诊记录
+     * 根据门诊记录id查询对应的门诊记录
      * @param csid
      * @return
      */

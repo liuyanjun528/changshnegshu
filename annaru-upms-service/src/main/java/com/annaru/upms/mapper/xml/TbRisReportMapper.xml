@@ -56,6 +56,7 @@
         <result column="JYSJ" property="jysj" />
         <result column="JCMC" property="jcmc" />
         <result column="MZZYBZ" property="mzzybz" />
+        <result column="YXZD" property="yxzd" />
     </resultMap>
 
     <!-- 根据原主键获取对象 -->
@@ -67,14 +68,36 @@
        WHERE YLJGDM=#{yljgdm} AND STUDYUID=#{studyuid} AND INSTANCEUID=#{instanceuid}
     </select>
 
+    <!-- 根据卡号分页查询影像报告 -->
+    <select id="getYxbgPage" parameterType="map" resultMap="BaseResultMapList">
+        SELECT
+        r.CSID,
+        h.HOSPITAL_NAME,
+        r.JYSJ,
+        r.JCMC,
+        r.MZZYBZ,
+        r.YXZD
+        FROM TB_RIS_REPORT r
+        LEFT JOIN TB_HOSPITAL h ON r.YLJGDM = h.HOSPITAL_ID
+        WHERE
+        <if test="params.kh != null and params.kh != ''">
+            r.KH =  #{params.kh}
+        </if>
+        <if test="params.dateFrom != null and params.dateFrom != '' and params.dateTo != null and params.dateTo != ''">
+            AND to_date(SUBSTR(r.JYSJ, 0, 10),'yyyy-mm-dd') Between to_date(#{params.dateFrom},'yyyy-mm-dd') AND to_date(#{params.dateTo},'yyyy-mm-dd')
+        </if>
+        ORDER BY r.JYSJ DESC
+    </select>
+
     <!-- 根据卡号查询影像报告 -->
     <select id="getYxbg" parameterType="map" resultMap="BaseResultMapList">
     SELECT
-        r.csid,
+        r.CSID,
         h.HOSPITAL_NAME,
-        r.jysj,
-        r.jcmc,
-        r.mzzybz
+        r.JYSJ,
+        r.JCMC,
+        r.MZZYBZ,
+        r.YXZD
     FROM TB_RIS_REPORT r
     LEFT JOIN TB_HOSPITAL h ON r.YLJGDM = h.HOSPITAL_ID
     WHERE r.KH = #{kh}
@@ -83,10 +106,10 @@
     <!-- 根据就诊流水号查询影像报告 -->
     <select id="getYxbgByJzlsh" parameterType="map" resultMap="BaseResultMap">
     SELECT
-        r.jysj,
+        r.JYSJ,
         h.HOSPITAL_NAME,
-        r.jcmc,
-        r.yxzd
+        r.JCMC,
+        r.YXZD
     FROM
         TB_RIS_REPORT r,
         TB_HOSPITAL h

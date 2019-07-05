@@ -13,26 +13,17 @@
         <result column="createby" property="createby" />
     </resultMap>
 
-    <resultMap id="BaseResultMap1" type="com.annaru.upms.entity.vo.UserEntityMappingVo" >
-        <id column="sys_id" property="sysId" />
-        <result column="user_id" property="userId" />
+    <resultMap id="BaseResultMap1" type="com.annaru.upms.entity.vo.UserBasicVo" >
+        <id column="user_id" property="userId" />
         <result column="entity_id" property="entityId" />
-        <result column="is_active" property="isActive" />
-        <result column="creation_time" property="creationTime" />
-        <result column="createby" property="createby" />
-        <association property="sysEntity" javaType="com.annaru.upms.entity.SysEntity">
-            <!--<id column="sys_id" property="sysId" />-->
-            <id column="entity_id" property="entityId" />
-            <result column="entity_name" property="entityName" />
-        </association>
-        <association property="userBasicVo" javaType="com.annaru.upms.entity.vo.UserBasicVo">
-            <id column="user_id" property="userId" />
-            <result column="full_name" property="fullName" />
-            <result column="user_gender" property="userGender"/>
-            <result column="user_age" property="userAge"/>
-            <result column="user_id_card_no" property="userIdCardNo"/>
-            <result column="user_cellphone_no" property="userCellphoneNo"/>
-            <collection property="userRelativesVoList" ofType="com.annaru.upms.entity.vo.UserRelativesVo">
+        <result column="full_name" property="fullName" />
+        <result column="user_gender" property="userGender"/>
+        <result column="user_age" property="userAge"/>
+        <result column="user_id_card_no" property="userIdCardNo"/>
+        <result column="user_cellphone_no" property="userCellphoneNo"/>
+        <result column="entity_name" property="entityName" />
+
+        <collection property="userRelativesVo" ofType="com.annaru.upms.entity.vo.UserRelativesVo">
                 <id column="relative_id" property="relativeId" />
                 <result column="user_id" property="userId" />
                 <result column="relative_name" property="relativeName"/>
@@ -41,10 +32,25 @@
                 <result column="relative_id_card_no" property="relativeIdCardNo"/>
                 <result column="relative_cellphone_no" property="relativeCellphoneNo"/>
                 <result column="remark" property="remark"/>
-            </collection>
-        </association>
+        </collection>
+
     </resultMap>
-    
+
+    <resultMap id="getEntityPurchseMainVoZBase" type="com.annaru.upms.entity.vo.EntityPurchseMainVoZ" >
+        <result column="entityNo" property="entityNo" />
+        <result column="userId" property="userId" />
+        <result column="supplier" property="supplier" />
+        <result column="logoUrl" property="logoUrl" />
+        <result column="ehmDesr" property="ehmDesr" />
+
+        <collection property="entityPurchseMainDeatailVoZList" ofType="com.annaru.upms.entity.vo.EntityPurchseMainDeatailVoZ">
+            <result column="ehpDesr" property="ehpDesr" />
+            <result column="introductions" property="introductions" />
+            <result column="counts" property="counts" />
+            <result column="perYear" property="perYear" />
+        </collection>
+    </resultMap>
+
     <sql id="BaseClounmSql">
           sys_id,
           user_id,
@@ -65,7 +71,7 @@
     </select>
 
     <!-- 选择预约人时查询企业用户及亲属列表-->
-    <select id="selectUserAndRelativeInfoByUserId" parameterType="map" resultMap="BaseResultMap1">
+    <select id="selectUserAndRelativeInfoByUserId" parameterType="String" resultMap="BaseResultMap1">
         SELECT
         ub.user_id,
         ub.full_name,
@@ -85,6 +91,29 @@
         where
         <if test="userId != null and userId != ''">
             uem.user_id=#{userId}
+        </if>
+    </select>
+
+    <select id="getEntityPurchseMainVoZ" parameterType="java.lang.String" resultMap="getEntityPurchseMainVoZBase">
+        SELECT
+            uem.entity_id entityNo, uem.user_id userId,
+            ehs.supplier, ehs.logo_url logoUrl,
+            ehm.descr ehmDesr,
+            ehp.descr ehpDesr, ehp.introductions, ehp.counts, ehp.per_year perYear
+        FROM
+        user_entity_mapping uem
+        LEFT JOIN entity_purchse_main epm ON epm.entity_no = uem.entity_id
+        LEFT JOIN entity_purchse_detail epd ON epd.order_no = epm.order_no
+        LEFT JOIN entity_healthy_package_main ehm ON ehm.sys_id = epd.pkg_main_id
+        LEFT JOIN entity_healthy_package_detail ehp ON ehp.main_id = ehm.sys_id
+        LEFT JOIN entity_healthy_supplier ehs ON ehs.sys_id = ehm.supplier_id
+        WHERE 1 = 1
+        AND uem.is_active = 1
+        AND epm.is_active = 1 AND epm.is_terminated = 0
+        AND epd.is_active = 1 AND epd.is_deleted = 0
+        AND ehp.is_active = 1
+        <if test="userId != null and userId != ''">
+            AND uem.user_id = #{userId}
         </if>
     </select>
 

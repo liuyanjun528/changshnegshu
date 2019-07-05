@@ -42,7 +42,29 @@
        WHERE YLJGDM=#{yljgdm} AND JZLSH=#{jzlsh}
     </select>
 
-    <!-- 根据卡号查询就诊记录 -->
+    <!-- 根据卡号分页查询住院记录 -->
+    <select id="getJyjlPage" parameterType="map" resultMap="BaseResultMapList">
+        SELECT
+        r.CSID,
+        h.HOSPITAL_NAME,
+        r.HZXM,
+        r.JZKSMC,
+        SUBSTR (r.RYSJ, 0, 10) AS RYSJ,
+        SUBSTR (r.CYSJ, 0, 10) AS CYSJ
+        FROM
+        TB_YL_ZY_MEDICAL_RECORD r
+        LEFT JOIN TB_HOSPITAL h ON r.YLJGDM = h.HOSPITAL_ID
+        WHERE
+        <if test="params.kh != null and params.kh != ''">
+            r.KH =  #{params.kh}
+        </if>
+        <if test="params.dateFrom != null and params.dateFrom != '' and params.dateTo != null and params.dateTo != ''">
+            AND to_date(SUBSTR(r.RYSJ, 0, 10),'yyyy-mm-dd') Between to_date(#{params.dateFrom},'yyyy-mm-dd') AND to_date(#{params.dateTo},'yyyy-mm-dd')
+        </if>
+        ORDER BY r.RYSJ DESC
+    </select>
+
+    <!-- 根据卡号查询住院记录 -->
     <select id="getJyjl" parameterType="map" resultMap="BaseResultMapList">
         SELECT
         r.CSID,
@@ -55,6 +77,21 @@
         TB_YL_ZY_MEDICAL_RECORD r
         LEFT JOIN TB_HOSPITAL h ON r.YLJGDM = h.HOSPITAL_ID
         WHERE r.KH = #{kh}
-        AND (select add_months(sysdate,-12) from dual) > to_date(substr(r.RYSJ,1,10),'yyyy-mm-dd')
+    </select>
+
+    <!-- 根据卡号查询近一年的住院记录 -->
+    <select id="getJyjlCs" parameterType="map" resultMap="BaseResultMapList">
+        SELECT
+        r.CSID,
+        h.HOSPITAL_NAME,
+        r.HZXM,
+        r.JZKSMC,
+        SUBSTR (r.RYSJ, 0, 10) AS RYSJ,
+        SUBSTR (r.CYSJ, 0, 10) AS CYSJ
+        FROM
+        TB_YL_ZY_MEDICAL_RECORD r
+        LEFT JOIN TB_HOSPITAL h ON r.YLJGDM = h.HOSPITAL_ID
+        WHERE r.KH = #{kh}
+        AND to_date(substr(r.RYSJ,1,10),'yyyy-mm-dd') > (select add_months(sysdate,-12) from dual)
     </select>
 </mapper>

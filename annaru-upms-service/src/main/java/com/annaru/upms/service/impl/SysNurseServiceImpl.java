@@ -3,6 +3,7 @@ package com.annaru.upms.service.impl;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.annaru.common.result.PageUtils;
 import com.annaru.upms.entity.SysNurse;
+import com.annaru.upms.entity.vo.SysNurseVoZ;
 import com.annaru.upms.mapper.SysNurseMapper;
 import com.annaru.upms.service.ISysNurseService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -30,6 +31,11 @@ public class SysNurseServiceImpl extends ServiceImpl<SysNurseMapper, SysNurse> i
     @Override
     public SysNurse getOne(Map<String, Object> params) {
         return this.baseMapper.getOne(params);
+    }
+
+    @Override
+    public SysNurseVoZ getOneNurse(Map<String, Object> params) {
+        return this.baseMapper.getOneNurse(params);
     }
 
 }

@@ -2,6 +2,7 @@ package com.annaru.upms.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.annaru.common.base.BaseController;
+import com.annaru.common.result.PageUtils;
 import com.annaru.common.result.ResultMap;
 import com.annaru.upms.controllerutil.AppConst;
 import com.annaru.upms.entity.medical.vo.*;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -65,14 +67,21 @@ public class TbMedicalController extends BaseController {
     public ResultMap getIndex(@ApiParam(value = "身份证号", required = true) @RequestParam String kh) {
         try {
             Map<String, Object> map = new HashMap<>();
-            List<TbYlMzMedicalRecordListVo> listYlMzMedicalRecord = iTbYlMzMedicalRecordService.getJzjl(kh);
-            Integer mzjl = listYlMzMedicalRecord.size();
-            List<TbYlZyMedicalRecordListVo> listYlZyMedicalRecord = iTbYlZyMedicalRecordService.getJyjl(kh);
-            Integer zyjl = listYlZyMedicalRecord.size();
-            //String hospitalName = "闵行区七宝社区卫生服务中心";
-            map.put("mzjl",mzjl);
-            map.put("zyjl",zyjl);
-            map.put("hospitalName", "闵行区七宝社区卫生服务中心");
+            //根据卡号查询近一年的门诊记录
+            List<TbYlMzMedicalRecordListVo> listYlMzMedicalRecord = iTbYlMzMedicalRecordService.getJzjlCsByKh(kh);
+            if (listYlMzMedicalRecord.size() > 0 ) {
+                map.put("mzjl",listYlMzMedicalRecord.size());
+            }
+            //根据卡号查询近三年门诊次数最多医院
+            TbYlMzMedicalRecordListVo tbYlMzMedicalRecordListVo = iTbYlMzMedicalRecordService.getHospitalNameByKh(kh);
+            if(tbYlMzMedicalRecordListVo != null){
+                map.put("hospitalName", tbYlMzMedicalRecordListVo.getHospitalName());
+            }
+            //根据卡号查询近一年的住院记录
+            List<TbYlZyMedicalRecordListVo> listYlZyMedicalRecord = iTbYlZyMedicalRecordService.getJyjlCs(kh);
+            if (listYlZyMedicalRecord.size() > 0 ) {
+                map.put("zyjl",listYlZyMedicalRecord.size());
+            }
             return ResultMap.ok().put("data",map);
         } catch (Exception e) {
             logger.error(e.getMessage());
@@ -86,12 +95,22 @@ public class TbMedicalController extends BaseController {
      * @param kh 卡号
      */
     @ApiOperation(value = "门诊记录列表")
-    @GetMapping("/getJzjl")
-    @RequiresPermissions("upms/medical/getJzjl")
-    public ResultMap getJzjl(@ApiParam(value = "身份证号", required = true) @RequestParam String kh) {
+    @GetMapping("/getJzjlList")
+    @RequiresPermissions("upms/medical/getJzjlPList")
+    public ResultMap getJzjlPage(@ApiParam(value = "当前页")@RequestParam(defaultValue="1") int page,
+                             @ApiParam(value = "每页数量")@RequestParam(defaultValue = "10") int limit,
+                             @ApiParam(value = "身份证号", required = true) @RequestParam String kh,
+                             @ApiParam(value = "开始日期") @RequestParam(required = false) String dateFrom,
+                             @ApiParam(value = "结束日期") @RequestParam(required = false) String dateTo) {
         try {
-            List<TbYlMzMedicalRecordListVo> listYlMzMedicalRecord = iTbYlMzMedicalRecordService.getJzjl(kh);
-            return ResultMap.ok().put("data",listYlMzMedicalRecord);
+            Map<String, Object> params = new HashMap<>();
+            params.put("page",page);
+            params.put("limit", limit);
+            params.put("kh", kh);
+            params.put("dateFrom", dateFrom);
+            params.put("dateTo", dateTo);
+            PageUtils<Map<String, Object>> pageList = iTbYlMzMedicalRecordService.getJzjlPage(params);
+            return ResultMap.ok().put("data",pageList);
         } catch (Exception e) {
             logger.error(e.getMessage());
             return ResultMap.error("运行异常，请联系管理员");
@@ -100,13 +119,13 @@ public class TbMedicalController extends BaseController {
 
     /**
      * 门诊记录详情
-     * @param csid 就诊记录id
+     * @param csid 门诊记录id
      * @return
      */
     @ApiOperation(value = "门诊记录详情")
     @GetMapping("/getMzjlDetail")
     @RequiresPermissions("upms/medical/getMzjlDetail")
-    public ResultMap getMzjlDetail(@ApiParam(value = "就诊记录id", required = true) @RequestParam String csid){
+    public ResultMap getMzjlDetail(@ApiParam(value = "门诊记录id", required = true) @RequestParam String csid){
         Map<String, Object> map = new HashMap<>();
         // 就诊记录
         TbYlMzMedicalRecordDetailVo jzjl = iTbYlMzMedicalRecordService.getJzjlById(csid);
@@ -139,8 +158,6 @@ public class TbMedicalController extends BaseController {
 
     }
 
-
-
     /**
      * 根据卡号查询住院就诊记录
      * @param kh 卡号
@@ -148,10 +165,20 @@ public class TbMedicalController extends BaseController {
     @ApiOperation(value = "住院记录列表")
     @GetMapping("/getJzjzjlList")
     @RequiresPermissions("upms/medical/getJzjzjlList")
-    public ResultMap getJzjzjlList(@ApiParam(value = "身份证号", required = true) @RequestParam String kh) {
+    public ResultMap getJzjzjlList(@ApiParam(value = "当前页")@RequestParam(defaultValue="1") int page,
+                                   @ApiParam(value = "每页数量")@RequestParam(defaultValue = "10") int limit,
+                                   @ApiParam(value = "身份证号", required = true) @RequestParam String kh,
+                                   @ApiParam(value = "开始日期") @RequestParam(required = false) String dateFrom,
+                                   @ApiParam(value = "结束日期") @RequestParam(required = false) String dateTo) {
         try {
-            List<TbYlZyMedicalRecordListVo> listYlZyMedicalRecord = iTbYlZyMedicalRecordService.getJyjl(kh);
-            return ResultMap.ok().put("data",listYlZyMedicalRecord);
+            Map<String, Object> params = new HashMap<>();
+            params.put("page",page);
+            params.put("limit", limit);
+            params.put("kh", kh);
+            params.put("dateFrom", dateFrom);
+            params.put("dateTo", dateTo);
+            PageUtils<Map<String, Object>> pageList = iTbYlZyMedicalRecordService.getJyjlPage(params);
+            return ResultMap.ok().put("data",pageList);
         } catch (Exception e) {
             logger.error(e.getMessage());
             return ResultMap.error("运行异常，请联系管理员");
@@ -165,10 +192,20 @@ public class TbMedicalController extends BaseController {
     @ApiOperation(value = "检验报告列表")
     @GetMapping("/getJybgList")
     @RequiresPermissions("upms/medical/getJybgList")
-    public ResultMap getJybgList(@ApiParam(value = "身份证号", required = true) @RequestParam String kh) {
+    public ResultMap getJybgList(@ApiParam(value = "当前页")@RequestParam(defaultValue="1") int page,
+                                 @ApiParam(value = "每页数量")@RequestParam(defaultValue = "10") int limit,
+                                 @ApiParam(value = "身份证号", required = true) @RequestParam String kh,
+                                 @ApiParam(value = "开始日期") @RequestParam(required = false) String dateFrom,
+                                 @ApiParam(value = "结束日期") @RequestParam(required = false) String dateTo) {
         try {
-            List<TbLisReportListVo> listLisReport = iTbLisReportService.getJybg(kh);
-            return ResultMap.ok().put("data",listLisReport);
+            Map<String, Object> params = new HashMap<>();
+            params.put("page",page);
+            params.put("limit", limit);
+            params.put("kh", kh);
+            params.put("dateFrom", dateFrom);
+            params.put("dateTo", dateTo);
+            PageUtils<Map<String, Object>> pageList = iTbLisReportService.getJybgPage(params);
+            return ResultMap.ok().put("data",pageList);
         } catch (Exception e) {
             logger.error(e.getMessage());
             return ResultMap.error("运行异常，请联系管理员");
@@ -177,18 +214,20 @@ public class TbMedicalController extends BaseController {
 
     /**
      * 查询检验报告详情
-     * @param csid
+     * @param jzlsh
+     * @param bgdh
      * @return
      */
     @ApiOperation(value = "检验报告详情")
     @GetMapping("/getJybgDetail")
     @RequiresPermissions("upms/medical/getJybgDetail")
-    public ResultMap getJybgDetail(@ApiParam(value = "就诊记录id", required = true) @RequestParam String csid, @ApiParam(value = "报告单号", required = true) @RequestParam String bgdh){
+    public ResultMap getJybgDetail(@ApiParam(value = "就诊流水号", required = true) @RequestParam String jzlsh,
+                                   @ApiParam(value = "报告单号", required = true) @RequestParam String bgdh){
         Map<String, Object> map = new HashMap<>();
         // 就诊记录
-        TbYlMzMedicalRecordDetailVo jzjl = iTbYlMzMedicalRecordService.getJzjlById(csid);
+        TbLisReportDetailVo jzjl = iTbLisReportService.getJybgByJzlshAndBgdh(jzlsh, bgdh);
         map.put("jzjl", jzjl);
-        if (jzjl!=null) {
+        if (jzjl != null) {
             // 检验报告
             List<TbLisIndicatorsListVo> tbLisReports = iTbLisIndicatorsService.getJybg(bgdh);
             map.put("jybg", tbLisReports);
@@ -206,10 +245,20 @@ public class TbMedicalController extends BaseController {
     @ApiOperation(value = "影像检查报告列表")
     @GetMapping("/getYxbgList")
     @RequiresPermissions("upms/medical/getYxbgList")
-    public ResultMap getYxbgList(@ApiParam(value = "身份证号", required = true) @RequestParam String kh) {
+    public ResultMap getYxbgList(@ApiParam(value = "当前页")@RequestParam(defaultValue="1") int page,
+                                 @ApiParam(value = "每页数量")@RequestParam(defaultValue = "10") int limit,
+                                 @ApiParam(value = "身份证号", required = true) @RequestParam String kh,
+                                 @ApiParam(value = "开始日期") @RequestParam(required = false) String dateFrom,
+                                 @ApiParam(value = "结束日期") @RequestParam(required = false) String dateTo) {
         try {
-            List<TbRisReportListVo> listRisReport = iTbRisReportService.getYxbg(kh);
-            return ResultMap.ok().put("data",listRisReport);
+            Map<String, Object> params = new HashMap<>();
+            params.put("page",page);
+            params.put("limit", limit);
+            params.put("kh", kh);
+            params.put("dateFrom", dateFrom);
+            params.put("dateTo", dateTo);
+            PageUtils<Map<String, Object>> pageList = iTbRisReportService.getYxbgPage(params);
+            return ResultMap.ok().put("data",pageList);
         } catch (Exception e) {
             logger.error(e.getMessage());
             return ResultMap.error("运行异常，请联系管理员");
@@ -222,37 +271,41 @@ public class TbMedicalController extends BaseController {
      * @return
      */
     @ApiOperation(value = "用药记录列表")
-    @GetMapping("/getYyjl")
-    @RequiresPermissions("upms/medical/getYyjl")
-    public ResultMap getYyjl(@ApiParam(value = "身份证号", required = true) @RequestParam String kh){
+    @GetMapping("/getYyjlList")
+    @RequiresPermissions("upms/medical/getYyjlList")
+    public ResultMap getYyjlList(@ApiParam(value = "当前页")@RequestParam(defaultValue="1") int page,
+                             @ApiParam(value = "每页数量")@RequestParam(defaultValue = "10") int limit,
+                             @ApiParam(value = "身份证号", required = true) @RequestParam String kh,
+                             @ApiParam(value = "开始日期") @RequestParam(required = false) String dateFrom,
+                             @ApiParam(value = "结束日期") @RequestParam(required = false) String dateTo) {
         try {
-            Map<String, Object> map = new HashMap<>();
-        /*if (StringUtils.isBlank(userId)) {
-            return ResultMap.error("该用户不存在！");
-        }
-        UserBasic user = iUserBasicService.selectByUid(userId);
-        if (StringUtils.isBlank(user.getIdCardNo())) {
-            return ResultMap.error("用户尚未实名认证！");
-        }
-        String kh = user.getIdCardNo();*/
-            List<TbCisPrescriptionDetailListVo> tbCisPrescriptionDetails= iTbCisPrescriptionDetailService.getYyjl(kh);
-            for (TbCisPrescriptionDetailListVo detail: tbCisPrescriptionDetails) {
-                List<TbCisPrescriptionDetailVo> yp_list = iTbCisPrescriptionDetailService.getYp(detail.getJzlsh());
-                for (TbCisPrescriptionDetailVo i : yp_list) {
-                    if (StringUtils.isNotBlank(i.getSypcdm())) {
-                        String sypcdm = i.getSypcdm().toLowerCase();
-                        i.setSypc(AppConst.sypc_dm.get(sypcdm));
+            Map<String, Object> params = new HashMap<>();
+            params.put("page",page);
+            params.put("limit", limit);
+            params.put("kh", kh);
+            params.put("dateFrom", dateFrom);
+            params.put("dateTo", dateTo);
+            PageUtils<Map<String, Object>> map_list = iTbCisPrescriptionDetailService.getYyjlPage(params);
+            List<TbCisPrescriptionDetailListVo> yyjl_list = map_list.getList();
+            for (TbCisPrescriptionDetailListVo listVo: yyjl_list) {
+                List<TbCisPrescriptionDetailVo> ypxx = new ArrayList<>();
+                List<TbCisPrescriptionDetailVo> yp_list = iTbCisPrescriptionDetailService.getYp(listVo.getJzlsh());
+                for (TbCisPrescriptionDetailVo detailVo : yp_list) {
+                    if (StringUtils.isNotBlank(detailVo.getSypcdm())) {
+                        String sypcdm = detailVo.getSypcdm().toLowerCase();
+                        detailVo.setSypc(AppConst.sypc_dm.get(sypcdm));
                     }else {
-                        i.setJl(null);
-                        i.setDw(null);
+                        detailVo.setJl(null);
+                        detailVo.setDw(null);
                     }
-                    i.setYf(AppConst.yf_dm.get(i.getYf()));
+                    detailVo.setYf(AppConst.yf_dm.get(detailVo.getYf()));
+                    ypxx.add(detailVo);
                 }
-                map.put("yp", yp_list);
-                map.put("yyjl",tbCisPrescriptionDetails);
+                listVo.setYpList(ypxx);
             }
-            if(tbCisPrescriptionDetails.size()>0){
-                return ResultMap.ok().put("data",map);
+            if(yyjl_list.size()>0){
+                map_list.setList(yyjl_list);
+                return ResultMap.ok().put("data",map_list);
             }else {
                 return ResultMap.error("没有用药记录数据！");
             }

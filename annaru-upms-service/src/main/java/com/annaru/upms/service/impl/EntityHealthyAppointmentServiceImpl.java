@@ -34,13 +34,6 @@ public class EntityHealthyAppointmentServiceImpl extends ServiceImpl<EntityHealt
     }
 
     @Override
-    public List<EntityHealthyAppointmentVo> selectUserAndRelative(String userId) {
-        return this.baseMapper.selectUserAndRelative(userId);
-    }
-
-
-
-    @Override
     public List<EntityHealthyAppointmentVo> selectServiceAppointment(String orderNo) {
         return this.baseMapper.selectServiceAppointment(orderNo);
     }
@@ -51,8 +44,11 @@ public class EntityHealthyAppointmentServiceImpl extends ServiceImpl<EntityHealt
     }
 
     @Override
-    public List<EntityHealthyAppointmentVo> selectUpDoorServer(int status, String relatedNo, int isSubmitted) {
-        return this.baseMapper.selectUpDoorServer(status, relatedNo, isSubmitted);
+    public PageUtils selectUpDoorServer(Map<String, Object> params) {
+        Page<EntityHealthyAppointmentVo> page = new PageUtils<EntityHealthyAppointmentVo>(params).getPage();
+        IPage<EntityHealthyAppointmentVo> iPage = this.baseMapper.selectUpDoorServer(page, params);
+        return new PageUtils<EntityHealthyAppointment>(iPage);
+
     }
     @Override
     public EntityHealthyAppointment getTimeByUserIdZ(Map<String,Object> params) {

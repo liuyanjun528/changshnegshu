@@ -27,7 +27,7 @@
           per_year,
           is_active,
           creation_time,
-          create_by,
+          create_by
     </sql>
 
     <!-- 多表页面信息查询分页 -->
@@ -37,6 +37,36 @@
             <include refid="BaseClounmSql"></include>
         FROM
             entity_healthy_package_detail
+
+    </select>
+
+    <select id="getEyHyPeDlByUserId" parameterType="java.lang.String" resultMap="BaseResultMap">
+
+        SELECT
+            ehp.sys_id,
+            ehp.main_id,
+            ehp.descr,
+            ehp.counts,
+            ehp.apply_to,
+            ehp.per_year,
+            ehp.is_active,
+            ehp.creation_time,
+            ehp.create_by
+        FROM user_basic ub
+        LEFT JOIN user_entity_mapping uem ON uem.user_id = ub.user_id
+        LEFT JOIN entity_purchse_main epm ON epm.entity_no = uem.entity_id
+        LEFT JOIN entity_purchse_detail epd ON epd.order_no = epm.order_no
+        LEFT JOIN entity_healthy_package_detail ehp ON ehp.main_id = epd.pkg_main_id
+        WHERE 1 = 1
+        AND ub.isactive = 1
+        AND uem.is_active = 1
+        AND epm.is_active = 1 AND epm.is_terminated = 0
+        AND epd.is_active = 1 AND epd.is_deleted = 0
+        AND ehp.is_active = 1
+        <if test="userId != null and userId != ''">
+            AND ub.user_id = #{userId}
+        </if>
+        GROUP BY ehp.descr
 
     </select>
 

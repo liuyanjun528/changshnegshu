@@ -1,15 +1,19 @@
 package com.annaru.upms.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.annaru.common.result.PageUtils;
 import com.annaru.upms.entity.medical.TbYlMzMedicalRecord;
 import com.annaru.upms.entity.medical.vo.TbYlMzMedicalRecordDetailVo;
 import com.annaru.upms.entity.medical.vo.TbYlMzMedicalRecordListVo;
 import com.annaru.upms.mapper.TbYlMzMedicalRecordMapper;
 import com.annaru.upms.service.ITbYlMzMedicalRecordService;
 import com.baomidou.dynamic.datasource.annotation.DS;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * tb_yl_mz_medical_record(门诊就诊记录表)
@@ -32,7 +36,20 @@ public class TbYlMzMedicalRecordServiceImpl extends ServiceImpl<TbYlMzMedicalRec
     }
 
     /**
-     * 根据卡号查询就诊记录
+     * 根据卡号分页查询门诊记录
+     * @param params
+     * @return
+     */
+    @Override
+    @DS("oracle")
+    public PageUtils getJzjlPage(Map<String, Object> params){
+        Page<TbYlMzMedicalRecordListVo> page = new PageUtils<TbYlMzMedicalRecordListVo>(params).getPage();
+        IPage<TbYlMzMedicalRecordListVo> iPage = this.baseMapper.getJzjlPage(page, params);
+        return new PageUtils<TbYlMzMedicalRecordListVo>(iPage);
+    }
+
+    /**
+     * 根据卡号查询门诊记录
      * @param kh 卡号
      * @return
      */
@@ -43,18 +60,40 @@ public class TbYlMzMedicalRecordServiceImpl extends ServiceImpl<TbYlMzMedicalRec
     }
 
     /**
-     * 根据就诊流水号查询就诊记录
+     * 根据卡号查询近一年的门诊记录
+     * @param kh 卡号
+     * @return
+     */
+    @Override
+    @DS("oracle")
+    public List<TbYlMzMedicalRecordListVo> getJzjlCsByKh(String kh) {
+        return this.baseMapper.getJzjlCsByKh(kh);
+    }
+
+    /**
+     * 根据卡号查询近三年门诊次数最多医院
+     * @param kh 卡号
+     * @return
+     */
+    @Override
+    @DS("oracle")
+    public TbYlMzMedicalRecordListVo getHospitalNameByKh(String kh) {
+        return this.baseMapper.getHospitalNameByKh(kh);
+    }
+
+    /**
+     * 根据就诊流水号查询门诊记录
      * @param jzlsh 就诊流水号
      * @return
      */
     @Override
     @DS("oracle")
-    public TbYlMzMedicalRecord getJzjlByJzlsh(String jzlsh) {
+    public TbYlMzMedicalRecordDetailVo getJzjlByJzlsh(String jzlsh) {
         return this.baseMapper.getJzjlByJzlsh(jzlsh);
     }
 
     /**
-     * 根据就诊记录id查询对应的就诊记录
+     * 根据就诊记录id查询对应的门诊记录
      * @param csid 就诊记录id
      * @return
      */

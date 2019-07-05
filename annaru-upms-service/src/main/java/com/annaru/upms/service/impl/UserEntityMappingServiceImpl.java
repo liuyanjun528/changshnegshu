@@ -2,6 +2,8 @@ package com.annaru.upms.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.annaru.upms.entity.vo.EntityHealthyAppointmentVo;
+import com.annaru.upms.entity.vo.EntityPurchseMainVoZ;
+import com.annaru.upms.entity.vo.UserBasicVo;
 import com.annaru.upms.entity.vo.UserEntityMappingVo;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -18,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 
+ *
  *
  * @author xck
  * @date 2019-06-03 12:21:40
@@ -35,8 +37,13 @@ public class UserEntityMappingServiceImpl extends ServiceImpl<UserEntityMappingM
 
 
     @Override
-    public List<UserEntityMappingVo> selectUserAndRelativeInfoByUserId(String userId) {
+    public List<UserBasicVo> selectUserAndRelativeInfoByUserId(String userId) {
         return this.baseMapper.selectUserAndRelativeInfoByUserId(userId);
+    }
+
+    @Override
+    public EntityPurchseMainVoZ getEntityPurchseMainVoZ(String userId) {
+        return this.baseMapper.getEntityPurchseMainVoZ(userId);
     }
 
 }

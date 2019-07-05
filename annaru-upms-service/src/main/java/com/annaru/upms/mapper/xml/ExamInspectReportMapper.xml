@@ -174,5 +174,10 @@
             report_no = #{reportNO}
         LIMIT 1
     </select>
+    <select id="selectByRno" resultType="string">
+        select LEFT(BYH,13)
+        from exam_inspect_report
+        where report_no = #{reportNO}
+    </select>
 
 </mapper>

@@ -20,11 +20,15 @@
         <result column="effect_from" property="effectFrom" />
         <result column="effect_to" property="effectTo" />
         <result column="day" property="day" />
+        <result column="isAppraise" property="isAppraise" />
+
     </resultMap>
 
     <!-- 专属医生信息查询 -->
-    <select id="selectExclusiveDoctor" parameterType="map" resultMap="BaseResultMap">
-    SELECT
+    <select id="selectExclusiveDoctor" parameterType="string" resultMap="BaseResultMap">
+      SELECT
+            eed.entity_id,
+			sd.doctor_no,
 			sd.doctor_name,-- 医生姓名
 			sd.degrees,-- 医生称谓
 			si.name,-- 所属医院
@@ -39,12 +43,11 @@
 			eed.effect_from,-- 开始时间
 			eed.effect_to,	-- 结束时间
 			DATEDIFF(eed.effect_to,NOW()) as day
-    FROM
+      FROM
 		    entity_exclusive_doctor as eed
-    LEFT JOIN sys_doctor as sd ON eed.doctor_no=sd.doctor_no
-    LEFT JOIN sys_institution as si ON si.institution_id=sd.belong_institution
-    WHERE     eed.entity_id=#{entityId}and eed.effect_to>NOW()
-
+      LEFT JOIN sys_doctor as sd ON eed.doctor_no=sd.doctor_no
+      LEFT JOIN sys_institution as si ON si.institution_id=sd.belong_institution
+      WHERE     eed.entity_id=#{entityId}  and eed.effect_to>NOW()
     </select>
 
 </mapper>

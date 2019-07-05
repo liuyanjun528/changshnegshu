@@ -39,21 +39,30 @@ public interface OrderMainMapper extends BaseMapper<OrderMain> {
      * @param params
      * @return
      */
-    List<OrderMainVoZTC> selectPackageOrder(@Param("params") Map <String, Object> params);
+    OrderMainVoZTC selectPackageOrder(@Param("params") Map <String, Object> params);
 
     /**
      * 多表页面信息查询 ，查询自费(进阶)订单详情
      * @param params
      * @return
      */
-    List<OrderMainVoZZF> selectPackageAdvance(@Param("params") Map <String, Object> params);
+    OrderMainVoZZF selectPackageAdvance(@Param("params") Map <String, Object> params);
+
+    /**
+     * 订单各状态的总数
+     * @author zk
+     * @date 2019-07-01
+     * @param params
+     * @return
+     */
+    OrderMainVoSumByStatusZ selectSumByStatus(@Param("params") Map <String, Object> params);
 
     /**
      * 多表页面信息查询 ，查询门诊绿通订单详情
      * @param params
      * @return
      */
-    List<OrderMainVoZMzlt> selectPackageGreen(@Param("params") Map <String, Object> params);
+    OrderMainVoZMzlt selectPackageGreen(@Param("params") Map <String, Object> params);
 
     OrderMain getOrderNo(@Param("params") Map <String, Object> params);
 
@@ -80,7 +89,7 @@ public interface OrderMainMapper extends BaseMapper<OrderMain> {
 
     OrderInfoVo getToB(@Param("params") Map <String, Object> params);
 
-    OrderExtensionInfoVo getExtensionInfo(@Param("params") Map <String, Object> params);
+    List<OrderExtensionInfoVo> getExtensionInfo(@Param("params") Map <String, Object> params);
 
     OrderInfoVo getBase(@Param("params") Map<String,Object> params);
 

@@ -17,6 +17,15 @@
         <result column="edit_time" property="editTime" />
     </resultMap>
 
+    <resultMap id="BaseResultMapVo" type="com.annaru.upms.entity.vo.DoctorScheduleVo" >
+        <result column="date_from" property="dateFrom" />
+        <collection property="scheduleTimeList" ofType="com.annaru.upms.entity.vo.DoctorScheduleTime">
+            <result column="time_from" property="timeFrom" />
+            <result column="time_to" property="timeTo" />
+            <result column="is_active" property="isActive" />
+        </collection>
+    </resultMap>
+
     <!-- 多表页面信息查询分页 -->
     <select id="selectDataPage" parameterType="map" resultMap="BaseResultMap">
         SELECT
@@ -40,17 +49,22 @@
     </select>
 
 
-    <select id="getDocSchedule" parameterType="map" resultMap="BaseResultMap">
-        select sds.date_from,sds.date_to,sds.time_from,sds.time_to,sdo.is_active
-        from sys_doctor_schedule sds
-        left JOIN sys_doctor_oppointment sdo
-        on sds.date_from = sdo.appoint_date
-        where
-        sds.is_active = 1
-        <if test="params.doctorNurseNo != null and params.doctorNurseNo != ''">
-            and doctor_nurse_no = #{params.doctorNurseNo}
+    <select id="getDocSchedule" parameterType="map" resultMap="BaseResultMapVo">
+        SELECT
+        date_from,
+        time_from,
+        time_to,
+        is_active
+        FROM
+        sys_doctor_nurse_schedule
+        WHERE
+        state = 2
+        <if test="params.doctorNo != null and params.doctorNo != ''">
+        and doctor_nurse_no = #{params.doctorNo}
         </if>
-        order by sds.time_to
+        ORDER BY
+        date_from,
+        time_to
     </select>
 
     <!-- 医护端护士的排班-->
@@ -68,6 +82,18 @@
 	  AND
 	        doctor_nurse_no=#{doctorNurseNo}
     </select>
+
+    <update id="updateSceduleStatus" parameterType="map">
+                UPDATE
+                sys_doctor_nurse_schedule
+                SET
+                is_active=1
+                WHERE
+                TO_DAYS(date_from)=TO_DAYS(#{params.appointDate})
+                and time_from=#{params.timeFrom}
+                and time_to=#{params.timeTo}
+                and doctor_nurse_no=#{params.doctorNo}
+    </update>
 
 
 </mapper>

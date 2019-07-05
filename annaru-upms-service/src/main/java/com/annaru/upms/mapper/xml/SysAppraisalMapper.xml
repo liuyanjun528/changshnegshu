@@ -41,4 +41,14 @@
         select star_count from sys_appraisal where user_id=#{userId}
     </select>
 
+    <select id="getOne" parameterType="map" resultMap="BaseResultMap">
+                SELECT
+                	*
+                FROM
+                	sys_appraisal
+                WHERE
+                	user_id = #{params.userId}
+                AND reference_no = #{params.docNo}
+    </select>
+
 </mapper>

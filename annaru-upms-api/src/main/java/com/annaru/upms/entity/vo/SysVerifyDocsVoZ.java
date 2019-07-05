@@ -11,6 +11,7 @@ import io.swagger.models.auth.In;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -99,6 +100,8 @@ public class SysVerifyDocsVoZ implements Serializable {
 	@ApiModelProperty(value = "身份证号码")
     @TableField("id_card_no")
 	private String idCardNo;
+
+	private List<String> stringList;
 
 	public String getNurseName() {
 		return nurseName;
@@ -190,6 +193,12 @@ public class SysVerifyDocsVoZ implements Serializable {
 	}
 	public void setIntroductions(String introductions) {
 		this.introductions = introductions;
+	}
+	public List<String> getStringList() {
+		return stringList;
+	}
+	public void setStringList(List<String> stringList) {
+		this.stringList = stringList;
 	}
 
 	@Override

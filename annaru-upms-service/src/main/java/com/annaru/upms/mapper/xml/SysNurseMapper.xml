@@ -23,6 +23,30 @@
         <result column="edit_time" property="editTime" />
     </resultMap>
 
+    <!-- 通用查询映射结果 -->
+    <resultMap id="getOneNurseBaseResultMap" type="com.annaru.upms.entity.vo.SysNurseVoZ" >
+        <result column="sysId" property="sysId" />
+        <result column="nurseNo" property="nurseNo" />
+        <result column="userId" property="userId" />
+        <result column="nurseName" property="nurseName" />
+        <result column="headImage" property="headImage" />
+        <result column="introductions" property="introductions" />
+        <result column="score" property="score" />
+        <result column="focusOn" property="focusOn" />
+        <result column="contactNo1" property="contactNo1" />
+        <result column="contactNo2" property="contactNo2" />
+        <result column="isApproved" property="isApproved" />
+        <result column="approveTime" property="approveTime" />
+        <result column="creationTime" property="creationTime" />
+        <result column="editTime" property="editTime" />
+
+        <result column="siName" property="siName" />
+        <result column="departmentName" property="departmentName" />
+
+        <result column="belongHospital" property="belongHospital" />
+        <result column="belongOffice" property="belongOffice" />
+    </resultMap>
+
     <!-- 多表页面信息查询分页 -->
     <select id="selectDataPage" parameterType="map" resultMap="BaseResultMap">
 
@@ -56,28 +80,68 @@
     <select id="getOne" parameterType="map" resultMap="BaseResultMap">
 
         SELECT
-            sys_id,
-            nurse_no,
-            user_id,
-            nurse_name,
-            head_image,
-            belong_hospital,
-            belong_office,
-            introductions,
-            score,
-            focus_on,
-            contact_no1,
-            contact_no2,
-            is_approved,
-            approve_time,
-            creation_time,
-            edit_time
+        sys_id,
+        nurse_no,
+        user_id,
+        nurse_name,
+        head_image,
+        belong_hospital,
+        belong_office,
+        introductions,
+        score,
+        focus_on,
+        contact_no1,
+        contact_no2,
+        is_approved,
+        approve_time,
+        creation_time,
+        edit_time
         FROM
-          sys_nurse
+        sys_nurse
         WHERE  1 = 1
-            <if test="params.userId != null and params.userId != ''">
-                AND user_id = #{params.userId}
-            </if>
+        <if test="params.nurseNo != null and params.nurseNo != ''">
+            AND user_id = #{params.nurseNo}
+        </if>
+        <if test="params.userId != null and params.userId != ''">
+            AND user_id = #{params.userId}
+        </if>
     </select>
+
+    <!-- 得到一个护士 -->
+    <select id="getOneNurse" parameterType="map" resultMap="getOneNurseBaseResultMap">
+        SELECT
+        sn.sys_id sysId,
+        sn.nurse_no nurseNo,
+        sn.user_id userId,
+        sn.nurse_name nurseName,
+        sn.head_image headImage,
+        sn.score score,
+        sn.focus_on focusOn,
+        sn.contact_no1 contactNo1,
+        sn.contact_no2 contactNo2,
+        sn.job_title jobTitle,
+        sn.duties,
+        sn.introductions,
+        sn.is_approved isApproved,
+        sn.approve_time approveTime,
+        sn.creation_time creationTime,
+        sn.edit_time editTime,
+        si.name siName,
+        sd.department_name departmentName,
+        sn.belong_hospital belongHospital,
+        sn.belong_office belongOffice
+        FROM
+        sys_nurse sn
+        LEFT JOIN sys_institution si ON si.institution_id = sn.belong_hospital
+        LEFT JOIN sys_department sd ON sd.sys_id = sn.belong_office
+        WHERE  1 = 1
+        <if test="params.nurseNo != null and params.nurseNo != ''">
+            AND sn.nurse_no = #{params.nurseNo}
+        </if>
+        <if test="params.userId != null and params.userId != ''">
+            AND sn.user_id = #{params.userId}
+        </if>
+    </select>
+
 
 </mapper>

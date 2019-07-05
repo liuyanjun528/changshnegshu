@@ -79,6 +79,7 @@
         WHERE 1 = 1
         AND epm.cates = 2 AND epm.is_active = 1 AND epm.is_terminated = 0
         AND eha.`status` = 3 AND eha.service_option = 1 AND eha.is_cancelled = 0 AND eha.user_confirm = 1 AND eha.is_deleted = 0
+        AND eha.pkg_main_id = 8 AND eha.pkg_detail_id = 801
 
         <if test="params.userId != null and params.userId != ''">
             AND uem.user_id = #{params.userId}
@@ -111,45 +112,6 @@
             </if>
 
     </select>
-
-    <!-- 查询企业用户及亲属列表-->
-    <select id="selectUserAndRelative" parameterType="map" resultMap="BaseResultMap1">
-        SELECT
-        eha.sys_id,
-        eha.order_no,
-        se.entity_name,
-        eha.user_cate,
-        eha.user_id,
-        ub_ur.full_name,
-        ub_ur.user_gender,
-        ub_ur.user_age,
-        ub_ur.relative_id,
-        ub_ur.relative_name,
-        ub_ur.relative_gender,
-        ub_ur.relative_age,
-        ub_ur.remark
-        FROM entity_healthy_appointment eha
-        LEFT JOIN sys_entity se ON se.entity_id = eha.entity_no
-        LEFT JOIN
-        (SELECT
-        ub.user_id,
-        ub.full_name,
-        TIMESTAMPDIFF(YEAR, ub.date_of_birth, CURDATE()) AS user_age,
-        ub.gender AS user_gender,
-        ur.relative_id,
-        ur.relative_name,
-        TIMESTAMPDIFF(YEAR, ur.date_of_birth, CURDATE()) AS relative_age,
-        ur.gender AS relative_gender,
-        ur.remark FROM user_basic ub
-        LEFT JOIN user_relatives ur ON ur.user_id = ub.user_id
-        )ub_ur ON ub_ur.user_id = eha.user_id
-        where
-        <if test="userId != null and userId != ''">
-            eha.user_id=#{userId}
-        </if>
-    </select>
-
-
 
     <!-- 企业查询服务预约 -->
     <select id="selectServiceAppointment" parameterType="map" resultMap="BaseResultMap1">
@@ -208,19 +170,19 @@
         LEFT JOIN user_basic as ub ON eha.user_id=ub.user_id
 		LEFT JOIN order_main as om ON eha.order_no=om.order_no
 		LEFT JOIN exam_user_healthy_appraisal as euha ON euha.order_no=eha.order_no
-        WHERE eha.related_no=#{relatedNo} and eha.pkg_main_id=8 and eha.pkg_detail_id=801 and eha.is_deleted = 0
-        <if test="status==0 or status==1">
-            and eha.status=#{status}
+        WHERE eha.related_no=#{params.relatedNo} and eha.pkg_main_id=8 and eha.pkg_detail_id=801 and eha.is_deleted = 0
+        <if test="params.status==0 or params.status==1">
+            and eha.status=#{params.status}
         </if>
-        <if test="isSubmitted==0">
-            and euha.is_submitted=#{isSubmitted}
+        <if test="params.isSubmitted==0">
+            and euha.is_submitted=#{params.isSubmitted}
         </if>
 
     </select>
     <update id="updateByOderNo">
         UPDATE entity_healthy_appointment
         SET is_deleted = 1
-        where order_no = #{orderNo}
+        where order_no = #{orderNo} and status=1
     </update>
 
 </mapper>

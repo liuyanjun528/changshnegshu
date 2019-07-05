@@ -41,4 +41,12 @@ public interface ExamInspectReportMapper extends BaseMapper<ExamInspectReport> {
      */
     ExamInspectReport selectByReportNO(@Param("reportNO") String reportNO);
 
+    /*** 根据报告编号获取订单编号
+    * @params: [reportNO]报告编号
+    * @return: java.lang.String
+    * @Author: jyehui
+    * @Date: 2019/7/2 10:13
+    */
+    String selectByRno(@Param("reportNO") String reportNO);
+
 }

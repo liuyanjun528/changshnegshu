@@ -48,9 +48,22 @@ public class SysDoctorScheduleController extends BaseController {
         return ResultMap.ok().put("data",pageList);
     }
 
+    /**
+     * 信息
+     * 用户端医生排班信息
+     */
+    @ApiOperation(value = "查看详情", notes = "查看upms详情")
+    @GetMapping("/info/{doctorNo}")
+    @RequiresPermissions("upms/sysDoctorSchedule/info")
+    public ResultMap info(@PathVariable("doctorNo") String doctorNo){
+        Map<String,Object> params = new HashMap<>();
+        params.put("doctorNo",doctorNo);
+        List<SysDoctorSchedule> sysDoctorSchedule = sysDoctorScheduleService.getDocSchedule(params);
+        return ResultMap.ok().put("data",sysDoctorSchedule);
+    }
 
     /**
-     * 医护端 护士的排班
+     * 医护端 护士的排班 -->wh
      */
     @ApiOperation(value = "护士的排班", notes = "护士的排班")
     @GetMapping("/nurseListInfo")
@@ -61,7 +74,7 @@ public class SysDoctorScheduleController extends BaseController {
     }
 
     /**
-     * 添加护士的排班
+     * 添加护士的排班 -->wh
      */
     @ApiOperation(value = "添加护士的排班")
     @PostMapping("/save")
@@ -79,6 +92,7 @@ public class SysDoctorScheduleController extends BaseController {
 
     /**
      * 删除护士的排班---实为-->修改
+     * @author wh
      */
     @ApiOperation(value = "删除护士的排班")
     @PostMapping("/update")

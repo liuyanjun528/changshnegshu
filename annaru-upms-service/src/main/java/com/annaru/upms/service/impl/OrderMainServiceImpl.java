@@ -55,20 +55,25 @@ public class OrderMainServiceImpl extends ServiceImpl<OrderMainMapper, OrderMain
     }
 
     @Override
-    public List<OrderMainVoZTC> selectPackageOrder(Map<String, Object> params) {
-        List<OrderMainVoZTC> list = this.baseMapper.selectPackageOrder(params);
+    public OrderMainVoZTC selectPackageOrder(Map<String, Object> params) {
+        OrderMainVoZTC list = this.baseMapper.selectPackageOrder(params);
         return list;
     }
 
     @Override
-    public List<OrderMainVoZZF> selectPackageAdvance(Map<String, Object> params) {
-        List<OrderMainVoZZF> list = this.baseMapper.selectPackageAdvance(params);
+    public OrderMainVoZZF selectPackageAdvance(Map<String, Object> params) {
+        OrderMainVoZZF list = this.baseMapper.selectPackageAdvance(params);
         return list;
     }
 
     @Override
-    public List<OrderMainVoZMzlt> selectPackageGreen(Map<String, Object> params) {
-        List<OrderMainVoZMzlt> list = this.baseMapper.selectPackageGreen(params);
+    public OrderMainVoSumByStatusZ selectSumByStatus(Map<String, Object> params) {
+        return this.baseMapper.selectSumByStatus(params);
+    }
+
+    @Override
+    public OrderMainVoZMzlt selectPackageGreen(Map<String, Object> params) {
+        OrderMainVoZMzlt list = this.baseMapper.selectPackageGreen(params);
         return list;
     }
 
@@ -87,6 +92,7 @@ public class OrderMainServiceImpl extends ServiceImpl<OrderMainMapper, OrderMain
         int i=0;
         try {
             //添加订单主表
+            orderMain.setCreationtime(new Date());
             i = this.baseMapper.insertOrderMain(orderMain);
 
             //根据套餐编号查询 如果有赠送服务
@@ -96,10 +102,6 @@ public class OrderMainServiceImpl extends ServiceImpl<OrderMainMapper, OrderMain
                 List<ExamPackageAppend> examPackageAppends = examPackageAppendService.selectExamName(Integer.parseInt(orderMain.getReferenceNo()));
                 OrderDetail detail = new OrderDetail();
                 detail.setCreationtime(orderMain.getCreationtime());
-//                detail.setRestCount(orderMain.getOrderDetail().getRestCount());
-//                detail.setTotalCount(orderMain.getOrderDetail().getTotalCount());
-//                detail.setEffectFrom(orderMain.getOrderDetail().getEffectFrom());
-//                detail.setEffectTo(orderMain.getOrderDetail().getEffectTo());
                 for (ExamPackageAppend exam : examPackageAppends) {
                     detail.setAppendId(exam.getAppendId());
                     detail.setCreationtime(new Date());
@@ -108,14 +110,25 @@ public class OrderMainServiceImpl extends ServiceImpl<OrderMainMapper, OrderMain
                 }
             }
 
+
             if (i > 0) {
-                //如果订单总数大于1
-                if (orderMain.getTotalQty() > 1) {
+                //只要生成订单 就往OrderCustomer表添加一条记录
+                // 如果套餐个数==1 user_cates为1 如果套餐个数大于1 user_cates为2
+                if (orderMain.getTotalQty()==1||RelativeId.length==0){
+                    orderMain.getOrderCustomer().setOrderNo(orderMain.getOrderNo());
+                    orderMain.getOrderCustomer().setRelativeId(orderMain.getUserId());
+                    orderMain.getOrderCustomer().setUserCates(1);
+                    i=orderCustomerService.insertOrderCustomer(orderMain.getOrderCustomer());//添加订单亲属表
+                }
+
+                //--添加亲属编号
+                if(orderMain.getTotalQty()>1){
+                    //查询用户下的所有亲属
                     List<UserRelatives> list = userRelativesService.selectAll(orderMain.getUserId());
                     Boolean result=false;
                     for (UserRelatives relative : list) {
                         for (String  rela:RelativeId ){
-                            if (relative.getRelativeId().equals(rela)) {
+                            if (relative.getRelativeId().equals(rela)) {//判断传来的亲属ID 跟数据库保存的亲属是否匹配
                                 result=true;
                                 break;
                             }
@@ -127,14 +140,32 @@ public class OrderMainServiceImpl extends ServiceImpl<OrderMainMapper, OrderMain
                         throw new GlobalException("没有相关亲属");
                     }
                     if (result) {
-                        orderMain.getOrderCustomer().setOrderNo(orderMain.getOrderNo());
-                        for (String relativeId :RelativeId){
-                            orderMain.getOrderCustomer().setRelativeId(relativeId);
+                        //如果亲属长度<总套餐个数 需要添加自己跟亲属
+                        if(RelativeId.length<orderMain.getTotalQty()){
+                            orderMain.getOrderCustomer().setOrderNo(orderMain.getOrderNo());
+                            orderMain.getOrderCustomer().setRelativeId(orderMain.getUserId());
+                            orderMain.getOrderCustomer().setUserCates(1);
                             i=orderCustomerService.insertOrderCustomer(orderMain.getOrderCustomer());//添加订单亲属表
+
+                            for (String relativeId :RelativeId){    //如果匹配 传来几个亲属循环往OrderCustomer添加几个亲属编号
+                                orderMain.getOrderCustomer().setOrderNo(orderMain.getOrderNo());
+                                orderMain.getOrderCustomer().setRelativeId(relativeId);
+                                orderMain.getOrderCustomer().setUserCates(2);
+                                i=orderCustomerService.insertOrderCustomer(orderMain.getOrderCustomer());//添加订单亲属表
+                            }
+                        }
+                        // 如果亲属长度=总套餐个数 只需要添加亲属  只为亲属购买的状态
+                        if(RelativeId.length==orderMain.getTotalQty()){
+                            for (String relativeId :RelativeId){
+                                orderMain.getOrderCustomer().setOrderNo(orderMain.getOrderNo());
+                                orderMain.getOrderCustomer().setRelativeId(relativeId);
+                                orderMain.getOrderCustomer().setUserCates(2);
+                                i=orderCustomerService.insertOrderCustomer(orderMain.getOrderCustomer());//添加订单亲属表
+                            }
                         }
 
                     }
-                }
+                                     }
             }
         } catch (Exception e) {
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
@@ -155,7 +186,7 @@ public class OrderMainServiceImpl extends ServiceImpl<OrderMainMapper, OrderMain
         return this.baseMapper.getToB(params);
     }
 
-    public OrderExtensionInfoVo getExtensionInfo(Map<String,Object> params){
+    public List<OrderExtensionInfoVo> getExtensionInfo(Map<String,Object> params){
         return this.baseMapper.getExtensionInfo(params);
     }
 

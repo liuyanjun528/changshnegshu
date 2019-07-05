@@ -1,6 +1,7 @@
 package com.annaru.upms.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.annaru.upms.entity.vo.DoctorUserOppointmentVo;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -29,6 +30,17 @@ public class SysDoctorOppointmentServiceImpl extends ServiceImpl<SysDoctorOppoin
         Page<SysDoctorOppointment> page = new PageUtils<SysDoctorOppointment>(params).getPage();
         IPage<SysDoctorOppointment> iPage = this.baseMapper.selectDataPage(page, params);
         return new PageUtils<SysDoctorOppointment>(iPage);
+    }
+
+    @Override
+    public PageUtils getAppointmentList(Map<String, Object> params){
+        Page<DoctorUserOppointmentVo> page = new PageUtils<DoctorUserOppointmentVo>(params).getPage();
+        IPage<DoctorUserOppointmentVo> iPage = this.baseMapper.getAppointmentList(page, params);
+        return new PageUtils<DoctorUserOppointmentVo>(iPage);
+    }
+
+    public boolean updateSceduleStatus(Map<String,Object> params){
+        return this.baseMapper.updateSceduleStatus(params);
     }
 
     @Override

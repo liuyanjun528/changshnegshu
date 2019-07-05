@@ -19,6 +19,28 @@
         <result column="edit_time" property="editTime" />
     </resultMap>
 
+    <resultMap id="managerUserRelativesVoZBase" type="com.annaru.upms.entity.vo.UserRelativesVoZ" >
+        <result column="userId" property="userId" />
+        <result column="fullName" property="fullName" />
+        <result column="ubGender" property="ubGender" />
+        <result column="ubDateOfBirth" property="ubDateOfBirth" />
+        <result column="entityName" property="entityName" />
+
+        <collection property="userRelativesDetailVoZList" ofType="com.annaru.upms.entity.vo.UserRelativesDetailVoZ">
+            <result column="urSysId" property="urSysId"/>
+            <result column="relativeId" property="relativeId" />
+            <result column="relativeName" property="relativeName" />
+            <result column="urGender" property="urGender" />
+            <result column="remark" property="remark" />
+            <result column="urDateOfBirth" property="urDateOfBirth" />
+            <result column="urIsDeleted" property="urIsDeleted" />
+            <result column="idCardNo" property="idCardNo" />
+            <result column="cardNo" property="cardNo" />
+            <result column="cellphoneNo" property="cellphoneNo" />
+            <result column="ucSysId" property="ucSysId" />
+        </collection>
+    </resultMap>
+
     <!-- 多表页面信息查询分页 -->
     <select id="selectDataPage" parameterType="map" resultMap="BaseResultMap">
 
@@ -50,6 +72,36 @@
 
     <select id="selectAll" parameterType="map" resultMap="BaseResultMap">
         select * from user_relatives where user_id=#{userId}
+    </select>
+
+    <select id="getUserRelativesList" resultType="java.lang.String" resultMap="BaseResultMap">
+        SELECT
+        sys_id
+        FROM user_relatives
+        WHERE 1 = 1 AND is_deleted = 0
+        <if test="userId != null and userId != ''">
+            AND user_id = #{userId}
+        </if>
+    </select>
+
+    <select id="managerUserRelativesVoZ" resultType="java.lang.String" resultMap="managerUserRelativesVoZBase">
+        SELECT
+            ub.user_id userId, ub.full_name fullName, ub.gender ubGender, ub.date_of_birth ubDateOfBirth,
+            se.entity_name entityName,
+            ur.sys_id urSysId, ur.relative_id relativeId, ur.relative_name relativeName, ur.gender urGender, ur.remark, ur.date_of_birth urDateOfBirth, ur.is_deleted urIsDeleted,
+            ur.id_card_no idCardNo, uc.card_no cardNo, ur.cellphone_no cellphoneNo,
+            uc.sys_id ucSysId
+        FROM user_basic ub
+        LEFT JOIN user_entity_mapping uem ON uem.user_id = ub.user_id
+        LEFT JOIN sys_entity se ON se.entity_id = uem.entity_id
+        LEFT JOIN user_relatives ur ON ur.user_id = ub.user_id
+        LEFT JOIN user_cards uc ON uc.user_id = ur.relative_id
+        WHERE 1 = 1
+        AND ub.isactive = 1 AND ub.is_hr = 0
+        AND uem.is_active = 1
+        <if test="userId != null and userId != ''">
+            AND ub.user_id = #{userId}
+        </if>
     </select>
 
     <delete id="DeleteRelative">

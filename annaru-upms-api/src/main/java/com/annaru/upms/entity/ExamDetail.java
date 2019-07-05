@@ -48,6 +48,18 @@ public class ExamDetail extends Model<ExamDetail> implements Serializable {
 	@TableField("standard_value")
 	private String standardValue;
 	/**
+	 * 进阶检查项目总编号
+	 */
+	@ApiModelProperty(value = "进阶检查项目总编号")
+	@TableField("master_id")
+	private Integer masterId;
+	/**
+	 * 进阶项目类别
+	 */
+	@ApiModelProperty(value = "进阶项目类别")
+	@TableField("extension_cates_id")
+	private Integer extensionCatesId;
+	/**
 	 * 创建时间
 	 */
     @ApiModelProperty(value = "创建时间")
@@ -59,8 +71,52 @@ public class ExamDetail extends Model<ExamDetail> implements Serializable {
     @ApiModelProperty(value = "编辑时间")
 	@TableField("edit_time")
 	private Date editTime;
+	/**
+	 * 进阶项目类别编号
+	 */
+	@ApiModelProperty(value = "进阶项目类别编号")
+	@TableField(exist = false)
+	private Integer eecId;
+	/**
+	 * 进阶项目类别名称
+	 */
+	@ApiModelProperty(value = "进阶项目类别名称")
+	@TableField(exist = false)
+	private String eecName;
 
-    /**
+	public Integer getMasterId() {
+		return masterId;
+	}
+
+	public void setMasterId(Integer masterId) {
+		this.masterId = masterId;
+	}
+
+	public Integer getEecId() {
+		return eecId;
+	}
+
+	public void setEecId(Integer eecId) {
+		this.eecId = eecId;
+	}
+
+	public String getEecName() {
+		return eecName;
+	}
+
+	public void setEecName(String eecName) {
+		this.eecName = eecName;
+	}
+
+	public Integer getExtensionCatesId() {
+		return extensionCatesId;
+	}
+
+	public void setExtensionCatesId(Integer extensionCatesId) {
+		this.extensionCatesId = extensionCatesId;
+	}
+
+	/**
      * 获取：系统编号
      */
     public Integer getSysId() {
