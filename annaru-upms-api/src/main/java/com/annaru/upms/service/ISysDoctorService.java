@@ -4,7 +4,6 @@ import com.annaru.upms.entity.vo.SysDoctorVo;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.annaru.common.result.PageUtils;
 import com.annaru.upms.entity.SysDoctor;
-import java.util.List;
 import java.util.Map;
 
 /**

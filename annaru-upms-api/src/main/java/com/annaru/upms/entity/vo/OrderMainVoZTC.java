@@ -161,6 +161,14 @@ public class OrderMainVoZTC implements Serializable {
 		this.orderTime = orderTime;
 	}
 
+	public String getUserChannel() {
+		return userChannel;
+	}
+
+	public void setUserChannel(String userChannel) {
+		this.userChannel = userChannel;
+	}
+
 	@Override
 	public String toString() {
         return JacksonUtils.toJson(this);

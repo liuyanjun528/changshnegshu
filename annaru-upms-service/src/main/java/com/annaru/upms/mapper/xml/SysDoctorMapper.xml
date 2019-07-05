@@ -52,6 +52,35 @@
         <result column="is_approved" property="isApproved" />
     </resultMap>
 
+    <!-- 通用查询映射结果 -->
+    <resultMap id="getDoctorByUdD0Map" type="com.annaru.upms.entity.SysDoctor" >
+        <result column="sysId" property="sysId" />
+        <result column="doctorNo" property="doctorNo" />
+        <result column="userId" property="userId" />
+        <result column="doctorName" property="doctorName" />
+        <result column="headImage" property="headImage" />
+        <result column="degrees" property="degrees" />
+        <result column="starCount" property="starCount" />
+        <result column="score" property="score" />
+        <result column="focusOn" property="focusOn" />
+        <result column="goodat" property="goodat" />
+        <result column="content" property="content" />
+        <result column="belongInstitution" property="belongInstitution" />
+        <result column="belongOffice" property="belongOffice" />
+        <result column="belongProvince" property="belongProvince" />
+        <result column="belongCity" property="belongCity" />
+        <result column="belongDistrict" property="belongDistrict" />
+        <result column="priceYear" property="priceYear" />
+        <result column="cellphoneNo" property="cellphoneNo"/>
+        <result column="creationTime" property="creationTime" />
+        <result column="editTime" property="editTime" />
+        <result column="createBy" property="createBy" />
+        <result column="editBy" property="editBy" />
+        <result column="siName" property="siName" />
+        <result column="departmentName" property="departmentName" />
+        <result column="sa" property="sa" />
+    </resultMap>
+
     <!-- 多表页面信息查询分页 -->
     <select id="selectDataPage" parameterType="map" resultMap="BaseResultMapVo">
         SELECT
@@ -161,8 +190,44 @@
         where sd.doctor_no=#{doctorNo}
     </select>
 
-    <select id="getDoctorByUdD0" parameterType="java.lang.String" resultMap="BaseResultMap">
-        SELECT * FROM sys_doctor WHERE 1 = 1
+    <select id="getDoctorByUdD0" parameterType="java.lang.String" resultMap="getDoctorByUdD0Map">
+        SELECT
+            sd.sys_id sysId,
+            sd.doctor_no doctorNo,
+            sd.user_id userId,
+            sd.doctor_name doctorName,
+            sd.head_image headImage,
+            sd.degrees,
+            sd.star_count starCount,
+            sd.score,
+            sd.focus_on focusOn,
+            sd.goodat,
+            sd.content,
+            sd.belong_institution belongInstitution,
+            sd.belong_office belongOffice,
+            sd.belong_province belongProvince,
+            sd.belong_city belongCity,
+            sd.belong_district belongDistrict,
+            sd.price_year priceYear,
+            sd.cellphone_no cellphoneNo,
+            sd.job_title jobTitle,
+            sd.duties,
+            sd.introductions,
+            sd.is_approved isApproved,
+            sd.calc_method calcMethod,
+            sd.commission_fee commissionFee,
+            sd.creation_time creationTime,
+            sd.edit_time editTime,
+            sd.create_by createBy,
+            sd.edit_by editBy,
+            si.name siName,
+            sdp.department_name departmentName
+        FROM
+            sys_doctor sd
+        LEFT JOIN sys_institution si ON sd.belong_institution = si.institution_id
+        LEFT JOIN sys_department sdp ON sdp.sys_id = sd.belong_office
+        WHERE
+        1 = 1
         <if test="doctorNo != null and doctorNo != ''">
             AND doctor_no = #{doctorNo}
         </if>

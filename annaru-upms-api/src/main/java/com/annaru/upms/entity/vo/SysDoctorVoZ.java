@@ -18,7 +18,6 @@ import java.util.Date;
  * @author zk
  * @date 2019-07-04
  */
-@TableName("sys_doctor")
 public class SysDoctorVoZ implements Serializable {
 	private static final long serialVersionUID = 1L;
 
