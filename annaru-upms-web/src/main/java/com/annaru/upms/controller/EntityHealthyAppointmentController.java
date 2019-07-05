@@ -5,14 +5,20 @@ import com.annaru.common.base.BaseController;
 import com.annaru.common.result.PageUtils;
 import com.annaru.common.result.ResultMap;
 import com.annaru.upms.controllerutil.SysConfigUtil;
-import com.annaru.upms.entity.*;
+import com.annaru.upms.entity.EntityHealthyAppointment;
+import com.annaru.upms.entity.OrderMain;
+import com.annaru.upms.entity.SysConfig;
 import com.annaru.upms.entity.vo.EntityHealthyAppointmentVo;
+import com.annaru.upms.entity.vo.UserBasicVo;
+import com.annaru.upms.entity.vo.UserEntityMappingVo;
 import com.annaru.upms.service.*;
-import io.swagger.annotations.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.*;
 
@@ -44,6 +50,12 @@ public class EntityHealthyAppointmentController extends BaseController {
 
     @Reference
     private ISysConfigService iSysConfigService; //系统配置表
+
+    @Reference
+    private IUserSurveyMainService userSurveyMainService; //问卷调查表
+    @Reference
+    private IUserEntityMappingService userEntityMappingService;
+
 
     /**
      * 删除订单
@@ -122,10 +134,18 @@ public class EntityHealthyAppointmentController extends BaseController {
      * 通过用户查询亲属列表
      */
     @ApiOperation(value = "通过用户查询亲属列表", notes = "通过用户查询亲属列表")
-    @GetMapping("/selectUserAndRelativeList/{userId}")
-    public ResultMap selectUserAndRelativeList(@PathVariable("userId") String userId){
-        List<EntityHealthyAppointmentVo> entityHealthyAppointmentVo = entityHealthyAppointmentService.selectUserAndRelative(userId);
-        return ResultMap.ok().put("data",entityHealthyAppointmentVo);
+    @GetMapping("/selectUserAndRelativeList")
+    public ResultMap selectUserAndRelativeList(String userId){
+
+        List<UserBasicVo> userBasicVo = userEntityMappingService.selectUserAndRelativeInfoByUserId(userId);
+
+        int i = userSurveyMainService.selectCount(userId);
+        if(i>0){
+            userBasicVo.get(0).setIsFillIn(1);
+        }else {
+            userBasicVo.get(0).setIsFillIn(0);
+        }
+        return ResultMap.ok().put("data",userBasicVo);
     }
 
 

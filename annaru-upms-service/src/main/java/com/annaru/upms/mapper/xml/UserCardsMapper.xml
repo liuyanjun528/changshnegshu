@@ -15,6 +15,7 @@
         <result column="creation_time" property="creationTime" />
         <result column="full_name" property="fullName" />
         <result column="id_card_no" property="idCardNo" />
+        <result column="gender" property="gender" />
 
     </resultMap>
 
@@ -66,12 +67,12 @@
     <select id="selectByStatus" parameterType="map" resultMap="BaseResultMap">
        select
               ub.full_name,-- 用户名
+              ub.gender, -- 性别
 			  ub.id_card_no,-- 身份证号
               uc.cellphone_no, -- 手机号
               uc.card_cates,-- 卡类型
               uc.status,-- 是否绑卡
               uc.card_no-- 卡号
-
         from  user_cards as uc
 		LEFT JOIN user_basic as ub ON uc.user_id=ub.user_id
 	    where  uc.user_id=#{userId}

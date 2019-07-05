@@ -58,6 +58,14 @@
         <result column="packageId" property="packageId" />
     </resultMap>
 
+    <!-- 通用查询映射结果 员工名称 -->
+    <resultMap id="selectHrHhAtScreenBase" type="com.annaru.upms.entity.vo.EntityHrAppointmentMainScreenVoZ" >
+        <result column="entityId" property="entityId" />
+        <result column="userId" property="userId" />
+        <result column="headImage" property="headImage" />
+        <result column="fullName" property="fullName" />
+    </resultMap>
+
 
     <sql id="BaseClounmSql">
           sys_id,
@@ -240,6 +248,39 @@
         <if test="params.packageId != null and params.packageId != ''">
             AND eham.package_id = #{params.packageId}
         </if>
+    </select>
+
+    <!-- 多表页面信息查询分页  员工名单 -->
+    <select id="selectHrHhAtScreen" parameterType="map" resultMap="selectHrHhAtScreenBase">
+        SELECT
+        oa.entity_id entityId, ub.user_id userId, ub.full_name fullName, ub.head_image headImage
+        FROM order_appointment oa
+        LEFT JOIN order_main om ON om.order_no = oa.order_no
+        LEFT JOIN user_basic ub ON ub.user_id = oa.user_id
+        WHERE 1 = 1
+        AND oa.is_cancelled = 0
+        AND om.is_deleted = 0
+        AND ub.isactive = 1 AND ub.is_hr = 0
+        <if test="eyHrAtMainScreenSetVoZ.entityId != null and eyHrAtMainScreenSetVoZ.entityId != ''">
+            AND oa.entity_id = #{eyHrAtMainScreenSetVoZ.entityId}
+        </if>
+        <if test="eyHrAtMainScreenSetVoZ.referenceNo != null and eyHrAtMainScreenSetVoZ.referenceNo != ''">
+            AND om.reference_no = #{eyHrAtMainScreenSetVoZ.referenceNo}
+        </if>
+        <if test="eyHrAtMainScreenSetVoZ.userConfirm == null">
+            AND (oa.user_confirm = 0 OR oa.user_confirm = 1)
+        </if>
+        <if test="eyHrAtMainScreenSetVoZ.userConfirm == 0">
+            AND oa.user_confirm = 0
+        </if>
+        <if test="eyHrAtMainScreenSetVoZ.userConfirm == 1">
+            AND oa.user_confirm = 1
+        </if>
+        <if test="eyHrAtMainScreenSetVoZ.appointmentCates != null and eyHrAtMainScreenSetVoZ.appointmentCates != '' and eyHrAtMainScreenSetVoZ.appointmentCates != 1 and eyHrAtMainScreenSetVoZ.appointmentCates != 2">
+            AND oa.appointment_cates = #{eyHrAtMainScreenSetVoZ.appointmentCates}
+        </if>
+        GROUP BY oa.user_id
+
     </select>
 
     <resultMap id="homePage" type="com.annaru.upms.entity.vo.HrHomePageInfo">

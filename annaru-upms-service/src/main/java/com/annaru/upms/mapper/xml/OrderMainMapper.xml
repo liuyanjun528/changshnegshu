@@ -123,6 +123,7 @@
     <resultMap id="advanceBaseResultMapTcZ" type="com.annaru.upms.entity.vo.OrderMainVoZTC" >
         <result column="sysId" property="sysId" />
         <result column="orderNo" property="orderNo" />
+        <result column="orderTime" property="orderTime" />
         <result column="packageName" property="packageName" />
         <result column="subtitle" property="subtitle" />
         <result column="content" property="content" />
@@ -130,6 +131,7 @@
         <result column="fullName" property="fullName" />
         <result column="totalQty" property="totalQty" />
         <result column="status" property="status" />
+        <result column="userChannel" property="userChannel" />
 
         <collection property="orderMainVoZTC1List" ofType="com.annaru.upms.entity.vo.OrderMainVoZTC1">
             <result column="serviceName" property="serviceName"/>
@@ -148,6 +150,7 @@
             <result column="gender" property="gender"/>
             <result column="idCardNo" property="idCardNo"/>
             <result column="cellphoneNo" property="cellphoneNo"/>
+            <result column="remark" property="remark"/>
         </collection>
         <collection property="orderMainVoZTC6List" ofType="com.annaru.upms.entity.vo.OrderMainVoZTC6">
             <result column="fullName1" property="fullName1"/>
@@ -308,6 +311,7 @@
         SELECT
         om.sys_id sysId,
         om.order_no orderNo,
+        om.order_time orderTime,
         epm.package_name packageName,
         epm.subtitle,
         epm.content,
@@ -323,11 +327,13 @@
         ur.gender,
         ur.id_card_no idCardNo,
         ur.cellphone_no cellphoneNo,
+        ur.remark,
         ub1.full_name fullName1,
         ub1.gender gender1,
         ub1.id_card_no idCardNo1,
         ub1.cellphone_no cellphoneNo1,
         om.status,
+        om.user_channel userChannel,
         (SELECT SUM(ed.sys_id) FROM exam_detail ed WHERE ed.sys_id = epd.exam_detail_id ) itemNameCount
         FROM
         order_main om

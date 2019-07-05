@@ -53,7 +53,7 @@ public class SysNurseController extends BaseController {
 
 
     /**
-     * c
+     * 得到一个护士
      * @author zk
      * @date 2019-07-01
      */

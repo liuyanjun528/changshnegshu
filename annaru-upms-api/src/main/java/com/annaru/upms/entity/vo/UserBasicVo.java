@@ -55,6 +55,47 @@ public class UserBasicVo implements Serializable {
 	 */
 	private String userCellphoneNo;
 
+
+
+	private int isFillIn;//是否填写健康调查问卷0:未填写 1:已填写
+
+	public int getIsFillIn() {
+		return isFillIn;
+	}
+
+	public void setIsFillIn(int isFillIn) {
+		this.isFillIn = isFillIn;
+	}
+
+	private String entityId;
+	private String entityName;
+
+	private List<UserRelativesVo> userRelativesVo;
+
+	public List<UserRelativesVo> getUserRelativesVo() {
+		return userRelativesVo;
+	}
+
+	public void setUserRelativesVo(List<UserRelativesVo> userRelativesVo) {
+		this.userRelativesVo = userRelativesVo;
+	}
+
+	public String getEntityId() {
+		return entityId;
+	}
+
+	public void setEntityId(String entityId) {
+		this.entityId = entityId;
+	}
+
+	public String getEntityName() {
+		return entityName;
+	}
+
+	public void setEntityName(String entityName) {
+		this.entityName = entityName;
+	}
+
 	private List<UserRelativesVo> userRelativesVoList;
 
 	public Integer getSysId() {

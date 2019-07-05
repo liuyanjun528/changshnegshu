@@ -16,6 +16,7 @@ public class OrderMainVoZTC4 implements Serializable {
 	private Integer gender;
 	private String idCardNo;
 	private String cellphoneNo;
+	private String remark;
 
 	public String getCustomerName() {
 		return customerName;
@@ -40,6 +41,12 @@ public class OrderMainVoZTC4 implements Serializable {
 	}
 	public void setCellphoneNo(String cellphoneNo) {
 		this.cellphoneNo = cellphoneNo;
+	}
+	public String getRemark() {
+		return remark;
+	}
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
 
 	@Override

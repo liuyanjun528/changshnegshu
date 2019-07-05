@@ -34,13 +34,6 @@ public class EntityHealthyAppointmentServiceImpl extends ServiceImpl<EntityHealt
     }
 
     @Override
-    public List<EntityHealthyAppointmentVo> selectUserAndRelative(String userId) {
-        return this.baseMapper.selectUserAndRelative(userId);
-    }
-
-
-
-    @Override
     public List<EntityHealthyAppointmentVo> selectServiceAppointment(String orderNo) {
         return this.baseMapper.selectServiceAppointment(orderNo);
     }

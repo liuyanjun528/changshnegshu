@@ -26,16 +26,6 @@ public interface IEntityHealthyAppointmentService extends IService<EntityHealthy
     */
     PageUtils getDataPage(Map<String, Object> params);
 
-
-    /**
-     * 通过用户查询亲属列表
-     * @param userId
-     * @return
-     */
-    List<EntityHealthyAppointmentVo> selectUserAndRelative(@Param("userId") String userId);
-
-
-
     /**
      * 企业查询服务预约
      * @param orderNo
