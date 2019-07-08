@@ -2,6 +2,7 @@ package com.annaru.upms.mapper;
 
 import com.annaru.upms.entity.OrderAppointment;
 import com.annaru.upms.entity.vo.NurseOrderList;
+import com.annaru.upms.entity.vo.OrderAppointmentBase;
 import com.annaru.upms.entity.vo.OrderAppointmentDoctorVo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -60,6 +61,6 @@ public interface OrderAppointmentMapper extends BaseMapper<OrderAppointment> {
      */
     OrderAppointment getOrderAppointment(@Param("orderAppointment") OrderAppointment orderAppointment);
 
-    List<OrderAppointment> getAppointInfoByOrderNo(@Param("params") Map<String, Object> params);
+    List<OrderAppointmentBase> getAppointInfoByOrderNo(@Param("params") Map<String, Object> params);
 
 }

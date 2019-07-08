@@ -3,6 +3,7 @@ package com.annaru.upms.mapper;
 import com.annaru.upms.entity.UserEntityMapping;
 import com.annaru.upms.entity.vo.EntityHealthyAppointmentVo;
 import com.annaru.upms.entity.vo.EntityPurchseMainVoZ;
+import com.annaru.upms.entity.vo.UserBasicVo;
 import com.annaru.upms.entity.vo.UserEntityMappingVo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -12,8 +13,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 
- * 
+ *
+ *
  * @author xck
  * @date 2019-06-03 12:21:40
  */
@@ -32,7 +33,7 @@ public interface UserEntityMappingMapper extends BaseMapper<UserEntityMapping> {
      * @param userId
      * @return
      */
-    List<UserEntityMappingVo> selectUserAndRelativeInfoByUserId(@Param("userId") String userId);
+    List<UserBasicVo> selectUserAndRelativeInfoByUserId(@Param("userId") String userId);
 
     /**
      * @description 企业健康管理首次登陆

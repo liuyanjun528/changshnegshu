@@ -12,8 +12,17 @@ public class OrderExtensionInfoVo extends Model<OrderExtensionInfoVo> implements
 	private String institutionName;
 	private Integer isCancelled;
 	private String orderNo;
+	private Integer appointStatus;
 
 	private List<ExtensionDetail> details;
+
+	public Integer getAppointStatus() {
+		return appointStatus;
+	}
+
+	public void setAppointStatus(Integer appointStatus) {
+		this.appointStatus = appointStatus;
+	}
 
 	public String getInstitutionName() {
 		return institutionName;

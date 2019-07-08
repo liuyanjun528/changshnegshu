@@ -107,12 +107,22 @@
             <version>5.0.0</version>
         </dependency>
 
-        <!-- 微信支付sdk  -->
+        <!-- 微信支付sdk begin -->
         <dependency>
             <groupId>com.github.wxpay</groupId>
             <artifactId>wxpay-sdk</artifactId>
             <version>${wxpay-sdk.version}</version>
         </dependency>
+        <!--微信支付sdk end -->
+
+        <!--支付宝支付 begin-->
+        <dependency>
+            <groupId>com.alipay.sdk</groupId>
+            <artifactId>alipay-sdk-java</artifactId>
+            <version>3.7.110.ALL</version>
+        </dependency>
+        <!--支付宝支付 end -->
+
         <!-- 融云IM sdk -->
         <dependency>
             <groupId>cn.rongcloud.im</groupId>

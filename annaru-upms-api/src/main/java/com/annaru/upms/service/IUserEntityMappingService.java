@@ -1,6 +1,7 @@
 package com.annaru.upms.service;
 
 import com.annaru.upms.entity.vo.EntityPurchseMainVoZ;
+import com.annaru.upms.entity.vo.UserBasicVo;
 import com.annaru.upms.entity.vo.UserEntityMappingVo;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.annaru.common.result.PageUtils;
@@ -26,7 +27,7 @@ public interface IUserEntityMappingService extends IService<UserEntityMapping> {
      * @param userId
      * @return
      */
-    List<UserEntityMappingVo> selectUserAndRelativeInfoByUserId(String userId);
+    List<UserBasicVo> selectUserAndRelativeInfoByUserId(String userId);
 
     /**
      * @description 企业健康管理首次登陆

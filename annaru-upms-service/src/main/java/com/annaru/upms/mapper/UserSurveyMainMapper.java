@@ -36,4 +36,12 @@ public interface UserSurveyMainMapper extends BaseMapper<UserSurveyMain> {
      * @date 2019-06-121
      */
     UserSurveyMain getTimeByUserIdZ(@Param("params") Map<String, Object> params);
+
+    /**
+      * @Description:通过userId查询是否存在问卷记录
+      * @Author: wh
+      * @Date: 2019/7/5 10:51
+      */
+    int selectCount(@Param("userId")String userId);
+
 }

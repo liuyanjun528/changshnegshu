@@ -88,6 +88,9 @@ public class UserCards extends Model<UserCards> implements Serializable {
 	@TableField(exist = false)
     private String fullName;
 
+	@TableField(exist = false)
+	private String gender;
+
 
 	@TableField(exist = false)
 	private String idCardNo;
@@ -108,7 +111,13 @@ public class UserCards extends Model<UserCards> implements Serializable {
 		this.fullName = fullName;
 	}
 
+	public String getGender() {
+		return gender;
+	}
 
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
 
 	/**
      * 获取：系统编号
