@@ -99,7 +99,6 @@ public class EntityHrAppointmentMainController extends BaseController {
     @GetMapping("/htOrderRecord/{sysId}")
     @RequiresPermissions("upms/entityHrAppointmentMain/htOrderRecord")
     public ResultMap htOrderRecord(@RequestParam("sysId") Integer sysId){
-
         try {
             Map<String, Object> params = new HashMap<>();
             params.put("sysId",sysId);
@@ -127,7 +126,7 @@ public class EntityHrAppointmentMainController extends BaseController {
             HrHomePageInfo total = entityHrAppointmentMainService.getTotal(params);
             hrHomePageInfo.setTotal(total.getTotal());
             hrHomePageInfo.setUserd(hrHomePageInfo.getBaseCheckNum());
-            return ResultMap.ok().put("hrHomePageInfo",hrHomePageInfo);
+            return ResultMap.ok().put("data",hrHomePageInfo);
         } catch (Exception e) {
             logger.error(e.getMessage());
             return ResultMap.error("运行异常，请联系管理员");

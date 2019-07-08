@@ -291,6 +291,7 @@
         <result column="total" property="total"/>
     </resultMap>
 
+
     <select id="getHomePageInfo" parameterType="map" resultMap="homePage">
         SELECT
         om.order_no,
@@ -303,12 +304,14 @@
         eham.package_id,
         SUM(om.order_cates=3) baseCheckNum,
         SUM(om.order_cates=4) extensionCheckNum,
-        SUM(om.order_cates=5) familyDoctorNum,
-        SUM(om.order_cates=6) greenChannelNum
+        SUM(oa.appointment_cates=5) familyDoctorNum,
+        SUM(oa.appointment_cates=6) greenChannelNum
         FROM
         entity_hr_appointment_main eham
         LEFT JOIN order_main om
         on eham.sys_id = om.hr_oppointment_id
+        LEFT JOIN order_appointment oa
+        on om.order_no = oa.order_no
         WHERE
         eham.entity_no = #{params.entityId}
         <if test="params.hrOppointmentId != null and params.hrOppointmentId != ''">

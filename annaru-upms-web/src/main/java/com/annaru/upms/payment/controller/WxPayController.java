@@ -15,6 +15,7 @@ import com.github.wxpay.sdk.WXPayUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -149,7 +150,7 @@ public class WxPayController extends BaseController {
                 String return_code = resultMap.get("return_code");  //状态
                 String out_trade_no = resultMap.get("out_trade_no");//商户订单号
                 if (return_code.equals("SUCCESS")) {
-                    if (out_trade_no != null) {
+                    if (StringUtils.isNotBlank(out_trade_no)) {
                         String outTradeNo = resultMap.get("out_trade_no");
                         String transactionId = resultMap.get("transaction_id");
                         Integer currentState = Constant.PaymentState.UNPAID.getValue();
