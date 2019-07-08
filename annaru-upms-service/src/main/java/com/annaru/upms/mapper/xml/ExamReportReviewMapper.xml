@@ -9,6 +9,7 @@
         <result column="user_id" property="userId" />
         <result column="report_no" property="reportNo" />
         <result column="byh" property="byh" />
+        <result column="suggestions" property="suggestions" />
         <result column="review_no" property="reviewNo" />
         <result column="review_time" property="reviewTime" />
         <result column="is_deleted" property="isDeleted" />
@@ -58,6 +59,7 @@
     <!-- 待解读报告-->
     <select id="selectReport" parameterType="map" resultMap="BaseResultMap1">
         SELECT
+            err.review_no,
 			eir.BRXM,-- 报告人
 			eir.BRXB,-- 性别
 			eir.BGLX,-- 报告类型
@@ -79,7 +81,18 @@
             and eirc.JGPD!='N'
         </if>
 
-
     </select>
+
+    <!-- 添加报告建议-->
+    <update id="insertReportSuggest">
+        update  exam_report_review set suggestions=#{suggestions}
+        where report_no=#{reportNo}  and  review_no=#{reviewNo}
+    </update>
+
+    <!-- 确认报告解读-->
+    <update id="updateReportStatus">
+        update  exam_report_review set status=1
+        where report_no=#{reportNo}
+    </update>
 
 </mapper>

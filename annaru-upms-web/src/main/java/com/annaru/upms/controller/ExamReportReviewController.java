@@ -112,38 +112,38 @@ public class ExamReportReviewController extends BaseController {
 //        }
 //    }
 //
-//    /**
-//     * 保存
-//     */
-//    @ApiOperation(value = "保存")
-//    @PostMapping("/save")
-//    @RequiresPermissions("upms/examReportReview/save")
-//    public ResultMap save(@Valid @RequestBody ExamReportReview examReportReview) {
-//        try {
-//            examReportReviewService.save(examReportReview);
-//            return ResultMap.ok("添加成功");
-//        } catch (Exception e) {
-//            logger.error(e.getMessage());
-//            return ResultMap.error("运行异常，请联系管理员");
-//        }
-//    }
-//
-//    /**
-//     * 修改
-//     */
-//    @ApiOperation(value = "修改")
-//    @PostMapping("/update")
-//    @RequiresPermissions("upms/examReportReview/update")
-//    public ResultMap update(@Valid @RequestBody ExamReportReview examReportReview) {
-//        try {
-//            examReportReviewService.updateById(examReportReview);
-//            return ResultMap.ok("修改成功");
-//        } catch (Exception e) {
-//            logger.error(e.getMessage());
-//            return ResultMap.error("运行异常，请联系管理员");
-//        }
-//
-//    }
+    /**
+     * 添加报告建议 实际为修改操作
+     */
+    @ApiOperation(value = "添加报告建议")
+    @PostMapping("/saveSuggestions")
+    @RequiresPermissions("upms/examReportReview/saveSuggestions")
+    public ResultMap save(String reportNo, String reviewNo, String suggestions) {
+        try {
+            examReportReviewService.insertReportSuggest(reportNo, reviewNo, suggestions);
+            return ResultMap.ok("报告建议添加成功");
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return ResultMap.error("运行异常，请联系管理员");
+        }
+    }
+
+    /**
+     * 确认解读接口
+     */
+    @ApiOperation(value = "确认解读接口")
+    @PostMapping("/update")
+    @RequiresPermissions("upms/examReportReview/update")
+    public ResultMap update(String reportNo) {
+        try {
+            examReportReviewService.updateReportStatus(reportNo);
+            return ResultMap.ok("解读成功");
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return ResultMap.error("运行异常，请联系管理员");
+        }
+
+    }
 //
 //    /**
 //     * 删除

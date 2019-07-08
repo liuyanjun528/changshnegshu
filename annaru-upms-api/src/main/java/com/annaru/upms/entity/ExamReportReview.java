@@ -43,6 +43,11 @@ public class ExamReportReview extends Model<ExamReportReview> implements Seriali
 	 */
     @ApiModelProperty(value = "同步编号   拼音+订单号")
 	private String byh;
+
+	@ApiModelProperty(value = "报告建议")
+	@TableField("suggestions")
+	private String suggestions;
+
 	/**
 	 * 医生编号 解读人
 	 */
@@ -113,7 +118,16 @@ public class ExamReportReview extends Model<ExamReportReview> implements Seriali
 	public void setByh(String byh) {
 		this.byh = byh;
 	}
-    /**
+
+	public String getSuggestions() {
+		return suggestions;
+	}
+
+	public void setSuggestions(String suggestions) {
+		this.suggestions = suggestions;
+	}
+
+	/**
      * 获取：医生编号 解读人
      */
     public String getReviewNo() {
