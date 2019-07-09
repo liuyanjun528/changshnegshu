@@ -13,6 +13,7 @@ import com.annaru.upms.service.*;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
@@ -200,5 +201,13 @@ public class OrderMainServiceImpl extends ServiceImpl<OrderMainMapper, OrderMain
 
     public List<UserPackagesVo> getPackages(Map<String,Object> params){
         return this.baseMapper.getPackages(params);
+    }
+
+    @Override
+    public List<OrderMainVoReport> getAllByUserId(String userId, String orderCates) {
+        if(StringUtils.isBlank(userId)){
+            return null;
+        }
+        return this.baseMapper.selectAllByUserId(userId, orderCates);
     }
 }

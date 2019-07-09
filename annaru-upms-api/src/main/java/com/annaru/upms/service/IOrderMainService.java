@@ -98,5 +98,15 @@ public interface IOrderMainService extends IService<OrderMain> {
     UserPackagesVo getToBPackages(@Param("params") Map<String,Object> params);
 
     List<UserPackagesVo> getPackages(@Param("params") Map<String,Object> params);
+
+    /**
+     * @Description:
+     * @param  userId 用户编号
+     * @param  orderCates 订单类型
+     * @Author: XCK
+     * @Date: 2019/7/8
+     * @return 
+     */
+    List<OrderMainVoReport> getAllByUserId(String userId, String orderCates);
 }
 
