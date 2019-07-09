@@ -123,12 +123,10 @@
         GROUP BY sdns.date_from
     </select>
 
-    <!--根据当前护士的预约日期 修改预约时间-->
+    <!--根据当前护士的预约日期修改预约日期-->
     <update id="updateOppointmentDate">
-        update sys_doctor_nurse_oppointment set
-        time_from=#{timeFrom},
-        time_to=#{timeTo}
-		WHERE doctor_nurse_no=#{doctorNurseNo} and appoint_date=#{appointDate}
+        update sys_doctor_nurse_schedule set date_from=#{newDateFrom}
+		WHERE doctor_nurse_no=#{doctorNurseNo} and date_from=#{dateFrom}
     </update>
 
     <update id="updateSceduleStatus" parameterType="map">

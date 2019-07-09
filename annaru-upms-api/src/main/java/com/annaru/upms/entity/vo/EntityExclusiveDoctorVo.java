@@ -54,7 +54,7 @@ public class EntityExclusiveDoctorVo implements Serializable {
     @ApiModelProperty(value = "所属科室")
     @TableField("effect_to")
     private Date effectTo;	// 结束时间
-    private Integer day; //天数
+    private Integer restDay; //剩余天数
     private int isAppraise; //是否评价
 
 
@@ -186,12 +186,12 @@ public class EntityExclusiveDoctorVo implements Serializable {
         this.effectTo = effectTo;
     }
 
-    public Integer getDay() {
-        return day;
+    public Integer getRestDay() {
+        return restDay;
     }
 
-    public void setDay(Integer day) {
-        this.day = day;
+    public void setRestDay(Integer restDay) {
+        this.restDay = restDay;
     }
 
     @Override

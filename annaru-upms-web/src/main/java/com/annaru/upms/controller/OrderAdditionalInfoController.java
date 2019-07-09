@@ -5,10 +5,7 @@ import com.annaru.common.base.BaseController;
 import com.annaru.common.result.PageUtils;
 import com.annaru.common.result.ResultMap;
 import com.annaru.upms.controllerutil.SysConfigUtil;
-import com.annaru.upms.entity.OrderAdditionalInfo;
-import com.annaru.upms.entity.OrderAppointment;
-import com.annaru.upms.entity.OrderMain;
-import com.annaru.upms.entity.SysConfig;
+import com.annaru.upms.entity.*;
 import com.annaru.upms.service.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -43,6 +40,21 @@ public class OrderAdditionalInfoController extends BaseController {
 
     @Reference
     private IOrderMainService orderMainService;
+
+
+    /**
+     * 体检人信息 wh
+     */
+    @ApiOperation(value = "体检人信息", notes = "体检人信息")
+    @GetMapping("userOrRelativeInfo")
+    @RequiresPermissions("lcd/orderAdditionalInfo/userOrRelativeInfo")
+    public ResultMap userOrRelativeInfo(String userId, String relativeId){
+        UserCards cards = orderAdditionalInfoService.selectUserOrRelativeInfo(userId, relativeId);
+        return ResultMap.ok().put("data",cards);
+    }
+
+
+
 
     /**
      * 添加企业绿通行
