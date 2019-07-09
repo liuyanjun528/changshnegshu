@@ -3,16 +3,14 @@ package com.annaru.upms.service.impl;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.annaru.common.exception.GlobalException;
 import com.annaru.common.result.PageUtils;
-import com.annaru.upms.entity.ExamPackageAppend;
-import com.annaru.upms.entity.OrderDetail;
-import com.annaru.upms.entity.OrderMain;
-import com.annaru.upms.entity.UserRelatives;
+import com.annaru.upms.entity.*;
 import com.annaru.upms.entity.vo.*;
 import com.annaru.upms.mapper.OrderMainMapper;
 import com.annaru.upms.service.*;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
@@ -201,4 +199,14 @@ public class OrderMainServiceImpl extends ServiceImpl<OrderMainMapper, OrderMain
     public List<UserPackagesVo> getPackages(Map<String,Object> params){
         return this.baseMapper.getPackages(params);
     }
+
+    @Override
+    public ExamPackageMain getExamPackageMainByOrderNo(String orderNo) {
+        if(StringUtils.isBlank(orderNo)){
+            return null;
+        }
+        return this.baseMapper.selectExamPackageMainByOrderNo(orderNo);
+    }
+
+
 }

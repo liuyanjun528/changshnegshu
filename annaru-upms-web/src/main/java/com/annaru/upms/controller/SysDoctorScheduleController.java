@@ -79,10 +79,11 @@ public class SysDoctorScheduleController extends BaseController {
     @ApiOperation(value = "添加护士的排班")
     @PostMapping("/save")
     @RequiresPermissions("upms/sysDoctorSchedule/save")
-    public ResultMap save(@Valid @RequestBody SysDoctorSchedule sysDoctorSchedule) {
+    public ResultMap save(@RequestBody SysDoctorSchedule sysDoctorSchedule) {
         try {
             sysDoctorSchedule.setCreationTime(new Date());
-            sysDoctorScheduleService.save(sysDoctorSchedule);
+            sysDoctorSchedule.setUserCates(1);//1为护士
+            sysDoctorScheduleService.insertNuserSchedule(sysDoctorSchedule);
             return ResultMap.ok("添加成功");
         } catch (Exception e) {
             logger.error(e.getMessage());
@@ -97,9 +98,9 @@ public class SysDoctorScheduleController extends BaseController {
     @ApiOperation(value = "删除护士的排班")
     @PostMapping("/update")
     @RequiresPermissions("upms/sysDoctorSchedule/update")
-    public ResultMap update(@Valid @RequestBody SysDoctorSchedule sysDoctorSchedule) {
+    public ResultMap update(int sysId) {
         try {
-            sysDoctorScheduleService.updateById(sysDoctorSchedule);
+            sysDoctorScheduleService.deleteNurseSchedule(sysId);
             return ResultMap.ok("删除成功");
         } catch (Exception e) {
             logger.error(e.getMessage());

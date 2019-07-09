@@ -3,6 +3,7 @@ package com.annaru.upms.service.impl;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.annaru.common.result.PageUtils;
 import com.annaru.upms.entity.OrderAdditionalInfo;
+import com.annaru.upms.entity.UserCards;
 import com.annaru.upms.mapper.OrderAdditionalInfoMapper;
 import com.annaru.upms.service.IOrderAdditionalInfoService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -24,6 +25,11 @@ public class OrderAdditionalInfoServiceImpl extends ServiceImpl<OrderAdditionalI
         Page<OrderAdditionalInfo> page = new PageUtils<OrderAdditionalInfo>(params).getPage();
         IPage<OrderAdditionalInfo> iPage = this.baseMapper.selectDataPage(page, params);
         return new PageUtils<OrderAdditionalInfo>(iPage);
+    }
+
+    @Override
+    public UserCards selectUserOrRelativeInfo(String userId, String relativeId) {
+        return this.baseMapper.selectUserOrRelativeInfo(userId, relativeId);
     }
 
 }

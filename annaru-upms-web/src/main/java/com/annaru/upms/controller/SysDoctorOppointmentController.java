@@ -2,6 +2,7 @@ package com.annaru.upms.controller;
 
 import java.util.*;
 
+import com.annaru.upms.entity.SysDoctorNurseSchedule;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import com.alibaba.dubbo.config.annotation.Reference;
 import org.springframework.web.bind.annotation.*;
@@ -84,19 +85,19 @@ public class SysDoctorOppointmentController extends BaseController {
      * 根据当前护士的预约日期 修改预约时间
      * @Author:wh
      */
-    @ApiOperation(value = "根据选择的预约日期 修改预约时间")
+    @ApiOperation(value = "根据选择的预约日期修改预约日期")
     @PostMapping("/update")
     @RequiresPermissions("upms/sysDoctorOppointment/update")
-    public ResultMap update(@RequestBody SysDoctorOppointment sysDoctorOppointment) {
+    public ResultMap update(String doctorNurseNo,Date dateFrom,Date newDateFrom) {
         try {
-            //sysDoctorOppointment.getAppointDate().getTime()返回long毫秒数形式,毫秒转为秒所以除以1000
+            //newDateFrom.getTime()返回long毫秒数形式,毫秒转为秒所以除以1000
             //1天=24小时，1小时=60分，1分=60秒，所以两个时间的差再除以60 * 60 * 24换算成天的形式
-            long a=(sysDoctorOppointment.getAppointDate().getTime()/ 1000)/ (60 * 60 * 24);//预约的时间
+            long a=(newDateFrom.getTime()/ 1000)/ (60 * 60 * 24);//预约的时间
             long b=(new Date().getTime()/1000)/ (60 * 60 * 24);//当前时间
             System.out.println("选择的时间a："+a);
             System.out.println("当前时间b："+b);
             if(b+7<=a){
-                sysDoctorOppointmentService.updateOppointmentDate(sysDoctorOppointment);
+                sysDoctorOppointmentService.updateOppointmentDate(doctorNurseNo, dateFrom, newDateFrom);
                 return ResultMap.ok("修改成功");
             }
             return ResultMap.error("选择的时间不满足修改条件");

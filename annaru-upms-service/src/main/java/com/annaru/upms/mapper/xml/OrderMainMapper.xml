@@ -213,7 +213,6 @@
         <result column="sum4" property="sum4" />
     </resultMap>
 
-
     <sql id="BaseColumn">
         sys_id,
         order_no,
@@ -605,6 +604,16 @@ WHERE
         and om.is_deleted = 0
         GROUP BY order_no
         ORDER BY oa.creation_time DESC
+    </select>
+
+    <select id="selectExamPackageMainByOrderNo" resultType="com.annaru.upms.entity.ExamPackageMain">
+        SELECT
+            epm.*
+        FROM
+            order_main om
+            LEFT JOIN exam_package_main epm ON om.reference_no=epm.sys_id
+        WHERE
+            om.order_no = #{orderNo}
     </select>
 
 </mapper>

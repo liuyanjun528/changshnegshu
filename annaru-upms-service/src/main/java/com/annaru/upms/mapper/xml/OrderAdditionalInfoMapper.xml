@@ -16,6 +16,23 @@
         <result column="create_by" property="createBy" />
     </resultMap>
 
+
+
+    <resultMap id="UserOrRelative" type="com.annaru.upms.entity.UserCards" >
+        <result column="full_name" property="fullName" />
+        <result column="id_card_no" property="idCardNo" />
+        <result column="gender" property="gender" />
+        <result column="card_no" property="cardNo" />
+        <result column="cellphone_no" property="cellphoneNo" />
+        <result column="status" property="status" />
+        <result column="remark" property="remark" />
+        <result column="creation_time" property="creationTime" />
+
+
+    </resultMap>
+
+
+
     <!-- 多表页面信息查询分页 -->
     <select id="selectDataPage" parameterType="map" resultMap="BaseResultMap">
 
@@ -39,5 +56,28 @@
     </select>
 
 
+    <select id="selectUserOrRelativeInfo" parameterType="map" resultMap="UserOrRelative">
+
+select
+		ub.full_name,-- 姓名
+		ub.gender,-- 性别
+		ub.id_card_no,-- 身份证号
+		uc.card_no,-- 医保卡号
+		ub.cellphone_no-- 手机号
+		FROM user_basic as ub
+LEFT JOIN user_cards as uc ON ub.user_id=uc.user_id
+	where ub.user_id=#{userId}
+union
+
+SELECT
+		ur.relative_name,-- 亲属姓名
+		ur.gender,-- 亲属性别
+		ur.id_card_no,-- 亲属身份证号
+		uc.card_no,-- 亲属医保卡号
+		ur.cellphone_no-- 亲属手机号
+FROM user_relatives as ur
+LEFT JOIN user_cards as uc ON ur.relative_id=uc.user_id
+where ur.relative_id=#{relativeId}
+    </select>
 
 </mapper>
