@@ -213,6 +213,27 @@
         <result column="sum4" property="sum4" />
     </resultMap>
 
+    <resultMap id="OrderMainVoReportResultMap" type="com.annaru.upms.entity.vo.OrderMainVoReport" >
+        <result column="sys_id" property="sysId" />
+        <result column="order_no" property="orderNo" />
+        <result column="reference_no" property="referenceNo" />
+        <result column="hr_oppointment_id" property="hrOppointmentId"/>
+        <result column="order_cates" property="orderCates" />
+        <result column="user_id" property="userId" />
+        <result column="cellphone_no" property="cellphoneNo" />
+        <result column="order_time" property="orderTime" />
+        <result column="amount" property="amount" />
+        <result column="total_qty" property="totalQty" />
+        <result column="status" property="status" />
+        <result column="remark" property="remark" />
+        <result column="parent_no" property="parentNo" />
+        <result column="user_channel" property="userChannel" />
+        <result column="is_deleted" property="isDeleted" />
+        <result column="creationtime" property="creationtime" />
+        <result column="package_name" property="packageName" />
+        <result column="user_name" property="userName" />
+        <result column="user_gender" property="userGender" />
+    </resultMap>
 
     <sql id="BaseColumn">
         sys_id,
@@ -605,6 +626,36 @@ WHERE
         and om.is_deleted = 0
         GROUP BY order_no
         ORDER BY oa.creation_time DESC
+    </select>
+
+    <select id="selectAllByUserId" resultType="com.annaru.upms.entity.vo.OrderMainVoReport">
+        SELECT 	om.sys_id,
+            om.order_no,
+            om.reference_no,
+            om.hr_oppointment_id,
+            om.order_cates,
+            om.user_id,
+            om.cellphone_no,
+            om.order_time,
+            om.amount,
+            om.total_qty,
+            om.status,
+            om.remark,
+            om.parent_no,
+            om.user_channel,
+            om.creationtime,
+            epm.package_name,
+            ub.full_name AS user_name,
+            ub.gender AS user_gender
+        FROM
+            order_main om
+            LEFT JOIN exam_package_main epm ON epm.sys_id= om.reference_no
+            LEFT JOIN user_basic ub ON ub.user_id = om.user_id
+        WHERE
+            om.user_id= #{userId}
+            <if test="orderCates != null and orderCates !=''">
+                AND om.order_cates = #{orderCates}
+            </if>
     </select>
 
 </mapper>

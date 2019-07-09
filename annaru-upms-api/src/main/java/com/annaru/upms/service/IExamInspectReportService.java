@@ -52,7 +52,7 @@ public interface IExamInspectReportService extends IService<ExamInspectReport> {
      */
     boolean saveInspectReport(ExamInspectReport inspectReport);
 
-    /*** 根据报告编号获取订单编号
+    /** 根据报告编号获取订单编号
      * @params: [reportNO]报告编号
      * @return: java.lang.String
      * @Author: jyehui

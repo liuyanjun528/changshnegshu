@@ -5,12 +5,15 @@ import com.annaru.common.base.BaseController;
 import com.annaru.common.result.ResultMap;
 import com.annaru.upms.entity.ExamInspectReport;
 import com.annaru.upms.entity.ExamInspectReportUploadApp;
+import com.annaru.upms.entity.vo.OrderMainVoReport;
 import com.annaru.upms.service.IExamInspectReportListService;
 import com.annaru.upms.service.IExamInspectReportService;
 import com.annaru.upms.service.IExamInspectReportUploadAppService;
+import com.annaru.upms.service.IOrderMainService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -32,15 +35,20 @@ public class ExamInspectReportController extends BaseController {
     private IExamInspectReportService examInspectReportService;
     @Reference
     private IExamInspectReportUploadAppService examInspectReportUploadAppService;
+    @Reference
+    private IOrderMainService orderMainService;//订单主表
 
 
-    @ApiOperation(value = "获取病人订单下所有报告列表")
-    @GetMapping("/getAllByBYH")
-    public ResultMap getAllByBYH(@ApiParam(value = "就诊号（订单号^病人姓名拼音全拼，如：123456^xiaochen）") @RequestParam String byh,
-                                 @ApiParam(value = "报告类型（1-临床检验报告；2-病理组织报告；3-TCT；4-微生物报告；9-其他报告）") @RequestParam(required = false) String reportType) {
+    @ApiOperation(value = "获取用户所有检测报告列表")
+    @GetMapping("/listAll")
+    public ResultMap listAll(@ApiParam(value = "用户编号") @RequestParam String userId,
+                             @ApiParam(value = "订单类型") @RequestParam(required = false) String orderCates) {
         try {
-            List<ExamInspectReport> list = examInspectReportService.getAllByBYH(byh, reportType);
-            return ResultMap.ok().put("data", list);
+            if(StringUtils.isBlank(userId)){
+                return ResultMap.error("用户编号不能为空");
+            }
+            List<OrderMainVoReport> list = orderMainService.getAllByUserId(userId, orderCates);
+            return ResultMap.ok().put("reportList", list);
         } catch (Exception e) {
             logger.error(e.getMessage());
             return ResultMap.error("运行异常，请联系管理员");
