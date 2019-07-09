@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -64,7 +65,7 @@ public class UserFamilyDoctorController extends BaseController {
         params.put("userId",userId);
         UserFamilyDoctorVo userFamilyDoctor = userFamilyDoctorService.getUserFDInfo(params);
         if (userFamilyDoctor!=null){
-            userFamilyDoctor.setRestDays(UUIDGenerator.differentDays(userFamilyDoctor.getEffectFrom(),userFamilyDoctor.getEffectTo()));
+            userFamilyDoctor.setRestDays(UUIDGenerator.differentDays(new Date(),userFamilyDoctor.getEffectTo()));
             params.put("docNo",userFamilyDoctor.getDoctorNo());
             SysAppraisal appraisal = sysAppraisalService.selectOne(params);
             if (appraisal==null){

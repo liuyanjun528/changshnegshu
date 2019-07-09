@@ -33,5 +33,20 @@ public interface ExamReportReviewMapper extends BaseMapper<ExamReportReview> {
       */
     IPage<ExamReportReviewVo> selectReport(Page page, @Param("params") Map<String, Object> params);
 
+    /**
+      * @Description:添加报告建议 修改操作
+      * @Author: wh
+      * @Date: 2019/7/7 11:48
+      */
+    int insertReportSuggest(@Param("reportNo")String reportNo,@Param("reviewNo")String reviewNo,@Param("suggestions")String suggestions);
+
+    /**
+      * @Description:确认解读接口
+      * @Author: wh
+      * @Date: 2019/7/7 12:06
+      */
+    int updateReportStatus(@Param("reportNo")String reportNo);
+
+
 
 }

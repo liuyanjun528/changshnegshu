@@ -30,12 +30,21 @@ public class OrderAppointmentBase extends Model<OrderAppointmentBase> implements
 	private String userId;
 	private Integer appointmentCates;
 	private String relatedNo;
+	private Integer appointStatus;
 	private Date appointDate;
 	private String timeFrom;
 	private String address;
 	private String institutionName;
 	private Integer serviceOption;
 	private Integer isCancelled;
+
+	public Integer getAppointStatus() {
+		return appointStatus;
+	}
+
+	public void setAppointStatus(Integer appointStatus) {
+		this.appointStatus = appointStatus;
+	}
 
 	public String getOrderNo() {
 		return orderNo;

@@ -48,6 +48,10 @@ public class SysConfigUtil {
      * 亲属编号编码规则
      */
     public static final int RELATIVENO  = 9;
+    /**
+     * 体检预约机构编号编码规则
+     */
+    public static final int ENTITY_APPOINTMENT = 10;
 
     @Reference
     private static ISysConfigService iSysConfigService; //系统配置表
