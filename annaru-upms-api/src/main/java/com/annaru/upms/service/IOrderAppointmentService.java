@@ -2,6 +2,7 @@ package com.annaru.upms.service;
 
 import com.annaru.common.result.PageUtils;
 import com.annaru.upms.entity.OrderAppointment;
+import com.annaru.upms.entity.vo.DoctorUserInfo;
 import com.annaru.upms.entity.vo.NurseOrderList;
 import com.annaru.upms.entity.vo.OrderAppointmentBase;
 import com.annaru.upms.entity.vo.OrderAppointmentDoctorVo;
@@ -26,6 +27,14 @@ public interface IOrderAppointmentService extends IService<OrderAppointment> {
     PageUtils getDataPage(Map<String, Object> params);
 
     PageUtils getNurseOrderList(Map<String,Object> params);
+
+
+    /**
+     * @Description:我的患者详情
+     * @Author: wh
+     * @Date: 2019/7/9 12:50
+     */
+    DoctorUserInfo selectInfo(String userId);
 
     /**
      * @Description:待确认患者列表
