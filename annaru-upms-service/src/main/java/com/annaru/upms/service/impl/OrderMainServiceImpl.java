@@ -3,10 +3,7 @@ package com.annaru.upms.service.impl;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.annaru.common.exception.GlobalException;
 import com.annaru.common.result.PageUtils;
-import com.annaru.upms.entity.ExamPackageAppend;
-import com.annaru.upms.entity.OrderDetail;
-import com.annaru.upms.entity.OrderMain;
-import com.annaru.upms.entity.UserRelatives;
+import com.annaru.upms.entity.*;
 import com.annaru.upms.entity.vo.*;
 import com.annaru.upms.mapper.OrderMainMapper;
 import com.annaru.upms.service.*;
@@ -204,10 +201,12 @@ public class OrderMainServiceImpl extends ServiceImpl<OrderMainMapper, OrderMain
     }
 
     @Override
-    public List<OrderMainVoReport> getAllByUserId(String userId, String orderCates) {
-        if(StringUtils.isBlank(userId)){
+    public ExamPackageMain getExamPackageMainByOrderNo(String orderNo) {
+        if(StringUtils.isBlank(orderNo)){
             return null;
         }
-        return this.baseMapper.selectAllByUserId(userId, orderCates);
+        return this.baseMapper.selectExamPackageMainByOrderNo(orderNo);
     }
+
+
 }

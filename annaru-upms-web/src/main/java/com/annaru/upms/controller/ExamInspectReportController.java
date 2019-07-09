@@ -3,17 +3,13 @@ package com.annaru.upms.controller;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.annaru.common.base.BaseController;
 import com.annaru.common.result.ResultMap;
-import com.annaru.upms.entity.ExamInspectReport;
 import com.annaru.upms.entity.ExamInspectReportUploadApp;
-import com.annaru.upms.entity.vo.OrderMainVoReport;
-import com.annaru.upms.service.IExamInspectReportListService;
+import com.annaru.upms.entity.vo.ExamInspectReportVo;
 import com.annaru.upms.service.IExamInspectReportService;
 import com.annaru.upms.service.IExamInspectReportUploadAppService;
-import com.annaru.upms.service.IOrderMainService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -30,24 +26,16 @@ import java.util.List;
 @RequestMapping("upms/examInspectReport")
 public class ExamInspectReportController extends BaseController {
     @Reference
-    private IExamInspectReportListService examInspectReportListService;
-    @Reference
     private IExamInspectReportService examInspectReportService;
     @Reference
     private IExamInspectReportUploadAppService examInspectReportUploadAppService;
-    @Reference
-    private IOrderMainService orderMainService;//订单主表
 
 
     @ApiOperation(value = "获取用户所有检测报告列表")
     @GetMapping("/listAll")
-    public ResultMap listAll(@ApiParam(value = "用户编号") @RequestParam String userId,
-                             @ApiParam(value = "订单类型") @RequestParam(required = false) String orderCates) {
+    public ResultMap listAll(@ApiParam(value = "用户编号") @RequestParam String userId) {
         try {
-            if(StringUtils.isBlank(userId)){
-                return ResultMap.error("用户编号不能为空");
-            }
-            List<OrderMainVoReport> list = orderMainService.getAllByUserId(userId, orderCates);
+            List<ExamInspectReportVo> list = examInspectReportService.getAllByBYH(userId, null);
             return ResultMap.ok().put("reportList", list);
         } catch (Exception e) {
             logger.error(e.getMessage());
@@ -58,9 +46,9 @@ public class ExamInspectReportController extends BaseController {
 
     @ApiOperation(value = "查看详情", notes = "查看详情")
     @GetMapping("/info")
-    public ResultMap info(@ApiParam(value = "报告编号", required = true) @RequestParam String reportNO) {
+    public ResultMap info(@ApiParam(value = "报告编号") @RequestParam String reportNO) {
         try {
-            ExamInspectReport inspectReport = examInspectReportService.getByReportNO(reportNO);
+            ExamInspectReportVo inspectReport = examInspectReportService.getByReportNO(reportNO);
             return ResultMap.ok().put("data", inspectReport);
         } catch (Exception e) {
             logger.error(e.getMessage());

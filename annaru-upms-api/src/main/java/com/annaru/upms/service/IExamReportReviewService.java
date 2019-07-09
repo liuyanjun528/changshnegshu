@@ -1,9 +1,9 @@
 package com.annaru.upms.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.annaru.common.result.PageUtils;
 import com.annaru.upms.entity.ExamReportReview;
-import java.util.List;
+import com.baomidou.mybatisplus.extension.service.IService;
+
 import java.util.Map;
 
 /**
@@ -43,5 +43,13 @@ public interface IExamReportReviewService extends IService<ExamReportReview> {
     int updateReportStatus(String reportNo);
 
 
+    /**
+     * @Description: 根据报告编号查询报告解读
+     * @param  reportNo 报告编号
+     * @Author: XCK
+     * @Date: 2019/7/9
+     * @return 
+     */
+    ExamReportReview getExamReportReviewServiceByReportNo(String reportNo);
 }
 

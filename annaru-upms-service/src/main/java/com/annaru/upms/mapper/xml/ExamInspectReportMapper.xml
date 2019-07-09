@@ -150,14 +150,14 @@
         </where>
     </select>
 
-    <select id="selectDataList" resultMap="BaseResultMap">
+    <select id="selectDataList" resultType="com.annaru.upms.entity.vo.ExamInspectReportVo">
         SELECT
           <include refid="BaseClounmSql"></include>
         FROM
           exam_inspect_report
         <where>
             <if test="params.byh != null and params.byh != ''">
-                byh = #{params.byh}
+                SUBSTRING(BYH,15) = #{params.byh}
             </if>
             <if test="params.reportType != null and params.reportType != '' ">
                 AND BGLX = #{params.reportType}
@@ -165,7 +165,7 @@
         </where>
     </select>
 
-    <select id="selectByReportNO" resultMap="BaseResultMap">
+    <select id="selectByReportNO" resultType="com.annaru.upms.entity.vo.ExamInspectReportVo">
         SELECT
             <include refid="BaseClounmSql"></include>
         FROM
