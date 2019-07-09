@@ -34,6 +34,14 @@ public interface IUserBasicService extends IService<UserBasic> {
     UserBasic selectByData(Map<String, Object> params);
 
     /**
+     * 根据条件修改某个用户
+     * zk
+     * @param params
+     * @return
+     */
+    boolean updateBySysId(Map<String, Object> params);
+
+    /**
      * 根据条件查询某个用户信息与医生信息
      * @author zk
      * @param params

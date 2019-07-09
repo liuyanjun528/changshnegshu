@@ -171,6 +171,7 @@ public class UserLoginController extends BaseController {
             }
 
             if ("1".equals(loginType) || "3".equals(loginType)){
+                int pd = 0;
                 // 1.短信登录  3.微信登录
                 if (userBasic == null){
                     // 如果微信第一次绑定手机号，则通过短信验证，判断验证码
@@ -186,42 +187,54 @@ public class UserLoginController extends BaseController {
                         }
                         Map<String, Object> map1 = new HashMap <>();
                         map1.put("cellphoneNo", cellphoneNo);
+
                         if (iUserBasicService.selectByData(map1) != null){
-                            return ResultMap.error("此手机号已被绑定！");
-                            // 这个有待确认 如果此手机号已被绑定 是修改手机号呢 还是返回提示呢
-                            // 若修改手机号 则等于要删除之前有手机号存在的这条记录
+//                           return ResultMap.error("此手机号已被绑定！");
+
+                            //改为 如果如果没有这个openId的用户  若果有这个手机号的用户  则修改这个手机号的openId 2019-7-9
+                            Map<String ,Object> map2 = new HashMap<>();
+                            map2.put("sysId", iUserBasicService.selectByData(map1).getSysId());
+                            map2.put("openid", openid);
+                            if (iUserBasicService.updateBySysId(map2)){
+                                pd = 1;
+                                map = new HashMap <>();
+                                map.put("openid", openid);
+                                userBasic = iUserBasicService.selectByData(map);
+                            }
                         }
                     }
-                    // 这个人第一次登录 则注册 保存相应用户信息
-                    SysConfig sysConfig = SysConfigUtil.getSysConfig(iSysConfigService , SysConfigUtil.USERNO);
-                    UserBasic userBasic1 = new UserBasic();
-                    if ("3".equals(loginType)){
-                        // 如果是微信直接登录，则需要添加openid，添加最后一次登陆时间
-                        userBasic1.setOpenid(openid);
-                    }
-                    userBasic1.setCellphoneNo(cellphoneNo); //手机号码
-                    userBasic1.setUserId(SysConfigUtil.getNoBySysConfig()); //户用编号
-                    userBasic1.setRegistrationTime(new Date());
-                    userBasic1.setIsVerified(0); //是否有认证 1:认证/0:未认证
-                    userBasic1.setCreationTime(new Date());
-                    userBasic1.setLastLogintime(new Date());
-                    boolean isSave = iUserBasicService.save(userBasic1);
-                    if (isSave){ // 此处保存成功 添加到融云
-                        // 修改系统配置的用户编号
-                        if (SysConfigUtil.saveRefNo(sysConfig.getRefNo())){
-                            map = new HashMap <>();
-                            map.put("cellphoneNo", cellphoneNo);
-                            userBasic = iUserBasicService.selectByData(map);
-                            // 如果是微信登录，则设置token，直接登录
-                            token = createToken(userBasic.getUserId()).get("token").toString();
-                            if (StringUtil.isNotBlank(token)){
-                                redisService.set(cellphoneNo, token, OUT_SECONDS);
+                    if (pd != 1){
+                        // 这个人第一次登录 则注册 保存相应用户信息
+                        SysConfig sysConfig = SysConfigUtil.getSysConfig(iSysConfigService , SysConfigUtil.USERNO);
+                        UserBasic userBasic1 = new UserBasic();
+                        if ("3".equals(loginType)){
+                            // 如果是微信直接登录，则需要添加openid，添加最后一次登陆时间
+                            userBasic1.setOpenid(openid);
+                        }
+                        userBasic1.setCellphoneNo(cellphoneNo); //手机号码
+                        userBasic1.setUserId(SysConfigUtil.getNoBySysConfig()); //户用编号
+                        userBasic1.setRegistrationTime(new Date());
+                        userBasic1.setIsVerified(0); //是否有认证 1:认证/0:未认证
+                        userBasic1.setCreationTime(new Date());
+                        userBasic1.setLastLogintime(new Date());
+                        boolean isSave = iUserBasicService.save(userBasic1);
+                        if (isSave){ // 此处保存成功 添加到融云
+                            // 修改系统配置的用户编号
+                            if (SysConfigUtil.saveRefNo(sysConfig.getRefNo())){
+                                map = new HashMap <>();
+                                map.put("cellphoneNo", cellphoneNo);
+                                userBasic = iUserBasicService.selectByData(map);
+                                // 如果是微信登录，则设置token，直接登录
+                                token = createToken(userBasic.getUserId()).get("token").toString();
+                                if (StringUtil.isNotBlank(token)){
+                                    redisService.set(cellphoneNo, token, OUT_SECONDS);
+                                }
+                                userBasic.setToken(token);
+                                userBasic.setFirstLogin(true);
+                                //查询是否拥有企业服务
+                                userBasic.setEntityHealthy(iUserBasicService.selectEntityHealthy(userBasic.getUserId()));
+                                return ResultMap.ok().put("data", userBasic);
                             }
-                            userBasic.setToken(token);
-                            userBasic.setFirstLogin(true);
-                            //查询是否拥有企业服务
-                            userBasic.setEntityHealthy(iUserBasicService.selectEntityHealthy(userBasic.getUserId()));
-                            return ResultMap.ok().put("data", userBasic);
                         }
                     }
                 }

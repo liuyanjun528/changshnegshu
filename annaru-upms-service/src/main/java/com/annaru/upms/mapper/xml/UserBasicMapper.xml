@@ -408,4 +408,9 @@
        WHERE sys_id = #{userBasic.sysId}
     </update>
 
+    <update id="updateBySysId" parameterType="map" >
+        UPDATE user_basic SET openid = #{params.openid}
+        WHERE sys_id = #{params.sysId}
+    </update>
+
 </mapper>

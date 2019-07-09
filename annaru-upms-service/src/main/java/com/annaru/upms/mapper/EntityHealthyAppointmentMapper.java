@@ -47,7 +47,7 @@ public interface EntityHealthyAppointmentMapper extends BaseMapper<EntityHealthy
      * @author zk
      * @date 2019-06-121
      */
-    EntityHealthyAppointment getTimeByUserIdZ(@Param("params") Map<String, Object> params);
+    List<EntityHealthyAppointment> getTimeByUserIdZ(@Param("params") Map<String, Object> params);
 
 
     /**

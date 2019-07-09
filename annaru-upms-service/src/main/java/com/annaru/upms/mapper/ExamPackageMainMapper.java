@@ -32,7 +32,7 @@ public interface ExamPackageMainMapper extends BaseMapper<ExamPackageMain> {
      * @param params
      * @return
      */
-    List<ExamPackageMainVo> selectInfoBySysId(@Param("params") Map <String, Object> params);
+    ExamPackageMainVo selectInfoBySysId(@Param("params") Map <String, Object> params);
 
     /**
      * 根据套餐编号查询套餐详情

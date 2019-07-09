@@ -63,6 +63,6 @@ public interface ExamUserHealthyAppraisalMapper extends BaseMapper<ExamUserHealt
      * @author zk
      * @date 2019-06-121
      */
-    ExamUserHealthyAppraisal getTimeByUserIdZ(@Param("params") Map<String, Object> params);
+    List<ExamUserHealthyAppraisal> getTimeByUserIdZ(@Param("params") Map<String, Object> params);
 
 }

@@ -42,8 +42,10 @@ public class NurseDoctorHeadImageController extends BaseController {
     public ResultMap updateNurseImage(String nurseNo,String headImage) {
         try {
                 Boolean nurse = nurseDoctorHeadImageService.UpdateNurseHeadImage(nurseNo,headImage);
-
-            return ResultMap.ok("护士头像修改成功");
+                if(nurse){
+                    return ResultMap.ok("护士头像修改成功");
+                }
+            return ResultMap.error("修改失败");
         } catch (Exception e) {
             logger.error(e.getMessage());
             return ResultMap.error("运行异常，请联系管理员");
@@ -61,7 +63,10 @@ public class NurseDoctorHeadImageController extends BaseController {
     public ResultMap updateDoctorImage(String doctorNo,String headImage) {
         try {
             Boolean doctor= nurseDoctorHeadImageService.UpdateDoctorHeadImage(doctorNo,headImage);
-            return ResultMap.ok("医生头像修改成功");
+            if(doctor){
+                return ResultMap.ok("医生头像修改成功");
+            }
+            return ResultMap.error("修改失败");
         } catch (Exception e) {
             logger.error(e.getMessage());
             return ResultMap.error("运行异常，请联系管理员");

@@ -3,6 +3,7 @@ package com.annaru.upms.service.impl;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.annaru.common.result.PageUtils;
 import com.annaru.upms.entity.OrderAppointment;
+import com.annaru.upms.entity.vo.DoctorUserInfo;
 import com.annaru.upms.entity.vo.NurseOrderList;
 import com.annaru.upms.entity.vo.OrderAppointmentBase;
 import com.annaru.upms.entity.vo.OrderAppointmentDoctorVo;
@@ -36,6 +37,11 @@ public class OrderAppointmentServiceImpl extends ServiceImpl<OrderAppointmentMap
         Page<NurseOrderList> page = new PageUtils<NurseOrderList>(params).getPage();
         IPage<NurseOrderList> iPage = this.baseMapper.getNurseOrderList(page, params);
         return new PageUtils<NurseOrderList>(iPage);
+    }
+
+    @Override
+    public DoctorUserInfo selectInfo(String userId) {
+        return this.baseMapper.selectInfo(userId);
     }
 
     @Override

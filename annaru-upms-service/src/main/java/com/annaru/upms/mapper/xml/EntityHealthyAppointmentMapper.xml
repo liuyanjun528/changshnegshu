@@ -37,7 +37,7 @@
         <result column="user_age" property="userAge"/>
         <result column="user_id" property="userId"/>
         <result column="entity_no" property="entityNo"/>
-        <result column="time_to" property="timeTo"/>
+        <result column="effect_to" property="effectTo"/>
         <result column="total_qty" property="totalQty"/>
         <result column="address" property="address"/>
         <result column="appoint_date" property="appointDate"/>
@@ -72,6 +72,7 @@
     <!-- 多表页面信息查询分页 -->
     <select id="getTimeByUserIdZ" parameterType="map" resultMap="BaseResultMap">
         SELECT
+        eha.sys_id,
         eha.creation_time -- 企业服务预约记录
         FROM entity_purchse_main epm
         LEFT JOIN user_entity_mapping uem ON uem.entity_id = epm.entity_no
@@ -90,25 +91,26 @@
         <if test="params.bs == 2">
             AND DATE_FORMAT(eha.creation_time , '%Y-%m') = DATE_FORMAT(#{params.startDate} , '%Y-%m')
         </if>
-
-        ORDER BY eha.creation_time DESC LIMIT 0,1
+        ORDER BY eha.creation_time ASC
     </select>
 
     <!-- 企业用户患者信息查询分页 -->
     <select id="selectDataPage" parameterType="map" resultMap="BaseResultMap2">
         select
         eha.user_id,-- id
+        ub.head_image,
         ub.full_name,-- 姓名
         ub.gender,-- 性别
         TIMESTAMPDIFF(YEAR, ub.date_of_birth, CURDATE()) AS user_age,
         eha.entity_no,-- 公司名称
-        eha.time_to,-- 截至时间
-        eha.status -- 状态
+        epm.effect_to,-- 截至时间
+        eha.status, 'e' as business_type
         from
         entity_healthy_appointment as eha
         LEFT JOIN user_basic as ub ON eha.user_id=ub.user_id
+        LEFT JOIN entity_purchse_main as epm ON eha.entity_no=epm.entity_no
             <if test="params.relatedNo != null and params.relatedNo != ''">
-                where eha.related_no=#{params.relatedNo} and eha.status=1
+                where eha.related_no=#{params.relatedNo} and eha.status=1 and eha.pkg_main_id=8 and eha.pkg_detail_id=801
             </if>
 
     </select>

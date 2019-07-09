@@ -12,6 +12,10 @@ public class OrderAppointmentDoctorVo  implements Serializable {
     @TableField("user_id")
     private String userId;
 
+    private String headImage;
+
+    private Date effectTo;
+
     @TableField("full_name")
     private String fullName;
 
@@ -30,9 +34,6 @@ public class OrderAppointmentDoctorVo  implements Serializable {
     @TableField("entity_id")
     private String entityId;
 
-    @TableField("time_to")
-    private Date timeTo;
-
     @TableField("cellphone_no")
     private String cellphoneNo;
 
@@ -46,6 +47,23 @@ public class OrderAppointmentDoctorVo  implements Serializable {
     private String appointDate;
 
     private String orderNo;
+
+
+    public String getHeadImage() {
+        return headImage;
+    }
+
+    public void setHeadImage(String headImage) {
+        this.headImage = headImage;
+    }
+
+    public Date getEffectTo() {
+        return effectTo;
+    }
+
+    public void setEffectTo(Date effectTo) {
+        this.effectTo = effectTo;
+    }
 
     public String getOrderNo() {
         return orderNo;
@@ -109,14 +127,6 @@ public class OrderAppointmentDoctorVo  implements Serializable {
 
     public void setEntityId(String entityId) {
         this.entityId = entityId;
-    }
-
-    public Date getTimeTo() {
-        return timeTo;
-    }
-
-    public void setTimeTo(Date timeTo) {
-        this.timeTo = timeTo;
     }
 
     public int getStatus() {
