@@ -19,7 +19,7 @@
         <result column="cellphone_no" property="cellphoneNo" />
         <result column="effect_from" property="effectFrom" />
         <result column="effect_to" property="effectTo" />
-        <result column="day" property="day" />
+        <result column="restDay" property="restDay" />
         <result column="isAppraise" property="isAppraise" />
 
     </resultMap>
@@ -42,7 +42,7 @@
 			sd.cellphone_no,-- 联系电话
 			eed.effect_from,-- 开始时间
 			eed.effect_to,	-- 结束时间
-			DATEDIFF(eed.effect_to,NOW()) as day
+			DATEDIFF(eed.effect_to,NOW()) as restDay
       FROM
 		    entity_exclusive_doctor as eed
       LEFT JOIN sys_doctor as sd ON eed.doctor_no=sd.doctor_no

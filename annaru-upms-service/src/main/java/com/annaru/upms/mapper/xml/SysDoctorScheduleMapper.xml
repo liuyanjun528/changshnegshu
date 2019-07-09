@@ -83,6 +83,21 @@
 	        doctor_nurse_no=#{doctorNurseNo}
     </select>
 
+
+    <!--删除护士的排班 wh-->
+    <update id="deleteNurseSchedule">
+        update sys_doctor_nurse_schedule set is_deleted=1
+        where sys_id=#{sysId}
+   </update>
+
+
+    <!--添加护士的排班 wh-->
+    <insert id="insertNuserSchedule">
+        insert into sys_doctor_nurse_schedule (user_cates,doctor_nurse_no,date_from,date_to,creation_time)
+        values (#{userCates},#{doctorNurseNo},#{dateFrom},#{dateTo},#{creationTime})
+    </insert>
+
+
     <update id="updateSceduleStatus" parameterType="map">
                 UPDATE
                 sys_doctor_nurse_schedule

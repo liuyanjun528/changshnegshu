@@ -36,7 +36,7 @@ public class SysDoctorSchedule extends Model<SysDoctorSchedule> implements Seria
 	 */
 	@ApiModelProperty(value = "类别")
 	@TableField("user_cates")
-	private String userCates;
+	private int userCates;
 
 	/**
 	 * 医生编号
@@ -196,11 +196,11 @@ public class SysDoctorSchedule extends Model<SysDoctorSchedule> implements Seria
 		this.editTime = editTime;
 	}
 
-	public String getUserCates() {
+	public int getUserCates() {
 		return userCates;
 	}
 
-	public void setUserCates(String userCates) {
+	public void setUserCates(int userCates) {
 		this.userCates = userCates;
 	}
 
