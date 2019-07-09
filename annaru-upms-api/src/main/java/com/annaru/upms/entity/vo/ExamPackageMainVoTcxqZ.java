@@ -1,7 +1,6 @@
 package com.annaru.upms.entity.vo;
 
 import com.annaru.common.util.JacksonUtils;
-import io.swagger.annotations.ApiModel;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -202,18 +201,6 @@ public class ExamPackageMainVoTcxqZ implements Serializable {
 	public void setCountPsersion(Integer countPsersion) {
 		this.countPsersion = countPsersion;
 	}
-	public List<ExamPackageMainVoXmZ> getExamPackageMainVoXmZList() {
-		return examPackageMainVoXmZList;
-	}
-	public void setExamPackageMainVoXmZList(List<ExamPackageMainVoXmZ> examPackageMainVoXmZList) {
-		this.examPackageMainVoXmZList = examPackageMainVoXmZList;
-	}
-	public List<ExamPackageMainVoZsfwZ> getExamPackageMainVoZsfwZList() {
-		return examPackageMainVoZsfwZList;
-	}
-	public void setExamPackageMainVoZsfwZList(List<ExamPackageMainVoZsfwZ> examPackageMainVoZsfwZList) {
-		this.examPackageMainVoZsfwZList = examPackageMainVoZsfwZList;
-	}
 	public String getImageUrl() {
 		return imageUrl;
 	}
@@ -225,6 +212,22 @@ public class ExamPackageMainVoTcxqZ implements Serializable {
 	}
 	public void setLabel(Integer label) {
 		this.label = label;
+	}
+
+	public List<ExamPackageMainVoZsfwZ> getExamPackageMainVoZsfwZList() {
+		return examPackageMainVoZsfwZList;
+	}
+
+	public void setExamPackageMainVoZsfwZList(List<ExamPackageMainVoZsfwZ> examPackageMainVoZsfwZList) {
+		this.examPackageMainVoZsfwZList = examPackageMainVoZsfwZList;
+	}
+
+	public List<ExamPackageMainVoXmZ> getExamPackageMainVoXmZList() {
+		return examPackageMainVoXmZList;
+	}
+
+	public void setExamPackageMainVoXmZList(List<ExamPackageMainVoXmZ> examPackageMainVoXmZList) {
+		this.examPackageMainVoXmZList = examPackageMainVoXmZList;
 	}
 
 	@Override

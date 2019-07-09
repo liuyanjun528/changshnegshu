@@ -93,6 +93,7 @@
     <!-- 多表页面信息查询分页 -->
     <select id="getTimeByUserIdZ" parameterType="map" resultMap="BaseResultMap">
         SELECT
+            epm.sys_id,
             effect_from,
             effect_to
         FROM entity_purchse_main epm

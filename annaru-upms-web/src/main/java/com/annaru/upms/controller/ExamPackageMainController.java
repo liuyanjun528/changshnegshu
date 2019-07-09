@@ -67,15 +67,15 @@ public class ExamPackageMainController extends BaseController {
 
 
     /**
-     * 根据套餐编号查询套餐详情
+     * 套餐详情
      */
-    @ApiOperation(value = "根据套餐编号查询套餐详情", notes = "根据套餐编号查询套餐详情")
+    @ApiOperation(value = "套餐详情", notes = "套餐详情")
     @GetMapping("/selectInfoBySysId/{sysId}")
     @RequiresPermissions("upms/examPackageMain/selectInfoBySysId")
     public ResultMap selectInfoBySysId(@PathVariable("sysId") Integer sysId){
         Map<String, Object> params = new HashMap<>();
         params.put("sysId",sysId);
-        List<ExamPackageMainVo> examPackageMain = examPackageMainService.selectInfoBySysId(params);
+        ExamPackageMainVo examPackageMain = examPackageMainService.selectInfoBySysId(params);
         return ResultMap.ok().put("data",examPackageMain);
     }
 

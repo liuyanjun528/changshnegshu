@@ -89,32 +89,46 @@ public class EntityPurchseMainController extends BaseController {
             EntityPurchseMain entityPurchseMain = entityPurchseMainService.getTimeByUserIdZ(params);
             if (entityPurchseMain != null){
                 entityPurchseVo = new EntityPurchseVo();
+                entityPurchseVo.setSysId(entityPurchseMain.getSysId());
                 entityPurchseVo.setTime(DateUtil.format(entityPurchseMain.getEffectFrom()));
                 entityPurchseVo.setSign(1);
                 list.add(entityPurchseVo);
                 UserSurveyMain userSurveyMain = userSurveyMainService.getTimeByUserIdZ(params);
                 if (userSurveyMain != null){
                     entityPurchseVo = new EntityPurchseVo();
+                    entityPurchseVo.setSysId(userSurveyMain.getSurveyId());
                     entityPurchseVo.setTime(DateUtil.format(userSurveyMain.getSurveyTime()));
                     entityPurchseVo.setSign(2);
                     list.add(entityPurchseVo);
-                    EntityHealthyAppointment entityHealthyAppointment = entityHealthyAppointmentService.getTimeByUserIdZ(params);
-                    if (entityHealthyAppointment != null){
-                        entityPurchseVo = new EntityPurchseVo();
-                        entityPurchseVo.setTime(DateUtil.format(entityHealthyAppointment.getCreationTime()));
-                        entityPurchseVo.setSign(3);
-                        list.add(entityPurchseVo);
-                        ExamUserHealthyAppraisal examUserHealthyAppraisal = examUserHealthyAppraisalService.getTimeByUserIdZ(params);
-                        if (examUserHealthyAppraisal != null){
+
+                    List<EntityHealthyAppointment> ehaList = entityHealthyAppointmentService.getTimeByUserIdZ(params);
+                    if (ehaList != null && ehaList.size() > 0){
+                        for (int i = 0 ; i < ehaList.size() ; i++){
                             entityPurchseVo = new EntityPurchseVo();
-                            entityPurchseVo.setTime(DateUtil.format(examUserHealthyAppraisal.getSubmitTime()));
-                            entityPurchseVo.setSign(4);
-                            list.add(entityPurchseVo);
-                            entityPurchseVo = new EntityPurchseVo();
-                            entityPurchseVo.setTime(DateUtil.format(entityPurchseMain.getEffectTo()));
-                            entityPurchseVo.setSign(5);
+                            entityPurchseVo.setSysId(ehaList.get(i).getSysId());
+                            entityPurchseVo.setTime(DateUtil.format(ehaList.get(i).getCreationTime()));
+                            entityPurchseVo.setSign(3);
                             list.add(entityPurchseVo);
                         }
+
+                        List<ExamUserHealthyAppraisal> euhaList = examUserHealthyAppraisalService.getTimeByUserIdZ(params);
+                        if (euhaList != null && euhaList.size() > 0){
+                            for (int j = 0 ; j < euhaList.size() ; j++){
+                                entityPurchseVo = new EntityPurchseVo();
+                                entityPurchseVo.setSysId(euhaList.get(j).getSysId());
+                                entityPurchseVo.setTime(DateUtil.format(euhaList.get(j).getSubmitTime()));
+                                entityPurchseVo.setSuggestions(euhaList.get(j).getSuggestions());
+                                entityPurchseVo.setUserId(euhaList.get(j).getSubmitBy());
+                                entityPurchseVo.setSign(4);
+                                list.add(entityPurchseVo);
+                            }
+                        }
+
+                        entityPurchseVo = new EntityPurchseVo();
+                        entityPurchseVo.setSysId(entityPurchseMain.getSysId());
+                        entityPurchseVo.setTime(DateUtil.format(entityPurchseMain.getEffectTo()));
+                        entityPurchseVo.setSign(5);
+                        list.add(entityPurchseVo);
                     }
                 }
             }
