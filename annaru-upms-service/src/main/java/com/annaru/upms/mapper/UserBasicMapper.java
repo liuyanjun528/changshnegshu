@@ -26,6 +26,13 @@ public interface UserBasicMapper extends BaseMapper<UserBasic> {
     IPage<UserBasic> selectDataPage(Page page, @Param("params") Map<String, Object> params);
 
     UserBasic selectByData(@Param("params") Map<String, Object> params);
+    /**
+     * 根据条件修改某个用户
+     * zk
+     * @param params
+     * @return
+     */
+    int updateBySysId(@Param("params") Map<String, Object> params);
 
     UserBasic selectDoctorByData(@Param("params") Map<String, Object> params);
 

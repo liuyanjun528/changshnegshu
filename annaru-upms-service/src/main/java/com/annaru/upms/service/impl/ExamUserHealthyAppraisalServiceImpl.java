@@ -52,7 +52,7 @@ public class ExamUserHealthyAppraisalServiceImpl extends ServiceImpl<ExamUserHea
     }
 
     @Override
-    public ExamUserHealthyAppraisal getTimeByUserIdZ(Map<String,Object> params) {
+    public List<ExamUserHealthyAppraisal> getTimeByUserIdZ(Map<String,Object> params) {
         return this.baseMapper.getTimeByUserIdZ(params);
     }
 

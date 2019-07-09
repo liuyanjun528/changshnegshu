@@ -51,7 +51,7 @@ public class EntityHealthyAppointmentServiceImpl extends ServiceImpl<EntityHealt
 
     }
     @Override
-    public EntityHealthyAppointment getTimeByUserIdZ(Map<String,Object> params) {
+    public List<EntityHealthyAppointment> getTimeByUserIdZ(Map<String,Object> params) {
         return this.baseMapper.getTimeByUserIdZ(params);
     }
 

@@ -20,7 +20,6 @@ import java.util.List;
  * @author zk
  * @date 2019-05-09 11:14:28
  */
-@ApiModel(value = "套餐Vo")
 public class ExamPackageMainVo implements Serializable {
 	private static final long serialVersionUID = 1L;
 	/**
@@ -31,6 +30,10 @@ public class ExamPackageMainVo implements Serializable {
 	 * 套餐全称
 	 */
 	private String packageName;
+	/**
+	 * 副标题(逗号分隔)
+	 */
+	private String subtitle;
 	/**
 	 * 总金额
 	 */
@@ -44,17 +47,13 @@ public class ExamPackageMainVo implements Serializable {
 	 */
 	private Integer cates;
 	/**
-	 * 副标题(逗号分隔)
+	 * 套餐图片
 	 */
-	private String subtitle;
+	private String imageUrl;
 	/**
-	 * 开始年龄
+	 * 适用人群(1:中青年/2:中老年/3:中青年中老年都适用)
 	 */
-	private Integer ageFrom;
-	/**
-	 * 结束年龄
-	 */
-	private Integer ageTo;
+	private String label;
 	/**
 	 * 适用性别:(1:男/2:女/3:男女都适用)
 	 */
@@ -67,208 +66,103 @@ public class ExamPackageMainVo implements Serializable {
 	 * 编辑时间
 	 */
 	private Date editTime;
-	/**
-	 * 周期 单位：天/次
-	 */
-	private Integer periods;
-	/**
-	 * 类别  5:家庭医生 6.门诊绿通预约
-	 */
-	private Integer eaCates;
 
-	/**
-	 * 预约人数
-	 */
-    private Integer countPsersion;
+	private List<ExamMasterVoZ> masterVoZList;
 
-	/**
-	 * 赠送服务名称
-	 */
-	private String serviceName;
+	public Integer getSysId() {
+		return sysId;
+	}
 
-	/**
-	 * 检查项数量
-	 */
-	private Integer countDetail;
-	/**
-	 * 检查项目名称、检查项目详情名称、检查项目详情简介
-	 */
-	private List<ExamPackageMainVoZ> examPackageMainVoZList;
-	/**
-	 * 项目备注类别
-	 */
-	private String remark;
-	/**
-	 * 项目备注类别1
-	 */
-	private String remark1;
-	/**
-	 * 检查项目名称
-	 */
-	private String emName;
-	/**
-     * 获取：系统编号
-     */
-    public Integer getSysId() {
-        return sysId;
-    }
-	/**
-	 * 设置：系统编号
-	 */
 	public void setSysId(Integer sysId) {
 		this.sysId = sysId;
 	}
-    /**
-     * 获取：套餐全称
-     */
-    public String getPackageName() {
-        return packageName;
-    }
-	/**
-	 * 设置：套餐全称
-	 */
+
+	public String getPackageName() {
+		return packageName;
+	}
+
 	public void setPackageName(String packageName) {
 		this.packageName = packageName;
 	}
-    /**
-     * 获取：总金额
-     */
-    public Double getAmount() {
-        return amount;
-    }
-	/**
-	 * 设置：总金额
-	 */
-	public void setAmount(Double amount) {
-		this.amount = amount;
-	}
-    /**
-     * 获取：套餐内容说明
-     */
-    public String getContent() {
-        return content;
-    }
-	/**
-	 * 设置：套餐内容说明
-	 */
-	public void setContent(String content) {
-		this.content = content;
-	}
-    /**
-     * 获取：类别(1:标准套餐/2:其他)
-     */
-    public Integer getCates() {
-        return cates;
-    }
-	/**
-	 * 设置：类别(1:标准套餐/2:其他)
-	 */
-	public void setCates(Integer cates) {
-		this.cates = cates;
-	}
-    /**
-     * 获取：创建时间
-     */
-    public Date getCreationTime() {
-        return creationTime;
-    }
-	/**
-	 * 设置：创建时间
-	 */
-	public void setCreationTime(Date creationTime) {
-		this.creationTime = creationTime;
-	}
-    /**
-     * 获取：编辑时间
-     */
-    public Date getEditTime() {
-        return editTime;
-    }
-	/**
-	 * 设置：编辑时间
-	 */
-	public void setEditTime(Date editTime) {
-		this.editTime = editTime;
-	}
 
-	public Integer getAgeFrom() {
-		return ageFrom;
-	}
-	public void setAgeFrom(Integer ageFrom) {
-		this.ageFrom = ageFrom;
-	}
-	public Integer getAgeTo() {
-		return ageTo;
-	}
-	public void setAgeTo(Integer ageTo) {
-		this.ageTo = ageTo;
-	}
 	public String getSubtitle() {
 		return subtitle;
 	}
+
 	public void setSubtitle(String subtitle) {
 		this.subtitle = subtitle;
 	}
-	public void setSuiteGender(Integer suiteGender) {
-		this.suiteGender = suiteGender;
+
+	public Double getAmount() {
+		return amount;
 	}
+
+	public void setAmount(Double amount) {
+		this.amount = amount;
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+	public Integer getCates() {
+		return cates;
+	}
+
+	public void setCates(Integer cates) {
+		this.cates = cates;
+	}
+
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
+
+	public String getLabel() {
+		return label;
+	}
+
+	public void setLabel(String label) {
+		this.label = label;
+	}
+
 	public Integer getSuiteGender() {
 		return suiteGender;
 	}
 
-	public Integer getCountDetail() {
-		return countDetail;
+	public void setSuiteGender(Integer suiteGender) {
+		this.suiteGender = suiteGender;
 	}
-	public void setCountDetail(Integer countDetail) {
-		this.countDetail = countDetail;
+
+	public Date getCreationTime() {
+		return creationTime;
 	}
-	public Integer getCountPsersion() {
-		return countPsersion;
+
+	public void setCreationTime(Date creationTime) {
+		this.creationTime = creationTime;
 	}
-	public void setCountPsersion(Integer countPsersion) {
-		this.countPsersion = countPsersion;
+
+	public Date getEditTime() {
+		return editTime;
 	}
-	public List<ExamPackageMainVoZ> getExamPackageMainVoZList() {
-		return examPackageMainVoZList;
+
+	public void setEditTime(Date editTime) {
+		this.editTime = editTime;
 	}
-	public void setExamPackageMainVoZList(List<ExamPackageMainVoZ> examPackageMainVoZList) {
-		this.examPackageMainVoZList = examPackageMainVoZList;
+
+	public List<ExamMasterVoZ> getMasterVoZList() {
+		return masterVoZList;
 	}
-	public String getServiceName() {
-		return serviceName;
-	}
-	public void setServiceName(String serviceName) {
-		this.serviceName = serviceName;
-	}
-	public Integer getPeriods() {
-		return periods;
-	}
-	public void setPeriods(Integer periods) {
-		this.periods = periods;
-	}
-	public Integer getEaCates() {
-		return eaCates;
-	}
-	public void setEaCates(Integer eaCates) {
-		this.eaCates = eaCates;
-	}
-	public String getRemark() {
-		return remark;
-	}
-	public void setRemark(String remark) {
-		this.remark = remark;
-	}
-	public String getEmName() {
-		return emName;
-	}
-	public void setEmName(String emName) {
-		this.emName = emName;
-	}
-	public String getRemark1() {
-		return remark1;
-	}
-	public void setRemark1(String remark1) {
-		this.remark1 = remark1;
+
+	public void setMasterVoZList(List<ExamMasterVoZ> masterVoZList) {
+		this.masterVoZList = masterVoZList;
 	}
 
 	@Override

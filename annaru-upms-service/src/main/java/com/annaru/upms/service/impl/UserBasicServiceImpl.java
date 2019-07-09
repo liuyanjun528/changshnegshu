@@ -43,6 +43,14 @@ public class UserBasicServiceImpl extends ServiceImpl<UserBasicMapper, UserBasic
     }
 
     @Override
+    public boolean updateBySysId(Map<String, Object> params) {
+        if (this.baseMapper.updateBySysId(params) > 0){
+            return true;
+        }
+        return false;
+    }
+
+    @Override
     public UserBasic selectDoctorByData(Map <String, Object> params) {
         UserBasic userBasic = this.baseMapper.selectDoctorByData(params);
         return userBasic;
