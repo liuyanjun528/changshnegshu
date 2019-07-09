@@ -48,7 +48,7 @@ public class ExamInspectReportController extends BaseController {
                 return ResultMap.error("用户编号不能为空");
             }
             List<OrderMainVoReport> list = orderMainService.getAllByUserId(userId, orderCates);
-            return ResultMap.ok().put("data", list);
+            return ResultMap.ok().put("reportList", list);
         } catch (Exception e) {
             logger.error(e.getMessage());
             return ResultMap.error("运行异常，请联系管理员");
