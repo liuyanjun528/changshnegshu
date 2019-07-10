@@ -37,6 +37,7 @@
         <result column="JZZDSM" property="jzzdsm" />
         <result column="JZLX" property="jzlx" />
         <result column="JZKSRQ" property="jzksrq" />
+        <result column="MZZYBZ" property="mzzybz" />
     </resultMap>
 
     <!-- 通用查询映射结果 根据门诊记录id查询对应的门诊记录  -->
@@ -48,6 +49,7 @@
         <result column="JZKSMC" property="jzksmc" />
         <result column="ZS" property="zs" />
         <result column="JZKSRQ" property="jzksrq" />
+        <result column="MZZYBZ" property="mzzybz" />
     </resultMap>
 
     <!-- 根据原主键获取对象 -->
@@ -69,10 +71,12 @@
         r.JZKSMC,
         r.JZZDSM,
         r.JZLX,
-        SUBSTR (r.JZKSRQ, 0, 10) AS JZKSRQ
+        SUBSTR (r.JZKSRQ, 0, 10) AS JZKSRQ,
+        lr.MZZYBZ
         FROM
         TB_YL_MZ_Medical_Record r
-        LEFT JOIN TB_HOSPITAL h ON r.YLJGDM = h.HOSPITAL_ID
+        LEFT JOIN TB_HOSPITAL h ON h.HOSPITAL_ID = r.YLJGDM
+        LEFT JOIN TB_LIS_REPORT lr ON lr.JZLSH = r.JZLSH
         WHERE
             <if test="params.kh != null and params.kh != ''">
                 r.KH =  #{params.kh}
@@ -132,7 +136,7 @@
        )
     </select>
 
-    <!-- 根据门诊记录id查询对应的门诊记录 -->
+    <!-- 根据门诊记录id查询对应的门诊记录详情 -->
     <select id="getJzjlById" parameterType="map" resultMap="BaseResultMapDetail">
     SELECT
         r.CSID,
@@ -141,10 +145,12 @@
         r.ZZYSXM,
         r.JZKSMC,
         r.ZS,
-        h.HOSPITAL_NAME
+        h.HOSPITAL_NAME,
+        lr.MZZYBZ
     FROM
         TB_YL_MZ_Medical_Record r
     LEFT JOIN TB_HOSPITAL h ON r.YLJGDM = h.HOSPITAL_ID
+    LEFT JOIN TB_LIS_REPORT lr ON lr.JZLSH = r.JZLSH
     WHERE r.CSID =#{csid}
     </select>
     <!-- 根据门诊流水号查询门诊记录 -->

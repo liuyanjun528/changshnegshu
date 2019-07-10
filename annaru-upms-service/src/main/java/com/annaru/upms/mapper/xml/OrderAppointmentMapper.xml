@@ -46,16 +46,28 @@
     </resultMap>
 
     <resultMap id="BaseResultMap1" type="com.annaru.upms.entity.vo.OrderAppointmentDoctorVo">
+        <result column="user_id" property="userId"/>
+        <result column="head_image" property="headImage"/>
         <result column="full_name" property="fullName"/>
         <result column="gender" property="gender"/>
-        <result column="status" property="status"/>
         <result column="user_age" property="userAge"/>
-        <result column="user_id" property="userId"/>
         <result column="entity_id" property="entityId"/>
-        <result column="time_to" property="timeTo"/>
-        <result column="cellphone_no" property="cellphoneNo"/>
-
+        <result column="effect_to" property="effectTo"/>
+        <result column="status" property="status"/>
     </resultMap>
+
+    <resultMap id="BaseResultMap2" type="com.annaru.upms.entity.vo.DoctorUserInfo">
+        <result column="entity_name" property="entityName"/>
+        <result column="user_id" property="userId"/>
+        <result column="head_image" property="headImage"/>
+        <result column="full_name" property="fullName"/>
+        <result column="gender" property="gender"/>
+        <result column="age" property="age"/>
+        <result column="id_card_no" property="idCardNo"/>
+        <result column="card_no" property="cardNo"/>
+        <result column="effect_to" property="effectTo"/>
+    </resultMap>
+
 
     <resultMap id="BaseAppointInfo" type="com.annaru.upms.entity.vo.OrderAppointmentBase">
         <result column="order_no" property="orderNo"/>
@@ -76,15 +88,17 @@
     <select id="selectDataPage" parameterType="map" resultMap="BaseResultMap1">
         select
         ub.user_id,-- id
+        ub.head_image,
         ub.full_name,-- 姓名
         ub.gender,-- 性别
         TIMESTAMPDIFF(YEAR, ub.date_of_birth, CURDATE()) AS user_age,-- 年龄
         oa.entity_id,-- 公司名称
-        oa.time_to,-- 截至时间
+        ufd.effect_to,-- 截至时间
         oa.status -- 状态
         from
         order_appointment as oa
         LEFT JOIN user_basic as ub ON oa.user_id=ub.user_id
+        LEFT JOIN user_family_doctor as ufd ON oa.user_id=ufd.user_id
         <if test="params.relatedNo != null and params.relatedNo!=''">
             where oa.related_no=#{params.relatedNo} and oa.status=1
         </if>
@@ -138,30 +152,34 @@
 
     <!--待确认患者列表-->
     <select id="selectList" parameterType="map" resultMap="BaseResultMap1">
-        select
+           select
 			  ub.user_id,-- id
+			  ub.head_image,
 			  ub.full_name,-- 姓名
 			  ub.gender,-- 性别
 			  TIMESTAMPDIFF(YEAR, ub.date_of_birth, CURDATE()) AS user_age,-- 年龄
 			  oa.entity_id,-- 公司名称
-			  oa.time_to,-- 截至时间
-			  oa.status -- 状态
-        from
-              order_appointment as oa
-        LEFT JOIN user_basic as ub ON oa.user_id=ub.user_id
+			  ufd.effect_to,-- 截至时间
+			  oa.status, -- 状态
+			  'p' as business_type -- 标识为用户
+        from order_appointment as oa
+            LEFT JOIN user_basic as ub ON oa.user_id=ub.user_id
+			LEFT JOIN user_family_doctor as ufd ON oa.user_id=ufd.user_id
         where oa.related_no=#{params.relatedNo}  and oa.status=#{params.status} and oa.appointment_cates=5
 UNION
         select
 			eha.user_id,-- id
+			ub.head_image,
 		    ub.full_name,-- 姓名
 			ub.gender,-- 性别
 			TIMESTAMPDIFF(YEAR, ub.date_of_birth, CURDATE()) AS user_age,
 			eha.entity_no,-- 公司名称
-			eha.time_to,-- 截至时间
-			eha.status
-        from
-            entity_healthy_appointment as eha
-        LEFT JOIN user_basic as ub ON eha.user_id=ub.user_id
+			epm.effect_to,-- 截至时间
+			eha.status,
+			'e' as business_type -- 标识为企业
+        from entity_healthy_appointment as eha
+            LEFT JOIN user_basic as ub ON eha.user_id=ub.user_id
+			LEFT JOIN entity_purchse_main as epm ON eha.entity_no=epm.entity_no
         WHERE eha.related_no=#{params.relatedNo} and eha.status=#{params.status} and eha.pkg_main_id=8 and eha.pkg_detail_id=801
     </select>
 
@@ -169,6 +187,27 @@ UNION
     <update id="updateStatus">
         update order_appointment SET status=#{status} WHERE order_no=#{orderNo}
     </update>
+
+    <!--我的患者详情-->
+    <select id="selectInfo" parameterType="map" resultMap="BaseResultMap2">
+        select
+			eha.user_id,-- id
+			ub.head_image,
+		    ub.full_name,-- 姓名
+			ub.gender,-- 性别
+			TIMESTAMPDIFF(YEAR, ub.date_of_birth, CURDATE()) AS user_age,
+			sent.entity_name,-- 公司名称
+			ub.id_card_no,-- 身份证号
+			uc.card_no,-- 医保卡号
+			epm.effect_to-- 截至时间
+        from entity_healthy_appointment as eha
+        LEFT JOIN user_basic as ub ON eha.user_id=ub.user_id
+				LEFT JOIN user_cards as uc ON ub.user_id = uc.user_id
+				LEFT JOIN entity_purchse_main as epm ON eha.entity_no=epm.entity_no
+				LEFT JOIN sys_entity as sent ON eha.entity_no=sent.entity_id
+        WHERE eha.user_id=#{userId} and eha.status=1
+    </select>
+
 
 
     <update id="updateIsCancelled">

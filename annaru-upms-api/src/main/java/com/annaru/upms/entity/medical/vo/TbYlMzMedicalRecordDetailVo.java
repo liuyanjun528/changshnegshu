@@ -24,6 +24,8 @@ public class TbYlMzMedicalRecordDetailVo extends Model<TbYlMzMedicalRecordDetail
 	private String zs;
 	/** 门诊就诊日期*/
 	private String jzksrq;
+	/** 门诊/住院标志*/
+	private String mzzybz;
 
 	public String getCsid() {
 		return csid;
@@ -79,5 +81,13 @@ public class TbYlMzMedicalRecordDetailVo extends Model<TbYlMzMedicalRecordDetail
 
 	public void setJzksrq(String jzksrq) {
 		this.jzksrq = jzksrq;
+	}
+
+	public String getMzzybz() {
+		return mzzybz;
+	}
+
+	public void setMzzybz(String mzzybz) {
+		this.mzzybz = mzzybz;
 	}
 }
