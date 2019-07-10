@@ -45,6 +45,9 @@
 
         <result column="belongHospital" property="belongHospital" />
         <result column="belongOffice" property="belongOffice" />
+
+        <result column="gender" property="gender" />
+        <result column="id_card_no" property="idCardNo" />
     </resultMap>
 
     <!-- 多表页面信息查询分页 -->
@@ -129,11 +132,15 @@
         si.name siName,
         sd.department_name departmentName,
         sn.belong_hospital belongHospital,
-        sn.belong_office belongOffice
+        sn.belong_office belongOffice,
+
+        ub.gender,
+        ub.id_card_no
         FROM
         sys_nurse sn
         LEFT JOIN sys_institution si ON si.institution_id = sn.belong_hospital
         LEFT JOIN sys_department sd ON sd.sys_id = sn.belong_office
+        LEFT JOIN user_basic ub ON ub.user_id = sn.user_id
         WHERE  1 = 1
         <if test="params.nurseNo != null and params.nurseNo != ''">
             AND sn.nurse_no = #{params.nurseNo}
