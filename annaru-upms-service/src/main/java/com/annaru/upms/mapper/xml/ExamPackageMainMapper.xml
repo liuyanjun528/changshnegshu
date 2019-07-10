@@ -259,7 +259,6 @@
             <if test="params.sysId != null and params.sysId != ''">
                 AND epm.sys_id = #{params.sysId}
             </if>
-        GROUP BY em3.name
     </select>
 
 
