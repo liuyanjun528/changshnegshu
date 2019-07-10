@@ -6,6 +6,7 @@ import com.annaru.common.result.PageUtils;
 import com.annaru.common.result.ResultMap;
 import com.annaru.upms.entity.ExamHandoverSheet;
 import com.annaru.upms.entity.vo.ExamHandoverSheetVo;
+import com.annaru.upms.entity.vo.examHandoverSheetVoWh;
 import com.annaru.upms.service.IExamHandoverSheetService;
 import com.annaru.upms.service.IExamHandoverSheetVoService;
 import io.swagger.annotations.Api;
@@ -35,7 +36,7 @@ public class ExamHandoverSheetVoController extends BaseController {
     private IExamHandoverSheetVoService examHandoverSheetVoService;
 
     /**
-     * 信息
+     * 查询护士端服务订单详情
      */
     @ApiOperation(value = "查询护士端服务订单详情", notes = "查询护士端服务订单详情")
     @GetMapping("/handoverSheetList")
@@ -49,7 +50,20 @@ public class ExamHandoverSheetVoController extends BaseController {
         }
     }
 
-
+    /**
+     * 查询二维码内的信息
+     */
+    @ApiOperation(value = "查询二维码内的信息", notes = "查询二维码内的信息")
+    @GetMapping("/queryInfo")
+    public ResultMap queryInfo(String orderNo){
+        try {
+            examHandoverSheetVoWh examHandoverSheetVoWh = examHandoverSheetVoService.selectUserInfo(orderNo);
+            return ResultMap.ok().put("data",examHandoverSheetVoWh);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return ResultMap.error("运行异常，请联系管理员");
+        }
+    }
 
 
 }

@@ -33,11 +33,24 @@ public class SysMessage extends Model<SysMessage> implements Serializable {
 	@TableField("user_id")
 	private String userId;
 	/**
+	 * 订单编号
+	 */
+	@ApiModelProperty(value = "订单编号")
+	@TableField("order_no")
+    private String orderNo;
+	/**
 	 * 消息类别(1:系统消息/2:通知消息/3:上门消息)
 	 */
     @ApiModelProperty(value = "消息类别(1:系统消息/2:通知消息/3:上门消息)")
 	@TableField("msg_cate")
 	private Integer msgCate;
+
+	/**
+	 * 业务类型(1:购买套餐/2:购买额外体检项目/3:分布体检预约信息/4:护士上门/5:家庭医生到期提示)
+	 */
+	@ApiModelProperty(value = "业务类型(1:购买套餐/2:购买额外体检项目/3:分布体检预约信息/4:护士上门/5:家庭医生到期提示)")
+	@TableField("business_cate")
+	private int businessCate;
 	/**
 	 * 内容
 	 */
@@ -141,7 +154,24 @@ public class SysMessage extends Model<SysMessage> implements Serializable {
 		this.readTime = readTime;
 	}
 
-    @Override
+
+	public String getOrderNo() {
+		return orderNo;
+	}
+
+	public void setOrderNo(String orderNo) {
+		this.orderNo = orderNo;
+	}
+
+	public int getBusinessCate() {
+		return businessCate;
+	}
+
+	public void setBusinessCate(int businessCate) {
+		this.businessCate = businessCate;
+	}
+
+	@Override
 	protected Serializable pkVal() {
 		return this.sysId;
 	}

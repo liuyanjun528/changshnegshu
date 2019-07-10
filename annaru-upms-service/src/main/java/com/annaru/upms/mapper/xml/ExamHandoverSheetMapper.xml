@@ -16,6 +16,7 @@
         <result column="handover_by" property="handoverBy" />
         <result column="handover_time" property="handoverTime" />
         <result column="images" property="images" />
+        <result column="name" property="name" />
     </resultMap>
 
     <sql id="BaseClounmSql">
@@ -62,7 +63,17 @@
 
     <!--查看交接单 通过订单号-->
     <select id="selectExamHandoverSheet" parameterType="map" resultMap="BaseResultMap">
-      select sample_code,handover_by,handover_time,images,is_handovered from exam_handover_sheet where order_no=#{orderNo}
+      select
+			ehs.sample_code, -- 样本编码
+			si.name, -- 机构名称
+			ehs.handover_time, -- 提交时间
+			ehs.handover_by, -- 提交人
+			ehs.images
+        FROM
+		    exam_handover_sheet as ehs
+        LEFT JOIN order_appointment as oa ON ehs.order_no=oa.order_no
+				LEFT JOIN sys_institution as si ON si.institution_id=oa.institution_id
+        WHERE ehs.order_no=#{orderNo} and ehs.is_handovered=1
     </select>
 
     <!--删除定单通过 是否交接和订单编号-->

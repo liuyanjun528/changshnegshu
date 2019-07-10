@@ -1,6 +1,7 @@
 package com.annaru.upms.mapper;
 
 import com.annaru.upms.entity.vo.ExamHandoverSheetVo;
+import com.annaru.upms.entity.vo.examHandoverSheetVoWh;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -22,5 +23,12 @@ public interface ExamHandoverSheetVoMapper extends BaseMapper<ExamHandoverSheetV
   */
     ExamHandoverSheetVo selectNurseOrderInfo(@Param("orderNo") String orderNo);
 
+
+    /**
+      * @Description:二维码内的信息
+      * @Author: wh
+      * @Date: 2019/7/10 12:26
+      */
+    examHandoverSheetVoWh selectUserInfo(@Param("orderNo") String orderNo);
 
 }
