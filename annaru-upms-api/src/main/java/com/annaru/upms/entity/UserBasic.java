@@ -223,6 +223,17 @@ public class UserBasic extends Model<UserBasic> implements Serializable {
 	@TableField(exist = false)
 	private boolean entityHealthy;
 
+	/**
+	 * 企业编号
+	 */
+	@TableField(exist = false)
+	private String entityId;
+	/**
+	 * 企业名字
+	 */
+	@TableField(exist = false)
+	private String entityName;
+
 	public boolean isEntityHealthy() {
 		return entityHealthy;
 	}
@@ -543,6 +554,18 @@ public class UserBasic extends Model<UserBasic> implements Serializable {
 	}
 	public void setCardNo(String cardNo) {
 		this.cardNo = cardNo;
+	}
+	public String getEntityId() {
+		return entityId;
+	}
+	public void setEntityId(String entityId) {
+		this.entityId = entityId;
+	}
+	public String getEntityName() {
+		return entityName;
+	}
+	public void setEntityName(String entityName) {
+		this.entityName = entityName;
 	}
 
 	@Override
