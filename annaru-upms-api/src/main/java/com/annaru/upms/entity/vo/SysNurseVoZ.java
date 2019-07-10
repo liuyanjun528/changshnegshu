@@ -106,7 +106,7 @@ public class SysNurseVoZ implements Serializable {
 	/**
 	 * 性别(1:男/2:女)
 	 */
-	private String gender;
+	private Integer gender;
 	/**
 	 * 证件号
 	 */
@@ -310,11 +310,11 @@ public class SysNurseVoZ implements Serializable {
 		this.belongOffice = belongOffice;
 	}
 
-	public String getGender() {
+	public Integer getGender() {
 		return gender;
 	}
 
-	public void setGender(String gender) {
+	public void setGender(Integer gender) {
 		this.gender = gender;
 	}
 
