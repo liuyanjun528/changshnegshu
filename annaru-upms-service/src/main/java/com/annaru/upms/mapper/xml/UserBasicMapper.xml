@@ -56,6 +56,8 @@
         <result column="openid" property="openid" />
         <result column="is_hr" property="isHr" />
         <result column="cardNo" property="cardNo" />
+        <result column="entity_id" property="entityId" />
+        <result column="entity_name" property="entityName" />
     </resultMap>
 
     <!-- 通用查询映射结果 UserBasicVoZ -->
@@ -244,10 +246,14 @@
             ub.creation_time,
             openid,
             is_hr,
-            uc.card_no cardNo
+            uc.card_no cardNo,
+            se.entity_id,
+            se.entity_name
         FROM
         user_basic ub
         LEFT JOIN user_cards uc ON uc.user_id = ub.user_id
+        LEFT JOIN user_entity_mapping uem ON uem.user_id = ub.user_id
+        LEFT JOIN sys_entity se ON se.entity_id = uem.entity_id
         WHERE
             1 = 1
             <if test="params.isHr == 1">
