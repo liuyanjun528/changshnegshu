@@ -338,8 +338,8 @@
     <!-- 根据条件查询某个用户信息与护士信息 -->
     <select id="selectNurseByData" parameterType="map" resultMap="BaseResultMap2">
         SELECT
-            b.sys_id bsys_id,
-            b.user_id buser_id,
+            b.sys_id sys_id,
+            b.user_id user_id,
             full_name,
             chinese_spell,
             cellphone_no,
