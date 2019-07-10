@@ -1,6 +1,7 @@
 package com.annaru.upms.service;
 
 import com.annaru.upms.entity.vo.ExamHandoverSheetVo;
+import com.annaru.upms.entity.vo.examHandoverSheetVoWh;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;
@@ -20,6 +21,13 @@ public interface IExamHandoverSheetVoService extends IService<ExamHandoverSheetV
      * @Date: 2019/6/10 16:52
      */
     ExamHandoverSheetVo selectNurseOrderInfo(String orderNo);
+
+    /**
+     * @Description:二维码内的信息
+     * @Author: wh
+     * @Date: 2019/7/10 12:26
+     */
+    examHandoverSheetVoWh selectUserInfo(String orderNo);
 
 }
 

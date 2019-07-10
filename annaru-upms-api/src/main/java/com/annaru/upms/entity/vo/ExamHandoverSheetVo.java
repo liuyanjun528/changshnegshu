@@ -38,8 +38,11 @@ public class ExamHandoverSheetVo implements Serializable {
     @TableField("draw_complete_time")
     private Date drawCompleteTime;  //抽血完成时间
 
-    @TableField("institution_id")
-    private String institutionId;  //机构名称
+    @TableField("is_handovered")
+    private int isHandovered;  //是否交接
+
+    @TableField("name")
+    private String name;  //机构名称
 
     @TableField("handover_time")
     private Date handoverTime;  //提交时间
@@ -104,6 +107,15 @@ public class ExamHandoverSheetVo implements Serializable {
         this.personBarcodeConfirmed = personBarcodeConfirmed;
     }
 
+
+    public int getIsHandovered() {
+        return isHandovered;
+    }
+
+    public void setIsHandovered(int isHandovered) {
+        this.isHandovered = isHandovered;
+    }
+
     public String getSampleCode() {
         return sampleCode;
     }
@@ -128,12 +140,12 @@ public class ExamHandoverSheetVo implements Serializable {
         this.drawCompleteTime = drawCompleteTime;
     }
 
-    public String getInstitutionId() {
-        return institutionId;
+    public String getName() {
+        return name;
     }
 
-    public void setInstitutionId(String institutionId) {
-        this.institutionId = institutionId;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Date getHandoverTime() {

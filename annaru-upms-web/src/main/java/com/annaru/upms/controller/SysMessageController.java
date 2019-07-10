@@ -13,10 +13,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 /**
@@ -93,6 +90,7 @@ public class SysMessageController extends BaseController {
     @RequiresPermissions("upms/sysMessage/save")
     public ResultMap save(@Valid @RequestBody SysMessage sysMessage) {
         try {
+            sysMessage.setCreationTime(new Date());
             sysMessageService.save(sysMessage);
             return ResultMap.ok("添加成功");
         } catch (Exception e) {

@@ -26,10 +26,9 @@ public interface ISysMessageService extends IService<SysMessage> {
 
     /**
      * 通过当前用户的消息类型查看消息
-     * @param msgCate 消息类型
      * @return
      */
-    PageUtils selectMsgByMsgCate(Map<String, Object> params);
+    //PageUtils selectMsgByMsgCate(Map<String, Object> params);
 
 }
 
