@@ -28,7 +28,7 @@ public interface IExamPackageMainService extends IService<ExamPackageMain> {
      * @param params
      * @return
      */
-    List<ExamPackageMainVo> selectInfoBySysId(Map <String, Object> params);
+    ExamPackageMainVo selectInfoBySysId(Map <String, Object> params);
 
     /**
      * 根据套餐编号查询套餐详情

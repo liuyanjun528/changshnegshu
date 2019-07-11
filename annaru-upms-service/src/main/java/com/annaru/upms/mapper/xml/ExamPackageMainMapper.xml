@@ -43,27 +43,43 @@
     </resultMap>
 
     <resultMap id="selectInfoBySysIdVo" type="com.annaru.upms.entity.vo.ExamPackageMainVo" >
+        
         <result column="sysId" property="sysId" />
         <result column="packageName" property="packageName" />
+        <result column="subtitle" property="subtitle" />
         <result column="amount" property="amount" />
         <result column="content" property="content" />
         <result column="cates" property="cates" />
+        <result column="imageUrl" property="imageUrl"/>
+        <result column="label" property="label" />
+        <result column="suiteGender" property="suiteGender" />
         <result column="creationTime" property="creationTime" />
         <result column="editTime" property="editTime" />
-        <result column="subtitle" property="subtitle" />
-        <result column="ageFrom" property="ageFrom" />
-        <result column="ageTo" property="ageTo" />
-        <result column="suiteGender" property="suiteGender" />
-        <result column="countPsersion" property="countPsersion"/>
-        <result column="serviceName" property="serviceName"/>
-        <result column="countDetail" property="countDetail"/>
-        <result column="periods" property="periods"/>
-        <result column="eaCates" property="eaCates"/>
-        <collection property="examPackageMainVoZList" ofType="com.annaru.upms.entity.vo.ExamPackageMainVoZ">
+
+        <collection property="masterVoZList" ofType="com.annaru.upms.entity.vo.ExamMasterVoZ">
+            <result column="emSysId" property="emSysId"/>
             <result column="emName" property="emName"/>
-            <result column="edItemName" property="edItemName"/>
-            <result column="abstracts" property="abstracts"/>
+            <result column="emRemark" property="emRemark"/>
+            <result column="emRemark1" property="emRemark1"/>
+            <result column="emExamResult" property="emExamResult"/>
+            <result column="emExamCates" property="emExamCates"/>
+            <result column="emCreationTime" property="emCreationTime"/>
+
+            <collection property="detailVoZList" ofType="com.annaru.upms.entity.vo.ExamDetailVoZ">
+                <result column="edSysId" property="edSysId"/>
+                <result column="edItemName" property="edItemName"/>
+                <result column="edAbstracts" property="edAbstracts"/>
+                <result column="edStandardValue" property="edStandardValue"/>
+                <result column="edMasterId" property="edMasterId"/>
+                <result column="edExtensionCatesId" property="edExtensionCatesId"/>
+                <result column="edAmount" property="edAmount"/>
+                <result column="edCreationTime" property="edCreationTime"/>
+                <result column="edEditTime" property="edEditTime"/>
+                <result column="edEecId" property="edEecId"/>
+                <result column="edEecName" property="edEecName"/>
+            </collection>
         </collection>
+
     </resultMap>
 
     <resultMap id="selectInfoBySysIdVoZ" type="com.annaru.upms.entity.vo.ExamPackageMainVoTcxqZ" >
@@ -159,40 +175,39 @@
 
         SELECT
             epm.sys_id sysId,
-            package_name packageName,
-            amount,
-            content,
+            epm.package_name packageName,
+            epm.subtitle,
+            epm.amount,
+            epm.content,
             epm.cates,
+            epm.image_url imageUrl,
+            epm.label,
+            epm.suite_gender suiteGender,
             epm.creation_time creationTime,
             epm.edit_time editTime,
-            subtitle,
-            age_from ageFrom,
-            age_to ageTo,
-            suite_gender suiteGender,
-            op.count_person countPsersion,
-            ea.service_name serviceName,
-            epdd.count_detail countDetail,
-            em3.name emName,
-            ed3.item_name edItemName,
-            ed3.abstracts,
-            epa.periods periods,
-            ea.cates eaCates
-        FROM
-            exam_package_main epm
-        LEFT JOIN (
-                    SELECT count(om.sys_id) as count_person, pm.sys_id psys_id  FROM order_main om
-                    RIGHT JOIN exam_package_main pm ON pm.sys_id = om.reference_no
-                    GROUP BY om.reference_no
-                ) as op ON op.psys_id = epm.sys_id
-        LEFT JOIN (
-                    SELECT count(ed.exam_detail_id) count_detail, ed.exam_main_id FROM exam_package_detail ed
-                    GROUP BY ed.exam_main_id
-                ) as epdd ON epdd.exam_main_id = epm.sys_id
-        LEFT JOIN exam_package_detail epd3 ON epd3.exam_main_id = epm.sys_id
-        LEFT JOIN exam_master em3 ON em3.sys_id = epd3.exam_master_id
-        LEFT JOIN exam_detail ed3 ON ed3.sys_id = epd3.exam_detail_id
-        LEFT JOIN exam_package_append epa ON epa.package_main_id = epm.sys_id
-        LEFT JOIN exam_append ea ON ea.sys_id = epa.append_id
+
+            em.sys_id emSysId,
+            em.name emName,
+            em.remark emRemark,
+            em.remark1 emRemark1,
+            em.exam_result emExamResult,
+            em.exam_cates emExamCates,
+            em.creation_time emCreationTime,
+
+            ed.sys_id edSysId,
+            ed.item_name edItemName,
+            ed.abstracts edAbstracts,
+            ed.standard_value edStandardValue,
+            ed.master_id edMasterId,
+            ed.extension_cates_id edExtensionCatesId,
+            ed.amount edMount,
+            ed.creation_time edCreationTime,
+            ed.edit_time edEditTime
+
+        FROM exam_package_main epm
+        LEFT JOIN exam_package_detail epd ON epd.exam_main_id = epm.sys_id
+        LEFT JOIN exam_master em ON em.sys_id = epd.exam_master_id
+        LEFT JOIN exam_detail ed ON ed.sys_id = epd.exam_detail_id
         WHERE 1 = 1
             <if test="params.sysId != null and params.sysId != ''">
                 AND epm.sys_id = #{params.sysId}
@@ -205,7 +220,7 @@
         SELECT
         epm.sys_id sysId,
         package_name packageName,
-        amount,
+        epm.amount,
         content,
         epm.cates,
         epm.creation_time creationTime,
@@ -244,7 +259,6 @@
             <if test="params.sysId != null and params.sysId != ''">
                 AND epm.sys_id = #{params.sysId}
             </if>
-        GROUP BY em3.name
     </select>
 
 

@@ -79,6 +79,7 @@
 UNION
         SELECT
 		      ur.relative_name,-- 亲属名称
+		      ur.gender,-- 亲属性别
 		      ur.id_card_no,-- 亲属身份证号
 		      ur.cellphone_no,-- 亲属手机号
               uc.card_cates,-- 卡类型

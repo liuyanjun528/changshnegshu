@@ -232,6 +232,18 @@ public class OrderAppointmentController extends BaseController {
         return ResultMap.ok().put("data",pageList);
     }
 
+    /**
+     * 我的患者详情  --wh
+     */
+    @ApiOperation(value = "我的患者详情", notes = "我的患者详情")
+    @GetMapping("/userInfo")
+    @RequiresPermissions("upms/orderAppointment/userInfo")
+    public ResultMap userInfo(String userId){
+        DoctorUserInfo doctorUserInfo = orderAppointmentService.selectInfo(userId);
+        return ResultMap.ok().put("data",doctorUserInfo);
+    }
+
+
 
     /**
      * 信息

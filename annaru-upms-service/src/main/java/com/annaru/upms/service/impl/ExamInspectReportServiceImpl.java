@@ -1,12 +1,10 @@
 package com.annaru.upms.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
-import com.annaru.common.result.PageUtils;
 import com.annaru.upms.entity.*;
+import com.annaru.upms.entity.vo.ExamInspectReportVo;
 import com.annaru.upms.mapper.ExamInspectReportMapper;
 import com.annaru.upms.service.*;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,16 +30,13 @@ public class ExamInspectReportServiceImpl extends ServiceImpl<ExamInspectReportM
     private IExamInspectReportTctService examInspectReportTctService;
     @Autowired
     private IExamInspectReportMicroorganismService examInspectReportMicroorganismService;
+    @Autowired
+    private IOrderMainService orderMainService;
+    @Autowired
+    private IExamReportReviewService examReportReviewService;
 
     @Override
-    public PageUtils<ExamInspectReport> getDataPage(Map<String, Object> params) {
-        Page<ExamInspectReport> page = new PageUtils<ExamInspectReport>(params).getPage();
-        IPage<ExamInspectReport> iPage = this.baseMapper.selectDataPage(page, params);
-        return new PageUtils(iPage);
-    }
-
-    @Override
-    public List<ExamInspectReport> getAllByBYH(String byh, String reportType) {
+    public List<ExamInspectReportVo> getAllByBYH(String byh, String reportType) {
 
         if(StringUtils.isBlank(byh)){
             return null;
@@ -49,16 +44,27 @@ public class ExamInspectReportServiceImpl extends ServiceImpl<ExamInspectReportM
         Map<String, Object> params = new HashMap<>();
         params.put("byh", byh);
         params.put("reportType", reportType);
-        return this.baseMapper.selectDataList(params);
+        List<ExamInspectReportVo> reportVos = this.baseMapper.selectDataList(params);
+        reportVos.forEach(r -> {
+            // 套餐名称
+            if(StringUtils.isNotBlank(r.getBYH())) {
+                String orderNo = r.getBYH().substring(0, r.getBYH().indexOf("^"));
+                ExamPackageMain examPackageMain = orderMainService.getExamPackageMainByOrderNo(orderNo);
+                if(examPackageMain != null){
+                    r.setPackageName(examPackageMain.getPackageName());
+                }
+            }
+        });
+        return reportVos;
     }
 
     @Override
-    public ExamInspectReport getByReportNO(String reportNO) {
+    public ExamInspectReportVo getByReportNO(String reportNO) {
         if (StringUtils.isBlank(reportNO)){
             return null;
         }
 
-        ExamInspectReport report = this.baseMapper.selectByReportNO(reportNO);
+        ExamInspectReportVo report = this.baseMapper.selectByReportNO(reportNO);
         if(report != null){
             String InspectReportId = report.getId();
             String reportType = reportNO.substring(0,1);
@@ -84,6 +90,11 @@ public class ExamInspectReportServiceImpl extends ServiceImpl<ExamInspectReportM
                     report.setMicroorganismList(microorganismList);
                     break;
             }
+
+            ExamReportReview examReportReview = examReportReviewService.getExamReportReviewServiceByReportNo(reportNO);
+            if(examReportReview != null){
+                report.setReportSuggestions(examReportReview.getSuggestions());
+            }
         }
         return report;
     }
@@ -94,7 +105,7 @@ public class ExamInspectReportServiceImpl extends ServiceImpl<ExamInspectReportM
         if(inspectReport == null || StringUtils.isBlank(inspectReport.getREPORTNO())){
             return false;
         }
-        ExamInspectReport reportDB = this.getByReportNO(inspectReport.getREPORTNO());
+        ExamInspectReportVo reportDB = this.getByReportNO(inspectReport.getREPORTNO());
         if(reportDB != null){
             //删除本地数据库保存的(还未完成的) 检查报告 及所有结果，
             String reportNO = reportDB.getREPORTNO();
@@ -164,4 +175,5 @@ public class ExamInspectReportServiceImpl extends ServiceImpl<ExamInspectReportM
         }
         return null;
     }
+
 }

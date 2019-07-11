@@ -8,6 +8,10 @@ import java.io.Serializable;
 public class EntityPurchseVo implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    private Integer sysId;
+    /**
+     * 时间
+     */
     private String time;
     /**
      *  时间：
@@ -18,7 +22,19 @@ public class EntityPurchseVo implements Serializable {
      * 5. 年度健康记录已生成时间
      */
     private Integer sign;
+    /**
+     * 医生建议
+     */
+    private String suggestions;
 
+    private String userId;
+
+    public Integer getSysId() {
+        return sysId;
+    }
+    public void setSysId(Integer sysId) {
+        this.sysId = sysId;
+    }
     public String getTime() {
         return time;
     }
@@ -30,6 +46,20 @@ public class EntityPurchseVo implements Serializable {
     }
     public void setSign(Integer sign) {
         this.sign = sign;
+    }
+
+    public String getSuggestions() {
+        return suggestions;
+    }
+    public void setSuggestions(String suggestions) {
+        this.suggestions = suggestions;
+    }
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     @Override

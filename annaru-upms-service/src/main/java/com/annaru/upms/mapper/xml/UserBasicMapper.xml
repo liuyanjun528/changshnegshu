@@ -56,6 +56,8 @@
         <result column="openid" property="openid" />
         <result column="is_hr" property="isHr" />
         <result column="cardNo" property="cardNo" />
+        <result column="entity_id" property="entityId" />
+        <result column="entity_name" property="entityName" />
     </resultMap>
 
     <!-- 通用查询映射结果 UserBasicVoZ -->
@@ -244,10 +246,14 @@
             ub.creation_time,
             openid,
             is_hr,
-            uc.card_no cardNo
+            uc.card_no cardNo,
+            se.entity_id,
+            se.entity_name
         FROM
         user_basic ub
         LEFT JOIN user_cards uc ON uc.user_id = ub.user_id
+        LEFT JOIN user_entity_mapping uem ON uem.user_id = ub.user_id
+        LEFT JOIN sys_entity se ON se.entity_id = uem.entity_id
         WHERE
             1 = 1
             <if test="params.isHr == 1">
@@ -332,8 +338,8 @@
     <!-- 根据条件查询某个用户信息与护士信息 -->
     <select id="selectNurseByData" parameterType="map" resultMap="BaseResultMap2">
         SELECT
-            b.sys_id bsys_id,
-            b.user_id buser_id,
+            b.sys_id sys_id,
+            b.user_id user_id,
             full_name,
             chinese_spell,
             cellphone_no,
@@ -406,6 +412,11 @@
     <update id="updateLastTimeBySysId" parameterType="com.annaru.upms.entity.UserBasic">
       UPDATE user_basic SET last_logintime = #{userBasic.lastLogintime}
        WHERE sys_id = #{userBasic.sysId}
+    </update>
+
+    <update id="updateBySysId" parameterType="map" >
+        UPDATE user_basic SET openid = #{params.openid}
+        WHERE sys_id = #{params.sysId}
     </update>
 
 </mapper>

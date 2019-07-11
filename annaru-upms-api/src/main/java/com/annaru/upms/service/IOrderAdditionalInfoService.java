@@ -2,6 +2,7 @@ package com.annaru.upms.service;
 
 import com.annaru.common.result.PageUtils;
 import com.annaru.upms.entity.OrderAdditionalInfo;
+import com.annaru.upms.entity.UserCards;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.apache.ibatis.annotations.Param;
 
@@ -21,6 +22,13 @@ public interface IOrderAdditionalInfoService extends IService<OrderAdditionalInf
     * @return
     */
     PageUtils getDataPage(Map<String, Object> params);
+
+    /**
+     * @Description:体检人信息查询 用于企业门诊绿通
+     * @Author: wh
+     * @Date: 2019/7/9 9:18
+     */
+    UserCards selectUserOrRelativeInfo(String userId,String relativeId);
 
 
 }

@@ -42,7 +42,7 @@
           is_deleted,
           status,
           creation_time,
-          create_by,
+          create_by
     </sql>
 
     <!-- 多表页面信息查询分页 -->
@@ -81,6 +81,16 @@
             and eirc.JGPD!='N'
         </if>
 
+    </select>
+
+    <select id="selectExamReportReviewServiceByReportNo" resultType="com.annaru.upms.entity.ExamReportReview">
+        SELECT
+          *
+        FROM
+          exam_report_review
+        WHERE
+          report_no=#{reportNo}
+        LIMIT 1
     </select>
 
     <!-- 添加报告建议-->

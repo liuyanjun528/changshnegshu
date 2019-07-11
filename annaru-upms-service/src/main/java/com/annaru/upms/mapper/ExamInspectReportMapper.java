@@ -1,6 +1,7 @@
 package com.annaru.upms.mapper;
 
 import com.annaru.upms.entity.ExamInspectReport;
+import com.annaru.upms.entity.vo.ExamInspectReportVo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -30,7 +31,7 @@ public interface ExamInspectReportMapper extends BaseMapper<ExamInspectReport> {
      * @param params 参数
      * @return
      */
-    List<ExamInspectReport> selectDataList(@Param("params") Map<String, Object> params);
+    List<ExamInspectReportVo> selectDataList(@Param("params") Map<String, Object> params);
 
     /**
      * @Description:根据报告编号获取报告信息
@@ -39,7 +40,7 @@ public interface ExamInspectReportMapper extends BaseMapper<ExamInspectReport> {
      * @Date: 2019/5/22
      * @return
      */
-    ExamInspectReport selectByReportNO(@Param("reportNO") String reportNO);
+    ExamInspectReportVo selectByReportNO(@Param("reportNO") String reportNO);
 
     /*** 根据报告编号获取订单编号
     * @params: [reportNO]报告编号

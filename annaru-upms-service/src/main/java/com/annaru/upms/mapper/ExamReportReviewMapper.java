@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.Param;
-import java.util.List;
+
 import java.util.Map;
 
 /**
@@ -48,5 +48,12 @@ public interface ExamReportReviewMapper extends BaseMapper<ExamReportReview> {
     int updateReportStatus(@Param("reportNo")String reportNo);
 
 
-
+    /**
+     * @Description: 根据报告编号查询报告解读
+     * @param  reportNo 报告编号
+     * @Author: XCK
+     * @Date: 2019/7/9
+     * @return
+     */
+    ExamReportReview selectExamReportReviewServiceByReportNo(@Param("reportNo")String reportNo);
 }

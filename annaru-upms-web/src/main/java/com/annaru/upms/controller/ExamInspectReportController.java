@@ -3,9 +3,8 @@ package com.annaru.upms.controller;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.annaru.common.base.BaseController;
 import com.annaru.common.result.ResultMap;
-import com.annaru.upms.entity.ExamInspectReport;
 import com.annaru.upms.entity.ExamInspectReportUploadApp;
-import com.annaru.upms.service.IExamInspectReportListService;
+import com.annaru.upms.entity.vo.ExamInspectReportVo;
 import com.annaru.upms.service.IExamInspectReportService;
 import com.annaru.upms.service.IExamInspectReportUploadAppService;
 import io.swagger.annotations.Api;
@@ -27,20 +26,17 @@ import java.util.List;
 @RequestMapping("upms/examInspectReport")
 public class ExamInspectReportController extends BaseController {
     @Reference
-    private IExamInspectReportListService examInspectReportListService;
-    @Reference
     private IExamInspectReportService examInspectReportService;
     @Reference
     private IExamInspectReportUploadAppService examInspectReportUploadAppService;
 
 
-    @ApiOperation(value = "获取病人订单下所有报告列表")
-    @GetMapping("/getAllByBYH")
-    public ResultMap getAllByBYH(@ApiParam(value = "就诊号（订单号^病人姓名拼音全拼，如：123456^xiaochen）") @RequestParam String byh,
-                                 @ApiParam(value = "报告类型（1-临床检验报告；2-病理组织报告；3-TCT；4-微生物报告；9-其他报告）") @RequestParam(required = false) String reportType) {
+    @ApiOperation(value = "获取用户所有检测报告列表")
+    @GetMapping("/listAll")
+    public ResultMap listAll(@ApiParam(value = "用户编号") @RequestParam String userId) {
         try {
-            List<ExamInspectReport> list = examInspectReportService.getAllByBYH(byh, reportType);
-            return ResultMap.ok().put("data", list);
+            List<ExamInspectReportVo> list = examInspectReportService.getAllByBYH(userId, null);
+            return ResultMap.ok().put("reportList", list);
         } catch (Exception e) {
             logger.error(e.getMessage());
             return ResultMap.error("运行异常，请联系管理员");
@@ -50,9 +46,9 @@ public class ExamInspectReportController extends BaseController {
 
     @ApiOperation(value = "查看详情", notes = "查看详情")
     @GetMapping("/info")
-    public ResultMap info(@ApiParam(value = "报告编号", required = true) @RequestParam String reportNO) {
+    public ResultMap info(@ApiParam(value = "报告编号") @RequestParam String reportNO) {
         try {
-            ExamInspectReport inspectReport = examInspectReportService.getByReportNO(reportNO);
+            ExamInspectReportVo inspectReport = examInspectReportService.getByReportNO(reportNO);
             return ResultMap.ok().put("data", inspectReport);
         } catch (Exception e) {
             logger.error(e.getMessage());

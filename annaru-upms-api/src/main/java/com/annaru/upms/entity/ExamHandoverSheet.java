@@ -87,6 +87,14 @@ public class ExamHandoverSheet extends Model<ExamHandoverSheet> implements Seria
     @ApiModelProperty(value = "交接单图片")
 	private String images;
 
+	/**
+	 * 交接医院
+	 */
+	@ApiModelProperty(value = "交接医院")
+	@TableField (exist=false)
+	private String name;
+
+
     /**
      * 获取：系统编号
      */
@@ -214,7 +222,15 @@ public class ExamHandoverSheet extends Model<ExamHandoverSheet> implements Seria
 		this.images = images;
 	}
 
-    @Override
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	@Override
 	protected Serializable pkVal() {
 		return this.sysId;
 	}

@@ -71,16 +71,22 @@ public class TbMedicalController extends BaseController {
             List<TbYlMzMedicalRecordListVo> listYlMzMedicalRecord = iTbYlMzMedicalRecordService.getJzjlCsByKh(kh);
             if (listYlMzMedicalRecord.size() > 0 ) {
                 map.put("mzjl",listYlMzMedicalRecord.size());
+            }else{
+                map.put("mzjl",null);
             }
             //根据卡号查询近三年门诊次数最多医院
             TbYlMzMedicalRecordListVo tbYlMzMedicalRecordListVo = iTbYlMzMedicalRecordService.getHospitalNameByKh(kh);
             if(tbYlMzMedicalRecordListVo != null){
                 map.put("hospitalName", tbYlMzMedicalRecordListVo.getHospitalName());
+            }else{
+                map.put("hospitalName",null);
             }
             //根据卡号查询近一年的住院记录
             List<TbYlZyMedicalRecordListVo> listYlZyMedicalRecord = iTbYlZyMedicalRecordService.getJyjlCs(kh);
             if (listYlZyMedicalRecord.size() > 0 ) {
                 map.put("zyjl",listYlZyMedicalRecord.size());
+            }else{
+                map.put("zyjl",null);
             }
             return ResultMap.ok().put("data",map);
         } catch (Exception e) {

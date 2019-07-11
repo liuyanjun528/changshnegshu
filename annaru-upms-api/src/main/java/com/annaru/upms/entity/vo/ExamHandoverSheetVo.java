@@ -20,6 +20,24 @@ public class ExamHandoverSheetVo implements Serializable {
     @TableField("user_id")
     private String userId;   //用户Id
 
+    @TableField("head_image")
+    private String headImage;   //用户头像
+
+    @TableField("full_name")
+    private String fullName; //用户名称
+
+    @TableField("gender")
+    private int gender;//用户性别
+
+    @TableField(exist = false)
+    private int age;//用户年龄
+
+    @TableField("id_card_no")
+    private String idCardNo;//用户身份证号
+
+    @TableField("cellphone_no")
+    private String cellphoneNo;//用户手机号
+
     @TableField("appoint_date")
     private Date appointDate; //预约时间
 
@@ -38,8 +56,11 @@ public class ExamHandoverSheetVo implements Serializable {
     @TableField("draw_complete_time")
     private Date drawCompleteTime;  //抽血完成时间
 
-    @TableField("institution_id")
-    private String institutionId;  //机构名称
+    @TableField("is_handovered")
+    private int isHandovered;  //是否交接
+
+    @TableField("name")
+    private String name;  //机构名称
 
     @TableField("handover_time")
     private Date handoverTime;  //提交时间
@@ -104,6 +125,62 @@ public class ExamHandoverSheetVo implements Serializable {
         this.personBarcodeConfirmed = personBarcodeConfirmed;
     }
 
+    public String getHeadImage() {
+        return headImage;
+    }
+
+    public void setHeadImage(String headImage) {
+        this.headImage = headImage;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public int getGender() {
+        return gender;
+    }
+
+    public void setGender(int gender) {
+        this.gender = gender;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public String getIdCardNo() {
+        return idCardNo;
+    }
+
+    public void setIdCardNo(String idCardNo) {
+        this.idCardNo = idCardNo;
+    }
+
+    public String getCellphoneNo() {
+        return cellphoneNo;
+    }
+
+    public void setCellphoneNo(String cellphoneNo) {
+        this.cellphoneNo = cellphoneNo;
+    }
+
+    public int getIsHandovered() {
+        return isHandovered;
+    }
+
+    public void setIsHandovered(int isHandovered) {
+        this.isHandovered = isHandovered;
+    }
+
     public String getSampleCode() {
         return sampleCode;
     }
@@ -128,12 +205,12 @@ public class ExamHandoverSheetVo implements Serializable {
         this.drawCompleteTime = drawCompleteTime;
     }
 
-    public String getInstitutionId() {
-        return institutionId;
+    public String getName() {
+        return name;
     }
 
-    public void setInstitutionId(String institutionId) {
-        this.institutionId = institutionId;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Date getHandoverTime() {
