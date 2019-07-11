@@ -302,10 +302,10 @@
         eham.sys_id,
         eham.entity_no,
         eham.package_id,
-        SUM(om.order_cates=3) baseCheckNum,
-        SUM(om.order_cates=4) extensionCheckNum,
-        SUM(oa.appointment_cates=5) familyDoctorNum,
-        SUM(oa.appointment_cates=6) greenChannelNum
+        count(oa.appointment_cates=3) baseCheckNum,
+        count(om.order_cates=4) extensionCheckNum,
+        count(oa.appointment_cates=5) familyDoctorNum,
+        count(oa.appointment_cates=6) greenChannelNum
         FROM
         entity_hr_appointment_main eham
         LEFT JOIN order_main om
