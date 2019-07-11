@@ -84,6 +84,7 @@ public class UserBasic extends Model<UserBasic> implements Serializable {
 	 * 医保卡号
 	 */
 	@ApiModelProperty(value = "医保卡号")
+	@TableField(exist = false)
 	private String cardNo;
 	/**
 	 * 藉贯(省)

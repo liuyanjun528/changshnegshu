@@ -8,6 +8,12 @@
         <result column="related_no" property="relatedNo" />
         <result column="order_no" property="orderNo" />
         <result column="user_id" property="userId" />
+        <result column="head_image" property="headImage" />
+        <result column="full_name" property="fullName" />
+        <result column="gender" property="gender" />
+        <result column="age" property="age" />
+        <result column="id_card_no" property="idCardNo" />
+        <result column="cellphone_no" property="cellphoneNo" />
         <result column="appoint_date" property="appointDate" />
         <result column="address" property="address" />
         <result column="person_barcode_confirmed" property="personBarcodeConfirmed" />
@@ -49,6 +55,12 @@
             oa.related_no,-- 护士编号
 			oa.order_no,-- 订单编号
 			oa.user_id, --  用户Id
+			ub.full_name, -- 姓名
+			ub.head_image,-- 头像
+			ub.gender,-- 性别
+			TIMESTAMPDIFF(YEAR, ub.date_of_birth, CURDATE()) as age,-- 年龄
+			ub.id_card_no,-- 身份证号
+			ub.cellphone_no,-- 手机号
 			oa.appoint_date,-- 预约时间
 			oa.address,  --  预约地址
 			ehs.person_barcode_confirmed, -- 体检人二维码是否确认(0:未确认/1:已确认)
@@ -69,6 +81,7 @@
         LEFT JOIN order_main as om ON ehs.order_no=om.order_no
         LEFT JOIN sys_nurse as sn ON oa.related_no=sn.nurse_no
         LEFT JOIN sys_institution as si ON si.institution_id=oa.institution_id
+        LEFT JOIN user_basic as ub ON ub.user_id=oa.user_id
         WHERE ehs.order_no=#{orderNo}
 
     </select>
