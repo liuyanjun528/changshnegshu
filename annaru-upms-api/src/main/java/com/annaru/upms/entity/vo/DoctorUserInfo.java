@@ -23,6 +23,25 @@ public class DoctorUserInfo  implements Serializable {
     private String idCardNo; //身份证号
     private String cardNo;// 医保卡号
     private Date effectTo;//服务截至日期
+    private int isHr;
+    private String entityNo;// 企业编号
+
+
+    public String getEntityNo() {
+        return entityNo;
+    }
+
+    public void setEntityNo(String entityNo) {
+        this.entityNo = entityNo;
+    }
+
+    public int getIsHr() {
+        return isHr;
+    }
+
+    public void setIsHr(int isHr) {
+        this.isHr = isHr;
+    }
 
     public String getEntityName() {
         return entityName;

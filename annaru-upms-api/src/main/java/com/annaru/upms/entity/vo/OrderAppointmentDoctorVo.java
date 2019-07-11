@@ -34,6 +34,9 @@ public class OrderAppointmentDoctorVo  implements Serializable {
     @TableField("entity_id")
     private String entityId;
 
+    @TableField("entity_name")
+    private String entityName;
+
     @TableField("cellphone_no")
     private String cellphoneNo;
 
@@ -46,8 +49,36 @@ public class OrderAppointmentDoctorVo  implements Serializable {
     @TableField("appoint_date")
     private String appointDate;
 
-    private String orderNo;
+    @TableField("is_submitted")
+    private int isSubmitted;
 
+    private String orderNo;
+    private int isHr;
+
+
+    public int getIsSubmitted() {
+        return isSubmitted;
+    }
+
+    public void setIsSubmitted(int isSubmitted) {
+        this.isSubmitted = isSubmitted;
+    }
+
+    public int getIsHr() {
+        return isHr;
+    }
+
+    public void setIsHr(int isHr) {
+        this.isHr = isHr;
+    }
+
+    public String getEntityId() {
+        return entityId;
+    }
+
+    public void setEntityId(String entityId) {
+        this.entityId = entityId;
+    }
 
     public String getHeadImage() {
         return headImage;
@@ -121,12 +152,12 @@ public class OrderAppointmentDoctorVo  implements Serializable {
         this.userAge = userAge;
     }
 
-    public String getEntityId() {
-        return entityId;
+    public String getEntityName() {
+        return entityName;
     }
 
-    public void setEntityId(String entityId) {
-        this.entityId = entityId;
+    public void setEntityName(String entityName) {
+        this.entityName = entityName;
     }
 
     public int getStatus() {
