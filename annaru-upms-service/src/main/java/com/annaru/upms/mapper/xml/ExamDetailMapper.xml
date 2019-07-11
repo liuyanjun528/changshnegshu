@@ -22,7 +22,7 @@
         <result column="abstracts" property="abstracts" />
         <result column="standard_value" property="standardValue" />
         <result column="master_id" property="masterId" />
-        <result column="extension_cates_id" property="extensionCatesId" />
+        <result column="extention_cate_id" property="extensionCatesId" />
     </resultMap>
 
     <!-- 多表页面信息查询分页 -->
@@ -50,15 +50,17 @@
         from exam_extention_cates
     </select>
     <select id="selectByType" resultMap="row2">
-        select
-        sys_id,
-        item_name,
-        abstracts,
-        standard_value,
-        master_id,
-        extension_cates_id
-        from exam_detail
-        where extension_cates_id = #{ecId};
+      select a.extention_cate_id,
+      b.sys_id,
+      b.item_name,
+      b.amount,
+      b.abstracts,
+      b.standard_value,
+      c.sys_id as master_id
+      from exam_extention_cates_detail_mapping a
+	  left join exam_detail b on a.detail_id=b.sys_id
+	  left join exam_master c on a.master_id=c.sys_id
+	  where a.extention_cate_id= #{ecId}
     </select>
 
 </mapper>
