@@ -45,6 +45,8 @@ public class SysDoctorOppointment extends Model<SysDoctorOppointment> implements
 	@TableField("user_cate")
 	private String userCate;
 
+	private String orderNo;
+
 
 	/**
 	 * 类别：
@@ -90,6 +92,8 @@ public class SysDoctorOppointment extends Model<SysDoctorOppointment> implements
     @ApiModelProperty(value = "当前状态(0:无效/1:有效)")
 	@TableField("is_active")
 	private Integer isActive = 0;
+
+    private Integer isConfirmed = 0;
 	/**
 	 * 创建时间
 	 */
@@ -115,7 +119,23 @@ public class SysDoctorOppointment extends Model<SysDoctorOppointment> implements
 	@TableField("edit_by")
 	private String editBy;
 
-    /**
+	public Integer getIsConfirmed() {
+		return isConfirmed;
+	}
+
+	public void setIsConfirmed(Integer isConfirmed) {
+		this.isConfirmed = isConfirmed;
+	}
+
+	public String getOrderNo() {
+		return orderNo;
+	}
+
+	public void setOrderNo(String orderNo) {
+		this.orderNo = orderNo;
+	}
+
+	/**
      * 获取：系统编号
      */
     public Integer getSysId() {

@@ -11,7 +11,7 @@ public class HrHomePageInfo extends Model<HrHomePageInfo> implements Serializabl
 	private static final long serialVersionUID = 1L;
 
 	private Integer total;
-	private Integer userd;
+	private Integer used;
 	private Integer baseCheckNum;
 	private Integer extensionCheckNum;
 	private Integer greenChannelNum;
@@ -25,12 +25,12 @@ public class HrHomePageInfo extends Model<HrHomePageInfo> implements Serializabl
 		this.total = total;
 	}
 
-	public Integer getUserd() {
-		return userd;
+	public Integer getUsed() {
+		return used;
 	}
 
-	public void setUserd(Integer userd) {
-		this.userd = userd;
+	public void setUsed(Integer used) {
+		this.used = used;
 	}
 
 	public Integer getBaseCheckNum() {
