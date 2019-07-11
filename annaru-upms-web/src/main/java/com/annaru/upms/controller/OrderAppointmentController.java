@@ -67,26 +67,32 @@ public class OrderAppointmentController extends BaseController {
     @ApiOperation(value = "门诊预约确认操作", notes = "门诊预约确认操作")
     @GetMapping("/updateStatus")
     @RequiresPermissions("upms/orderAppointment/updateStatus")
-    public ResultMap updateStatus(@RequestParam String userId,
-                                  @RequestParam String doctorNo,
-                                  @RequestParam Date appointDate,
-                                  @RequestParam String timeFrom,
-                                  @RequestParam String timeTo) {
+    public ResultMap updateStatus(@RequestParam Integer sysId) {
         Map<String, Object> params = new HashMap<>();
+        SysDoctorOppointment sysDoctorOppointment = sysDoctorOppointmentService.getById(sysId);
+        sysDoctorOppointment.setIsConfirmed(1);
+        String userId = sysDoctorOppointment.getUserId();
+        String doctorNo = sysDoctorOppointment.getDoctorNurseNo();
+        String timeFrom = sysDoctorOppointment.getTimeFrom();
+        String timeTo = sysDoctorOppointment.getTimeTo();
+        Date appointDate = sysDoctorOppointment.getAppointDate();
+        params.put("sysId",sysId);
         params.put("doctorNo",doctorNo);
         params.put("userId",userId);
         params.put("appointDate",appointDate);
         params.put("timeFrom",timeFrom);
         params.put("timeTo",timeTo);
         OrderAppointment appointment = new OrderAppointment();
+        appointment.setOrderNo(sysDoctorOppointment.getOrderNo());
         appointment.setUserId(userId);
         appointment.setRelatedNo(doctorNo);
         appointment.setTimeFrom(timeFrom);
+        appointment.setTimeTo(timeTo);
         appointment.setAppointDate(appointDate);
         appointment.setAppointmentCates(5);
         try {
             sysDoctorScheduleService.updateSceduleStatus(params);
-            sysDoctorOppointmentService.updateSceduleStatus(params);
+            sysDoctorOppointmentService.updateById(sysDoctorOppointment);
             orderAppointmentService.save(appointment);
             return ResultMap.ok("修改成功");
         } catch (Exception e) {
@@ -107,10 +113,9 @@ public class OrderAppointmentController extends BaseController {
     public ResultMap selectOutpatientAppointment(
             @ApiParam(value = "当前页")@RequestParam(defaultValue="1") int page,
             @ApiParam(value = "每页数量")@RequestParam(defaultValue = "10") int limit,
-            @ApiParam(value = "医生编号")@RequestParam(required = false)String doctorNo,
-            @ApiParam(value = "状态")@RequestParam(required = false) int status
+            @ApiParam(value = "医生编号")@RequestParam String doctorNo,
+            @ApiParam(value = "状态")@RequestParam Integer status
     ){
-
         Map<String, Object> params = new HashMap<>();
         params.put("page",page);
         params.put("limit", limit);
@@ -390,10 +395,12 @@ public class OrderAppointmentController extends BaseController {
                 orderMain.setOrderCates(orderCates);
                 orderMainService.save(orderMain);
             }else if (orderAppointment.getAppointmentCates()==5
+                    &&orderAppointment.getOrderNo()!=null
                     &&orderAppointment.getRelatedNo()!=null
                     &&orderAppointment.getAppointDate()!=null
                     &&orderAppointment.getTimeFrom()!=null
                     &&orderAppointment.getTimeTo()!=null){
+                sysDoctorOppointment.setOrderNo(orderAppointment.getOrderNo());
                 sysDoctorOppointment.setAppointmentCates(5);
                 sysDoctorOppointment.setUserId(orderAppointment.getUserId());
                 sysDoctorOppointment.setDoctorNurseNo(orderAppointment.getRelatedNo());
