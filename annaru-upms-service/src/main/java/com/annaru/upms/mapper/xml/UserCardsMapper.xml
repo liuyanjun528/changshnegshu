@@ -83,7 +83,8 @@ UNION
 		      ur.cellphone_no,-- 亲属手机号
               uc.card_cates,-- 卡类型
               uc.status, -- 卡状态
-              uc.card_no-- 卡号
+              uc.card_no,-- 卡号
+              ur.gender
         FROM user_relatives as ur
         LEFT  JOIN  user_cards as uc ON uc.user_id=ur.relative_id
         WHERE ur.user_id=#{userId}
