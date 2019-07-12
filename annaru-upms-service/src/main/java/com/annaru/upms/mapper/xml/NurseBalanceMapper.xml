@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.annaru.upms.mapper.NurseBalanceMapper">
+
+	<!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.annaru.upms.entity.vo.NurseBalance" >
+        <result column="singular" property="singular" />
+        <result column="totalMoney" property="totalMoney" />
+    </resultMap>
+
+    <!-- 护士完成的累计单数 -->
+    <select id="selectSingular" parameterType="string" resultType="integer">
+        select 	count(*) as singular
+	      FROM exam_handover_sheet as ehs
+	        LEFT JOIN order_appointment as oa ON oa.order_no=ehs.order_no
+	          WHERE oa.related_no=#{nurseNo} and ehs.is_handovered=1
+    </select>
+
+
+    <!-- 护士完成的累计收入 -->
+        <select id="selectTotalMoney" parameterType="string" resultType="double">
+            select sum(oai.amount) as totalMoney
+              FROM order_appointment as oa
+                LEFT JOIN order_additional_info as oai ON oa.order_no=oai.order_no
+			      WHERE oa.related_no=#{nurseNo} and oa.service_option=1
+        </select>
+
+
+</mapper>

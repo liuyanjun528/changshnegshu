@@ -61,13 +61,13 @@ public class SysMessage extends Model<SysMessage> implements Serializable {
 	 */
     @ApiModelProperty(value = "状态(1:已读/0:未读)")
 	@TableField("is_read")
-	private Integer isRead;
+	private Integer isRead = 0;
 	/**
 	 * 生成时间
 	 */
     @ApiModelProperty(value = "生成时间")
 	@TableField("creation_time")
-	private Date creationTime;
+	private Date creationTime = new Date();
 	/**
 	 * 读取时间
 	 */
