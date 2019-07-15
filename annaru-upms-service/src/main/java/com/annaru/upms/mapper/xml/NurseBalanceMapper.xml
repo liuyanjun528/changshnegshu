@@ -9,6 +9,14 @@
         <result column="totalMoney" property="totalMoney" />
     </resultMap>
 
+    <resultMap id="WalletMap" type="com.annaru.upms.entity.UserWallet" >
+        <result column="user_id" property="userId" />
+        <result column="trans_cate" property="transCate" />
+        <result column="amount" property="amount" />
+        <result column="creation_time" property="creationTime" />
+        <result column="status" property="status" />
+    </resultMap>
+
     <!-- 护士完成的累计单数 -->
     <select id="selectSingular" parameterType="string" resultType="integer">
         select 	count(*) as singular
@@ -18,7 +26,7 @@
     </select>
 
 
-    <!-- 护士完成的累计收入 -->
+    <!-- 护士应收入 -->
         <select id="selectTotalMoney" parameterType="string" resultType="double">
             select sum(oai.amount) as totalMoney
               FROM order_appointment as oa
@@ -26,5 +34,31 @@
 			      WHERE oa.related_no=#{nurseNo} and oa.service_option=1
         </select>
 
+    <!-- 我的余额 -->
+        <select id="selectBalance1" parameterType="string" resultType="double">
+        SELECT  SUM(amount) amount FROM user_wallet
+          where trans_cate=2 and user_id=#{userId} and status=2
+        </select>
+
+        <select id="selectBalance2" parameterType="string" resultType="double">
+            SELECT  SUM(amount) amount FROM user_wallet
+              where trans_cate=1 and user_id=#{userId} and status=2
+        </select>
+
+    <!--护士收入明细-->
+        <select id="selectMoneyInfoList" parameterType="map" resultMap="WalletMap">
+              SELECT
+                  user_id,
+			      trans_cate,-- 提现还是结算
+			      amount, -- 金额
+			      creation_time, -- 时间
+			      status
+			FROM user_wallet
+            where user_id=#{params.userId}
+            <if test="params.tranCate == 1 or params.tranCate==2">
+                and trans_cate=#{params.tranCate}
+            </if>
+
+        </select>
 
 </mapper>

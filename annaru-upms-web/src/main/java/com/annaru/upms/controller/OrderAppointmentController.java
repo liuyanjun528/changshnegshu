@@ -159,7 +159,7 @@ public class OrderAppointmentController extends BaseController {
         //套餐信息 订单号
         UserPackagesVo userPackage = orderMainService.getToBPackages(params);
         if (userPackage==null){
-            return ResultMap.ok().put("data","尚未购买套餐");
+            return ResultMap.ok().put("data",userPackage);
         }
         params.put("examId",userPackage.getReferenceNo());
         if (orderNo==null){
@@ -182,11 +182,7 @@ public class OrderAppointmentController extends BaseController {
 
         params.clear();
         params.put("appointed",1);
-        if (null==orderExtensionSuggestion||orderExtensionSuggestion.size()==0){
-            params.put("extensionSuggestion","");
-        }else {
-            params.put("extensionSuggestion",orderExtensionSuggestion);
-        }
+        params.put("extensionSuggestion",orderExtensionSuggestion);
         if (orderInfoVo==null){
             params.put("extensioncheck","");
         }else {
@@ -245,6 +241,20 @@ public class OrderAppointmentController extends BaseController {
         PageUtils<Map<String, Object>> pageList = orderAppointmentService.selectList(params);
         return ResultMap.ok().put("data",pageList);
     }
+
+    /**
+     * 患者的检验报告  --wh
+     */
+    @ApiOperation(value = "患者的检验报告", notes = "患者的检验报告")
+    @GetMapping("/brReport")
+    @RequiresPermissions("upms/orderAppointment/brReport")
+    public ResultMap brReport(String userId){
+        Map<String, Object> params = new HashMap<>();
+        params.put("userId",userId);
+        List<ExamReportReviewVo> examReportReviewVos = orderAppointmentService.selectBRReport(params);
+        return ResultMap.ok().put("data",examReportReviewVos);
+    }
+
 
     /**
      * 我的患者详情  --wh
