@@ -159,7 +159,7 @@ public class OrderAppointmentController extends BaseController {
         //套餐信息 订单号
         UserPackagesVo userPackage = orderMainService.getToBPackages(params);
         if (userPackage==null){
-            return ResultMap.ok().put("data","尚未购买套餐");
+            return ResultMap.ok().put("data",userPackage);
         }
         params.put("examId",userPackage.getReferenceNo());
         if (orderNo==null){
@@ -182,11 +182,7 @@ public class OrderAppointmentController extends BaseController {
 
         params.clear();
         params.put("appointed",1);
-        if (null==orderExtensionSuggestion||orderExtensionSuggestion.size()==0){
-            params.put("extensionSuggestion","");
-        }else {
-            params.put("extensionSuggestion",orderExtensionSuggestion);
-        }
+        params.put("extensionSuggestion",orderExtensionSuggestion);
         if (orderInfoVo==null){
             params.put("extensioncheck","");
         }else {
