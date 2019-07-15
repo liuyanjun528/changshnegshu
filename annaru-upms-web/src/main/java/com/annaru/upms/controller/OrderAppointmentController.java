@@ -229,16 +229,32 @@ public class OrderAppointmentController extends BaseController {
             @ApiParam(value = "当前页")@RequestParam(defaultValue="1") int page,
             @ApiParam(value = "每页数量")@RequestParam(defaultValue = "10") int limit,
             @ApiParam(value = "医生编号")@RequestParam(required = false)String relatedNo,
-            @ApiParam(value = "状态")@RequestParam(required = false) int status){
+            @ApiParam(value = "状态")@RequestParam(required = false) int status,
+            @ApiParam(value = "查询关键字")@RequestParam(required = false) String name){
 
         Map<String, Object> params = new HashMap<>();
         params.put("page",page);
         params.put("limit", limit);
         params.put("relatedNo", relatedNo);
         params.put("status",status);
+        params.put("name",name);
         PageUtils<Map<String, Object>> pageList = orderAppointmentService.selectList(params);
         return ResultMap.ok().put("data",pageList);
     }
+
+    /**
+     * 患者的检验报告  --wh
+     */
+    @ApiOperation(value = "患者的检验报告", notes = "患者的检验报告")
+    @GetMapping("/brReport")
+    @RequiresPermissions("upms/orderAppointment/brReport")
+    public ResultMap brReport(String userId){
+        Map<String, Object> params = new HashMap<>();
+        params.put("userId",userId);
+        List<ExamReportReviewVo> examReportReviewVos = orderAppointmentService.selectBRReport(params);
+        return ResultMap.ok().put("data",examReportReviewVos);
+    }
+
 
     /**
      * 我的患者详情  --wh

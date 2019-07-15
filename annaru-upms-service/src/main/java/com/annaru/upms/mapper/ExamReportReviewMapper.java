@@ -2,6 +2,7 @@ package com.annaru.upms.mapper;
 
 import com.annaru.upms.entity.ExamReportReview;
 import com.annaru.upms.entity.vo.ExamReportReviewVo;
+import com.annaru.upms.entity.vo.ReportInfoVo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -24,6 +25,15 @@ public interface ExamReportReviewMapper extends BaseMapper<ExamReportReview> {
     * @return
     */
     IPage<ExamReportReview> selectDataPage(Page page, @Param("params") Map<String, Object> params);
+
+
+    /**
+      * @Description:解读报告详情
+      * @Author: wh
+      * @Date: 2019/7/12 13:22
+      */
+    ReportInfoVo selectReportInfo(@Param("params") Map<String, Object> params);
+
 
 
     /**

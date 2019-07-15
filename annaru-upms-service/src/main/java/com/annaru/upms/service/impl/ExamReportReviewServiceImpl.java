@@ -4,6 +4,7 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.annaru.common.result.PageUtils;
 import com.annaru.upms.entity.ExamReportReview;
 import com.annaru.upms.entity.vo.ExamReportReviewVo;
+import com.annaru.upms.entity.vo.ReportInfoVo;
 import com.annaru.upms.mapper.ExamReportReviewMapper;
 import com.annaru.upms.service.IExamReportReviewService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -27,6 +28,11 @@ public class ExamReportReviewServiceImpl extends ServiceImpl<ExamReportReviewMap
         Page<ExamReportReview> page = new PageUtils<ExamReportReview>(params).getPage();
         IPage<ExamReportReview> iPage = this.baseMapper.selectDataPage(page, params);
         return new PageUtils<ExamReportReview>(iPage);
+    }
+
+    @Override
+    public ReportInfoVo selectReportInfo(Map<String, Object> params) {
+        return this.baseMapper.selectReportInfo(params);
     }
 
     @Override

@@ -38,10 +38,10 @@
 
     <!-- 查询待解读报告人数 -->
         <select id="selectUnscrambleNumber" parameterType="String" resultType="int">
-              SELECT count(*)FROM exam_report_review as err
-              LEFT JOIN exam_inspect_report as eir ON err.report_no=eir.report_no
-              LEFT JOIN exam_inspect_report_clinic as eirc ON eir.id=eirc.inspect_report_id
-              WHERE err.review_no=#{doctorNo} and err.status=0
+            select count(*) FROM exam_report_review as err
+            LEFT JOIN exam_inspect_report as eir ON err.report_no=eir.report_no
+            LEFT JOIN user_basic as ub ON ub.user_id=SUBSTRING_INDEX(err.byh,'^',-1)
+            WHERE err.review_no=#{doctorNo}  and err.status=0
         </select>
 
     <!-- 查询总患者人数 -->

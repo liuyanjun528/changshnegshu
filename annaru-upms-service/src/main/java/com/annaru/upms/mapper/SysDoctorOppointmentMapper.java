@@ -28,6 +28,7 @@ public interface SysDoctorOppointmentMapper extends BaseMapper<SysDoctorOppointm
     */
     IPage<SysDoctorOppointment> selectDataPage(Page page, @Param("params") Map<String, Object> params);
 
+
     IPage<DoctorUserOppointmentVo> getAppointmentList(Page page, @Param("params") Map<String, Object> params);
 
     boolean updateSceduleStatus(@Param("params") Map<String, Object> params);
