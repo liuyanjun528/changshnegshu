@@ -34,6 +34,21 @@
         create_by, edit_time, edit_by
     </sql>
 
+    <resultMap id="ABaseMap" type="com.annaru.upms.entity.vo.ExamReportReviewVo" >
+        <result column="byh" property="byh" />
+        <result column="report_no" property="reportNo" />
+        <result column="user_id" property="userId" />
+        <result column="head_image" property="headImage" />
+        <result column="BRXM" property="BRXM" />
+        <result column="BRXB" property="BRXB" />
+        <result column="BGLX" property="BGLX" />
+        <result column="BRNL" property="BRNL" />
+        <result column="SHSJ" property="SHSJ" />
+        <result column="status" property="status" />
+        <result column="review_no" property="reviewNo" />
+    </resultMap>
+
+
     <resultMap id="NurseOrderList" type="com.annaru.upms.entity.vo.NurseOrderList">
         <result column="full_name" property="name"/>
         <result column="gender" property="gender"/>
@@ -52,11 +67,15 @@
         <result column="gender" property="gender"/>
         <result column="user_age" property="userAge"/>
         <result column="entity_id" property="entityId"/>
+        <result column="entity_name" property="entityName"/>
         <result column="effect_to" property="effectTo"/>
         <result column="status" property="status"/>
+        <result column="order_no" property="orderNo"/>
+        <result column="is_hr" property="isHr"/>
     </resultMap>
 
     <resultMap id="BaseResultMap2" type="com.annaru.upms.entity.vo.DoctorUserInfo">
+        <result column="entity_no" property="entityNo"/>
         <result column="entity_name" property="entityName"/>
         <result column="user_id" property="userId"/>
         <result column="head_image" property="headImage"/>
@@ -66,6 +85,7 @@
         <result column="id_card_no" property="idCardNo"/>
         <result column="card_no" property="cardNo"/>
         <result column="effect_to" property="effectTo"/>
+        <result column="is_hr" property="isHr"/>
     </resultMap>
 
 
@@ -92,13 +112,16 @@
         ub.full_name,-- 姓名
         ub.gender,-- 性别
         TIMESTAMPDIFF(YEAR, ub.date_of_birth, CURDATE()) AS user_age,-- 年龄
-        oa.entity_id,-- 公司名称
+        oa.entity_id,-- 企业编号
+        sent.entity_name,-- 公司名称
         ufd.effect_to,-- 截至时间
-        oa.status -- 状态
+        oa.status, -- 状态
+        ub.is_hr
         from
         order_appointment as oa
         LEFT JOIN user_basic as ub ON oa.user_id=ub.user_id
         LEFT JOIN user_family_doctor as ufd ON oa.user_id=ufd.user_id
+        LEFT JOIN sys_entity as sent ON oa.entity_id=sent.entity_id
         <if test="params.relatedNo != null and params.relatedNo!=''">
             where oa.related_no=#{params.relatedNo} and oa.status=1
         </if>
@@ -158,14 +181,21 @@
 			  ub.full_name,-- 姓名
 			  ub.gender,-- 性别
 			  TIMESTAMPDIFF(YEAR, ub.date_of_birth, CURDATE()) AS user_age,-- 年龄
-			  oa.entity_id,-- 公司名称
+			  oa.entity_id,-- 企业编号
+			  sent.entity_name,-- 公司名称
 			  ufd.effect_to,-- 截至时间
 			  oa.status, -- 状态
-			  'p' as business_type -- 标识为用户
+			  oa.order_no,
+			  ub.is_hr -- 标识为用户
         from order_appointment as oa
             LEFT JOIN user_basic as ub ON oa.user_id=ub.user_id
 			LEFT JOIN user_family_doctor as ufd ON oa.user_id=ufd.user_id
+			LEFT JOIN sys_entity as sent ON oa.entity_id=sent.entity_id
         where oa.related_no=#{params.relatedNo}  and oa.status=#{params.status} and oa.appointment_cates=5
+        <if test="params.name !=null and params.name != ''">
+            and ub.full_name LIKE CONCAT('%', #{params.name}, '%')
+        </if>
+
 UNION
         select
 			eha.user_id,-- id
@@ -173,14 +203,20 @@ UNION
 		    ub.full_name,-- 姓名
 			ub.gender,-- 性别
 			TIMESTAMPDIFF(YEAR, ub.date_of_birth, CURDATE()) AS user_age,
-			eha.entity_no,-- 公司名称
+			eha.entity_no, -- 企业编号
+			sent.entity_name,-- 公司名称
 			epm.effect_to,-- 截至时间
 			eha.status,
-			'e' as business_type -- 标识为企业
+			eha.order_no,
+			ub.is_hr -- 标识为企业
         from entity_healthy_appointment as eha
             LEFT JOIN user_basic as ub ON eha.user_id=ub.user_id
 			LEFT JOIN entity_purchse_main as epm ON eha.entity_no=epm.entity_no
+			LEFT JOIN sys_entity as sent ON eha.entity_no=sent.entity_id
         WHERE eha.related_no=#{params.relatedNo} and eha.status=#{params.status} and eha.pkg_main_id=8 and eha.pkg_detail_id=801
+        <if test="params.name !=null and params.name != ''">
+            and ub.full_name LIKE CONCAT('%', #{params.name}, '%')
+        </if>
     </select>
 
     <!--确认接收 修改status-->
@@ -191,11 +227,13 @@ UNION
     <!--我的患者详情-->
     <select id="selectInfo" parameterType="map" resultMap="BaseResultMap2">
         select
+            ub.is_hr,-- 标识
 			eha.user_id,-- id
 			ub.head_image,
 		    ub.full_name,-- 姓名
 			ub.gender,-- 性别
 			TIMESTAMPDIFF(YEAR, ub.date_of_birth, CURDATE()) AS user_age,
+			eha.entity_no,-- 企业编号
 			sent.entity_name,-- 公司名称
 			ub.id_card_no,-- 身份证号
 			uc.card_no,-- 医保卡号
@@ -206,6 +244,27 @@ UNION
 				LEFT JOIN entity_purchse_main as epm ON eha.entity_no=epm.entity_no
 				LEFT JOIN sys_entity as sent ON eha.entity_no=sent.entity_id
         WHERE eha.user_id=#{userId} and eha.status=1
+    </select>
+
+    <!-- 患者的检验报告-->
+    <select id="selectBRReport" parameterType="map" resultMap="ABaseMap">
+        select
+            err.byh,
+            err.report_no,-- 报告编号
+            err.review_no,-- 解读人
+            ub.user_id,-- 用户编号
+            ub.head_image,-- 头像
+            eir.BRXM,-- 报告人
+            eir.BRXB,-- 性别
+            eir.BRNL,-- 年龄
+            eir.BGLX,-- 报告类型
+        -- ,-- 项目名称
+            eir.SHSJ,-- 报告生成时间
+            err.status-- 报告状态
+        FROM exam_report_review as err
+        LEFT JOIN exam_inspect_report as eir ON err.report_no=eir.report_no
+        LEFT JOIN user_basic as ub ON ub.user_id=SUBSTRING_INDEX(err.byh,'^',-1)
+        WHERE ub.user_id=#{params.userId}
     </select>
 
 

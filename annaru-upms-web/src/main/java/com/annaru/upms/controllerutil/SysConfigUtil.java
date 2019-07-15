@@ -68,6 +68,14 @@ public class SysConfigUtil {
             SysConfigUtil.iSysConfigService = iSysConfigService;
             sysConfig = iSysConfigService.getById(configNo);
         }
+        if (iSysConfigService != null && sysConfig != null){
+            if (sysConfig.getSysId() == configNo){
+                return sysConfig;
+            }else {
+                SysConfigUtil.iSysConfigService = iSysConfigService;
+                sysConfig = iSysConfigService.getById(configNo);
+            }
+        }
         return sysConfig;
     }
 

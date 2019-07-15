@@ -2,6 +2,7 @@ package com.annaru.upms.service;
 
 import com.annaru.common.result.PageUtils;
 import com.annaru.upms.entity.ExamReportReview;
+import com.annaru.upms.entity.vo.ReportInfoVo;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.Map;
@@ -20,6 +21,13 @@ public interface IExamReportReviewService extends IService<ExamReportReview> {
     * @return
     */
     PageUtils getDataPage(Map<String, Object> params);
+
+    /**
+     * @Description:解读报告详情
+     * @Author: wh
+     * @Date: 2019/7/12 13:22
+     */
+    ReportInfoVo selectReportInfo(Map<String, Object> params);
 
     /**
      * @Description:待解读报告列表
@@ -48,7 +56,7 @@ public interface IExamReportReviewService extends IService<ExamReportReview> {
      * @param  reportNo 报告编号
      * @Author: XCK
      * @Date: 2019/7/9
-     * @return 
+     * @return
      */
     ExamReportReview getExamReportReviewServiceByReportNo(String reportNo);
 }

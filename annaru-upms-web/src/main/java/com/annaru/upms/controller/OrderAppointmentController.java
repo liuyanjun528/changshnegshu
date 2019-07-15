@@ -53,33 +53,46 @@ public class OrderAppointmentController extends BaseController {
     private IOrderExtensionSuggestionService orderExtensionSuggestionService;
     @Reference
     private ISysDoctorScheduleService sysDoctorScheduleService;
-
+    @Reference
+    private ISysMessageService sysMessageService;
+    @Reference
+    private ISysInstitutionService sysInstitutionService;
+    @Reference
+    private IExamMasterService examMasterService;
+    @Reference
+    private IExamDetailService examDetailService;
     /**
      * 门诊预约确认
      */
     @ApiOperation(value = "门诊预约确认操作", notes = "门诊预约确认操作")
     @GetMapping("/updateStatus")
     @RequiresPermissions("upms/orderAppointment/updateStatus")
-    public ResultMap updateStatus(@RequestParam String userId,
-                                  @RequestParam String doctorNo,
-                                  @RequestParam Date appointDate,
-                                  @RequestParam String timeFrom,
-                                  @RequestParam String timeTo) {
+    public ResultMap updateStatus(@RequestParam Integer sysId) {
         Map<String, Object> params = new HashMap<>();
+        SysDoctorOppointment sysDoctorOppointment = sysDoctorOppointmentService.getById(sysId);
+        sysDoctorOppointment.setIsConfirmed(1);
+        String userId = sysDoctorOppointment.getUserId();
+        String doctorNo = sysDoctorOppointment.getDoctorNurseNo();
+        String timeFrom = sysDoctorOppointment.getTimeFrom();
+        String timeTo = sysDoctorOppointment.getTimeTo();
+        Date appointDate = sysDoctorOppointment.getAppointDate();
+        params.put("sysId",sysId);
         params.put("doctorNo",doctorNo);
         params.put("userId",userId);
         params.put("appointDate",appointDate);
         params.put("timeFrom",timeFrom);
         params.put("timeTo",timeTo);
         OrderAppointment appointment = new OrderAppointment();
+        appointment.setOrderNo(sysDoctorOppointment.getOrderNo());
         appointment.setUserId(userId);
         appointment.setRelatedNo(doctorNo);
         appointment.setTimeFrom(timeFrom);
+        appointment.setTimeTo(timeTo);
         appointment.setAppointDate(appointDate);
         appointment.setAppointmentCates(5);
         try {
             sysDoctorScheduleService.updateSceduleStatus(params);
-            sysDoctorOppointmentService.updateSceduleStatus(params);
+            sysDoctorOppointmentService.updateById(sysDoctorOppointment);
             orderAppointmentService.save(appointment);
             return ResultMap.ok("修改成功");
         } catch (Exception e) {
@@ -100,10 +113,9 @@ public class OrderAppointmentController extends BaseController {
     public ResultMap selectOutpatientAppointment(
             @ApiParam(value = "当前页")@RequestParam(defaultValue="1") int page,
             @ApiParam(value = "每页数量")@RequestParam(defaultValue = "10") int limit,
-            @ApiParam(value = "医生编号")@RequestParam(required = false)String doctorNo,
-            @ApiParam(value = "状态")@RequestParam(required = false) int status
+            @ApiParam(value = "医生编号")@RequestParam String doctorNo,
+            @ApiParam(value = "状态")@RequestParam Integer status
     ){
-
         Map<String, Object> params = new HashMap<>();
         params.put("page",page);
         params.put("limit", limit);
@@ -221,16 +233,32 @@ public class OrderAppointmentController extends BaseController {
             @ApiParam(value = "当前页")@RequestParam(defaultValue="1") int page,
             @ApiParam(value = "每页数量")@RequestParam(defaultValue = "10") int limit,
             @ApiParam(value = "医生编号")@RequestParam(required = false)String relatedNo,
-            @ApiParam(value = "状态")@RequestParam(required = false) int status){
+            @ApiParam(value = "状态")@RequestParam(required = false) int status,
+            @ApiParam(value = "查询关键字")@RequestParam(required = false) String name){
 
         Map<String, Object> params = new HashMap<>();
         params.put("page",page);
         params.put("limit", limit);
         params.put("relatedNo", relatedNo);
         params.put("status",status);
+        params.put("name",name);
         PageUtils<Map<String, Object>> pageList = orderAppointmentService.selectList(params);
         return ResultMap.ok().put("data",pageList);
     }
+
+    /**
+     * 患者的检验报告  --wh
+     */
+    @ApiOperation(value = "患者的检验报告", notes = "患者的检验报告")
+    @GetMapping("/brReport")
+    @RequiresPermissions("upms/orderAppointment/brReport")
+    public ResultMap brReport(String userId){
+        Map<String, Object> params = new HashMap<>();
+        params.put("userId",userId);
+        List<ExamReportReviewVo> examReportReviewVos = orderAppointmentService.selectBRReport(params);
+        return ResultMap.ok().put("data",examReportReviewVos);
+    }
+
 
     /**
      * 我的患者详情  --wh
@@ -265,6 +293,7 @@ public class OrderAppointmentController extends BaseController {
     public ResultMap save(@Valid @RequestBody OrderAppointmentVo orderAppointment) {
         Map<String,Object> params = new HashMap<>();
         OrderAppointment appointment  = new OrderAppointment();
+        SysMessage message = new SysMessage();
         OrderExtensionExam orderExtensionExam = new OrderExtensionExam();
         OrderMain orderMain = new OrderMain();
         OrderDetail orderDetail = new OrderDetail();
@@ -294,13 +323,22 @@ public class OrderAppointmentController extends BaseController {
                     if (orderAppointment.getAddress()!=null){
                         appointment.setAddress(orderAppointment.getAddress());
                         orderAppointmentService.save(appointment);
+                        message.setBusinessCate(3);
+                        message.setMsgCate(3);
+                        message.setContent("您预约上门服务已被护士接单，请您关注上门时间并且提前做好相应的准备，保持电话畅通。");
+
                     }
                 }else if (orderAppointment.getOption1()==2){
                     if (orderAppointment.getInstitutionId()!=null){
                         appointment.setInstitutionId(orderAppointment.getInstitutionId());
                         orderAppointmentService.save(appointment);
+                        message.setBusinessCate(3);
+                        message.setMsgCate(2);
+                        message.setContent("预约成功！请您准时于"+orderAppointment.getAppointDate().getDate()+
+                                "前往"+sysInstitutionService.getInfo(params).getName()+"就诊,迟到将造成无法就诊。");
                     }
                 }
+                sysMessageService.save(message);
             }else if (orderAppointment.getAppointmentCates()==2
                     &&orderAppointment.getInstitutionId()!=null
                     &&orderAppointment.getParentNo()!=null
@@ -309,13 +347,15 @@ public class OrderAppointmentController extends BaseController {
                 Integer orderCates = orderAppointment.getAppointmentCates();
                 String userId = orderAppointment.getUserId();
                 String parentNo = orderAppointment.getParentNo();
+                String msg = "";
                 for(int i = 0;i<orderAppointment.getExtensionItems().size();i++){
                     orderExtensionExam.setCreateBy(userId);
                     orderExtensionExam.setExamDetailId(orderAppointment.getExtensionItems().get(i).getExamDetailId());
                     orderExtensionExam.setExamMasterId(orderAppointment.getExtensionItems().get(i).getExamMasterId());
                     orderExtensionExam.setOrderNo(orderNo);
-                    // orderExtensionExamService.save(orderExtensionExam);
                     int sysId = orderExtensionExamService.saveOne(orderExtensionExam);
+                    msg+= examMasterService.getById(orderAppointment.getExtensionItems().get(i).getExamMasterId()).getName()
+                    + examDetailService.getById(orderAppointment.getExtensionItems().get(i).getExamDetailId()).getItemName();
                     appointment.setExtensionItemId(sysId);
                     appointment.setParentNo(parentNo);
                     appointment.setInstitutionId(orderAppointment.getInstitutionId());
@@ -326,41 +366,18 @@ public class OrderAppointmentController extends BaseController {
                     appointment.setStatus(2);
                     orderAppointmentService.save(appointment);
                 }
+                message.setContent("您已经购买了体检额外项目服务，包含服务项："+msg);
+                message.setMsgCate(1);
+                message.setUserId(userId);
+                message.setOrderNo(orderNo);
+                message.setBusinessCate(2);
+                sysMessageService.save(message);
                 orderMain.setUserId(userId);
                 orderMain.setParentNo(parentNo);
                 orderMain.setOrderNo(orderNo);
                 orderMain.setStatus(0);
                 orderMain.setOrderCates(orderCates);
                 orderMainService.save(orderMain);
-            }else if(orderAppointment.getAppointmentCates()==1
-                    &&orderAppointment.getAppointDate()!=null
-                    &&orderAppointment.getOrderNo()!=null&&orderAppointment.getOption1()!=null
-                    &&orderAppointment.getTimeFrom()!=null){
-                appointment.setAppointmentCates(1);
-                appointment.setAppointDate(orderAppointment.getAppointDate());
-                appointment.setTimeFrom(orderAppointment.getTimeFrom());
-                appointment.setUserId(orderAppointment.getUserId());
-                appointment.setCreateBy(orderAppointment.getUserId());
-                appointment.setCreationTime(new Date());
-                String orderNo = orderAppointment.getOrderNo();
-                appointment.setOrderNo(orderNo);
-                appointment.setServiceOption(orderAppointment.getOption1());
-                orderAdditionalInfo.setAppointmentCates(1);
-                orderAdditionalInfo.setCreateBy(orderAppointment.getUserId());
-                orderAdditionalInfo.setOption1(orderAppointment.getOption1());
-                orderAdditionalInfo.setOrderNo(orderNo);
-                orderAdditionalInfoService.save(orderAdditionalInfo);
-                if (orderAppointment.getOption1()==1){
-                    if (orderAppointment.getAddress()!=null){
-                        appointment.setAddress(orderAppointment.getAddress());
-                        orderAppointmentService.save(appointment);
-                    }
-                }else if (orderAppointment.getOption1()==2){
-                    if (orderAppointment.getInstitutionId()!=null){
-                        appointment.setInstitutionId(orderAppointment.getInstitutionId());
-                        orderAppointmentService.save(appointment);
-                    }
-                }
             }else if (orderAppointment.getAppointmentCates()==4
                     &&orderAppointment.getInstitutionId()!=null
                     &&orderAppointment.getParentNo()!=null
@@ -394,10 +411,12 @@ public class OrderAppointmentController extends BaseController {
                 orderMain.setOrderCates(orderCates);
                 orderMainService.save(orderMain);
             }else if (orderAppointment.getAppointmentCates()==5
+                    &&orderAppointment.getOrderNo()!=null
                     &&orderAppointment.getRelatedNo()!=null
                     &&orderAppointment.getAppointDate()!=null
                     &&orderAppointment.getTimeFrom()!=null
                     &&orderAppointment.getTimeTo()!=null){
+                sysDoctorOppointment.setOrderNo(orderAppointment.getOrderNo());
                 sysDoctorOppointment.setAppointmentCates(5);
                 sysDoctorOppointment.setUserId(orderAppointment.getUserId());
                 sysDoctorOppointment.setDoctorNurseNo(orderAppointment.getRelatedNo());

@@ -8,6 +8,7 @@
         <result column="sys_id" property="sysId" />
         <result column="user_id" property="userId" />
         <result column="user_cate" property="userCate" />
+        <result column="order_no" property="orderNo"/>
         <result column="appointment_cates" property="appointmentCates" />
         <result column="doctor_nurse_no" property="doctorNurseNo" />
         <result column="appoint_date" property="appointDate" />
@@ -22,7 +23,9 @@
 
     <resultMap id="BaseMap" type="com.annaru.upms.entity.vo.DoctorUserOppointmentVo">
         <result column="doctor_nurse_no" property="doctorNurseNo"/>
+        <result column="sys_id" property="sysId"/>
         <result column="user_id" property="userId"/>
+        <result column="order_no" property="orderNo"/>
         <result column="appoint_date" property="appointDate"/>
         <result column="time_from" property="timeFrom"/>
         <result column="time_to" property="timeTo"/>
@@ -49,8 +52,10 @@
 
     <select id="getAppointmentList" parameterType="map" resultMap="BaseMap">
         SELECT
+            so.sys_id,
             so.user_id,
 	        so.doctor_nurse_no,
+	        so.order_no,
 	        so.appoint_date,
 	        so.time_from,
 	        so.time_to,
@@ -70,9 +75,10 @@
         <if test="params.doctorNo != null and params.doctorNo != ''">
             and so.doctor_nurse_no = #{params.doctorNo}
         </if>
-        <if test="params.status != null and params.status != ''">
+        <if test="params.status != null and params.status != '' || params.status == 0">
             and so.is_confirmed = #{params.status}
         </if>
+        order by so.appoint_date
     </select>
 
 

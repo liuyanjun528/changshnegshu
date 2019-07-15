@@ -16,8 +16,10 @@ import java.util.Date;
 public class DoctorUserOppointmentVo extends Model<DoctorUserOppointmentVo> implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	private Integer sysId;
 	private String userId;
 	private String doctorNurseNo;
+	private String orderNo;
 	private Date appointDate;
 	private String timeFrom;
 	private String timeTo;
@@ -25,6 +27,22 @@ public class DoctorUserOppointmentVo extends Model<DoctorUserOppointmentVo> impl
 	private Integer gender;
 	private Integer age;
 	private String userName;
+
+	public Integer getSysId() {
+		return sysId;
+	}
+
+	public void setSysId(Integer sysId) {
+		this.sysId = sysId;
+	}
+
+	public String getOrderNo() {
+		return orderNo;
+	}
+
+	public void setOrderNo(String orderNo) {
+		this.orderNo = orderNo;
+	}
 
 	public String getUserId() {
 		return userId;

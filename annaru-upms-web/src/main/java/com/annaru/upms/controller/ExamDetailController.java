@@ -51,7 +51,7 @@ public class ExamDetailController extends BaseController {
      * @return: com.annaru.common.result.ResultMap
      * @Author: jyehui
      * @Date: 2019/7/1 13:37
-     */
+     */ 
     @ApiOperation(value = "根据进阶项目类别查询项目")
     @GetMapping("/listByType")
     public ResultMap listByType(@ApiParam(value = "进阶项目类别ID")@RequestParam(required = true)Integer ecId){
