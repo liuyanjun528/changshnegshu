@@ -23,5 +23,16 @@ public interface IOrderExtensionSuggestionService extends IService<OrderExtensio
 
     List<OrderExtensionSuggestion> getItems(Map<String,Object> params);
 
+    /**
+     *  添加建议进阶项目
+     * @param reportNo
+     * @param masterId
+     * @param itemNames
+     * @param sysIds
+     * @param doctorNo
+     * @return
+     */
+    boolean savaOE(String reportNo,Integer masterId,String[] itemNames,String[] sysIds,String doctorNo);
+
 }
 

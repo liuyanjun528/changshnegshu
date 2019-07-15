@@ -11,6 +11,7 @@ import io.swagger.annotations.ApiModelProperty;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -22,8 +23,6 @@ import java.util.Date;
 public class ExamUserHealthyAppraisalDeatilVoZ implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	private String remark; //问题
-	private String answerDetail; //答案
 	private String sysId; //问卷编号
 	private Date submitTime; //评估时间
 	private String riskCate; //健康风险类型为
@@ -35,6 +34,8 @@ public class ExamUserHealthyAppraisalDeatilVoZ implements Serializable {
 	private String entityName; //公司
 	private String entityId; // 公司编号
 	private Integer gender; // 性别
+
+	private List<RmarkAnswerDetailZ> rmarkAnswerDetailZList;
 
 	public String getFullName() {
 		return fullName;
@@ -56,14 +57,6 @@ public class ExamUserHealthyAppraisalDeatilVoZ implements Serializable {
 		return entityName;
 	}
 
-	public void setAnswerDetail(String answerDetail) {
-		this.answerDetail = answerDetail;
-	}
-
-	public String getAnswerDetail() {
-		return answerDetail;
-	}
-
 	public void setFullName(String fullName) {
 		this.fullName = fullName;
 	}
@@ -76,9 +69,6 @@ public class ExamUserHealthyAppraisalDeatilVoZ implements Serializable {
 		this.entityName = entityName;
 	}
 
-	public String getRemark() {
-		return remark;
-	}
 
 	public void setEntityId(String entityId) {
 		this.entityId = entityId;
@@ -88,9 +78,6 @@ public class ExamUserHealthyAppraisalDeatilVoZ implements Serializable {
 		return gender;
 	}
 
-	public void setRemark(String remark) {
-		this.remark = remark;
-	}
 
 	public String getSysId() {
 		return sysId;
@@ -138,6 +125,14 @@ public class ExamUserHealthyAppraisalDeatilVoZ implements Serializable {
 
 	public void setRelativeName(String relativeName) {
 		this.relativeName = relativeName;
+	}
+
+	public List<RmarkAnswerDetailZ> getRmarkAnswerDetailZList() {
+		return rmarkAnswerDetailZList;
+	}
+
+	public void setRmarkAnswerDetailZList(List<RmarkAnswerDetailZ> rmarkAnswerDetailZList) {
+		this.rmarkAnswerDetailZList = rmarkAnswerDetailZList;
 	}
 
 	@Override
