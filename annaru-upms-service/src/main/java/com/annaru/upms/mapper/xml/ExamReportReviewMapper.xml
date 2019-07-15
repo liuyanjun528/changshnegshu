@@ -20,14 +20,27 @@
 
 
     <resultMap id="BaseResultMap1" type="com.annaru.upms.entity.vo.ExamReportReviewVo" >
+        <result column="byh" property="byh" />
+        <result column="report_no" property="reportNo" />
+        <result column="user_id" property="userId" />
+        <result column="head_image" property="headImage" />
         <result column="BRXM" property="BRXM" />
         <result column="BRXB" property="BRXB" />
         <result column="BGLX" property="BGLX" />
-        <result column="JGPD" property="JGPD" />
-        <result column="XMMC" property="XMMC" />
+        <result column="BRNL" property="BRNL" />
         <result column="SHSJ" property="SHSJ" />
         <result column="status" property="status" />
         <result column="review_no" property="reviewNo" />
+    </resultMap>
+
+
+    <resultMap id="reportBase" type="com.annaru.upms.entity.vo.ReportInfoVo" >
+        <result column="entity_id" property="entityId" />
+        <result column="entity_name" property="entityName" />
+        <result column="full_name" property="fullName" />
+        <result column="gender" property="gender" />
+        <result column="report_no" property="reportNo" />
+        <result column="SHSJ" property="SHSJ" />
     </resultMap>
 
 
@@ -55,30 +68,46 @@
 
     </select>
 
+        <!--解读报告详情-->
+    <select id="selectReportInfo" parameterType="map" resultMap="reportBase">
+      SELECT
+			sent.entity_id,
+			sent.entity_name,
+			ub.full_name,
+			ub.gender,
+			err.report_no,
+			eir.SHSJ
+      from user_basic as ub
+      LEFT JOIN exam_report_review as err ON err.user_id=ub.user_id
+      LEFT JOIN user_entity_mapping as uem ON uem.user_id=ub.user_id
+      LEFT JOIN sys_entity as sent ON sent.entity_id=uem.entity_id
+      LEFT JOIN exam_inspect_report as eir ON eir.report_no=err.report_no
+      where ub.user_id=#{params.userId} and err.report_no=#{params.reportNo}
+    </select>
+
+
 
     <!-- 待解读报告-->
     <select id="selectReport" parameterType="map" resultMap="BaseResultMap1">
-        SELECT
-            err.review_no,
-			eir.BRXM,-- 报告人
-			eir.BRXB,-- 性别
-			eir.BGLX,-- 报告类型
-			eirc.JGPD,-- 报告状态
-			eirc.XMMC,-- 报告所属项目
-			eir.SHSJ,-- 报告生成时间
-			err.status-- 报告状态
+    select
+        err.byh,
+        err.report_no,-- 报告编号
+        err.review_no,-- 解读人
+        ub.user_id,-- 用户编号
+        ub.head_image,-- 头像
+        eir.BRXM,-- 报告人
+        eir.BRXB,-- 性别
+        eir.BRNL,-- 年龄
+        eir.BGLX,-- 报告类型
+        -- ,-- 项目名称
+        eir.SHSJ,-- 报告生成时间
+        err.status-- 报告状态
         FROM exam_report_review as err
         LEFT JOIN exam_inspect_report as eir ON err.report_no=eir.report_no
-        LEFT JOIN exam_inspect_report_clinic as eirc ON eir.id=eirc.inspect_report_id
+        LEFT JOIN user_basic as ub ON ub.user_id=SUBSTRING_INDEX(err.byh,'^',-1)
         WHERE err.review_no=#{params.reviewNo}
         <if test="params.status==0 or params.status==1">
             and err.status=#{params.status}
-        </if>
-        <if test="params.JGPD==1">
-            and eirc.JGPD='N'
-        </if>
-        <if test="params.JGPD==2">
-            and eirc.JGPD!='N'
         </if>
 
     </select>

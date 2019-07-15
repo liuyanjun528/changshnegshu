@@ -158,6 +158,19 @@ public class EntityHealthyAppointment extends Model<EntityHealthyAppointment> im
 	@TableField("edit_by")
 	private String editBy;
 
+	@ApiModelProperty(value = "订单主表")
+	@TableField(exist = false)
+	private OrderMain orderMain;
+
+
+	public OrderMain getOrderMain() {
+		return orderMain;
+	}
+
+	public void setOrderMain(OrderMain orderMain) {
+		this.orderMain = orderMain;
+	}
+
 	/**
 	 * 获取：系统编号
 	 */

@@ -34,14 +34,16 @@
         <result column="full_name" property="fullName"/>
         <result column="gender" property="gender"/>
         <result column="status" property="status"/>
+        <result column="is_submitted" property="isSubmitted"/>
         <result column="user_age" property="userAge"/>
         <result column="user_id" property="userId"/>
         <result column="entity_no" property="entityNo"/>
+        <result column="entity_name" property="entityName"/>
         <result column="effect_to" property="effectTo"/>
         <result column="total_qty" property="totalQty"/>
         <result column="address" property="address"/>
         <result column="appoint_date" property="appointDate"/>
-
+        <result column="isHr" property="isHr"/>
     </resultMap>
 
 
@@ -98,17 +100,20 @@
     <select id="selectDataPage" parameterType="map" resultMap="BaseResultMap2">
         select
         eha.user_id,-- id
-        ub.head_image,
+        ub.head_image,-- 头像
         ub.full_name,-- 姓名
         ub.gender,-- 性别
         TIMESTAMPDIFF(YEAR, ub.date_of_birth, CURDATE()) AS user_age,
-        eha.entity_no,-- 公司名称
+        eha.entity_no,-- 企业编号
+        sent.entity_name,-- 企业名称
         epm.effect_to,-- 截至时间
-        eha.status, 'e' as business_type
+        eha.status, -- 状态
+        ub.is_hr
         from
         entity_healthy_appointment as eha
         LEFT JOIN user_basic as ub ON eha.user_id=ub.user_id
         LEFT JOIN entity_purchse_main as epm ON eha.entity_no=epm.entity_no
+        LEFT JOIN sys_entity as sent ON eha.entity_no=sent.entity_id
             <if test="params.relatedNo != null and params.relatedNo != ''">
                 where eha.related_no=#{params.relatedNo} and eha.status=1 and eha.pkg_main_id=8 and eha.pkg_detail_id=801
             </if>
@@ -159,13 +164,15 @@
     <!--待上门服务列表-->
     <select id="selectUpDoorServer" parameterType="map" resultMap="BaseResultMap2">
          select
-                eha.order_no,
+                eha.order_no,-- 订单号
+                ub.user_id,-- 用户编号
 		        ub.full_name,-- 姓名
 			    ub.gender,-- 性别
 			    TIMESTAMPDIFF(YEAR, ub.date_of_birth, CURDATE()) AS user_age,
 			    eha.address,-- 预约地址
 			    eha.appoint_date,-- 预约时间
-			    eha.status,
+			    eha.status,-- 服务状态
+                euha.is_submitted,-- 评估状态
 			    om.total_qty-- 人数
         from
                 entity_healthy_appointment as eha
@@ -179,6 +186,13 @@
         <if test="params.isSubmitted==0">
             and euha.is_submitted=#{params.isSubmitted}
         </if>
+        <if test="params.when == 0 ">
+            AND YEARWEEK(date_format(eha.creation_time,'%Y-%m-%d')) = YEARWEEK(now())
+        </if>
+        <if test="params.when == 1 ">
+            AND DATE_FORMAT(eha.creation_time, '%Y%m' ) = DATE_FORMAT(CURDATE(),'%Y%m')
+        </if>
+
 
     </select>
     <update id="updateByOderNo">
@@ -186,5 +200,13 @@
         SET is_deleted = 1
         where order_no = #{orderNo} and status=1
     </update>
+
+
+    <!--企业家庭医生预约-->
+    <insert id="insertEntityDoctorAppointment">
+        INSERT INTO entity_healthy_appointment (order_no,user_id,appoint_date,time_from,address,service_option)
+         VALUES (#{orderNo},#{userId},#{appointDate},#{timeFrom},#{address},#{serviceOption})
+    </insert>
+
 
 </mapper>

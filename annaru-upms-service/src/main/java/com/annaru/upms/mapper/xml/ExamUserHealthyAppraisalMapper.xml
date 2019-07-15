@@ -21,8 +21,6 @@
 
     <!-- 通用查询映射结果 评估报告 -->
     <resultMap id="BaseResultMap1" type="com.annaru.upms.entity.vo.ExamUserHealthyAppraisalDeatilVoZ" >
-        <result column="remark" property="remark" />
-        <result column="answerDetail" property="answerDetail" />
         <result column="sysId" property="sysId" />
         <result column="submitTime" property="submitTime" />
         <result column="riskCate" property="riskCate" />
@@ -34,6 +32,10 @@
         <result column="entityName" property="entityName" />
         <result column="entityId" property="entityId" />
         <result column="gender" property="gender" />
+        <collection property="rmarkAnswerDetailZList" ofType="com.annaru.upms.entity.vo.RmarkAnswerDetailZ">
+            <result column="remark" property="remark" />
+            <result column="answerDetail" property="answerDetail" />
+        </collection>
     </resultMap>
 
     <!-- 多表页面信息查询分页 -->
@@ -152,6 +154,9 @@
         </if>
         <if test="examUserHealthyAppraisal.userId != null and examUserHealthyAppraisal.userId != ''">
             AND eha.user_id = #{examUserHealthyAppraisal.userId}
+        </if>
+        <if test="examUserHealthyAppraisal.sysId != null and examUserHealthyAppraisal.sysId != ''">
+            AND eha.sys_id = #{examUserHealthyAppraisal.sysId}
         </if>
         ORDER BY eha.submit_time DESC
 

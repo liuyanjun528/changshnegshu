@@ -125,7 +125,7 @@ public class EntityHrAppointmentMainController extends BaseController {
             HrHomePageInfo hrHomePageInfo = entityHrAppointmentMainService.getHomePageInfo(params);
             HrHomePageInfo total = entityHrAppointmentMainService.getTotal(params);
             hrHomePageInfo.setTotal(total.getTotal());
-            hrHomePageInfo.setUserd(hrHomePageInfo.getBaseCheckNum());
+            hrHomePageInfo.setUsed(hrHomePageInfo.getBaseCheckNum());
             return ResultMap.ok().put("data",hrHomePageInfo);
         } catch (Exception e) {
             logger.error(e.getMessage());

@@ -7,15 +7,26 @@ import java.io.Serializable;
 public class ExamReportReviewVo implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    private String byh;
+    private String reportNo;//报告编号
+    private String userId;// 用户编号
+    private String headImage;//头像
     private String BRXM;//病人姓名
     private String BRXB;//病人性别
+    private String BRNL;//病人年龄
     private String BGLX;//报告类型 1-临床检验报告；2-微生物报告；3-病理报告；9-其他报告
-    private String JGPD;//异常提示（N-正常;H-偏高;L-偏低;A-警告）
-    private String XMMC;//项目名称
     private String SHSJ;//报告时间
     private String status;//状态(0:未解读/1:已解读)
-    private String reviewNo;//报告编号
+    private String reviewNo;//解读人
 
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
     public String getBRXM() {
         return BRXM;
@@ -41,20 +52,36 @@ public class ExamReportReviewVo implements Serializable {
         this.BGLX = BGLX;
     }
 
-    public String getJGPD() {
-        return JGPD;
+    public String getByh() {
+        return byh;
     }
 
-    public void setJGPD(String JGPD) {
-        this.JGPD = JGPD;
+    public void setByh(String byh) {
+        this.byh = byh;
     }
 
-    public String getXMMC() {
-        return XMMC;
+    public String getReportNo() {
+        return reportNo;
     }
 
-    public void setXMMC(String XMMC) {
-        this.XMMC = XMMC;
+    public void setReportNo(String reportNo) {
+        this.reportNo = reportNo;
+    }
+
+    public String getHeadImage() {
+        return headImage;
+    }
+
+    public void setHeadImage(String headImage) {
+        this.headImage = headImage;
+    }
+
+    public String getBRNL() {
+        return BRNL;
+    }
+
+    public void setBRNL(String BRNL) {
+        this.BRNL = BRNL;
     }
 
     public String getSHSJ() {

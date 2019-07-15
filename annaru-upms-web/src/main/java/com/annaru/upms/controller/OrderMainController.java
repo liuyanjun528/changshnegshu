@@ -52,6 +52,12 @@ public class OrderMainController extends BaseController {
     @Reference
     private IUserRelativesService userRelativesService;//亲属表
 
+    @Reference
+    private ISysMessageService sysMessageService;// 消息表
+
+    @Reference
+    private IExamPackageMainService examPackageMainService;// 套餐详情
+
 
     /**
      * 保存家庭医生订单
@@ -94,7 +100,32 @@ public class OrderMainController extends BaseController {
         try {
             SysConfig sysConfig = SysConfigUtil.getSysConfig(iSysConfigService, SysConfigUtil.ORDERNO);
             orderMain.setOrderNo(SysConfigUtil.getNoBySysConfig());
+            orderMain.setCreationtime(new Date());
             i = orderMainService.insertOrderMain(orderMain,RelativeId);
+
+
+            if(i > 0){
+                //查询套餐详情
+                Map<String, Object> params = new HashMap<>();
+                params.put("sysId",orderMain.getReferenceNo());
+                ExamPackageMainVoTcxqZ examPackageMainVoTcxqZ = examPackageMainService.selectInfoBySysIdZ(params);
+                //套餐购买成功往消息表添加一条数据
+                SysMessage sm=new SysMessage();
+                sm.setOrderNo(orderMain.getOrderNo());// 订单号
+                sm.setMsgCate(1);//1:系统消息
+                sm.setBusinessCate(1);//1:购买套餐
+                sm.setUserId(orderMain.getUserId());//用户
+                sm.setCreationTime(new Date());
+
+                StringBuffer s=new StringBuffer();
+                for(ExamPackageMainVoZsfwZ exam:examPackageMainVoTcxqZ.getExamPackageMainVoZsfwZList()){
+                    String serviceName = exam.getServiceName();
+                    s.append(serviceName+",");
+                }
+                sm.setContent("您已经购买了"+examPackageMainVoTcxqZ.getPackageName()+",包含服务项:"+s.toString().substring(0,s.length()-1));//内容
+                sysMessageService.save(sm);
+            }
+
 
             if (i > 0) {
                     SysConfigUtil.saveRefNo(sysConfig.getRefNo());

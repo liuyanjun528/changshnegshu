@@ -2,10 +2,7 @@ package com.annaru.upms.service;
 
 import com.annaru.common.result.PageUtils;
 import com.annaru.upms.entity.OrderAppointment;
-import com.annaru.upms.entity.vo.DoctorUserInfo;
-import com.annaru.upms.entity.vo.NurseOrderList;
-import com.annaru.upms.entity.vo.OrderAppointmentBase;
-import com.annaru.upms.entity.vo.OrderAppointmentDoctorVo;
+import com.annaru.upms.entity.vo.*;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.apache.ibatis.annotations.Param;
 
@@ -28,6 +25,13 @@ public interface IOrderAppointmentService extends IService<OrderAppointment> {
 
     PageUtils getNurseOrderList(Map<String,Object> params);
 
+
+    /**
+     * @Description:患者的检验报告
+     * @Author: wh
+     * @Date: 2019/7/12 18:51
+     */
+    List<ExamReportReviewVo> selectBRReport(Map<String, Object> params);
 
     /**
      * @Description:我的患者详情

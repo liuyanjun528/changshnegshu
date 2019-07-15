@@ -1,6 +1,8 @@
 package com.annaru.upms.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.annaru.common.result.ResultMap;
+import com.annaru.upms.service.IExamInspectReportService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -10,7 +12,11 @@ import com.annaru.common.result.PageUtils;
 import com.annaru.upms.mapper.OrderExtensionSuggestionMapper;
 import com.annaru.upms.entity.OrderExtensionSuggestion;
 import com.annaru.upms.service.IOrderExtensionSuggestionService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -23,6 +29,9 @@ import java.util.Map;
 @Service
 public class OrderExtensionSuggestionServiceImpl extends ServiceImpl<OrderExtensionSuggestionMapper, OrderExtensionSuggestion> implements IOrderExtensionSuggestionService {
 
+    @Autowired
+    private IExamInspectReportService examInspectReportService;
+
     @Override
     public PageUtils getDataPage(Map<String, Object> params){
         Page<OrderExtensionSuggestion> page = new PageUtils<OrderExtensionSuggestion>(params).getPage();
@@ -34,4 +43,32 @@ public class OrderExtensionSuggestionServiceImpl extends ServiceImpl<OrderExtens
         return this.baseMapper.getItems(params);
     }
 
+    @Transactional
+    @Override
+    public boolean savaOE(String reportNo, Integer masterId, String[] itemNames, String[] sysIds, String doctorNo) {
+        if (itemNames.length != sysIds.length) {
+            return false;
+        }
+        String selectByRno = examInspectReportService.selectByRno(reportNo);
+        if(null == selectByRno ) {
+            return false;
+        }
+        try {
+            OrderExtensionSuggestion orderExtensionExam = new OrderExtensionSuggestion();
+            orderExtensionExam.setOrderNo(selectByRno);//订单编号
+            orderExtensionExam.setExamMasterId(masterId);//进阶检查项目总编号
+            orderExtensionExam.setDoctorNo(doctorNo);//医生编号
+            orderExtensionExam.setCreationTime(new Date());
+            for (int i = 0, len = sysIds.length; i < len; i++) {
+                orderExtensionExam.setExamDetailId(Integer.parseInt(sysIds[i].toString()));//体检项目编号
+                orderExtensionExam.setExamMasterItem(itemNames[i].toString());//项目名称
+                this.baseMapper.insert(orderExtensionExam);
+            }
+        return true;
+    }catch (Exception e){
+        TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+        return false;
+    }
+
+    }
 }

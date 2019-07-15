@@ -65,4 +65,11 @@ public interface EntityHealthyAppointmentMapper extends BaseMapper<EntityHealthy
     Integer updateByOderNo(@Param("orderNo") String orderNo);
 
 
+    /**
+      * @Description:企业家庭医生预约
+      * @Author: wh
+      * @Date: 2019/7/15 10:04
+      */
+    int insertEntityDoctorAppointment(EntityHealthyAppointment entityHealthyAppointment);
+
 }

@@ -8,6 +8,7 @@ import com.annaru.upms.controllerutil.SysConfigUtil;
 import com.annaru.upms.entity.EntityHealthyAppointment;
 import com.annaru.upms.entity.OrderMain;
 import com.annaru.upms.entity.SysConfig;
+import com.annaru.upms.entity.SysMessage;
 import com.annaru.upms.entity.vo.EntityHealthyAppointmentVo;
 import com.annaru.upms.entity.vo.UserBasicVo;
 import com.annaru.upms.entity.vo.UserEntityMappingVo;
@@ -56,6 +57,9 @@ public class EntityHealthyAppointmentController extends BaseController {
     @Reference
     private IUserEntityMappingService userEntityMappingService;
 
+    @Reference
+    private ISysMessageService sysMessageService;// 消息表
+
 
     /**
      * 删除订单
@@ -86,8 +90,9 @@ public class EntityHealthyAppointmentController extends BaseController {
             @ApiParam(value = "当前页", defaultValue="1")@RequestParam(required = false) int page,
             @ApiParam(value = "每页数量", defaultValue = "10")@RequestParam(required = false) int limit,
             @ApiParam(value = "医生编号")@RequestParam(required = false)String relatedNo,
-            @ApiParam(value = "带服务/已完成")@RequestParam(required = false)Integer status,
-            @ApiParam(value = "待评估")@RequestParam(required = false)Integer isSubmitted){
+            @ApiParam(value = "待服务0/已完成1")@RequestParam(required = false)Integer status,
+            @ApiParam(value = "待评估")@RequestParam(required = false)Integer isSubmitted,
+            @ApiParam(value = "时间区间")@RequestParam(required = false)Integer when){
         if(status==null){
             status=100;
         }
@@ -101,6 +106,7 @@ public class EntityHealthyAppointmentController extends BaseController {
         params.put("relatedNo", relatedNo);
         params.put("status", status);
         params.put("isSubmitted", isSubmitted);
+        params.put("when",when);
         PageUtils<Map<String, Object>> pageList = entityHealthyAppointmentService.selectUpDoorServer(params);
         return ResultMap.ok().put("data",pageList);
     }
@@ -190,31 +196,39 @@ public class EntityHealthyAppointmentController extends BaseController {
     }
 
     /**
-     * 添加企业门诊绿通预约
+     * 添加企业家庭医生上门预约
      */
     @ApiOperation(value = "添加企业家庭医生上门预约")
     @PostMapping("/save")
     @RequiresPermissions("upms/entityHealthyAppointment/save")
-    public ResultMap save(@RequestBody EntityHealthyAppointment entityHealthyAppointment) {
-        OrderMain orderMain = new OrderMain();
+    public ResultMap save(@RequestBody EntityHealthyAppointment entityHealthyAppointment,String []RelativeId) {
+
         try {
             SysConfig sysConfig = SysConfigUtil.getSysConfig(iSysConfigService , SysConfigUtil.ORDERNO);
-            //添加订单主表
-            orderMain.setOrderNo(SysConfigUtil.getNoBySysConfig());
-            orderMain.setCreationtime(new Date());
-            orderMain.setOrderCates(5);
-            boolean save = orderMainService.save(orderMain);
+            entityHealthyAppointment.getOrderMain().setOrderNo(SysConfigUtil.getNoBySysConfig());
+            //添加entityHealthyAppointment 表
+            entityHealthyAppointment.setOrderNo(entityHealthyAppointment.getOrderMain().getOrderNo());
+            entityHealthyAppointment.setUserId(entityHealthyAppointment.getOrderMain().getUserId());
+            entityHealthyAppointment.setCreationTime(new Date());
+            int i = entityHealthyAppointmentService.insertEntityDoctorAppointment(entityHealthyAppointment, RelativeId);
 
-            if(save=true){
-                //添加entityHealthyAppointment 表
-                entityHealthyAppointment.setOrderNo(SysConfigUtil.getNoBySysConfig());
-                entityHealthyAppointmentService.save(entityHealthyAppointment);
+            if(i > 0){
+                //企业家庭医生预约成功往消息表添加一条数据
+                SysMessage sm=new SysMessage();
+                sm.setOrderNo(entityHealthyAppointment.getOrderMain().getOrderNo());// 订单号
+                sm.setMsgCate(2);//2:通知消息
+                sm.setBusinessCate(3);//3:分布体检预约信息
+                sm.setUserId(entityHealthyAppointment.getOrderMain().getUserId());//用户
+                sm.setCreationTime(new Date());
+                sm.setContent("预约成功，请等待医生进行确认");//内容
+                sysMessageService.save(sm);
             }
-            if(save=true){
+
+            if(i>0){
                 SysConfigUtil.saveRefNo(sysConfig.getRefNo());
             }
 
-            return ResultMap.ok("添加成功");
+            return ResultMap.ok("添加成功").put("data", entityHealthyAppointment.getOrderMain().getOrderNo());
         } catch (Exception e) {
             logger.error(e.getMessage());
             return ResultMap.error("运行异常，请联系管理员");

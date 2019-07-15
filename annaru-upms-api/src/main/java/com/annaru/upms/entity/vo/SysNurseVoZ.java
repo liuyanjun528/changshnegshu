@@ -103,6 +103,14 @@ public class SysNurseVoZ implements Serializable {
 	 * 所属科室编号
 	 */
 	private String belongOffice;
+	/**
+	 * 性别(1:男/2:女)
+	 */
+	private Integer gender;
+	/**
+	 * 证件号
+	 */
+	private String idCardNo;
     /**
      * 获取：系统编号
      */
@@ -300,6 +308,22 @@ public class SysNurseVoZ implements Serializable {
 	}
 	public void setBelongOffice(String belongOffice) {
 		this.belongOffice = belongOffice;
+	}
+
+	public Integer getGender() {
+		return gender;
+	}
+
+	public void setGender(Integer gender) {
+		this.gender = gender;
+	}
+
+	public String getIdCardNo() {
+		return idCardNo;
+	}
+
+	public void setIdCardNo(String idCardNo) {
+		this.idCardNo = idCardNo;
 	}
 
 	@Override
