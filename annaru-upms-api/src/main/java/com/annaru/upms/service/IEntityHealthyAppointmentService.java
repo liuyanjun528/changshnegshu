@@ -64,6 +64,12 @@ public interface IEntityHealthyAppointmentService extends IService<EntityHealthy
     List<EntityHealthyAppointment> getTimeByUserIdZ(Map<String,Object> params);
 
 
+    /**
+     * @Description:企业家庭医生预约
+     * @Author: wh
+     * @Date: 2019/7/15 10:04
+     */
+    int insertEntityDoctorAppointment(EntityHealthyAppointment entityHealthyAppointment, String []RelativeId);
 
 }
 
