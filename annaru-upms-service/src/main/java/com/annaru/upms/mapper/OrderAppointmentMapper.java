@@ -1,10 +1,7 @@
 package com.annaru.upms.mapper;
 
 import com.annaru.upms.entity.OrderAppointment;
-import com.annaru.upms.entity.vo.DoctorUserInfo;
-import com.annaru.upms.entity.vo.NurseOrderList;
-import com.annaru.upms.entity.vo.OrderAppointmentBase;
-import com.annaru.upms.entity.vo.OrderAppointmentDoctorVo;
+import com.annaru.upms.entity.vo.*;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -31,6 +28,17 @@ public interface OrderAppointmentMapper extends BaseMapper<OrderAppointment> {
      * 护士订单列表
      */
     IPage<NurseOrderList> getNurseOrderList(Page page, @Param("params") Map<String, Object> params);
+
+
+    /**
+      * @Description:患者的检验报告
+      * @Author: wh
+      * @Date: 2019/7/12 18:51
+      */
+    List<ExamReportReviewVo> selectBRReport(@Param("params") Map<String, Object> params);
+
+
+
 
     /**
       * @Description:我的患者详情

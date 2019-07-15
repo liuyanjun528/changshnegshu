@@ -34,6 +34,21 @@
         create_by, edit_time, edit_by
     </sql>
 
+    <resultMap id="ABaseMap" type="com.annaru.upms.entity.vo.ExamReportReviewVo" >
+        <result column="byh" property="byh" />
+        <result column="report_no" property="reportNo" />
+        <result column="user_id" property="userId" />
+        <result column="head_image" property="headImage" />
+        <result column="BRXM" property="BRXM" />
+        <result column="BRXB" property="BRXB" />
+        <result column="BGLX" property="BGLX" />
+        <result column="BRNL" property="BRNL" />
+        <result column="SHSJ" property="SHSJ" />
+        <result column="status" property="status" />
+        <result column="review_no" property="reviewNo" />
+    </resultMap>
+
+
     <resultMap id="NurseOrderList" type="com.annaru.upms.entity.vo.NurseOrderList">
         <result column="full_name" property="name"/>
         <result column="gender" property="gender"/>
@@ -229,6 +244,27 @@ UNION
 				LEFT JOIN entity_purchse_main as epm ON eha.entity_no=epm.entity_no
 				LEFT JOIN sys_entity as sent ON eha.entity_no=sent.entity_id
         WHERE eha.user_id=#{userId} and eha.status=1
+    </select>
+
+    <!-- 患者的检验报告-->
+    <select id="selectBRReport" parameterType="map" resultMap="ABaseMap">
+        select
+            err.byh,
+            err.report_no,-- 报告编号
+            err.review_no,-- 解读人
+            ub.user_id,-- 用户编号
+            ub.head_image,-- 头像
+            eir.BRXM,-- 报告人
+            eir.BRXB,-- 性别
+            eir.BRNL,-- 年龄
+            eir.BGLX,-- 报告类型
+        -- ,-- 项目名称
+            eir.SHSJ,-- 报告生成时间
+            err.status-- 报告状态
+        FROM exam_report_review as err
+        LEFT JOIN exam_inspect_report as eir ON err.report_no=eir.report_no
+        LEFT JOIN user_basic as ub ON ub.user_id=SUBSTRING_INDEX(err.byh,'^',-1)
+        WHERE ub.user_id=#{params.userId}
     </select>
 
 

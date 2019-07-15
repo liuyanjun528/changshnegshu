@@ -247,6 +247,20 @@ public class OrderAppointmentController extends BaseController {
     }
 
     /**
+     * 患者的检验报告  --wh
+     */
+    @ApiOperation(value = "患者的检验报告", notes = "患者的检验报告")
+    @GetMapping("/brReport")
+    @RequiresPermissions("upms/orderAppointment/brReport")
+    public ResultMap brReport(String userId){
+        Map<String, Object> params = new HashMap<>();
+        params.put("userId",userId);
+        List<ExamReportReviewVo> examReportReviewVos = orderAppointmentService.selectBRReport(params);
+        return ResultMap.ok().put("data",examReportReviewVos);
+    }
+
+
+    /**
      * 我的患者详情  --wh
      */
     @ApiOperation(value = "我的患者详情", notes = "我的患者详情")
