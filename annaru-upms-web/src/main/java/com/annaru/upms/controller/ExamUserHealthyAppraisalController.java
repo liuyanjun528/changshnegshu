@@ -96,11 +96,13 @@ public class ExamUserHealthyAppraisalController extends BaseController {
     @GetMapping("/info/getExamUserHealthyAppraisal")
     @RequiresPermissions("upms/examUserHealthyAppraisal/info/getExamUserHealthyAppraisal")
     public ResultMap getExamUserHealthyAppraisal(@RequestParam("orderNo") String orderNo,
-                                                 @RequestParam("userId") String userId){
+                                                 @RequestParam("userId") String userId,
+                                                 @RequestParam("sysId") Integer sysId){
         try {
             ExamUserHealthyAppraisal examUserHealthyAppraisal = new ExamUserHealthyAppraisal();
             examUserHealthyAppraisal.setOrderNo(orderNo);
             examUserHealthyAppraisal.setUserId(userId);
+            examUserHealthyAppraisal.setSysId(sysId);
             return ResultMap.ok().put("data", examUserHealthyAppraisalService.getOneByExamUserHealthyAppraisal(examUserHealthyAppraisal));
         } catch (Exception e) {
             logger.error(e.getMessage());

@@ -153,6 +153,9 @@
         <if test="examUserHealthyAppraisal.userId != null and examUserHealthyAppraisal.userId != ''">
             AND eha.user_id = #{examUserHealthyAppraisal.userId}
         </if>
+        <if test="examUserHealthyAppraisal.sysId != null and examUserHealthyAppraisal.sysId != ''">
+            AND eha.sys_id = #{examUserHealthyAppraisal.sysId}
+        </if>
         ORDER BY eha.submit_time DESC
 
     </select>
