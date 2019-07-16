@@ -9,6 +9,7 @@
         <result column="user_id" property="userId" />
         <result column="user_cate" property="userCate" />
         <result column="order_no" property="orderNo"/>
+        <result column="address" property="address"/>
         <result column="appointment_cates" property="appointmentCates" />
         <result column="doctor_nurse_no" property="doctorNurseNo" />
         <result column="appoint_date" property="appointDate" />

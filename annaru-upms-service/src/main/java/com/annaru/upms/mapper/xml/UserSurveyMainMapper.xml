@@ -20,6 +20,7 @@
             <result column="question_id" property="questionId" />
             <result column="answer_detail" property="answerDetail" />
             <result column="name" property="name" />
+            <result column="remarks" property="remarks"/>
         </collection>
     </resultMap>
 
@@ -73,7 +74,8 @@
         usm.survey_time,
         slt.`name`,
         usi.question_id,
-        usi.answer_detail
+        usi.answer_detail,
+        usi.remarks
         FROM user_survey_main usm
         LEFT JOIN user_survey_items usi on usm.survey_id = usi.survey_id
         LEFT JOIN sys_linkage_type slt on usi.question_id = slt.nid
