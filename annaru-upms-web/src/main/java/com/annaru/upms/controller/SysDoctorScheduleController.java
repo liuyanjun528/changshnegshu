@@ -83,7 +83,10 @@ public class SysDoctorScheduleController extends BaseController {
         try {
             sysDoctorSchedule.setCreationTime(new Date());
             sysDoctorSchedule.setUserCates(1);//1为护士
-            sysDoctorScheduleService.insertNuserSchedule(sysDoctorSchedule);
+            int i = sysDoctorScheduleService.insertNuserSchedule(sysDoctorSchedule);
+            if(0==i){
+                return ResultMap.error("运行异常，请联系管理员");
+            }
             return ResultMap.ok("添加成功");
         } catch (Exception e) {
             logger.error(e.getMessage());

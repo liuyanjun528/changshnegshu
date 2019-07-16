@@ -39,8 +39,8 @@
         <result column="date_from" property="dateFrom" />
         <result column="doctor_nurse_no" property="doctorNurseNo" />
         <result column="appointDates" property="appointDates" />
-        <result column="time_from" property="timeFrom" />
-        <result column="time_to" property="timeTo" />
+        <result column="head_image" property="headImage" />
+        <result column="cellphone_no" property="cellphoneNo" />
         <result column="appointment_cates" property="appointmentCates" />
         <result column="full_name" property="fullName" />
         <result column="gender" property="gender" />
@@ -48,6 +48,8 @@
         <result column="appoint_date" property="appointDate" />
         <result column="address" property="address" />
         <result column="amount" property="amount" />
+        <result column="state" property="state" />
+        <result column="is_active" property="isActive" />
     </resultMap>
 
     <select id="getAppointmentList" parameterType="map" resultMap="BaseMap">
@@ -107,25 +109,27 @@
 
     <!--按照选择时间当前护士查询排班信息-->
     <select id="selectTodayInfo" parameterType="map" resultMap="BaseVoMap">
-        select
+         select
               sdns.date_from,
               sdno.doctor_nurse_no,
 			  sdno.appoint_date as appointDates,-- 开始日期
-			  sdno.time_from,-- 开始时间
-			  sdno.time_to,-- 结束时间
 			  sdno.appointment_cates,-- 状态
+			  ub.head_image,-- 用户头像
 			  ub.full_name, --  用户姓名
 			  ub.gender, --  用户性别
 			  TIMESTAMPDIFF(YEAR, ub.date_of_birth, CURDATE()) as userAge, --  用户年龄
+			  ub.cellphone_no,-- 手机号
 			  oa.appoint_date,-- 预约时间
-			  oa.address,   --  预约地址
-			  om.amount -- 费用
+			  oa.address,  --  预约地址
+			  om.amount, -- 费用
+			  sdns.state, -- 排班状态
+			  sdno.is_active -- 当前状态
         from sys_doctor_nurse_oppointment as sdno
         LEFT JOIN user_basic as ub ON sdno.user_id=ub.user_id
         LEFT JOIN order_appointment as oa ON sdno.user_id=oa.user_id
         LEFT JOIN order_main as om ON sdno.user_id=om.user_id
         LEFT JOIN sys_doctor_nurse_schedule as sdns ON sdno.doctor_nurse_no=sdns.doctor_nurse_no
-        where sdno.doctor_nurse_no=#{doctorNurseNo} and date_format(sdns.date_from,'%Y-%m')=date_format(#{dateFormat},'%Y-%m')
+        where sdno.doctor_nurse_no=#{doctorNurseNo} and date_format(sdns.date_from,'%Y-%m-%d')=date_format(#{dateFormat},'%Y-%m-%d')
         GROUP BY sdns.date_from
     </select>
 
