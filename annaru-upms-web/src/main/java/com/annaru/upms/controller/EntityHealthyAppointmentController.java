@@ -50,7 +50,7 @@ public class EntityHealthyAppointmentController extends BaseController {
     private IOrderAppointmentService orderAppointmentService;
 
     @Reference
-    private ISysConfigService iSysConfigService; //系统配置表
+    private ISysConfigService sysConfigService; //系统配置表
 
     @Reference
     private IUserSurveyMainService userSurveyMainService; //问卷调查表
@@ -201,10 +201,10 @@ public class EntityHealthyAppointmentController extends BaseController {
     @ApiOperation(value = "添加企业家庭医生上门预约")
     @PostMapping("/save")
     @RequiresPermissions("upms/entityHealthyAppointment/save")
-    public ResultMap save(@RequestBody EntityHealthyAppointment entityHealthyAppointment,String []RelativeId) {
+    public ResultMap save(@RequestBody EntityHealthyAppointment entityHealthyAppointment,String [] RelativeId) {
 
         try {
-            SysConfig sysConfig = SysConfigUtil.getSysConfig(iSysConfigService , SysConfigUtil.ORDERNO);
+            SysConfig sysConfig = SysConfigUtil.getSysConfig(sysConfigService , SysConfigUtil.ORDERNO);
             entityHealthyAppointment.getOrderMain().setOrderNo(SysConfigUtil.getNoBySysConfig());
             //添加entityHealthyAppointment 表
             entityHealthyAppointment.setOrderNo(entityHealthyAppointment.getOrderMain().getOrderNo());
@@ -226,6 +226,9 @@ public class EntityHealthyAppointmentController extends BaseController {
 
             if(i>0){
                 SysConfigUtil.saveRefNo(sysConfig.getRefNo());
+            }
+            if(0==i){
+                return ResultMap.error("运行异常，请联系管理员");
             }
 
             return ResultMap.ok("添加成功").put("data", entityHealthyAppointment.getOrderMain().getOrderNo());

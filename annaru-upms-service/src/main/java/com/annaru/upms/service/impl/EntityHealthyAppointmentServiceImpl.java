@@ -19,6 +19,8 @@ import com.annaru.upms.mapper.EntityHealthyAppointmentMapper;
 import com.annaru.upms.entity.EntityHealthyAppointment;
 import com.annaru.upms.service.IEntityHealthyAppointmentService;
 import jodd.util.StringUtil;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
@@ -78,7 +80,6 @@ public class EntityHealthyAppointmentServiceImpl extends ServiceImpl<EntityHealt
     @Transactional
     public int insertEntityDoctorAppointment(EntityHealthyAppointment entityHealthyAppointment, String []RelativeId) {
         int i=0;
-        System.out.println("RelativeId0---->"+RelativeId);
         try {
             //添加订单主表
             entityHealthyAppointment.getOrderMain().setCreationtime(new Date());
@@ -87,67 +88,70 @@ public class EntityHealthyAppointmentServiceImpl extends ServiceImpl<EntityHealt
 
             //往entityHealthyAppointment 添加数据
             if (save=true) {
+                entityHealthyAppointment.setPkgMainId(8);
+                entityHealthyAppointment.setPkgDetailId(801);
                 i = this.baseMapper.insertEntityDoctorAppointment(entityHealthyAppointment);
             }
 
             if (i>0) {
                 //只要生成订单 就往OrderCustomer表添加一条记录
                 // 如果套餐个数==1 user_cates为1 如果套餐个数大于1 user_cates为2
-                if (entityHealthyAppointment.getOrderMain().getTotalQty()==1||RelativeId.length==0){
+                if (entityHealthyAppointment.getOrderMain().getTotalQty()==1&& ArrayUtils.isEmpty(RelativeId)){
                     entityHealthyAppointment.getOrderMain().getOrderCustomer().setOrderNo(entityHealthyAppointment.getOrderMain().getOrderNo());
                     entityHealthyAppointment.getOrderMain().getOrderCustomer().setRelativeId(entityHealthyAppointment.getOrderMain().getUserId());
                     entityHealthyAppointment.getOrderMain().getOrderCustomer().setUserCates(1);
                     orderCustomerService.insertOrderCustomer(entityHealthyAppointment.getOrderMain().getOrderCustomer());//添加订单亲属表
                 }
 
-                //--添加亲属编号
-                if(entityHealthyAppointment.getOrderMain().getTotalQty()>1){
-                    //查询用户下的所有亲属
-                    List<UserRelatives> list = userRelativesService.selectAll(entityHealthyAppointment.getOrderMain().getUserId());
-                    Boolean result=false;
-                    for (UserRelatives relative : list) {
-                        for (String  rela:RelativeId ){
-                            if (relative.getRelativeId().equals(rela)) {//判断传来的亲属ID 跟数据库保存的亲属是否匹配
-                                result=true;
-                                break;
+                if(null!=RelativeId){
+
+                    //--添加亲属编号
+                    if(entityHealthyAppointment.getOrderMain().getTotalQty()>=1){
+                        //查询用户下的所有亲属
+                        List<UserRelatives> list = userRelativesService.selectAll(entityHealthyAppointment.getOrderMain().getUserId());
+                        Boolean result=false;
+                        for (UserRelatives relative : list) {
+                            for (String  rela:RelativeId ){
+                                if (relative.getRelativeId().equals(rela)) {//判断传来的亲属ID 跟数据库保存的亲属是否匹配
+                                    result=true;
+                                    break;
+                                }
                             }
+
                         }
-
-                    }
-                    if(result==false){
-                        i=0;
-                        throw new GlobalException("没有相关亲属");
-                    }
-                    if (result) {
-                        //如果亲属长度<总套餐个数 需要添加自己跟亲属
-                        if(RelativeId.length<entityHealthyAppointment.getOrderMain().getTotalQty()){
-                            entityHealthyAppointment.getOrderMain().getOrderCustomer().setOrderNo(entityHealthyAppointment.getOrderMain().getOrderNo());
-                            entityHealthyAppointment.getOrderMain().getOrderCustomer().setRelativeId(entityHealthyAppointment.getOrderMain().getUserId());
-                            entityHealthyAppointment.getOrderMain().getOrderCustomer().setUserCates(1);
-                            i=orderCustomerService.insertOrderCustomer(entityHealthyAppointment.getOrderMain().getOrderCustomer());//添加订单亲属表
-
-                            for (String relativeId :RelativeId){    //如果匹配 传来几个亲属循环往OrderCustomer添加几个亲属编号
+                        if(result==false){
+                            i=0;
+                            throw new GlobalException("没有相关亲属");
+                        }
+                        if (result) {
+                            //如果亲属长度<总套餐个数 需要添加自己跟亲属
+                            if(RelativeId.length<entityHealthyAppointment.getOrderMain().getTotalQty()){
                                 entityHealthyAppointment.getOrderMain().getOrderCustomer().setOrderNo(entityHealthyAppointment.getOrderMain().getOrderNo());
-                                entityHealthyAppointment.getOrderMain().getOrderCustomer().setRelativeId(relativeId);
-                                entityHealthyAppointment.getOrderMain().getOrderCustomer().setUserCates(2);
+                                entityHealthyAppointment.getOrderMain().getOrderCustomer().setRelativeId(entityHealthyAppointment.getOrderMain().getUserId());
+                                entityHealthyAppointment.getOrderMain().getOrderCustomer().setUserCates(1);
                                 i=orderCustomerService.insertOrderCustomer(entityHealthyAppointment.getOrderMain().getOrderCustomer());//添加订单亲属表
-                            }
-                        }
-                        System.out.println("RelativeId1---->"+RelativeId);
-                        // 如果亲属长度=总套餐个数 只需要添加亲属  只为亲属购买的状态
-                        if(RelativeId.length==entityHealthyAppointment.getOrderMain().getTotalQty()){
-                            System.out.println("RelativeId2---->"+RelativeId);
-                            for (String relativeId :RelativeId){
-                                System.out.println("RelativeId3---->"+RelativeId);
-                                entityHealthyAppointment.getOrderMain().getOrderCustomer().setOrderNo(entityHealthyAppointment.getOrderMain().getOrderNo());
-                                entityHealthyAppointment.getOrderMain().getOrderCustomer().setRelativeId(relativeId);
-                                entityHealthyAppointment.getOrderMain().getOrderCustomer().setUserCates(2);
-                                i=orderCustomerService.insertOrderCustomer(entityHealthyAppointment.getOrderMain().getOrderCustomer());//添加订单亲属表
-                            }
-                        }
 
+                                for (String relativeId :RelativeId){    //如果匹配 传来几个亲属循环往OrderCustomer添加几个亲属编号
+                                    entityHealthyAppointment.getOrderMain().getOrderCustomer().setOrderNo(entityHealthyAppointment.getOrderMain().getOrderNo());
+                                    entityHealthyAppointment.getOrderMain().getOrderCustomer().setRelativeId(relativeId);
+                                    entityHealthyAppointment.getOrderMain().getOrderCustomer().setUserCates(2);
+                                    i=orderCustomerService.insertOrderCustomer(entityHealthyAppointment.getOrderMain().getOrderCustomer());//添加订单亲属表
+                                }
+                            }
+                            // 如果亲属长度=总套餐个数 只需要添加亲属  只为亲属购买的状态
+                            if(RelativeId.length==entityHealthyAppointment.getOrderMain().getTotalQty()){
+                                for (String relativeId :RelativeId){
+                                    entityHealthyAppointment.getOrderMain().getOrderCustomer().setOrderNo(entityHealthyAppointment.getOrderMain().getOrderNo());
+                                    entityHealthyAppointment.getOrderMain().getOrderCustomer().setRelativeId(relativeId);
+                                    entityHealthyAppointment.getOrderMain().getOrderCustomer().setUserCates(2);
+                                    i=orderCustomerService.insertOrderCustomer(entityHealthyAppointment.getOrderMain().getOrderCustomer());//添加订单亲属表
+                                }
+                            }
+
+                        }
                     }
                 }
+
             }
         } catch (Exception e) {
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
