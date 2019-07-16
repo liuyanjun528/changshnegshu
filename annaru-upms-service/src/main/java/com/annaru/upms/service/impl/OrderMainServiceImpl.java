@@ -10,6 +10,7 @@ import com.annaru.upms.service.*;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -112,7 +113,7 @@ public class OrderMainServiceImpl extends ServiceImpl<OrderMainMapper, OrderMain
             if (i > 0) {
                 //只要生成订单 就往OrderCustomer表添加一条记录
                 // 如果套餐个数==1 user_cates为1 如果套餐个数大于1 user_cates为2
-                if (orderMain.getTotalQty()==1||RelativeId.length==0){
+                if (orderMain.getTotalQty()==1|| ArrayUtils.isEmpty(RelativeId)){
                     orderMain.getOrderCustomer().setOrderNo(orderMain.getOrderNo());
                     orderMain.getOrderCustomer().setRelativeId(orderMain.getUserId());
                     orderMain.getOrderCustomer().setUserCates(1);
