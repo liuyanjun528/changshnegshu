@@ -21,16 +21,16 @@
 
     <select id="selectEmployeeDetail" parameterType="map" resultMap="BaseResultMap">
         select
-			uem.user_id, -- 用户ID
-			uem.entity_id, -- 企业ID
-			om.reference_no, -- 购买的套餐名称
-			om.user_channel, -- 购买渠道
-			oa.appointment_cates, -- 体检类别1:一般体检预约(C端) 2:进阶体检预约(C端) 3:分布式体检预约(B端) 4:进阶体检预约(B端)5:家庭医生6.门诊绿通预约
-			oa.service_option, -- 服务选项(1:护士上门/2:指定地点)
-			oa.time_from, -- 开始时间
-			address, -- 预约地址
-			oa.time_to, -- 完成时间
-			oa.status, -- 完成状态
+			uem.user_id,
+			uem.entity_id,
+			om.reference_no,
+			om.user_channel,
+			oa.appointment_cates,
+			oa.service_option,
+			oa.time_from,
+			address,
+			oa.time_to,
+			oa.status,
 			oa.time_to as reportTime
         FROM
 			  user_entity_mapping as uem

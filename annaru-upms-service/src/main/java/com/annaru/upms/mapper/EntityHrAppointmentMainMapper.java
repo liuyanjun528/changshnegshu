@@ -1,12 +1,7 @@
 package com.annaru.upms.mapper;
 
 import com.annaru.upms.entity.EntityHrAppointmentMain;
-import com.annaru.upms.entity.vo.EntityHrAppointmentMainScreenSetVoZ;
-import com.annaru.upms.entity.vo.EntityHrAppointmentMainScreenVoZ;
-import com.annaru.upms.entity.vo.EntityHrAppointmentMainVoZ;
-import com.annaru.upms.entity.vo.EntityHrAppointmentMainVoZ1;
-import com.annaru.upms.entity.vo.HrHomePageInfo;
-import com.annaru.upms.entity.vo.HrPackageList;
+import com.annaru.upms.entity.vo.*;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -35,7 +30,7 @@ public interface EntityHrAppointmentMainMapper extends BaseMapper<EntityHrAppoin
      * @param params
      * @return
      */
-    IPage<EntityHrAppointmentMain> historyRecord(Page page, @Param("params") Map <String, Object> params);
+    IPage<EntityHrAppointmentMainFwVoZ> historyRecord(Page page, @Param("params") Map <String, Object> params);
 
     /**
      * 多表页面信息查询 ，HR购买记录
@@ -49,7 +44,7 @@ public interface EntityHrAppointmentMainMapper extends BaseMapper<EntityHrAppoin
      * @param params
      * @return
      */
-    List<EntityHrAppointmentMainVoZ> hrRecordDetail(@Param("params") Map <String, Object> params);
+    List<EntityHrAppointmentMainVoZ2> hrRecordDetail(@Param("params") Map <String, Object> params);
 
     /**
      * 多表页面信息查询 ，HR已预约员工列表
