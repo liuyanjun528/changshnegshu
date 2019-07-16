@@ -292,29 +292,25 @@ public class TbMedicalController extends BaseController {
             params.put("dateFrom", dateFrom);
             params.put("dateTo", dateTo);
             PageUtils<Map<String, Object>> map_list = iTbCisPrescriptionDetailService.getYyjlPage(params);
-            List<TbCisPrescriptionDetailListVo> yyjl_list = map_list.getList();
-            for (TbCisPrescriptionDetailListVo listVo: yyjl_list) {
-                List<TbCisPrescriptionDetailVo> ypxx = new ArrayList<>();
-                List<TbCisPrescriptionDetailVo> yp_list = iTbCisPrescriptionDetailService.getYp(listVo.getJzlsh());
-                for (TbCisPrescriptionDetailVo detailVo : yp_list) {
-                    if (StringUtils.isNotBlank(detailVo.getSypcdm())) {
-                        String sypcdm = detailVo.getSypcdm().toLowerCase();
-                        detailVo.setSypc(AppConst.sypc_dm.get(sypcdm));
-                    }else {
-                        detailVo.setJl(null);
-                        detailVo.setDw(null);
+                List<TbCisPrescriptionDetailListVo> yyjl_list = map_list.getList();
+                for (TbCisPrescriptionDetailListVo listVo: yyjl_list) {
+                    List<TbCisPrescriptionDetailVo> ypxx = new ArrayList<>();
+                    List<TbCisPrescriptionDetailVo> yp_list = iTbCisPrescriptionDetailService.getYp(listVo.getJzlsh());
+                    for (TbCisPrescriptionDetailVo detailVo : yp_list) {
+                        if (StringUtils.isNotBlank(detailVo.getSypcdm())) {
+                            String sypcdm = detailVo.getSypcdm().toLowerCase();
+                            detailVo.setSypc(AppConst.sypc_dm.get(sypcdm));
+                        }else {
+                            detailVo.setJl(null);
+                            detailVo.setDw(null);
+                        }
+                        detailVo.setYf(AppConst.yf_dm.get(detailVo.getYf()));
+                        ypxx.add(detailVo);
                     }
-                    detailVo.setYf(AppConst.yf_dm.get(detailVo.getYf()));
-                    ypxx.add(detailVo);
+                    listVo.setYpList(ypxx);
                 }
-                listVo.setYpList(ypxx);
-            }
-            if(yyjl_list.size()>0){
                 map_list.setList(yyjl_list);
                 return ResultMap.ok().put("data",map_list);
-            }else {
-                return ResultMap.error("没有用药记录数据！");
-            }
         } catch (Exception e) {
             logger.error(e.getMessage());
             return ResultMap.error("运行异常，请联系管理员");
