@@ -201,4 +201,12 @@
         where order_no = #{orderNo} and status=1
     </update>
 
+
+    <!--企业家庭医生预约-->
+    <insert id="insertEntityDoctorAppointment">
+        INSERT INTO entity_healthy_appointment (order_no,user_id,appoint_date,time_from,address,service_option)
+         VALUES (#{orderNo},#{userId},#{appointDate},#{timeFrom},#{address},#{serviceOption})
+    </insert>
+
+
 </mapper>

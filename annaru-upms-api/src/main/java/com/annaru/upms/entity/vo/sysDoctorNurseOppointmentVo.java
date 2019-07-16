@@ -18,11 +18,11 @@ public class sysDoctorNurseOppointmentVo implements Serializable {
     private String doctorNurseNo;
     private Date appointDates;
 
-    @TableField("time_from")
-    private Date timeFrom;
+    @TableField("head_image")
+    private String headImage;
 
-    @TableField("time_to")
-    private Date timeTo;
+    @TableField("cellphone_no")
+    private String cellphoneNo;
 
     @TableField("appointment_cates")
     private int appointmentCates;
@@ -38,7 +38,24 @@ public class sysDoctorNurseOppointmentVo implements Serializable {
     private String address;
 
     private Double amount;
+    private int state;
+    private int isActive;
 
+    public int getIsActive() {
+        return isActive;
+    }
+
+    public void setIsActive(int isActive) {
+        this.isActive = isActive;
+    }
+
+    public int getState() {
+        return state;
+    }
+
+    public void setState(int state) {
+        this.state = state;
+    }
 
     public Date getDateFrom() {
         return dateFrom;
@@ -64,20 +81,20 @@ public class sysDoctorNurseOppointmentVo implements Serializable {
         this.appointDates = appointDates;
     }
 
-    public Date getTimeFrom() {
-        return timeFrom;
+    public String getHeadImage() {
+        return headImage;
     }
 
-    public void setTimeFrom(Date timeFrom) {
-        this.timeFrom = timeFrom;
+    public void setHeadImage(String headImage) {
+        this.headImage = headImage;
     }
 
-    public Date getTimeTo() {
-        return timeTo;
+    public String getCellphoneNo() {
+        return cellphoneNo;
     }
 
-    public void setTimeTo(Date timeTo) {
-        this.timeTo = timeTo;
+    public void setCellphoneNo(String cellphoneNo) {
+        this.cellphoneNo = cellphoneNo;
     }
 
     public int getAppointmentCates() {

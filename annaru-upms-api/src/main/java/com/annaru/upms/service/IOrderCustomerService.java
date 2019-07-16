@@ -25,7 +25,6 @@ public interface IOrderCustomerService extends IService<OrderCustomer> {
 
     /**
      * 增加订单用户表
-     * @param params
      * @return
      */
     int insertOrderCustomer(OrderCustomer orderCustomer);

@@ -310,6 +310,13 @@ public class OrderAppointmentController extends BaseController {
                 String orderNo = orderAppointment.getOrderNo();
                 appointment.setOrderNo(orderNo);
                 appointment.setServiceOption(orderAppointment.getOption1());
+                sysDoctorOppointment.setOrderNo(orderNo);
+                sysDoctorOppointment.setUserId(orderAppointment.getUserId());
+                sysDoctorOppointment.setAppointmentCates(cates);
+                sysDoctorOppointment.setAppointDate(orderAppointment.getAppointDate());
+                sysDoctorOppointment.setIsConfirmed(0);
+                sysDoctorOppointment.setTimeFrom(orderAppointment.getTimeFrom());
+                sysDoctorOppointment.setTimeTo(orderAppointment.getTimeTo());
                 orderAdditionalInfo.setAppointmentCates(cates);
                 orderAdditionalInfo.setCreateBy(orderAppointment.getUserId());
                 orderAdditionalInfo.setOption1(orderAppointment.getOption1());
@@ -317,12 +324,11 @@ public class OrderAppointmentController extends BaseController {
                 orderAdditionalInfoService.save(orderAdditionalInfo);
                 if (orderAppointment.getOption1()==1){
                     if (orderAppointment.getAddress()!=null){
-                        appointment.setAddress(orderAppointment.getAddress());
-                        orderAppointmentService.save(appointment);
-                        message.setBusinessCate(3);
-                        message.setMsgCate(3);
-                        message.setContent("您预约上门服务已被护士接单，请您关注上门时间并且提前做好相应的准备，保持电话畅通。");
-
+                        sysDoctorOppointment.setAddress(orderAppointment.getAddress());
+                        sysDoctorOppointmentService.save(sysDoctorOppointment);
+//                        message.setBusinessCate(3);
+//                        message.setMsgCate(3);
+//                        message.setContent("您预约上门服务已被护士接单，请您关注上门时间并且提前做好相应的准备，保持电话畅通。");
                     }
                 }else if (orderAppointment.getOption1()==2){
                     if (orderAppointment.getInstitutionId()!=null){
