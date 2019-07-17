@@ -351,7 +351,9 @@
         <if test="params.sysId != null and params.sysId != ''">
             AND om.sys_id = #{params.sysId}
         </if>
-        GROUP BY em.name,ea.service_name,oee.exam_master_item,ur.relative_name
+        <if test="params.orderNo != null and params.orderNo != ''">
+            AND om.order_no = #{params.orderNo}
+        </if>
     </select>
 
     <!-- 多表页面信息查询分页  自费订单-->
@@ -385,6 +387,9 @@
         1=1 AND om.is_deleted = 0
         <if test="params.sysId != null and params.sysId != ''">
             AND om.sys_id = #{params.sysId}
+        </if>
+        <if test="params.orderNo != null and params.orderNo != ''">
+            AND om.order_no = #{params.orderNo}
         </if>
     </select>
 
@@ -421,6 +426,9 @@
         1=1 AND om.is_deleted = 0
         <if test="params.sysId != null and params.sysId != ''">
             AND om.sys_id = #{params.sysId}
+        </if>
+        <if test="params.orderNo != null and params.orderNo != ''">
+            AND om.order_no = #{params.orderNo}
         </if>
     </select>
 
