@@ -201,8 +201,9 @@
         <result column="orderTime" property="orderTime" />
         <result column="userChannel" property="userChannel" />
         <result column="amount" property="amount" />
-        <result column="departmentName" property="departmentName"/>
-        <result column="option_2" property="option_2"/>
+        <result column="departmentName" property="departmentName" />
+        <result column="option_1" property="option_1" />
+        <result column="option_2" property="option_2" />
         <result column="address" property="address" />
     </resultMap>
 
@@ -412,6 +413,7 @@
         om.user_channel userChannel,
         om.amount,
         sd.department_name departmentName,
+        oai.option_1,
         oai.option_2,
         oa.address
         FROM
