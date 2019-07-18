@@ -1,5 +1,6 @@
 package com.annaru.upms.controller;
 
+import java.math.BigDecimal;
 import java.util.*;
 
 import com.annaru.common.util.DateUtil;
@@ -104,7 +105,7 @@ public class OrderPaymentDetailController extends BaseController {
                     getNextPayMent = getNextPayMent(DateUtil.stringToDate(orderPaymentDetailVoSaveZ.getStartDate(), DateUtil.DATE_PATTERN.YYYY_MM_DD_HH_MM_SS), i);
                 }
                 orderPaymentDetail.setRepayDate(getNextPayMent); // 应付款日期
-                orderPaymentDetail.setTotalAmount(orderPaymentDetailVoSaveZ.getTotalAmount()); // 订单总金额
+                orderPaymentDetail.setTotalAmount(getAmount(orderPaymentDetailVoSaveZ.getTotalAmount(), i)); // 应结算金额
                 orderPaymentDetail.setCurrentyPeriod(i + 1); // 还款期数
                 orderPaymentDetail.setTotalPeriod(totalPeriod); // 总分期数
                 orderPaymentDetailList.add(orderPaymentDetail);
@@ -171,7 +172,23 @@ public class OrderPaymentDetailController extends BaseController {
     }
 
     /**
+     * zk
+     * @param totalAmount
+     * @param i
+     * @return
+     */
+    public BigDecimal getAmount(BigDecimal totalAmount, int i){
+        if (i == 0 || i == 1){
+            return totalAmount.multiply(new BigDecimal(0.3));
+        }else if (i == 2){
+            return totalAmount.multiply(new BigDecimal(0.4));
+        }
+        return new BigDecimal("0");
+    }
+
+    /**
      * 根据开始日期和间隔月得到下次的还款时间
+     * zk
      */
     public Date getNextPayMent(Date date, int num){
         Calendar c = Calendar.getInstance();
@@ -183,89 +200,6 @@ public class OrderPaymentDetailController extends BaseController {
         }
         return c.getTime();
     }
-
-        /**
-         * 根据开始日期和间隔月得到下次的还款时间
-         */
-//    public String getNextPayMent(String startDate, int intervalMonth){ // yyyy-MM-dd HH:mm:ss
-//        int year = Integer.parseInt(startDate.substring(0 , 4)); // 年
-//        int month = Integer.parseInt(startDate.substring(5 , 7)); // 月
-//        int day = Integer.parseInt(startDate.substring(8 , 10)); // 日
-//        int nextD = Integer.parseInt(startDate.substring(10));
-//
-//        int yearN = 0; // 年
-//        int monthN = 0; // 月
-//        int dayN = 0; // 日
-//
-//        StringBuffer sb = new StringBuffer("");
-//        if ((month + intervalMonth) > 12){
-//            sb.append(year + 1);
-//            sb.append("-");
-//            if ((month + intervalMonth - 12) < 10){
-//                sb.append("0");
-//            }
-//            sb.append((month + intervalMonth) - 12);
-//
-//            yearN = year + 1;
-//            monthN = (month + intervalMonth) - 12;
-//        }else{
-//            sb.append(year);
-//            sb.append("-");
-//            if (month < 10){
-//                sb.append("0");
-//            }
-//            sb.append(month);
-//            sb.append("-");
-//            yearN = year;
-//            monthN = month;
-//        }
-//        if (day > getDays(yearN, monthN)){
-//            dayN = getDays(yearN, monthN);
-//        }else if (day < getDays(yearN, monthN)){
-//            dayN = day;
-//        }
-//        if (dayN < 10){
-//            sb.append("0");
-//        }
-//        sb.append(dayN);
-//        sb.append(nextD);
-//
-//        return sb.toString();
-//    }
-
-    /**
-     * 计算当前月有多少天
-     *
-     * @return
-     */
-//    public int getDays(int year, int month) {
-//        int days = 0;
-//        if (month != 2) {
-//            switch (month) {
-//                case 1:
-//                case 3:
-//                case 5:
-//                case 7:
-//                case 8:
-//                case 10:
-//                case 12:
-//                    days = 31;
-//                    break;
-//                case 4:
-//                case 6:
-//                case 9:
-//                case 11:
-//                    days = 30;
-//            }
-//        } else {
-//            // 闰年
-//            if (year % 4 == 0 && year % 100 != 0 || year % 400 == 0)
-//                days = 29;
-//            else
-//                days = 28;
-//        }
-//        return days;
-//    }
 
     public static void main(String[] arg){
         System.out.println(DateUtil.stringToDate("2019-06-13 15:55:10", DateUtil.DATE_PATTERN.YYYY_MM_DD_HH_MM_SS));
