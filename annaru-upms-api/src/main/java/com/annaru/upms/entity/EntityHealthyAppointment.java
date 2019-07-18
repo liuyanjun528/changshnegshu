@@ -116,6 +116,11 @@ public class EntityHealthyAppointment extends Model<EntityHealthyAppointment> im
 	@TableField("department_id")
 	private int departmentId;
 
+	@ApiModelProperty(value = "二级科室编号")
+	@TableField("sub_department_id")
+	private int subDepartmentId;
+
+
 	/**
 	 * 服务选项(1:家庭医生上门健康评估服务/2:其他)
 	 */
@@ -352,6 +357,14 @@ public class EntityHealthyAppointment extends Model<EntityHealthyAppointment> im
 
 	public void setDepartmentId(int departmentId) {
 		this.departmentId = departmentId;
+	}
+
+	public int getSubDepartmentId() {
+		return subDepartmentId;
+	}
+
+	public void setSubDepartmentId(int subDepartmentId) {
+		this.subDepartmentId = subDepartmentId;
 	}
 
 	/**

@@ -62,6 +62,7 @@
         <result column="status" property="status" />
         <result column="institution_id" property="institutionId" />
         <result column="department_id" property="departmentId" />
+        <result column="sub_department_id" property="subDepartmentId" />
         <result column="service_option" property="serviceOption" />
         <result column="appraisal" property="appraisal" />
         <result column="is_cancelled" property="isCancelled" />
