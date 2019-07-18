@@ -214,11 +214,12 @@ public class OrderMainController extends BaseController {
      * @date 2019-05-16 17:59
      */
     @ApiOperation(value = "查询套餐订单详情", notes = "查询套餐订单详情")
-    @GetMapping("/selectPackageOrder/{sysId}")
+    @GetMapping("/selectPackageOrder")
     @RequiresPermissions("upms/orderMain/selectPackageOrder")
-    public ResultMap selectPackageOrder(@PathVariable("sysId") Integer sysId){
+    public ResultMap selectPackageOrder(Integer sysId, String orderNo){
         Map<String, Object> params = new HashMap<>();
         params.put("sysId", sysId);
+        params.put("orderNo", orderNo);
         OrderMainVoZTC orderMainList = orderMainService.selectPackageOrder(params);
         return ResultMap.ok().put("data",orderMainList);
     }
@@ -229,11 +230,12 @@ public class OrderMainController extends BaseController {
      * @date 2019-05-16 17:59
      */
     @ApiOperation(value = "查询自费(进阶)订单详情", notes = "查询自费(进阶)订单详情")
-    @GetMapping("/selectPackageAdvance/{sysId}")
+    @GetMapping("/selectPackageAdvance")
     @RequiresPermissions("upms/orderMain/selectPackageAdvance")
-    public ResultMap selectPackageAdvance(@PathVariable("sysId") Integer sysId){
+    public ResultMap selectPackageAdvance(Integer sysId, String orderNo){
         Map<String, Object> params = new HashMap<>();
         params.put("sysId", sysId);
+        params.put("orderNo", orderNo);
         OrderMainVoZZF orderMainList = orderMainService.selectPackageAdvance(params);
         return ResultMap.ok().put("data",orderMainList);
     }
@@ -244,11 +246,12 @@ public class OrderMainController extends BaseController {
      * @date 2019-05-16 17:59
      */
     @ApiOperation(value = "查询门诊绿通订单详情", notes = "查询门诊绿通订单详情")
-    @GetMapping("/selectPackageGreen/{sysId}")
+    @GetMapping("/selectPackageGreen")
     @RequiresPermissions("upms/orderMain/selectPackageGreen")
-    public ResultMap selectPackageGreen(@PathVariable("sysId") Integer sysId){
+    public ResultMap selectPackageGreen(Integer sysId, String orderNo){
         Map<String, Object> params = new HashMap<>();
         params.put("sysId", sysId);
+        params.put("orderNo", orderNo);
         OrderMainVoZMzlt orderMainList = orderMainService.selectPackageGreen(params);
         return ResultMap.ok().put("data",orderMainList);
     }

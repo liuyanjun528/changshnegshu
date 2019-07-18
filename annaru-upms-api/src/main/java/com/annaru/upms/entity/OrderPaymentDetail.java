@@ -51,9 +51,9 @@ public class OrderPaymentDetail extends Model<OrderPaymentDetail> implements Ser
 	@TableField("act_repay_date")
 	private Date actRepayDate;
 	/**
-	 * 订单总金额
+	 * 应结算金额
 	 */
-    @ApiModelProperty(value = "订单总金额")
+    @ApiModelProperty(value = "应结算金额")
 	@TableField("total_amount")
 	private BigDecimal totalAmount;
 	/**
@@ -130,13 +130,13 @@ public class OrderPaymentDetail extends Model<OrderPaymentDetail> implements Ser
 		this.actRepayDate = actRepayDate;
 	}
     /**
-     * 获取：订单总金额
+     * 获取：应结算金额
      */
     public BigDecimal getTotalAmount() {
         return totalAmount;
     }
 	/**
-	 * 设置：订单总金额
+	 * 设置：应结算金额
 	 */
 	public void setTotalAmount(BigDecimal totalAmount) {
 		this.totalAmount = totalAmount;

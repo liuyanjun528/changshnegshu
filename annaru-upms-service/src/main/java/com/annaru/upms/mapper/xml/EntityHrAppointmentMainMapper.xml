@@ -49,6 +49,39 @@
     </resultMap>
 
     <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap2" type="com.annaru.upms.entity.vo.EntityHrAppointmentMainVoZ2" >
+
+        <result column="sysId" property="sysId" />
+        <result column="entityNo" property="entityNo" />
+        <result column="serviceOption" property="serviceOption" />
+        <result column="appointmentDate" property="appointmentDate" />
+        <result column="address" property="address"/>
+        <result column="hrTotalCount" property="hrTotalCount" />
+        <result column="tjygrs" property="tjygrs"/>
+
+        <collection property="entityHrAppointmentMainVoZ3List" ofType="com.annaru.upms.entity.vo.EntityHrAppointmentMainVoZ3">
+            <result column="yyxmName" property="yyxmName" />
+            <result column="countDetail" property="countDetail" />
+        </collection>
+    </resultMap>
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMapFw" type="com.annaru.upms.entity.vo.EntityHrAppointmentMainFwVoZ" >
+
+        <result column="sysId" property="sysId" />
+        <result column="packageName" property="packageName" />
+        <result column="hrRestCount" property="hrRestCount" />
+        <result column="hrTotalCount" property="hrTotalCount" />
+
+        <collection property="entityHrAppointmentMainTcVoZList" ofType="com.annaru.upms.entity.vo.EntityHrAppointmentMainTcVoZ">
+            <result column="serviceName" property="serviceName" />
+            <result column="periods" property="periods" />
+            <result column="cates" property="cates" />
+        </collection>
+
+    </resultMap>
+
+    <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMapZ1" type="com.annaru.upms.entity.vo.EntityHrAppointmentMainVoZ1" >
         <result column="userId" property="userId" />
         <result column="headImage" property="headImage" />
@@ -101,14 +134,15 @@
     </select>
 
     <!-- 多表页面信息查询分页  HR历史记录 -->
-    <select id="historyRecord" parameterType="map" resultMap="BaseResultMap1">
+    <select id="historyRecord" parameterType="map" resultMap="BaseResultMapFw">
         SELECT
             eham.sys_id sysId,
             epm.package_name packageName,
             eham.hr_rest_count hrRestCount,
             eham.hr_total_count hrTotalCount,
             epa.periods,
-            ea.service_name serviceName
+            ea.service_name serviceName,
+            ea.cates
         FROM entity_hr_appointment_main eham
         LEFT JOIN exam_package_main epm ON epm.sys_id = eham.package_id
         LEFT JOIN exam_package_append epa ON epa.package_main_id = epm.sys_id
@@ -145,7 +179,7 @@
     </select>
 
     <!-- 多表页面信息查询分页  HR记录详情 -->
-    <select id="hrRecordDetail" parameterType="map" resultMap="BaseResultMap1">
+    <select id="hrRecordDetail" parameterType="map" resultMap="BaseResultMap2">
 
         SELECT
             eham.sys_id sysId,

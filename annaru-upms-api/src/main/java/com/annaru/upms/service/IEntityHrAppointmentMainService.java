@@ -1,12 +1,7 @@
 package com.annaru.upms.service;
 
 
-import com.annaru.upms.entity.vo.EntityHrAppointmentMainScreenSetVoZ;
-import com.annaru.upms.entity.vo.EntityHrAppointmentMainScreenVoZ;
-import com.annaru.upms.entity.vo.EntityHrAppointmentMainVoZ;
-import com.annaru.upms.entity.vo.EntityHrAppointmentMainVoZ1;
-import com.annaru.upms.entity.vo.HrHomePageInfo;
-import com.annaru.upms.entity.vo.HrPackageList;
+import com.annaru.upms.entity.vo.*;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.annaru.common.result.PageUtils;
 import com.annaru.upms.entity.EntityHrAppointmentMain;
@@ -47,7 +42,7 @@ public interface IEntityHrAppointmentMainService extends IService<EntityHrAppoin
      * @param params
      * @return
      */
-    List<EntityHrAppointmentMainVoZ> hrRecordDetail(Map <String, Object> params);
+    List<EntityHrAppointmentMainVoZ2> hrRecordDetail(Map <String, Object> params);
 
     /**
      * 多表页面信息查询 ，HR已预约员工列表

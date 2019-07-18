@@ -44,7 +44,7 @@ public interface IExamUserHealthyAppraisalService extends IService<ExamUserHealt
      * @author zk
      * @date 2019-6-18
      */
-    List<ExamUserHealthyAppraisalDeatilVoZ> getUserDeatailByExamUserHealthyAppraisal(String userId, Integer sysId);
+    ExamUserHealthyAppraisalDeatilVoZ getUserDeatailByExamUserHealthyAppraisal(String userId, Integer sysId);
 
     /**
      * 评估报告亲属
@@ -52,7 +52,7 @@ public interface IExamUserHealthyAppraisalService extends IService<ExamUserHealt
      * @author zk
      * @date 2019-6-18
      */
-    List<ExamUserHealthyAppraisalDeatilVoZ> getRelativesDeatailByExamUserHealthyAppraisal(String userId, Integer sysId);
+    ExamUserHealthyAppraisalDeatilVoZ getRelativesDeatailByExamUserHealthyAppraisal(String userId, Integer sysId);
 
     /**
      * 根据用户编号和开始时间查询这条记录

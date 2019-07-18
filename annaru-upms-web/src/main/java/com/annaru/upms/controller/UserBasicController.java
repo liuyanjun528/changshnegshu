@@ -275,7 +275,17 @@ public class UserBasicController extends BaseController {
     @GetMapping("/info/{userId}")
     @RequiresPermissions("upms/userBasic/info")
     public ResultMap info(@PathVariable("userId") String userId){
-        UserBasic userBasic = userBasicService.selectByUid(userId);
+        Map<String, Object> params = new HashMap<>();
+        params.put("userId", userId);
+        UserBasic userBasic = userBasicService.selectByData(params);
+        if (userBasic == null){
+            return ResultMap.error("该用户不存在！");
+        }
+        if (userBasic.getIsactive() == 0){
+            return ResultMap.error("该用户未激活！");
+        }
+        //查询是否拥有企业服务
+        userBasic.setEntityHealthy(iUserBasicService.selectEntityHealthy(userBasic.getUserId()));
         return ResultMap.ok().put("data",userBasic);
     }
 

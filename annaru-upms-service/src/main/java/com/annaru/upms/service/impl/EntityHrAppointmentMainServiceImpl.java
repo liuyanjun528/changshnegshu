@@ -1,12 +1,7 @@
 package com.annaru.upms.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
-import com.annaru.upms.entity.vo.EntityHrAppointmentMainScreenSetVoZ;
-import com.annaru.upms.entity.vo.EntityHrAppointmentMainScreenVoZ;
-import com.annaru.upms.entity.vo.EntityHrAppointmentMainVoZ;
-import com.annaru.upms.entity.vo.EntityHrAppointmentMainVoZ1;
-import com.annaru.upms.entity.vo.HrHomePageInfo;
-import com.annaru.upms.entity.vo.HrPackageList;
+import com.annaru.upms.entity.vo.*;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -38,9 +33,9 @@ public class EntityHrAppointmentMainServiceImpl extends ServiceImpl<EntityHrAppo
 
     @Override
     public PageUtils historyRecord(Map<String, Object> params) {
-        Page<EntityHrAppointmentMain> page = new PageUtils<EntityHrAppointmentMain>(params).getPage();
-        IPage<EntityHrAppointmentMain> iPage = this.baseMapper.historyRecord(page, params);
-        return new PageUtils<EntityHrAppointmentMain>(iPage);
+        Page<EntityHrAppointmentMainFwVoZ> page = new PageUtils<EntityHrAppointmentMainFwVoZ>(params).getPage();
+        IPage<EntityHrAppointmentMainFwVoZ> iPage = this.baseMapper.historyRecord(page, params);
+        return new PageUtils<EntityHrAppointmentMainFwVoZ>(iPage);
     }
 
     @Override
@@ -49,7 +44,7 @@ public class EntityHrAppointmentMainServiceImpl extends ServiceImpl<EntityHrAppo
     }
 
     @Override
-    public List<EntityHrAppointmentMainVoZ> hrRecordDetail(Map<String, Object> params) {
+    public List<EntityHrAppointmentMainVoZ2> hrRecordDetail(Map<String, Object> params) {
         return this.baseMapper.hrRecordDetail(params);
     }
 
