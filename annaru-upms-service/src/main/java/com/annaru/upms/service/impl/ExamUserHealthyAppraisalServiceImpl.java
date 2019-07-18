@@ -42,12 +42,12 @@ public class ExamUserHealthyAppraisalServiceImpl extends ServiceImpl<ExamUserHea
     }
 
     @Override
-    public List<ExamUserHealthyAppraisalDeatilVoZ> getUserDeatailByExamUserHealthyAppraisal(String userId, Integer sysyId) {
+    public ExamUserHealthyAppraisalDeatilVoZ getUserDeatailByExamUserHealthyAppraisal(String userId, Integer sysyId) {
         return this.baseMapper.getUserDeatailByExamUserHealthyAppraisal(userId, sysyId);
     }
 
     @Override
-    public List<ExamUserHealthyAppraisalDeatilVoZ> getRelativesDeatailByExamUserHealthyAppraisal(String userId, Integer sysId) {
+    public ExamUserHealthyAppraisalDeatilVoZ getRelativesDeatailByExamUserHealthyAppraisal(String userId, Integer sysId) {
         return this.baseMapper.getRelativesDeatailByExamUserHealthyAppraisal(userId, sysId);
     }
 

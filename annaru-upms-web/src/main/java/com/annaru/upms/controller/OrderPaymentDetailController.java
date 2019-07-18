@@ -94,19 +94,19 @@ public class OrderPaymentDetailController extends BaseController {
             List<OrderPaymentDetail> orderPaymentDetailList = new ArrayList<>();
             OrderPaymentDetail orderPaymentDetail = null;
             // 根据期数得到每次还款的间隔月
-            int intervalMonth = 12 / orderPaymentDetailVoSaveZ.getTotalPeriod();
-            for (int i = 0 ; i < intervalMonth ; i++){
+            int totalPeriod = 3;
+            for (int i = 0 ; i < 3 ; i++){
                 orderPaymentDetail = new OrderPaymentDetail();
                 orderPaymentDetail.setOrderNo(orderPaymentDetailVoSaveZ.getOrderNo()); // 订单编号
                 if (getNextPayMent != null){
-                    getNextPayMent = getNextPayMent(getNextPayMent, intervalMonth);
+                    getNextPayMent = getNextPayMent(getNextPayMent, i);
                 }else {
-                    getNextPayMent = getNextPayMent(DateUtil.stringToDate(orderPaymentDetailVoSaveZ.getStartDate(), DateUtil.DATE_PATTERN.YYYY_MM_DD_HH_MM_SS), intervalMonth);
+                    getNextPayMent = getNextPayMent(DateUtil.stringToDate(orderPaymentDetailVoSaveZ.getStartDate(), DateUtil.DATE_PATTERN.YYYY_MM_DD_HH_MM_SS), i);
                 }
                 orderPaymentDetail.setRepayDate(getNextPayMent); // 应付款日期
                 orderPaymentDetail.setTotalAmount(orderPaymentDetailVoSaveZ.getTotalAmount()); // 订单总金额
                 orderPaymentDetail.setCurrentyPeriod(i + 1); // 还款期数
-                orderPaymentDetail.setTotalPeriod(orderPaymentDetailVoSaveZ.getTotalPeriod()); // 总分期数
+                orderPaymentDetail.setTotalPeriod(totalPeriod); // 总分期数
                 orderPaymentDetailList.add(orderPaymentDetail);
             }
             if (orderPaymentDetailService.saveBatch(orderPaymentDetailList)){
@@ -173,12 +173,15 @@ public class OrderPaymentDetailController extends BaseController {
     /**
      * 根据开始日期和间隔月得到下次的还款时间
      */
-    public Date getNextPayMent(Date date, int intervalMonth){
+    public Date getNextPayMent(Date date, int num){
         Calendar c = Calendar.getInstance();
         c.setTime(date);
-        c.add(Calendar.MONTH, intervalMonth);
+        if (num == 0){
+            c.add(Calendar.MONTH, 1);
+        }else {
+            c.add(Calendar.MONTH, 6);
+        }
         return c.getTime();
-
     }
 
         /**
