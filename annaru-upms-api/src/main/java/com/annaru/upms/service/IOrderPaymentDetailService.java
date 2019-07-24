@@ -27,6 +27,5 @@ public interface IOrderPaymentDetailService extends IService<OrderPaymentDetail>
      */
     List<OrderPaymentDetail> getEntityList(OrderPaymentDetail orderPaymentDetail);
 
-
 }
 

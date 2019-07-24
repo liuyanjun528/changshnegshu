@@ -87,62 +87,62 @@ public class UserLoginController extends BaseController {
         // HR登录
         if (StringUtil.isNotBlank(isHr) && "y".equals(isHr)){
             if (StringUtil.isBlank(cellphoneNo)){
-                return ResultMap.error("账号不能为空！");
+                return ResultMap.error(10,"账号不能为空！");
             }
             if (!isTrue(cellphoneNo)){
-                return ResultMap.error("请填入正确的手机号");
+                return ResultMap.error(11,"请填入正确的手机号");
             }
             if (StringUtil.isBlank(password)){
-                return ResultMap.error("密码不能为空！");
+                return ResultMap.error(12,"密码不能为空！");
             }
             Map<String, Object> mapHr = new HashMap <>();
             mapHr.put("cellphoneNo", cellphoneNo);
             mapHr.put("isHr", 1);
             userBasic = iUserBasicService.selectByData(mapHr);
             if (userBasic == null){
-                return ResultMap.error("用户不存在！");
+                return ResultMap.error(13,"用户不存在！");
             }
             if (StringUtil.isBlank(userBasic.getPassword())){
-                return ResultMap.error("账号或者密码输入错误，请检查！");
+                return ResultMap.error(14,"账号或者密码输入错误，请检查！");
             }
             if (!password.equals(userBasic.getPassword())){
-                return ResultMap.error("账号或者密码输入错误，请检查！");
+                return ResultMap.error(14,"账号或者密码输入错误，请检查！");
             }
             if (userBasic.getIsactive() == 0){
-                return ResultMap.error("HR未激活！");
+                return ResultMap.error(15,"HR未激活！");
             }
         }else {
             // loginType为1：验证码登录  loginType为2：账号密码登录  loginType为3：微信登录
             if (StringUtil.isBlank(loginType) || (!"1".equals(loginType) && !"2".equals(loginType) && !"3".equals(loginType))){
-                return ResultMap.error("请使用验证码或者账号密码登录或微信登录！");
+                return ResultMap.error(16,"请使用验证码或者账号密码登录或微信登录！");
             }
             if (!("1").equals(type) && !"2".equals(type)){
-                return ResultMap.error("端不存在！");
+                return ResultMap.error(17,"端不存在！");
             }
             if ("1".equals(loginType) || "2".equals(loginType)){
                 if (StringUtil.isBlank(cellphoneNo)){
-                    return ResultMap.error("账号不能为空！");
+                    return ResultMap.error(10,"账号不能为空！");
                 }
                 if (!isTrue(cellphoneNo)){
-                    return ResultMap.error("请填入正确的手机号");
+                    return ResultMap.error(11,"请填入正确的手机号");
                 }
             }
             if ("1".equals(loginType)){
                 if (StringUtil.isBlank(kaptcha)){
-                    return ResultMap.error("验证码不能为空！");
+                    return ResultMap.error(18,"验证码不能为空！");
                 }
                 if (!kaptcha.equals((String)redisService.get(cellphoneNo))){
-                    return ResultMap.error("验证码无效！");
+                    return ResultMap.error(19,"验证码无效！");
                 }
             }
             if ("2".equals(loginType)){
                 if (StringUtil.isBlank(password)){
-                    return ResultMap.error("密码不能为空！");
+                    return ResultMap.error(12,"密码不能为空！");
                 }
             }
             if ("3".equals(loginType)){
                 if (StringUtil.isBlank(openid)){
-                    return ResultMap.error("openid不能为空！");
+                    return ResultMap.error(20,"openid不能为空！");
                 }
             }
 
@@ -160,13 +160,13 @@ public class UserLoginController extends BaseController {
             if ("2".equals(loginType)){
                 //账号密码登录
                 if (userBasic == null){
-                    return ResultMap.error("用户不存在！");
+                    return ResultMap.error(13,"用户不存在！");
                 }
                 if (StringUtil.isBlank(userBasic.getPassword())){
-                    return ResultMap.error("账号或者密码输入错误，请检查！");
+                    return ResultMap.error(14,"账号或者密码输入错误，请检查！");
                 }
                 if (!password.equals(userBasic.getPassword())){
-                    return ResultMap.error("账号或者密码输入错误，请检查！");
+                    return ResultMap.error(14,"账号或者密码输入错误，请检查！");
                 }
             }
 
@@ -177,13 +177,13 @@ public class UserLoginController extends BaseController {
                     // 如果微信第一次绑定手机号，则通过短信验证，判断验证码
                     if ("3".equals(loginType)){
                         if (StringUtil.isBlank(cellphoneNo)){
-                            return ResultMap.error("手机号不能为空！");
+                            return ResultMap.error(21,"该微信号没有手机号绑定，请输入手机号！");
                         }
                         if (StringUtil.isBlank(kaptcha)){
-                            return ResultMap.error("验证码不能为空！");
+                            return ResultMap.error(18,"验证码不能为空！");
                         }
                         if (!kaptcha.equals((String)redisService.get(cellphoneNo))){
-                            return ResultMap.error("验证码无效！");
+                            return ResultMap.error(19,"验证码无效！");
                         }
                         Map<String, Object> map1 = new HashMap <>();
                         map1.put("cellphoneNo", cellphoneNo);
@@ -242,7 +242,7 @@ public class UserLoginController extends BaseController {
         }
 
         if (userBasic.getIsactive() == 0){
-            return ResultMap.error("用户未激活！");
+            return ResultMap.error(22,"用户未激活！");
         }
         //判断是否是首次登陆
         Boolean firstLogin = false;
@@ -273,7 +273,7 @@ public class UserLoginController extends BaseController {
             userBasic = iUserBasicService.selectDoctorByData(map);
             if (userBasic != null && userBasic.getSysDoctor().getDoctorNo() != null){
                 if (userBasic.getIsactive() == 0){
-                    return ResultMap.error("医生未激活！");
+                    return ResultMap.error(23,"医生未激活！");
                 }
                 userBasic.setToken(token);
                 userBasic.setFirstLogin(firstLogin);
@@ -287,7 +287,7 @@ public class UserLoginController extends BaseController {
             userBasic = iUserBasicService.selectNurseByData(map);
             if (userBasic != null && userBasic.getSysNurse().getNurseNo() != null){
                 if (userBasic.getIsactive() == 0){
-                    return ResultMap.error("护士未激活！");
+                    return ResultMap.error(24,"护士未激活！");
                 }
                 userBasic.setToken(token);
                 userBasic.setFirstLogin(firstLogin);
