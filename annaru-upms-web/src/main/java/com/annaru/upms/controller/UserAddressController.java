@@ -40,12 +40,12 @@ public class UserAddressController extends BaseController {
     @RequiresPermissions("upms/userAddress/list")
     public ResultMap list(@ApiParam(value = "当前页")@RequestParam(defaultValue="1") int page,
                           @ApiParam(value = "每页数量")@RequestParam(defaultValue = "10") int limit,
-                          @ApiParam(value = "关键字")@RequestParam(required = false)String key){
+                          @ApiParam(value = "用户编号")@RequestParam(required = false)String userId){
 
         Map<String, Object> params = new HashMap<>();
         params.put("page",page);
         params.put("limit", limit);
-        params.put("key", key);
+        params.put("userId", userId);
         PageUtils<Map<String, Object>> pageList = userAddressService.getDataPage(params);
         return ResultMap.ok().put("data",pageList);
     }

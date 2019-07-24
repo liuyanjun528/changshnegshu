@@ -85,9 +85,6 @@ public class OrderAdditionalInfo extends Model<OrderAdditionalInfo> implements S
 	@TableField(exist = false)
 	private EntityHealthyAppointment entityHealthyAppointment;
 
-//	@ApiModelProperty(value = "orderMain表")
-//	@TableField(exist = false)
-//	private OrderMain orderMain;
 
 
 	public EntityHealthyAppointment getEntityHealthyAppointment() {
@@ -97,15 +94,6 @@ public class OrderAdditionalInfo extends Model<OrderAdditionalInfo> implements S
 	public void setEntityHealthyAppointment(EntityHealthyAppointment entityHealthyAppointment) {
 		this.entityHealthyAppointment = entityHealthyAppointment;
 	}
-
-
-//	public OrderMain getOrderMain() {
-//		return orderMain;
-//	}
-//
-//	public void setOrderMain(OrderMain orderMain) {
-//		this.orderMain = orderMain;
-//	}
 
 	/**
      * 获取：系统编号

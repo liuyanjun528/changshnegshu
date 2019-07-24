@@ -43,6 +43,9 @@ public class EntityExclusiveDoctorVoController extends BaseController {
         Map<String, Object> map=new HashMap();
         map.put("userId",userId);
         EntityExclusiveDoctorVo entityExclusiveDoctorVo = entityExclusiveDoctorVoService.selectExclusiveDoctor(entityId);
+        if(null==entityExclusiveDoctorVo){
+            return ResultMap.error().put("data","该企业没有专属医生");
+        }
         map.put("docNo",entityExclusiveDoctorVo.getDoctorNo());
         SysAppraisal sysAppraisal = sysAppraisalService.selectOne(map);
         if(null==sysAppraisal){
@@ -50,6 +53,7 @@ public class EntityExclusiveDoctorVoController extends BaseController {
         }else {
             entityExclusiveDoctorVo.setIsAppraise(1);
         }
+
         return ResultMap.ok().put("data",entityExclusiveDoctorVo);
     }
 
