@@ -26,10 +26,9 @@ public interface ISysDoctorNurseScheduleService extends IService<SysDoctorNurseS
 
     /**
      * 查询医护排班
-     * @param params
      * @return
      */
-    List<SysDoctorNurseScheduleVo> selectSchedulePage(Map<String, Object> params);
+    List<SysDoctorNurseScheduleVo> selectSchedulePage(String doctorNo);
 
     /**
      * 删除排班
