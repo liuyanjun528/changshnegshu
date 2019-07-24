@@ -23,5 +23,7 @@ public interface ISysConfigService extends IService<SysConfig> {
     PageUtils getDataPage(Map <String, Object> params);
 
     SysConfig getODR();
+
+    SysConfig getNurPrice();
 }
 

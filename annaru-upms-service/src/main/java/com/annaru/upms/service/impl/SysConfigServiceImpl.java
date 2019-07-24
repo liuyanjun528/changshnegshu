@@ -34,4 +34,9 @@ public class SysConfigServiceImpl extends ServiceImpl<SysConfigMapper, SysConfig
         return this.baseMapper.getODR();
     }
 
+    @Override
+    public SysConfig getNurPrice(){
+        return this.baseMapper.getNurPrice();
+    }
+
 }
