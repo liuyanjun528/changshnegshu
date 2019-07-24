@@ -19,7 +19,6 @@
 
     <!-- 多表页面信息查询分页 -->
     <select id="selectDataPage" parameterType="map" resultMap="BaseResultMap">
-
         SELECT
               sys_id,
               user_id,
@@ -31,8 +30,7 @@
               isdefault,
               creation_time,
               edit_time
-        FROM
-            user_address
+        FROM user_address
         <where>
             <if test="params.userId != null and params.userId != ''">
                 AND user_id LIKE CONCAT('%', #{params.userId}, '%')
