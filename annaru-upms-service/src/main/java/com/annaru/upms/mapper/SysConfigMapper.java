@@ -26,4 +26,6 @@ public interface SysConfigMapper extends BaseMapper<SysConfig> {
 
     SysConfig getODR();
 
+    SysConfig getNurPrice();
+
 }

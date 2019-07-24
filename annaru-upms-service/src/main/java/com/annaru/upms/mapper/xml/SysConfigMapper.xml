@@ -35,4 +35,12 @@
             WHERE category="ORDERNO"
     </select>
 
+    <select id="getNurPrice" resultMap="BaseResultMap">
+        SELECT
+              ref_no
+        FROM
+            sys_config
+            WHERE code_value="NFEE"
+    </select>
+
 </mapper>
