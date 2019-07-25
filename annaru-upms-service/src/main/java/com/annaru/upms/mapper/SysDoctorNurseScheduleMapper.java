@@ -11,7 +11,7 @@ import java.util.Map;
 
 /**
  * 家庭医生日程
- * 
+ *
  * @author lft
  * @date 2019-06-26 09:40:56
  */
@@ -27,10 +27,12 @@ public interface SysDoctorNurseScheduleMapper extends BaseMapper<SysDoctorNurseS
 
     /**
      * 查询医护排班
-     * @param params
      * @return
      */
-    List<SysDoctorNurseScheduleVo> selectSchedulePage(@Param("params") Map<String, Object> params);
+    List<SysDoctorNurseScheduleVo> selectSchedulePage(@Param("doctorNo") String doctorNo);
+
+
+
 
     /**
      * 删除排班

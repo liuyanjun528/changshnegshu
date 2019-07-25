@@ -9,37 +9,62 @@
         <result column="entity_id" property="entityId" />
         <result column="reference_no" property="referenceNo" />
         <result column="user_channel" property="userChannel" />
+
         <result column="appointment_cates" property="appointmentCates" />
         <result column="service_option" property="serviceOption" />
+        <result column="appoint_date" property="appointDate" />
         <result column="time_from" property="timeFrom" />
         <result column="name" property="address" />
-        <result column="time_to" property="timeTo" />
-        <result column="reportTime" property="reportTime" />
         <result column="status" property="status" />
+
+        <result column="exam_master_item" property="examMasterItem" />
+        <result column="name" property="name" />
+        <result column="appointTime" property="appointTime" />
+        <result column="is_cancelled" property="isCancelled" />
+
+        <result column="rest_count" property="restCount" />
+        <result column="total_count" property="totalCount" />
+
+        <result column="effect_from" property="effectFrom" />
+        <result column="effect_to" property="effectTo" />
+        <result column="is_terminated" property="isTerminated" />
     </resultMap>
 
 
     <select id="selectEmployeeDetail" parameterType="map" resultMap="BaseResultMap">
-        select
-			uem.user_id,
-			uem.entity_id,
-			om.reference_no,
-			om.user_channel,
-			oa.appointment_cates,
-			oa.service_option,
-			oa.time_from,
-			address,
-			oa.time_to,
-			oa.status,
-			oa.time_to as reportTime
-        FROM
-			  user_entity_mapping as uem
-        LEFT JOIN
-              order_main as om ON uem.user_id=om.user_id
-        LEFT JOIN
-              order_appointment as oa ON uem.user_id=oa.user_id
-        where
-        uem.user_id=#{userId} and reference_no=#{referenceNo}
+       select
+			distinct
+			uem.user_id, -- 用户ID
+			uem.entity_id, -- 企业ID
+			om.reference_no, -- 购买的套餐名称
+			om.user_channel, -- 购买渠道
+
+			oa.appointment_cates, -- 体检类别1:一般体检预约(C端) 2:进阶体检预约(C端) 3:分布式体检预约(B端) 4:进阶体检预约(B端)5:家庭医生6.门诊绿通预约
+			oa.service_option, -- 服务选项(1:护士上门/2:指定地点)
+			oa.appoint_date, -- 预约日期
+			oa.time_from, -- 开始时间
+			oa.address, -- 预约地址
+			oa.status, -- 完成状态
+
+			oee.exam_master_item,-- 检查项目
+			sit.name,-- 医疗机构
+			oa.appoint_date as appointTime,-- 预约时间
+			oa.is_cancelled,-- 预约状态
+
+			od.rest_count,-- 已使用次数
+			od.total_count,-- 剩余次数
+
+			ufd.effect_from,-- 开始时间
+			ufd.effect_to, -- 结束时间
+			ufd.is_terminated -- 中止未中止
+      FROM user_entity_mapping as uem
+      INNER JOIN order_main as om ON uem.user_id=om.user_id
+      INNER JOIN order_appointment as oa ON uem.user_id=oa.user_id
+	  LEFT JOIN user_family_doctor as ufd ON ufd.order_no=oa.order_no
+	  LEFT JOIN order_extension_exam as oee ON oee.order_no=oa.parent_no
+	  INNER JOIN order_detail as od ON od.order_no=om.order_no
+	  LEFT JOIN sys_institution as sit ON sit.institution_id=oa.institution_id
+      where uem.user_id=#{userId} and om.reference_no=#{referenceNo}
     </select>
 
 </mapper>

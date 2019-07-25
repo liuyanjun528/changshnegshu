@@ -35,26 +35,14 @@ public class SysDoctorNurseScheduleController extends BaseController {
     private ISysDoctorNurseScheduleService sysDoctorNurseScheduleService;
 
     /**
-     * 列表
+     * 医生的排班列表
      */
-    @ApiOperation(value = "医护排班列表")
-    @GetMapping("/getScheduleList")
-    @RequiresPermissions("upms/sysDoctorNurseSchedule/getScheduleList")
-    public ResultMap getScheduleList(@ApiParam(value = "年" , required = true)@RequestParam Integer year,
-                                        @ApiParam(value = "月", required = true)@RequestParam Integer month,
-                                        @ApiParam(value = "日")@RequestParam(required = false) Integer day,
-                                        @ApiParam(value = "医生护士编号")@RequestParam(required = false) String doctorNurseNo,
-                                        @ApiParam(value = "类别(1:护士/2:医生)")@RequestParam(required = false) Integer userCates){
-
+    @ApiOperation(value = "医生的排班列表")
+    @GetMapping("/getDoctorScheduleList")
+    @RequiresPermissions("upms/sysDoctorNurseSchedule/getDoctorScheduleList")
+    public ResultMap getDoctorScheduleList(String doctorNo){
         try {
-            Map<String, Object> params = new HashMap<>();
-            params.put("year", year);
-            params.put("month", month);
-            params.put("day", day);
-            params.put("doctorNurseNo", doctorNurseNo);
-            params.put("userCates", userCates);
-
-            List<SysDoctorNurseScheduleVo> list = sysDoctorNurseScheduleService.selectSchedulePage(params);
+            List<SysDoctorNurseScheduleVo> list = sysDoctorNurseScheduleService.selectSchedulePage(doctorNo);
             return ResultMap.ok().put("data",list);
         } catch (Exception e) {
             logger.error(e.getMessage());

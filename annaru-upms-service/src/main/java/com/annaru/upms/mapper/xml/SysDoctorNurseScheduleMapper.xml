@@ -57,40 +57,17 @@
     </select>
 
     <!-- 查询医护排班 -->
-    <select id="selectSchedulePage" parameterType="map" resultMap="BaseResultMapVo">
-    SELECT
-        dns.sys_id,
-        d.doctor_name,
-        n.nurse_name,
-        date_format(dns.date_from, '%Y-%m-%d') AS scheduling_date,
-        dns.time_from,
-        dns.time_to,
-        dns.doctor_nurse_no,
-        dns.user_cates,
-        dns.state
-    FROM
-        sys_doctor_nurse_schedule dns
-        LEFT JOIN sys_doctor d ON d.doctor_no = dns.doctor_nurse_no
-        LEFT JOIN sys_nurse n ON n.nurse_no = dns.doctor_nurse_no
-    WHERE
-        <if test="params.year != null and params.year != ''">
-            extract(YEAR FROM dns.date_from) = #{params.year}
-        </if>
-        <if test="params.month != null and params.month != ''">
-            AND extract(MONTH FROM dns.date_from) = #{params.month}
-        </if>
-        <if test="params.day != null and params.day != ''">
-            AND extract(DAY FROM dns.date_from) = #{params.day}
-        </if>
-        <if test="params.doctorNurseNo != null and params.doctorNurseNo != ''">
-            AND dns.doctor_nurse_no = #{params.doctorNurseNo}
-        </if>
-        <if test="params.userCates != null and params.userCates != ''">
-            AND dns.user_cates = #{params.userCates}
-        </if>
-        AND is_deleted = 0
-        AND is_active = 1
-    ORDER BY dns.date_from
+    <select id="selectSchedulePage" parameterType="map" resultMap="BaseResultMap">
+        SELECT
+        sys_id,
+        date_from,
+        time_from,
+        time_to,
+        doctor_nurse_no,
+        is_active,
+        state
+        FROM sys_doctor_nurse_schedule
+        where  doctor_nurse_no = #{doctorNo}
     </select>
 
     <!--删除排班 修改is_deleted为1-->
