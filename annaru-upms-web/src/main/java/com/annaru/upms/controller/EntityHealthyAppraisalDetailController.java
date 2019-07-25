@@ -38,7 +38,7 @@ public class EntityHealthyAppraisalDetailController extends BaseController {
      */
     @ApiOperation(value = "列表")
     @GetMapping("/list")
-    @RequiresPermissions("upms/entityHealthyAppraisalDetail/list")
+    //@RequiresPermissions("upms/entityHealthyAppraisalDetail/list")
     public ResultMap list(@ApiParam(value = "当前页")@RequestParam(defaultValue="1") int page,
                        @ApiParam(value = "每页数量")@RequestParam(defaultValue = "10") int limit,
                        @ApiParam(value = "关键字")@RequestParam(required = false)String key){
@@ -61,7 +61,7 @@ public class EntityHealthyAppraisalDetailController extends BaseController {
      */
     @ApiOperation(value = "查看详情", notes = "查看upms详情")
     @GetMapping("/info/{sysId}")
-    @RequiresPermissions("upms/entityHealthyAppraisalDetail/info")
+    //@RequiresPermissions("upms/entityHealthyAppraisalDetail/info")
     public ResultMap info(@PathVariable("sysId") Integer sysId){
         try {
             EntityHealthyAppraisalDetail entityHealthyAppraisalDetail = entityHealthyAppraisalDetailService.getById(sysId);
@@ -77,7 +77,7 @@ public class EntityHealthyAppraisalDetailController extends BaseController {
      */
     @ApiOperation(value = "保存")
     @PostMapping("/save")
-    @RequiresPermissions("upms/entityHealthyAppraisalDetail/save")
+    //@RequiresPermissions("upms/entityHealthyAppraisalDetail/save")
     public ResultMap save(@Valid @RequestBody EntityHealthyAppraisalDetail entityHealthyAppraisalDetail) {
         try {
 
@@ -96,7 +96,7 @@ public class EntityHealthyAppraisalDetailController extends BaseController {
      */
     @ApiOperation(value = "修改")
     @PostMapping("/update")
-    @RequiresPermissions("upms/entityHealthyAppraisalDetail/update")
+    //@RequiresPermissions("upms/entityHealthyAppraisalDetail/update")
     public ResultMap update(@Valid @RequestBody EntityHealthyAppraisalDetail entityHealthyAppraisalDetail) {
         try {
             entityHealthyAppraisalDetailService.updateById(entityHealthyAppraisalDetail);
@@ -113,7 +113,7 @@ public class EntityHealthyAppraisalDetailController extends BaseController {
      */
     @ApiOperation(value = "删除")
     @PostMapping("/delete")
-    @RequiresPermissions("upms/entityHealthyAppraisalDetail/delete")
+    //@RequiresPermissions("upms/entityHealthyAppraisalDetail/delete")
     public ResultMap delete(@RequestBody Integer[]sysIds) {
         try {
             entityHealthyAppraisalDetailService.removeByIds(Arrays.asList(sysIds));

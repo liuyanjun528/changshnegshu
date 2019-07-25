@@ -55,5 +55,8 @@ public interface SysDoctorScheduleMapper extends BaseMapper<SysDoctorSchedule> {
      */
     int insertNuserSchedule(SysDoctorSchedule sysDoctorSchedule);
 
+    //护士当天预约的次数
+    int selectNurseSchedule(@Param("params") Map <String, Object> params);
+
     boolean updateSceduleStatus(@Param("params") Map <String, Object> params);
 }

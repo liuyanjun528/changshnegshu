@@ -1,6 +1,7 @@
 package com.annaru.upms.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.annaru.upms.entity.vo.DoctorScheduleVoW;
 import com.annaru.upms.entity.vo.SysDoctorNurseScheduleVo;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -12,6 +13,7 @@ import com.annaru.upms.mapper.SysDoctorNurseScheduleMapper;
 import com.annaru.upms.entity.SysDoctorNurseSchedule;
 import com.annaru.upms.service.ISysDoctorNurseScheduleService;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -34,6 +36,30 @@ public class SysDoctorNurseScheduleServiceImpl extends ServiceImpl<SysDoctorNurs
     @Override
     public List<SysDoctorNurseScheduleVo> selectSchedulePage(String doctorNo) {
         return this.baseMapper.selectSchedulePage(doctorNo);
+    }
+
+    @Override
+    public List<DoctorScheduleVoW> selectHealthyAppointment(Map<String, Object> params) {
+        return this.baseMapper.selectHealthyAppointment(params);
+    }
+
+    @Override
+    public List<DoctorScheduleVoW> selectOutpatient(Map<String, Object> params) {
+        return this.baseMapper.selectOutpatient(params);
+    }
+
+    @Override
+    public int updateDoctorSchedule(Map<String, Object> params) {
+        return this.baseMapper.updateDoctorSchedule(params);
+    }
+
+    @Override
+    public int selectScheduleCount1(Map<String, Object> params) {
+        return this.baseMapper.selectScheduleCount1(params);
+    }
+    @Override
+    public int selectScheduleCount2(Map<String, Object> params) {
+        return this.baseMapper.selectScheduleCount2(params);
     }
 
     @Override
