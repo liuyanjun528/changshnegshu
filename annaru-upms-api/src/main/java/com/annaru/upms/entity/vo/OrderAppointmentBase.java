@@ -25,6 +25,7 @@ import java.util.Date;
 public class OrderAppointmentBase extends Model<OrderAppointmentBase> implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	private Integer sysId;
 	private String orderNo;
 	private String entityId;
 	private String userId;
@@ -37,6 +38,14 @@ public class OrderAppointmentBase extends Model<OrderAppointmentBase> implements
 	private String institutionName;
 	private Integer serviceOption;
 	private Integer isCancelled;
+
+	public Integer getSysId() {
+		return sysId;
+	}
+
+	public void setSysId(Integer sysId) {
+		this.sysId = sysId;
+	}
 
 	public Integer getAppointStatus() {
 		return appointStatus;

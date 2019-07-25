@@ -166,13 +166,15 @@ public class OrderAppointmentController extends BaseController {
             params.put("orderNo",userPackage.getOrderNo());
         }
         //建议检查项
-        List<OrderExtensionSuggestion> orderExtensionSuggestion = orderExtensionSuggestionService.getItems(params);
+        List<OrderExtensionSuggestionVo> orderExtensionSuggestion = orderExtensionSuggestionService.getItems(params);
         //套餐项
         List<ExamChooseVo> examChooseVo = examPackageDetailService.getChoosen(params);
+        List<ExamExtensionVo> extensionVos = examPackageDetailService.getEEChoosen(params);
         List<OrderAppointmentBase> orderAppointments = orderAppointmentService.getAppointInfoByOrderNo(params);
         if (orderAppointments.size()==0){
             params.clear();
             params.put("examList",examChooseVo);
+            params.put("examExtensionList",extensionVos);
             params.put("userPackage",userPackage);
             params.put("appointed",0);
             return ResultMap.ok().put("data",params);
@@ -190,6 +192,7 @@ public class OrderAppointmentController extends BaseController {
         }
         params.put("userPackage",userPackage);
         params.put("examList",examChooseVo);
+        params.put("examExtensionList",extensionVos);
         params.put("commoncheck",orderAppointments.get(0));
         return ResultMap.ok().put("data",params);
     }
@@ -321,13 +324,6 @@ public class OrderAppointmentController extends BaseController {
                 String orderNo = orderAppointment.getOrderNo();
                 appointment.setOrderNo(orderNo);
                 appointment.setServiceOption(orderAppointment.getOption1());
-                sysDoctorOppointment.setOrderNo(orderNo);
-                sysDoctorOppointment.setUserId(userId);
-                sysDoctorOppointment.setAppointmentCates(cates);
-                sysDoctorOppointment.setAppointDate(orderAppointment.getAppointDate());
-                sysDoctorOppointment.setIsConfirmed(0);
-                sysDoctorOppointment.setTimeFrom(orderAppointment.getTimeFrom());
-                sysDoctorOppointment.setTimeTo(orderAppointment.getTimeTo());
                 orderAdditionalInfo.setAppointmentCates(cates);
                 orderAdditionalInfo.setCreateBy(userId);
                 orderAdditionalInfo.setOption1(orderAppointment.getOption1());

@@ -209,5 +209,7 @@ public class OrderMainServiceImpl extends ServiceImpl<OrderMainMapper, OrderMain
         return this.baseMapper.selectExamPackageMainByOrderNo(orderNo);
     }
 
-
+    public OrderMain getReferenceNo(Map<String,Object> params){
+        return this.baseMapper.getReferenceNo(params);
+    }
 }

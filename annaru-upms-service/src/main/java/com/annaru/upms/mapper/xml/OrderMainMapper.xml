@@ -626,4 +626,12 @@ WHERE
             om.order_no = #{orderNo}
     </select>
 
+    <select id="getReferenceNo" parameterType="map" resultMap="BaseResultMap">
+        SELECT
+        reference_no
+        FROM
+        order_main
+        WHERE order_no =  #{params.orderNo}
+    </select>
+
 </mapper>

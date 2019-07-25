@@ -16,6 +16,11 @@
         <result column="name" property="name"/>
     </resultMap>
 
+    <resultMap id="BaseResultMapEEVo" type="com.annaru.upms.entity.vo.ExamExtensionVo">
+        <result column="name" property="name"/>
+        <result column="item_name" property="itemName"/>
+    </resultMap>
+
     <!-- 多表页面信息查询分页 -->
     <select id="selectDataPage" parameterType="map" resultMap="BaseResultMap">
 
@@ -44,6 +49,19 @@
                 on epd.exam_master_id = em.sys_id
                 WHERE epd.exam_main_id = #{params.examId}
                 GROUP BY epd.exam_master_id
+    </select>
+
+    <select id="getEEChoosen" parameterType="map" resultMap="BaseResultMapEEVo">
+        SELECT
+        em.name,
+        ed.item_name
+        FROM
+        exam_package_extension epe
+        LEFT JOIN exam_master em
+        on epe.exam_master_id = em.sys_id
+        LEFT JOIN exam_detail ed
+        on ed.sys_id = epe.exam_detail_id
+        WHERE epe.pkg_main_id = #{params.examId}
     </select>
 
 </mapper>

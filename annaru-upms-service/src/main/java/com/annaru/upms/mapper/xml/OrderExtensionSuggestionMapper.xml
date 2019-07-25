@@ -32,7 +32,7 @@
         <result column="edit_by" property="editBy" />
         <result column="name" property="name" />
         <result column="item_name" property="itemName" />
-
+        <result column="amount" property="amount"/>
     </resultMap>
 
     <!-- 多表页面信息查询分页 -->
@@ -64,7 +64,8 @@
             oes.doctor_no,
             oes.order_no,
             em.`name`,
-            ed.item_name
+            ed.item_name,
+            ed.amount
             FROM
             order_extension_suggestion oes
             LEFT JOIN exam_master em ON oes.exam_master_id = em.sys_id
