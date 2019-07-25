@@ -1,6 +1,7 @@
 package com.annaru.upms.mapper;
 
 import com.annaru.upms.entity.OrderExtensionSuggestion;
+import com.annaru.upms.entity.vo.OrderExtensionSuggestionVo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -24,6 +25,6 @@ public interface OrderExtensionSuggestionMapper extends BaseMapper<OrderExtensio
     */
     IPage<OrderExtensionSuggestion> selectDataPage(Page page, @Param("params") Map<String, Object> params);
 
-    List<OrderExtensionSuggestion> getItems(@Param("params") Map<String, Object> params);
+    List<OrderExtensionSuggestionVo> getItems(@Param("params") Map<String, Object> params);
 
 }

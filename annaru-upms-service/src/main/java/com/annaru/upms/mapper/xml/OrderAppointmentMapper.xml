@@ -90,6 +90,7 @@
 
 
     <resultMap id="BaseAppointInfo" type="com.annaru.upms.entity.vo.OrderAppointmentBase">
+        <result column="sys_id" property="sysId"/>
         <result column="order_no" property="orderNo"/>
         <result column="entity_id" property="entityId"/>
         <result column="user_id" property="userId"/>

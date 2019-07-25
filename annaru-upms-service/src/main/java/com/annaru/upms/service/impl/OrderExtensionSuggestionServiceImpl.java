@@ -2,6 +2,7 @@ package com.annaru.upms.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.annaru.common.result.ResultMap;
+import com.annaru.upms.entity.vo.OrderExtensionSuggestionVo;
 import com.annaru.upms.service.IExamInspectReportService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -39,7 +40,7 @@ public class OrderExtensionSuggestionServiceImpl extends ServiceImpl<OrderExtens
         return new PageUtils<OrderExtensionSuggestion>(iPage);
     }
 
-    public List<OrderExtensionSuggestion> getItems(Map<String,Object> params){
+    public List<OrderExtensionSuggestionVo> getItems(Map<String,Object> params){
         return this.baseMapper.getItems(params);
     }
 
