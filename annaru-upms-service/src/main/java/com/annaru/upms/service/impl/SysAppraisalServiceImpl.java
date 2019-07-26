@@ -37,4 +37,8 @@ public class SysAppraisalServiceImpl extends ServiceImpl<SysAppraisalMapper, Sys
         return this.baseMapper.getOne(params);
     }
 
+    public SysAppraisal getAppraised(Map<String,Object> params){
+        return this.baseMapper.getAppraised(params);
+    }
+
 }

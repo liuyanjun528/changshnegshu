@@ -61,6 +61,9 @@ public class OrderAppointmentController extends BaseController {
     private IExamMasterService examMasterService;
     @Reference
     private IExamDetailService examDetailService;
+    @Reference
+    private ISysAppraisalService sysAppraisalService;
+
     /**
      * 门诊预约确认
      */
@@ -182,7 +185,13 @@ public class OrderAppointmentController extends BaseController {
 
         List<OrderExtensionInfoVo> orderInfoVo = orderMainService.getExtensionInfo(params);
 
+        SysAppraisal sysAppraisal = sysAppraisalService.getAppraised(params);
         params.clear();
+        if (sysAppraisal==null){
+            params.put("appraised",0);
+        }else {
+            params.put("appraised",1);
+        }
         params.put("appointed",1);
         params.put("extensionSuggestion",orderExtensionSuggestion);
         if (orderInfoVo==null){
@@ -349,6 +358,7 @@ public class OrderAppointmentController extends BaseController {
                 }else if (orderAppointment.getOption1()==2){
                     if (orderAppointment.getInstitutionId()!=null){
                         appointment.setInstitutionId(orderAppointment.getInstitutionId());
+                        appointment.setStatus(2);
                         orderAppointmentService.save(appointment);
                         message.setBusinessCate(3);
                         message.setMsgCate(2);
@@ -366,14 +376,36 @@ public class OrderAppointmentController extends BaseController {
                 String userId = orderAppointment.getUserId();
                 String parentNo = orderAppointment.getParentNo();
                 String msg = "";
+                params.put("orderNo",parentNo);
+                params.put("examId",orderMainService.getReferenceNo(params));
+                //套餐内项
+                List<ExamExtensionVo> extensionVos = examPackageDetailService.getEEChoosen(params);
+                boolean exist = false;
+                Double amount = 0.0;
                 for(int i = 0;i<orderAppointment.getExtensionItems().size();i++){
                     orderExtensionExam.setCreateBy(userId);
-                    orderExtensionExam.setExamDetailId(orderAppointment.getExtensionItems().get(i).getExamDetailId());
-                    orderExtensionExam.setExamMasterId(orderAppointment.getExtensionItems().get(i).getExamMasterId());
+                    Integer detailId = orderAppointment.getExtensionItems().get(i).getExamDetailId();
+                    Integer masterId = orderAppointment.getExtensionItems().get(i).getExamMasterId();
+                    params.put("detailId",detailId);
+                    params.put("masterId",masterId);
+                    orderExtensionExam.setExamDetailId(detailId);
+                    orderExtensionExam.setExamMasterId(masterId);
                     orderExtensionExam.setOrderNo(orderNo);
                     int sysId = orderExtensionExamService.saveOne(orderExtensionExam);
-                    msg+= examMasterService.getById(orderAppointment.getExtensionItems().get(i).getExamMasterId()).getName()
-                    + examDetailService.getById(orderAppointment.getExtensionItems().get(i).getExamDetailId()).getItemName();
+                    for (int j = 0;j<extensionVos.size();j++){
+                        if (extensionVos.get(j).getMasterId().equals(masterId)&&extensionVos.get(j).getDetailId().equals(detailId)){
+                            exist = true;
+                            break;
+                        }
+                    }
+                    if (!exist){
+                        ExamDetail examDetail = examDetailService.getItem(params);
+                        ExamMaster examMaster = examMasterService.getItem(params);
+                        msg+= examMaster.getName()
+                                + examDetail.getItemName();
+                        amount+= examDetail.getAmount();
+                    }
+                    exist = false;
                     appointment.setExtensionItemId(sysId);
                     appointment.setParentNo(parentNo);
                     appointment.setInstitutionId(orderAppointment.getInstitutionId());
@@ -384,16 +416,19 @@ public class OrderAppointmentController extends BaseController {
                     appointment.setStatus(2);
                     orderAppointmentService.save(appointment);
                 }
-                message.setContent("您已经购买了体检额外项目服务，包含服务项："+msg);
-                message.setMsgCate(1);
-                message.setUserId(userId);
-                message.setOrderNo(orderNo);
-                message.setBusinessCate(2);
-                sysMessageService.save(message);
+                if (msg!=""||msg!=null){
+                    message.setContent("您已经购买了体检额外项目服务，包含服务项："+msg);
+                    message.setMsgCate(1);
+                    message.setUserId(userId);
+                    message.setOrderNo(orderNo);
+                    message.setBusinessCate(2);
+                    sysMessageService.save(message);
+                }
                 orderMain.setUserId(userId);
                 orderMain.setParentNo(parentNo);
                 orderMain.setOrderNo(orderNo);
                 orderMain.setStatus(0);
+                orderMain.setAmount(amount);
                 orderMain.setOrderCates(orderCates);
                 orderMainService.save(orderMain);
                 return ResultMap.ok().put("data",orderNo);
@@ -406,12 +441,37 @@ public class OrderAppointmentController extends BaseController {
                 Integer orderCates = orderAppointment.getAppointmentCates();
                 String userId = orderAppointment.getUserId();
                 String parentNo = orderAppointment.getParentNo();
+                String msg = "";
+                params.put("orderNo",parentNo);
+                params.put("examId",orderMainService.getReferenceNo(params));
+                //套餐内项
+                List<ExamExtensionVo> extensionVos = examPackageDetailService.getEEChoosen(params);
+                boolean exist = false;
+                Double amount = 0.0;
                 for(int i = 0;i<orderAppointment.getExtensionItems().size();i++){
                     orderExtensionExam.setCreateBy(userId);
-                    orderExtensionExam.setExamDetailId(orderAppointment.getExtensionItems().get(i).getExamDetailId());
-                    orderExtensionExam.setExamMasterId(orderAppointment.getExtensionItems().get(i).getExamMasterId());
+                    Integer detailId = orderAppointment.getExtensionItems().get(i).getExamDetailId();
+                    Integer masterId = orderAppointment.getExtensionItems().get(i).getExamMasterId();
+                    params.put("detailId",detailId);
+                    params.put("masterId",masterId);
+                    orderExtensionExam.setExamDetailId(detailId);
+                    orderExtensionExam.setExamMasterId(masterId);
                     orderExtensionExam.setOrderNo(orderNo);
                     int sysId = orderExtensionExamService.saveOne(orderExtensionExam);
+                    for (int j = 0;j<extensionVos.size();j++){
+                        if (extensionVos.get(j).getMasterId().equals(masterId)&&extensionVos.get(j).getDetailId().equals(detailId)){
+                            exist = true;
+                            break;
+                        }
+                    }
+                    if (!exist){
+                        ExamDetail examDetail = examDetailService.getItem(params);
+                        ExamMaster examMaster = examMasterService.getItem(params);
+                        msg+= examMaster.getName()
+                                + examDetail.getItemName();
+                        amount+= examDetail.getAmount();
+                    }
+                    exist = false;
                     appointment.setExtensionItemId(sysId);
                     appointment.setParentNo(parentNo);
                     appointment.setInstitutionId(orderAppointment.getInstitutionId());
@@ -422,11 +482,20 @@ public class OrderAppointmentController extends BaseController {
                     appointment.setOrderNo(orderNo);
                     orderAppointmentService.save(appointment);
                 }
+                if (msg!=""||msg!=null){
+                    message.setContent("您已经购买了体检额外项目服务，包含服务项："+msg);
+                    message.setMsgCate(1);
+                    message.setUserId(userId);
+                    message.setOrderNo(orderNo);
+                    message.setBusinessCate(2);
+                    sysMessageService.save(message);
+                }
                 orderMain.setUserId(userId);
                 orderMain.setParentNo(parentNo);
                 orderMain.setHrOppointmentId(orderAppointment.getHrOppointmentId());
                 orderMain.setOrderNo(orderNo);
                 orderMain.setStatus(0);
+                orderMain.setAmount(amount);
                 orderMain.setOrderCates(orderCates);
                 orderMainService.save(orderMain);
                 return ResultMap.ok().put("data",orderNo);

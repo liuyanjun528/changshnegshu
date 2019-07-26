@@ -33,5 +33,7 @@ public interface ISysAppraisalService extends IService<SysAppraisal> {
 
     SysAppraisal selectOne(Map<String, Object> params);
 
+    SysAppraisal getAppraised(Map<String,Object> params);
+
 }
 

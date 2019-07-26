@@ -24,4 +24,5 @@ public interface ExamMasterMapper extends BaseMapper<ExamMaster> {
     */
     IPage<ExamMaster> selectDataPage(Page page, @Param("params") Map<String, Object> params);
 
+    ExamMaster getItem(@Param("params") Map<String, Object> params);
 }

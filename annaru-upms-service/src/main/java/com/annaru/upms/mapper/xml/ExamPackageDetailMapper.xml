@@ -19,6 +19,8 @@
     <resultMap id="BaseResultMapEEVo" type="com.annaru.upms.entity.vo.ExamExtensionVo">
         <result column="name" property="name"/>
         <result column="item_name" property="itemName"/>
+        <result column="masterId" property="masterId"/>
+        <result column="detailId" property="detailId"/>
     </resultMap>
 
     <!-- 多表页面信息查询分页 -->
@@ -54,7 +56,9 @@
     <select id="getEEChoosen" parameterType="map" resultMap="BaseResultMapEEVo">
         SELECT
         em.name,
-        ed.item_name
+        ed.item_name,
+        em.sys_id masterId,
+        ed.sys_id detailId
         FROM
         exam_package_extension epe
         LEFT JOIN exam_master em

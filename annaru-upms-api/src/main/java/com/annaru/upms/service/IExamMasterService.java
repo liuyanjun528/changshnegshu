@@ -21,6 +21,6 @@ public interface IExamMasterService extends IService<ExamMaster> {
     */
     PageUtils getDataPage(Map<String, Object> params);
 
-
+    ExamMaster getItem(Map<String,Object> params);
 }
 
