@@ -43,7 +43,7 @@ public class SysDoctorController extends BaseController {
       */
     @ApiOperation(value = "家庭医生详情", notes = "家庭医生详情")
     @GetMapping("/doctorInfo")
-    @RequiresPermissions("upms/sysDoctor/doctorInfo")
+    //@RequiresPermissions("upms/sysDoctor/doctorInfo")
     public ResultMap info(String doctorNo,String userId){
         SysDoctor sysDoctor = sysDoctorService.selectByDoctorNoAndUserId(doctorNo, userId);
         return ResultMap.ok().put("data",sysDoctor);

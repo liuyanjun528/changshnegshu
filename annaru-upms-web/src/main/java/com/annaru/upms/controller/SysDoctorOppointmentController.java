@@ -59,7 +59,7 @@ public class SysDoctorOppointmentController extends BaseController {
      */
     @ApiOperation(value = "按照选择时间当前护士查询排班信息", notes = "按照选择时间当前护士查询排班信息")
     @GetMapping("/todayInfo")
-    @RequiresPermissions("upms/sysDoctorOppointment/todayInfo")
+    //@RequiresPermissions("upms/sysDoctorOppointment/todayInfo")
     public ResultMap todayInfo(String doctorNurseNo, Date dateFormat){
         List<SysDoctorOppointment> sysDoctorOppointments = sysDoctorOppointmentService.selectTodayInfo(doctorNurseNo, dateFormat);
         return ResultMap.ok().put("data",sysDoctorOppointments);
@@ -87,7 +87,7 @@ public class SysDoctorOppointmentController extends BaseController {
      */
     @ApiOperation(value = "根据选择的预约日期修改预约日期")
     @PostMapping("/update")
-    @RequiresPermissions("upms/sysDoctorOppointment/update")
+    //@RequiresPermissions("upms/sysDoctorOppointment/update")
     public ResultMap update(String doctorNurseNo,Date dateFrom,Date newDateFrom) {
         try {
             //newDateFrom.getTime()返回long毫秒数形式,毫秒转为秒所以除以1000

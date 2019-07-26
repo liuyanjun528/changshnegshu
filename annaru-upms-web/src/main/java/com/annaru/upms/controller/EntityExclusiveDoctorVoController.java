@@ -37,7 +37,7 @@ public class EntityExclusiveDoctorVoController extends BaseController {
      */
     @ApiOperation(value = "专属医生信息查询", notes = "专属医生信息查询")
     @GetMapping("/info")
-    @RequiresPermissions("upms/info")
+    //@RequiresPermissions("upms/info")
     public ResultMap info(String entityId,String userId){
 
         Map<String, Object> map=new HashMap();

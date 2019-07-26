@@ -69,7 +69,7 @@ public class OrderAppointmentController extends BaseController {
      */
     @ApiOperation(value = "门诊预约确认操作", notes = "门诊预约确认操作")
     @GetMapping("/updateStatus")
-    @RequiresPermissions("upms/orderAppointment/updateStatus")
+    //@RequiresPermissions("upms/orderAppointment/updateStatus")
     public ResultMap updateStatus(@RequestParam Integer sysId) {
         Map<String, Object> params = new HashMap<>();
         SysDoctorOppointment sysDoctorOppointment = sysDoctorOppointmentService.getById(sysId);
@@ -112,7 +112,7 @@ public class OrderAppointmentController extends BaseController {
      */
     @ApiOperation(value = "待确认预约列表", notes = "待确认预约列表")
     @GetMapping("/selectOutpatientAppointment")
-    @RequiresPermissions("upms/orderAppointment/selectOutpatientAppointment")
+    //@RequiresPermissions("upms/orderAppointment/selectOutpatientAppointment")
     public ResultMap selectOutpatientAppointment(
             @ApiParam(value = "当前页")@RequestParam(defaultValue="1") int page,
             @ApiParam(value = "每页数量")@RequestParam(defaultValue = "10") int limit,
@@ -138,7 +138,7 @@ public class OrderAppointmentController extends BaseController {
      */
     @ApiOperation(value = "个人用户患者信息分页查询")
     @GetMapping("/list")
-    @RequiresPermissions("upms/orderAppointment/list")
+    //@RequiresPermissions("upms/orderAppointment/list")
     public ResultMap list(@ApiParam(value = "当前页")@RequestParam(defaultValue="1") int page,
                           @ApiParam(value = "每页数量")@RequestParam(defaultValue = "10") int limit,
                           @ApiParam(value = "医生编号")@RequestParam(required = false)String relatedNo){
@@ -236,7 +236,7 @@ public class OrderAppointmentController extends BaseController {
      */
     @ApiOperation(value = "待确认患者列表", notes = "待确认患者列表")
     @GetMapping("/selectListInfo")
-    @RequiresPermissions("upms/orderAppointment/selectListInfo")
+    //@RequiresPermissions("upms/orderAppointment/selectListInfo")
     public ResultMap selectListInfo(
             @ApiParam(value = "当前页")@RequestParam(defaultValue="1") int page,
             @ApiParam(value = "每页数量")@RequestParam(defaultValue = "10") int limit,
@@ -259,7 +259,7 @@ public class OrderAppointmentController extends BaseController {
      */
     @ApiOperation(value = "患者的检验报告", notes = "患者的检验报告")
     @GetMapping("/brReport")
-    @RequiresPermissions("upms/orderAppointment/brReport")
+    //@RequiresPermissions("upms/orderAppointment/brReport")
     public ResultMap brReport(String userId){
         Map<String, Object> params = new HashMap<>();
         params.put("userId",userId);
@@ -273,7 +273,7 @@ public class OrderAppointmentController extends BaseController {
      */
     @ApiOperation(value = "我的患者详情", notes = "我的患者详情")
     @GetMapping("/userInfo")
-    @RequiresPermissions("upms/orderAppointment/userInfo")
+    //@RequiresPermissions("upms/orderAppointment/userInfo")
     public ResultMap userInfo(String userId){
         DoctorUserInfo doctorUserInfo = orderAppointmentService.selectInfo(userId);
         return ResultMap.ok().put("data",doctorUserInfo);
