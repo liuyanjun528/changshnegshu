@@ -34,4 +34,6 @@ public interface SysAppraisalMapper extends BaseMapper<SysAppraisal> {
     List<SysAppraisal> selectStart(@Param("userId") String userId);
 
     SysAppraisal getOne(@Param("params") Map<String, Object> params);
+
+    SysAppraisal getAppraised(@Param("params") Map<String, Object> params);
 }

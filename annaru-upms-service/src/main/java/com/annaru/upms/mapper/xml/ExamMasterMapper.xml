@@ -33,4 +33,14 @@
     </select>
 
 
+    <select id="getItem" parameterType="map" resultMap="BaseResultMap">
+        select
+        *
+        from
+        exam_master
+        where
+        sys_id = #{params.masterId}
+    </select>
+
+
 </mapper>

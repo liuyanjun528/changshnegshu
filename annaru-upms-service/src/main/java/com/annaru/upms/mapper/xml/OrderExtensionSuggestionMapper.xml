@@ -65,6 +65,8 @@
             oes.order_no,
             em.`name`,
             ed.item_name,
+            oes.exam_master_id,
+            oes.exam_detail_id,
             ed.amount
             FROM
             order_extension_suggestion oes

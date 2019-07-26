@@ -101,6 +101,7 @@
         <result column="time_from" property="timeFrom"/>
         <result column="address" property="address"/>
         <result column="institutionName" property="institutionName"/>
+        <result column="institution_id" property="institutionId"/>
         <result column="service_option" property="serviceOption"/>
         <result column="is_cancelled" property="isCancelled"/>
     </resultMap>
@@ -268,8 +269,6 @@ UNION
         WHERE ub.user_id=#{params.userId}
     </select>
 
-
-
     <update id="updateIsCancelled">
         update order_appointment SET is_cancelled=#{isCancelled} WHERE order_no=#{orderNo}
     </update>
@@ -299,6 +298,7 @@ UNION
             oa.appoint_date,
             oa.status,
             si.`name` institutionName,
+            oa.institution_id,
             oa.is_cancelled,
             oa.related_no,
             oa.service_option,
@@ -309,5 +309,6 @@ UNION
             on si.institution_id = oa.institution_id
             WHERE
             oa.order_no =  #{params.orderNo}
+            and oa.is_cancelled = 0
     </select>
 </mapper>

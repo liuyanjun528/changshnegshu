@@ -7,6 +7,7 @@
     <resultMap id="BaseResultMap" type="com.annaru.upms.entity.SysAppraisal" >
         <result column="sys_id" property="sysId" />
         <result column="reference_no" property="referenceNo" />
+        <result column="order_no" property="orderNo"/>
         <result column="user_id" property="userId" />
         <result column="cates" property="cates" />
         <result column="star_count" property="starCount" />
@@ -23,6 +24,7 @@
               reference_no,
               user_id,
               cates,
+              order_no,
               star_count,
               scores,
               creation_time,
@@ -51,4 +53,12 @@
                 AND reference_no = #{params.docNo}
     </select>
 
+    <select id="getAppraised" parameterType="map" resultMap="BaseResultMap">
+        select
+        *
+        from
+        sys_appraisal
+        where
+        order_no = #{params.orderNo}
+    </select>
 </mapper>

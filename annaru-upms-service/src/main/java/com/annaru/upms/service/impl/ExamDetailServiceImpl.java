@@ -38,4 +38,8 @@ public class ExamDetailServiceImpl extends ServiceImpl<ExamDetailMapper, ExamDet
     public List<ExamDetail> selectByType(Integer ecId) {
             return this.baseMapper.selectByType(ecId);
     }
+
+    public ExamDetail getItem(Map<String, Object> params){
+        return this.baseMapper.getItem(params);
+    }
 }

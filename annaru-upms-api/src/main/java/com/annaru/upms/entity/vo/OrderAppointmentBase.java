@@ -36,8 +36,16 @@ public class OrderAppointmentBase extends Model<OrderAppointmentBase> implements
 	private String timeFrom;
 	private String address;
 	private String institutionName;
+	private String institutionId;
 	private Integer serviceOption;
 	private Integer isCancelled;
+	public String getInstitutionId() {
+		return institutionId;
+	}
+
+	public void setInstitutionId(String institutionId) {
+		this.institutionId = institutionId;
+	}
 
 	public Integer getSysId() {
 		return sysId;

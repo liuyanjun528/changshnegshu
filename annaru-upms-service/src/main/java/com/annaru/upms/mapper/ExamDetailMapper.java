@@ -41,4 +41,6 @@ public interface ExamDetailMapper extends BaseMapper<ExamDetail> {
     * @Date: 2019/7/1 13:49
     */
     List<ExamDetail> selectByType(@Param("ecId") Integer ecId);
+
+    ExamDetail getItem(@Param("params") Map<String, Object> params);
 }

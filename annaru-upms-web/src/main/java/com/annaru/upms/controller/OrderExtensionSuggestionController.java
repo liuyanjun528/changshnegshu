@@ -134,7 +134,11 @@ public class OrderExtensionSuggestionController extends BaseController {
                 }
             }
         }
-        return ResultMap.ok().put("data",orderExtensionSuggestion);
+
+        params.clear();
+        params.put("packageItem",extensionVos);
+        params.put("suggestItem",orderExtensionSuggestion);
+        return ResultMap.ok().put("data",params);
     }
 
     /**
