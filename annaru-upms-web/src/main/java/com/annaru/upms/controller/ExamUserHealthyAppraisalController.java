@@ -180,15 +180,16 @@ public class ExamUserHealthyAppraisalController extends BaseController {
     @RequiresPermissions("upms/examUserHealthyAppraisal/deatiaExamUserHealthyAppraisal")
     public ResultMap deatiaExamUserHealthyAppraisal(@RequestParam("userId") String userId, @RequestParam("sysId") Integer sysId, @RequestParam("userCate") Integer userCate){
         try {
-            // 本人
-            if (userCate == 1){
-                return ResultMap.ok().put("data", examUserHealthyAppraisalService.getUserDeatailByExamUserHealthyAppraisal(userId, sysId));
-            }
-            // 亲属
-            if (userCate == 2){
-                return ResultMap.ok().put("data", examUserHealthyAppraisalService.getRelativesDeatailByExamUserHealthyAppraisal(userId, sysId));
-            }
-            return ResultMap.ok().put("data",null);
+            return ResultMap.ok().put("data", examUserHealthyAppraisalService.getUserDeatailByExamUserHealthyAppraisal(userId, sysId));
+//            // 本人
+//            if (userCate == 1){
+//                return ResultMap.ok().put("data", examUserHealthyAppraisalService.getUserDeatailByExamUserHealthyAppraisal(userId, sysId));
+//            }
+//            // 亲属
+//            if (userCate == 2){
+//                return ResultMap.ok().put("data", examUserHealthyAppraisalService.getRelativesDeatailByExamUserHealthyAppraisal(userId, sysId));
+//            }
+//            return ResultMap.ok().put("data",null);
         } catch (Exception e) {
             logger.error(e.getMessage());
             return ResultMap.error("运行异常，请联系管理员");
