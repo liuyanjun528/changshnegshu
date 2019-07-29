@@ -27,6 +27,8 @@ public class ExamMasterServiceImpl extends ServiceImpl<ExamMasterMapper, ExamMas
         return new PageUtils<ExamMaster>(iPage);
     }
 
-
+    public ExamMaster getItem(Map<String,Object> params){
+        return this.baseMapper.getItem(params);
+    }
 
 }

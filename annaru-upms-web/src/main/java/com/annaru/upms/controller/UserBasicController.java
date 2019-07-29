@@ -197,7 +197,7 @@ public class UserBasicController extends BaseController {
      */
     @ApiOperation(value = "修改旧密码")
     @PostMapping("/updatePassword")
-    @RequiresPermissions("upms/userBasic/updatePassword")
+    //@RequiresPermissions("upms/userBasic/updatePassword")
     public ResultMap updatePassword(String password,String userId,String OldPwd) {
 
         UserBasic userBasic = userBasicService.selectByUid(userId);

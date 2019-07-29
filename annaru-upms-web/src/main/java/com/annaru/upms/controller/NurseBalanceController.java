@@ -39,7 +39,7 @@ public class NurseBalanceController extends BaseController {
      */
     @ApiOperation(value = "护士的累计单数", notes = "护士的累计单数")
     @GetMapping("/singularInfo")
-    @RequiresPermissions("upms/nurseBalance/singularInfo")
+    //@RequiresPermissions("upms/nurseBalance/singularInfo")
     public ResultMap selectSingular(String nurseNo){
         int i = nurseBalanceService.selectSingular(nurseNo);
         return ResultMap.ok().put("data",i);
@@ -50,7 +50,7 @@ public class NurseBalanceController extends BaseController {
      */
     @ApiOperation(value = "护士的应收入", notes = "护士的应收入")
     @GetMapping("/totalMoneyInfo")
-    @RequiresPermissions("upms/nurseBalance/totalMoneyInfo")
+    //@RequiresPermissions("upms/nurseBalance/totalMoneyInfo")
     public ResultMap totalMoneyInfo(String nurseNo){
         Double aDouble = nurseBalanceService.selectTotalMoney(nurseNo);
         return ResultMap.ok().put("data",aDouble);
@@ -61,7 +61,7 @@ public class NurseBalanceController extends BaseController {
      */
     @ApiOperation(value = "我的余额", notes = "我的余额")
     @GetMapping("/myBalance")
-    @RequiresPermissions("upms/nurseBalance/myBalance")
+    //@RequiresPermissions("upms/nurseBalance/myBalance")
     public ResultMap selectMyBalance(String userId){
         Double aDouble1 = nurseBalanceService.selectBalance1(userId);
         Double aDouble2 = nurseBalanceService.selectBalance2(userId);
@@ -74,7 +74,7 @@ public class NurseBalanceController extends BaseController {
      */
     @ApiOperation(value = "护士收入明细", notes = "护士收入明细")
     @GetMapping("/moneyInfoList")
-    @RequiresPermissions("upms/nurseBalance/moneyInfoList")
+    //@RequiresPermissions("upms/nurseBalance/moneyInfoList")
     public ResultMap selectMoneyInfoList(String userId,Integer tranCate){
         if(tranCate==null){
             tranCate=100;

@@ -1,6 +1,7 @@
 package com.annaru.upms.entity;
 
 import com.annaru.common.util.JacksonUtils;
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -28,7 +29,7 @@ public class SysDoctorNurseSchedule extends Model<SysDoctorNurseSchedule> implem
 	 * 系统编号
 	 */
     @ApiModelProperty(value = "系统编号")
-	@TableId
+	@TableId(type = IdType.AUTO)
 	private Integer sysId;
 	/**
 	 * 类别(1:护士/2:医生)
@@ -96,7 +97,7 @@ public class SysDoctorNurseSchedule extends Model<SysDoctorNurseSchedule> implem
     @ApiModelProperty(value = "排班状态（1、未排班；2、已排班；3、已排满）")
 	private Integer state;
 
-    /**
+	/**
      * 获取：系统编号
      */
     public Integer getSysId() {

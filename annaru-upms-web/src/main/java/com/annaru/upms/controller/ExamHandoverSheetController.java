@@ -38,7 +38,7 @@ public class ExamHandoverSheetController extends BaseController {
      */
     @ApiOperation(value = "列表")
     @GetMapping("/list")
-    @RequiresPermissions("upms/examHandoverSheet/list")
+    //@RequiresPermissions("upms/examHandoverSheet/list")
     public ResultMap list(@ApiParam(value = "当前页")@RequestParam(defaultValue="1") int page,
                        @ApiParam(value = "每页数量")@RequestParam(defaultValue = "10") int limit,
                        @ApiParam(value = "关键字")@RequestParam(required = false)String key){
@@ -61,7 +61,7 @@ public class ExamHandoverSheetController extends BaseController {
      */
     @ApiOperation(value = "查看交接单", notes = "查看交接单")
     @GetMapping("/info")
-    @RequiresPermissions("upms/examHandoverSheet/info")
+    //@RequiresPermissions("upms/examHandoverSheet/info")
     public ResultMap info(String orderNo){
         try {
             ExamHandoverSheet examHandoverSheets = examHandoverSheetService.selectExamHandoverSheet(orderNo);
@@ -77,7 +77,7 @@ public class ExamHandoverSheetController extends BaseController {
      */
     @ApiOperation(value = "上传交接单")
     @PostMapping("/updateHandoverSheetByOrderNo")
-    @RequiresPermissions("upms/examHandoverSheet/updateHandoverSheetByOrderNo")
+    //@RequiresPermissions("upms/examHandoverSheet/updateHandoverSheetByOrderNo")
     public ResultMap updateExamHandoverSheetByOrderNo(@RequestBody ExamHandoverSheet examHandoverSheet) {
         try {
             examHandoverSheet.setHandoverTime(new Date());
@@ -94,7 +94,7 @@ public class ExamHandoverSheetController extends BaseController {
      */
     @ApiOperation(value = "修改护士端服务订单详情")
     @PostMapping("/update")
-    @RequiresPermissions("upms/examHandoverSheet/update")
+    //@RequiresPermissions("upms/examHandoverSheet/update")
     public ResultMap update(@Valid @RequestBody ExamHandoverSheet examHandoverSheet) {
         try {
             examHandoverSheet.setDrawCompleteTime(new Date());//抽血完成时间
@@ -112,7 +112,7 @@ public class ExamHandoverSheetController extends BaseController {
      */
     @ApiOperation(value = "删除订单")
     @PostMapping("/delete")
-    @RequiresPermissions("upms/examHandoverSheet/delete")
+    //@RequiresPermissions("upms/examHandoverSheet/delete")
     public ResultMap delete(String orderNo) {
         ExamHandoverSheet examHandoverSheets = examHandoverSheetService.selectExamHandoverSheet(orderNo);
             if (1==examHandoverSheets.getIsHandovered()){

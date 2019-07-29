@@ -19,17 +19,18 @@
         <result column="state" property="state" />
     </resultMap>
 
-    <!-- 通用查询映射结果 查询医护排班-->
-    <resultMap id="BaseResultMapVo" type="com.annaru.upms.entity.vo.SysDoctorNurseScheduleVo" >
-        <result column="sys_id" property="sysId" />
-        <result column="user_cates" property="userCates" />
-        <result column="doctor_nurse_no" property="doctorNurseNo" />
-        <result column="doctor_name" property="doctorName" />
-        <result column="nurse_name" property="nurseName" />
-        <result column="scheduling_date" property="schedulingDate" />
-        <result column="time_from" property="timeFrom" />
-        <result column="time_to" property="timeTo" />
-        <result column="state" property="state" />
+    <!-- 查询医护排班-->
+    <resultMap id="BaseResultMapVo" type="com.annaru.upms.entity.vo.DoctorScheduleVoW" >
+        <result column="full_name" property="fullName" />
+        <result column="gender" property="gender" />
+        <result column="age" property="age" />
+        <result column="cellphone_no" property="cellphoneNo" />
+        <result column="total_qty" property="totalQty" />
+        <result column="appoint_date" property="appointDate" />
+        <result column="address" property="address" />
+        <result column="status" property="status" />
+        <result column="is_submitted" property="isSubmitted" />
+        <result column="is_confirmed" property="isConfirmed" />
     </resultMap>
     <sql id="BaseClounmSql">
           sys_id,
@@ -57,40 +58,69 @@
     </select>
 
     <!-- 查询医护排班 -->
-    <select id="selectSchedulePage" parameterType="map" resultMap="BaseResultMapVo">
-    SELECT
-        dns.sys_id,
-        d.doctor_name,
-        n.nurse_name,
-        date_format(dns.date_from, '%Y-%m-%d') AS scheduling_date,
-        dns.time_from,
-        dns.time_to,
-        dns.doctor_nurse_no,
-        dns.user_cates,
-        dns.state
-    FROM
-        sys_doctor_nurse_schedule dns
-        LEFT JOIN sys_doctor d ON d.doctor_no = dns.doctor_nurse_no
-        LEFT JOIN sys_nurse n ON n.nurse_no = dns.doctor_nurse_no
-    WHERE
-        <if test="params.year != null and params.year != ''">
-            extract(YEAR FROM dns.date_from) = #{params.year}
-        </if>
-        <if test="params.month != null and params.month != ''">
-            AND extract(MONTH FROM dns.date_from) = #{params.month}
-        </if>
-        <if test="params.day != null and params.day != ''">
-            AND extract(DAY FROM dns.date_from) = #{params.day}
-        </if>
-        <if test="params.doctorNurseNo != null and params.doctorNurseNo != ''">
-            AND dns.doctor_nurse_no = #{params.doctorNurseNo}
-        </if>
-        <if test="params.userCates != null and params.userCates != ''">
-            AND dns.user_cates = #{params.userCates}
-        </if>
-        AND is_deleted = 0
-        AND is_active = 1
-    ORDER BY dns.date_from
+    <select id="selectSchedulePage" parameterType="string" resultMap="BaseResultMap">
+        SELECT
+        sys_id,
+        date_from,
+        time_from,
+        time_to,
+        doctor_nurse_no,
+        is_active,
+        state
+        FROM sys_doctor_nurse_schedule
+        where  doctor_nurse_no = #{doctorNo}
+    </select>
+
+        <!--医生上门健康评估-->
+    <select id="selectHealthyAppointment" parameterType="map" resultMap="BaseResultMapVo">
+        SELECT
+		ub.full_name,-- 姓名
+		ub.gender,-- 性别
+		TIMESTAMPDIFF(YEAR,ub.date_of_birth,CURDATE()) as age,-- 年龄
+		om.total_qty,-- 人数
+		eha.appoint_date,-- 预约时间
+		eha.address,-- 预约地址
+		eha.status ,-- 待服务0
+	    euha.is_submitted -- 待评估状态
+	FROM entity_healthy_appointment as eha
+	LEFT JOIN order_main as om ON om.order_no=eha.order_no
+	LEFT JOIN exam_user_healthy_appraisal as euha ON euha.order_no=eha.order_no
+	LEFT JOIN user_basic as ub ON ub.user_id=eha.user_id
+    where  eha.related_no=#{params.doctorNo} and date_format(eha.appoint_date,'%Y-%m-%d')=#{params.appointDate}
+    and  eha.pkg_main_id=8 and eha.pkg_detail_id=803
+    </select>
+
+    <!--在诊-->
+    <select id="selectOutpatient" parameterType="map" resultMap="BaseResultMapVo">
+        SELECT
+		ub.full_name,-- 姓名
+		ub.gender,-- 性别
+		TIMESTAMPDIFF(YEAR,ub.date_of_birth,CURDATE()) as age,-- 年龄
+		ub.cellphone_no,-- 电话
+		sdno.appoint_date, -- 预约时间
+		sdno.is_confirmed -- 是否确认  0:未确认 1:已确认
+	from sys_doctor_nurse_oppointment as sdno
+    LEFT JOIN user_basic as ub ON ub.user_id=sdno.user_id
+    where doctor_nurse_no=#{params.doctorNo} and date_format(sdno.appoint_date,'%Y-%m-%d')=#{params.appointDate}
+    </select>
+
+    <!--通过医生编号和sysid修改医生的排班-->
+    <update id="updateDoctorSchedule">
+        update sys_doctor_nurse_schedule set date_from=#{params.newDateFrom},time_from=#{params.timeFrom},time_to=#{params.timeTo},edit_time=#{params.editTime}
+		WHERE doctor_nurse_no=#{params.doctorNo} and sys_id=#{params.sysId}
+    </update>
+
+    <!--当天上午排班的个数-->
+    <select id="selectScheduleCount1" parameterType="map" resultType="int">
+          SELECT count(*)
+            FROM sys_doctor_nurse_schedule
+        where  doctor_nurse_no = #{params.doctorNo} and date_from=#{params.dateFrom} and time_from='08:00:00' and time_to='11:00:00'
+    </select>
+    <!--当天下午排班的个数-->
+    <select id="selectScheduleCount2" parameterType="map" resultType="int">
+         SELECT count(*)
+        FROM sys_doctor_nurse_schedule
+        where  doctor_nurse_no = #{params.doctorNo} and date_from=#{params.dateFrom}  and time_from='13:00:00' and time_to='16:00:00'
     </select>
 
     <!--删除排班 修改is_deleted为1-->
