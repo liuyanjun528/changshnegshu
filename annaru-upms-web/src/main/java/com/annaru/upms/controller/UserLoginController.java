@@ -7,6 +7,7 @@ import com.annaru.common.result.ResultMap;
 import com.annaru.common.util.sdk.MessageUtils;
 import com.annaru.upms.controllerutil.SysConfigUtil;
 import com.annaru.upms.entity.*;
+import com.annaru.upms.entity.vo.UserExamMainDetail;
 import com.annaru.upms.service.*;
 import com.annaru.upms.shiro.aouth2.TokenGenerator;
 import io.swagger.annotations.Api;
@@ -17,10 +18,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -264,6 +262,15 @@ public class UserLoginController extends BaseController {
         userBasic.setEntityHealthy(iUserBasicService.selectEntityHealthy(userBasic.getUserId()));
         //用户
         if (("1").equals(type)){
+            // 如果是企业用户，则返回 企业用户的购买的服务的 产品编号 描述 开始时间 结束时间
+            if (userBasic.isEntityHealthy()){
+                Map<String, Object> params9 = new HashMap<>();
+                params9.put("userId", userBasic.getUserId());
+                List<UserExamMainDetail> userExamMainDetailList = iUserBasicService.getUserExamMainDetail(params9);
+                if (userExamMainDetailList != null && userExamMainDetailList.size() > 0){
+                    userBasic.setUserExamMainDetailList(userExamMainDetailList);
+                }
+            }
             return ResultMap.ok().put("data", userBasic);
         }
         boolean getDoctorNurse = true;

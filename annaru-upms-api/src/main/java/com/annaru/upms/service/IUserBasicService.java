@@ -3,6 +3,7 @@ package com.annaru.upms.service;
 import com.annaru.common.result.PageUtils;
 import com.annaru.upms.entity.UserBasic;
 import com.annaru.upms.entity.vo.UserCardVo;
+import com.annaru.upms.entity.vo.UserExamMainDetail;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -94,6 +95,13 @@ public interface IUserBasicService extends IService<UserBasic> {
      * @Date: 2019/6/24
      */
     boolean updateLastTimeBySysId(UserBasic userBasic);
+
+    /**
+     * 企业用户的购买的服务的 描述 开始时间 结束时间
+     * @uthor zk
+     * @date 2019-07-29
+     */
+    List<UserExamMainDetail> getUserExamMainDetail(Map<String, Object> params);
 
 }
 
