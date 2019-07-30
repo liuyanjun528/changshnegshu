@@ -1,6 +1,7 @@
 package com.annaru.upms.entity;
 
 import com.annaru.common.util.JacksonUtils;
+import com.annaru.upms.entity.vo.UserExamMainDetail;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -11,7 +12,9 @@ import io.swagger.annotations.ApiModelProperty;
 import io.swagger.models.auth.In;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -234,6 +237,12 @@ public class UserBasic extends Model<UserBasic> implements Serializable {
 	 */
 	@TableField(exist = false)
 	private String entityName;
+	/**
+	 * 企业用户的购买的服务的 描述 开始时间 结束时间
+	 * @uthor zk
+	 * @date 2019-07-29
+	 */
+	List<UserExamMainDetail> userExamMainDetailList = new ArrayList<>();
 
 	public boolean isEntityHealthy() {
 		return entityHealthy;
@@ -567,6 +576,14 @@ public class UserBasic extends Model<UserBasic> implements Serializable {
 	}
 	public void setEntityName(String entityName) {
 		this.entityName = entityName;
+	}
+
+	public List<UserExamMainDetail> getUserExamMainDetailList() {
+		return userExamMainDetailList;
+	}
+
+	public void setUserExamMainDetailList(List<UserExamMainDetail> userExamMainDetailList) {
+		this.userExamMainDetailList = userExamMainDetailList;
 	}
 
 	@Override

@@ -53,6 +53,7 @@ public class OrderAppointment extends Model<OrderAppointment> implements Seriali
 
     private String parentNo;
 
+    @TableField("extensionItem_id")
     private Integer extensionItemId;
 	/**
 	 * 类别：

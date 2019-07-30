@@ -39,7 +39,7 @@ public class UserCardsController extends BaseController {
      */
     @ApiOperation(value = "通过用户ID查询绑卡信息")
     @GetMapping("/selectStatus")
-    @RequiresPermissions("upms/userCards/selectStatus")
+    //@RequiresPermissions("upms/userCards/selectStatus")
     public ResultMap selectStatus(String userId) {
         try {
             List<UserCards> userCards = userCardsService.selectByStatus(userId);
@@ -56,7 +56,7 @@ public class UserCardsController extends BaseController {
      */
     @ApiOperation(value = "查询企业家庭医生预约人信息")
     @GetMapping("/getGreenPassUserInfo/{userId}")
-    @RequiresPermissions("upms/userCards/getGreenPassUserInfo")
+    //@RequiresPermissions("upms/userCards/getGreenPassUserInfo")
     public ResultMap getGreenPassUserInfo(@PathVariable("userId") String userId) {
         try {
             List<UserCardInfoVo> userCardInfoVo = userCardsService.getGreenPassUserInfo(userId);
@@ -120,7 +120,7 @@ public class UserCardsController extends BaseController {
      */
     @ApiOperation(value = "修改个人信息和医保卡号")
     @PostMapping("/update")
-    @RequiresPermissions("upms/userCards/update")
+    //@RequiresPermissions("upms/userCards/update")
     public ResultMap update(@RequestBody UserCardVo userCards) {
 
         int i = userBasicService.updateCardAndBasics(userCards);

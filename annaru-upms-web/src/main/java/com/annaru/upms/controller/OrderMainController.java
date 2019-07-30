@@ -65,7 +65,7 @@ public class OrderMainController extends BaseController {
 
     @ApiOperation(value = "家庭医生下订单")
     @PostMapping("/saveFamilyDoctor")
-    @RequiresPermissions("upms/orderMain/saveFamilyDoctor")
+   // @RequiresPermissions("upms/orderMain/saveFamilyDoctor")
     public ResultMap saveFamilyDoctor(@RequestBody OrderMain orderMain) {
         try {
             SysConfig sysConfig = SysConfigUtil.getSysConfig(iSysConfigService , SysConfigUtil.ORDERNO);
@@ -95,7 +95,7 @@ public class OrderMainController extends BaseController {
      */
     @ApiOperation(value = "Toc套餐下订单")
     @PostMapping("/saveOrderMain")
-    @RequiresPermissions("upms/orderMain/saveOrderMain")
+    //@RequiresPermissions("upms/orderMain/saveOrderMain")
     public ResultMap saveOrderMain(@RequestBody OrderMain orderMain,String []RelativeId) {
         int i=0;
         try {

@@ -38,7 +38,7 @@ public class NurseDoctorHeadImageController extends BaseController {
      */
     @ApiOperation(value = "医护端修改护士头像")
     @PostMapping("/updateNurseImage")
-    @RequiresPermissions("upms/nurseDoctorHeadImage/updateImage")
+    //@RequiresPermissions("upms/nurseDoctorHeadImage/updateImage")
     public ResultMap updateNurseImage(String nurseNo,String headImage) {
         try {
                 Boolean nurse = nurseDoctorHeadImageService.UpdateNurseHeadImage(nurseNo,headImage);
@@ -59,7 +59,7 @@ public class NurseDoctorHeadImageController extends BaseController {
      */
     @ApiOperation(value = "医护端修改医生头像")
     @PostMapping("/updateDoctorImage")
-    @RequiresPermissions("upms/nurseDoctorHeadImage/updateImage")
+    //@RequiresPermissions("upms/nurseDoctorHeadImage/updateImage")
     public ResultMap updateDoctorImage(String doctorNo,String headImage) {
         try {
             Boolean doctor= nurseDoctorHeadImageService.UpdateDoctorHeadImage(doctorNo,headImage);

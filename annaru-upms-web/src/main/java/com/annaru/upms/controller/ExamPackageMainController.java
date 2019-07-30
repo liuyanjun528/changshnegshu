@@ -49,7 +49,8 @@ public class ExamPackageMainController extends BaseController {
                        @ApiParam(value = "适用性别:(1:男/2:女/3:男女都适用)")@RequestParam(required = false)Integer suiteGender,
                        @ApiParam(value = "检查项目主表编号")@RequestParam(required = false)Integer examMasterI,
                        @ApiParam(value = "根据预约排序")@RequestParam(required = false)Integer sortCountPerson,
-                       @ApiParam(value = "根据价格排序")@RequestParam(required = false)Integer amountSort){
+                       @ApiParam(value = "根据价格排序")@RequestParam(required = false)Integer amountSort,
+                       @ApiParam(value = "套餐类别")@RequestParam(required = false)Integer cates){
 
         Map<String, Object> params = new HashMap<>();
         params.put("page",page);
@@ -61,6 +62,7 @@ public class ExamPackageMainController extends BaseController {
         params.put("examMasterI", examMasterI);
         params.put("sort_count_person", sortCountPerson);
         params.put("amountSort", amountSort);
+        params.put("cates", cates);
         PageUtils<Map<String, Object>> pageList = examPackageMainService.selectDataPageZ(params);
         return ResultMap.ok().put("data",pageList);
     }

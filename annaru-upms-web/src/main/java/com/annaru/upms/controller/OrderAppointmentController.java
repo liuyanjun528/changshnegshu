@@ -61,12 +61,15 @@ public class OrderAppointmentController extends BaseController {
     private IExamMasterService examMasterService;
     @Reference
     private IExamDetailService examDetailService;
+    @Reference
+    private ISysAppraisalService sysAppraisalService;
+
     /**
      * 门诊预约确认
      */
     @ApiOperation(value = "门诊预约确认操作", notes = "门诊预约确认操作")
     @GetMapping("/updateStatus")
-    @RequiresPermissions("upms/orderAppointment/updateStatus")
+    //@RequiresPermissions("upms/orderAppointment/updateStatus")
     public ResultMap updateStatus(@RequestParam Integer sysId) {
         Map<String, Object> params = new HashMap<>();
         SysDoctorOppointment sysDoctorOppointment = sysDoctorOppointmentService.getById(sysId);
@@ -109,7 +112,7 @@ public class OrderAppointmentController extends BaseController {
      */
     @ApiOperation(value = "待确认预约列表", notes = "待确认预约列表")
     @GetMapping("/selectOutpatientAppointment")
-    @RequiresPermissions("upms/orderAppointment/selectOutpatientAppointment")
+    //@RequiresPermissions("upms/orderAppointment/selectOutpatientAppointment")
     public ResultMap selectOutpatientAppointment(
             @ApiParam(value = "当前页")@RequestParam(defaultValue="1") int page,
             @ApiParam(value = "每页数量")@RequestParam(defaultValue = "10") int limit,
@@ -135,7 +138,7 @@ public class OrderAppointmentController extends BaseController {
      */
     @ApiOperation(value = "个人用户患者信息分页查询")
     @GetMapping("/list")
-    @RequiresPermissions("upms/orderAppointment/list")
+    //@RequiresPermissions("upms/orderAppointment/list")
     public ResultMap list(@ApiParam(value = "当前页")@RequestParam(defaultValue="1") int page,
                           @ApiParam(value = "每页数量")@RequestParam(defaultValue = "10") int limit,
                           @ApiParam(value = "医生编号")@RequestParam(required = false)String relatedNo){
@@ -166,13 +169,15 @@ public class OrderAppointmentController extends BaseController {
             params.put("orderNo",userPackage.getOrderNo());
         }
         //建议检查项
-        List<OrderExtensionSuggestion> orderExtensionSuggestion = orderExtensionSuggestionService.getItems(params);
+        List<OrderExtensionSuggestionVo> orderExtensionSuggestion = orderExtensionSuggestionService.getItems(params);
         //套餐项
         List<ExamChooseVo> examChooseVo = examPackageDetailService.getChoosen(params);
+        List<ExamExtensionVo> extensionVos = examPackageDetailService.getEEChoosen(params);
         List<OrderAppointmentBase> orderAppointments = orderAppointmentService.getAppointInfoByOrderNo(params);
         if (orderAppointments.size()==0){
             params.clear();
             params.put("examList",examChooseVo);
+            params.put("examExtensionList",extensionVos);
             params.put("userPackage",userPackage);
             params.put("appointed",0);
             return ResultMap.ok().put("data",params);
@@ -180,7 +185,13 @@ public class OrderAppointmentController extends BaseController {
 
         List<OrderExtensionInfoVo> orderInfoVo = orderMainService.getExtensionInfo(params);
 
+        SysAppraisal sysAppraisal = sysAppraisalService.getAppraised(params);
         params.clear();
+        if (sysAppraisal==null){
+            params.put("appraised",0);
+        }else {
+            params.put("appraised",1);
+        }
         params.put("appointed",1);
         params.put("extensionSuggestion",orderExtensionSuggestion);
         if (orderInfoVo==null){
@@ -190,6 +201,7 @@ public class OrderAppointmentController extends BaseController {
         }
         params.put("userPackage",userPackage);
         params.put("examList",examChooseVo);
+        params.put("examExtensionList",extensionVos);
         params.put("commoncheck",orderAppointments.get(0));
         return ResultMap.ok().put("data",params);
     }
@@ -224,7 +236,7 @@ public class OrderAppointmentController extends BaseController {
      */
     @ApiOperation(value = "待确认患者列表", notes = "待确认患者列表")
     @GetMapping("/selectListInfo")
-    @RequiresPermissions("upms/orderAppointment/selectListInfo")
+    //@RequiresPermissions("upms/orderAppointment/selectListInfo")
     public ResultMap selectListInfo(
             @ApiParam(value = "当前页")@RequestParam(defaultValue="1") int page,
             @ApiParam(value = "每页数量")@RequestParam(defaultValue = "10") int limit,
@@ -247,7 +259,7 @@ public class OrderAppointmentController extends BaseController {
      */
     @ApiOperation(value = "患者的检验报告", notes = "患者的检验报告")
     @GetMapping("/brReport")
-    @RequiresPermissions("upms/orderAppointment/brReport")
+    //@RequiresPermissions("upms/orderAppointment/brReport")
     public ResultMap brReport(String userId){
         Map<String, Object> params = new HashMap<>();
         params.put("userId",userId);
@@ -261,12 +273,22 @@ public class OrderAppointmentController extends BaseController {
      */
     @ApiOperation(value = "我的患者详情", notes = "我的患者详情")
     @GetMapping("/userInfo")
-    @RequiresPermissions("upms/orderAppointment/userInfo")
+    //@RequiresPermissions("upms/orderAppointment/userInfo")
     public ResultMap userInfo(String userId){
         DoctorUserInfo doctorUserInfo = orderAppointmentService.selectInfo(userId);
         return ResultMap.ok().put("data",doctorUserInfo);
     }
 
+    /**
+     * 护士上门费用信息
+     */
+    @ApiOperation(value = "护士上门信息",notes = "护士上门收费信息")
+    @GetMapping("/getNurPrice")
+    @RequiresPermissions("upms/orderAppointment/getNurPrice")
+    public ResultMap getPrice(){
+        SysConfig sysConfig = sysConfigService.getNurPrice();
+        return ResultMap.ok().put("data",Double.parseDouble(sysConfig.getRefNo()));
+    }
 
 
     /**
@@ -300,39 +322,43 @@ public class OrderAppointmentController extends BaseController {
                     &&orderAppointment.getAppointDate()!=null
                     &&orderAppointment.getOrderNo()!=null&&orderAppointment.getOption1()!=null
                     &&orderAppointment.getTimeFrom()!=null){
+                String userId = orderAppointment.getUserId();
                 Integer cates = orderAppointment.getAppointmentCates();
                 appointment.setAppointmentCates(cates);
                 appointment.setAppointDate(orderAppointment.getAppointDate());
                 appointment.setTimeFrom(orderAppointment.getTimeFrom());
-                appointment.setUserId(orderAppointment.getUserId());
-                appointment.setCreateBy(orderAppointment.getUserId());
+                appointment.setUserId(userId);
+                appointment.setCreateBy(userId);
                 appointment.setCreationTime(new Date());
                 String orderNo = orderAppointment.getOrderNo();
                 appointment.setOrderNo(orderNo);
                 appointment.setServiceOption(orderAppointment.getOption1());
-                sysDoctorOppointment.setOrderNo(orderNo);
-                sysDoctorOppointment.setUserId(orderAppointment.getUserId());
-                sysDoctorOppointment.setAppointmentCates(cates);
-                sysDoctorOppointment.setAppointDate(orderAppointment.getAppointDate());
-                sysDoctorOppointment.setIsConfirmed(0);
-                sysDoctorOppointment.setTimeFrom(orderAppointment.getTimeFrom());
-                sysDoctorOppointment.setTimeTo(orderAppointment.getTimeTo());
                 orderAdditionalInfo.setAppointmentCates(cates);
-                orderAdditionalInfo.setCreateBy(orderAppointment.getUserId());
+                orderAdditionalInfo.setCreateBy(userId);
                 orderAdditionalInfo.setOption1(orderAppointment.getOption1());
                 orderAdditionalInfo.setOrderNo(orderNo);
                 orderAdditionalInfoService.save(orderAdditionalInfo);
                 if (orderAppointment.getOption1()==1){
                     if (orderAppointment.getAddress()!=null){
-                        sysDoctorOppointment.setAddress(orderAppointment.getAddress());
-                        sysDoctorOppointmentService.save(sysDoctorOppointment);
-//                        message.setBusinessCate(3);
-//                        message.setMsgCate(3);
-//                        message.setContent("您预约上门服务已被护士接单，请您关注上门时间并且提前做好相应的准备，保持电话畅通。");
+                        appointment.setAddress(orderAppointment.getAddress());
+                        orderAppointmentService.save(appointment);
+                        message.setBusinessCate(3);
+                        message.setMsgCate(3);
+                        message.setContent("您预约上门服务已被护士接单，请您关注上门时间并且提前做好相应的准备，保持电话畅通。");
+                        orderMain.setOrderCates(cates);
+                        orderMain.setParentNo(orderNo);
+                        String orderNoNew = createOrderNo();
+                        orderMain.setOrderNo(orderNoNew);
+                        orderMain.setStatus(0);
+                        orderMain.setUserId(userId);
+                        orderMain.setAmount(Double.parseDouble(sysConfigService.getNurPrice().getRefNo()));
+                        orderMainService.save(orderMain);
+                        return ResultMap.ok().put("data",orderNoNew);
                     }
                 }else if (orderAppointment.getOption1()==2){
                     if (orderAppointment.getInstitutionId()!=null){
                         appointment.setInstitutionId(orderAppointment.getInstitutionId());
+                        appointment.setStatus(2);
                         orderAppointmentService.save(appointment);
                         message.setBusinessCate(3);
                         message.setMsgCate(2);
@@ -350,14 +376,36 @@ public class OrderAppointmentController extends BaseController {
                 String userId = orderAppointment.getUserId();
                 String parentNo = orderAppointment.getParentNo();
                 String msg = "";
+                params.put("orderNo",parentNo);
+                params.put("examId",orderMainService.getReferenceNo(params));
+                //套餐内项
+                List<ExamExtensionVo> extensionVos = examPackageDetailService.getEEChoosen(params);
+                boolean exist = false;
+                Double amount = 0.0;
                 for(int i = 0;i<orderAppointment.getExtensionItems().size();i++){
                     orderExtensionExam.setCreateBy(userId);
-                    orderExtensionExam.setExamDetailId(orderAppointment.getExtensionItems().get(i).getExamDetailId());
-                    orderExtensionExam.setExamMasterId(orderAppointment.getExtensionItems().get(i).getExamMasterId());
+                    Integer detailId = orderAppointment.getExtensionItems().get(i).getExamDetailId();
+                    Integer masterId = orderAppointment.getExtensionItems().get(i).getExamMasterId();
+                    params.put("detailId",detailId);
+                    params.put("masterId",masterId);
+                    orderExtensionExam.setExamDetailId(detailId);
+                    orderExtensionExam.setExamMasterId(masterId);
                     orderExtensionExam.setOrderNo(orderNo);
                     int sysId = orderExtensionExamService.saveOne(orderExtensionExam);
-                    msg+= examMasterService.getById(orderAppointment.getExtensionItems().get(i).getExamMasterId()).getName()
-                    + examDetailService.getById(orderAppointment.getExtensionItems().get(i).getExamDetailId()).getItemName();
+                    for (int j = 0;j<extensionVos.size();j++){
+                        if (extensionVos.get(j).getMasterId().equals(masterId)&&extensionVos.get(j).getDetailId().equals(detailId)){
+                            exist = true;
+                            break;
+                        }
+                    }
+                    if (!exist){
+                        ExamDetail examDetail = examDetailService.getItem(params);
+                        ExamMaster examMaster = examMasterService.getItem(params);
+                        msg+= examMaster.getName()
+                                + examDetail.getItemName();
+                        amount+= examDetail.getAmount();
+                    }
+                    exist = false;
                     appointment.setExtensionItemId(sysId);
                     appointment.setParentNo(parentNo);
                     appointment.setInstitutionId(orderAppointment.getInstitutionId());
@@ -368,18 +416,22 @@ public class OrderAppointmentController extends BaseController {
                     appointment.setStatus(2);
                     orderAppointmentService.save(appointment);
                 }
-                message.setContent("您已经购买了体检额外项目服务，包含服务项："+msg);
-                message.setMsgCate(1);
-                message.setUserId(userId);
-                message.setOrderNo(orderNo);
-                message.setBusinessCate(2);
-                sysMessageService.save(message);
+                if (msg!=""||msg!=null){
+                    message.setContent("您已经购买了体检额外项目服务，包含服务项："+msg);
+                    message.setMsgCate(1);
+                    message.setUserId(userId);
+                    message.setOrderNo(orderNo);
+                    message.setBusinessCate(2);
+                    sysMessageService.save(message);
+                }
                 orderMain.setUserId(userId);
                 orderMain.setParentNo(parentNo);
                 orderMain.setOrderNo(orderNo);
                 orderMain.setStatus(0);
+                orderMain.setAmount(amount);
                 orderMain.setOrderCates(orderCates);
                 orderMainService.save(orderMain);
+                return ResultMap.ok().put("data",orderNo);
             }else if (orderAppointment.getAppointmentCates()==4
                     &&orderAppointment.getInstitutionId()!=null
                     &&orderAppointment.getParentNo()!=null
@@ -389,12 +441,37 @@ public class OrderAppointmentController extends BaseController {
                 Integer orderCates = orderAppointment.getAppointmentCates();
                 String userId = orderAppointment.getUserId();
                 String parentNo = orderAppointment.getParentNo();
+                String msg = "";
+                params.put("orderNo",parentNo);
+                params.put("examId",orderMainService.getReferenceNo(params));
+                //套餐内项
+                List<ExamExtensionVo> extensionVos = examPackageDetailService.getEEChoosen(params);
+                boolean exist = false;
+                Double amount = 0.0;
                 for(int i = 0;i<orderAppointment.getExtensionItems().size();i++){
                     orderExtensionExam.setCreateBy(userId);
-                    orderExtensionExam.setExamDetailId(orderAppointment.getExtensionItems().get(i).getExamDetailId());
-                    orderExtensionExam.setExamMasterId(orderAppointment.getExtensionItems().get(i).getExamMasterId());
+                    Integer detailId = orderAppointment.getExtensionItems().get(i).getExamDetailId();
+                    Integer masterId = orderAppointment.getExtensionItems().get(i).getExamMasterId();
+                    params.put("detailId",detailId);
+                    params.put("masterId",masterId);
+                    orderExtensionExam.setExamDetailId(detailId);
+                    orderExtensionExam.setExamMasterId(masterId);
                     orderExtensionExam.setOrderNo(orderNo);
                     int sysId = orderExtensionExamService.saveOne(orderExtensionExam);
+                    for (int j = 0;j<extensionVos.size();j++){
+                        if (extensionVos.get(j).getMasterId().equals(masterId)&&extensionVos.get(j).getDetailId().equals(detailId)){
+                            exist = true;
+                            break;
+                        }
+                    }
+                    if (!exist){
+                        ExamDetail examDetail = examDetailService.getItem(params);
+                        ExamMaster examMaster = examMasterService.getItem(params);
+                        msg+= examMaster.getName()
+                                + examDetail.getItemName();
+                        amount+= examDetail.getAmount();
+                    }
+                    exist = false;
                     appointment.setExtensionItemId(sysId);
                     appointment.setParentNo(parentNo);
                     appointment.setInstitutionId(orderAppointment.getInstitutionId());
@@ -405,13 +482,23 @@ public class OrderAppointmentController extends BaseController {
                     appointment.setOrderNo(orderNo);
                     orderAppointmentService.save(appointment);
                 }
+                if (msg!=""||msg!=null){
+                    message.setContent("您已经购买了体检额外项目服务，包含服务项："+msg);
+                    message.setMsgCate(1);
+                    message.setUserId(userId);
+                    message.setOrderNo(orderNo);
+                    message.setBusinessCate(2);
+                    sysMessageService.save(message);
+                }
                 orderMain.setUserId(userId);
                 orderMain.setParentNo(parentNo);
                 orderMain.setHrOppointmentId(orderAppointment.getHrOppointmentId());
                 orderMain.setOrderNo(orderNo);
                 orderMain.setStatus(0);
+                orderMain.setAmount(amount);
                 orderMain.setOrderCates(orderCates);
                 orderMainService.save(orderMain);
+                return ResultMap.ok().put("data",orderNo);
             }else if (orderAppointment.getAppointmentCates()==5
                     &&orderAppointment.getOrderNo()!=null
                     &&orderAppointment.getRelatedNo()!=null
@@ -457,15 +544,17 @@ public class OrderAppointmentController extends BaseController {
                     if (orderAppointment.getOption2()==1){
                         //陪诊 增加一条订单
                         orderMain.setOrderCates(6);
-                        orderMain.setOrderNo(createOrderNo());
+                        String newNo = createOrderNo();
+                        orderMain.setOrderNo(newNo);
                         orderMain.setParentNo(orderNo);
                         orderMain.setStatus(0);
                         orderMain.setUserId(userId);
                         orderMain.setAmount(60.0); //缺少陪诊金额信息
                         orderMainService.save(orderMain);
+                        orderAdditionalInfo.setAmount(60.0);  //缺少陪诊金额信息
+                        orderAdditionalInfoService.save(orderAdditionalInfo);
+                        return ResultMap.ok().put("data",newNo);
                     }
-                    orderAdditionalInfo.setAmount(60.0);  //缺少陪诊金额信息
-                    orderAdditionalInfoService.save(orderAdditionalInfo);
                 }else {
                     //如果没有免费次数了，或需要陪诊 要往order_main里插入一条记录
                     String orderNo = createOrderNo();
@@ -487,7 +576,7 @@ public class OrderAppointmentController extends BaseController {
                     if (orderAppointment.getOption2()==1){
                         amount = amount + 60; //缺少陪诊价格信息
                     }
-                    orderAdditionalInfo.setAmount(amount);
+                    orderAdditionalInfo.setAmount(60.0);
                     orderAdditionalInfoService.save(orderAdditionalInfo);
                     orderMain.setOrderCates(6);
                     orderMain.setOrderNo(orderNo);
@@ -495,6 +584,7 @@ public class OrderAppointmentController extends BaseController {
                     orderMain.setUserId(userId);
                     orderMain.setAmount(amount);
                     orderMainService.save(orderMain);
+                    return ResultMap.ok().put("data",orderNo);
                 }
             }else {
                 return ResultMap.error("运行异常，请联系管理员");

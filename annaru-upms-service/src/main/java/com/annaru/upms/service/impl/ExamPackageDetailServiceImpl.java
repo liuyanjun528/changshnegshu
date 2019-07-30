@@ -4,6 +4,7 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.annaru.common.result.PageUtils;
 import com.annaru.upms.entity.ExamPackageDetail;
 import com.annaru.upms.entity.vo.ExamChooseVo;
+import com.annaru.upms.entity.vo.ExamExtensionVo;
 import com.annaru.upms.mapper.ExamPackageDetailMapper;
 import com.annaru.upms.service.IExamPackageDetailService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -31,6 +32,10 @@ public class ExamPackageDetailServiceImpl extends ServiceImpl<ExamPackageDetailM
 
     public List<ExamChooseVo> getChoosen(Map<String,Object> params){
         return this.baseMapper.getChoosen(params);
+    }
+
+    public List<ExamExtensionVo> getEEChoosen(Map<String,Object> params){
+        return this.baseMapper.getEEChoosen(params);
     }
 
 }

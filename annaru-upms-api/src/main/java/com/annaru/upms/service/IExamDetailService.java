@@ -2,6 +2,7 @@ package com.annaru.upms.service;
 
 import com.annaru.common.result.PageUtils;
 import com.annaru.upms.entity.ExamDetail;
+import com.annaru.upms.entity.ExamMaster;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.apache.ibatis.annotations.Param;
 
@@ -39,6 +40,6 @@ public interface IExamDetailService extends IService<ExamDetail> {
      */
     List<ExamDetail> selectByType(Integer ecId);
 
-
+    ExamDetail getItem(Map<String, Object> params);
 }
 

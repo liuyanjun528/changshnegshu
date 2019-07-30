@@ -3,6 +3,7 @@ package com.annaru.upms.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.annaru.common.result.PageUtils;
 import com.annaru.upms.entity.SysDoctorSchedule;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.Date;
 import java.util.List;
@@ -50,6 +51,9 @@ public interface ISysDoctorScheduleService extends IService<SysDoctorSchedule> {
      */
     int insertNuserSchedule(SysDoctorSchedule sysDoctorSchedule);
 
+
+    //护士当天预约的次数
+    int selectNurseSchedule(Map <String, Object> params);
 
 }
 

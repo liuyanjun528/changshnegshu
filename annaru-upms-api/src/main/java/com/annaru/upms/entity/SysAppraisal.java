@@ -38,6 +38,8 @@ public class SysAppraisal extends Model<SysAppraisal> implements Serializable {
 	@TableField("reference_no")
 	@NotNull
 	private String referenceNo;
+
+    private String orderNo;
 	/**
 	 * 评分人
 	 */
@@ -77,7 +79,15 @@ public class SysAppraisal extends Model<SysAppraisal> implements Serializable {
 	@TableField("create_by")
 	private Integer createBy;
 
-    /**
+	public String getOrderNo() {
+		return orderNo;
+	}
+
+	public void setOrderNo(String orderNo) {
+		this.orderNo = orderNo;
+	}
+
+	/**
      * 获取：系统编号
      */
     public Integer getSysId() {

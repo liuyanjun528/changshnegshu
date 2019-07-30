@@ -43,11 +43,10 @@
 			eed.effect_from,-- 开始时间
 			eed.effect_to,	-- 结束时间
 			DATEDIFF(eed.effect_to,NOW()) as restDay
-      FROM
-		    entity_exclusive_doctor as eed
+      FROM entity_exclusive_doctor as eed
       LEFT JOIN sys_doctor as sd ON eed.doctor_no=sd.doctor_no
       LEFT JOIN sys_institution as si ON si.institution_id=sd.belong_institution
-      WHERE     eed.entity_id=#{entityId}  and eed.effect_to>NOW()
+      WHERE    eed.entity_id=#{entityId}  and eed.effect_to>NOW() and eed.cates=2
     </select>
 
 </mapper>

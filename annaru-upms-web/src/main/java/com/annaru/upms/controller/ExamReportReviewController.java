@@ -40,7 +40,7 @@ public class ExamReportReviewController extends BaseController {
      */
     @ApiOperation(value = "待解读报告列表", notes = "待解读报告列表")
     @GetMapping("/info")
-    @RequiresPermissions("upms/examReportReview/info")
+    //@RequiresPermissions("upms/examReportReview/info")
     public ResultMap reportReviewInfo(
             @ApiParam(value = "当前页")@RequestParam(defaultValue="1") int page,
             @ApiParam(value = "每页数量")@RequestParam(defaultValue = "10") int limit,
@@ -69,7 +69,7 @@ public class ExamReportReviewController extends BaseController {
      */
     @ApiOperation(value = "解读报告详情", notes = "解读报告详情")
     @GetMapping("/reportInfo")
-    @RequiresPermissions("upms/examReportReview/reportInfo")
+    //@RequiresPermissions("upms/examReportReview/reportInfo")
     public ResultMap reportInfo(
             @ApiParam(value = "用户编号")@RequestParam(required = false)String userId,
             @ApiParam(value = "报告编号")@RequestParam(required = false)String reportNo){
@@ -133,7 +133,7 @@ public class ExamReportReviewController extends BaseController {
      */
     @ApiOperation(value = "添加报告建议")
     @PostMapping("/saveSuggestions")
-    @RequiresPermissions("upms/examReportReview/saveSuggestions")
+    //@RequiresPermissions("upms/examReportReview/saveSuggestions")
     public ResultMap save(String reportNo, String reviewNo, String suggestions) {
         try {
             examReportReviewService.insertReportSuggest(reportNo, reviewNo, suggestions);
@@ -149,7 +149,7 @@ public class ExamReportReviewController extends BaseController {
      */
     @ApiOperation(value = "确认解读接口")
     @PostMapping("/update")
-    @RequiresPermissions("upms/examReportReview/update")
+    //@RequiresPermissions("upms/examReportReview/update")
     public ResultMap update(String reportNo) {
         try {
             examReportReviewService.updateReportStatus(reportNo);

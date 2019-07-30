@@ -109,5 +109,7 @@ public interface IOrderMainService extends IService<OrderMain> {
      */
     ExamPackageMain getExamPackageMainByOrderNo(String orderNo);
 
+    OrderMain getReferenceNo(@Param("params") Map <String, Object> params);
+
 }
 

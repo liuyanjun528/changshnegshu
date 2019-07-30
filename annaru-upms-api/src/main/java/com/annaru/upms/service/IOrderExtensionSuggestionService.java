@@ -1,5 +1,6 @@
 package com.annaru.upms.service;
 
+import com.annaru.upms.entity.vo.OrderExtensionSuggestionVo;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.annaru.common.result.PageUtils;
 import com.annaru.upms.entity.OrderExtensionSuggestion;
@@ -21,7 +22,7 @@ public interface IOrderExtensionSuggestionService extends IService<OrderExtensio
     */
     PageUtils getDataPage(Map<String, Object> params);
 
-    List<OrderExtensionSuggestion> getItems(Map<String,Object> params);
+    List<OrderExtensionSuggestionVo> getItems(Map<String,Object> params);
 
     /**
      *  添加建议进阶项目

@@ -422,4 +422,22 @@
         WHERE sys_id = #{params.sysId}
     </update>
 
+    <select id="getUserExamMainDetail" parameterType="map" resultType="com.annaru.upms.entity.vo.UserExamMainDetail">
+            SELECT
+        		hpd.descr,
+        		upm.pkg_detail_id,
+        		epd.service_from, epd.service_to
+        	FROM
+			  entity_purchse_user_pkg_mapping upm
+			LEFT JOIN entity_healthy_package_detail hpd ON hpd.code = upm.pkg_detail_id
+			LEFT JOIN entity_purchse_detail epd ON epd.order_no = upm.order_no AND epd.pkg_detail_code = upm.pkg_detail_id
+			WHERE 1 = 1
+			AND upm.is_active = 1
+			AND hpd.is_active = 1
+			AND epd.is_active = 1 AND epd.is_deleted = 0
+			<if test="params.userId != null and params.userId != ''">
+                AND upm.user_id = #{params.userId}
+            </if>
+    </select>
+
 </mapper>

@@ -2,6 +2,7 @@ package com.annaru.upms.mapper;
 
 import com.annaru.upms.entity.ExamPackageDetail;
 import com.annaru.upms.entity.vo.ExamChooseVo;
+import com.annaru.upms.entity.vo.ExamExtensionVo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -28,4 +29,5 @@ public interface ExamPackageDetailMapper extends BaseMapper<ExamPackageDetail> {
 
     List<ExamChooseVo> getChoosen(@Param("params") Map<String, Object> params);
 
+    List<ExamExtensionVo> getEEChoosen(@Param("params") Map<String, Object> params);
 }

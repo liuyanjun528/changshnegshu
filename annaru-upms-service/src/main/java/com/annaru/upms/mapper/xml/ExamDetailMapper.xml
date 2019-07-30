@@ -9,6 +9,7 @@
         <result column="item_name" property="itemName" />
         <result column="abstracts" property="abstracts" />
         <result column="standard_value" property="standardValue" />
+        <result column="amount" property="amount"/>
         <result column="creation_time" property="creationTime" />
         <result column="edit_time" property="editTime" />
     </resultMap>
@@ -61,6 +62,15 @@
 	  left join exam_detail b on a.detail_id=b.sys_id
 	  left join exam_master c on a.master_id=c.sys_id
 	  where a.extention_cate_id= #{ecId}
+    </select>
+
+    <select id="getItem" parameterType="map" resultMap="BaseResultMap">
+        select
+        *
+        from
+        exam_detail
+        where
+        sys_id = #{params.detailId}
     </select>
 
 </mapper>

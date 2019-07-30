@@ -54,12 +54,6 @@ public class ExamDetail extends Model<ExamDetail> implements Serializable {
 	@TableField("master_id")
 	private Integer masterId;
 	/**
-	 * 进阶项目类别
-	 */
-	@ApiModelProperty(value = "进阶项目类别")
-	@TableField("extension_cates_id")
-	private Integer extensionCatesId;
-	/**
 	 * 创建时间
 	 */
     @ApiModelProperty(value = "创建时间")
@@ -83,6 +77,19 @@ public class ExamDetail extends Model<ExamDetail> implements Serializable {
 	@ApiModelProperty(value = "进阶项目类别名称")
 	@TableField(exist = false)
 	private String eecName;
+
+	private Double amount;
+
+	@TableField(exist = false)
+	private Integer extensionCatesId;
+
+	public Double getAmount() {
+		return amount;
+	}
+
+	public void setAmount(Double amount) {
+		this.amount = amount;
+	}
 
 	public Integer getMasterId() {
 		return masterId;

@@ -51,7 +51,7 @@ public class OrderAdditionalInfoController extends BaseController {
      */
     @ApiOperation(value = "体检人信息", notes = "体检人信息")
     @GetMapping("userOrRelativeInfo")
-    @RequiresPermissions("lcd/orderAdditionalInfo/userOrRelativeInfo")
+    //@RequiresPermissions("lcd/orderAdditionalInfo/userOrRelativeInfo")
     public ResultMap userOrRelativeInfo(String userId, String relativeId){
         UserCards cards = orderAdditionalInfoService.selectUserOrRelativeInfo(userId, relativeId);
         return ResultMap.ok().put("data",cards);
@@ -111,7 +111,7 @@ public class OrderAdditionalInfoController extends BaseController {
      */
     @ApiOperation(value = "列表")
     @GetMapping("/list")
-    @RequiresPermissions("lcd/orderAdditionalInfo/list")
+    //@RequiresPermissions("lcd/orderAdditionalInfo/list")
     public ResultMap list(@ApiParam(value = "当前页")@RequestParam(defaultValue="1") int page,
                           @ApiParam(value = "每页数量")@RequestParam(defaultValue = "10") int limit,
                           @ApiParam(value = "关键字")@RequestParam(required = false)String key){
@@ -130,7 +130,7 @@ public class OrderAdditionalInfoController extends BaseController {
      */
     @ApiOperation(value = "查看详情", notes = "查看lcd详情")
     @GetMapping("/info/{sysId}")
-    @RequiresPermissions("lcd/orderAdditionalInfo/info")
+    //@RequiresPermissions("lcd/orderAdditionalInfo/info")
     public ResultMap info(@PathVariable("sysId") Integer sysId){
         OrderAdditionalInfo orderAdditionalInfo = orderAdditionalInfoService.getById(sysId);
         return ResultMap.ok().put("data",orderAdditionalInfo);
@@ -141,7 +141,7 @@ public class OrderAdditionalInfoController extends BaseController {
      */
     @ApiOperation(value = "保存")
     @PostMapping("/save")
-    @RequiresPermissions("lcd/orderAdditionalInfo/save")
+   // @RequiresPermissions("lcd/orderAdditionalInfo/save")
     public ResultMap save(@Valid @RequestBody OrderAdditionalInfo orderAdditionalInfo) {
         try {
             orderAdditionalInfoService.save(orderAdditionalInfo);
@@ -158,7 +158,7 @@ public class OrderAdditionalInfoController extends BaseController {
      */
     @ApiOperation(value = "修改")
     @PostMapping("/update")
-    @RequiresPermissions("lcd/orderAdditionalInfo/update")
+    //@RequiresPermissions("lcd/orderAdditionalInfo/update")
     public ResultMap update(@Valid @RequestBody OrderAdditionalInfo orderAdditionalInfo) {
         try {
             orderAdditionalInfoService.updateById(orderAdditionalInfo);
@@ -175,7 +175,7 @@ public class OrderAdditionalInfoController extends BaseController {
      */
     @ApiOperation(value = "删除")
     @PostMapping("/delete")
-    @RequiresPermissions("lcd/orderAdditionalInfo/delete")
+    //@RequiresPermissions("lcd/orderAdditionalInfo/delete")
     public ResultMap delete(@RequestBody Integer[]sysIds) {
         try {
             orderAdditionalInfoService.removeByIds(Arrays.asList(sysIds));
