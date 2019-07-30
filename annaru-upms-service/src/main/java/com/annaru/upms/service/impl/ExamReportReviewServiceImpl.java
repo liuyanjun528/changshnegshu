@@ -3,6 +3,7 @@ package com.annaru.upms.service.impl;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.annaru.common.result.PageUtils;
 import com.annaru.upms.entity.ExamReportReview;
+import com.annaru.upms.entity.vo.ExamReportReviewInfoVo;
 import com.annaru.upms.entity.vo.ExamReportReviewVo;
 import com.annaru.upms.entity.vo.ReportInfoVo;
 import com.annaru.upms.mapper.ExamReportReviewMapper;
@@ -53,10 +54,10 @@ public class ExamReportReviewServiceImpl extends ServiceImpl<ExamReportReviewMap
     }
 
     @Override
-    public ExamReportReview getExamReportReviewServiceByReportNo(String reportNo) {
+    public ExamReportReviewInfoVo getByReportNo(String reportNo) {
         if(StringUtils.isBlank(reportNo)){
             return null;
         }
-        return this.baseMapper.selectExamReportReviewServiceByReportNo(reportNo);
+        return this.baseMapper.selectByReportNo(reportNo);
     }
 }

@@ -1,6 +1,7 @@
 package com.annaru.upms.mapper;
 
 import com.annaru.upms.entity.ExamReportReview;
+import com.annaru.upms.entity.vo.ExamReportReviewInfoVo;
 import com.annaru.upms.entity.vo.ExamReportReviewVo;
 import com.annaru.upms.entity.vo.ReportInfoVo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
@@ -65,5 +66,5 @@ public interface ExamReportReviewMapper extends BaseMapper<ExamReportReview> {
      * @Date: 2019/7/9
      * @return
      */
-    ExamReportReview selectExamReportReviewServiceByReportNo(@Param("reportNo")String reportNo);
+    ExamReportReviewInfoVo selectByReportNo(@Param("reportNo")String reportNo);
 }

@@ -12,6 +12,49 @@ public class Constant {
 
     // 控制线程数，最优选择是处理器线程数*3，本机处理器是4线程
     public final static int THREAD_COUNT = 12;
+
+    /**
+     * @Description: 体检报告解读状态
+     * @Author: XCK
+     * @Date: 2019/7/26
+     */
+    public enum ReportReviewStatus{
+        //未推送
+        NOT_REVIEW(0),
+
+        //已推送
+        REVIEW(1);
+
+        private Integer value;
+        ReportReviewStatus(Integer value){
+            this.value=value;
+        }
+        public Integer getValue(){
+            return value;
+        }
+    }
+
+    /**
+     * @Description: 体检报告分类是否推送
+     * @Author: XCK
+     * @Date: 2019/7/26
+     */
+    public enum ClassifyPosted{
+        //未推送
+        NOT_POSTED(0),
+
+        //已推送
+        POSTED(1);
+
+        private Integer value;
+        ClassifyPosted(Integer value){
+            this.value=value;
+        }
+        public Integer getValue(){
+            return value;
+        }
+    }
+
     /**
      * 支付状态
      */
