@@ -35,7 +35,7 @@ public class ExamReportClassifyController extends BaseController {
     public ResultMap list(@ApiParam(value = "用户编号") @RequestParam String userId) {
         try {
             List<ExamReportClassifyListVo> list = examReportClassifyService.getDataListByUserId(userId);
-            return ResultMap.ok().put("reportList", list);
+            return ResultMap.ok().put("data", list);
         } catch (Exception e) {
             logger.error(e.getMessage());
             return ResultMap.error("运行异常，请联系管理员");
@@ -44,10 +44,10 @@ public class ExamReportClassifyController extends BaseController {
 
     @ApiOperation(value = "查看详情", notes = "查看详情")
     @GetMapping("/info")
-    public ResultMap info(@ApiParam(value = "报告编号") @RequestParam String reportNO) {
+    public ResultMap info(@ApiParam(value = "报告编号") @RequestParam String reportNo) {
         try {
-            ExamReportClassifyInfoVo classifyInfoVo = examReportClassifyService.getByReportNo(reportNO);
-            return ResultMap.ok().put("reportInfo", classifyInfoVo);
+            ExamReportClassifyInfoVo classifyInfoVo = examReportClassifyService.getByReportNo(reportNo);
+            return ResultMap.ok().put("data", classifyInfoVo);
         } catch (Exception e) {
             logger.error(e.getMessage());
             return ResultMap.error("运行异常，请联系管理员");

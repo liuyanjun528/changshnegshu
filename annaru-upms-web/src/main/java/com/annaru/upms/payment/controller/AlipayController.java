@@ -19,10 +19,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
@@ -49,7 +46,6 @@ public class AlipayController extends BaseController {
     private IOrderPaymentService orderPaymentService;
     @Reference
     private IOrderMainService orderMainService;
-
     @Autowired
     private AlipayProperties aliPayProperties;
     @Autowired
@@ -59,11 +55,10 @@ public class AlipayController extends BaseController {
      * 创建订单
      */
     @ApiOperation(value = "创建订单", notes = "支付宝支付创建订单")
-    @RequestMapping(value = "/alipay/createOrder", method = {RequestMethod.POST, RequestMethod.GET})
+    @GetMapping("/alipay/createOrder")
     public ResultMap createOrder(@ApiParam(value = "订单号") @RequestParam String orderNo,
-                                 @ApiParam(value = "订单名称") @RequestParam String subject,
-                                 @ApiParam(value = "商品描述") @RequestParam String body,
-                                 @ApiParam(value = "订单金额") @RequestParam BigDecimal amount) {
+                                 @ApiParam(value = "订单金额") @RequestParam BigDecimal amount,
+                                 @ApiParam(value = "商品名称") @RequestParam String body) {
         try {
             // 1、验证订单是否存在
             OrderMain orderMain = orderMainService.getByOrderNo(orderNo);
@@ -86,31 +81,31 @@ public class AlipayController extends BaseController {
                 return ResultMap.error("服务器创建支付订单失败");
             }
 
-            //实例化具体API对应的request类,类名称和接口名称对应,当前调用接口名称：alipay.trade.app.pay
-            AlipayTradeAppPayRequest ali_request = new AlipayTradeAppPayRequest();
             //SDK已经封装掉了公共参数，这里只需要传入业务参数。以下方法为sdk的model入参方式(model和biz_content同时存在的情况下取biz_content)。
             AlipayTradeAppPayModel model = new AlipayTradeAppPayModel();
             model.setOutTradeNo(orderPayment.getOrderNo());
-            model.setSubject(subject);
             model.setTotalAmount(String.valueOf(amount.doubleValue()));
+            model.setSubject(body);
             model.setBody(body);
             model.setTimeoutExpress("90m");
             model.setProductCode("QUICK_MSECURITY_PAY");
             model.setPassbackParams("公用回传参数，如果请求时传递了该参数，则返回给商户时会回传该参数");
+
+            //实例化具体API对应的request类,类名称和接口名称对应,当前调用接口名称：alipay.trade.app.pay
+            AlipayTradeAppPayRequest ali_request = new AlipayTradeAppPayRequest();
+            ali_request.setNotifyUrl(aliPayProperties.getNotifyUrl());
             ali_request.setBizModel(model);
 
-            ali_request.setNotifyUrl(aliPayProperties.getNotifyUrl());
             AlipayTradeAppPayResponse ali_response = alipayClient.sdkExecute(ali_request);
-
             //就是orderString 可以直接给客户端请求，无需再做处理。
             String orderStr = ali_response.getBody();
-            System.err.println(orderStr);
-            return ResultMap.ok("订单生成成功").put("orderStr", orderStr);
+            return ResultMap.ok().put("data", orderStr);
         } catch (Exception e) {
             logger.error(e.getMessage());
             return ResultMap.error("订单生成失败");
         }
     }
+
 
     /**
      * 支付异步通知
@@ -118,7 +113,7 @@ public class AlipayController extends BaseController {
      * 包括通知中的app_id、out_trade_no、total_amount是否与请求中的一致，并根据trade_status进行后续业务处理。
      * https://docs.open.alipay.com/194/103296
      */
-    @RequestMapping("/api/alipay/notify")
+    @RequestMapping("/api/alipay/notifyUrl")
     public String notify(HttpServletRequest request) throws UnsupportedEncodingException {
         // 验证签名
         boolean flag = this.rsaCheckV1(request);
@@ -129,8 +124,6 @@ public class AlipayController extends BaseController {
             String out_trade_no = new String(request.getParameter("out_trade_no").getBytes("ISO-8859-1"), "UTF-8");
             //支付宝交易号
             String trade_no = new String(request.getParameter("trade_no").getBytes("ISO-8859-1"), "UTF-8");
-            //付款金额
-            String total_amount = new String(request.getParameter("total_amount").getBytes("ISO-8859-1"), "UTF-8");
 
             // TRADE_FINISHED(表示交易已经成功结束，并不能再对该交易做后续操作);
             // TRADE_SUCCESS(表示交易已经成功结束，可以对该交易做后续操作，如：分润、退款等);
@@ -146,8 +139,6 @@ public class AlipayController extends BaseController {
         }
         return "fail";
     }
-
-
 
     /**
      * 校验签名
@@ -176,4 +167,5 @@ public class AlipayController extends BaseController {
             return false;
         }
     }
+
 }

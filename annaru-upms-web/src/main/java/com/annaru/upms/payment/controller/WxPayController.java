@@ -50,7 +50,7 @@ public class WxPayController extends BaseController {
     @GetMapping("/wxPay/unifiedOrder")
     public ResultMap unifiedOrder(@ApiParam(value = "订单号") @RequestParam String orderNo,
                                   @ApiParam(value = "订单金额") @RequestParam BigDecimal amount,
-                                  @ApiParam(value = "商品描述") @RequestParam String body,
+                                  @ApiParam(value = "商品名称") @RequestParam String body,
                                   HttpServletRequest request) {
         try {
             // 1、验证订单是否存在
