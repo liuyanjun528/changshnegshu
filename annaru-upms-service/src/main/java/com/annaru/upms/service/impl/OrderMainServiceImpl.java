@@ -121,10 +121,11 @@ public class OrderMainServiceImpl extends ServiceImpl<OrderMainMapper, OrderMain
                 }
 
                 //--添加亲属编号
-                System.out.println("亲属编号---->"+orderMain.getTotalQty());
+                System.out.println("人数：---->"+orderMain.getTotalQty());
                 if(orderMain.getTotalQty()>1){
                     //查询用户下的所有亲属
                     List<UserRelatives> list = userRelativesService.selectAll(orderMain.getUserId());
+                    System.out.println("1---->"+list);
                     Boolean result=false;
                     for (UserRelatives relative : list) {
                         for (String  rela:RelativeId ){
@@ -140,8 +141,11 @@ public class OrderMainServiceImpl extends ServiceImpl<OrderMainMapper, OrderMain
                         throw new GlobalException("没有相关亲属");
                     }
                     if (result) {
+                        System.out.println("2---->"+result);
                         //如果亲属长度<总套餐个数 需要添加自己跟亲属
                         if(RelativeId.length<orderMain.getTotalQty()){
+                            System.out.println("3---->"+RelativeId.length);
+                            System.out.println("4---->"+orderMain.getTotalQty());
                             orderMain.getOrderCustomer().setOrderNo(orderMain.getOrderNo());
                             orderMain.getOrderCustomer().setRelativeId(orderMain.getUserId());
                             orderMain.getOrderCustomer().setUserCates(1);
