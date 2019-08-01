@@ -121,6 +121,7 @@ public class OrderMainServiceImpl extends ServiceImpl<OrderMainMapper, OrderMain
                 }
 
                 //--添加亲属编号
+                System.out.println("亲属编号---->"+orderMain.getTotalQty());
                 if(orderMain.getTotalQty()>1){
                     //查询用户下的所有亲属
                     List<UserRelatives> list = userRelativesService.selectAll(orderMain.getUserId());

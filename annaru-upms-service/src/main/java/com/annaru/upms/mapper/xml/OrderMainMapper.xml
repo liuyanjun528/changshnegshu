@@ -469,9 +469,9 @@
     <!-- TOC下订单 OrderMain-->
     <insert id="insertOrderMain" parameterType="com.annaru.upms.entity.OrderMain">
         insert into order_main
-                (order_no,reference_no,total_qty,user_id,order_cates,amount)
+                (order_no,reference_no,total_qty,user_id,order_cates,amount,creationtime,order_time)
         VALUES
-                (#{orderNo},#{referenceNo},#{totalQty},#{userId},#{orderCates},#{amount})
+                (#{orderNo},#{referenceNo},#{totalQty},#{userId},#{orderCates},#{amount},#{creationtime},#{orderTime})
     </insert>
 
     <select id="selectAppendByOrderNo" parameterType="map" resultMap="AppendOrderMain">
