@@ -42,7 +42,18 @@ public class ExamAppend extends Model<ExamAppend> implements Serializable {
 	@TableField("image_name_url")
 	private String imageNameUrl;
 
-    /**
+	@TableField(exist = false)
+    private String packageName;//套餐名称
+
+	public String getPackageName() {
+		return packageName;
+	}
+
+	public void setPackageName(String packageName) {
+		this.packageName = packageName;
+	}
+
+	/**
      * 获取：系统编号
      */
     public Integer getSysId() {
