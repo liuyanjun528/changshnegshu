@@ -5,6 +5,7 @@ import com.annaru.common.base.BaseController;
 import com.annaru.common.exception.GlobalException;
 import com.annaru.common.result.PageUtils;
 import com.annaru.common.result.ResultMap;
+import com.annaru.common.util.Constant;
 import com.annaru.upms.controllerutil.SysConfigUtil;
 import com.annaru.upms.entity.*;
 import com.annaru.upms.entity.vo.*;
@@ -56,7 +57,7 @@ public class OrderMainController extends BaseController {
     private ISysMessageService sysMessageService;// 消息表
 
     @Reference
-    private IExamPackageMainService examPackageMainService;// 套餐详情
+    private IExamAppendService examAppendService;
 
 
     /**
@@ -71,6 +72,7 @@ public class OrderMainController extends BaseController {
             SysConfig sysConfig = SysConfigUtil.getSysConfig(iSysConfigService , SysConfigUtil.ORDERNO);
             orderMain.setOrderNo(SysConfigUtil.getNoBySysConfig());
             orderMain.setOrderCates(5);
+            orderMain.setStatus(Constant.PaymentState.UNPAID.getValue());
             boolean save = orderMainService.save(orderMain);
             if(save=true){
                 orderMain.getUserFamilyDoctor().setOrderNo(SysConfigUtil.getNoBySysConfig());
@@ -102,14 +104,13 @@ public class OrderMainController extends BaseController {
             SysConfig sysConfig = SysConfigUtil.getSysConfig(iSysConfigService, SysConfigUtil.ORDERNO);
             orderMain.setOrderNo(SysConfigUtil.getNoBySysConfig());
             orderMain.setCreationtime(new Date());
+            orderMain.setStatus(Constant.PaymentState.UNPAID.getValue());
             i = orderMainService.insertOrderMain(orderMain,RelativeId);
 
 
             if(i > 0){
-                //查询套餐详情
-                Map<String, Object> params = new HashMap<>();
-                params.put("sysId",orderMain.getReferenceNo());
-                ExamPackageMainVoTcxqZ examPackageMainVoTcxqZ = examPackageMainService.selectInfoBySysIdZ(params);
+                //查询套餐下的赠送服务
+                List<ExamAppend> examAppends = examAppendService.selectServiceByMainId(orderMain.getReferenceNo());
                 //套餐购买成功往消息表添加一条数据
                 SysMessage sm=new SysMessage();
                 sm.setOrderNo(orderMain.getOrderNo());// 订单号
@@ -119,14 +120,14 @@ public class OrderMainController extends BaseController {
                 sm.setCreationTime(new Date());
 
                 StringBuffer s=new StringBuffer();
-                for(ExamPackageMainVoZsfwZ exam:examPackageMainVoTcxqZ.getExamPackageMainVoZsfwZList()){
+                for(ExamAppend exam:examAppends){
                     String serviceName = exam.getServiceName();
                     s.append(serviceName+",");
                 }
-                sm.setContent("您已经购买了"+examPackageMainVoTcxqZ.getPackageName()+",包含服务项:"+s.toString().substring(0,s.length()-1));//内容
+                sm.setContent("您已经购买了"+examAppends.get(0).getPackageName()+",包含服务项:"+s.toString().substring(0,s.length()-1));//内容
+
                 sysMessageService.save(sm);
             }
-
 
             if (i > 0) {
                     SysConfigUtil.saveRefNo(sysConfig.getRefNo());
@@ -137,7 +138,7 @@ public class OrderMainController extends BaseController {
         if (i>0) {
             return ResultMap.ok("添加成功").put("data", orderMain.getOrderNo());
         } else {
-            return ResultMap.error("没有相关亲属，请先添加亲属");
+            return ResultMap.error("添加失败");
         }
     }
 

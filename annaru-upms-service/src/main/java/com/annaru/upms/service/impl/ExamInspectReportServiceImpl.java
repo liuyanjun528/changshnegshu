@@ -2,16 +2,13 @@ package com.annaru.upms.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.annaru.upms.entity.*;
-import com.annaru.upms.entity.vo.ExamInspectReportVo;
 import com.annaru.upms.mapper.ExamInspectReportMapper;
 import com.annaru.upms.service.*;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 检查报告
@@ -35,36 +32,14 @@ public class ExamInspectReportServiceImpl extends ServiceImpl<ExamInspectReportM
     @Autowired
     private IExamReportReviewService examReportReviewService;
 
-    @Override
-    public List<ExamInspectReportVo> getAllByBYH(String byh, String reportType) {
-
-        if(StringUtils.isBlank(byh)){
-            return null;
-        }
-        Map<String, Object> params = new HashMap<>();
-        params.put("byh", byh);
-        params.put("reportType", reportType);
-        List<ExamInspectReportVo> reportVos = this.baseMapper.selectDataList(params);
-        reportVos.forEach(r -> {
-            // 套餐名称
-            if(StringUtils.isNotBlank(r.getBYH())) {
-                String orderNo = r.getBYH().substring(0, r.getBYH().indexOf("^"));
-                ExamPackageMain examPackageMain = orderMainService.getExamPackageMainByOrderNo(orderNo);
-                if(examPackageMain != null){
-                    r.setPackageName(examPackageMain.getPackageName());
-                }
-            }
-        });
-        return reportVos;
-    }
 
     @Override
-    public ExamInspectReportVo getByReportNO(String reportNO) {
+    public ExamInspectReport getByReportNO(String reportNO) {
         if (StringUtils.isBlank(reportNO)){
             return null;
         }
 
-        ExamInspectReportVo report = this.baseMapper.selectByReportNO(reportNO);
+        ExamInspectReport report = this.baseMapper.selectByReportNO(reportNO);
         if(report != null){
             String InspectReportId = report.getId();
             String reportType = reportNO.substring(0,1);
@@ -90,11 +65,6 @@ public class ExamInspectReportServiceImpl extends ServiceImpl<ExamInspectReportM
                     report.setMicroorganismList(microorganismList);
                     break;
             }
-
-            ExamReportReview examReportReview = examReportReviewService.getExamReportReviewServiceByReportNo(reportNO);
-            if(examReportReview != null){
-                report.setReportSuggestions(examReportReview.getSuggestions());
-            }
         }
         return report;
     }
@@ -105,7 +75,7 @@ public class ExamInspectReportServiceImpl extends ServiceImpl<ExamInspectReportM
         if(inspectReport == null || StringUtils.isBlank(inspectReport.getREPORTNO())){
             return false;
         }
-        ExamInspectReportVo reportDB = this.getByReportNO(inspectReport.getREPORTNO());
+        ExamInspectReport reportDB = this.getByReportNO(inspectReport.getREPORTNO());
         if(reportDB != null){
             //删除本地数据库保存的(还未完成的) 检查报告 及所有结果，
             String reportNO = reportDB.getREPORTNO();

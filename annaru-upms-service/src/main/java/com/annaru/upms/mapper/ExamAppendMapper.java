@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -24,5 +25,11 @@ public interface ExamAppendMapper extends BaseMapper<ExamAppend> {
     */
     IPage<ExamAppend> selectDataPage(Page page, @Param("params") Map<String, Object> params);
 
+    /**
+     * @Description:通过套餐查看套餐下的赠送服务
+     * @Author: wh
+     * @Date: 2019/8/1 9:32
+     */
+    List<ExamAppend> selectServiceByMainId(@Param("mainId") String mainId);
 
 }

@@ -61,6 +61,11 @@ public class ExamReportReview extends Model<ExamReportReview> implements Seriali
 	@TableField("review_time")
 	private Date reviewTime;
 	/**
+	 * 解读结果(1:正常/0:异常)
+	 */
+	@ApiModelProperty(value = "解读结果(1:正常/0:异常)")
+	private Integer result;
+	/**
 	 * 删除(0:未删除/1:已删除)
 	 */
     @ApiModelProperty(value = "删除(0:未删除/1:已删除)")
@@ -188,7 +193,15 @@ public class ExamReportReview extends Model<ExamReportReview> implements Seriali
 		this.createBy = createBy;
 	}
 
-    @Override
+	public Integer getResult() {
+		return result;
+	}
+
+	public void setResult(Integer result) {
+		this.result = result;
+	}
+
+	@Override
 	protected Serializable pkVal() {
 		return this.sysId;
 	}

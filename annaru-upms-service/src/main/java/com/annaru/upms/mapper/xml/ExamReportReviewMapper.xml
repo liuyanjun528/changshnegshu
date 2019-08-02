@@ -43,7 +43,23 @@
         <result column="SHSJ" property="SHSJ" />
     </resultMap>
 
-
+    <resultMap id="BaseResultInfoVoMap" type="com.annaru.upms.entity.vo.ExamReportReviewInfoVo" >
+        <result column="sys_id" property="sysId" />
+        <result column="user_id" property="userId" />
+        <result column="report_no" property="reportNo" />
+        <result column="byh" property="byh" />
+        <result column="suggestions" property="suggestions" />
+        <result column="review_no" property="reviewNo" />
+        <result column="review_time" property="reviewTime" />
+        <result column="result" property="result" />
+        <result column="status" property="status" />
+        <result column="creation_time" property="creationTime" />
+        <result column="create_by" property="createBy" />
+        <result column="is_deleted" property="isDeleted" />
+        <result column="user_name" property="userName" />
+        <result column="doctor_name" property="doctorName" />
+        <result column="create_name" property="createName" />
+    </resultMap>
 
     <sql id="BaseClounmSql">
           sys_id,
@@ -112,13 +128,16 @@
 
     </select>
 
-    <select id="selectExamReportReviewServiceByReportNo" resultType="com.annaru.upms.entity.ExamReportReview">
+    <select id="selectByReportNo" resultMap="BaseResultInfoVoMap">
         SELECT
-          *
+            err.*, ub.full_name AS user_name, sd.doctor_name, tsu.name AS create_name
         FROM
-          exam_report_review
+            exam_report_review err
+            LEFT JOIN user_basic ub ON err.user_id=ub.user_id
+            LEFT JOIN sys_doctor sd ON err.review_no=sd.doctor_no
+            LEFT JOIN t_sys_user tsu ON err.create_by=tsu.id
         WHERE
-          report_no=#{reportNo}
+          err.report_no=#{reportNo}
         LIMIT 1
     </select>
 
