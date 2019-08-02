@@ -72,6 +72,7 @@ public class OrderMainController extends BaseController {
             SysConfig sysConfig = SysConfigUtil.getSysConfig(iSysConfigService , SysConfigUtil.ORDERNO);
             orderMain.setOrderNo(SysConfigUtil.getNoBySysConfig());
             orderMain.setOrderCates(5);
+            orderMain.setStatus(Constant.PaymentState.UNPAID.getValue());
             boolean save = orderMainService.save(orderMain);
             if(save=true){
                 orderMain.getUserFamilyDoctor().setOrderNo(SysConfigUtil.getNoBySysConfig());
