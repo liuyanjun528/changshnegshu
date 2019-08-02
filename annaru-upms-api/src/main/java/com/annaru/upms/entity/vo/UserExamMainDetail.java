@@ -58,4 +58,5 @@ public class UserExamMainDetail implements Serializable {
     public void setPkgDetailId(String pkgDetailId) {
         this.pkgDetailId = pkgDetailId;
     }
+
 }
