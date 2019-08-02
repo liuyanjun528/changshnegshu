@@ -26,4 +26,9 @@ public class HttpContextUtils {
 		HttpServletRequest request = getHttpServletRequest();
 		return request.getHeader("Origin");
 	}
+
+	public static String getIpAddr(){
+		HttpServletRequest request = getHttpServletRequest();
+		return IPUtil.getIpAddr(request);
+	}
 }
