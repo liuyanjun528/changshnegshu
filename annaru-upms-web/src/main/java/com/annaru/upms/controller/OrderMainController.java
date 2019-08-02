@@ -135,7 +135,7 @@ public class OrderMainController extends BaseController {
         if (i>0) {
             return ResultMap.ok("添加成功").put("data", orderMain.getOrderNo());
         } else {
-            return ResultMap.error("没有相关亲属，请先添加亲属");
+            return ResultMap.error("添加失败");
         }
     }
 
