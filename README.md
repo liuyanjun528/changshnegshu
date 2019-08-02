@@ -44,6 +44,3 @@
  - 服务器地址：mhybms.cn:10039 里面的虚拟机部署
  - 管理员账号：administrator
  - 密码：Admin123
-
-## 支付宝
- - cssjkgl@126.com/Css123456

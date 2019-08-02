@@ -63,7 +63,7 @@ public class Constant {
         /**
          * 待支付
          */
-        UNPAID(0),
+        UNPAID(1),
         /**
          * 已付款
          */
@@ -87,6 +87,40 @@ public class Constant {
             return value;
         }
     }
+
+    /**
+     * 订单支付状态
+     */
+    public enum OrderMainStatus {
+        // 支付状态(0:未支付/1:进行中/2:已完成/3:退款中)
+        /**
+         * 未支付
+         */
+        UNPAID(0),
+        /**
+         * 进行中
+         */
+        UNDERWAY(1),
+        /**
+         * 已完成
+         */
+        COMPLETED(2),
+        /**
+         * 交易关闭
+         */
+        REFUND(3);
+
+        private int value;
+
+        OrderMainStatus(int value){
+            this.value = value;
+        }
+
+        public Integer getValue() {
+            return value;
+        }
+    }
+
     /**
      * 支付渠道
      */

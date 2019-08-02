@@ -43,12 +43,10 @@ public interface IOrderPaymentService extends IService<OrderPayment> {
      * @Description: 更新订单支付记录的状态
      * @param orderNo 商户订单号
      * @param transactionId 支付渠道订单号
-     * @param currentState 支付记录当前未更新时应该处于的状态
-     * @param updateState 支付记录更新后的状态
      * @Author: XCK
      * @Date: 2019/4/30
      * @return boolean
      */
-    boolean updatePaymentState(String orderNo, String transactionId, Integer currentState, Integer updateState);
+    boolean updatePaymentState(String orderNo, String transactionId);
 }
 

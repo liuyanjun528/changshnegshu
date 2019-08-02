@@ -82,6 +82,9 @@ public class OrderMainServiceImpl extends ServiceImpl<OrderMainMapper, OrderMain
 
     @Override
     public OrderMain getByOrderNo(String orderNo) {
+        if (StringUtils.isBlank(orderNo)) {
+            return null;
+        }
         return this.baseMapper.selectByOrderNo(orderNo);
     }
 
