@@ -242,7 +242,8 @@ public class UserBasic extends Model<UserBasic> implements Serializable {
 	 * @uthor zk
 	 * @date 2019-07-29
 	 */
-	List<UserExamMainDetail> userExamMainDetailList = new ArrayList<>();
+	@TableField(exist = false)
+	private List<UserExamMainDetail> userExamMainDetailList;
 
 	public boolean isEntityHealthy() {
 		return entityHealthy;
