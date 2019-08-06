@@ -6,7 +6,6 @@ import com.annaru.common.result.ResultMap;
 import com.annaru.common.util.Constant;
 import com.annaru.upms.entity.OrderMain;
 import com.annaru.upms.entity.OrderPayment;
-import com.annaru.upms.payment.config.WxPayAppConfig;
 import com.annaru.upms.payment.service.WxPayService;
 import com.annaru.upms.service.IOrderMainService;
 import com.annaru.upms.service.IOrderPaymentService;
@@ -20,6 +19,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Date;
 
 @Api(tags = "微信支付接口管理")
@@ -31,8 +34,6 @@ public class WxPayController extends BaseController {
     private IOrderPaymentService orderPaymentService;
     @Reference
     private IOrderMainService orderMainService;
-    @Autowired
-    private WxPayAppConfig wxPayAppConfig;
     @Autowired
     private WxPayService wxPayService;
 
@@ -72,6 +73,37 @@ public class WxPayController extends BaseController {
             logger.error(e.getMessage());
             return ResultMap.error("运行异常，请联系管理员");
         }
+    }
+
+    /**
+     * 订单支付异步通知
+     */
+    @RequestMapping(value = "/notify")
+    public String payNotify(HttpServletRequest request) {
+        InputStream is = null;
+        String xmlBack = "<xml><return_code><![CDATA[FAIL]]></return_code><return_msg><![CDATA[报文为空]]></return_msg></xml> ";
+        try {
+            is = request.getInputStream();
+            // 将InputStream转换成String
+            BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+            StringBuilder sb = new StringBuilder();
+            String line = null;
+            while ((line = reader.readLine()) != null) {
+                sb.append(line + "\n");
+            }
+            xmlBack = wxPayService.notify(sb.toString());
+        } catch (Exception e) {
+            logger.error("微信手机支付回调通知失败：", e);
+        } finally {
+            if (is != null) {
+                try {
+                    is.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return xmlBack;
     }
 
 }
