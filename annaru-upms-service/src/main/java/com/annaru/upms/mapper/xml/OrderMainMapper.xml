@@ -286,7 +286,7 @@
         oai.option_1 option_1,
         om.parent_no parentNo,
         om.status,
-        oai.amount
+        om.amount
 
         FROM order_main om
         LEFT JOIN order_additional_info oai ON oai.order_no = om.order_no

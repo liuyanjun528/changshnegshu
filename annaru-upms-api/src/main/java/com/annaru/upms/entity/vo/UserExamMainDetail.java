@@ -25,7 +25,7 @@ public class UserExamMainDetail implements Serializable {
     /**
      * 产品代码号
      */
-    private String pkgDetailId;
+    private String code;
 
     public String getDescr() {
         return descr;
@@ -51,11 +51,11 @@ public class UserExamMainDetail implements Serializable {
         this.serviceTo = serviceTo;
     }
 
-    public String getPkgDetailId() {
-        return pkgDetailId;
+    public String getCode() {
+        return code;
     }
 
-    public void setPkgDetailId(String pkgDetailId) {
-        this.pkgDetailId = pkgDetailId;
+    public void setCode(String code) {
+        this.code = code;
     }
 }

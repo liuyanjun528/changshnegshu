@@ -5,6 +5,7 @@ import com.annaru.common.base.BaseController;
 import com.annaru.common.exception.GlobalException;
 import com.annaru.common.result.PageUtils;
 import com.annaru.common.result.ResultMap;
+import com.annaru.common.util.Constant;
 import com.annaru.upms.controllerutil.SysConfigUtil;
 import com.annaru.upms.entity.*;
 import com.annaru.upms.entity.vo.*;
@@ -71,6 +72,7 @@ public class OrderMainController extends BaseController {
             SysConfig sysConfig = SysConfigUtil.getSysConfig(iSysConfigService , SysConfigUtil.ORDERNO);
             orderMain.setOrderNo(SysConfigUtil.getNoBySysConfig());
             orderMain.setOrderCates(5);
+            orderMain.setStatus(Constant.PaymentState.UNPAID.getValue());
             boolean save = orderMainService.save(orderMain);
             if(save=true){
                 orderMain.getUserFamilyDoctor().setOrderNo(SysConfigUtil.getNoBySysConfig());
@@ -102,6 +104,7 @@ public class OrderMainController extends BaseController {
             SysConfig sysConfig = SysConfigUtil.getSysConfig(iSysConfigService, SysConfigUtil.ORDERNO);
             orderMain.setOrderNo(SysConfigUtil.getNoBySysConfig());
             orderMain.setCreationtime(new Date());
+            orderMain.setStatus(Constant.PaymentState.UNPAID.getValue());
             i = orderMainService.insertOrderMain(orderMain,RelativeId);
 
 

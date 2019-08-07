@@ -87,7 +87,6 @@ public class AlipayServiceImpl implements AlipayService {
                 }
                 params.put(name, valueStr);
             }
-
             boolean verifyResult = AlipaySignature.rsaCheckV1(params, alipayConfig.getAlipayPublicKey(), alipayConfig.getCharset(), alipayConfig.getSignType());
             return verifyResult;
         } catch (AlipayApiException e) {
