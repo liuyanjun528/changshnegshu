@@ -127,10 +127,17 @@ public class AlipayServiceImpl implements AlipayService {
         } catch (AlipayApiException e) {
             logger.error("订单退款失败，异常原因:{}", e);
         }
-        if(alipayResponse != null
-                && "10000".equals(alipayResponse.getCode())){
-            boolean b = orderPaymentService.alreadyRefund(orderNo);
-            return ResultMap.ok().put("data", alipayResponse.getBody());
+        if(alipayResponse != null){
+            String code = alipayResponse.getCode();
+            String subCode = alipayResponse.getSubCode();
+            String subMsg = alipayResponse.getSubMsg();
+            if("10000".equals(code)
+                    && StringUtils.isBlank(subCode)
+                    && StringUtils.isBlank(subMsg)){
+                orderPaymentService.alreadyRefund(orderNo);
+                return ResultMap.ok("订单退款成功");
+            }
+            return ResultMap.error(subCode + ":" + subMsg);
         }
         return ResultMap.error("订单退款失败");
     }

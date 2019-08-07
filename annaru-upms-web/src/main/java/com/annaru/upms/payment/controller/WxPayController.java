@@ -13,10 +13,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedReader;
@@ -105,5 +102,15 @@ public class WxPayController extends BaseController {
         }
         return xmlBack;
     }
+
+    @ApiOperation(value = "退款", notes = "退款")
+    @PostMapping("/refund")
+    public ResultMap refund(@ApiParam(value = "订单号") @RequestParam String orderNo,
+                            @ApiParam(value = "退款金额") @RequestParam double amount,
+                            @ApiParam(value = "退款原因") @RequestParam(required = false) String refundReason){
+
+        return wxPayService.refund(orderNo, amount, refundReason);
+    }
+
 
 }

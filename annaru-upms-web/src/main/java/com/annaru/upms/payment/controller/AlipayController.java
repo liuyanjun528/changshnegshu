@@ -93,9 +93,6 @@ public class AlipayController extends BaseController {
     public ResultMap refund(@ApiParam(value = "订单号") @RequestParam String orderNo,
                             @ApiParam(value = "退款金额") @RequestParam double amount,
                             @ApiParam(value = "退款原因") @RequestParam(required = false) String refundReason) {
-        if(amount <= 0){
-            return ResultMap.error("退款金额必须大于0");
-        }
         return alipayService.refund(orderNo, amount, refundReason);
     }
 }

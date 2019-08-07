@@ -493,8 +493,6 @@
                     <include>**/*.json</include>
                     <include>static/**</include>
                     <include>static/fonts/**</include>
-                    <include>templates/**</include>
-                    <include>quartz.properties</include>
                 </includes>
                 <filtering>false</filtering>
             </resource>
@@ -509,9 +507,7 @@
                         <fork>true</fork>
                     </configuration>
                 </plugin>
-
             </plugins>
-
         </pluginManagement>
     </build>
 </project>
