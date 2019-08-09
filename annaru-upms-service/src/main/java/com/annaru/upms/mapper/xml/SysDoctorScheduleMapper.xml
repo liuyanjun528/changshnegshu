@@ -70,6 +70,7 @@
     <!-- 医护端护士的排班-->
     <select id="selectDoctorScheduleList" parameterType="map" resultMap="BaseResultMap">
       SELECT
+            sys_id,
 			date_from,-- 开始日期
 			date_to, -- 结束日期
 			time_from, --  开始时间
