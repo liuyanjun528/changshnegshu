@@ -11,6 +11,7 @@
         <result column="pay_method" property="payMethod" />
         <result column="pay_state" property="payState" />
         <result column="transaction_id" property="transactionId" />
+        <result column="refund_amount" property="refundAmount" />
         <result column="ref_info" property="refInfo" />
         <result column="remark" property="remark" />
         <result column="is_verified" property="isVerified" />
@@ -24,6 +25,7 @@
         pay_method,
         pay_state,
         transaction_id,
+        refund_amount,
         ref_info,
         remark,
         is_verified,

@@ -4,12 +4,18 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.AlipayClient;
 import com.alipay.api.domain.AlipayTradeAppPayModel;
+import com.alipay.api.domain.AlipayTradeRefundModel;
 import com.alipay.api.internal.util.AlipaySignature;
 import com.alipay.api.request.AlipayTradeAppPayRequest;
+import com.alipay.api.request.AlipayTradeRefundRequest;
 import com.alipay.api.response.AlipayTradeAppPayResponse;
+import com.alipay.api.response.AlipayTradeRefundResponse;
+import com.annaru.common.result.ResultMap;
+import com.annaru.upms.entity.OrderPayment;
 import com.annaru.upms.payment.config.AlipayConfig;
 import com.annaru.upms.payment.service.AlipayService;
 import com.annaru.upms.service.IOrderPaymentService;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,13 +87,58 @@ public class AlipayServiceImpl implements AlipayService {
                 }
                 params.put(name, valueStr);
             }
-
             boolean verifyResult = AlipaySignature.rsaCheckV1(params, alipayConfig.getAlipayPublicKey(), alipayConfig.getCharset(), alipayConfig.getSignType());
             return verifyResult;
         } catch (AlipayApiException e) {
-            logger.debug("verify sigin error, exception is:{}", e);
+            logger.error("verify sigin error, exception is:{}", e);
             return false;
         }
+    }
+
+    @Override
+    public ResultMap refund(String orderNo, double amount, String refundReason) {
+        if(StringUtils.isBlank(orderNo)){
+            return ResultMap.error("订单编号不能为空");
+        }
+        if(amount <= 0){
+            return ResultMap.error("退款金额必须大于0");
+        }
+        OrderPayment orderPayment = orderPaymentService.applyRefund(orderNo, amount);
+        if(orderPayment == null){
+            return ResultMap.error("申请退款失败");
+        }
+
+        AlipayTradeRefundModel model=new AlipayTradeRefundModel();
+        // 商户订单号
+        model.setOutTradeNo(orderNo);
+        model.setTradeNo(orderPayment.getTransactionId());
+        // 退款金额
+        model.setRefundAmount(String.valueOf(amount));
+        // 退款原因
+        model.setRefundReason(refundReason);
+        // 退款订单号(同一个订单可以分多次部分退款，当分多次时必传)
+        // model.setOutRequestNo(UUID.randomUUID().toString());
+        AlipayTradeRefundRequest alipayRequest = new AlipayTradeRefundRequest();
+        alipayRequest.setBizModel(model);
+        AlipayTradeRefundResponse alipayResponse = null;
+        try {
+            alipayResponse = alipayClient.execute(alipayRequest);
+        } catch (AlipayApiException e) {
+            logger.error("订单退款失败，异常原因:{}", e);
+        }
+        if(alipayResponse != null){
+            String code = alipayResponse.getCode();
+            String subCode = alipayResponse.getSubCode();
+            String subMsg = alipayResponse.getSubMsg();
+            if("10000".equals(code)
+                    && StringUtils.isBlank(subCode)
+                    && StringUtils.isBlank(subMsg)){
+                orderPaymentService.alreadyRefund(orderNo);
+                return ResultMap.ok("订单退款成功");
+            }
+            return ResultMap.error(subCode + ":" + subMsg);
+        }
+        return ResultMap.error("订单退款失败");
     }
 
 }

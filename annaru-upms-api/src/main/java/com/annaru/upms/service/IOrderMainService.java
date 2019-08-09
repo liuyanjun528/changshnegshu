@@ -1,7 +1,6 @@
 package com.annaru.upms.service;
 
 import com.annaru.common.result.PageUtils;
-import com.annaru.upms.entity.ExamPackageMain;
 import com.annaru.upms.entity.OrderMain;
 import com.annaru.upms.entity.vo.*;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -100,15 +99,6 @@ public interface IOrderMainService extends IService<OrderMain> {
     UserPackagesVo getToBPackages(@Param("params") Map<String,Object> params);
 
     List<UserPackagesVo> getPackages(@Param("params") Map<String,Object> params);
-
-    /**
-     * @Description: 根据订单号查询所属套餐
-     * @param  orderNo 订单号
-     * @Author: XCK
-     * @Date: 2019/7/9
-     * @return
-     */
-    ExamPackageMain getExamPackageMainByOrderNo(String orderNo);
 
     OrderMain getReferenceNo(@Param("params") Map <String, Object> params);
 
