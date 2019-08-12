@@ -112,5 +112,7 @@ public interface IOrderMainService extends IService<OrderMain> {
 
     OrderMain getReferenceNo(@Param("params") Map <String, Object> params);
 
+    OrderMain getInfo(@Param("params") Map <String, Object> params);
+
 }
 

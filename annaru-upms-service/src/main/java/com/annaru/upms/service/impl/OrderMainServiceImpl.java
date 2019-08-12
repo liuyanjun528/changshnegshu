@@ -220,4 +220,8 @@ public class OrderMainServiceImpl extends ServiceImpl<OrderMainMapper, OrderMain
     public OrderMain getReferenceNo(Map<String,Object> params){
         return this.baseMapper.getReferenceNo(params);
     }
+
+    public OrderMain getInfo(Map<String,Object> params){
+        return this.baseMapper.getInfo(params);
+    }
 }
