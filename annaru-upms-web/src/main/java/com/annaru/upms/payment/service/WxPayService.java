@@ -31,4 +31,15 @@ public interface WxPayService {
      */
     String notify(String notifyStr) throws Exception;
 
+    /**
+     * @Description: 退款
+     * @param orderNo: 订单编号
+     * @param amount: 实际支付金额
+     * @param refundReason: 退款原因
+     * @Author: XCK
+     * @Date: 2019/8/6
+     * @return
+     */
+    ResultMap refund(String orderNo, double amount, String refundReason);
+
 }

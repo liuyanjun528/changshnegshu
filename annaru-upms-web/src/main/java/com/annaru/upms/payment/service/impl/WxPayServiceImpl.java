@@ -3,6 +3,8 @@ package com.annaru.upms.payment.service.impl;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.annaru.common.result.ResultMap;
 import com.annaru.common.util.HttpContextUtils;
+import com.annaru.common.util.UUIDGenerator;
+import com.annaru.upms.entity.OrderPayment;
 import com.annaru.upms.payment.config.WxPayAppConfig;
 import com.annaru.upms.payment.service.WxPayService;
 import com.annaru.upms.service.IOrderPaymentService;
@@ -99,6 +101,54 @@ public class WxPayServiceImpl implements WxPayService {
             e.printStackTrace();
         }
         return xmlBack;
+    }
+
+
+    @Override
+    public ResultMap refund(String orderNo, double amount, String refundReason){
+
+        if(StringUtils.isBlank(orderNo)){
+            return ResultMap.error("订单编号不能为空");
+        }
+        if(amount <= 0){
+            return ResultMap.error("退款金额必须大于0");
+        }
+        OrderPayment orderPayment = orderPaymentService.applyRefund(orderNo, amount);
+        if(orderPayment == null){
+            return ResultMap.error("申请退款失败");
+        }
+
+        Map<String, String> responseMap = new HashMap<>();
+        Map<String, String> requestMap = new HashMap<>();
+        WXPay wxpay = new WXPay(wxPayAppConfig);
+        requestMap.put("out_trade_no", orderNo);
+        requestMap.put("out_refund_no", UUIDGenerator.getOrderNo());
+        requestMap.put("total_fee", String.valueOf((int)(orderPayment.getAmount()*100)));
+        requestMap.put("refund_fee", String.valueOf((int)(amount*100)));
+        requestMap.put("refund_desc", refundReason);
+        try {
+            responseMap = wxpay.refund(requestMap);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        String return_code = responseMap.get("return_code");   //返回状态码
+        String return_msg = responseMap.get("return_msg");     //返回信息
+        if ("SUCCESS".equals(return_code)) {
+            String result_code = responseMap.get("result_code");       //业务结果
+            String err_code_des = responseMap.get("err_code_des");     //错误代码描述
+            if ("SUCCESS".equals(result_code)) {
+                //表示退款申请接受成功，结果通过退款查询接口查询
+                //修改用户订单状态为退款申请中
+                orderPaymentService.alreadyRefund(orderNo);
+                return ResultMap.ok("退款申请成功");
+            } else {
+                logger.info("订单号:{}错误信息:{}", orderNo, err_code_des);
+                return ResultMap.error(err_code_des);
+            }
+        } else {
+            logger.info("订单号:{}错误信息:{}", orderNo, return_msg);
+            return ResultMap.error(return_msg);
+        }
     }
 
 }

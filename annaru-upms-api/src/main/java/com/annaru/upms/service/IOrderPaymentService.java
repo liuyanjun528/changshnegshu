@@ -48,5 +48,23 @@ public interface IOrderPaymentService extends IService<OrderPayment> {
      * @return boolean
      */
     boolean updatePaymentState(String orderNo, String transactionId);
+
+    /**
+     * @Description: 申请退款
+     * @param orderNo 商户订单号
+     * @param amount 退款金额
+     * @Author: XCK
+     * @Date: 2019/4/30
+     * @return boolean
+     */
+    OrderPayment applyRefund(String orderNo, double amount);
+    /**
+     * @Description: 退款成功
+     * @param orderNo 商户订单号
+     * @Author: XCK
+     * @Date: 2019/4/30
+     * @return boolean
+     */
+    boolean alreadyRefund(String orderNo);
 }
 

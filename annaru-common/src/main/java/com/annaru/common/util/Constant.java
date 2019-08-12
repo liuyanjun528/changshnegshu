@@ -59,7 +59,7 @@ public class Constant {
      * 支付状态
      */
     public enum PaymentState {
-        // 支付状态（1：待支付、5：已付款、10：已退款、15：交易关闭）
+        // 支付状态（1:待支付/5:已付款/9:退款中/10:已退款/15:交易关闭）
         /**
          * 待支付
          */
@@ -69,9 +69,13 @@ public class Constant {
          */
         PAID(5),
         /**
+         * 退款中
+         */
+        APPLY_REFUND(9),
+        /**
          * 已退款
          */
-        REFUND(10),
+        ALREADY_REFUND(10),
         /**
          * 交易关闭
          */
@@ -92,7 +96,7 @@ public class Constant {
      * 订单支付状态
      */
     public enum OrderMainStatus {
-        // 支付状态(0:未支付/1:进行中/2:已完成/3:退款中)
+        // 支付状态(0:未支付/1:进行中/2:已完成/3:退款中/4:已退款)
         /**
          * 未支付
          */
@@ -106,9 +110,13 @@ public class Constant {
          */
         COMPLETED(2),
         /**
-         * 交易关闭
+         * 退款中
          */
-        REFUND(3);
+        APPLY_REFUND(3),
+        /**
+         * 已退款
+         */
+        ALREADY_REFUND(4);
 
         private int value;
 
