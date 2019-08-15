@@ -44,23 +44,24 @@ public class OrderExtensionSuggestionController extends BaseController {
     @PostMapping("/savaOE")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "reportNo",value = "检查报告编号",dataType = "spring",paramType = "query"),
-            @ApiImplicitParam(name = "masterId",value = "进阶检查项目总编号",dataType = "spring",paramType = "query"),
+            @ApiImplicitParam(name = "masterIds",value = "进阶检查项目总编号",dataType = "spring",paramType = "query"),
             @ApiImplicitParam(name = "itemNames",value = "项目名称",dataType = "spring",paramType = "query"),
             @ApiImplicitParam(name = "sysIds",value = "体检项目编号",dataType = "spring",paramType = "query"),
             @ApiImplicitParam(name = "doctorNo",value = "医生编号",dataType = "spring",paramType = "query")
     })
-    public ResultMap savaOE(String reportNo,Integer masterId,String itemNames,String sysIds,String doctorNo) {
+    public ResultMap savaOE(String reportNo,String masterIds,String itemNames,String sysIds,String doctorNo) {
         try {
             if(StringUtils.isEmpty(reportNo) || StringUtils.isEmpty(itemNames)
-                    || StringUtils.isEmpty(sysIds) || StringUtils.isEmpty(doctorNo) || 0 >= masterId){
+                    || StringUtils.isEmpty(sysIds) || StringUtils.isEmpty(doctorNo) || StringUtils.isEmpty(masterIds)){
                 return ResultMap.error("参数不能为空!");
             }
             String[] sIds = sysIds.split(",");
             String[] items = itemNames.split(",");
-            if (sIds.length != items.length) {
+            String[] masters = masterIds.split(",");
+            if (sIds.length != items.length || sIds.length != masters.length) {
                 return ResultMap.error("参数有误!");
             }
-            boolean save = orderExtensionSuggestionService.savaOE(reportNo,masterId,items,sIds,doctorNo);
+            boolean save = orderExtensionSuggestionService.savaOE(reportNo,masters,items,sIds,doctorNo);
             if(!save){
                 return ResultMap.error("添加失败!");
             }
