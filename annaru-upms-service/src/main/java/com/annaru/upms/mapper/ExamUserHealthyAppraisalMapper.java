@@ -48,7 +48,7 @@ public interface ExamUserHealthyAppraisalMapper extends BaseMapper<ExamUserHealt
      * @author zk
      * @date 2019-6-18
      */
-    List<ExamUserHealthyAppraisalDeatilVoZ> getUserDeatailByExamUserHealthyAppraisal(@Param("userId") String userId, @Param("sysId") Integer sysId);
+    ExamUserHealthyAppraisalDeatilVoZ getUserDeatailByExamUserHealthyAppraisal(@Param("userId") String userId, @Param("sysId") Integer sysId);
 
     /**
      * 评估报告亲属
@@ -56,7 +56,7 @@ public interface ExamUserHealthyAppraisalMapper extends BaseMapper<ExamUserHealt
      * @author zk
      * @date 2019-6-18
      */
-    List<ExamUserHealthyAppraisalDeatilVoZ> getRelativesDeatailByExamUserHealthyAppraisal(@Param("userId") String userId, @Param("sysId") Integer sysId);
+    ExamUserHealthyAppraisalDeatilVoZ getRelativesDeatailByExamUserHealthyAppraisal(@Param("userId") String userId, @Param("sysId") Integer sysId);
 
     /**
      * 数据登记主表

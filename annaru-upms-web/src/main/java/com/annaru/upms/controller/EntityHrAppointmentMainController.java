@@ -3,12 +3,7 @@ package com.annaru.upms.controller;
 import java.util.*;
 
 import com.annaru.upms.entity.EntityHrAppointmentDetail;
-import com.annaru.upms.entity.vo.EntityHrAppointmentMainScreenSetVoZ;
-import com.annaru.upms.entity.vo.EntityHrAppointmentMainScreenVoZ;
-import com.annaru.upms.entity.vo.EntityHrAppointmentMainVoZ;
-import com.annaru.upms.entity.vo.EntityHrAppointmentMainVoZ1;
-import com.annaru.upms.entity.vo.HrHomePageInfo;
-import com.annaru.upms.entity.vo.HrPackageList;
+import com.annaru.upms.entity.vo.*;
 import com.annaru.upms.service.IEntityHrAppointmentDetailService;
 import jodd.util.StringUtil;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -163,7 +158,7 @@ public class EntityHrAppointmentMainController extends BaseController {
         try {
             Map<String, Object> params = new HashMap<>();
             params.put("sysId",sysId);
-            List<EntityHrAppointmentMainVoZ> entityHrAppointmentMainVoZ = entityHrAppointmentMainService.hrRecordDetail(params);
+            List<EntityHrAppointmentMainVoZ2> entityHrAppointmentMainVoZ = entityHrAppointmentMainService.hrRecordDetail(params);
             return ResultMap.ok().put("data",entityHrAppointmentMainVoZ);
         } catch (Exception e) {
             logger.error(e.getMessage());

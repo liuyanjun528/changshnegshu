@@ -2,6 +2,7 @@ package com.annaru.upms.service;
 
 import com.annaru.common.result.PageUtils;
 import com.annaru.upms.entity.ExamReportReview;
+import com.annaru.upms.entity.vo.ExamReportReviewInfoVo;
 import com.annaru.upms.entity.vo.ReportInfoVo;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -58,6 +59,6 @@ public interface IExamReportReviewService extends IService<ExamReportReview> {
      * @Date: 2019/7/9
      * @return
      */
-    ExamReportReview getExamReportReviewServiceByReportNo(String reportNo);
+    ExamReportReviewInfoVo getByReportNo(String reportNo);
 }
 

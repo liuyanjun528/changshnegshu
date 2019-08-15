@@ -5,6 +5,7 @@ import com.annaru.common.base.BaseController;
 import com.annaru.common.exception.GlobalException;
 import com.annaru.common.result.PageUtils;
 import com.annaru.common.result.ResultMap;
+import com.annaru.common.util.Constant;
 import com.annaru.upms.controllerutil.SysConfigUtil;
 import com.annaru.upms.entity.*;
 import com.annaru.upms.entity.vo.*;
@@ -56,7 +57,7 @@ public class OrderMainController extends BaseController {
     private ISysMessageService sysMessageService;// 消息表
 
     @Reference
-    private IExamPackageMainService examPackageMainService;// 套餐详情
+    private IExamAppendService examAppendService;
 
 
     /**
@@ -65,11 +66,13 @@ public class OrderMainController extends BaseController {
 
     @ApiOperation(value = "家庭医生下订单")
     @PostMapping("/saveFamilyDoctor")
-    @RequiresPermissions("upms/orderMain/saveFamilyDoctor")
+   // @RequiresPermissions("upms/orderMain/saveFamilyDoctor")
     public ResultMap saveFamilyDoctor(@RequestBody OrderMain orderMain) {
         try {
             SysConfig sysConfig = SysConfigUtil.getSysConfig(iSysConfigService , SysConfigUtil.ORDERNO);
             orderMain.setOrderNo(SysConfigUtil.getNoBySysConfig());
+            orderMain.setOrderCates(5);
+            orderMain.setStatus(Constant.PaymentState.UNPAID.getValue());
             boolean save = orderMainService.save(orderMain);
             if(save=true){
                 orderMain.getUserFamilyDoctor().setOrderNo(SysConfigUtil.getNoBySysConfig());
@@ -94,21 +97,20 @@ public class OrderMainController extends BaseController {
      */
     @ApiOperation(value = "Toc套餐下订单")
     @PostMapping("/saveOrderMain")
-    @RequiresPermissions("upms/orderMain/saveOrderMain")
+    //@RequiresPermissions("upms/orderMain/saveOrderMain")
     public ResultMap saveOrderMain(@RequestBody OrderMain orderMain,String []RelativeId) {
         int i=0;
         try {
             SysConfig sysConfig = SysConfigUtil.getSysConfig(iSysConfigService, SysConfigUtil.ORDERNO);
             orderMain.setOrderNo(SysConfigUtil.getNoBySysConfig());
             orderMain.setCreationtime(new Date());
+            orderMain.setStatus(Constant.PaymentState.UNPAID.getValue());
             i = orderMainService.insertOrderMain(orderMain,RelativeId);
 
 
             if(i > 0){
-                //查询套餐详情
-                Map<String, Object> params = new HashMap<>();
-                params.put("sysId",orderMain.getReferenceNo());
-                ExamPackageMainVoTcxqZ examPackageMainVoTcxqZ = examPackageMainService.selectInfoBySysIdZ(params);
+                //查询套餐下的赠送服务
+                List<ExamAppend> examAppends = examAppendService.selectServiceByMainId(orderMain.getReferenceNo());
                 //套餐购买成功往消息表添加一条数据
                 SysMessage sm=new SysMessage();
                 sm.setOrderNo(orderMain.getOrderNo());// 订单号
@@ -118,14 +120,14 @@ public class OrderMainController extends BaseController {
                 sm.setCreationTime(new Date());
 
                 StringBuffer s=new StringBuffer();
-                for(ExamPackageMainVoZsfwZ exam:examPackageMainVoTcxqZ.getExamPackageMainVoZsfwZList()){
+                for(ExamAppend exam:examAppends){
                     String serviceName = exam.getServiceName();
                     s.append(serviceName+",");
                 }
-                sm.setContent("您已经购买了"+examPackageMainVoTcxqZ.getPackageName()+",包含服务项:"+s.toString().substring(0,s.length()-1));//内容
+                sm.setContent("您已经购买了"+examAppends.get(0).getPackageName()+",包含服务项:"+s.toString().substring(0,s.length()-1));//内容
+
                 sysMessageService.save(sm);
             }
-
 
             if (i > 0) {
                     SysConfigUtil.saveRefNo(sysConfig.getRefNo());
@@ -136,7 +138,7 @@ public class OrderMainController extends BaseController {
         if (i>0) {
             return ResultMap.ok("添加成功").put("data", orderMain.getOrderNo());
         } else {
-            return ResultMap.error("没有相关亲属，请先添加亲属");
+            return ResultMap.error("添加失败");
         }
     }
 
@@ -214,11 +216,12 @@ public class OrderMainController extends BaseController {
      * @date 2019-05-16 17:59
      */
     @ApiOperation(value = "查询套餐订单详情", notes = "查询套餐订单详情")
-    @GetMapping("/selectPackageOrder/{sysId}")
+    @GetMapping("/selectPackageOrder")
     @RequiresPermissions("upms/orderMain/selectPackageOrder")
-    public ResultMap selectPackageOrder(@PathVariable("sysId") Integer sysId){
+    public ResultMap selectPackageOrder(Integer sysId, String orderNo){
         Map<String, Object> params = new HashMap<>();
         params.put("sysId", sysId);
+        params.put("orderNo", orderNo);
         OrderMainVoZTC orderMainList = orderMainService.selectPackageOrder(params);
         return ResultMap.ok().put("data",orderMainList);
     }
@@ -229,11 +232,12 @@ public class OrderMainController extends BaseController {
      * @date 2019-05-16 17:59
      */
     @ApiOperation(value = "查询自费(进阶)订单详情", notes = "查询自费(进阶)订单详情")
-    @GetMapping("/selectPackageAdvance/{sysId}")
+    @GetMapping("/selectPackageAdvance")
     @RequiresPermissions("upms/orderMain/selectPackageAdvance")
-    public ResultMap selectPackageAdvance(@PathVariable("sysId") Integer sysId){
+    public ResultMap selectPackageAdvance(Integer sysId, String orderNo){
         Map<String, Object> params = new HashMap<>();
         params.put("sysId", sysId);
+        params.put("orderNo", orderNo);
         OrderMainVoZZF orderMainList = orderMainService.selectPackageAdvance(params);
         return ResultMap.ok().put("data",orderMainList);
     }
@@ -244,11 +248,12 @@ public class OrderMainController extends BaseController {
      * @date 2019-05-16 17:59
      */
     @ApiOperation(value = "查询门诊绿通订单详情", notes = "查询门诊绿通订单详情")
-    @GetMapping("/selectPackageGreen/{sysId}")
+    @GetMapping("/selectPackageGreen")
     @RequiresPermissions("upms/orderMain/selectPackageGreen")
-    public ResultMap selectPackageGreen(@PathVariable("sysId") Integer sysId){
+    public ResultMap selectPackageGreen(Integer sysId, String orderNo){
         Map<String, Object> params = new HashMap<>();
         params.put("sysId", sysId);
+        params.put("orderNo", orderNo);
         OrderMainVoZMzlt orderMainList = orderMainService.selectPackageGreen(params);
         return ResultMap.ok().put("data",orderMainList);
     }

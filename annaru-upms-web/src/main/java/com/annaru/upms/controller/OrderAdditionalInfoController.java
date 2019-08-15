@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -36,10 +37,13 @@ public class OrderAdditionalInfoController extends BaseController {
     private IEntityHealthyAppointmentService entityHealthyAppointmentService;
 
     @Reference
-    private ISysConfigService iSysConfigService; //系统配置表
+    private ISysConfigService sysConfigService; //系统配置表
 
     @Reference
     private IOrderMainService orderMainService;
+
+    @Reference
+    private ISysMessageService sysMessageService;// 消息表
 
 
     /**
@@ -47,7 +51,7 @@ public class OrderAdditionalInfoController extends BaseController {
      */
     @ApiOperation(value = "体检人信息", notes = "体检人信息")
     @GetMapping("userOrRelativeInfo")
-    @RequiresPermissions("lcd/orderAdditionalInfo/userOrRelativeInfo")
+    //@RequiresPermissions("lcd/orderAdditionalInfo/userOrRelativeInfo")
     public ResultMap userOrRelativeInfo(String userId, String relativeId){
         UserCards cards = orderAdditionalInfoService.selectUserOrRelativeInfo(userId, relativeId);
         return ResultMap.ok().put("data",cards);
@@ -61,27 +65,35 @@ public class OrderAdditionalInfoController extends BaseController {
      */
     @ApiOperation(value = "添加企业绿通行")
     @PostMapping("/saveGreenPassage")
-    public ResultMap saveGreenPassage(@RequestBody OrderAdditionalInfo orderAdditionalInfo) {
-        OrderMain orderMain = new OrderMain();
+    public ResultMap saveGreenPassage(@RequestBody OrderAdditionalInfo orderAdditionalInfo, String[] RelativeId) {
+
         try {
-            SysConfig sysConfig = SysConfigUtil.getSysConfig(iSysConfigService , SysConfigUtil.ORDERNO);
-            //添加订单主表
-            orderMain.setOrderNo(SysConfigUtil.getNoBySysConfig());
-            orderMain.setOrderCates(orderAdditionalInfo.getAppointmentCates());
-            orderMain.setAmount(orderAdditionalInfo.getAmount());
-            boolean result = orderMainService.save(orderMain);
+            SysConfig sysConfig = SysConfigUtil.getSysConfig(sysConfigService , SysConfigUtil.ORDERNO);
+            orderAdditionalInfo.getEntityHealthyAppointment().getOrderMain().setOrderNo(SysConfigUtil.getNoBySysConfig());
             //添加orderAdditionalInfo 表
-            orderAdditionalInfo.setOrderNo(SysConfigUtil.getNoBySysConfig());
-            orderAdditionalInfoService.save(orderAdditionalInfo);
+            orderAdditionalInfo.setOrderNo(orderAdditionalInfo.getEntityHealthyAppointment().getOrderMain().getOrderNo());
+            orderAdditionalInfo.setAppointmentCates(6);
+            orderAdditionalInfo.setCreationTime(orderAdditionalInfo.getEntityHealthyAppointment().getOrderMain().getCreationtime());
+            int i = orderAdditionalInfoService.insertGreenPassage(orderAdditionalInfo, RelativeId);
 
-            if(result=true){
-                //添加entityHealthyAppointment 表
-                orderAdditionalInfo.getEntityHealthyAppointment().setOrderNo(SysConfigUtil.getNoBySysConfig());
-                entityHealthyAppointmentService.save(orderAdditionalInfo.getEntityHealthyAppointment());
-
+            if(i > 0){
+                //企业家庭医生预约成功往消息表添加一条数据
+                SysMessage sm=new SysMessage();
+                sm.setOrderNo(orderAdditionalInfo.getEntityHealthyAppointment().getOrderMain().getOrderNo());// 订单号
+                sm.setMsgCate(2);//2:通知消息
+                sm.setBusinessCate(3);//3:分布体检预约信息
+                sm.setUserId(orderAdditionalInfo.getEntityHealthyAppointment().getOrderMain().getUserId());//用户
+                sm.setCreationTime(new Date());
+                sm.setContent("企业门诊绿通预约成功!");//内容
+                sysMessageService.save(sm);
             }
-            if(result=true){
+
+
+            if(i>0){
                 SysConfigUtil.saveRefNo(sysConfig.getRefNo());
+            }
+            if (0==i){
+                return ResultMap.error("运行异常，请联系管理员");
             }
             return ResultMap.ok("添加成功").put("data",orderAdditionalInfo.getOrderNo());
         } catch (Exception e) {
@@ -99,7 +111,7 @@ public class OrderAdditionalInfoController extends BaseController {
      */
     @ApiOperation(value = "列表")
     @GetMapping("/list")
-    @RequiresPermissions("lcd/orderAdditionalInfo/list")
+    //@RequiresPermissions("lcd/orderAdditionalInfo/list")
     public ResultMap list(@ApiParam(value = "当前页")@RequestParam(defaultValue="1") int page,
                           @ApiParam(value = "每页数量")@RequestParam(defaultValue = "10") int limit,
                           @ApiParam(value = "关键字")@RequestParam(required = false)String key){
@@ -118,7 +130,7 @@ public class OrderAdditionalInfoController extends BaseController {
      */
     @ApiOperation(value = "查看详情", notes = "查看lcd详情")
     @GetMapping("/info/{sysId}")
-    @RequiresPermissions("lcd/orderAdditionalInfo/info")
+    //@RequiresPermissions("lcd/orderAdditionalInfo/info")
     public ResultMap info(@PathVariable("sysId") Integer sysId){
         OrderAdditionalInfo orderAdditionalInfo = orderAdditionalInfoService.getById(sysId);
         return ResultMap.ok().put("data",orderAdditionalInfo);
@@ -129,7 +141,7 @@ public class OrderAdditionalInfoController extends BaseController {
      */
     @ApiOperation(value = "保存")
     @PostMapping("/save")
-    @RequiresPermissions("lcd/orderAdditionalInfo/save")
+   // @RequiresPermissions("lcd/orderAdditionalInfo/save")
     public ResultMap save(@Valid @RequestBody OrderAdditionalInfo orderAdditionalInfo) {
         try {
             orderAdditionalInfoService.save(orderAdditionalInfo);
@@ -146,7 +158,7 @@ public class OrderAdditionalInfoController extends BaseController {
      */
     @ApiOperation(value = "修改")
     @PostMapping("/update")
-    @RequiresPermissions("lcd/orderAdditionalInfo/update")
+    //@RequiresPermissions("lcd/orderAdditionalInfo/update")
     public ResultMap update(@Valid @RequestBody OrderAdditionalInfo orderAdditionalInfo) {
         try {
             orderAdditionalInfoService.updateById(orderAdditionalInfo);
@@ -163,7 +175,7 @@ public class OrderAdditionalInfoController extends BaseController {
      */
     @ApiOperation(value = "删除")
     @PostMapping("/delete")
-    @RequiresPermissions("lcd/orderAdditionalInfo/delete")
+    //@RequiresPermissions("lcd/orderAdditionalInfo/delete")
     public ResultMap delete(@RequestBody Integer[]sysIds) {
         try {
             orderAdditionalInfoService.removeByIds(Arrays.asList(sysIds));

@@ -37,15 +37,15 @@ public class UserAddressController extends BaseController {
      */
     @ApiOperation(value = "列表")
     @GetMapping("/list")
-    @RequiresPermissions("upms/userAddress/list")
+    //@RequiresPermissions("upms/userAddress/list")
     public ResultMap list(@ApiParam(value = "当前页")@RequestParam(defaultValue="1") int page,
                           @ApiParam(value = "每页数量")@RequestParam(defaultValue = "10") int limit,
-                          @ApiParam(value = "关键字")@RequestParam(required = false)String key){
+                          @ApiParam(value = "用户编号")@RequestParam(required = false)String userId){
 
         Map<String, Object> params = new HashMap<>();
         params.put("page",page);
         params.put("limit", limit);
-        params.put("key", key);
+        params.put("userId", userId);
         PageUtils<Map<String, Object>> pageList = userAddressService.getDataPage(params);
         return ResultMap.ok().put("data",pageList);
     }
@@ -56,7 +56,7 @@ public class UserAddressController extends BaseController {
      */
     @ApiOperation(value = "查看详情", notes = "查看upms详情")
     @GetMapping("/info/{sysId}")
-    @RequiresPermissions("upms/userAddress/info")
+   // @RequiresPermissions("upms/userAddress/info")
     public ResultMap info(@PathVariable("sysId") Integer sysId){
         UserAddress userAddress = userAddressService.getById(sysId);
         return ResultMap.ok().put("data",userAddress);
@@ -67,7 +67,7 @@ public class UserAddressController extends BaseController {
      */
     @ApiOperation(value = "保存")
     @PostMapping("/save")
-    @RequiresPermissions("upms/userAddress/save")
+    //@RequiresPermissions("upms/userAddress/save")
     public ResultMap save(@Valid @RequestBody UserAddress userAddress) {
         try {
 
@@ -84,7 +84,7 @@ public class UserAddressController extends BaseController {
      */
     @ApiOperation(value = "修改个人地址")
     @PostMapping("/update")
-    @RequiresPermissions("upms/userAddress/update")
+    //@RequiresPermissions("upms/userAddress/update")
     public ResultMap update(@RequestBody UserAddress userAddress) {
 
             userAddress.setEditTime(new Date());
@@ -102,7 +102,7 @@ public class UserAddressController extends BaseController {
      */
     @ApiOperation(value = "删除")
     @PostMapping("/delete")
-    @RequiresPermissions("upms/userAddress/delete")
+    //@RequiresPermissions("upms/userAddress/delete")
     public ResultMap delete(String userId,String sysId) {
         try {
             userAddressService.DeleteAddress(userId, sysId);

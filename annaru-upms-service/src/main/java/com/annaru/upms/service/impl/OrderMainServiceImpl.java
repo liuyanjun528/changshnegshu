@@ -10,6 +10,7 @@ import com.annaru.upms.service.*;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -81,6 +82,9 @@ public class OrderMainServiceImpl extends ServiceImpl<OrderMainMapper, OrderMain
 
     @Override
     public OrderMain getByOrderNo(String orderNo) {
+        if (StringUtils.isBlank(orderNo)) {
+            return null;
+        }
         return this.baseMapper.selectByOrderNo(orderNo);
     }
 
@@ -112,7 +116,7 @@ public class OrderMainServiceImpl extends ServiceImpl<OrderMainMapper, OrderMain
             if (i > 0) {
                 //只要生成订单 就往OrderCustomer表添加一条记录
                 // 如果套餐个数==1 user_cates为1 如果套餐个数大于1 user_cates为2
-                if (orderMain.getTotalQty()==1||RelativeId.length==0){
+                if (orderMain.getTotalQty()==1|| ArrayUtils.isEmpty(RelativeId)){
                     orderMain.getOrderCustomer().setOrderNo(orderMain.getOrderNo());
                     orderMain.getOrderCustomer().setRelativeId(orderMain.getUserId());
                     orderMain.getOrderCustomer().setUserCates(1);
@@ -120,9 +124,11 @@ public class OrderMainServiceImpl extends ServiceImpl<OrderMainMapper, OrderMain
                 }
 
                 //--添加亲属编号
+                System.out.println("人数：---->"+orderMain.getTotalQty());
                 if(orderMain.getTotalQty()>1){
                     //查询用户下的所有亲属
                     List<UserRelatives> list = userRelativesService.selectAll(orderMain.getUserId());
+                    System.out.println("1---->"+list);
                     Boolean result=false;
                     for (UserRelatives relative : list) {
                         for (String  rela:RelativeId ){
@@ -138,8 +144,11 @@ public class OrderMainServiceImpl extends ServiceImpl<OrderMainMapper, OrderMain
                         throw new GlobalException("没有相关亲属");
                     }
                     if (result) {
+                        System.out.println("2---->"+result);
                         //如果亲属长度<总套餐个数 需要添加自己跟亲属
                         if(RelativeId.length<orderMain.getTotalQty()){
+                            System.out.println("3---->"+RelativeId.length);
+                            System.out.println("4---->"+orderMain.getTotalQty());
                             orderMain.getOrderCustomer().setOrderNo(orderMain.getOrderNo());
                             orderMain.getOrderCustomer().setRelativeId(orderMain.getUserId());
                             orderMain.getOrderCustomer().setUserCates(1);
@@ -200,13 +209,11 @@ public class OrderMainServiceImpl extends ServiceImpl<OrderMainMapper, OrderMain
         return this.baseMapper.getPackages(params);
     }
 
-    @Override
-    public ExamPackageMain getExamPackageMainByOrderNo(String orderNo) {
-        if(StringUtils.isBlank(orderNo)){
-            return null;
-        }
-        return this.baseMapper.selectExamPackageMainByOrderNo(orderNo);
+    public OrderMain getReferenceNo(Map<String,Object> params){
+        return this.baseMapper.getReferenceNo(params);
     }
 
-
+    public OrderMain getInfo(Map<String,Object> params){
+        return this.baseMapper.getInfo(params);
+    }
 }

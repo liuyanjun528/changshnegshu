@@ -8,57 +8,29 @@ import java.util.Date;
 public class HrEmployeeDetail implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    /**
-     * 预留的体检报告时间
-     */
-    private Date reportTime;
+    private String userId;//用户ID
+    private String entityId;//企业ID
+    private int referenceNo;//购买的套餐名称
+    private String userChannel;//购买渠道
 
+    private int appointmentCates;//体检类别1:一般体检预约(C端)2:进阶体检预约(C端)3:分布式体检预约(B端) 4:进阶体检预约(B端)5:家庭医生6.门诊绿通预约
+    private int serviceOption;//服务选项(1:护士上门/2:指定地点)
+    private Date appointDate;//预约日期
+    private String timeFrom;//预约时间
+    private String address;//预约地址
+    private int status;//完成状态
 
-    /**
-     * 用户ID
-     */
-    private String userId;
-    /**
-     * 企业ID
-     */
-    private String entityId;
-    /**
-     * 购买的套餐名称
-     */
-    private int referenceNo;
-    /**
-     * 购买渠道
-     */
-    private String userChannel;
-    /**
-     * 体检类别1:一般体检预约(C端)
-     * 2:进阶体检预约(C端)
-     * 3:分布式体检预约(B端)
-     * 4:进阶体检预约(B端)
-     * 5:家庭医生
-     * 6.门诊绿通预约
-     */
-    private int appointmentCates;
-    /**
-     * 服务选项(1:护士上门/2:指定地点)
-     */
-    private int serviceOption;
-    /**
-     * 预约时间
-     */
-    private Date timeFrom;
-    /**
-     * 预约地址
-     */
-    private String address;
-    /**
-     * 完成时间
-     */
-    private Date timeTo;
-    /**
-     * 完成状态
-     */
-    private int status;
+    private String examMasterItem;// 检查项目
+    private String name;// 医疗机构
+    private Date appointTime;// 预约时间
+    private int isCancelled;// 预约状态
+
+    private int restCount;// 已使用次数
+    private int totalCount;// 剩余次数
+
+    private Date effectFrom;// 开始时间
+    private Date effectTo; // 结束时间
+    private int isTerminated; // 中止未中止
 
     public String getUserId() {
         return userId;
@@ -108,11 +80,19 @@ public class HrEmployeeDetail implements Serializable {
         this.serviceOption = serviceOption;
     }
 
-    public Date getTimeFrom() {
+    public Date getAppointDate() {
+        return appointDate;
+    }
+
+    public void setAppointDate(Date appointDate) {
+        this.appointDate = appointDate;
+    }
+
+    public String getTimeFrom() {
         return timeFrom;
     }
 
-    public void setTimeFrom(Date timeFrom) {
+    public void setTimeFrom(String timeFrom) {
         this.timeFrom = timeFrom;
     }
 
@@ -124,14 +104,6 @@ public class HrEmployeeDetail implements Serializable {
         this.address = address;
     }
 
-    public Date getTimeTo() {
-        return timeTo;
-    }
-
-    public void setTimeTo(Date timeTo) {
-        this.timeTo = timeTo;
-    }
-
     public int getStatus() {
         return status;
     }
@@ -140,12 +112,76 @@ public class HrEmployeeDetail implements Serializable {
         this.status = status;
     }
 
-    public Date getReportTime() {
-        return reportTime;
+    public String getExamMasterItem() {
+        return examMasterItem;
     }
 
-    public void setReportTime(Date reportTime) {
-        this.reportTime = reportTime;
+    public void setExamMasterItem(String examMasterItem) {
+        this.examMasterItem = examMasterItem;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Date getAppointTime() {
+        return appointTime;
+    }
+
+    public void setAppointTime(Date appointTime) {
+        this.appointTime = appointTime;
+    }
+
+    public int getIsCancelled() {
+        return isCancelled;
+    }
+
+    public void setIsCancelled(int isCancelled) {
+        this.isCancelled = isCancelled;
+    }
+
+    public int getRestCount() {
+        return restCount;
+    }
+
+    public void setRestCount(int restCount) {
+        this.restCount = restCount;
+    }
+
+    public int getTotalCount() {
+        return totalCount;
+    }
+
+    public void setTotalCount(int totalCount) {
+        this.totalCount = totalCount;
+    }
+
+    public Date getEffectFrom() {
+        return effectFrom;
+    }
+
+    public void setEffectFrom(Date effectFrom) {
+        this.effectFrom = effectFrom;
+    }
+
+    public Date getEffectTo() {
+        return effectTo;
+    }
+
+    public void setEffectTo(Date effectTo) {
+        this.effectTo = effectTo;
+    }
+
+    public int getIsTerminated() {
+        return isTerminated;
+    }
+
+    public void setIsTerminated(int isTerminated) {
+        this.isTerminated = isTerminated;
     }
 
     @Override

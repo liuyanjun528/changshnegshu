@@ -96,6 +96,10 @@ public class OrderMainVoZMzlt implements Serializable {
 	 */
 	private String departmentName;
 	/**
+	 * 门诊类型(3:专家门诊/4:普通门诊)
+	 */
+	private Integer option_1;
+	/**
 	 * 是否陪诊(0:不陪诊/1:陪诊)
 	 * @return
 	 */
@@ -213,6 +217,14 @@ public class OrderMainVoZMzlt implements Serializable {
 	}
 	public void setAddress(String address) {
 		this.address = address;
+	}
+
+	public Integer getOption_1() {
+		return option_1;
+	}
+
+	public void setOption_1(Integer option_1) {
+		this.option_1 = option_1;
 	}
 
 	@Override

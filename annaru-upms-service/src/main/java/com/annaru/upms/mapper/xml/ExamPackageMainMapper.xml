@@ -153,6 +153,9 @@
             <if test="params.examMasterI != null and params.examMasterI != ''">
                 AND epd.exam_master_id = #{params.examMasterI}
             </if>
+            <if test="params.cates != null and params.cates != ''">
+                AND epm.cates = #{params.cates}
+            </if>
         </where>
         GROUP BY epm.package_name
         <if test="params.sort_count_person != null and params.sort_count_person != '' and params.sort_count_person == 1">
@@ -161,7 +164,6 @@
         <if test="params.sort_count_person != null and params.sort_count_person != '' and params.sort_count_person == 2">
             ORDER BY op.count_person
         </if>
-
         <if test="params.amountSort != null and params.amountSort != '' and params.amountSort == 1">
             ORDER BY epm.amount DESC
         </if>

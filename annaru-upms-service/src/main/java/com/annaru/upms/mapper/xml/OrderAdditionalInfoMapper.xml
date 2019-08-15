@@ -80,4 +80,11 @@ LEFT JOIN user_cards as uc ON ur.relative_id=uc.user_id
 where ur.relative_id=#{relativeId}
     </select>
 
+    <!--企业门诊绿通预约-->
+    <insert id="insertGreenPassage">
+        INSERT INTO order_additional_info(order_no,appointment_cates,option_1,option_2,situations,amount,creation_time)
+         VALUES (#{orderNo},#{appointmentCates},#{option1},#{option2},#{situations},#{amount},#{creationTime})
+    </insert>
+
+
 </mapper>

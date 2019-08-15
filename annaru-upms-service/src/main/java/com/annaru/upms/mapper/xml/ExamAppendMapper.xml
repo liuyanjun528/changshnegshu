@@ -8,6 +8,7 @@
         <result column="sys_id" property="sysId" />
         <result column="service_name" property="serviceName" />
         <result column="image_name_url" property="imageNameUrl" />
+        <result column="package_name" property="packageName" />
     </resultMap>
 
     <!-- 多表页面信息查询分页 -->
@@ -24,6 +25,17 @@
                 service_name LIKE CONCAT('%', #{params.serviceName}, '%')
             </if>
         </where>
+    </select>
+
+
+    <select id="selectServiceByMainId" resultType="string" resultMap="BaseResultMap">
+            SELECT  distinct
+                epm.package_name,
+                ea.service_name
+	        From exam_package_main as epm
+          LEFT JOIN exam_package_append as epa ON epa.package_main_id=epm.sys_id
+			LEFT JOIN exam_append as ea ON ea.sys_id=epa.append_id
+            WHERE epm.sys_id=#{mainId}
     </select>
 
 </mapper>

@@ -3,12 +3,18 @@ package com.annaru.upms.service.impl;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.annaru.common.result.PageUtils;
 import com.annaru.common.util.Constant;
+import com.annaru.upms.entity.OrderMain;
 import com.annaru.upms.entity.OrderPayment;
 import com.annaru.upms.mapper.OrderPaymentMapper;
+import com.annaru.upms.service.IOrderMainService;
 import com.annaru.upms.service.IOrderPaymentService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import java.util.Map;
 
@@ -21,6 +27,9 @@ import java.util.Map;
 @Service
 public class OrderPaymentServiceImpl extends ServiceImpl<OrderPaymentMapper, OrderPayment> implements IOrderPaymentService {
 
+    @Autowired
+    private IOrderMainService orderMainService;
+
     @Override
     public PageUtils getDataPage(Map<String, Object> params){
         Page<OrderPayment> page = new PageUtils<OrderPayment>(params).getPage();
@@ -30,9 +39,13 @@ public class OrderPaymentServiceImpl extends ServiceImpl<OrderPaymentMapper, Ord
 
     @Override
     public OrderPayment getOneByOrderNo(String orderNo) {
+        if(StringUtils.isBlank(orderNo)){
+            return null;
+        }
         return this.baseMapper.selectByOrderNo(orderNo);
     }
 
+    @Transactional
     @Override
     public OrderPayment creatPaymentRecord(OrderPayment orderPayment) {
         OrderPayment orderPaymentDB = this.getOneByOrderNo(orderPayment.getOrderNo());
@@ -54,20 +67,98 @@ public class OrderPaymentServiceImpl extends ServiceImpl<OrderPaymentMapper, Ord
         return null;
     }
 
+    @Transactional
     @Override
-    public boolean updatePaymentState(String orderNo, String transactionId, Integer currentState, Integer updateState) {
-        OrderPayment orderPayment = this.getOneByOrderNo(orderNo);
-        if(orderPayment == null){
+    public boolean updatePaymentState(String orderNo, String transactionId) {
+        if(StringUtils.isBlank(orderNo)){
             return false;
         }
+
+        OrderMain orderMain = orderMainService.getByOrderNo(orderNo);
+        OrderPayment orderPayment = this.getOneByOrderNo(orderNo);
+
+        if(orderPayment == null || orderMain == null){
+            return false;
+        }
+
+        if(Constant.OrderMainStatus.UNPAID.getValue().equals(orderMain.getStatus())){
+            orderMain.setStatus(Constant.OrderMainStatus.UNDERWAY.getValue());
+            orderMain.updateById();
+        }
+
         // 支付订单存在且当前支付状态与 currentState 相同
-        if (orderPayment != null && currentState.equals(orderPayment.getPayState())) {
+        if (Constant.PaymentState.UNPAID.getValue().equals(orderPayment.getPayState())) {
             orderPayment.setTransactionId(transactionId);
-            orderPayment.setPayState(updateState);
+            orderPayment.setPayState(Constant.PaymentState.PAID.getValue());
             orderPayment.updateById();
         }
         return true;
     }
 
+    @Transactional
+    @Override
+    public OrderPayment applyRefund(String orderNo, double amount) {
+        if(StringUtils.isBlank(orderNo)){
+            return null;
+        }
+        OrderMain orderMain = orderMainService.getByOrderNo(orderNo);
+        OrderPayment orderPayment = this.getOneByOrderNo(orderNo);
+        if(orderPayment == null
+                || orderMain == null
+                || amount > orderPayment.getAmount()){
+            return null;
+        }
 
+        if(Constant.OrderMainStatus.COMPLETED.getValue().equals(orderMain.getStatus())){
+            orderMain.setStatus(Constant.OrderMainStatus.APPLY_REFUND.getValue());
+            boolean b = orderMain.updateById();
+            if (!b) {
+                TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+                return null;
+            }
+        }
+
+        if (Constant.PaymentState.PAID.getValue().equals(orderPayment.getPayState())) {
+            orderPayment.setRefundAmount(amount);
+            orderPayment.setPayState(Constant.PaymentState.APPLY_REFUND.getValue());
+            boolean b = orderPayment.updateById();
+            if (!b) {
+                TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+                return null;
+            }
+        }
+        return orderPayment;
+    }
+
+    @Override
+    public boolean alreadyRefund(String orderNo) {
+        if(StringUtils.isBlank(orderNo)){
+            return false;
+        }
+        OrderMain orderMain = orderMainService.getByOrderNo(orderNo);
+        OrderPayment orderPayment = this.getOneByOrderNo(orderNo);
+        if(orderPayment == null
+                || orderMain == null){
+            return false;
+        }
+
+        if(Constant.OrderMainStatus.APPLY_REFUND.getValue().equals(orderMain.getStatus())){
+            orderMain.setStatus(Constant.OrderMainStatus.ALREADY_REFUND.getValue());
+            boolean b = orderMain.updateById();
+            if (!b) {
+                TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+                return false;
+            }
+        }
+
+        if (Constant.PaymentState.APPLY_REFUND.getValue().equals(orderPayment.getPayState())) {
+            orderPayment.setPayState(Constant.PaymentState.ALREADY_REFUND.getValue());
+            boolean b = orderPayment.updateById();
+            if (!b) {
+                TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+                return false;
+            }
+        }
+        return true;
+    }
 }

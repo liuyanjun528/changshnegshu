@@ -2,7 +2,12 @@ package com.annaru.upms.controller;
 
 import java.util.*;
 
+import com.annaru.upms.entity.OrderMain;
+import com.annaru.upms.entity.vo.ExamExtensionVo;
+import com.annaru.upms.entity.vo.OrderExtensionSuggestionVo;
 import com.annaru.upms.service.IExamInspectReportService;
+import com.annaru.upms.service.IExamPackageDetailService;
+import com.annaru.upms.service.IOrderMainService;
 import io.swagger.annotations.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -33,6 +38,10 @@ public class OrderExtensionSuggestionController extends BaseController {
     private IOrderExtensionSuggestionService orderExtensionSuggestionService;
     @Reference
     private IExamInspectReportService examInspectReportService;
+    @Reference
+    private IOrderMainService orderMainService;
+    @Reference
+    private IExamPackageDetailService examPackageDetailService;
 
     /** 添加建议进阶项目
      * @params: [reportNo, masterId, itemName, sysId, doctorNo]
@@ -111,8 +120,26 @@ public class OrderExtensionSuggestionController extends BaseController {
     public ResultMap info(@PathVariable("orderNo") String orderNo){
         Map<String,Object> params = new HashMap<>();
         params.put("orderNo",orderNo);
-        List<OrderExtensionSuggestion> orderExtensionSuggestion = orderExtensionSuggestionService.getItems(params);
-        return ResultMap.ok().put("data",orderExtensionSuggestion);
+        OrderMain orderMain = orderMainService.getReferenceNo(params);
+        params.put("examId",orderMain.getReferenceNo());
+        //套餐内进阶项
+        List<ExamExtensionVo> extensionVos = examPackageDetailService.getEEChoosen(params);
+        //进阶建议
+        List<OrderExtensionSuggestionVo> orderExtensionSuggestion = orderExtensionSuggestionService.getItems(params);
+        params.clear();
+        for (int i=0;i<orderExtensionSuggestion.size();i++){
+            for (int j = 0;j<extensionVos.size();j++){
+                if (orderExtensionSuggestion.get(i).getName().equals(extensionVos.get(j).getName())&&
+                orderExtensionSuggestion.get(i).getItemName().equals(extensionVos.get(j).getItemName())){
+                    orderExtensionSuggestion.get(i).setAmount(0.0);
+                }
+            }
+        }
+
+        params.clear();
+        params.put("packageItem",extensionVos);
+        params.put("suggestItem",orderExtensionSuggestion);
+        return ResultMap.ok().put("data",params);
     }
 
     /**

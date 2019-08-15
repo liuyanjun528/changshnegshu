@@ -50,7 +50,7 @@ public class EntityHealthyAppointmentController extends BaseController {
     private IOrderAppointmentService orderAppointmentService;
 
     @Reference
-    private ISysConfigService iSysConfigService; //系统配置表
+    private ISysConfigService sysConfigService; //系统配置表
 
     @Reference
     private IUserSurveyMainService userSurveyMainService; //问卷调查表
@@ -119,7 +119,7 @@ public class EntityHealthyAppointmentController extends BaseController {
      */
     @ApiOperation(value = "医生接收患者")
     @PostMapping("/updateStatus")
-    @RequiresPermissions("upms/entityHealthyAppointment/updateStatus")
+    //@RequiresPermissions("upms/entityHealthyAppointment/updateStatus")
     public ResultMap updateStatus(String orderNo) {
         try {
             //修改健康预约表状态
@@ -170,7 +170,7 @@ public class EntityHealthyAppointmentController extends BaseController {
      */
     @ApiOperation(value = "企业用户患者信息分页查询")
     @GetMapping("/list")
-    @RequiresPermissions("upms/entityHealthyAppointment/list")
+    //@RequiresPermissions("upms/entityHealthyAppointment/list")
     public ResultMap list(@ApiParam(value = "当前页", defaultValue="1")@RequestParam(required = false) int page,
                        @ApiParam(value = "每页数量", defaultValue = "10")@RequestParam(required = false) int limit,
                        @ApiParam(value = "关键字")@RequestParam(required = false)String relatedNo){
@@ -189,7 +189,7 @@ public class EntityHealthyAppointmentController extends BaseController {
      */
     @ApiOperation(value = "查看详情", notes = "查看upms详情")
     @GetMapping("/info/{sysId}")
-    @RequiresPermissions("upms/entityHealthyAppointment/info")
+    //@RequiresPermissions("upms/entityHealthyAppointment/info")
     public ResultMap info(@PathVariable("sysId") Integer sysId){
         EntityHealthyAppointment entityHealthyAppointment = entityHealthyAppointmentService.getById(sysId);
         return ResultMap.ok().put("data",entityHealthyAppointment);
@@ -200,11 +200,11 @@ public class EntityHealthyAppointmentController extends BaseController {
      */
     @ApiOperation(value = "添加企业家庭医生上门预约")
     @PostMapping("/save")
-    @RequiresPermissions("upms/entityHealthyAppointment/save")
-    public ResultMap save(@RequestBody EntityHealthyAppointment entityHealthyAppointment,String []RelativeId) {
+    //@RequiresPermissions("upms/entityHealthyAppointment/save")
+    public ResultMap save(@RequestBody EntityHealthyAppointment entityHealthyAppointment,String [] RelativeId) {
 
         try {
-            SysConfig sysConfig = SysConfigUtil.getSysConfig(iSysConfigService , SysConfigUtil.ORDERNO);
+            SysConfig sysConfig = SysConfigUtil.getSysConfig(sysConfigService , SysConfigUtil.ORDERNO);
             entityHealthyAppointment.getOrderMain().setOrderNo(SysConfigUtil.getNoBySysConfig());
             //添加entityHealthyAppointment 表
             entityHealthyAppointment.setOrderNo(entityHealthyAppointment.getOrderMain().getOrderNo());
@@ -227,6 +227,9 @@ public class EntityHealthyAppointmentController extends BaseController {
             if(i>0){
                 SysConfigUtil.saveRefNo(sysConfig.getRefNo());
             }
+            if(0==i){
+                return ResultMap.error("运行异常，请联系管理员");
+            }
 
             return ResultMap.ok("添加成功").put("data", entityHealthyAppointment.getOrderMain().getOrderNo());
         } catch (Exception e) {
@@ -240,7 +243,7 @@ public class EntityHealthyAppointmentController extends BaseController {
      */
     @ApiOperation(value = "修改")
     @PostMapping("/update")
-    @RequiresPermissions("upms/entityHealthyAppointment/update")
+    //@RequiresPermissions("upms/entityHealthyAppointment/update")
     public ResultMap update(@Valid @RequestBody EntityHealthyAppointment entityHealthyAppointment) {
         try {
             entityHealthyAppointmentService.updateById(entityHealthyAppointment);
@@ -257,7 +260,7 @@ public class EntityHealthyAppointmentController extends BaseController {
      */
     @ApiOperation(value = "删除")
     @PostMapping("/delete")
-    @RequiresPermissions("upms/entityHealthyAppointment/delete")
+    //@RequiresPermissions("upms/entityHealthyAppointment/delete")
     public ResultMap delete(@RequestBody Integer[]sysIds) {
         try {
             entityHealthyAppointmentService.removeByIds(Arrays.asList(sysIds));

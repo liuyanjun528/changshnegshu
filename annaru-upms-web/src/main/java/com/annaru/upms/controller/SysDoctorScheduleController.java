@@ -35,7 +35,7 @@ public class SysDoctorScheduleController extends BaseController {
      */
     @ApiOperation(value = "列表")
     @GetMapping("/list")
-    @RequiresPermissions("upms/sysDoctorSchedule/list")
+   // @RequiresPermissions("upms/sysDoctorSchedule/list")
     public ResultMap list(@ApiParam(value = "当前页")@RequestParam(defaultValue="1") int page,
                           @ApiParam(value = "每页数量")@RequestParam(defaultValue = "10") int limit,
                           @ApiParam(value = "关键字")@RequestParam(required = false)String key){
@@ -54,7 +54,7 @@ public class SysDoctorScheduleController extends BaseController {
      */
     @ApiOperation(value = "查看详情", notes = "查看upms详情")
     @GetMapping("/info/{doctorNo}")
-    @RequiresPermissions("upms/sysDoctorSchedule/info")
+   // @RequiresPermissions("upms/sysDoctorSchedule/info")
     public ResultMap info(@PathVariable("doctorNo") String doctorNo){
         Map<String,Object> params = new HashMap<>();
         params.put("doctorNo",doctorNo);
@@ -67,7 +67,7 @@ public class SysDoctorScheduleController extends BaseController {
      */
     @ApiOperation(value = "护士的排班", notes = "护士的排班")
     @GetMapping("/nurseListInfo")
-    @RequiresPermissions("upms/sysDoctorSchedule/nurseListInfo")
+    //@RequiresPermissions("upms/sysDoctorSchedule/nurseListInfo")
     public ResultMap info(Date dateFrom, String doctorNurseNo){
         List<SysDoctorSchedule> sysDoctorSchedule = sysDoctorScheduleService.selectDoctorScheduleList(dateFrom, doctorNurseNo);
         return ResultMap.ok().put("data",sysDoctorSchedule);
@@ -78,13 +78,25 @@ public class SysDoctorScheduleController extends BaseController {
      */
     @ApiOperation(value = "添加护士的排班")
     @PostMapping("/save")
-    @RequiresPermissions("upms/sysDoctorSchedule/save")
+   // @RequiresPermissions("upms/sysDoctorSchedule/save")
     public ResultMap save(@RequestBody SysDoctorSchedule sysDoctorSchedule) {
         try {
-            sysDoctorSchedule.setCreationTime(new Date());
-            sysDoctorSchedule.setUserCates(1);//1为护士
-            sysDoctorScheduleService.insertNuserSchedule(sysDoctorSchedule);
-            return ResultMap.ok("添加成功");
+            Map<String,Object> params = new HashMap<>();
+            params.put("nurseNo",sysDoctorSchedule.getDoctorNurseNo());
+            params.put("dateFrom",sysDoctorSchedule.getDateFrom());
+            int j = sysDoctorScheduleService.selectNurseSchedule(params);
+            if(j<3){
+                sysDoctorSchedule.setCreationTime(new Date());
+                sysDoctorSchedule.setUserCates(1);//1为护士
+                sysDoctorSchedule.setTimeFrom("07:30:00");
+                sysDoctorSchedule.setTimeTo("09:30:00");
+                int i = sysDoctorScheduleService.insertNuserSchedule(sysDoctorSchedule);
+                if(0==i){
+                    return ResultMap.error("运行异常，请联系管理员");
+                }
+                return ResultMap.ok("添加成功");
+            }
+            return ResultMap.error("今天的排班已满，请择日再排");
         } catch (Exception e) {
             logger.error(e.getMessage());
             return ResultMap.error("运行异常，请联系管理员");
@@ -97,7 +109,7 @@ public class SysDoctorScheduleController extends BaseController {
      */
     @ApiOperation(value = "删除护士的排班")
     @PostMapping("/update")
-    @RequiresPermissions("upms/sysDoctorSchedule/update")
+    //@RequiresPermissions("upms/sysDoctorSchedule/update")
     public ResultMap update(int sysId) {
         try {
             sysDoctorScheduleService.deleteNurseSchedule(sysId);

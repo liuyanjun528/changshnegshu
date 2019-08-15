@@ -28,6 +28,15 @@ public class OrderExtensionSuggestionVo extends Model<OrderExtensionSuggestionVo
 	private String editBy;
 	private String name;
 	private String itemName;
+	private Double amount;
+
+	public Double getAmount() {
+		return amount;
+	}
+
+	public void setAmount(Double amount) {
+		this.amount = amount;
+	}
 
 	public String getName() {
 		return name;

@@ -47,6 +47,8 @@ public class SysDoctorOppointment extends Model<SysDoctorOppointment> implements
 
 	private String orderNo;
 
+	private String address;
+
 
 	/**
 	 * 类别：
@@ -118,6 +120,14 @@ public class SysDoctorOppointment extends Model<SysDoctorOppointment> implements
     @ApiModelProperty(value = "编辑人")
 	@TableField("edit_by")
 	private String editBy;
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
 
 	public Integer getIsConfirmed() {
 		return isConfirmed;

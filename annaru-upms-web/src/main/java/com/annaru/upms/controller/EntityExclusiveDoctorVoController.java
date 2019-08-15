@@ -37,12 +37,16 @@ public class EntityExclusiveDoctorVoController extends BaseController {
      */
     @ApiOperation(value = "专属医生信息查询", notes = "专属医生信息查询")
     @GetMapping("/info")
-    @RequiresPermissions("upms/info")
+    //@RequiresPermissions("upms/info")
     public ResultMap info(String entityId,String userId){
+
+        EntityExclusiveDoctorVo entityExclusiveDoctorVo = entityExclusiveDoctorVoService.selectExclusiveDoctor(entityId);
+        if(null==entityExclusiveDoctorVo){
+            return ResultMap.error().put("data","该企业没有专属医生");
+        }
 
         Map<String, Object> map=new HashMap();
         map.put("userId",userId);
-        EntityExclusiveDoctorVo entityExclusiveDoctorVo = entityExclusiveDoctorVoService.selectExclusiveDoctor(entityId);
         map.put("docNo",entityExclusiveDoctorVo.getDoctorNo());
         SysAppraisal sysAppraisal = sysAppraisalService.selectOne(map);
         if(null==sysAppraisal){
@@ -50,6 +54,7 @@ public class EntityExclusiveDoctorVoController extends BaseController {
         }else {
             entityExclusiveDoctorVo.setIsAppraise(1);
         }
+
         return ResultMap.ok().put("data",entityExclusiveDoctorVo);
     }
 

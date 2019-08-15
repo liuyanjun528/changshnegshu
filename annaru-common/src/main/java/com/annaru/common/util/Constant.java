@@ -12,23 +12,70 @@ public class Constant {
 
     // 控制线程数，最优选择是处理器线程数*3，本机处理器是4线程
     public final static int THREAD_COUNT = 12;
+
+    /**
+     * @Description: 体检报告解读状态
+     * @Author: XCK
+     * @Date: 2019/7/26
+     */
+    public enum ReportReviewStatus{
+        //未推送
+        NOT_REVIEW(0),
+
+        //已推送
+        REVIEW(1);
+
+        private Integer value;
+        ReportReviewStatus(Integer value){
+            this.value=value;
+        }
+        public Integer getValue(){
+            return value;
+        }
+    }
+
+    /**
+     * @Description: 体检报告分类是否推送
+     * @Author: XCK
+     * @Date: 2019/7/26
+     */
+    public enum ClassifyPosted{
+        //未推送
+        NOT_POSTED(0),
+
+        //已推送
+        POSTED(1);
+
+        private Integer value;
+        ClassifyPosted(Integer value){
+            this.value=value;
+        }
+        public Integer getValue(){
+            return value;
+        }
+    }
+
     /**
      * 支付状态
      */
     public enum PaymentState {
-        // 支付状态（1：待支付、5：已付款、10：已退款、15：交易关闭）
+        // 支付状态（1:待支付/5:已付款/9:退款中/10:已退款/15:交易关闭）
         /**
          * 待支付
          */
-        UNPAID(0),
+        UNPAID(1),
         /**
          * 已付款
          */
         PAID(5),
         /**
+         * 退款中
+         */
+        APPLY_REFUND(9),
+        /**
          * 已退款
          */
-        REFUND(10),
+        ALREADY_REFUND(10),
         /**
          * 交易关闭
          */
@@ -44,6 +91,44 @@ public class Constant {
             return value;
         }
     }
+
+    /**
+     * 订单支付状态
+     */
+    public enum OrderMainStatus {
+        // 支付状态(0:未支付/1:进行中/2:已完成/3:退款中/4:已退款)
+        /**
+         * 未支付
+         */
+        UNPAID(0),
+        /**
+         * 进行中
+         */
+        UNDERWAY(1),
+        /**
+         * 已完成
+         */
+        COMPLETED(2),
+        /**
+         * 退款中
+         */
+        APPLY_REFUND(3),
+        /**
+         * 已退款
+         */
+        ALREADY_REFUND(4);
+
+        private int value;
+
+        OrderMainStatus(int value){
+            this.value = value;
+        }
+
+        public Integer getValue() {
+            return value;
+        }
+    }
+
     /**
      * 支付渠道
      */

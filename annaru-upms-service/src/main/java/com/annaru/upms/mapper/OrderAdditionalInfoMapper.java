@@ -36,4 +36,12 @@ public interface OrderAdditionalInfoMapper extends BaseMapper<OrderAdditionalInf
     UserCards selectUserOrRelativeInfo(@Param("userId") String userId,@Param("relativeId") String relativeId);
 
 
+    /**
+      * @Description:企业门诊绿通预约
+      * @Author: wh
+      * @Date: 2019/7/15 14:02
+      */
+    int insertGreenPassage(OrderAdditionalInfo orderAdditionalInfo);
+
+
 }

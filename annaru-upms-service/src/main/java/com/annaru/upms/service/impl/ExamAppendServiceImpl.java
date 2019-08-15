@@ -9,6 +9,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -25,6 +26,11 @@ public class ExamAppendServiceImpl extends ServiceImpl<ExamAppendMapper, ExamApp
         Page<ExamAppend> page = new PageUtils<ExamAppend>(params).getPage();
         IPage<ExamAppend> iPage = this.baseMapper.selectDataPage(page, params);
         return new PageUtils<ExamAppend>(iPage);
+    }
+
+    @Override
+    public List<ExamAppend> selectServiceByMainId(String mainId) {
+        return this.baseMapper.selectServiceByMainId(mainId);
     }
 
 }

@@ -85,6 +85,8 @@ public class OrderAdditionalInfo extends Model<OrderAdditionalInfo> implements S
 	@TableField(exist = false)
 	private EntityHealthyAppointment entityHealthyAppointment;
 
+
+
 	public EntityHealthyAppointment getEntityHealthyAppointment() {
 		return entityHealthyAppointment;
 	}

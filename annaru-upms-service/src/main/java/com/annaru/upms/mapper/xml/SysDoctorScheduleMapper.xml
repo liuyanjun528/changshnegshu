@@ -70,6 +70,7 @@
     <!-- 医护端护士的排班-->
     <select id="selectDoctorScheduleList" parameterType="map" resultMap="BaseResultMap">
       SELECT
+            sys_id,
 			date_from,-- 开始日期
 			date_to, -- 结束日期
 			time_from, --  开始时间
@@ -90,11 +91,16 @@
         where sys_id=#{sysId}
    </update>
 
+    <!--查询护士某天预约的次数 wh-->
+    <select id="selectNurseSchedule" parameterType="map" resultType="int">
+        SELECT count(*) FROM sys_doctor_nurse_schedule
+        WHERE doctor_nurse_no = #{params.nurseNo}  AND date_from=#{params.dateFrom}
+    </select>
 
     <!--添加护士的排班 wh-->
     <insert id="insertNuserSchedule">
-        insert into sys_doctor_nurse_schedule (user_cates,doctor_nurse_no,date_from,date_to,creation_time)
-        values (#{userCates},#{doctorNurseNo},#{dateFrom},#{dateTo},#{creationTime})
+        insert into sys_doctor_nurse_schedule (user_cates,doctor_nurse_no,date_from,creation_time,time_from,time_to)
+        values (#{userCates},#{doctorNurseNo},#{dateFrom},#{creationTime},#{timeFrom},#{timeTo})
     </insert>
 
 

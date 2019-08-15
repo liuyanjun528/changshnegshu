@@ -241,18 +241,6 @@ public class ExamInspectReport extends Model<ExamInspectReport> implements Seria
 	@TableField("BGDURL")
 	private String BGDURL;
 	/**
-	 * 是否推送（0：未推送，1：已推送）
-	 */
-	@ApiModelProperty(value = "是否推送给医生（0：未推送，1：已推送）")
-	@TableField("is_posted")
-	private String isPosted;
-	/**
-	 * 推送时间
-	 */
-	@ApiModelProperty(value = "推送时间")
-	@TableField("post_time")
-	private String postTime;
-	/**
 	 * 临床检验报告
 	 */
 	@ApiModelProperty(value = "临床检验报告")
@@ -555,22 +543,6 @@ public class ExamInspectReport extends Model<ExamInspectReport> implements Seria
 
 	public void setBGDURL(String BGDURL) {
 		this.BGDURL = BGDURL;
-	}
-
-	public String getIsPosted() {
-		return isPosted;
-	}
-
-	public void setIsPosted(String isPosted) {
-		this.isPosted = isPosted;
-	}
-
-	public String getPostTime() {
-		return postTime;
-	}
-
-	public void setPostTime(String postTime) {
-		this.postTime = postTime;
 	}
 
 	public String getLogID() {

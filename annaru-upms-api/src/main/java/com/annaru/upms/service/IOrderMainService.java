@@ -1,7 +1,6 @@
 package com.annaru.upms.service;
 
 import com.annaru.common.result.PageUtils;
-import com.annaru.upms.entity.ExamPackageMain;
 import com.annaru.upms.entity.OrderMain;
 import com.annaru.upms.entity.vo.*;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -84,6 +83,7 @@ public interface IOrderMainService extends IService<OrderMain> {
      * @Date: 2019/6/4 11:37
      */
     int insertOrderMain(OrderMain orderMain,String []RelativeId);
+
     //根据套餐编号查询赠送服务 wh
     List<AppendOrderMain> selectAppendByOrderNo(String orderNo);
 
@@ -100,14 +100,9 @@ public interface IOrderMainService extends IService<OrderMain> {
 
     List<UserPackagesVo> getPackages(@Param("params") Map<String,Object> params);
 
-    /**
-     * @Description: 根据订单号查询所属套餐
-     * @param  orderNo 订单号
-     * @Author: XCK
-     * @Date: 2019/7/9
-     * @return
-     */
-    ExamPackageMain getExamPackageMainByOrderNo(String orderNo);
+    OrderMain getReferenceNo(@Param("params") Map <String, Object> params);
+
+    OrderMain getInfo(@Param("params") Map <String, Object> params);
 
 }
 

@@ -2,6 +2,7 @@ package com.annaru.upms.mapper;
 
 import com.annaru.upms.entity.UserBasic;
 import com.annaru.upms.entity.vo.UserCardVo;
+import com.annaru.upms.entity.vo.UserExamMainDetail;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -76,4 +77,12 @@ public interface UserBasicMapper extends BaseMapper<UserBasic> {
      * @Date: 2019/6/24
      */
     int updateLastTimeBySysId(@Param("userBasic") UserBasic userBasic);
+
+    /**
+     * 企业用户的购买的服务的 描述 开始时间 结束时间
+     * @uthor zk
+     * @date 2019-07-29
+     */
+    List<UserExamMainDetail> getUserExamMainDetail(@Param("params") Map<String, Object> params);
+
 }

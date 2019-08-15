@@ -38,7 +38,7 @@ public class UserWalletController extends BaseController {
      */
     @ApiOperation(value = "列表")
     @GetMapping("/list")
-    @RequiresPermissions("upms/userWallet/list")
+    //@RequiresPermissions("upms/userWallet/list")
     public ResultMap list(@ApiParam(value = "当前页")@RequestParam(defaultValue="1") int page,
                        @ApiParam(value = "每页数量")@RequestParam(defaultValue = "10") int limit,
                        @ApiParam(value = "关键字")@RequestParam(required = false)String key){

@@ -64,12 +64,13 @@ public class SysConfigUtil {
      * @return
      */
     public static SysConfig getSysConfig(ISysConfigService iSysConfigService , Integer configNo){
-        if (iSysConfigService != null && sysConfig == null){
+        if (iSysConfigService != null ){
             SysConfigUtil.iSysConfigService = iSysConfigService;
             sysConfig = iSysConfigService.getById(configNo);
         }
         if (iSysConfigService != null && sysConfig != null){
             if (sysConfig.getSysId() == configNo){
+                sysConfig = iSysConfigService.getById(configNo);
                 return sysConfig;
             }else {
                 SysConfigUtil.iSysConfigService = iSysConfigService;
