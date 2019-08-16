@@ -634,4 +634,8 @@ WHERE
         WHERE order_no =  #{params.orderNo}
     </select>
 
+    <select id="getInfo" parameterType="map" resultMap="BaseResultMap">
+        SELECT * from  order_main where parent_no = #{params.orderNo}
+    </select>
+
 </mapper>
