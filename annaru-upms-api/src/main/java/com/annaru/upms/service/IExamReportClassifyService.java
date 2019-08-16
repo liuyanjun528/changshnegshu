@@ -1,11 +1,9 @@
 package com.annaru.upms.service;
 
+import com.annaru.common.result.PageUtils;
 import com.annaru.upms.entity.ExamReportClassify;
-import com.annaru.upms.entity.vo.ExamReportClassifyInfoVo;
-import com.annaru.upms.entity.vo.ExamReportClassifyListVo;
+import com.annaru.upms.entity.vo.ExamReportVo;
 import com.baomidou.mybatisplus.extension.service.IService;
-
-import java.util.List;
 
 /**
  * 体检报告分类
@@ -16,19 +14,15 @@ import java.util.List;
 public interface IExamReportClassifyService extends IService<ExamReportClassify> {
 
     /**
-     * 获取用户体检报告列表
-     * @param userId
+     * @Description:获取用户所有带检验报告的订单套餐
+     * @param userId 用户编号
+     * @param packageCates 套餐类别 【1:标准套餐/2:HPV/3:肺保康/】
+     * @param orderCates 订单类别 【1:一般体检预约(C端) 2:进阶体检预约(C端) 3:分布式体检预约(B端) 4:进阶体检预约(B端)】
+     * @Author: XCK
+     * @Date: 2019/8/16
      * @return
      */
-    List<ExamReportClassifyListVo> getDataListByUserId(String userId);
+    PageUtils<ExamReportVo> getExamReportVoPage(Integer page, Integer limit, String userId, Integer packageCates, Integer orderCates);
 
-    /**
-     * @Description: 根据报告编号查询报告详情
-     * @param  reportNo 报告编号
-     * @Author: XCK
-     * @Date: 2019/7/30
-     * @return 
-     */
-    ExamReportClassifyInfoVo getByReportNo(String reportNo);
 }
 
