@@ -115,7 +115,6 @@
         eir.BRXB,-- 性别
         eir.BRNL,-- 年龄
         eir.BGLX,-- 报告类型
-        -- ,-- 项目名称
         eir.SHSJ,-- 报告生成时间
         err.status-- 报告状态
         FROM exam_report_review as err
