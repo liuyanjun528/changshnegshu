@@ -183,6 +183,13 @@ public class OrderAppointmentController extends BaseController {
             return ResultMap.ok().put("data",params);
         }
 
+        if(orderAppointments.get(0).getServiceOption()==1){
+            OrderMain orderMain = orderMainService.getInfo(params);
+            orderAppointments.get(0).setOrderNo(orderMain.getOrderNo());
+            orderAppointments.get(0).setAmount(orderMain.getAmount());
+            orderAppointments.get(0).setPayStatus(orderMain.getStatus());
+        }
+
         List<OrderExtensionInfoVo> orderInfoVo = orderMainService.getExtensionInfo(params);
 
         SysAppraisal sysAppraisal = sysAppraisalService.getAppraised(params);

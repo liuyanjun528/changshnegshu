@@ -39,6 +39,25 @@ public class OrderAppointmentBase extends Model<OrderAppointmentBase> implements
 	private String institutionId;
 	private Integer serviceOption;
 	private Integer isCancelled;
+	private Double amount;
+	private Integer payStatus;
+
+	public Double getAmount() {
+		return amount;
+	}
+
+	public void setAmount(Double amount) {
+		this.amount = amount;
+	}
+
+	public Integer getPayStatus() {
+		return payStatus;
+	}
+
+	public void setPayStatus(Integer payStatus) {
+		this.payStatus = payStatus;
+	}
+
 	public String getInstitutionId() {
 		return institutionId;
 	}
