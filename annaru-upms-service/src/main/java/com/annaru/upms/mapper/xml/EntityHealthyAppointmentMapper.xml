@@ -32,6 +32,7 @@
     <resultMap id="BaseResultMap2" type="com.annaru.upms.entity.vo.OrderAppointmentDoctorVo">
         <result column="order_no" property="orderNo"/>
         <result column="full_name" property="fullName"/>
+        <result column="head_image" property="headImage"/>
         <result column="gender" property="gender"/>
         <result column="status" property="status"/>
         <result column="is_submitted" property="isSubmitted"/>
@@ -168,6 +169,7 @@
                 eha.order_no,-- 订单号
                 ub.user_id,-- 用户编号
 		        ub.full_name,-- 姓名
+		        ub.head_image,-- 头像
 			    ub.gender,-- 性别
 			    TIMESTAMPDIFF(YEAR, ub.date_of_birth, CURDATE()) AS user_age,
 			    eha.address,-- 预约地址

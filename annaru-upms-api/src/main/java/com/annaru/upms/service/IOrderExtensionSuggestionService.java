@@ -27,13 +27,13 @@ public interface IOrderExtensionSuggestionService extends IService<OrderExtensio
     /**
      *  添加建议进阶项目
      * @param reportNo
-     * @param masterId
+     * @param masterIds
      * @param itemNames
      * @param sysIds
      * @param doctorNo
      * @return
      */
-    boolean savaOE(String reportNo,Integer masterId,String[] itemNames,String[] sysIds,String doctorNo);
+    boolean savaOE(String reportNo,String[] masterIds,String[] itemNames,String[] sysIds,String doctorNo);
 
 }
 

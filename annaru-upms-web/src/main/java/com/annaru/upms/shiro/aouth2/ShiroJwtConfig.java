@@ -86,8 +86,9 @@ public class ShiroJwtConfig {
         filterChainDefinitionMap.put("/ws/**", "anon");
         filterChainDefinitionMap.put("/qr/**", "anon");
         filterChainDefinitionMap.put("/test/**", "anon");
-        filterChainDefinitionMap.put("/lcdLog/**", "anon");
         filterChainDefinitionMap.put("/sys/login", "anon");
+        filterChainDefinitionMap.put("/alipay/**", "anon");// 支付宝
+        filterChainDefinitionMap.put("/wxPay/**", "anon");// 微信支付
         filterChainDefinitionMap.put("/**", "oauth2");
 
 

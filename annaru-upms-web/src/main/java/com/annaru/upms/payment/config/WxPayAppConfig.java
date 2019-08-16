@@ -32,7 +32,7 @@ public class WxPayAppConfig implements WXPayConfig {
     private String key;
 
     /**
-     * API证书绝对路径 (本项目放在了 resources/cert/wxpay/apiclient_cert.p12")
+     * API证书绝对路径 (本项目放在了 resources/cert/cert/apiclient_cert.p12")
      */
     private String certPath;
 

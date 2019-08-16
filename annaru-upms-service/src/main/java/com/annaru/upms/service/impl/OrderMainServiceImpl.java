@@ -209,15 +209,11 @@ public class OrderMainServiceImpl extends ServiceImpl<OrderMainMapper, OrderMain
         return this.baseMapper.getPackages(params);
     }
 
-    @Override
-    public ExamPackageMain getExamPackageMainByOrderNo(String orderNo) {
-        if(StringUtils.isBlank(orderNo)){
-            return null;
-        }
-        return this.baseMapper.selectExamPackageMainByOrderNo(orderNo);
-    }
-
     public OrderMain getReferenceNo(Map<String,Object> params){
         return this.baseMapper.getReferenceNo(params);
+    }
+
+    public OrderMain getInfo(Map<String,Object> params){
+        return this.baseMapper.getInfo(params);
     }
 }

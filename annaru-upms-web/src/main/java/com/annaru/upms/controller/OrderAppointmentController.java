@@ -183,6 +183,13 @@ public class OrderAppointmentController extends BaseController {
             return ResultMap.ok().put("data",params);
         }
 
+        if(orderAppointments.get(0).getServiceOption()==1){
+            OrderMain orderMain = orderMainService.getInfo(params);
+            orderAppointments.get(0).setOrderNo(orderMain.getOrderNo());
+            orderAppointments.get(0).setAmount(orderMain.getAmount());
+            orderAppointments.get(0).setPayStatus(orderMain.getStatus());
+        }
+
         List<OrderExtensionInfoVo> orderInfoVo = orderMainService.getExtensionInfo(params);
 
         SysAppraisal sysAppraisal = sysAppraisalService.getAppraised(params);
@@ -337,7 +344,6 @@ public class OrderAppointmentController extends BaseController {
                 orderAdditionalInfo.setCreateBy(userId);
                 orderAdditionalInfo.setOption1(orderAppointment.getOption1());
                 orderAdditionalInfo.setOrderNo(orderNo);
-                orderAdditionalInfoService.save(orderAdditionalInfo);
                 if (orderAppointment.getOption1()==1){
                     if (orderAppointment.getAddress()!=null){
                         appointment.setAddress(orderAppointment.getAddress());
@@ -352,6 +358,7 @@ public class OrderAppointmentController extends BaseController {
                         orderMain.setStatus(0);
                         orderMain.setUserId(userId);
                         orderMain.setAmount(Double.parseDouble(sysConfigService.getNurPrice().getRefNo()));
+                        orderAdditionalInfo.setAmount(Double.parseDouble(sysConfigService.getNurPrice().getRefNo()));
                         orderMainService.save(orderMain);
                         return ResultMap.ok().put("data",orderNoNew);
                     }
@@ -366,6 +373,7 @@ public class OrderAppointmentController extends BaseController {
                                 "前往"+sysInstitutionService.getInfo(params).getName()+"就诊,迟到将造成无法就诊。");
                     }
                 }
+                orderAdditionalInfoService.save(orderAdditionalInfo);
                 sysMessageService.save(message);
             }else if (orderAppointment.getAppointmentCates()==2
                     &&orderAppointment.getInstitutionId()!=null

@@ -28,7 +28,7 @@
         <result column="BRXB" property="BRXB" />
         <result column="BGLX" property="BGLX" />
         <result column="BRNL" property="BRNL" />
-        <result column="SHSJ" property="SHSJ" />
+        <result column="creation_time" property="creationTime" />
         <result column="status" property="status" />
         <result column="review_no" property="reviewNo" />
     </resultMap>
@@ -105,22 +105,20 @@
 
     <!-- 待解读报告-->
     <select id="selectReport" parameterType="map" resultMap="BaseResultMap1">
-    select
-        err.byh,
-        err.report_no,-- 报告编号
-        err.review_no,-- 解读人
-        ub.user_id,-- 用户编号
-        ub.head_image,-- 头像
-        eir.BRXM,-- 报告人
-        eir.BRXB,-- 性别
-        eir.BRNL,-- 年龄
-        eir.BGLX,-- 报告类型
-        -- ,-- 项目名称
-        eir.SHSJ,-- 报告生成时间
-        err.status-- 报告状态
+        select
+            err.report_no,-- 报告编号
+            err.review_no,-- 解读人
+            err.user_id,-- 用户编号
+            ub.head_image,-- 头像
+            eir.BRXM,-- 报告人
+            eir.BRXB,-- 性别
+            eir.BRNL,-- 年龄
+            eir.BGLX,-- 报告类型
+            err.creation_time,-- 报告生成时间
+            err.status-- 报告状态
         FROM exam_report_review as err
         LEFT JOIN exam_inspect_report as eir ON err.report_no=eir.report_no
-        LEFT JOIN user_basic as ub ON ub.user_id=SUBSTRING_INDEX(err.byh,'^',-1)
+        LEFT JOIN user_basic as ub ON ub.user_id=err.user_id
         WHERE err.review_no=#{params.reviewNo}
         <if test="params.status==0 or params.status==1">
             and err.status=#{params.status}

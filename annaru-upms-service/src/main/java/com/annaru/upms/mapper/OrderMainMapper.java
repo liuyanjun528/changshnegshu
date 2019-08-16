@@ -108,4 +108,6 @@ public interface OrderMainMapper extends BaseMapper<OrderMain> {
     ExamPackageMain selectExamPackageMainByOrderNo(@Param("orderNo")String orderNo);
 
     OrderMain getReferenceNo(@Param("params") Map<String,Object> params);
+
+    OrderMain getInfo(@Param("params") Map<String,Object> params);
 }

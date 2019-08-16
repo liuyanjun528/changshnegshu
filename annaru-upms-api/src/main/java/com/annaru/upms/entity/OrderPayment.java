@@ -60,6 +60,12 @@ public class OrderPayment extends Model<OrderPayment> implements Serializable {
 	@TableField("transaction_id")
 	private String transactionId;
 	/**
+	 * 退款金额
+	 */
+	@ApiModelProperty(value = "退款金额金额")
+	@TableField("refund_amount")
+	private Double refundAmount;
+	/**
 	 * 其他信息
 	 */
     @ApiModelProperty(value = "其他信息")
@@ -146,6 +152,14 @@ public class OrderPayment extends Model<OrderPayment> implements Serializable {
 
 	public void setTransactionId(String transactionId) {
 		this.transactionId = transactionId;
+	}
+
+	public Double getRefundAmount() {
+		return refundAmount;
+	}
+
+	public void setRefundAmount(Double refundAmount) {
+		this.refundAmount = refundAmount;
 	}
 
 	/**

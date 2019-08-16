@@ -3,6 +3,7 @@ package com.annaru.upms.entity.vo;
 import com.annaru.common.util.JacksonUtils;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class ExamReportReviewVo implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -15,7 +16,7 @@ public class ExamReportReviewVo implements Serializable {
     private String BRXB;//病人性别
     private String BRNL;//病人年龄
     private String BGLX;//报告类型 1-临床检验报告；2-微生物报告；3-病理报告；9-其他报告
-    private String SHSJ;//报告时间
+    private Date creationTime;//报告时间
     private String status;//状态(0:未解读/1:已解读)
     private String reviewNo;//解读人
 
@@ -84,12 +85,12 @@ public class ExamReportReviewVo implements Serializable {
         this.BRNL = BRNL;
     }
 
-    public String getSHSJ() {
-        return SHSJ;
+    public Date getCreationTime() {
+        return creationTime;
     }
 
-    public void setSHSJ(String SHSJ) {
-        this.SHSJ = SHSJ;
+    public void setCreationTime(Date creationTime) {
+        this.creationTime = creationTime;
     }
 
     public String getStatus() {
