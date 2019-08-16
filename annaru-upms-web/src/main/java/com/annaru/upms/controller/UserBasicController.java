@@ -323,6 +323,32 @@ public class UserBasicController extends BaseController {
 
     }
 
+
+    /**
+     * 上传授权图片的url
+     * @uthor zk
+     * @date 2019-08-16
+     */
+    @ApiOperation(value = "上传授权图片的url")
+    @PostMapping("/uploadAuthorizationUrl")
+    @RequiresPermissions("upms/userBasic/uploadAuthorizationUrl")
+    public ResultMap uploadAuthorizationUrl(@RequestParam String userId, @RequestParam String authorizationUrl) {
+        try {
+            UserBasic userBasic = userBasicService.selectByUid(userId);
+            if (userBasic == null){
+                return ResultMap.error("该用户不存在");
+            }
+            if (userBasicService.uploadAuthorizationUrl(userBasic.getSysId(), authorizationUrl)){
+                return ResultMap.ok("修改成功");
+            }
+            return ResultMap.ok("修改失败");
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return ResultMap.error("运行异常，请联系管理员");
+        }
+
+    }
+
     /**
      * 删除
      */
