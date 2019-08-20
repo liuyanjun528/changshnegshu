@@ -103,5 +103,12 @@ public interface IUserBasicService extends IService<UserBasic> {
      */
     List<UserExamMainDetail> getUserExamMainDetail(Map<String, Object> params);
 
+    /**
+     * 上传授权图片的url
+     * @uthor zk
+     * @date 2019-08-16
+     */
+    boolean uploadAuthorizationUrl(Integer sysId, String authorizationUrl);
+
 }
 

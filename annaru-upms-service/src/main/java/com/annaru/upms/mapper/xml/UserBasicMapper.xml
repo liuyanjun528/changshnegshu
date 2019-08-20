@@ -440,4 +440,13 @@
             </if>
     </select>
 
+    <update id="uploadAuthorizationUrl" >
+        UPDATE
+          user_basic
+        SET
+          authorization_url = #{authorizationUrl}
+        WHERE
+          sys_id = #{sysId}
+    </update>
+
 </mapper>

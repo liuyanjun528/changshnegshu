@@ -92,9 +92,10 @@ public class UserSurveyMainController extends BaseController {
 
 
     @ApiOperation(value = "查询历史答题记录",notes = "历史问卷调查详情")
-    @GetMapping("/message/{userId}")
+    @GetMapping("/message")
     @RequiresPermissions("/userSurveyMain/message")
-    public ResultMap info(@PathVariable("userId") String userId,String type){
+    public ResultMap info(@RequestParam String userId,
+                          @RequestParam String type){
         Map<String,Object> params = new HashMap<>();
         params.put("userId",userId);
         params.put("type",type);
