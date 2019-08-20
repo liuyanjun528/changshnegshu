@@ -43,6 +43,11 @@ public class SysDoctorNurseSchedule extends Model<SysDoctorNurseSchedule> implem
     @ApiModelProperty(value = "医生/护士 编号")
 	@TableField("doctor_nurse_no")
 	private String doctorNurseNo;
+
+	@ApiModelProperty(value = "1:上门排班/2：门诊排班")
+	@TableField("service_method")
+	private String serviceMethod;
+
 	/**
 	 * 开始日期
 	 */
@@ -133,7 +138,16 @@ public class SysDoctorNurseSchedule extends Model<SysDoctorNurseSchedule> implem
 	public void setDoctorNurseNo(String doctorNurseNo) {
 		this.doctorNurseNo = doctorNurseNo;
 	}
-    /**
+
+	public String getServiceMethod() {
+		return serviceMethod;
+	}
+
+	public void setServiceMethod(String serviceMethod) {
+		this.serviceMethod = serviceMethod;
+	}
+
+	/**
      * 获取：开始日期
      */
     public Date getDateFrom() {
