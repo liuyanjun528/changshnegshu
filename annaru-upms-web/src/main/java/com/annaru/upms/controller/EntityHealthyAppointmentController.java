@@ -154,6 +154,20 @@ public class EntityHealthyAppointmentController extends BaseController {
         return ResultMap.ok().put("data",userBasicVo);
     }
 
+    /**
+      * @Description:查询用户是否填写调查问卷
+      * @Author: wh
+      * @Date: 2019/8/20 8:54
+      */
+    @ApiOperation(value = "查询用户是否填写调查问卷", notes = "查询用户是否填写调查问卷")
+    @GetMapping("/selectUserSurvey")
+    public ResultMap selectUserSurvey(String userId){
+        int i = userSurveyMainService.selectCount(userId);
+        return ResultMap.ok().put("data",i);
+    }
+
+
+
 
     /**
      * 企业查询服务预约

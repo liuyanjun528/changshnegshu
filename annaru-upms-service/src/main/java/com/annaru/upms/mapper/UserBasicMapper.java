@@ -85,4 +85,11 @@ public interface UserBasicMapper extends BaseMapper<UserBasic> {
      */
     List<UserExamMainDetail> getUserExamMainDetail(@Param("params") Map<String, Object> params);
 
+    /**
+     * 上传授权图片的url
+     * @uthor zk
+     * @date 2019-08-16
+     */
+    int uploadAuthorizationUrl(@Param("sysId") Integer sysId, @Param("authorizationUrl") String authorizationUrl);
+
 }
