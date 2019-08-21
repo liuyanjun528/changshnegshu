@@ -74,8 +74,15 @@ public class OrderMainController extends BaseController {
             orderMain.setOrderCates(5);
             orderMain.setStatus(Constant.PaymentState.UNPAID.getValue());
             boolean save = orderMainService.save(orderMain);
+
+            //查询sys_global_setting 获取家庭医生的次数 插入userFamilyDoctor
+
+
+
             if(save=true){
                 orderMain.getUserFamilyDoctor().setOrderNo(SysConfigUtil.getNoBySysConfig());
+//                orderMain.getUserFamilyDoctor().setRestCount();
+//                orderMain.getUserFamilyDoctor().setTotalCount();
                 orderMain.getUserFamilyDoctor().setEffectFrom(new Date());
                 orderMain.getUserFamilyDoctor().setCreationTime(new Date());
                 orderMain.getUserFamilyDoctor().setUserId(orderMain.getUserId());

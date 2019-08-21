@@ -8,6 +8,7 @@
         <result column="sys_id" property="sysId" />
         <result column="package_main_id" property="packageMainId" />
         <result column="append_id" property="appendId" />
+        <result column="periods" property="periods" />
         <result column="creation_time" property="creationTime" />
     </resultMap>
 
@@ -18,6 +19,7 @@
               sys_id,
               package_main_id,
               append_id,
+              periods,
               creation_time
         FROM
             exam_package_append
@@ -30,7 +32,7 @@
 
     <!--根据套餐ID查询套餐赠送的服务-->
     <select id="selectExamName" parameterType="map" resultMap="BaseResultMap">
-          select append_id from exam_package_append where package_main_id=#{package_main_id}
+          select append_id,periods from exam_package_append where package_main_id=#{package_main_id}
     </select>
 
 </mapper>

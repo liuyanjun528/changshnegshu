@@ -109,8 +109,11 @@ public class OrderMainServiceImpl extends ServiceImpl<OrderMainMapper, OrderMain
                 OrderDetail detail = new OrderDetail();
                 detail.setCreationtime(orderMain.getCreationtime());
                 for (ExamPackageAppend exam : examPackageAppends) {
+                    System.out.println("周期：---->"+exam.getPeriods());
                     detail.setAppendId(exam.getAppendId());
-                    detail.setCreationtime(new Date());
+                    detail.setTotalCount(exam.getPeriods());
+                    detail.setRestCount(exam.getPeriods());
+                    detail.setCreationtime(orderMain.getOrderTime());
                     detail.setOrderNo(orderMain.getOrderNo());
                     i=orderDetailService.insertOrderDetail(detail);//添订单详情表
                 }
