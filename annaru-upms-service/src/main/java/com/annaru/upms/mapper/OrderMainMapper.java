@@ -110,4 +110,17 @@ public interface OrderMainMapper extends BaseMapper<OrderMain> {
     OrderMain getReferenceNo(@Param("params") Map<String,Object> params);
 
     OrderMain getInfo(@Param("params") Map<String,Object> params);
+
+    /**
+     * @Description:获取用户所有带检验报告的订单套餐
+     * @param userId 用户编号
+     * @param packageCates 套餐类别 【1:标准套餐/2:HPV/3:肺保康/】
+     * @param orderCates 订单类别 【1:一般体检预约(C端) 2:进阶体检预约(C端) 3:分布式体检预约(B端) 4:进阶体检预约(B端)】
+     * @Author:XCK
+     * @Date:2019/8/16
+     * @return
+     */
+    IPage<ExamReportVo> selectExamReportVoPage(Page page, @Param("userId") String userId,
+                                               @Param("packageCates") Integer packageCates,
+                                               @Param("orderCates") Integer orderCates);
 }

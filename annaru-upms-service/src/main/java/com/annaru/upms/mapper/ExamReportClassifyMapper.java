@@ -1,12 +1,9 @@
 package com.annaru.upms.mapper;
 
 import com.annaru.upms.entity.ExamReportClassify;
-import com.annaru.upms.entity.vo.ExamReportClassifyInfoVo;
-import com.annaru.upms.entity.vo.ExamReportClassifyListVo;
+import com.annaru.upms.entity.vo.ExamReportInfoVo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
-
-import java.util.List;
 
 /**
  * 体检报告分类
@@ -16,7 +13,5 @@ import java.util.List;
  */
 public interface ExamReportClassifyMapper extends BaseMapper<ExamReportClassify> {
 
-    List<ExamReportClassifyListVo> selectDataListByUserId(@Param("userId") String userId);
-
-    ExamReportClassifyInfoVo selectByReportNo(String reportNo);
+    ExamReportInfoVo selectReportInfo(@Param("orderNo") String orderNo, @Param("masterId") String masterId);
 }

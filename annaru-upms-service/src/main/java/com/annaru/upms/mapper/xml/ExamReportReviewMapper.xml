@@ -139,6 +139,12 @@
         LIMIT 1
     </select>
 
+    <select id="selectSuggestions" resultType="java.lang.String">
+        SELECT GROUP_CONCAT(suggestions SEPARATOR '；\n')
+        FROM exam_report_review
+        WHERE SUBSTR(byh,1,13)=#{orderNo}
+    </select>
+
     <!-- 添加报告建议-->
     <update id="insertReportSuggest">
         update  exam_report_review set suggestions=#{suggestions}

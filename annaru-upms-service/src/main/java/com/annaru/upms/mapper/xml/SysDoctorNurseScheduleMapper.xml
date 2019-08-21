@@ -8,6 +8,7 @@
         <result column="sys_id" property="sysId" />
         <result column="user_cates" property="userCates" />
         <result column="doctor_nurse_no" property="doctorNurseNo" />
+        <result column="service_method" property="serviceMethod" />
         <result column="date_from" property="dateFrom" />
         <result column="date_to" property="dateTo" />
         <result column="time_from" property="timeFrom" />
@@ -32,29 +33,14 @@
         <result column="is_submitted" property="isSubmitted" />
         <result column="is_confirmed" property="isConfirmed" />
     </resultMap>
-    <sql id="BaseClounmSql">
-          sys_id,
-          user_cates,
-          doctor_nurse_no,
-          date_from,
-          date_to,
-          time_from,
-          time_to,
-          is_deleted,
-          is_active,
-          creation_time,
-          edit_time,
-          state,
-    </sql>
 
     <!-- 多表页面信息查询分页 -->
     <select id="selectDataPage" parameterType="map" resultMap="BaseResultMap">
 
         SELECT
-            <include refid="BaseClounmSql"></include>
+            *
         FROM
             sys_doctor_nurse_schedule
-
     </select>
 
     <!-- 查询医护排班 -->
@@ -65,6 +51,7 @@
         time_from,
         time_to,
         doctor_nurse_no,
+        service_method,
         is_active,
         state
         FROM sys_doctor_nurse_schedule

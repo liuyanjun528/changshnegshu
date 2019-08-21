@@ -23,23 +23,11 @@
         <result column="detailId" property="detailId"/>
     </resultMap>
 
-    <!-- 多表页面信息查询分页 -->
-    <select id="selectDataPage" parameterType="map" resultMap="BaseResultMap">
-
-        SELECT
-              sys_id,
-              exam_main_id,
-              exam_master_id,
-              exam_detail_id
-        FROM
-            exam_package_detail
-        WHERE
-            status=0
-            <if test="params.key != null and params.key != ''">
-                AND key LIKE CONCAT('%', #{params.key}, '%')
-            </if>
-    </select>
-
+    <resultMap id="DetailVoResultMap" type="com.annaru.upms.entity.vo.ExamPackageDetailVo">
+        <result column="exam_main_id" property="packageId"/>
+        <result column="master_id" property="masterId"/>
+        <result column="master_name" property="masterName"/>
+    </resultMap>
 
     <select id="getChoosen" parameterType="map" resultMap="BaseResultMapVo">
                 SELECT
@@ -66,6 +54,15 @@
         LEFT JOIN exam_detail ed
         on ed.sys_id = epe.exam_detail_id
         WHERE epe.pkg_main_id = #{params.examId}
+    </select>
+
+    <select id="selectMasterList" resultMap="DetailVoResultMap">
+        SELECT DISTINCT
+               epd.exam_main_id,
+               em.sys_id AS master_id, em.name AS master_name
+        FROM exam_package_detail epd
+        LEFT JOIN exam_master em ON em.sys_id=epd.exam_master_id
+        WHERE epd.exam_main_id=#{examMainId}
     </select>
 
 </mapper>
