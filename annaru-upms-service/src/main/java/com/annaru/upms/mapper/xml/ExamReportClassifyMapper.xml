@@ -4,51 +4,48 @@
 <mapper namespace="com.annaru.upms.mapper.ExamReportClassifyMapper">
 
 	<!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.annaru.upms.entity.ExamReportClassify" >
-        <result column="sys_id" property="sysId" />
+    <resultMap id="ReportInfoVoResultMap" type="com.annaru.upms.entity.vo.ExamReportInfoVo" >
         <result column="report_no" property="reportNo" />
-        <result column="user_id" property="userId" />
-        <result column="order_no" property="orderNo" />
-        <result column="byh" property="byh" />
-        <result column="report_status" property="reportStatus" />
-        <result column="is_posted" property="isPosted" />
-        <result column="posted_time" property="postedTime" />
-        <result column="creation_time" property="creationTime" />
-        <result column="create_by" property="createBy" />
+        <result column="report_lczd" property="reportLCZD" />
+        <result column="report_cysj" property="reportCYSJ" />
+        <result column="report_bbzl" property="reportBBZL" />
+        <result column="report_shsj" property="reportSHSJ" />
+        <result column="report_bgdurl" property="reportBGDURL" />
+        <result column="review_suggestions" property="reviewSuggestions" />
+        <result column="review_result" property="reviewResult" />
+        <result column="review_status" property="reviewStatus" />
+        <collection property="reportClinicList" ofType="com.annaru.upms.entity.ExamInspectReportClinic">
+            <result column="id" property="id" />
+            <result column="inspect_report_id" property="inspectReportId" />
+            <result column="XH" property="XH" />
+            <result column="XMBM" property="XMBM" />
+            <result column="XMMC" property="XMMC" />
+            <result column="XMDM" property="XMDM" />
+            <result column="JCJG" property="JCJG" />
+            <result column="XMDW" property="XMDW" />
+            <result column="XMCKZ" property="XMCKZ" />
+            <result column="JGPD" property="JGPD" />
+            <result column="WJZBZ" property="WJZBZ" />
+            <result column="MDDM" property="MDDM" />
+            <result column="MDMC" property="MDMC" />
+            <result column="YWJC" property="YWJC" />
+        </collection>
     </resultMap>
 
-    <resultMap id="ExamReportVoMap" type="com.annaru.upms.entity.vo.ExamReportVo" >
-        <result column="order_no" property="orderNo" />
-        <result column="order_time" property="orderTime" />
-        <result column="order_cates" property="orderCates" />
-        <result column="user_id" property="userId" />
-        <result column="user_name" property="userName" />
-        <result column="user_gender" property="userGender" />
-        <result column="package_name" property="packageName" />
-        <result column="package_subtitle" property="packageSubtitle" />
-        <result column="package_cates" property="packageCates" />
-        <result column="sample_code" property="sampleCode" />
-        <result column="handover_time" property="handoverTime" />
-    </resultMap>
 
-    <select id="selectExamReportVoPage" resultMap="ExamReportVoMap">
-        SELECT om.order_no, om.order_time, om.order_cates,
-               ub.user_id, ub.full_name AS user_name, ub.gender AS user_gender,
-               epm.package_name, epm.subtitle AS package_subtitle, epm.cates AS package_cates,
-               ehs.sample_code, ehs.handover_time
-        FROM order_main om
-        LEFT JOIN user_basic ub ON ub.user_id=om.user_id
-        LEFT JOIN exam_package_main epm ON epm.sys_id=om.reference_no
-        LEFT JOIN exam_handover_sheet ehs ON ehs.order_no=om.order_no
-        WHERE
-        ub.user_id = #{params.userId} AND om.order_cates not in (5,6)
-        <if test="orderCates != null">
-            AND om.order_cates = #{orderCates}
-        </if>
-        <if test="packageCates != null">
-            AND epm.cates = #{packageCates}
-        </if>
-
+    <select id="selectReportInfo" resultMap="ReportInfoVoResultMap">
+        SELECT
+            eir.report_no, eir.LCZD AS report_lczd, eir.CYSJ AS report_cysj, eir.BBZL AS report_bbzl, eir.SHSJ AS report_shsj, eir.BGDURL AS report_bgdurl,
+            err.suggestions AS review_suggestions, err.result AS review_result, err.status AS review_status,
+            eirc.*
+        FROM exam_report_classify erc
+        LEFT JOIN exam_report_review err ON err.report_no=erc.report_no AND err.is_deleted=0
+        LEFT JOIN exam_inspect_report eir ON eir.report_no = erc.report_no
+        LEFT JOIN exam_inspect_report_clinic eirc ON eirc.inspect_report_id= eir.id
+        LEFT JOIN exam_report_item_mapping erim ON erim.report_item_id=eirc.XMBM
+        LEFT JOIN exam_detail ed ON ed.sys_id=erim.sys_item_id
+        LEFT JOIN exam_master em ON em.sys_id=ed.master_id
+        WHERE erc.order_no=#{orderNo} AND em.sys_id=#{masterId}
     </select>
 
 

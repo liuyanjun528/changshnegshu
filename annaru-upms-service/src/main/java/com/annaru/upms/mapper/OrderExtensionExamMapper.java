@@ -3,11 +3,8 @@ package com.annaru.upms.mapper;
 
 import com.annaru.upms.entity.OrderExtensionExam;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import org.apache.ibatis.annotations.Param;
 
-import java.util.Map;
+import java.util.List;
 
 /**
  * 进阶体检项目
@@ -18,12 +15,11 @@ import java.util.Map;
 public interface OrderExtensionExamMapper extends BaseMapper<OrderExtensionExam> {
 
     /**
-    * 多表页面信息查询
-    * @param page
-    * @param params
-    * @return
-    */
-    IPage<OrderExtensionExam> selectDataPage(Page page, @Param("params") Map<String, Object> params);
-
-
+     * @Description:获取订单的建议进阶项目
+     * @param orderNo 订单编号
+     * @Author: XCK
+     * @Date: 2019/8/19
+     * @return 
+     */
+    List<OrderExtensionExam> selectListByOrderNo(String orderNo);
 }

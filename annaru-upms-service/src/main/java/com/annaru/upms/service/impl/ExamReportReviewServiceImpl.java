@@ -60,4 +60,9 @@ public class ExamReportReviewServiceImpl extends ServiceImpl<ExamReportReviewMap
         }
         return this.baseMapper.selectByReportNo(reportNo);
     }
+
+    @Override
+    public String getSuggestions(String orderNo) {
+        return this.baseMapper.selectSuggestions(orderNo);
+    }
 }

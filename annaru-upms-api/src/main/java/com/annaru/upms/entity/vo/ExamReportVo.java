@@ -41,7 +41,14 @@ public class ExamReportVo implements Serializable {
 	 * 用户性别
 	 */
 	private Integer userGender;
-
+	/**
+	 * 用户企业
+	 */
+	private String userEntityName;
+	/**
+	 * 套餐ID
+	 */
+	private String packageId;
 	/**
 	 * 套餐名称
 	 */
@@ -111,6 +118,22 @@ public class ExamReportVo implements Serializable {
 
 	public void setUserGender(Integer userGender) {
 		this.userGender = userGender;
+	}
+
+	public String getUserEntityName() {
+		return userEntityName;
+	}
+
+	public void setUserEntityName(String userEntityName) {
+		this.userEntityName = userEntityName;
+	}
+
+	public String getPackageId() {
+		return packageId;
+	}
+
+	public void setPackageId(String packageId) {
+		this.packageId = packageId;
 	}
 
 	public String getPackageName() {
