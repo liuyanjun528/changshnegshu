@@ -102,25 +102,8 @@ public class UserFamilyDoctor extends Model<UserFamilyDoctor> implements Seriali
 	@TableField("create_by")
 	private String createBy;
 
-    private Integer restCount;
 
-    private Integer totalCount;
 
-	public Integer getRestCount() {
-		return restCount;
-	}
-
-	public void setRestCount(Integer restCount) {
-		this.restCount = restCount;
-	}
-
-	public Integer getTotalCount() {
-		return totalCount;
-	}
-
-	public void setTotalCount(Integer totalCount) {
-		this.totalCount = totalCount;
-	}
 
 	/**
      * 获取：系统编号
