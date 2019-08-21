@@ -60,5 +60,14 @@ public interface IExamReportReviewService extends IService<ExamReportReview> {
      * @return
      */
     ExamReportReviewInfoVo getByReportNo(String reportNo);
+
+    /**
+     * @Description:获取检查报告所有建议
+     * @param orderNo 订单编号 
+     * @Author: XCK
+     * @Date: 2019/8/19
+     * @return 
+     */
+    String getSuggestions(String orderNo);
 }
 

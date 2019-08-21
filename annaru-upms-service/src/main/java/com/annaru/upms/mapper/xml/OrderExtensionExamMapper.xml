@@ -17,27 +17,26 @@
         <result column="edit_by" property="editBy" />
     </resultMap>
 
-    <!-- 多表页面信息查询分页 -->
-    <select id="selectDataPage" parameterType="map" resultMap="BaseResultMap">
-
+    <select id="selectListByOrderNo" resultMap="BaseResultMap">
         SELECT
-              sys_id,
-              order_no,
-              exam_master_id,
-              exam_detail_id,
-              exam_master_item,
-              is_cancelled,
-              creation_time,
-              create_by,
-              edit_time,
-              edit_by
+            sys_id,
+            order_no,
+            exam_master_id,
+            exam_detail_id,
+            exam_master_item,
+            is_cancelled,
+            is_deleted,
+            creation_time,
+            create_by,
+            edit_time,
+            edit_by
         FROM
             order_extension_exam
         WHERE
-            status=0
-            <if test="params.key != null and params.key != ''">
-                AND key LIKE CONCAT('%', #{params.key}, '%')
-            </if>
+            is_deleted=0
+            AND is_cancelled!=1
+            AND order_no=#{orderNo}
     </select>
+
 
 </mapper>

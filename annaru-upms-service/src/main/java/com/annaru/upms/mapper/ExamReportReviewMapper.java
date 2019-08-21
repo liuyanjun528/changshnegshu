@@ -67,4 +67,13 @@ public interface ExamReportReviewMapper extends BaseMapper<ExamReportReview> {
      * @return
      */
     ExamReportReviewInfoVo selectByReportNo(@Param("reportNo")String reportNo);
+
+    /**
+     * @Description:获取订单所有报告建议
+     * @param orderNo 订单编号 
+     * @Author:XCK
+     * @Date:2019/8/19
+     * @return 
+     */
+    String selectSuggestions(@Param("orderNo") String orderNo);
 }

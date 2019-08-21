@@ -8,11 +8,8 @@ import com.annaru.upms.service.IExamInspectReportListService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -58,43 +55,6 @@ public class ExamInspectReportListServiceImpl extends ServiceImpl<ExamInspectRep
 
         // 保存最新的检查报告
         this.baseMapper.insert(inspectReportList);
-        return true;
-    }
-
-    @Override
-    public boolean saveBatchInspectReportList(String logID, List<ExamInspectReportList> inspectReportLists) {
-        List<ExamInspectReportList> insertDB = new ArrayList<>();
-        List<String> deleteIds = new ArrayList<>();
-        if(StringUtils.isBlank(logID) || CollectionUtils.isEmpty(inspectReportLists)){
-            return true;
-        }
-        Map<String, Object> params = new HashMap<>();
-        params.put("logID", logID);
-        List<ExamInspectReportList> inspectReportListsDB = this.getDataList(params);
-
-        a:for (ExamInspectReportList reportList : inspectReportLists) {
-            if(CollectionUtils.isNotEmpty(inspectReportListsDB))
-                for (ExamInspectReportList reportListDB : inspectReportListsDB){
-                    // reportList 和 reportListDB 相等，不做删除和插入
-                    if(reportList.equals(reportListDB))
-                        continue a;
-
-                    // reportList 和 reportListDB 唯一识别号reportNO相等，则删除数据库数据
-                    if(reportList.getREPORTNO().equals(reportListDB.getREPORTNO())){
-                        deleteIds.add(reportListDB.getId());
-                        continue ;
-                    }
-                }
-            insertDB.add(reportList);
-        }
-
-        // 删除数据库陈旧数据
-        if(CollectionUtils.isNotEmpty(deleteIds))
-            this.removeByIds(deleteIds);
-
-        // 保存最新的检查报告
-        if(CollectionUtils.isNotEmpty(insertDB))
-            this.saveBatch(insertDB, insertDB.size());
         return true;
     }
 
