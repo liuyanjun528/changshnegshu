@@ -24,5 +24,6 @@ public interface SysGlobalSettingMapper extends BaseMapper<SysGlobalSetting> {
     */
     IPage<SysGlobalSetting> selectDataPage(Page page, @Param("params") Map<String, Object> params);
 
+    SysGlobalSetting getSetting(@Param("params") Map<String, Object> params);
 
 }

@@ -32,4 +32,7 @@ public class UserFamilyDoctorServiceImpl extends ServiceImpl<UserFamilyDoctorMap
         return this.baseMapper.getUserFDInfo(params);
     }
 
+    public UserFamilyDoctor getUserFD(Map<String,Object> params){
+        return this.baseMapper.getUserFD(params);
+    }
 }

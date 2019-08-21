@@ -24,6 +24,7 @@ public interface IUserFamilyDoctorService extends IService<UserFamilyDoctor> {
 
     UserFamilyDoctorVo getUserFDInfo(Map<String, Object> params);
 
+    UserFamilyDoctor getUserFD(Map<String,Object> params);
 
 }
 

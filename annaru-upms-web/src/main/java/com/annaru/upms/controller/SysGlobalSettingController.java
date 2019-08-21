@@ -105,6 +105,16 @@ public class SysGlobalSettingController extends BaseController {
 
     }
 
+    @ApiOperation(value = "各服务配置")
+    @GetMapping("/getSetting")
+    @RequiresPermissions("upms/sysGlobalSetting/getSetting")
+    public ResultMap getSetting(@RequestParam Integer category){
+        Map<String,Object> params = new HashMap<>();
+        params.put("category",category);
+        SysGlobalSetting sysGlobalSetting = sysGlobalSettingService.getSetting(params);
+        return ResultMap.ok().put("data",sysGlobalSetting);
+    }
+
     /**
      * 删除
      */

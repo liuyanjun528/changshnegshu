@@ -12,6 +12,7 @@ public class UserFamilyDoctorVo extends Model<UserFamilyDoctorVo> implements Ser
     private String orderNo;
     private Date effectFrom;
     private Date effectTo;
+    private Integer restCount;
     private Integer isTerminated;
     private Date terminatedTime;
     private String doctorNo;
@@ -37,6 +38,14 @@ public class UserFamilyDoctorVo extends Model<UserFamilyDoctorVo> implements Ser
     private Integer isApproved;
     private Integer restDays;
     private Integer appraisalStatus;
+
+    public Integer getRestCount() {
+        return restCount;
+    }
+
+    public void setRestCount(Integer restCount) {
+        this.restCount = restCount;
+    }
 
     public Integer getAppraisalStatus() {
         return appraisalStatus;

@@ -21,6 +21,8 @@ public interface ISysGlobalSettingService extends IService<SysGlobalSetting> {
     */
     PageUtils getDataPage(Map<String, Object> params);
 
+    SysGlobalSetting getSetting(Map<String,Object> params);
+
 
 }
 

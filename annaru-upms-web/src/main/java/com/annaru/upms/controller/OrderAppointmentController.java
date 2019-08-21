@@ -63,6 +63,10 @@ public class OrderAppointmentController extends BaseController {
     private IExamDetailService examDetailService;
     @Reference
     private ISysAppraisalService sysAppraisalService;
+    @Reference
+    private ISysGlobalSettingService sysGlobalSettingService;
+    @Reference
+    private IUserFamilyDoctorService userFamilyDoctorService;
 
     /**
      * 门诊预约确认
@@ -289,12 +293,14 @@ public class OrderAppointmentController extends BaseController {
     /**
      * 护士上门费用信息
      */
-    @ApiOperation(value = "护士上门信息",notes = "护士上门收费信息")
+    @ApiOperation(value = "护士上门信息",notes = "护士上门配置信息")
     @GetMapping("/getNurPrice")
     @RequiresPermissions("upms/orderAppointment/getNurPrice")
     public ResultMap getPrice(){
-        SysConfig sysConfig = sysConfigService.getNurPrice();
-        return ResultMap.ok().put("data",Double.parseDouble(sysConfig.getRefNo()));
+        Map<String,Object> params = new HashMap<>();
+        params.put("category",101);
+        SysGlobalSetting sysGlobalSetting = sysGlobalSettingService.getSetting(params);
+        return ResultMap.ok().put("data",sysGlobalSetting);
     }
 
 
@@ -318,9 +324,12 @@ public class OrderAppointmentController extends BaseController {
     public ResultMap save(@Valid @RequestBody OrderAppointmentVo orderAppointment) {
         Map<String,Object> params = new HashMap<>();
         OrderAppointment appointment  = new OrderAppointment();
+        String userId = orderAppointment.getUserId();
+        params.put("userId",userId);
         SysMessage message = new SysMessage();
         OrderExtensionExam orderExtensionExam = new OrderExtensionExam();
         OrderMain orderMain = new OrderMain();
+        Double amount,amountAdditional = 0.0;
         OrderDetail orderDetail = new OrderDetail();
         OrderAdditionalInfo orderAdditionalInfo = new OrderAdditionalInfo();
         SysDoctorOppointment sysDoctorOppointment = new SysDoctorOppointment();
@@ -329,7 +338,9 @@ public class OrderAppointmentController extends BaseController {
                     &&orderAppointment.getAppointDate()!=null
                     &&orderAppointment.getOrderNo()!=null&&orderAppointment.getOption1()!=null
                     &&orderAppointment.getTimeFrom()!=null){
-                String userId = orderAppointment.getUserId();
+
+                params.put("category",101);
+                amount = sysGlobalSettingService.getSetting(params).getPrices();
                 Integer cates = orderAppointment.getAppointmentCates();
                 appointment.setAppointmentCates(cates);
                 appointment.setAppointDate(orderAppointment.getAppointDate());
@@ -357,13 +368,14 @@ public class OrderAppointmentController extends BaseController {
                         orderMain.setOrderNo(orderNoNew);
                         orderMain.setStatus(0);
                         orderMain.setUserId(userId);
-                        orderMain.setAmount(Double.parseDouble(sysConfigService.getNurPrice().getRefNo()));
-                        orderAdditionalInfo.setAmount(Double.parseDouble(sysConfigService.getNurPrice().getRefNo()));
+                        orderMain.setAmount(amount);
+                        orderAdditionalInfo.setAmount(amount);
                         orderMainService.save(orderMain);
                         return ResultMap.ok().put("data",orderNoNew);
                     }
                 }else if (orderAppointment.getOption1()==2){
                     if (orderAppointment.getInstitutionId()!=null){
+                        params.put("institutionId",orderAppointment.getInstitutionId());
                         appointment.setInstitutionId(orderAppointment.getInstitutionId());
                         appointment.setStatus(2);
                         orderAppointmentService.save(appointment);
@@ -381,7 +393,6 @@ public class OrderAppointmentController extends BaseController {
                     &&orderAppointment.getExtensionItems()!=null){
                 String orderNo = createOrderNo();
                 Integer orderCates = orderAppointment.getAppointmentCates();
-                String userId = orderAppointment.getUserId();
                 String parentNo = orderAppointment.getParentNo();
                 String msg = "";
                 params.put("orderNo",parentNo);
@@ -389,7 +400,7 @@ public class OrderAppointmentController extends BaseController {
                 //套餐内项
                 List<ExamExtensionVo> extensionVos = examPackageDetailService.getEEChoosen(params);
                 boolean exist = false;
-                Double amount = 0.0;
+                amount = 0.0;
                 for(int i = 0;i<orderAppointment.getExtensionItems().size();i++){
                     orderExtensionExam.setCreateBy(userId);
                     Integer detailId = orderAppointment.getExtensionItems().get(i).getExamDetailId();
@@ -447,7 +458,6 @@ public class OrderAppointmentController extends BaseController {
                     &&orderAppointment.getHrOppointmentId()!=null) {
                 String orderNo = createOrderNo();
                 Integer orderCates = orderAppointment.getAppointmentCates();
-                String userId = orderAppointment.getUserId();
                 String parentNo = orderAppointment.getParentNo();
                 String msg = "";
                 params.put("orderNo",parentNo);
@@ -455,7 +465,7 @@ public class OrderAppointmentController extends BaseController {
                 //套餐内项
                 List<ExamExtensionVo> extensionVos = examPackageDetailService.getEEChoosen(params);
                 boolean exist = false;
-                Double amount = 0.0;
+                amount = 0.0;
                 for(int i = 0;i<orderAppointment.getExtensionItems().size();i++){
                     orderExtensionExam.setCreateBy(userId);
                     Integer detailId = orderAppointment.getExtensionItems().get(i).getExamDetailId();
@@ -513,6 +523,12 @@ public class OrderAppointmentController extends BaseController {
                     &&orderAppointment.getAppointDate()!=null
                     &&orderAppointment.getTimeFrom()!=null
                     &&orderAppointment.getTimeTo()!=null){
+                UserFamilyDoctor userFamilyDoctor = userFamilyDoctorService.getUserFD(params);
+                if (userFamilyDoctor.getRestCount()==0){
+                    return ResultMap.error().put("data","家庭医生预约服务次数已用完");
+                }
+                userFamilyDoctor.setRestCount(userFamilyDoctor.getRestCount()-1);
+                userFamilyDoctorService.updateById(userFamilyDoctor);
                 sysDoctorOppointment.setOrderNo(orderAppointment.getOrderNo());
                 sysDoctorOppointment.setAppointmentCates(5);
                 sysDoctorOppointment.setUserId(orderAppointment.getUserId());
@@ -527,9 +543,7 @@ public class OrderAppointmentController extends BaseController {
                     &&orderAppointment.getOption1()!=null
                     &&orderAppointment.getOption2()!=null
                     &&orderAppointment.getTimes()!=null){
-                String userId = orderAppointment.getUserId();
                 if (orderAppointment.getTimes()!=0){
-                    params.put("userId",userId);
                     orderDetail = orderDetailService.hasRestTimes(params);
                     String orderNo = orderDetail.getOrderNo();
                     Integer restTime = orderDetail.getRestCount();
@@ -552,21 +566,26 @@ public class OrderAppointmentController extends BaseController {
                     if (orderAppointment.getOption2()==1){
                         //陪诊 增加一条订单
                         orderMain.setOrderCates(6);
+                        params.put("category",802);
+                        amount = sysGlobalSettingService.getSetting(params).getPrices();
                         String newNo = createOrderNo();
                         orderMain.setOrderNo(newNo);
                         orderMain.setParentNo(orderNo);
                         orderMain.setStatus(0);
                         orderMain.setUserId(userId);
-                        orderMain.setAmount(60.0); //缺少陪诊金额信息
+                        orderMain.setAmount(amount); //缺少陪诊金额信息
                         orderMainService.save(orderMain);
-                        orderAdditionalInfo.setAmount(60.0);  //缺少陪诊金额信息
+                        orderAdditionalInfo.setAmount(amount);  //缺少陪诊金额信息
                         orderAdditionalInfoService.save(orderAdditionalInfo);
                         return ResultMap.ok().put("data",newNo);
                     }
                 }else {
                     //如果没有免费次数了，或需要陪诊 要往order_main里插入一条记录
                     String orderNo = createOrderNo();
-                    Double amount = 100.0; //缺少门诊绿通单独购买价格信息
+                    params.put("category",106);
+                    amount = sysGlobalSettingService.getSetting(params).getPrices(); //缺少门诊绿通单独购买价格信息
+                    params.put("category",802);
+                    amountAdditional = sysGlobalSettingService.getSetting(params).getPrices();
                     appointment.setDepartmentId(orderAppointment.getDepartmentId());
                     appointment.setInstitutionId(orderAppointment.getInstitutionId());
                     appointment.setOrderNo(orderNo);
@@ -582,9 +601,9 @@ public class OrderAppointmentController extends BaseController {
                         orderAdditionalInfo.setSituations(orderAppointment.getSituations());
                     }
                     if (orderAppointment.getOption2()==1){
-                        amount = amount + 60; //缺少陪诊价格信息
+                        amount = amount + amountAdditional; //缺少陪诊价格信息
                     }
-                    orderAdditionalInfo.setAmount(60.0);
+                    orderAdditionalInfo.setAmount(amountAdditional);
                     orderAdditionalInfoService.save(orderAdditionalInfo);
                     orderMain.setOrderCates(6);
                     orderMain.setOrderNo(orderNo);

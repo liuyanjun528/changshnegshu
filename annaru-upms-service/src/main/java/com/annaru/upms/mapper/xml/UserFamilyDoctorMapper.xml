@@ -14,6 +14,8 @@
         <result column="status" property="status" />
         <result column="is_terminated" property="isTerminated" />
         <result column="terminated_time" property="terminatedTime" />
+        <result column="rest_count" property="restCount"/>
+        <result column="total_count" property="totalCount"/>
         <result column="creation_time" property="creationTime" />
         <result column="create_by" property="createBy" />
     </resultMap>
@@ -25,6 +27,7 @@
         <result column="doctor_no" property="doctorNo" />
         <result column="effect_from" property="effectFrom" />
         <result column="effect_to" property="effectTo" />
+        <result column="rest_count" property="restCount"/>
         <result column="is_terminated" property="isTerminated" />
         <result column="terminated_time" property="terminatedTime" />
         <result column="doctor_name" property="doctorName" />
@@ -81,6 +84,7 @@
         ufd.effect_to,
         ufd.is_terminated,
         ufd.terminated_time,
+        ufd.rest_count,
         sd.doctor_name,
         sd.head_image,
         sd.degrees,
@@ -111,4 +115,8 @@
         </if>
     </select>
 
+    <select id="getUserFD" parameterType="map" resultMap="BaseResultMap">
+        select * from user_family_doctor
+        where user_id = #{params.userId}
+    </select>
 </mapper>

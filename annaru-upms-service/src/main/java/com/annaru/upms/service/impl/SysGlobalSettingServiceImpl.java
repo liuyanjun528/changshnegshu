@@ -30,4 +30,8 @@ public class SysGlobalSettingServiceImpl extends ServiceImpl<SysGlobalSettingMap
         return new PageUtils<SysGlobalSetting>(iPage);
     }
 
+    public SysGlobalSetting getSetting(Map<String,Object> params){
+        return this.baseMapper.getSetting(params);
+    }
+
 }

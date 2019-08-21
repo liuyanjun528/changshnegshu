@@ -42,4 +42,15 @@
 
     </select>
 
+
+    <select id="getSetting" parameterType="map" resultMap="BaseResultMap">
+        select
+        *
+        from
+        sys_global_setting
+        where
+        is_active=1 and
+        category = #{params.category}
+    </select>
+
 </mapper>
