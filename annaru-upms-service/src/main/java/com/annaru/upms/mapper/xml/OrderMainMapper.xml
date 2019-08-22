@@ -362,7 +362,7 @@
         LEFT JOIN user_basic ub ON ub.user_id = om.user_id
         LEFT JOIN order_customer oc ON oc.order_no = om.order_no
         LEFT JOIN user_relatives ur ON ur.relative_id = oc.relative_id
-        LEFT JOIN user_basic ub1 ON ub.user_id = oc.relative_id
+        LEFT JOIN user_basic ub1 ON ub1.user_id = oc.relative_id
         WHERE
         1=1 AND om.is_deleted = 0
         <if test="params.sysId != null and params.sysId != ''">
