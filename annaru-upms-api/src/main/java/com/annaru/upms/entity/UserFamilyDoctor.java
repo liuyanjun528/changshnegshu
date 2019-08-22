@@ -102,6 +102,7 @@ public class UserFamilyDoctor extends Model<UserFamilyDoctor> implements Seriali
 	@TableField("create_by")
 	private String createBy;
 
+
 	public Integer getRestCount() {
 		return restCount;
 	}

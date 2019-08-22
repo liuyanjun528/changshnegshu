@@ -300,7 +300,7 @@ public class OrderAppointmentController extends BaseController {
         Map<String,Object> params = new HashMap<>();
         params.put("category",101);
         SysGlobalSetting sysGlobalSetting = sysGlobalSettingService.getSetting(params);
-        return ResultMap.ok().put("data",sysGlobalSetting);
+        return ResultMap.ok().put("data",sysGlobalSetting.getPrices());
     }
 
 
@@ -338,9 +338,12 @@ public class OrderAppointmentController extends BaseController {
                     &&orderAppointment.getAppointDate()!=null
                     &&orderAppointment.getOrderNo()!=null&&orderAppointment.getOption1()!=null
                     &&orderAppointment.getTimeFrom()!=null){
-
                 params.put("category",101);
-                amount = sysGlobalSettingService.getSetting(params).getPrices();
+                SysGlobalSetting setting = sysGlobalSettingService.getSetting(params);
+                amount = setting.getPrices();
+                if (UUIDGenerator.differentDays(new Date(),orderAppointment.getAppointDate())<setting.getAppointmentDays().intValue()){
+                    return ResultMap.error("请提前"+setting.getAppointmentDays()+"天预约!");
+                }
                 Integer cates = orderAppointment.getAppointmentCates();
                 appointment.setAppointmentCates(cates);
                 appointment.setAppointDate(orderAppointment.getAppointDate());
@@ -384,6 +387,8 @@ public class OrderAppointmentController extends BaseController {
                         message.setContent("预约成功！请您准时于"+orderAppointment.getAppointDate().getDate()+
                                 "前往"+sysInstitutionService.getInfo(params).getName()+"就诊,迟到将造成无法就诊。");
                     }
+                }else {
+                    return ResultMap.error("参数错误");
                 }
                 orderAdditionalInfoService.save(orderAdditionalInfo);
                 sysMessageService.save(message);
@@ -525,7 +530,7 @@ public class OrderAppointmentController extends BaseController {
                     &&orderAppointment.getTimeTo()!=null){
                 UserFamilyDoctor userFamilyDoctor = userFamilyDoctorService.getUserFD(params);
                 if (userFamilyDoctor.getRestCount()==0){
-                    return ResultMap.error().put("data","家庭医生预约服务次数已用完");
+                    return ResultMap.error("家庭医生预约服务次数已用完");
                 }
                 userFamilyDoctor.setRestCount(userFamilyDoctor.getRestCount()-1);
                 userFamilyDoctorService.updateById(userFamilyDoctor);
