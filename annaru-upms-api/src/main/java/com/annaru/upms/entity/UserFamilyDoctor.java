@@ -82,11 +82,11 @@ public class UserFamilyDoctor extends Model<UserFamilyDoctor> implements Seriali
 
 	@ApiModelProperty(value = "剩余次数")
 	@TableField("rest_count")
-    private int restCount;//剩余次数
+    private Integer restCount;//剩余次数
 
 	@ApiModelProperty(value = "总次数")
 	@TableField("total_count")
-	private int totalCount;//总次数
+	private Integer totalCount;//总次数
 
 
 	/**
@@ -101,10 +101,6 @@ public class UserFamilyDoctor extends Model<UserFamilyDoctor> implements Seriali
     @ApiModelProperty(value = "创建人")
 	@TableField("create_by")
 	private String createBy;
-
-    private Integer restCount;
-
-    private Integer totalCount;
 
 	public Integer getRestCount() {
 		return restCount;
@@ -225,21 +221,6 @@ public class UserFamilyDoctor extends Model<UserFamilyDoctor> implements Seriali
         return terminatedTime;
     }
 
-	public int getRestCount() {
-		return restCount;
-	}
-
-	public void setRestCount(int restCount) {
-		this.restCount = restCount;
-	}
-
-	public int getTotalCount() {
-		return totalCount;
-	}
-
-	public void setTotalCount(int totalCount) {
-		this.totalCount = totalCount;
-	}
 
 	/**
 	 * 设置：中止时间

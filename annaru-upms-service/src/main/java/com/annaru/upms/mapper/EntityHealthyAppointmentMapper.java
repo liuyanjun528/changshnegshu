@@ -72,4 +72,13 @@ public interface EntityHealthyAppointmentMapper extends BaseMapper<EntityHealthy
       */
     int insertEntityDoctorAppointment(EntityHealthyAppointment entityHealthyAppointment);
 
+
+    /**
+      * @Description:查询企业健康服务医生服务次数
+      * @Author: wh
+      * @Date: 2019/8/22 10:57
+      */
+    int selectEntityServiceCount(@Param("userId") String userId);
+
+
 }

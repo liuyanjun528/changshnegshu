@@ -44,6 +44,8 @@ public class OrderAdditionalInfoController extends BaseController {
 
     @Reference
     private ISysMessageService sysMessageService;// 消息表
+    @Reference
+    private ISysGlobalSettingService sysGlobalSettingService;//系统全局参数管理
 
 
     /**
@@ -68,10 +70,18 @@ public class OrderAdditionalInfoController extends BaseController {
     public ResultMap saveGreenPassage(@RequestBody OrderAdditionalInfo orderAdditionalInfo, String[] RelativeId) {
 
         try {
+            //查询sys_global_setting 获取陪诊的金额
+            Map<String, Object> params = new HashMap<>();
+            params.put("category",802);
+            SysGlobalSetting setting = sysGlobalSettingService.getSetting(params);
+
             SysConfig sysConfig = SysConfigUtil.getSysConfig(sysConfigService , SysConfigUtil.ORDERNO);
             orderAdditionalInfo.getEntityHealthyAppointment().getOrderMain().setOrderNo(SysConfigUtil.getNoBySysConfig());
             //添加orderAdditionalInfo 表
             orderAdditionalInfo.setOrderNo(orderAdditionalInfo.getEntityHealthyAppointment().getOrderMain().getOrderNo());
+            if(orderAdditionalInfo.getOption2()==1){
+                orderAdditionalInfo.setAmount(setting.getPrices());
+            }
             orderAdditionalInfo.setAppointmentCates(6);
             orderAdditionalInfo.setCreationTime(orderAdditionalInfo.getEntityHealthyAppointment().getOrderMain().getCreationtime());
             int i = orderAdditionalInfoService.insertGreenPassage(orderAdditionalInfo, RelativeId);

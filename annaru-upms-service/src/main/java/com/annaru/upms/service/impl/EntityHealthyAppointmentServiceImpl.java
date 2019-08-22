@@ -159,6 +159,11 @@ public class EntityHealthyAppointmentServiceImpl extends ServiceImpl<EntityHealt
         return i;
     }
 
+    @Override
+    public int selectEntityServiceCount(String userId) {
+        return this.baseMapper.selectEntityServiceCount(userId);
+    }
+
 
     @Override
     public Integer updateByOderNo(String orderNo) {

@@ -5,10 +5,15 @@ import com.annaru.common.base.BaseController;
 import com.annaru.common.result.PageUtils;
 import com.annaru.common.result.ResultMap;
 import com.annaru.common.util.UUIDGenerator;
+import com.annaru.upms.controllerutil.SysConfigUtil;
+import com.annaru.upms.entity.OrderMain;
 import com.annaru.upms.entity.SysAppraisal;
+import com.annaru.upms.entity.SysConfig;
 import com.annaru.upms.entity.UserFamilyDoctor;
 import com.annaru.upms.entity.vo.UserFamilyDoctorVo;
+import com.annaru.upms.service.IOrderMainService;
 import com.annaru.upms.service.ISysAppraisalService;
+import com.annaru.upms.service.ISysConfigService;
 import com.annaru.upms.service.IUserFamilyDoctorService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -37,6 +42,35 @@ public class UserFamilyDoctorController extends BaseController {
     private IUserFamilyDoctorService userFamilyDoctorService;
     @Reference
     private ISysAppraisalService sysAppraisalService;
+    @Reference
+    private ISysConfigService iSysConfigService; //系统编号配置表
+    @Reference
+    private IOrderMainService orderMainService; //订单表
+
+    /**
+     * 保存家庭医生订单
+     */
+
+    @ApiOperation(value = "家庭医生下订单")
+    @PostMapping("/saveFamilyDoctor")
+    // @RequiresPermissions("upms/orderMain/saveFamilyDoctor")
+    public ResultMap saveFamilyDoctor(@RequestBody OrderMain orderMain) {
+        try {
+            SysConfig sysConfig = SysConfigUtil.getSysConfig(iSysConfigService , SysConfigUtil.ORDERNO);
+            orderMain.setOrderNo(SysConfigUtil.getNoBySysConfig());
+
+            userFamilyDoctorService.saveFamilyDoctor(orderMain);
+
+            SysConfigUtil.saveRefNo(sysConfig.getRefNo());
+
+            return ResultMap.ok("家庭医生订单成功").put("data",orderMain.getOrderNo());
+        }catch (Exception e) {
+            logger.error(e.getMessage());
+            return ResultMap.error("运行异常，请联系管理员");
+        }
+    }
+
+
     /**
      * 列表
      */

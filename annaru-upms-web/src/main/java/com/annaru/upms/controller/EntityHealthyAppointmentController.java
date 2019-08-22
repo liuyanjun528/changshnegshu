@@ -5,10 +5,7 @@ import com.annaru.common.base.BaseController;
 import com.annaru.common.result.PageUtils;
 import com.annaru.common.result.ResultMap;
 import com.annaru.upms.controllerutil.SysConfigUtil;
-import com.annaru.upms.entity.EntityHealthyAppointment;
-import com.annaru.upms.entity.OrderMain;
-import com.annaru.upms.entity.SysConfig;
-import com.annaru.upms.entity.SysMessage;
+import com.annaru.upms.entity.*;
 import com.annaru.upms.entity.vo.EntityHealthyAppointmentVo;
 import com.annaru.upms.entity.vo.UserBasicVo;
 import com.annaru.upms.entity.vo.UserEntityMappingVo;
@@ -59,6 +56,8 @@ public class EntityHealthyAppointmentController extends BaseController {
 
     @Reference
     private ISysMessageService sysMessageService;// 消息表
+    @Reference
+    private ISysGlobalSettingService sysGlobalSettingService;//系统全局参数管理
 
 
     /**
@@ -208,6 +207,31 @@ public class EntityHealthyAppointmentController extends BaseController {
         EntityHealthyAppointment entityHealthyAppointment = entityHealthyAppointmentService.getById(sysId);
         return ResultMap.ok().put("data",entityHealthyAppointment);
     }
+
+    /**
+      * @Description:添加前之前要查询剩余的次数
+      * @Author: wh
+      * @Date: 2019/8/22 11:02
+      */
+    @ApiOperation(value = "查询企业健康服务医生剩余的服务次数", notes = "查询企业健康服务医生剩余的服务次数")
+    @GetMapping("/selectEntityServiceCount")
+    public ResultMap selectEntityServiceCount(String userId){
+
+        //查询sys_global_setting 获取家庭医生的总次数
+        Map<String, Object> params = new HashMap<>();
+        params.put("category",801);
+        SysGlobalSetting setting = sysGlobalSettingService.getSetting(params);
+        Integer counts = setting.getCounts();
+
+        //用户已经使用的次数
+        int i = entityHealthyAppointmentService.selectEntityServiceCount(userId);
+
+        //总次数-使用次数=剩余次数
+        int restCount=counts-i;
+
+        return ResultMap.ok().put("data",restCount);
+    }
+
 
     /**
      * 添加企业家庭医生上门预约

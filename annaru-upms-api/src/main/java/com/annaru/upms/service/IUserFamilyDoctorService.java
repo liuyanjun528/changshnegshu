@@ -1,6 +1,7 @@
 package com.annaru.upms.service;
 
 import com.annaru.common.result.PageUtils;
+import com.annaru.upms.entity.OrderMain;
 import com.annaru.upms.entity.UserFamilyDoctor;
 import com.annaru.upms.entity.vo.UserFamilyDoctorVo;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -25,6 +26,17 @@ public interface IUserFamilyDoctorService extends IService<UserFamilyDoctor> {
     UserFamilyDoctorVo getUserFDInfo(Map<String, Object> params);
 
     UserFamilyDoctor getUserFD(Map<String,Object> params);
+
+
+    /**
+     * @Description:家庭医生购买
+     * @Author: wh
+     * @Date: 2019/8/22 9:57
+     */
+    Boolean saveFamilyDoctor(OrderMain orderMain);
+
+
+
 
 }
 

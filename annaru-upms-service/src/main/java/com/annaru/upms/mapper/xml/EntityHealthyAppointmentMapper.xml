@@ -212,4 +212,9 @@
     </insert>
 
 
+    <select id="selectEntityServiceCount" parameterType="string" resultType="int">
+        SELECT count(*) FROM entity_healthy_appointment
+	    where user_id=#{userId} and pkg_detail_id=801
+    </select>
+
 </mapper>
