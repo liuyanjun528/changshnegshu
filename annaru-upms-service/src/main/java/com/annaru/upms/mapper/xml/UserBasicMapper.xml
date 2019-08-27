@@ -58,6 +58,7 @@
         <result column="cardNo" property="cardNo" />
         <result column="entity_id" property="entityId" />
         <result column="entity_name" property="entityName" />
+        <result column="healthy_doc_status" property="healthyDocStatus" />
     </resultMap>
 
     <!-- 通用查询映射结果 UserBasicVoZ -->
@@ -248,7 +249,8 @@
             is_hr,
             uc.card_no cardNo,
             se.entity_id,
-            se.entity_name
+            se.entity_name,
+            ub.healthy_doc_status
         FROM
         user_basic ub
         LEFT JOIN user_cards uc ON uc.user_id = ub.user_id

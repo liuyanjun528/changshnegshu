@@ -237,6 +237,10 @@ public class UserBasic extends Model<UserBasic> implements Serializable {
 	 */
 	@TableField(exist = false)
 	private String entityName;
+
+	@TableField("healthy_doc_status")
+	private int healthyDocStatus;//健康档案查看状态(1:可查看/0:不可查看)
+
 	/**
 	 * 企业用户的购买的服务的 描述 开始时间 结束时间
 	 * @uthor zk
@@ -585,6 +589,14 @@ public class UserBasic extends Model<UserBasic> implements Serializable {
 
 	public void setUserExamMainDetailList(List<UserExamMainDetail> userExamMainDetailList) {
 		this.userExamMainDetailList = userExamMainDetailList;
+	}
+
+	public int getHealthyDocStatus() {
+		return healthyDocStatus;
+	}
+
+	public void setHealthyDocStatus(int healthyDocStatus) {
+		this.healthyDocStatus = healthyDocStatus;
 	}
 
 	@Override
