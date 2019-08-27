@@ -75,4 +75,21 @@ public class OrderAppointmentServiceImpl extends ServiceImpl<OrderAppointmentMap
     public List<OrderAppointmentBase> getAppointInfoByOrderNo(Map<String,Object> params){
         return this.baseMapper.getAppointInfoByOrderNo(params);
     }
+
+    @Override
+    public OrderOppintmentW selectUpDoorOppointment(String orderNo) {
+        return this.baseMapper.selectUpDoorOppointment(orderNo);
+    }
+
+    @Override
+    public OrderOppintmentW1 selectUpDoorOppointment1(String orderNo) {
+        return this.baseMapper.selectUpDoorOppointment1(orderNo);
+    }
+
+    @Override
+    public OrderOppintmentW2 selectUpDoorOppointment2(String orderNo) {
+        return this.baseMapper.selectUpDoorOppointment2(orderNo);
+    }
+
+
 }

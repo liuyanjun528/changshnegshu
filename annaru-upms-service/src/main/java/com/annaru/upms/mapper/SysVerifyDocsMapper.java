@@ -11,7 +11,7 @@ import java.util.Map;
 
 /**
  * 认证资料
- * 
+ *
  * @author xck
  * @date 2019-06-10 14:59:12
  */
@@ -38,6 +38,14 @@ public interface SysVerifyDocsMapper extends BaseMapper<SysVerifyDocs> {
      * @return
      */
     SysVerifyDocsVoZ selectVerDoctor(@Param("userId") String userId);
+
+
+    /**
+      * @Description:用户实名认证
+      * @Author: wh
+      * @Date: 2019/8/27 11:49
+      */
+    SysVerifyDocs saveUserVerify(SysVerifyDocs sysVerifyDocs);
 
 
 }

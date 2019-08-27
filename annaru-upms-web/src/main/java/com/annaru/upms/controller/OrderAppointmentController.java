@@ -726,4 +726,21 @@ public class OrderAppointmentController extends BaseController {
         return ResultMap.ok().put("data",nurseOrderLists);
     }
 
+
+    /**
+     * 查看家庭医生服务上门预约信息
+     */
+    @ApiOperation(value = "查看家庭医生服务上门预约信息", notes = "查看家庭医生服务上门预约信息")
+    @GetMapping("/selectUpDoorOppointment")
+    @RequiresPermissions("upms/orderAppointment/selectUpDoorOppointment")
+    public ResultMap selectUpDoorOppointment(String orderNo){
+        OrderOppintmentW a = orderAppointmentService.selectUpDoorOppointment(orderNo);
+        OrderOppintmentW1 b = orderAppointmentService.selectUpDoorOppointment1(orderNo);
+        OrderOppintmentW2 c = orderAppointmentService.selectUpDoorOppointment2(orderNo);
+        return ResultMap.ok().put("data",a).put("data1",b).put("data2",c);
+    }
+
+
+
+
 }

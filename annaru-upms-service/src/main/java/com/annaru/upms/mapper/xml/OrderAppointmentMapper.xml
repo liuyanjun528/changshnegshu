@@ -311,4 +311,70 @@ UNION
             oa.order_no =  #{params.orderNo}
             and oa.is_cancelled = 0
     </select>
+
+
+
+
+
+    <resultMap id="upDoorMap" type="com.annaru.upms.entity.vo.OrderOppintmentW" >
+        <result column="order_no" property="orderNo" />
+        <result column="appoint_date" property="appointDate" />
+        <result column="address" property="address" />
+        <result column="cellphone_no" property="cellphoneNo" />
+    </resultMap>
+    <resultMap id="upDoorMap1" type="com.annaru.upms.entity.vo.OrderOppintmentW1" >
+        <result column="user_cates" property="userCates"/>
+        <result column="userName" property="userName"/>
+        <result column="userSex" property="userSex"/>
+        <result column="userIdCard" property="userIdCard"/>
+        <result column="userPhone" property="userPhone"/>
+        <result column="userDocCard" property="userDocCard"/>
+    </resultMap>
+    <resultMap id="upDoorMap2" type="com.annaru.upms.entity.vo.OrderOppintmentW2" >
+        <result column="user_cates" property="userCates"/>
+        <result column="relatedName" property="relatedName"/>
+        <result column="relatedSex" property="relatedSex"/>
+        <result column="relatedIdCard" property="relatedIdCard"/>
+        <result column="relatedPhone" property="relatedPhone"/>
+        <result column="relatedDocCard" property="relatedDocCard"/>
+    </resultMap>
+
+    <!--查看家庭医生服务上门预约信息-->
+    <select id="selectUpDoorOppointment" parameterType="String" resultMap="upDoorMap">
+     SELECT
+            oa.order_no,
+			oa.appoint_date,
+			oa.address,
+			sd.cellphone_no
+        FROM order_appointment as oa
+        LEFT JOIN sys_doctor as sd ON sd.doctor_no=oa.related_no
+            WHERE oa.order_no=#{orderNo}
+    </select>
+    <select id="selectUpDoorOppointment1" parameterType="String" resultMap="upDoorMap1">
+     SELECT
+			oc.user_cates,
+			ub.full_name as userName,
+			ub.gender as userSex,
+			ub.id_card_no as userIdCard,
+			ub.cellphone_no as userPhone,
+			uc.card_no as userDocCard
+	    from order_customer as oc
+        LEFT JOIN user_basic as ub ON ub.user_id=oc.relative_id
+        LEFT JOIN user_cards as uc ON uc.user_id=oc.relative_id
+        where oc.order_no=#{orderNo} and  oc.user_cates=1
+    </select>
+    <select id="selectUpDoorOppointment2" parameterType="String" resultMap="upDoorMap2">
+        SELECT
+			oc.user_cates,
+			ur.relative_name as relatedName,
+			ur.gender as relatedSex,
+			ur.id_card_no as relatedIdCard,
+			ur.cellphone_no as relatedPhone,
+			uc.card_no as relatedDocCard
+	    from order_customer as oc
+        LEFT JOIN user_relatives as ur ON ur.relative_id=oc.relative_id
+        LEFT JOIN user_cards as uc ON uc.user_id=oc.relative_id
+        where oc.order_no=#{orderNo} and  oc.user_cates=2
+    </select>
+
 </mapper>
