@@ -1,5 +1,6 @@
 package com.annaru.upms.service;
 
+import com.annaru.upms.entity.vo.DoctorScheduleVo;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.annaru.common.result.PageUtils;
 import com.annaru.upms.entity.SysDoctorSchedule;
@@ -25,7 +26,7 @@ public interface ISysDoctorScheduleService extends IService<SysDoctorSchedule> {
     PageUtils getDataPage(Map <String, Object> params);
 
 
-    List<SysDoctorSchedule> getDocSchedule(Map<String,Object> params);
+    List<DoctorScheduleVo> getDocSchedule(Map<String,Object> params);
 
     boolean updateSceduleStatus(Map<String,Object> params);
 

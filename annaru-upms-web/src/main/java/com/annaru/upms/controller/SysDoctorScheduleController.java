@@ -5,6 +5,7 @@ import com.annaru.common.base.BaseController;
 import com.annaru.common.result.PageUtils;
 import com.annaru.common.result.ResultMap;
 import com.annaru.upms.entity.SysDoctorSchedule;
+import com.annaru.upms.entity.vo.DoctorScheduleVo;
 import com.annaru.upms.service.ISysDoctorScheduleService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -58,7 +59,10 @@ public class SysDoctorScheduleController extends BaseController {
     public ResultMap info(@PathVariable("doctorNo") String doctorNo){
         Map<String,Object> params = new HashMap<>();
         params.put("doctorNo",doctorNo);
-        List<SysDoctorSchedule> sysDoctorSchedule = sysDoctorScheduleService.getDocSchedule(params);
+        List<DoctorScheduleVo> sysDoctorSchedule = sysDoctorScheduleService.getDocSchedule(params);
+//        for (int i=0;i<sysDoctorSchedule.size();i++){
+//            sysDoctorSchedule.get(i).getDateFrom()
+//        }
         return ResultMap.ok().put("data",sysDoctorSchedule);
     }
 

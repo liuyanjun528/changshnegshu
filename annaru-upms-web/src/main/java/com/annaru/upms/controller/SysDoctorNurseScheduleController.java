@@ -148,12 +148,12 @@ public class SysDoctorNurseScheduleController extends BaseController {
                 sysDoctorNurseSchedule.setCreationTime(new Date());
                 sysDoctorNurseSchedule.setUserCates(2);//2为医生
                 if (time == 1) {
-                    sysDoctorNurseSchedule.setTimeFrom("08:00:00");
-                    sysDoctorNurseSchedule.setTimeTo("11:00:00");
+                    sysDoctorNurseSchedule.setTimeFrom("上午");
+                    sysDoctorNurseSchedule.setTimeTo("上午");
                 }
                 if (time == 2) {
-                    sysDoctorNurseSchedule.setTimeFrom("13:00:00");
-                    sysDoctorNurseSchedule.setTimeTo("16:00:00");
+                    sysDoctorNurseSchedule.setTimeFrom("下午");
+                    sysDoctorNurseSchedule.setTimeTo("下午");
                 }
                 boolean save = sysDoctorNurseScheduleService.save(sysDoctorNurseSchedule);
                 if (save = false) {
