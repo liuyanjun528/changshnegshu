@@ -141,6 +141,11 @@ public class SysVerifyDocsServiceImpl extends ServiceImpl<SysVerifyDocsMapper, S
         }
         return new SysVerifyDocsVoZ();
     }
+
+    @Override
+    public SysVerifyDocs saveUserVerify(SysVerifyDocs sysVerifyDocs) {
+        return this.baseMapper.saveUserVerify(sysVerifyDocs);
+    }
 }
 
 

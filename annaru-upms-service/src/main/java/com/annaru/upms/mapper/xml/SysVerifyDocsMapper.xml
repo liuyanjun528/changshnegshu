@@ -6,10 +6,11 @@
 	<!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.annaru.upms.entity.SysVerifyDocs" >
         <result column="sys_id" property="sysId" />
-        <result column="related_no" property="relatedNo" />
         <result column="cates" property="cates" />
         <result column="doc_cates" property="docCates" />
         <result column="images" property="images" />
+        <result column="full_name" property="fullName" />
+        <result column="id_no" property="idNo" />
         <result column="creation_time" property="creationTime" />
         <result column="create_by" property="createBy" />
     </resultMap>
@@ -30,13 +31,15 @@
         <result column="department_name" property="belongOffice" />
         <result column="job_title" property="jobTitle" />
     </resultMap>
-    
+
     <sql id="BaseClounmSql">
           sys_id,
           related_no,
           cates,
           doc_cates,
           images,
+          full_name，
+          id_no,
           creation_time,
           create_by,
     </sql>
@@ -64,5 +67,15 @@
         INNER JOIN sys_department d on a.belong_office = d.sys_id
         where a.user_id = #{userId}
     </select>
+
+
+    <!---->
+    <select id="saveUserVerify" parameterType="com.annaru.upms.entity.SysVerifyDocs">
+        insert into sys_verify_docs
+                (user_id,doc_cates,images,full_name,id_no,creation_time)
+        VALUES
+                (#{userId},#{docCates},#{images},#{fullName},#{idNo},#{creationTime})
+    </select>
+
 
 </mapper>
