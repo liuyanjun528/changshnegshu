@@ -599,10 +599,13 @@ WHERE
         on epm.sys_id = om.reference_no
         LEFT JOIN order_appointment oa
         on om.order_no = oa.order_no
+        LEFT JOIN order_customer oc
+        on oc.order_no = om.order_no
         WHERE
         (om.order_cates = 3 or om.order_cates = 1)
-        and om.user_id = #{params.userId}
+        and oc.relative_id = #{params.userId}
         and om.is_deleted = 0
+        and om.`status` = 2
         <if test="params.orderNo != null and params.orderNo != ''">
             AND om.order_no = #{params.orderNo}
         </if>
@@ -624,10 +627,13 @@ WHERE
         on epm.sys_id = om.reference_no
         LEFT JOIN order_appointment oa
         on om.order_no = oa.order_no
+        LEFT JOIN order_customer oc
+        on oc.order_no = om.order_no
         WHERE
         (om.order_cates = 3 or om.order_cates = 1)
-        and om.user_id = #{params.userId}
+        and oc.relative_id = #{params.userId}
         and om.is_deleted = 0
+        and om.`status` = 2
         GROUP BY order_no
         ORDER BY oa.creation_time DESC
     </select>
