@@ -4,6 +4,7 @@ import java.util.*;
 
 import com.annaru.upms.entity.vo.DoctorScheduleVoW;
 import com.annaru.upms.entity.vo.SysDoctorNurseScheduleVo;
+import com.annaru.upms.service.ISysGlobalSettingService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import com.alibaba.dubbo.config.annotation.Reference;
 import org.springframework.web.bind.annotation.*;
@@ -34,7 +35,8 @@ import javax.validation.Valid;
 public class SysDoctorNurseScheduleController extends BaseController {
     @Reference
     private ISysDoctorNurseScheduleService sysDoctorNurseScheduleService;
-
+    @Reference
+    private ISysGlobalSettingService sysGlobalSettingService;
     /**
      * 医生的排班列表
      */
@@ -134,39 +136,25 @@ public class SysDoctorNurseScheduleController extends BaseController {
     @ApiOperation(value = "添加医生的排班")
     @PostMapping("/save")
     //@RequiresPermissions("upms/sysDoctorNurseSchedule/save")
-    public ResultMap save(@Valid @RequestBody SysDoctorNurseSchedule sysDoctorNurseSchedule, int time) {
+    public ResultMap save(@Valid @RequestBody List<SysDoctorNurseSchedule> sysDoctorNurseSchedule) {
         try {
-            //首先判断 要排班的那天 已经排班的个数
-            //上午 或者下午 排班数小于5才可以添加排班
-            Map<String, Object> params = new HashMap<>();
-            params.put("doctorNo", sysDoctorNurseSchedule.getDoctorNurseNo());
-            params.put("dateFrom", sysDoctorNurseSchedule.getDateFrom());
-            int i = sysDoctorNurseScheduleService.selectScheduleCount1(params);
-            int j = sysDoctorNurseScheduleService.selectScheduleCount2(params);
-            if(i<=5&&j<=5){
-                sysDoctorNurseSchedule.setEditTime(new Date());
-                sysDoctorNurseSchedule.setCreationTime(new Date());
-                sysDoctorNurseSchedule.setUserCates(2);//2为医生
-                if (time == 1) {
-                    sysDoctorNurseSchedule.setTimeFrom("上午");
-                    sysDoctorNurseSchedule.setTimeTo("上午");
+            SysDoctorNurseSchedule schedule = new SysDoctorNurseSchedule();
+            Map<String,Object> params = new HashMap<>();
+            params.put("category",110);
+            int hosCount = sysGlobalSettingService.getSetting(params).getCounts();
+            params.put("category",111);
+            int doorCount = sysGlobalSettingService.getSetting(params).getCounts();
+            for (int i = 0;i<sysDoctorNurseSchedule.size();i++){
+                schedule = sysDoctorNurseSchedule.get(i);
+                schedule.setUserCates(2);
+                if (schedule.getServiceMethod()==1) {
+                    schedule.setCount(doorCount);
+                } else {
+                    schedule.setCount(hosCount);
                 }
-                if (time == 2) {
-                    sysDoctorNurseSchedule.setTimeFrom("下午");
-                    sysDoctorNurseSchedule.setTimeTo("下午");
-                }
-                boolean save = sysDoctorNurseScheduleService.save(sysDoctorNurseSchedule);
-                if (save = false) {
-                    return ResultMap.error("运行异常，请联系管理员");
-                }
-                return ResultMap.ok("添加成功");
             }
-            else if(i>5){
-                return ResultMap.error("今天上午的排班已经满了，请择日再排");
-            }else if(j>5){
-                return ResultMap.error("今天下午的排班已经满了，请择日再排");
-            }
-            return ResultMap.error("添加失败");
+            sysDoctorNurseScheduleService.saveBatch(sysDoctorNurseSchedule,sysDoctorNurseSchedule.size());
+            return ResultMap.ok().put("data","添加成功");
         } catch (Exception e) {
             logger.error(e.getMessage());
             return ResultMap.error("运行异常，请联系管理员");
@@ -183,6 +171,7 @@ public class SysDoctorNurseScheduleController extends BaseController {
                             @ApiParam(value = "医生编号") @RequestParam(required = false) String doctorNo,
                             @ApiParam(value = "排班日期号") @RequestParam(required = false) int sysId,
                             @ApiParam(value = "时间段") @RequestParam(required = false) int time) {
+        //判断次数是否等于
         try {
             Map<String, Object> params = new HashMap<>();
             params.put("newDateFrom", newDateFrom);

@@ -89,6 +89,16 @@ public class SysDoctorSchedule extends Model<SysDoctorSchedule> implements Seria
 
     private Integer serviceMethod;
 
+    private Integer count;
+
+	public Integer getCount() {
+		return count;
+	}
+
+	public void setCount(Integer count) {
+		this.count = count;
+	}
+
 	public Integer getServiceMethod() {
 		return serviceMethod;
 	}

@@ -60,9 +60,6 @@ public class SysDoctorScheduleController extends BaseController {
         Map<String,Object> params = new HashMap<>();
         params.put("doctorNo",doctorNo);
         List<DoctorScheduleVo> sysDoctorSchedule = sysDoctorScheduleService.getDocSchedule(params);
-//        for (int i=0;i<sysDoctorSchedule.size();i++){
-//            sysDoctorSchedule.get(i).getDateFrom()
-//        }
         return ResultMap.ok().put("data",sysDoctorSchedule);
     }
 
