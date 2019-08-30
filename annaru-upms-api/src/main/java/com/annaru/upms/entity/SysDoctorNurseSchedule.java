@@ -46,8 +46,9 @@ public class SysDoctorNurseSchedule extends Model<SysDoctorNurseSchedule> implem
 
 	@ApiModelProperty(value = "1:上门排班/2：门诊排班")
 	@TableField("service_method")
-	private String serviceMethod;
+	private Integer serviceMethod;
 
+	private Integer count;
 	/**
 	 * 开始日期
 	 */
@@ -89,29 +90,34 @@ public class SysDoctorNurseSchedule extends Model<SysDoctorNurseSchedule> implem
 	 */
     @ApiModelProperty(value = "创建时间")
 	@TableField("creation_time")
-	private Date creationTime;
+	private Date creationTime = new Date();
 	/**
 	 * 编辑时间
 	 */
     @ApiModelProperty(value = "编辑时间")
 	@TableField("edit_time")
-	private Date editTime;
+	private Date editTime = new Date();
 	/**
 	 * 排班状态（1、未排班；2、已排班；3、已排满）
 	 */
     @ApiModelProperty(value = "排班状态（1、未排班；2、已排班；3、已排满）")
 	private Integer state;
 
-	@TableField(exist = false)
-	private int time;//1上午 2下午
 
-
-	public int getTime() {
-		return time;
+	public Integer getCount() {
+		return count;
 	}
 
-	public void setTime(int time) {
-		this.time = time;
+	public void setCount(Integer count) {
+		this.count = count;
+	}
+
+	public Integer getServiceMethod() {
+		return serviceMethod;
+	}
+
+	public void setServiceMethod(Integer serviceMethod) {
+		this.serviceMethod = serviceMethod;
 	}
 
 	/**
@@ -149,14 +155,6 @@ public class SysDoctorNurseSchedule extends Model<SysDoctorNurseSchedule> implem
 	 */
 	public void setDoctorNurseNo(String doctorNurseNo) {
 		this.doctorNurseNo = doctorNurseNo;
-	}
-
-	public String getServiceMethod() {
-		return serviceMethod;
-	}
-
-	public void setServiceMethod(String serviceMethod) {
-		this.serviceMethod = serviceMethod;
 	}
 
 	/**

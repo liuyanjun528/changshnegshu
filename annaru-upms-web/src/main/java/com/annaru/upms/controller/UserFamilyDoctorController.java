@@ -109,10 +109,8 @@ public class UserFamilyDoctorController extends BaseController {
             }else {
                 userFamilyDoctor.setAppraisalStatus(1);
             }
-            return ResultMap.ok().put("data",userFamilyDoctor);
-        }else {
-            return ResultMap.ok().put("data","尚未绑定家庭医生");
         }
+        return ResultMap.ok().put("data",userFamilyDoctor);
     }
 
     /**

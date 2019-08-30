@@ -93,18 +93,19 @@
               appointment_cates,
               doctor_nurse_no,
               appoint_date,
-              time_from,
+              (CASE WHEN time_from = '13:00:00' then '下午' WHEN time_from = '08:00:00' then '上午' end) time_from,
               time_to,
-              is_active,
+              is_confirmed as is_active,
               creation_time,
               create_by,
               edit_time,
               edit_by
         FROM
         sys_doctor_nurse_oppointment
-            <if test="params.userId != null and params.userId != ''">
-                WHERE user_id = #{params.userId}
-            </if>
+        WHERE  user_cate = 2
+        <if test="params.userId != null and params.userId != ''">
+        and  user_id = #{params.userId}
+        </if>
     </select>
 
 

@@ -4,6 +4,7 @@ import java.util.*;
 
 import com.annaru.upms.entity.vo.DoctorScheduleVoW;
 import com.annaru.upms.entity.vo.SysDoctorNurseScheduleVo;
+import com.annaru.upms.service.ISysGlobalSettingService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import com.alibaba.dubbo.config.annotation.Reference;
 import org.springframework.web.bind.annotation.*;
@@ -34,7 +35,8 @@ import javax.validation.Valid;
 public class SysDoctorNurseScheduleController extends BaseController {
     @Reference
     private ISysDoctorNurseScheduleService sysDoctorNurseScheduleService;
-
+    @Reference
+    private ISysGlobalSettingService sysGlobalSettingService;
     /**
      * 医生的排班列表
      */
@@ -134,52 +136,30 @@ public class SysDoctorNurseScheduleController extends BaseController {
     @ApiOperation(value = "添加医生的排班")
     @PostMapping("/save")
     //@RequiresPermissions("upms/sysDoctorNurseSchedule/save")
-    public ResultMap save(@Valid @RequestBody SysDoctorNurseSchedule sysDoctorNurseSchedule) {
+    public ResultMap save(@Valid @RequestBody List<SysDoctorNurseSchedule> sysDoctorNurseSchedule) {
         try {
-
-                    boolean save = sysDoctorNurseScheduleService.save(sysDoctorNurseSchedule);
-                    if (save = false) {
-                        return ResultMap.error("运行异常，请联系管理员");
-                    }
-                    return ResultMap.ok("添加成功");
-
+            SysDoctorNurseSchedule schedule = new SysDoctorNurseSchedule();
+            Map<String,Object> params = new HashMap<>();
+            params.put("category",110);
+            int hosCount = sysGlobalSettingService.getSetting(params).getCounts();
+            params.put("category",111);
+            int doorCount = sysGlobalSettingService.getSetting(params).getCounts();
+            for (int i = 0;i<sysDoctorNurseSchedule.size();i++){
+                schedule = sysDoctorNurseSchedule.get(i);
+                schedule.setUserCates(2);
+                if (schedule.getServiceMethod()==1) {
+                    schedule.setCount(doorCount);
+                } else {
+                    schedule.setCount(hosCount);
+                }
+            }
+            sysDoctorNurseScheduleService.saveBatch(sysDoctorNurseSchedule,sysDoctorNurseSchedule.size());
+            return ResultMap.ok().put("data","添加成功");
         } catch (Exception e) {
             logger.error(e.getMessage());
             return ResultMap.error("运行异常，请联系管理员");
         }
     }
-
-    /**
-      * @Description:修改前的回显
-      * @Author: wh
-      * @Date: 2019/8/29 11:21
-      */
-   @ApiOperation(value = "修改前的回显", notes = "修改前的回显")
-   @GetMapping("/selectUpdate")
-   @RequiresPermissions("upms/sysDoctorNurseSchedule/selectUpdate")
-    public ResultMap selectUpdate(@ApiParam(value = "医生编号") @RequestParam(required = false) String doctorNo,
-                                  @ApiParam(value = "预约的日期") @RequestParam(required = false) String dateFrom,
-                                  @ApiParam(value = "上门/门诊") @RequestParam(required = false) int serviceMethod
-    ) {
-        try {
-            Map<String, Object> params = new HashMap<>();
-            params.put("doctorNo",doctorNo);
-            params.put("dateFrom",dateFrom);
-            params.put("serviceMethod",serviceMethod);
-            SysDoctorNurseSchedule sysDoctorNurseSchedule = sysDoctorNurseScheduleService.selectUpdate(params);
-            if("08:00:00".equals(sysDoctorNurseSchedule.getTimeFrom())){
-                sysDoctorNurseSchedule.setTime(1);
-            }
-            if("13:00:00".equals(sysDoctorNurseSchedule.getTimeFrom())){
-                sysDoctorNurseSchedule.setTime(2);
-            }
-            return ResultMap.ok().put("sysDoctorNurseSchedule", sysDoctorNurseSchedule);
-        } catch (Exception e) {
-            logger.error(e.getMessage());
-            return ResultMap.error("运行异常，请联系管理员");
-        }
-    }
-
 
     /**
      * 修改医生的排班
@@ -191,6 +171,7 @@ public class SysDoctorNurseScheduleController extends BaseController {
                             @ApiParam(value = "医生编号") @RequestParam(required = false) String doctorNo,
                             @ApiParam(value = "排班日期号") @RequestParam(required = false) int sysId,
                             @ApiParam(value = "时间段") @RequestParam(required = false) int time) {
+        //判断次数是否等于
         try {
             Map<String, Object> params = new HashMap<>();
             params.put("newDateFrom", newDateFrom);

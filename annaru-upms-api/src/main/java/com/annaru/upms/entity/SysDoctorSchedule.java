@@ -91,7 +91,27 @@ public class SysDoctorSchedule extends Model<SysDoctorSchedule> implements Seria
 	@TableField("edit_time")
 	private Date editTime;
 
-    /**
+    private Integer serviceMethod;
+
+    private Integer count;
+
+	public Integer getCount() {
+		return count;
+	}
+
+	public void setCount(Integer count) {
+		this.count = count;
+	}
+
+	public Integer getServiceMethod() {
+		return serviceMethod;
+	}
+
+	public void setServiceMethod(Integer serviceMethod) {
+		this.serviceMethod = serviceMethod;
+	}
+
+	/**
      * 获取：系统编号
      */
     public Integer getSysId() {

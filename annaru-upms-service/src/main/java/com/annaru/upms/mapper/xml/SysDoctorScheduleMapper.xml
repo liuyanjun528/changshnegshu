@@ -8,7 +8,8 @@
         <result column="sys_id" property="sysId" />
         <result column="doctor_nurse_no" property="doctorNurseNo" />
         <result column="user_cates" property="userCates" />
-        <result column="service_method" property="serviceMethod" />
+        <result column="service_method" property="serviceMethod"/>
+        <result column="count" property="count"/>
         <result column="date_from" property="dateFrom" />
         <result column="date_to" property="dateTo" />
         <result column="time_from" property="timeFrom" />
@@ -47,6 +48,7 @@
         <if test="params.doctorNurseNo != null and params.doctorNurseNo != ''">
             AND doctor_nurse_no LIKE CONCAT('%', #{params.doctorNurseNo}, '%')
         </if>
+
     </select>
 
 
@@ -115,6 +117,8 @@
                 and time_from=#{params.timeFrom}
                 and time_to=#{params.timeTo}
                 and doctor_nurse_no=#{params.doctorNo}
+                and is_active = 0
+                ORDER BY creation_time DESC limit 1
     </update>
 
 
