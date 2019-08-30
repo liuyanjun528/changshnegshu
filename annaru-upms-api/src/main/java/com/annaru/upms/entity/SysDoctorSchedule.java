@@ -86,9 +86,12 @@ public class SysDoctorSchedule extends Model<SysDoctorSchedule> implements Seria
     @ApiModelProperty(value = "编辑时间")
 	@TableField("edit_time")
 	private Date editTime;
+
     private Integer state;
+
 	@ApiModelProperty(value = "1:上门排班/2：门诊排班")
-	@TableField("service_method")    private Integer serviceMethod;
+	@TableField("service_method")
+	private Integer serviceMethod;
 
     private Integer count;
 
