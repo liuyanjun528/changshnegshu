@@ -11,21 +11,12 @@ import java.util.List;
 public class OrderOppintmentW2 implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private int userCates;
     private String relatedName;
     private int relatedSex;
     private String relatedIdCard;
     private String relatedPhone;
-    private String relatedDocCard;
+    private String relativeDoctorCard;
 
-
-    public int getUserCates() {
-        return userCates;
-    }
-
-    public void setUserCates(int userCates) {
-        this.userCates = userCates;
-    }
 
     public String getRelatedName() {
         return relatedName;
@@ -59,12 +50,12 @@ public class OrderOppintmentW2 implements Serializable {
         this.relatedPhone = relatedPhone;
     }
 
-    public String getRelatedDocCard() {
-        return relatedDocCard;
+    public String getRelativeDoctorCard() {
+        return relativeDoctorCard;
     }
 
-    public void setRelatedDocCard(String relatedDocCard) {
-        this.relatedDocCard = relatedDocCard;
+    public void setRelativeDoctorCard(String relativeDoctorCard) {
+        this.relativeDoctorCard = relativeDoctorCard;
     }
 
     @Override

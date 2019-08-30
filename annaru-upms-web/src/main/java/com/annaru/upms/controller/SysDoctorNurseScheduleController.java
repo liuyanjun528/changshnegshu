@@ -43,9 +43,9 @@ public class SysDoctorNurseScheduleController extends BaseController {
     @ApiOperation(value = "医生的排班列表")
     @GetMapping("/getDoctorScheduleList")
     @RequiresPermissions("upms/sysDoctorNurseSchedule/getDoctorScheduleList")
-    public ResultMap getDoctorScheduleList(String doctorNo) {
+    public ResultMap getDoctorScheduleList(String doctorNo,String dateFrom) {
         try {
-            List<SysDoctorNurseScheduleVo> list = sysDoctorNurseScheduleService.selectSchedulePage(doctorNo);
+            List<SysDoctorNurseScheduleVo> list = sysDoctorNurseScheduleService.selectSchedulePage(doctorNo,dateFrom);
             return ResultMap.ok().put("data", list);
         } catch (Exception e) {
             logger.error(e.getMessage());

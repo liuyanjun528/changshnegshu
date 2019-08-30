@@ -59,8 +59,10 @@ public class UserFamilyDoctorController extends BaseController {
             SysConfig sysConfig = SysConfigUtil.getSysConfig(iSysConfigService , SysConfigUtil.ORDERNO);
             orderMain.setOrderNo(SysConfigUtil.getNoBySysConfig());
 
-            userFamilyDoctorService.saveFamilyDoctor(orderMain);
-
+            Boolean aBoolean = userFamilyDoctorService.saveFamilyDoctor(orderMain);
+            if(!aBoolean){
+                return ResultMap.error("运行异常，请联系管理员");
+            }
             SysConfigUtil.saveRefNo(sysConfig.getRefNo());
 
             return ResultMap.ok("家庭医生订单成功").put("data",orderMain.getOrderNo());
@@ -102,10 +104,19 @@ public class UserFamilyDoctorController extends BaseController {
             userFamilyDoctor.setRestDays(UUIDGenerator.differentDays(new Date(),userFamilyDoctor.getEffectTo()));
             params.put("docNo",userFamilyDoctor.getDoctorNo());
             SysAppraisal appraisal = sysAppraisalService.selectOne(params);
+            //如果剩余天数<0 设为中止
+            if(userFamilyDoctor.getRestDays()<0){
+                userFamilyDoctor.setRestDays(0);
+                userFamilyDoctor.setIsTerminated(1);
+                userFamilyDoctor.setTerminatedTime(new Date());
+            }
+
             if (appraisal==null){
                 userFamilyDoctor.setAppraisalStatus(0);
             }else {
                 userFamilyDoctor.setAppraisalStatus(1);
+                userFamilyDoctor.setUserStarCount(appraisal.getStarCount());
+                userFamilyDoctor.setUserScores(appraisal.getScores());
             }
         }
         return ResultMap.ok().put("data",userFamilyDoctor);

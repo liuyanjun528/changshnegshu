@@ -11,20 +11,14 @@ import java.util.List;
 public class OrderOppintmentW1 implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private int userCates;
+
     private String userName;
     private int userSex;
     private String userIdCard;
     private String userPhone;
-    private String userDocCard;
+    private String userDoctorCard;
 
-    public int getUserCates() {
-        return userCates;
-    }
 
-    public void setUserCates(int userCates) {
-        this.userCates = userCates;
-    }
     public String getUserName() {
         return userName;
     }
@@ -57,12 +51,12 @@ public class OrderOppintmentW1 implements Serializable {
         this.userPhone = userPhone;
     }
 
-    public String getUserDocCard() {
-        return userDocCard;
+    public String getUserDoctorCard() {
+        return userDoctorCard;
     }
 
-    public void setUserDocCard(String userDocCard) {
-        this.userDocCard = userDocCard;
+    public void setUserDoctorCard(String userDoctorCard) {
+        this.userDoctorCard = userDoctorCard;
     }
 
     @Override
