@@ -54,17 +54,13 @@
 
     <select id="getDocSchedule" parameterType="map" resultMap="BaseResultMapVo">
         SELECT
-        date_from,
-        time_from,
-        time_to,
-        is_active
+        *
         FROM
         sys_doctor_nurse_schedule
         WHERE
-        state = 2
-        <if test="params.doctorNo != null and params.doctorNo != ''">
-        and doctor_nurse_no = #{params.doctorNo}
-        </if>
+        doctor_nurse_no = #{params.doctorNo}
+        AND service_method = 2
+        AND date_from >= CURDATE()
         ORDER BY
         date_from,
         time_to
@@ -121,5 +117,12 @@
                 ORDER BY creation_time DESC limit 1
     </update>
 
+    <select id="getCount" parameterType="map" resultMap="BaseResultMap">
+        select * from sys_doctor_nurse_schedule
+        where doctor_nurse_no = #{params.doctorNo}
+        and date_from = #{params.appointDate}
+        and time_from=#{params.timeFrom}
+        and service_method = 2
+    </select>
 
 </mapper>

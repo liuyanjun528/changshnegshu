@@ -28,4 +28,6 @@ public interface UserFamilyDoctorMapper extends BaseMapper<UserFamilyDoctor> {
     UserFamilyDoctorVo getUserFDInfo(@Param("params") Map<String, Object> params);
 
     UserFamilyDoctor getUserFD(@Param("params") Map<String,Object> params);
+
+    UserFamilyDoctor getFamilyDoctor(@Param("params") Map<String,Object> params);
 }

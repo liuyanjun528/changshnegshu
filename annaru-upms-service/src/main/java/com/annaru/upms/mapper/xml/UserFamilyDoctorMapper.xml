@@ -118,5 +118,11 @@
     <select id="getUserFD" parameterType="map" resultMap="BaseResultMap">
         select * from user_family_doctor
         where user_id = #{params.userId}
+        and is_terminated = 0
+    </select>
+
+    <select id="getFamilyDoctor" parameterType="map" resultMap="BaseResultMap">
+        select * from user_family_doctor
+        where order_no = #{params.orderNo}
     </select>
 </mapper>

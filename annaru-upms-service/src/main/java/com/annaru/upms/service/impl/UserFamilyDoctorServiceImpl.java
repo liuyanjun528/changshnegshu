@@ -85,5 +85,7 @@ public class UserFamilyDoctorServiceImpl extends ServiceImpl<UserFamilyDoctorMap
         return save;
     }
 
-
+    public UserFamilyDoctor getFamilyDoctor(Map<String,Object> params){
+        return this.baseMapper.getFamilyDoctor(params);
+    }
 }

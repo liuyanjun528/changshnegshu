@@ -1,6 +1,7 @@
 package com.annaru.upms.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.annaru.upms.entity.SysDoctor;
 import com.annaru.upms.entity.vo.DoctorScheduleVo;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -63,4 +64,7 @@ public class SysDoctorScheduleServiceImpl extends ServiceImpl<SysDoctorScheduleM
         return this.baseMapper.selectDoctorScheduleList(dateFrom, doctorNurseNo);
     }
 
+    public SysDoctorSchedule getCount(Map<String,Object> params){
+        return this.baseMapper.getCount(params);
+    }
 }

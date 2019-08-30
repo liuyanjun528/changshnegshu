@@ -60,4 +60,6 @@ public interface SysDoctorScheduleMapper extends BaseMapper<SysDoctorSchedule> {
     int selectNurseSchedule(@Param("params") Map <String, Object> params);
 
     boolean updateSceduleStatus(@Param("params") Map <String, Object> params);
+
+    SysDoctorSchedule getCount(@Param("params") Map <String, Object> params);
 }

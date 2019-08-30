@@ -56,5 +56,6 @@ public interface ISysDoctorScheduleService extends IService<SysDoctorSchedule> {
     //护士当天预约的次数
     int selectNurseSchedule(Map <String, Object> params);
 
+    SysDoctorSchedule getCount(Map<String,Object> params);
 }
 

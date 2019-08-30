@@ -5,6 +5,7 @@ import com.annaru.upms.entity.OrderMain;
 import com.annaru.upms.entity.UserFamilyDoctor;
 import com.annaru.upms.entity.vo.UserFamilyDoctorVo;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.omg.CORBA.OBJ_ADAPTER;
 
 import java.util.Map;
 
@@ -35,8 +36,7 @@ public interface IUserFamilyDoctorService extends IService<UserFamilyDoctor> {
      */
     Boolean saveFamilyDoctor(OrderMain orderMain);
 
-
-
+    UserFamilyDoctor getFamilyDoctor(Map<String, Object> params);
 
 }
 

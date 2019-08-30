@@ -77,18 +77,30 @@ public class OrderAppointmentController extends BaseController {
     public ResultMap updateStatus(@RequestParam Integer sysId) {
         Map<String, Object> params = new HashMap<>();
         SysDoctorOppointment sysDoctorOppointment = sysDoctorOppointmentService.getById(sysId);
+        params.put("orderNo",sysDoctorOppointment.getOrderNo());
+        UserFamilyDoctor userFamilyDoctor = userFamilyDoctorService.getFamilyDoctor(params);
+        userFamilyDoctor.setRestCount(userFamilyDoctor.getRestCount()-1);
         sysDoctorOppointment.setIsConfirmed(1);
         String userId = sysDoctorOppointment.getUserId();
         String doctorNo = sysDoctorOppointment.getDoctorNurseNo();
         String timeFrom = sysDoctorOppointment.getTimeFrom();
         String timeTo = sysDoctorOppointment.getTimeTo();
         Date appointDate = sysDoctorOppointment.getAppointDate();
-        params.put("sysId",sysId);
         params.put("doctorNo",doctorNo);
         params.put("userId",userId);
         params.put("appointDate",appointDate);
         params.put("timeFrom",timeFrom);
         params.put("timeTo",timeTo);
+        SysDoctorSchedule schedule = sysDoctorScheduleService.getCount(params);
+        if (schedule.getCount()==0){
+            return ResultMap.error("预约人次已满");
+        }
+        int count = schedule.getCount()-1;
+        schedule.setState(1);
+        if (count==0){
+            schedule.setIsActive(1);
+        }
+        schedule.setCount(count);
         OrderAppointment appointment = new OrderAppointment();
         appointment.setOrderNo(sysDoctorOppointment.getOrderNo());
         appointment.setUserId(userId);
@@ -98,7 +110,8 @@ public class OrderAppointmentController extends BaseController {
         appointment.setAppointDate(appointDate);
         appointment.setAppointmentCates(5);
         try {
-            sysDoctorScheduleService.updateSceduleStatus(params);
+            userFamilyDoctorService.updateById(userFamilyDoctor);
+            sysDoctorScheduleService.updateById(schedule);
             sysDoctorOppointmentService.updateById(sysDoctorOppointment);
             orderAppointmentService.save(appointment);
             return ResultMap.ok("修改成功");
@@ -532,11 +545,10 @@ public class OrderAppointmentController extends BaseController {
                 if (userFamilyDoctor.getRestCount()==0){
                     return ResultMap.error("家庭医生预约服务次数已用完");
                 }
-                userFamilyDoctor.setRestCount(userFamilyDoctor.getRestCount()-1);
-                userFamilyDoctorService.updateById(userFamilyDoctor);
                 sysDoctorOppointment.setOrderNo(orderAppointment.getOrderNo());
                 sysDoctorOppointment.setAppointmentCates(5);
                 sysDoctorOppointment.setUserId(orderAppointment.getUserId());
+                sysDoctorOppointment.setUserCate("2");
                 sysDoctorOppointment.setDoctorNurseNo(orderAppointment.getRelatedNo());
                 sysDoctorOppointment.setAppointDate(orderAppointment.getAppointDate());
                 sysDoctorOppointment.setTimeFrom(orderAppointment.getTimeFrom());
