@@ -735,12 +735,7 @@ public class OrderAppointmentController extends BaseController {
     @RequiresPermissions("upms/orderAppointment/selectUpDoorOppointment")
     public ResultMap selectUpDoorOppointment(String orderNo){
         OrderOppintmentW a = orderAppointmentService.selectUpDoorOppointment(orderNo);
-        OrderOppintmentW1 b = orderAppointmentService.selectUpDoorOppointment1(orderNo);
-        OrderOppintmentW2 c = orderAppointmentService.selectUpDoorOppointment2(orderNo);
-        return ResultMap.ok().put("data",a).put("data1",b).put("data2",c);
+        return ResultMap.ok().put("data",a);
     }
-
-
-
 
 }

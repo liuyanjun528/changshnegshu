@@ -102,6 +102,18 @@ public class SysDoctorNurseSchedule extends Model<SysDoctorNurseSchedule> implem
     @ApiModelProperty(value = "排班状态（1、未排班；2、已排班；3、已排满）")
 	private Integer state;
 
+	@TableField(exist = false)
+	private int time;//1上午 2下午
+
+
+	public int getTime() {
+		return time;
+	}
+
+	public void setTime(int time) {
+		this.time = time;
+	}
+
 	/**
      * 获取：系统编号
      */

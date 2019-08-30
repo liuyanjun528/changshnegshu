@@ -86,8 +86,6 @@ public interface OrderAppointmentMapper extends BaseMapper<OrderAppointment> {
      * @Date: 2019/8/27 14:18
      */
     OrderOppintmentW selectUpDoorOppointment(@Param("orderNo")String orderNo);
-    OrderOppintmentW1 selectUpDoorOppointment1(@Param("orderNo")String orderNo);
-    OrderOppintmentW2 selectUpDoorOppointment2(@Param("orderNo")String orderNo);
 
 
 }

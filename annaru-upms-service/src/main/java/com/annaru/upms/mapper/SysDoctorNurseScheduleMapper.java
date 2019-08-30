@@ -33,7 +33,7 @@ public interface SysDoctorNurseScheduleMapper extends BaseMapper<SysDoctorNurseS
      * 查询医护排班
      * @return
      */
-    List<SysDoctorNurseScheduleVo> selectSchedulePage(@Param("doctorNo") String doctorNo);
+    List<SysDoctorNurseScheduleVo> selectSchedulePage(@Param("doctorNo") String doctorNo,@Param("dateFrom")String dateFrom);
 
     /**
       * @Description:通过医生id和预约时间查询当天的预约--医生上门健康评估
@@ -48,6 +48,16 @@ public interface SysDoctorNurseScheduleMapper extends BaseMapper<SysDoctorNurseS
      * @Date: 2019/7/24 17:19
      */
     List<DoctorScheduleVoW> selectOutpatient(@Param("params") Map<String, Object> params);
+
+
+    /**
+      * @Description:修改前的回显
+      * @Author: wh
+      * @Date: 2019/8/29 11:15
+      */
+    SysDoctorNurseSchedule selectUpdate(@Param("params") Map<String, Object> params);
+
+
 
     /**
       * @Description:通过医生编号和sysid修改医生的排班

@@ -59,8 +59,10 @@ public class UserFamilyDoctorController extends BaseController {
             SysConfig sysConfig = SysConfigUtil.getSysConfig(iSysConfigService , SysConfigUtil.ORDERNO);
             orderMain.setOrderNo(SysConfigUtil.getNoBySysConfig());
 
-            userFamilyDoctorService.saveFamilyDoctor(orderMain);
-
+            Boolean aBoolean = userFamilyDoctorService.saveFamilyDoctor(orderMain);
+            if(!aBoolean){
+                return ResultMap.error("运行异常，请联系管理员");
+            }
             SysConfigUtil.saveRefNo(sysConfig.getRefNo());
 
             return ResultMap.ok("家庭医生订单成功").put("data",orderMain.getOrderNo());

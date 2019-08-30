@@ -18,6 +18,7 @@
         <result column="creation_time" property="creationTime" />
         <result column="edit_time" property="editTime" />
         <result column="state" property="state" />
+        <result column="time" property="time" />
     </resultMap>
 
     <!-- 查询医护排班-->
@@ -56,6 +57,7 @@
         state
         FROM sys_doctor_nurse_schedule
         where  doctor_nurse_no = #{doctorNo}
+        and  date_format(date_from,'%Y-%m')=date_format(#{dateFrom},'%Y-%m')
     </select>
 
         <!--医生上门健康评估-->
@@ -91,6 +93,12 @@
     where doctor_nurse_no=#{params.doctorNo} and date_format(sdno.appoint_date,'%Y-%m-%d')=#{params.appointDate}
     </select>
 
+    <!--修改前的回显-->
+    <select id="selectUpdate" parameterType="map" resultMap="BaseResultMap">
+        select 	* from sys_doctor_nurse_schedule
+        where doctor_nurse_no=#{params.doctorNo} and date_from=#{params.dateFrom} and service_method=#{params.serviceMethod}
+    </select>
+
     <!--通过医生编号和sysid修改医生的排班-->
     <update id="updateDoctorSchedule">
         update sys_doctor_nurse_schedule set date_from=#{params.newDateFrom},time_from=#{params.timeFrom},time_to=#{params.timeTo},edit_time=#{params.editTime}
@@ -101,13 +109,17 @@
     <select id="selectScheduleCount1" parameterType="map" resultType="int">
           SELECT count(*)
             FROM sys_doctor_nurse_schedule
-        where  doctor_nurse_no = #{params.doctorNo} and date_from=#{params.dateFrom} and time_from='08:00:00' and time_to='11:00:00'
+        where  doctor_nurse_no = #{params.doctorNo}
+        and  date_format(date_from,'%Y-%m')=date_format(#{params.dateFrom},'%Y-%m')
+        and time_from='08:00:00' and time_to='11:00:00'
     </select>
     <!--当天下午排班的个数-->
     <select id="selectScheduleCount2" parameterType="map" resultType="int">
          SELECT count(*)
         FROM sys_doctor_nurse_schedule
-        where  doctor_nurse_no = #{params.doctorNo} and date_from=#{params.dateFrom}  and time_from='13:00:00' and time_to='16:00:00'
+        where  doctor_nurse_no = #{params.doctorNo}
+        and  date_format(date_from,'%Y-%m')=date_format(#{params.dateFrom},'%Y-%m')
+        and time_from='13:00:00' and time_to='16:00:00'
     </select>
 
     <!--删除排班 修改is_deleted为1-->

@@ -34,8 +34,8 @@ public class SysDoctorNurseScheduleServiceImpl extends ServiceImpl<SysDoctorNurs
     }
 
     @Override
-    public List<SysDoctorNurseScheduleVo> selectSchedulePage(String doctorNo) {
-        return this.baseMapper.selectSchedulePage(doctorNo);
+    public List<SysDoctorNurseScheduleVo> selectSchedulePage(String doctorNo,String dateFrom) {
+        return this.baseMapper.selectSchedulePage(doctorNo,dateFrom);
     }
 
     @Override
@@ -46,6 +46,11 @@ public class SysDoctorNurseScheduleServiceImpl extends ServiceImpl<SysDoctorNurs
     @Override
     public List<DoctorScheduleVoW> selectOutpatient(Map<String, Object> params) {
         return this.baseMapper.selectOutpatient(params);
+    }
+
+    @Override
+    public SysDoctorNurseSchedule selectUpdate(Map<String, Object> params) {
+        return this.baseMapper.selectUpdate(params);
     }
 
     @Override

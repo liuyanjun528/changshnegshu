@@ -31,7 +31,7 @@ public interface ISysDoctorNurseScheduleService extends IService<SysDoctorNurseS
      * 查询医护排班
      * @return
      */
-    List<SysDoctorNurseScheduleVo> selectSchedulePage(String doctorNo);
+    List<SysDoctorNurseScheduleVo> selectSchedulePage(String doctorNo,String dateFrom);
 
     /**
      * @Description:通过医生id和预约时间查询当天的预约--医生上门健康评估
@@ -47,6 +47,13 @@ public interface ISysDoctorNurseScheduleService extends IService<SysDoctorNurseS
      */
    List<DoctorScheduleVoW> selectOutpatient(Map<String, Object> params);
 
+
+    /**
+     * @Description:修改前的回显
+     * @Author: wh
+     * @Date: 2019/8/29 11:15
+     */
+    SysDoctorNurseSchedule selectUpdate(Map<String, Object> params);
 
     /**
      * @Description:通过医生编号和sysid修改医生的排班

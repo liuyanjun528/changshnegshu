@@ -8,6 +8,7 @@
         <result column="sys_id" property="sysId" />
         <result column="doctor_nurse_no" property="doctorNurseNo" />
         <result column="user_cates" property="userCates" />
+        <result column="service_method" property="serviceMethod" />
         <result column="date_from" property="dateFrom" />
         <result column="date_to" property="dateTo" />
         <result column="time_from" property="timeFrom" />

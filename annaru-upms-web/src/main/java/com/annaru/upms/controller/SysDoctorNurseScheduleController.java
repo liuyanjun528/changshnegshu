@@ -41,9 +41,9 @@ public class SysDoctorNurseScheduleController extends BaseController {
     @ApiOperation(value = "医生的排班列表")
     @GetMapping("/getDoctorScheduleList")
     @RequiresPermissions("upms/sysDoctorNurseSchedule/getDoctorScheduleList")
-    public ResultMap getDoctorScheduleList(String doctorNo) {
+    public ResultMap getDoctorScheduleList(String doctorNo,String dateFrom) {
         try {
-            List<SysDoctorNurseScheduleVo> list = sysDoctorNurseScheduleService.selectSchedulePage(doctorNo);
+            List<SysDoctorNurseScheduleVo> list = sysDoctorNurseScheduleService.selectSchedulePage(doctorNo,dateFrom);
             return ResultMap.ok().put("data", list);
         } catch (Exception e) {
             logger.error(e.getMessage());
@@ -134,44 +134,52 @@ public class SysDoctorNurseScheduleController extends BaseController {
     @ApiOperation(value = "添加医生的排班")
     @PostMapping("/save")
     //@RequiresPermissions("upms/sysDoctorNurseSchedule/save")
-    public ResultMap save(@Valid @RequestBody SysDoctorNurseSchedule sysDoctorNurseSchedule, int time) {
+    public ResultMap save(@Valid @RequestBody SysDoctorNurseSchedule sysDoctorNurseSchedule) {
         try {
-            //首先判断 要排班的那天 已经排班的个数
-            //上午 或者下午 排班数小于5才可以添加排班
-            Map<String, Object> params = new HashMap<>();
-            params.put("doctorNo", sysDoctorNurseSchedule.getDoctorNurseNo());
-            params.put("dateFrom", sysDoctorNurseSchedule.getDateFrom());
-            int i = sysDoctorNurseScheduleService.selectScheduleCount1(params);
-            int j = sysDoctorNurseScheduleService.selectScheduleCount2(params);
-            if(i<=5&&j<=5){
-                sysDoctorNurseSchedule.setEditTime(new Date());
-                sysDoctorNurseSchedule.setCreationTime(new Date());
-                sysDoctorNurseSchedule.setUserCates(2);//2为医生
-                if (time == 1) {
-                    sysDoctorNurseSchedule.setTimeFrom("08:00:00");
-                    sysDoctorNurseSchedule.setTimeTo("11:00:00");
-                }
-                if (time == 2) {
-                    sysDoctorNurseSchedule.setTimeFrom("13:00:00");
-                    sysDoctorNurseSchedule.setTimeTo("16:00:00");
-                }
-                boolean save = sysDoctorNurseScheduleService.save(sysDoctorNurseSchedule);
-                if (save = false) {
-                    return ResultMap.error("运行异常，请联系管理员");
-                }
-                return ResultMap.ok("添加成功");
-            }
-            else if(i>5){
-                return ResultMap.error("今天上午的排班已经满了，请择日再排");
-            }else if(j>5){
-                return ResultMap.error("今天下午的排班已经满了，请择日再排");
-            }
-            return ResultMap.error("添加失败");
+
+                    boolean save = sysDoctorNurseScheduleService.save(sysDoctorNurseSchedule);
+                    if (save = false) {
+                        return ResultMap.error("运行异常，请联系管理员");
+                    }
+                    return ResultMap.ok("添加成功");
+
         } catch (Exception e) {
             logger.error(e.getMessage());
             return ResultMap.error("运行异常，请联系管理员");
         }
     }
+
+    /**
+      * @Description:修改前的回显
+      * @Author: wh
+      * @Date: 2019/8/29 11:21
+      */
+   @ApiOperation(value = "修改前的回显", notes = "修改前的回显")
+   @GetMapping("/selectUpdate")
+   @RequiresPermissions("upms/sysDoctorNurseSchedule/selectUpdate")
+    public ResultMap selectUpdate(@ApiParam(value = "医生编号") @RequestParam(required = false) String doctorNo,
+                                  @ApiParam(value = "预约的日期") @RequestParam(required = false) String dateFrom,
+                                  @ApiParam(value = "上门/门诊") @RequestParam(required = false) int serviceMethod
+    ) {
+        try {
+            Map<String, Object> params = new HashMap<>();
+            params.put("doctorNo",doctorNo);
+            params.put("dateFrom",dateFrom);
+            params.put("serviceMethod",serviceMethod);
+            SysDoctorNurseSchedule sysDoctorNurseSchedule = sysDoctorNurseScheduleService.selectUpdate(params);
+            if("08:00:00".equals(sysDoctorNurseSchedule.getTimeFrom())){
+                sysDoctorNurseSchedule.setTime(1);
+            }
+            if("13:00:00".equals(sysDoctorNurseSchedule.getTimeFrom())){
+                sysDoctorNurseSchedule.setTime(2);
+            }
+            return ResultMap.ok().put("sysDoctorNurseSchedule", sysDoctorNurseSchedule);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return ResultMap.error("运行异常，请联系管理员");
+        }
+    }
+
 
     /**
      * 修改医生的排班

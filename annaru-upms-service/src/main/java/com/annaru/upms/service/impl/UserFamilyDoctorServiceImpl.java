@@ -15,6 +15,7 @@ import com.annaru.upms.service.IUserFamilyDoctorService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
@@ -57,6 +58,9 @@ public class UserFamilyDoctorServiceImpl extends ServiceImpl<UserFamilyDoctorMap
     public Boolean saveFamilyDoctor(OrderMain orderMain) {
         boolean save=false;
         try {
+            if(StringUtils.isBlank(orderMain.getUserId())){
+                return false;
+            }
             //添加订单主表
             orderMain.setOrderCates(5);
             orderMain.setCreationtime(new Date());

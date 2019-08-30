@@ -77,8 +77,6 @@ public interface IOrderAppointmentService extends IService<OrderAppointment> {
      * @Date: 2019/8/27 14:18
      */
     OrderOppintmentW selectUpDoorOppointment(String orderNo);
-    OrderOppintmentW1 selectUpDoorOppointment1(String orderNo);
-    OrderOppintmentW2 selectUpDoorOppointment2(String orderNo);
 
 }
 

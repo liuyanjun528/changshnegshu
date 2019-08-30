@@ -14,6 +14,25 @@ public class OrderOppintmentW implements Serializable {
     private String address;//预约地址
     private String cellphoneNo;//医生电话
 
+    private List<OrderOppintmentW1> user;
+    private List<OrderOppintmentW2> relative;
+
+    public List<OrderOppintmentW1> getUser() {
+        return user;
+    }
+
+    public void setUser(List<OrderOppintmentW1> user) {
+        this.user = user;
+    }
+
+    public List<OrderOppintmentW2> getRelative() {
+        return relative;
+    }
+
+    public void setRelative(List<OrderOppintmentW2> relative) {
+        this.relative = relative;
+    }
+
     public String getCellphoneNo() {
         return cellphoneNo;
     }
