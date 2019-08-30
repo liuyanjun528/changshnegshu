@@ -38,10 +38,6 @@ public class SysDoctorSchedule extends Model<SysDoctorSchedule> implements Seria
 	@TableField("user_cates")
 	private int userCates;
 
-	@ApiModelProperty(value = "1:上门排班/2：门诊排班")
-	@TableField("service_method")
-	private String serviceMethod;
-
 	/**
 	 * 医生编号
 	 */
@@ -91,6 +87,8 @@ public class SysDoctorSchedule extends Model<SysDoctorSchedule> implements Seria
 	@TableField("edit_time")
 	private Date editTime;
 
+	@ApiModelProperty(value = "1:上门排班/2：门诊排班")
+	@TableField("service_method")
     private Integer serviceMethod;
 
     private Integer count;
@@ -228,13 +226,6 @@ public class SysDoctorSchedule extends Model<SysDoctorSchedule> implements Seria
 		this.userCates = userCates;
 	}
 
-	public String getServiceMethod() {
-		return serviceMethod;
-	}
-
-	public void setServiceMethod(String serviceMethod) {
-		this.serviceMethod = serviceMethod;
-	}
 
 	@Override
 	protected Serializable pkVal() {

@@ -19,7 +19,6 @@
         <result column="creation_time" property="creationTime" />
         <result column="edit_time" property="editTime" />
         <result column="state" property="state" />
-        <result column="time" property="time" />
     </resultMap>
 
     <!-- 查询医护排班-->

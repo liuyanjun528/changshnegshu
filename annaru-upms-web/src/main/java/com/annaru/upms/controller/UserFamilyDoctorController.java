@@ -104,10 +104,19 @@ public class UserFamilyDoctorController extends BaseController {
             userFamilyDoctor.setRestDays(UUIDGenerator.differentDays(new Date(),userFamilyDoctor.getEffectTo()));
             params.put("docNo",userFamilyDoctor.getDoctorNo());
             SysAppraisal appraisal = sysAppraisalService.selectOne(params);
+            //如果剩余天数<0 设为中止
+            if(userFamilyDoctor.getRestDays()<0){
+                userFamilyDoctor.setRestDays(0);
+                userFamilyDoctor.setIsTerminated(1);
+                userFamilyDoctor.setTerminatedTime(new Date());
+            }
+
             if (appraisal==null){
                 userFamilyDoctor.setAppraisalStatus(0);
             }else {
                 userFamilyDoctor.setAppraisalStatus(1);
+                userFamilyDoctor.setUserStarCount(appraisal.getStarCount());
+                userFamilyDoctor.setUserScores(appraisal.getScores());
             }
         }
         return ResultMap.ok().put("data",userFamilyDoctor);
