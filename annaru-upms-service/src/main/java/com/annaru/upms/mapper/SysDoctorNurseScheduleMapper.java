@@ -55,7 +55,7 @@ public interface SysDoctorNurseScheduleMapper extends BaseMapper<SysDoctorNurseS
       * @Author: wh
       * @Date: 2019/8/29 11:15
       */
-    SysDoctorNurseSchedule selectUpdate(@Param("params") Map<String, Object> params);
+    List<SysDoctorNurseSchedule> selectUpdate(@Param("params") Map<String, Object> params);
 
 
 

@@ -24,7 +24,7 @@ public interface UserFamilyDoctorMapper extends BaseMapper<UserFamilyDoctor> {
     * @return
     */
     IPage<UserFamilyDoctor> selectDataPage(Page page, @Param("params") Map<String, Object> params);
-    
+
     UserFamilyDoctorVo getUserFDInfo(@Param("params") Map<String, Object> params);
 
     UserFamilyDoctor getUserFD(@Param("params") Map<String,Object> params);

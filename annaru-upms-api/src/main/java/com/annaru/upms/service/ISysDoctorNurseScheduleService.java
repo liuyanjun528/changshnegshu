@@ -53,7 +53,7 @@ public interface ISysDoctorNurseScheduleService extends IService<SysDoctorNurseS
      * @Author: wh
      * @Date: 2019/8/29 11:15
      */
-    SysDoctorNurseSchedule selectUpdate(Map<String, Object> params);
+    List<SysDoctorNurseSchedule> selectUpdate(Map<String, Object> params);
 
     /**
      * @Description:通过医生编号和sysid修改医生的排班

@@ -20,6 +20,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -77,6 +79,10 @@ public class UserFamilyDoctorServiceImpl extends ServiceImpl<UserFamilyDoctorMap
                 orderMain.getUserFamilyDoctor().setOrderNo(orderMain.getOrderNo());
                 orderMain.getUserFamilyDoctor().setUserId(orderMain.getUserId());
                 orderMain.getUserFamilyDoctor().setEffectFrom(orderMain.getOrderTime());
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(orderMain.getOrderTime());//设置起时间
+                cal.add(Calendar.YEAR, 1);//增加一年
+                orderMain.getUserFamilyDoctor().setEffectTo(cal.getTime());
                 orderMain.getUserFamilyDoctor().setTotalCount(setting.getCounts());
                 orderMain.getUserFamilyDoctor().setRestCount(setting.getCounts());
                 orderMain.getUserFamilyDoctor().setCreationTime(orderMain.getOrderTime());

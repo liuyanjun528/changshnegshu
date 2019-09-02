@@ -49,7 +49,7 @@ public class SysDoctorNurseScheduleServiceImpl extends ServiceImpl<SysDoctorNurs
     }
 
     @Override
-    public SysDoctorNurseSchedule selectUpdate(Map<String, Object> params) {
+    public List<SysDoctorNurseSchedule> selectUpdate(Map<String, Object> params) {
         return this.baseMapper.selectUpdate(params);
     }
 

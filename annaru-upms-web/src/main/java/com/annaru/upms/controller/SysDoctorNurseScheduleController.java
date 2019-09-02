@@ -161,9 +161,36 @@ public class SysDoctorNurseScheduleController extends BaseController {
         }
     }
 
+
     /**
-     * 修改医生的排班
+     * @Description:修改前的回显
+     * @Author: wh
+     * @Date: 2019/8/29 11:21
      */
+    @ApiOperation(value = "修改前的回显", notes = "修改前的回显")
+    @GetMapping("/selectUpdate")
+    @RequiresPermissions("upms/sysDoctorNurseSchedule/selectUpdate")
+    public ResultMap selectUpdate(@ApiParam(value = "医生编号") @RequestParam(required = false) String doctorNo,
+                                  @ApiParam(value = "预约的日期") @RequestParam(required = false) String dateFrom,
+                                  @ApiParam(value = "上门/门诊") @RequestParam(required = false) int serviceMethod
+    ) {
+        try {
+            Map<String, Object> params = new HashMap<>();
+            params.put("doctorNo",doctorNo);
+            params.put("dateFrom",dateFrom);
+            params.put("serviceMethod",serviceMethod);
+            List<SysDoctorNurseSchedule> sysDoctorNurseSchedule = sysDoctorNurseScheduleService.selectUpdate(params);
+                return ResultMap.ok().put("data", sysDoctorNurseSchedule);
+            } catch (Exception e) {
+                logger.error(e.getMessage());
+                return ResultMap.error("运行异常，请联系管理员");
+            }
+        }
+
+
+        /**
+         * 修改医生的排班
+         */
     @ApiOperation(value = "修改医生的排班")
     @PostMapping("/update")
     @RequiresPermissions("upms/sysDoctorNurseSchedule/update")
