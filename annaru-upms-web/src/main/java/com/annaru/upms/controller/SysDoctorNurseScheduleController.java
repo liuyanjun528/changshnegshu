@@ -1,5 +1,6 @@
 package com.annaru.upms.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import com.annaru.upms.entity.vo.DoctorScheduleVoW;
@@ -138,6 +139,7 @@ public class SysDoctorNurseScheduleController extends BaseController {
     //@RequiresPermissions("upms/sysDoctorNurseSchedule/save")
     public ResultMap save(@Valid @RequestBody List<SysDoctorNurseSchedule> sysDoctorNurseSchedule) {
         try {
+            SimpleDateFormat sdf  = new SimpleDateFormat("yyyy-MM-dd");
             SysDoctorNurseSchedule schedule = new SysDoctorNurseSchedule();
             Map<String,Object> params = new HashMap<>();
             params.put("category",110);
@@ -146,6 +148,14 @@ public class SysDoctorNurseScheduleController extends BaseController {
             int doorCount = sysGlobalSettingService.getSetting(params).getCounts();
             for (int i = 0;i<sysDoctorNurseSchedule.size();i++){
                 schedule = sysDoctorNurseSchedule.get(i);
+                params.put("dataFrom",sdf.format(schedule.getDateFrom()));
+                params.put("timeTo",schedule.getTimeTo());
+                params.put("serviceMethod",schedule.getServiceMethod());
+                params.put("docNo",schedule.getDoctorNurseNo());
+                SysDoctorNurseSchedule s = sysDoctorNurseScheduleService.isExist(params);
+                if (s!=null){
+                    schedule.setSysId(s.getSysId());
+                }
                 schedule.setUserCates(2);
                 if (schedule.getServiceMethod()==1) {
                     schedule.setCount(doorCount);
@@ -153,7 +163,7 @@ public class SysDoctorNurseScheduleController extends BaseController {
                     schedule.setCount(hosCount);
                 }
             }
-            sysDoctorNurseScheduleService.saveBatch(sysDoctorNurseSchedule,sysDoctorNurseSchedule.size());
+            sysDoctorNurseScheduleService.saveOrUpdateBatch(sysDoctorNurseSchedule,sysDoctorNurseSchedule.size());
             return ResultMap.ok().put("data","添加成功");
         } catch (Exception e) {
             logger.error(e.getMessage());

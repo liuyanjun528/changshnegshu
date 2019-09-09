@@ -127,4 +127,16 @@
         update sys_doctor_nurse_schedule set is_deleted=1
         where sys_id=#{sysId}
     </update>
+
+    <select id="isExist" parameterType="map" resultMap="BaseResultMap">
+        SELECT
+        *
+        FROM
+        sys_doctor_nurse_schedule
+        WHERE
+        doctor_nurse_no = #{params.docNo}
+        AND service_method =  #{params.serviceMethod}
+        AND date_from =  #{params.dataFrom}
+        and time_to =  #{params.timeTo}
+    </select>
 </mapper>

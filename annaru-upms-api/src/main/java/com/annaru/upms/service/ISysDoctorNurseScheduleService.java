@@ -1,6 +1,7 @@
 package com.annaru.upms.service;
 
 import com.annaru.upms.entity.EntityHealthyAppointment;
+import com.annaru.upms.entity.SysDoctorSchedule;
 import com.annaru.upms.entity.vo.DoctorScheduleVoW;
 import com.annaru.upms.entity.vo.SysDoctorNurseScheduleVo;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -72,6 +73,8 @@ public interface ISysDoctorNurseScheduleService extends IService<SysDoctorNurseS
      * @param sysId
      */
     void deleteSchedule(int sysId);
+
+    SysDoctorNurseSchedule isExist(@Param("params") Map<String, Object> params);
 
 }
 

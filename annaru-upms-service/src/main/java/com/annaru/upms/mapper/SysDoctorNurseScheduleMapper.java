@@ -1,6 +1,7 @@
 package com.annaru.upms.mapper;
 
 import com.annaru.upms.entity.EntityHealthyAppointment;
+import com.annaru.upms.entity.SysDoctor;
 import com.annaru.upms.entity.SysDoctorNurseSchedule;
 import com.annaru.upms.entity.vo.DoctorScheduleVoW;
 import com.annaru.upms.entity.vo.SysDoctorNurseScheduleVo;
@@ -76,4 +77,6 @@ public interface SysDoctorNurseScheduleMapper extends BaseMapper<SysDoctorNurseS
      * @param sysId
      */
     void deleteSchedule(@Param("sysId") int sysId);
+
+    SysDoctorNurseSchedule isExist(@Param("params") Map<String, Object> params);
 }

@@ -1,6 +1,7 @@
 package com.annaru.upms.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.annaru.upms.entity.SysDoctor;
 import com.annaru.upms.entity.vo.DoctorScheduleVoW;
 import com.annaru.upms.entity.vo.SysDoctorNurseScheduleVo;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -70,6 +71,10 @@ public class SysDoctorNurseScheduleServiceImpl extends ServiceImpl<SysDoctorNurs
     @Override
     public void deleteSchedule(int sysId) {
         this.baseMapper.deleteSchedule(sysId);
+    }
+
+    public SysDoctorNurseSchedule isExist(Map<String, Object> params){
+        return this.baseMapper.isExist(params);
     }
 
 }
