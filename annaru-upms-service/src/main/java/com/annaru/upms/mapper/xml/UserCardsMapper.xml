@@ -20,18 +20,16 @@
     </resultMap>
 
     <resultMap id="BaseResultMap1" type="com.annaru.upms.entity.vo.UserCardInfoVo" >
-        <result column="sys_id" property="sysId" />
         <result column="user_id" property="userId" />
-        <result column="card_cates" property="cardCates" />
-        <result column="card_no" property="cardNo" />
-        <result column="cellphone_no" property="cellphoneNo" />
         <result column="full_name" property="fullName" />
-        <result column="user_gender" property="userGender"/>
-        <result column="user_age" property="userAge"/>
-        <result column="user_id_card_no" property="userIdCardNo"/>
-        <result column="status" property="status" />
-        <result column="remark" property="remark" />
-        <result column="creation_time" property="creationTime" />
+        <result column="gender" property="gender" />
+        <result column="id_card_no" property="idCardNo" />
+        <result column="cellphone_no" property="cellphoneNo" />
+        <result column="card_no" property="cardNo" />
+
+        <result column="ref_no" property="refNo"/>
+        <result column="relative_name" property="relativeName"/>
+
     </resultMap>
 
     <!--通过用户编号修改个人信息和医保卡号-->
@@ -95,24 +93,28 @@ UNION
     <!-- 查询企业门诊绿通预约人信息 -->
     <select id="getGreenPassUserInfo" parameterType="map" resultMap="BaseResultMap1">
         SELECT
-        uc.user_id,
-        ub.full_name,
-        ub.gender AS user_gender,
-        ub.id_card_no AS user_id_card_no,
-        ur.relative_id,
-        ur.relative_name,
-        ur.gender AS relative_gender,
-        ur.id_card_no AS relative_id_card_no,
-        uc.card_cates,
-        uc.card_no,
-        uc.cellphone_no
+            ub.user_id,
+            ub.full_name,
+            ub.gender,
+            ub.id_card_no ,
+            ub.cellphone_no,
+            uc.card_no
         FROM user_cards uc
-	LEFT JOIN user_basic ub ON ub.user_id = uc.user_id
-	LEFT JOIN user_relatives ur ON ur.relative_id = uc.user_id
-	WHERE
-        <if test="userId != null and userId != ''">
-            uc.user_id=#{userId}
-        </if>
+        LEFT JOIN user_basic ub ON ub.user_id = uc.user_id
+        WHERE
+            ub.user_id=#{userId}
+  UNION
+        SELECT
+            ur.ref_no,
+            ur.relative_name,
+            ur.gender,
+            ur.id_card_no,
+            ur.cellphone_no,
+            uc.card_no
+        FROM user_cards uc
+        LEFT JOIN user_relatives as ur ON ur.ref_no=uc.user_id
+        where
+            ur.ref_no=#{refNo}
     </select>
 
     <!-- 修改医保卡-->

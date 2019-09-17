@@ -6,6 +6,7 @@ import com.annaru.upms.entity.UserCards;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -28,7 +29,7 @@ public interface IOrderAdditionalInfoService extends IService<OrderAdditionalInf
      * @Author: wh
      * @Date: 2019/7/9 9:18
      */
-    UserCards selectUserOrRelativeInfo(String userId,String relativeId);
+    List<UserCards> selectUserOrRelativeInfo(String userId, String relativeId);
 
 
     /**

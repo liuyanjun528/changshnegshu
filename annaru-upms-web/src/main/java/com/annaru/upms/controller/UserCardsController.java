@@ -55,11 +55,11 @@ public class UserCardsController extends BaseController {
      * 查询企业门诊绿通预约人信息
      */
     @ApiOperation(value = "查询企业家庭医生预约人信息")
-    @GetMapping("/getGreenPassUserInfo/{userId}")
+    @GetMapping("/getGreenPassUserInfo")
     //@RequiresPermissions("upms/userCards/getGreenPassUserInfo")
-    public ResultMap getGreenPassUserInfo(@PathVariable("userId") String userId) {
+    public ResultMap getGreenPassUserInfo(String userId,String refNo) {
         try {
-            List<UserCardInfoVo> userCardInfoVo = userCardsService.getGreenPassUserInfo(userId);
+            List<UserCardInfoVo> userCardInfoVo = userCardsService.getGreenPassUserInfo(userId,refNo);
             return ResultMap.ok().put("data", userCardInfoVo);
         } catch (Exception e) {
             logger.error(e.getMessage());

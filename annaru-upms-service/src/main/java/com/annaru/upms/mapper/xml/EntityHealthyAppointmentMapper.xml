@@ -207,8 +207,8 @@
 
     <!--企业家庭医生预约-->
     <insert id="insertEntityDoctorAppointment">
-        INSERT INTO entity_healthy_appointment (order_no,user_id,appoint_date,time_from,address,service_option)
-         VALUES (#{orderNo},#{userId},#{appointDate},#{timeFrom},#{address},#{serviceOption})
+        INSERT INTO entity_healthy_appointment (order_no,user_id,appoint_date,time_from,address,service_option,pkg_main_id,pkg_detail_id)
+         VALUES (#{orderNo},#{userId},#{appointDate},#{timeFrom},#{address},#{serviceOption},#{pkgMainId},#{pkgDetailId})
     </insert>
 
 

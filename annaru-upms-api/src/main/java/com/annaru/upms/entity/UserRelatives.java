@@ -36,9 +36,11 @@ public class UserRelatives extends Model<UserRelatives> implements Serializable 
     @ApiModelProperty(value = "户用编号")
 	@TableField("user_id")
 	private String userId;
-	/**
-	 * 亲属姓名
-	 */
+
+	@ApiModelProperty(value = "亲属的用户编号")
+	@TableField("ref_no")
+	private String refNo;
+
     @ApiModelProperty(value = "亲属姓名")
 	@TableField("relative_name")
 	private String relativeName;
@@ -121,9 +123,20 @@ public class UserRelatives extends Model<UserRelatives> implements Serializable 
     public String getUserId() {
         return userId;
     }
+
+	public String getRefNo() {
+		return refNo;
+	}
+
+	public void setRefNo(String refNo) {
+		this.refNo = refNo;
+	}
+
 	/**
 	 * 设置：户用编号
 	 */
+
+
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}

@@ -7,6 +7,7 @@
     <resultMap id="BaseResultMap" type="com.annaru.upms.entity.UserRelatives" >
         <result column="sys_id" property="sysId" />
         <result column="user_id" property="userId" />
+        <result column="ref_no" property="refNo" />
         <result column="relative_name" property="relativeName" />
         <result column="relative_id" property="relativeId" />
         <result column="id_card_no" property="idCardNo" />
