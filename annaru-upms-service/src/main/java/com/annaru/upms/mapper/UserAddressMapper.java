@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -38,5 +39,18 @@ public interface UserAddressMapper extends BaseMapper<UserAddress> {
      */
     int DeleteAddress(@Param("userId") String userId,@Param("sysId") String sysId);
 
+    /**
+     * @Description 通过用户编号或sysId修改用户默认地址
+     * @Author zk
+     * @Date 2019/9/16
+     */
+    int updateDefaultByUserId(@Param("isDefault") Integer isDefault, @Param("userId") String userId, @Param("sysId") Integer sysId);
+
+    /**
+     * @Description 通过用户编号得到这个地址
+     * @Author zk
+     * @Date 2019/9/16
+     */
+    List<UserAddress> getUserAddress(@Param("userId") String userId);
 
 }
