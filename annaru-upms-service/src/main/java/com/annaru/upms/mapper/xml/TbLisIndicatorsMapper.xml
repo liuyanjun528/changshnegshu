@@ -38,6 +38,8 @@
         <result column="JCZBMC" property="jczbmc" />
         <result column="JCZBJG" property="jczbjg" />
         <result column="CKZ" property="ckz" />
+        <result column="JLDW" property="jldw" />
+        <result column="YCTS" property="ycts" />
     </resultMap>
 
     <!-- 根据原主键获取对象 -->
@@ -88,7 +90,9 @@
         SELECT
         jczbmc,
         jczbjg,
-        ckz
+        ckz,
+        jldw,
+        ycts
         FROM
         TB_LIS_INDICATORS
         WHERE BGDH=#{bgdh}

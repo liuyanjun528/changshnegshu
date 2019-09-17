@@ -59,6 +59,19 @@
         <result column="YXZD" property="yxzd" />
     </resultMap>
 
+    <!-- 通用查询映射结果 查询检查报告详情  -->
+    <resultMap id="BaseResultMapDetail" type="com.annaru.upms.entity.medical.vo.TbRisReportDetailVo" >
+        <result column="HOSPITAL_NAME" property="hospitalName" />
+        <result column="JZKSMC" property="jzksmc" />
+        <result column="JYSJ" property="jysj" />
+        <result column="MZZYBZ" property="mzzybz" />
+        <result column="BRXM" property="brxm" />
+        <result column="BRXB" property="brxb" />
+        <result column="BRNL" property="brnl" />
+        <result column="JCMC" property="jcmc" />
+        <result column="YXZD" property="yxzd" />
+    </resultMap>
+
     <!-- 根据原主键获取对象 -->
     <select id="getRisReport" parameterType="map" resultMap="BaseResultMap">
       SELECT
@@ -73,7 +86,7 @@
         SELECT
         r.CSID,
         h.HOSPITAL_NAME,
-        r.JYSJ,
+        SUBSTR (r.JYSJ, 0, 10) AS JYSJ,
         r.JCMC,
         r.MZZYBZ,
         r.YXZD
@@ -86,7 +99,7 @@
         <if test="params.dateFrom != null and params.dateFrom != '' and params.dateTo != null and params.dateTo != ''">
             AND to_date(SUBSTR(r.JYSJ, 0, 10),'yyyy-mm-dd') Between to_date(#{params.dateFrom},'yyyy-mm-dd') AND to_date(#{params.dateTo},'yyyy-mm-dd')
         </if>
-        ORDER BY r.JYSJ DESC
+        ORDER BY JYSJ DESC
     </select>
 
     <!-- 根据卡号查询影像报告 -->
@@ -94,21 +107,42 @@
     SELECT
         r.CSID,
         h.HOSPITAL_NAME,
-        r.JYSJ,
+        SUBSTR (r.JYSJ, 0, 10) AS JYSJ,
         r.JCMC,
         r.MZZYBZ,
         r.YXZD
     FROM TB_RIS_REPORT r
     LEFT JOIN TB_HOSPITAL h ON r.YLJGDM = h.HOSPITAL_ID
-    WHERE r.KH = #{kh}
+    WHERE r.KH = #{kh} ORDER BY JYSJ DESC
+    </select>
+
+    <!-- 根据影像检查报告ID查询影像报告 -->
+    <select id="getYxbgDetail" parameterType="map" resultMap="BaseResultMapDetail">
+       SELECT
+        h.HOSPITAL_NAME,
+		r.JZKSMC,
+        SUBSTR (rr.JYSJ, 0, 10) AS JYSJ,
+        rr.MZZYBZ,
+        rr.BRXM,
+        rr.BRXB,
+		trunc((to_char(sysdate,'yyyyMMdd')-to_char(to_date(substr(rr.KH,7,8),'yyyy-MM-dd'),'yyyyMMdd'))/10000) BRNL,
+        rr.JCMC,
+        rr.YXZD
+    FROM
+        TB_YL_MZ_Medical_Record r
+        LEFT JOIN TB_HOSPITAL h ON r.YLJGDM = h.HOSPITAL_ID
+        LEFT JOIN TB_RIS_REPORT rr ON rr.JZLSH = r.JZLSH
+    WHERE rr.CSID = #{csid}
     </select>
 
     <!-- 根据就诊流水号查询影像报告 -->
-    <select id="getYxbgByJzlsh" parameterType="map" resultMap="BaseResultMap">
+    <select id="getYxbgByJzlsh" parameterType="map" resultMap="BaseResultMapList">
     SELECT
-        r.JYSJ,
+        r.CSID,
+        SUBSTR (r.JYSJ, 0, 10) AS JYSJ,
         h.HOSPITAL_NAME,
         r.JCMC,
+        r.MZZYBZ,
         r.YXZD
     FROM
         TB_RIS_REPORT r,
