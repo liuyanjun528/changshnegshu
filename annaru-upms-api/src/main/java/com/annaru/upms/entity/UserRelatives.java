@@ -36,13 +36,12 @@ public class UserRelatives extends Model<UserRelatives> implements Serializable 
     @ApiModelProperty(value = "户用编号")
 	@TableField("user_id")
 	private String userId;
-	/**
-	 * 亲属用户的编号
-	 */
+	@ApiModelProperty(value = "亲属的用户编号")
+	@TableField("ref_no")
 	private String refNo;
-	/**
-	 * 亲属姓名
-	 */
+    /**
+     * 亲属姓名
+     */
     @ApiModelProperty(value = "亲属姓名")
 	@TableField("relative_name")
 	private String relativeName;
@@ -269,14 +268,6 @@ public class UserRelatives extends Model<UserRelatives> implements Serializable 
 	@Override
 	protected Serializable pkVal() {
 		return this.sysId;
-	}
-
-	public String getRefNo() {
-		return refNo;
-	}
-
-	public void setRefNo(String refNo) {
-		this.refNo = refNo;
 	}
 
 	@Override

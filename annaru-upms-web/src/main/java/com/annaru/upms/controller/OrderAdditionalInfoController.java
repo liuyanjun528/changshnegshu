@@ -14,10 +14,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 
 /**
@@ -55,7 +52,7 @@ public class OrderAdditionalInfoController extends BaseController {
     @GetMapping("userOrRelativeInfo")
     //@RequiresPermissions("lcd/orderAdditionalInfo/userOrRelativeInfo")
     public ResultMap userOrRelativeInfo(String userId, String relativeId){
-        UserCards cards = orderAdditionalInfoService.selectUserOrRelativeInfo(userId, relativeId);
+        List<UserCards> cards = orderAdditionalInfoService.selectUserOrRelativeInfo(userId, relativeId);
         return ResultMap.ok().put("data",cards);
     }
 
