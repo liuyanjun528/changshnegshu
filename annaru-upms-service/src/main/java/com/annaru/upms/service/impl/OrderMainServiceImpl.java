@@ -233,4 +233,9 @@ public class OrderMainServiceImpl extends ServiceImpl<OrderMainMapper, OrderMain
         IPage<ExamReportVo> iPage = this.baseMapper.selectExamReportVoPage(pageObj, userId, packageCates, orderCates);
         return new PageUtils(iPage);
     }
+
+    @Override
+    public Boolean updateisDeleted(String orderNo) {
+        return this.baseMapper.updateisDeleted(orderNo);
+    }
 }
