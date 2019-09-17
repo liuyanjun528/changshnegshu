@@ -214,6 +214,22 @@
         <result column="sum4" property="sum4" />
     </resultMap>
 
+    <resultMap id="ExamReportVoMap" type="com.annaru.upms.entity.vo.ExamReportVo" >
+        <result column="order_no" property="orderNo" />
+        <result column="order_time" property="orderTime" />
+        <result column="order_cates" property="orderCates" />
+        <result column="user_id" property="userId" />
+        <result column="user_name" property="userName" />
+        <result column="user_gender" property="userGender" />
+        <result column="user_entity_name" property="userEntityName" />
+        <result column="package_id" property="packageId" />
+        <result column="package_name" property="packageName" />
+        <result column="package_subtitle" property="packageSubtitle" />
+        <result column="package_cates" property="packageCates" />
+        <result column="sample_code" property="sampleCode" />
+        <result column="handover_time" property="handoverTime" />
+    </resultMap>
+
     <sql id="BaseColumn">
         sys_id,
         order_no,
@@ -286,7 +302,7 @@
         oai.option_1 option_1,
         om.parent_no parentNo,
         om.status,
-        oai.amount
+        om.amount
 
         FROM order_main om
         LEFT JOIN order_additional_info oai ON oai.order_no = om.order_no
@@ -346,7 +362,7 @@
         LEFT JOIN user_basic ub ON ub.user_id = om.user_id
         LEFT JOIN order_customer oc ON oc.order_no = om.order_no
         LEFT JOIN user_relatives ur ON ur.relative_id = oc.relative_id
-        LEFT JOIN user_basic ub1 ON ub.user_id = oc.relative_id
+        LEFT JOIN user_basic ub1 ON ub1.user_id = oc.relative_id
         WHERE
         1=1 AND om.is_deleted = 0
         <if test="params.sysId != null and params.sysId != ''">
@@ -583,10 +599,13 @@ WHERE
         on epm.sys_id = om.reference_no
         LEFT JOIN order_appointment oa
         on om.order_no = oa.order_no
+        LEFT JOIN order_customer oc
+        on oc.order_no = om.order_no
         WHERE
         (om.order_cates = 3 or om.order_cates = 1)
-        and om.user_id = #{params.userId}
+        and oc.relative_id = #{params.userId}
         and om.is_deleted = 0
+        and om.`status` = 2
         <if test="params.orderNo != null and params.orderNo != ''">
             AND om.order_no = #{params.orderNo}
         </if>
@@ -608,10 +627,13 @@ WHERE
         on epm.sys_id = om.reference_no
         LEFT JOIN order_appointment oa
         on om.order_no = oa.order_no
+        LEFT JOIN order_customer oc
+        on oc.order_no = om.order_no
         WHERE
         (om.order_cates = 3 or om.order_cates = 1)
-        and om.user_id = #{params.userId}
+        and oc.relative_id = #{params.userId}
         and om.is_deleted = 0
+        and om.`status` = 2
         GROUP BY order_no
         ORDER BY oa.creation_time DESC
     </select>
@@ -633,5 +655,37 @@ WHERE
         order_main
         WHERE order_no =  #{params.orderNo}
     </select>
+
+    <select id="getInfo" parameterType="map" resultMap="BaseResultMap">
+        SELECT * from  order_main where parent_no = #{params.orderNo}
+    </select>
+
+    <select id="selectExamReportVoPage" resultMap="ExamReportVoMap">
+        SELECT om.order_no, om.order_time, om.order_cates,
+        ub.user_id, ub.full_name AS user_name, ub.gender AS user_gender, se.entity_name AS user_entity_name,
+        epm.sys_id AS package_id, epm.package_name, epm.subtitle AS package_subtitle, epm.cates AS package_cates,
+        ehs.sample_code, ehs.handover_time
+        FROM order_main om
+        LEFT JOIN user_basic ub ON ub.user_id=om.user_id
+        LEFT JOIN exam_package_main epm ON epm.sys_id=om.reference_no
+        LEFT JOIN exam_handover_sheet ehs ON ehs.order_no=om.order_no
+        LEFT JOIN user_entity_mapping uem ON uem.user_id=om.user_id AND uem.is_active=1
+        LEFT JOIN sys_entity se ON se.entity_id=uem.entity_id
+        WHERE
+        ub.user_id = #{userId} AND om.order_cates not in (5,6)
+        <if test="orderCates != null">
+            AND om.order_cates = #{orderCates}
+        </if>
+        <if test="packageCates != null">
+            AND epm.cates = #{packageCates}
+        </if>
+
+    </select>
+
+
+    <update id="updateisDeleted">
+        UPDATE order_main SET is_deleted=1 WHERE order_no=#{orderNo}
+    </update>
+
 
 </mapper>

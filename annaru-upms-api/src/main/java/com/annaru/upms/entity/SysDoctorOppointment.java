@@ -93,7 +93,7 @@ public class SysDoctorOppointment extends Model<SysDoctorOppointment> implements
 	 */
     @ApiModelProperty(value = "当前状态(0:无效/1:有效)")
 	@TableField("is_active")
-	private Integer isActive = 0;
+	private Integer isActive = 1;
 
     private Integer isConfirmed = 0;
 	/**

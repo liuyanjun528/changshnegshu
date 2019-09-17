@@ -9,6 +9,7 @@ import com.annaru.upms.service.ISysConfigService;
 import com.annaru.upms.service.ISysDoctorService;
 import com.annaru.upms.service.ISysNurseService;
 import io.swagger.annotations.*;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import com.alibaba.dubbo.config.annotation.Reference;
 import org.springframework.web.bind.annotation.*;
@@ -156,6 +157,45 @@ public class SysVerifyDocsController extends BaseController {
             return ResultMap.error("运行异常，请联系管理员");
         }
     }
+
+
+
+    /**
+     * @Description:用户实名认证
+     * @Author: wh
+     * @Date: 2019/8/27 11:49
+     */
+    @ApiOperation(value = "用户实名认证")
+    @PostMapping("/saveUserVerify")
+    @RequiresPermissions("upms/sysVerifyDocs/saveUserVerify")
+    public ResultMap saveUserVerify(@Valid @RequestBody SysVerifyDocs sysVerifyDocs) {
+        try {
+            if(StringUtils.isNotBlank(sysVerifyDocs.getImages())){
+                sysVerifyDocs.setCreationTime(new Date());
+                sysVerifyDocs.setDocCates(1);
+                sysVerifyDocsService.saveUserVerify(sysVerifyDocs);
+            }
+            if(StringUtils.isNotBlank(sysVerifyDocs.getImages2())){
+                sysVerifyDocs.setCreationTime(new Date());
+                sysVerifyDocs.setDocCates(2);
+                sysVerifyDocs.setImages(sysVerifyDocs.getImages2());
+                sysVerifyDocsService.saveUserVerify(sysVerifyDocs);
+            }
+
+
+
+            return ResultMap.ok("添加成功");
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return ResultMap.error("运行异常，请联系管理员");
+        }
+
+    }
+
+
+
+
+
 
 
     /**

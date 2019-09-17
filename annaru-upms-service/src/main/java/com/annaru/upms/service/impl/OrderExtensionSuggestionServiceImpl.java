@@ -46,23 +46,23 @@ public class OrderExtensionSuggestionServiceImpl extends ServiceImpl<OrderExtens
 
     @Transactional
     @Override
-    public boolean savaOE(String reportNo, Integer masterId, String[] itemNames, String[] sysIds, String doctorNo) {
-        if (itemNames.length != sysIds.length) {
+    public boolean savaOE(String reportNo, String[] masterIds, String[] itemNames, String[] sysIds, String doctorNo) {
+        if (itemNames.length != sysIds.length || itemNames.length != masterIds.length) {
             return false;
         }
         String selectByRno = examInspectReportService.selectByRno(reportNo);
-        if(null == selectByRno ) {
+        if(null == selectByRno || "".equals(selectByRno) ) {
             return false;
         }
         try {
             OrderExtensionSuggestion orderExtensionExam = new OrderExtensionSuggestion();
             orderExtensionExam.setOrderNo(selectByRno);//订单编号
-            orderExtensionExam.setExamMasterId(masterId);//进阶检查项目总编号
             orderExtensionExam.setDoctorNo(doctorNo);//医生编号
             orderExtensionExam.setCreationTime(new Date());
             for (int i = 0, len = sysIds.length; i < len; i++) {
                 orderExtensionExam.setExamDetailId(Integer.parseInt(sysIds[i].toString()));//体检项目编号
                 orderExtensionExam.setExamMasterItem(itemNames[i].toString());//项目名称
+                orderExtensionExam.setExamMasterId(Integer.parseInt(masterIds[i].toString()));//进阶检查项目总编号
                 this.baseMapper.insert(orderExtensionExam);
             }
         return true;

@@ -8,6 +8,8 @@
         <result column="sys_id" property="sysId" />
         <result column="user_cates" property="userCates" />
         <result column="doctor_nurse_no" property="doctorNurseNo" />
+        <result column="count" property="count"/>
+        <result column="service_method" property="serviceMethod" />
         <result column="date_from" property="dateFrom" />
         <result column="date_to" property="dateTo" />
         <result column="time_from" property="timeFrom" />
@@ -32,29 +34,14 @@
         <result column="is_submitted" property="isSubmitted" />
         <result column="is_confirmed" property="isConfirmed" />
     </resultMap>
-    <sql id="BaseClounmSql">
-          sys_id,
-          user_cates,
-          doctor_nurse_no,
-          date_from,
-          date_to,
-          time_from,
-          time_to,
-          is_deleted,
-          is_active,
-          creation_time,
-          edit_time,
-          state,
-    </sql>
 
     <!-- 多表页面信息查询分页 -->
     <select id="selectDataPage" parameterType="map" resultMap="BaseResultMap">
 
         SELECT
-            <include refid="BaseClounmSql"></include>
+            *
         FROM
             sys_doctor_nurse_schedule
-
     </select>
 
     <!-- 查询医护排班 -->
@@ -65,10 +52,12 @@
         time_from,
         time_to,
         doctor_nurse_no,
+        service_method,
         is_active,
         state
         FROM sys_doctor_nurse_schedule
         where  doctor_nurse_no = #{doctorNo}
+        and  date_format(date_from,'%Y-%m')=date_format(#{dateFrom},'%Y-%m')
     </select>
 
         <!--医生上门健康评估-->
@@ -104,6 +93,12 @@
     where doctor_nurse_no=#{params.doctorNo} and date_format(sdno.appoint_date,'%Y-%m-%d')=#{params.appointDate}
     </select>
 
+    <!--修改前的回显-->
+    <select id="selectUpdate" parameterType="map" resultMap="BaseResultMap">
+        select 	* from sys_doctor_nurse_schedule
+        where doctor_nurse_no=#{params.doctorNo} and date_from=#{params.dateFrom} and service_method=#{params.serviceMethod}
+    </select>
+
     <!--通过医生编号和sysid修改医生的排班-->
     <update id="updateDoctorSchedule">
         update sys_doctor_nurse_schedule set date_from=#{params.newDateFrom},time_from=#{params.timeFrom},time_to=#{params.timeTo},edit_time=#{params.editTime}
@@ -114,13 +109,17 @@
     <select id="selectScheduleCount1" parameterType="map" resultType="int">
           SELECT count(*)
             FROM sys_doctor_nurse_schedule
-        where  doctor_nurse_no = #{params.doctorNo} and date_from=#{params.dateFrom} and time_from='08:00:00' and time_to='11:00:00'
+        where  doctor_nurse_no = #{params.doctorNo}
+        and  date_format(date_from,'%Y-%m')=date_format(#{params.dateFrom},'%Y-%m')
+        and time_from='08:00:00' and time_to='11:00:00'
     </select>
     <!--当天下午排班的个数-->
     <select id="selectScheduleCount2" parameterType="map" resultType="int">
          SELECT count(*)
         FROM sys_doctor_nurse_schedule
-        where  doctor_nurse_no = #{params.doctorNo} and date_from=#{params.dateFrom}  and time_from='13:00:00' and time_to='16:00:00'
+        where  doctor_nurse_no = #{params.doctorNo}
+        and  date_format(date_from,'%Y-%m')=date_format(#{params.dateFrom},'%Y-%m')
+        and time_from='13:00:00' and time_to='16:00:00'
     </select>
 
     <!--删除排班 修改is_deleted为1-->
@@ -128,4 +127,16 @@
         update sys_doctor_nurse_schedule set is_deleted=1
         where sys_id=#{sysId}
     </update>
+
+    <select id="isExist" parameterType="map" resultMap="BaseResultMap">
+        SELECT
+        *
+        FROM
+        sys_doctor_nurse_schedule
+        WHERE
+        doctor_nurse_no = #{params.docNo}
+        AND service_method =  #{params.serviceMethod}
+        AND date_from =  #{params.dataFrom}
+        and time_to =  #{params.timeTo}
+    </select>
 </mapper>

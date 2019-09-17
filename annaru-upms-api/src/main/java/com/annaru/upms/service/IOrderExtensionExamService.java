@@ -1,12 +1,9 @@
 package com.annaru.upms.service;
 
-import com.annaru.common.result.PageUtils;
 import com.annaru.upms.entity.OrderExtensionExam;
-import com.annaru.upms.entity.vo.ExamChooseVo;
-import com.annaru.upms.entity.vo.OrderExtensionChooseVo;
 import com.baomidou.mybatisplus.extension.service.IService;
 
-import java.util.Map;
+import java.util.List;
 
 /**
  * 进阶体检项目
@@ -16,15 +13,8 @@ import java.util.Map;
  */
 public interface IOrderExtensionExamService extends IService<OrderExtensionExam> {
 
-    /**
-    * 多表页面信息查询
-    * @param params
-    * @return
-    */
-    PageUtils getDataPage(Map<String, Object> params);
-
     int saveOne(OrderExtensionExam orderExtensionExam);
 
-
+    List<OrderExtensionExam> getListByOrderNo(String orderNo);
 }
 

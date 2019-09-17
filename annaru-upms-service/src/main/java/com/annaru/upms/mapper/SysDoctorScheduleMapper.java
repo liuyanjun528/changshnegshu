@@ -1,6 +1,7 @@
 package com.annaru.upms.mapper;
 
 import com.annaru.upms.entity.SysDoctorSchedule;
+import com.annaru.upms.entity.vo.DoctorScheduleVo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -30,7 +31,7 @@ public interface SysDoctorScheduleMapper extends BaseMapper<SysDoctorSchedule> {
      * @param params
      * @return
      */
-    List<SysDoctorSchedule> getDocSchedule(@Param("params") Map <String, Object> params);
+    List<DoctorScheduleVo> getDocSchedule(@Param("params") Map <String, Object> params);
 
 
     /**
@@ -59,4 +60,6 @@ public interface SysDoctorScheduleMapper extends BaseMapper<SysDoctorSchedule> {
     int selectNurseSchedule(@Param("params") Map <String, Object> params);
 
     boolean updateSceduleStatus(@Param("params") Map <String, Object> params);
+
+    SysDoctorSchedule getCount(@Param("params") Map <String, Object> params);
 }

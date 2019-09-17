@@ -3,7 +3,10 @@ package com.annaru.upms.service.impl;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.annaru.common.exception.GlobalException;
 import com.annaru.common.result.PageUtils;
-import com.annaru.upms.entity.*;
+import com.annaru.upms.entity.ExamPackageAppend;
+import com.annaru.upms.entity.OrderDetail;
+import com.annaru.upms.entity.OrderMain;
+import com.annaru.upms.entity.UserRelatives;
 import com.annaru.upms.entity.vo.*;
 import com.annaru.upms.mapper.OrderMainMapper;
 import com.annaru.upms.service.*;
@@ -17,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -82,6 +86,9 @@ public class OrderMainServiceImpl extends ServiceImpl<OrderMainMapper, OrderMain
 
     @Override
     public OrderMain getByOrderNo(String orderNo) {
+        if (StringUtils.isBlank(orderNo)) {
+            return null;
+        }
         return this.baseMapper.selectByOrderNo(orderNo);
     }
 
@@ -102,8 +109,11 @@ public class OrderMainServiceImpl extends ServiceImpl<OrderMainMapper, OrderMain
                 OrderDetail detail = new OrderDetail();
                 detail.setCreationtime(orderMain.getCreationtime());
                 for (ExamPackageAppend exam : examPackageAppends) {
+                    System.out.println("周期：---->"+exam.getPeriods());
                     detail.setAppendId(exam.getAppendId());
-                    detail.setCreationtime(new Date());
+                    detail.setTotalCount(exam.getPeriods());
+                    detail.setRestCount(exam.getPeriods());
+                    detail.setCreationtime(orderMain.getOrderTime());
                     detail.setOrderNo(orderMain.getOrderNo());
                     i=orderDetailService.insertOrderDetail(detail);//添订单详情表
                 }
@@ -121,14 +131,15 @@ public class OrderMainServiceImpl extends ServiceImpl<OrderMainMapper, OrderMain
                 }
 
                 //--添加亲属编号
-                System.out.println("亲属编号---->"+orderMain.getTotalQty());
+                System.out.println("人数：---->"+orderMain.getTotalQty());
                 if(orderMain.getTotalQty()>1){
                     //查询用户下的所有亲属
                     List<UserRelatives> list = userRelativesService.selectAll(orderMain.getUserId());
+                    System.out.println("1---->"+list);
                     Boolean result=false;
                     for (UserRelatives relative : list) {
                         for (String  rela:RelativeId ){
-                            if (relative.getRelativeId().equals(rela)) {//判断传来的亲属ID 跟数据库保存的亲属是否匹配
+                            if (relative.getRefNo().equals(rela)) {//判断传来的亲属userId 跟数据库的亲属id是否匹配
                                 result=true;
                                 break;
                             }
@@ -140,8 +151,11 @@ public class OrderMainServiceImpl extends ServiceImpl<OrderMainMapper, OrderMain
                         throw new GlobalException("没有相关亲属");
                     }
                     if (result) {
+                        System.out.println("2---->"+result);
                         //如果亲属长度<总套餐个数 需要添加自己跟亲属
                         if(RelativeId.length<orderMain.getTotalQty()){
+                            System.out.println("3---->"+RelativeId.length);
+                            System.out.println("4---->"+orderMain.getTotalQty());
                             orderMain.getOrderCustomer().setOrderNo(orderMain.getOrderNo());
                             orderMain.getOrderCustomer().setRelativeId(orderMain.getUserId());
                             orderMain.getOrderCustomer().setUserCates(1);
@@ -202,15 +216,26 @@ public class OrderMainServiceImpl extends ServiceImpl<OrderMainMapper, OrderMain
         return this.baseMapper.getPackages(params);
     }
 
-    @Override
-    public ExamPackageMain getExamPackageMainByOrderNo(String orderNo) {
-        if(StringUtils.isBlank(orderNo)){
-            return null;
-        }
-        return this.baseMapper.selectExamPackageMainByOrderNo(orderNo);
-    }
-
     public OrderMain getReferenceNo(Map<String,Object> params){
         return this.baseMapper.getReferenceNo(params);
+    }
+
+    public OrderMain getInfo(Map<String,Object> params){
+        return this.baseMapper.getInfo(params);
+    }
+
+    @Override
+    public PageUtils<ExamReportVo> getExamReportVoPage(Integer page, Integer limit, String userId, Integer packageCates, Integer orderCates) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("page",page);
+        params.put("limit", limit);
+        Page<ExamReportVo> pageObj = new PageUtils<ExamReportVo>(params).getPage();
+        IPage<ExamReportVo> iPage = this.baseMapper.selectExamReportVoPage(pageObj, userId, packageCates, orderCates);
+        return new PageUtils(iPage);
+    }
+
+    @Override
+    public Boolean updateisDeleted(String orderNo) {
+        return this.baseMapper.updateisDeleted(orderNo);
     }
 }

@@ -32,6 +32,11 @@ public class ExamPackageAppend extends Model<ExamPackageAppend> implements Seria
     @ApiModelProperty(value = "套餐编号")
 	@TableField("package_main_id")
 	private Integer packageMainId;
+
+    @ApiModelProperty(value = "周期")
+	@TableField("periods")
+	private Integer periods;
+
 	/**
 	 * 赠送服务编号
 	 */
@@ -45,7 +50,15 @@ public class ExamPackageAppend extends Model<ExamPackageAppend> implements Seria
 	@TableField("creation_time")
 	private Date creationTime;
 
-    public Integer getSysId() {
+	public Integer getPeriods() {
+		return periods;
+	}
+
+	public void setPeriods(Integer periods) {
+		this.periods = periods;
+	}
+
+	public Integer getSysId() {
         return sysId;
     }
 	public void setSysId(Integer sysId) {

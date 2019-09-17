@@ -107,4 +107,13 @@ public class UserBasicServiceImpl extends ServiceImpl<UserBasicMapper, UserBasic
     public List<UserExamMainDetail> getUserExamMainDetail(Map<String, Object> params) {
         return this.baseMapper.getUserExamMainDetail(params);
     }
+
+    @Override
+    public boolean uploadAuthorizationUrl(Integer sysId, String authorizationUrl) {
+        if (this.baseMapper.uploadAuthorizationUrl(sysId, authorizationUrl) > 0){
+            return true;
+        }
+        return false;
+    }
+
 }

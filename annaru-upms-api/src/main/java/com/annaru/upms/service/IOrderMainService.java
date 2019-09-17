@@ -1,7 +1,6 @@
 package com.annaru.upms.service;
 
 import com.annaru.common.result.PageUtils;
-import com.annaru.upms.entity.ExamPackageMain;
 import com.annaru.upms.entity.OrderMain;
 import com.annaru.upms.entity.vo.*;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -84,6 +83,7 @@ public interface IOrderMainService extends IService<OrderMain> {
      * @Date: 2019/6/4 11:37
      */
     int insertOrderMain(OrderMain orderMain,String []RelativeId);
+
     //根据套餐编号查询赠送服务 wh
     List<AppendOrderMain> selectAppendByOrderNo(String orderNo);
 
@@ -100,16 +100,27 @@ public interface IOrderMainService extends IService<OrderMain> {
 
     List<UserPackagesVo> getPackages(@Param("params") Map<String,Object> params);
 
+    OrderMain getReferenceNo(@Param("params") Map <String, Object> params);
+
+    OrderMain getInfo(@Param("params") Map <String, Object> params);
+
     /**
-     * @Description: 根据订单号查询所属套餐
-     * @param  orderNo 订单号
-     * @Author: XCK
-     * @Date: 2019/7/9
+     * @Description:获取用户所有带检测报告的订单套餐
+     * @param userId 用户编号
+     * @param packageCates 套餐类别 【1:标准套餐/2:HPV/3:肺保康/】
+     * @param orderCates 订单类别 【1:一般体检预约(C端) 2:进阶体检预约(C端) 3:分布式体检预约(B端) 4:进阶体检预约(B端)】
+     * @Author:XCK
+     * @Date:2019/8/16
      * @return
      */
-    ExamPackageMain getExamPackageMainByOrderNo(String orderNo);
+    PageUtils<ExamReportVo> getExamReportVoPage(Integer page, Integer limit, String userId, Integer packageCates, Integer orderCates);
 
-    OrderMain getReferenceNo(@Param("params") Map <String, Object> params);
+    /**
+     * @Description:取消订单修改状态
+     * @Author: wh
+     * @Date: 2019/9/17 16:44
+     */
+    Boolean updateisDeleted(String orderNo);
 
 }
 

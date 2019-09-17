@@ -11,62 +11,14 @@ import java.util.Date;
 public class UserCardInfoVo implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    /**
-     * 系统编号
-     */
-    private Integer sysId;
-    /**
-     * 户用编号
-     */
     private String userId;
-    /**
-     * 卡类别(1:社保卡/2:医保卡/3:自费卡/4:其他卡)
-     */
-    private Integer cardCates;
-    /**
-     * 卡号
-     */
-    private String cardNo;
-    /**
-     * 用户姓名
-     */
     private String fullName;
-    /**
-     * 用户性别
-     */
-    private Integer userGender;
-    /**
-     * 用户年龄
-     */
-    private Integer userAge;
-    /**
-     * 用户身份证号
-     */
-    private String userIdCardNo;
-    /**
-     * 手机号码
-     */
+    private int gender;
+    private String idCardNo;
     private String cellphoneNo;
-    /**
-     * 绑卡状态
-     */
-    private String status;
-    /**
-     * 备注
-     */
-    private String remark;
-    /**
-     * 绑定时间
-     */
-    private Date creationTime;
-
-    public Integer getSysId() {
-        return sysId;
-    }
-
-    public void setSysId(Integer sysId) {
-        this.sysId = sysId;
-    }
+    private String cardNo;
+    private String refNo;
+    private String relativeName;
 
     public String getUserId() {
         return userId;
@@ -74,22 +26,6 @@ public class UserCardInfoVo implements Serializable {
 
     public void setUserId(String userId) {
         this.userId = userId;
-    }
-
-    public Integer getCardCates() {
-        return cardCates;
-    }
-
-    public void setCardCates(Integer cardCates) {
-        this.cardCates = cardCates;
-    }
-
-    public String getCardNo() {
-        return cardNo;
-    }
-
-    public void setCardNo(String cardNo) {
-        this.cardNo = cardNo;
     }
 
     public String getFullName() {
@@ -100,28 +36,20 @@ public class UserCardInfoVo implements Serializable {
         this.fullName = fullName;
     }
 
-    public Integer getUserGender() {
-        return userGender;
+    public int getGender() {
+        return gender;
     }
 
-    public void setUserGender(Integer userGender) {
-        this.userGender = userGender;
+    public void setGender(int gender) {
+        this.gender = gender;
     }
 
-    public Integer getUserAge() {
-        return userAge;
+    public String getIdCardNo() {
+        return idCardNo;
     }
 
-    public void setUserAge(Integer userAge) {
-        this.userAge = userAge;
-    }
-
-    public String getUserIdCardNo() {
-        return userIdCardNo;
-    }
-
-    public void setUserIdCardNo(String userIdCardNo) {
-        this.userIdCardNo = userIdCardNo;
+    public void setIdCardNo(String idCardNo) {
+        this.idCardNo = idCardNo;
     }
 
     public String getCellphoneNo() {
@@ -132,28 +60,28 @@ public class UserCardInfoVo implements Serializable {
         this.cellphoneNo = cellphoneNo;
     }
 
-    public String getStatus() {
-        return status;
+    public String getCardNo() {
+        return cardNo;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setCardNo(String cardNo) {
+        this.cardNo = cardNo;
     }
 
-    public String getRemark() {
-        return remark;
+    public String getRefNo() {
+        return refNo;
     }
 
-    public void setRemark(String remark) {
-        this.remark = remark;
+    public void setRefNo(String refNo) {
+        this.refNo = refNo;
     }
 
-    public Date getCreationTime() {
-        return creationTime;
+    public String getRelativeName() {
+        return relativeName;
     }
 
-    public void setCreationTime(Date creationTime) {
-        this.creationTime = creationTime;
+    public void setRelativeName(String relativeName) {
+        this.relativeName = relativeName;
     }
 }
 

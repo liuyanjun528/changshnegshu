@@ -43,6 +43,12 @@ public class SysDoctorNurseSchedule extends Model<SysDoctorNurseSchedule> implem
     @ApiModelProperty(value = "医生/护士 编号")
 	@TableField("doctor_nurse_no")
 	private String doctorNurseNo;
+
+	@ApiModelProperty(value = "1:上门排班/2：门诊排班")
+	@TableField("service_method")
+	private Integer serviceMethod;
+
+	private Integer count;
 	/**
 	 * 开始日期
 	 */
@@ -84,18 +90,35 @@ public class SysDoctorNurseSchedule extends Model<SysDoctorNurseSchedule> implem
 	 */
     @ApiModelProperty(value = "创建时间")
 	@TableField("creation_time")
-	private Date creationTime;
+	private Date creationTime = new Date();
 	/**
 	 * 编辑时间
 	 */
     @ApiModelProperty(value = "编辑时间")
 	@TableField("edit_time")
-	private Date editTime;
+	private Date editTime = new Date();
 	/**
 	 * 排班状态（1、未排班；2、已排班；3、已排满）
 	 */
     @ApiModelProperty(value = "排班状态（1、未排班；2、已排班；3、已排满）")
 	private Integer state;
+
+
+	public Integer getCount() {
+		return count;
+	}
+
+	public void setCount(Integer count) {
+		this.count = count;
+	}
+
+	public Integer getServiceMethod() {
+		return serviceMethod;
+	}
+
+	public void setServiceMethod(Integer serviceMethod) {
+		this.serviceMethod = serviceMethod;
+	}
 
 	/**
      * 获取：系统编号
@@ -133,7 +156,8 @@ public class SysDoctorNurseSchedule extends Model<SysDoctorNurseSchedule> implem
 	public void setDoctorNurseNo(String doctorNurseNo) {
 		this.doctorNurseNo = doctorNurseNo;
 	}
-    /**
+
+	/**
      * 获取：开始日期
      */
     public Date getDateFrom() {

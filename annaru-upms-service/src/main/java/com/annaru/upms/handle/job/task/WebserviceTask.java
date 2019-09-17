@@ -7,7 +7,6 @@ import com.annaru.upms.handle.webservice.LisWebServiceSoap12_Client;
 import com.annaru.upms.service.IExamInspectReportListService;
 import com.annaru.upms.service.IExamInspectReportService;
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,52 +34,46 @@ public class WebserviceTask {
 
 
     /**
+     * @return
      * @Description: 批量下载检查报告
      * @Author: XCK
      * @Date: 2019/6/3
-     * @return 
      */
     public void downLoadResult() {
         logger.info("定时任务downLoadResult 开始批量下载检查报告");
         Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.YEAR,2010);
-        calendar.set(Calendar.MONTH,0);
+        calendar.set(Calendar.YEAR, 2010);
+        calendar.set(Calendar.MONTH, 0);
         calendar.set(Calendar.DAY_OF_MONTH, 1);
         String startDate = DateUtil.format(calendar.getTime()); // 从2010年01月1日开始
         String endDate = DateUtil.getDate(); // 当前日期
         // 获得指定时间段内的报告数量和列表
-        List<ExamInspectReportList> reportTemps = LisWebServiceSoap12_Client.GetResultLists(startDate, endDate, "", "", "","", "0");
-        if(CollectionUtils.isEmpty(reportTemps)) return;
-        logger.info("时间段{}——{}，共获取{}份报告",startDate, endDate, reportTemps.size());
+        List<ExamInspectReportList> reportTemps = LisWebServiceSoap12_Client.GetResultLists(startDate, endDate, "", "", "", "", "0");
+        if (CollectionUtils.isEmpty(reportTemps)) return;
+        logger.info("时间段{}——{}，共获取{}份报告", startDate, endDate, reportTemps.size());
+        int count = 0;
         for (ExamInspectReportList reportTemp : reportTemps) {
-            // 下载体检报告
-            String reportno = reportTemp.getREPORTNO();
+            // 检查送检条码是否全部检测完成
+            if("1".equals(reportTemp.getAPPCOMP())){
+                // 下载体检报告
+                String reportno = reportTemp.getREPORTNO();
+                List<ExamInspectReport> reportList = LisWebServiceSoap12_Client.downLoadResult(reportno, "", "", "", "", "");
 
-            if(StringUtils.isBlank(reportno)){
-                continue;
-            }
-
-            List<ExamInspectReport> reportList = LisWebServiceSoap12_Client.downLoadResult(reportno, "", "", "", "", "");
-
-            if(CollectionUtils.isEmpty(reportList)){
-                continue;
-            }
-
-            for (ExamInspectReport report : reportList) {
-                // 保存检查结果
-                boolean bool = examInspectReportService.saveInspectReport(report);
-                // 检查送检条码是否全部检测完成
-                if(bool && "1".equals(report.getWCBZ())){
-                    // 更新数据状态为已经下载
-                    LisWebServiceSoap12_Client.updateStatus(reportno, "", "", "");
-                    // 保存下载列表
-                    examInspectReportListService.saveInspectReportList(reportTemp);
+                if (CollectionUtils.isEmpty(reportList)) {
+                    for (ExamInspectReport report : reportList) {
+                        // 保存检查结果
+                        boolean bool = examInspectReportService.saveInspectReport(report);
+                        // 保存下载列表
+                        boolean bool2 = examInspectReportListService.saveInspectReportList(reportTemp);
+                        // 更新数据状态为已经下载
+                        boolean bool3 = LisWebServiceSoap12_Client.updateStatus(reportno, "", "", "");
+                        count++;
+                    }
                 }
             }
         }
-        logger.info("时间段{}-{}，共{}份报告已全部下载完成",startDate, endDate, reportTemps.size());
+        logger.info("时间段{}-{}，共{}份报告已全部下载完成", startDate, endDate, count);
     }
-
 
 
 }

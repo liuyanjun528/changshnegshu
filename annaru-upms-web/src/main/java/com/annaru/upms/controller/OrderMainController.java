@@ -2,19 +2,26 @@ package com.annaru.upms.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.annaru.common.base.BaseController;
-import com.annaru.common.exception.GlobalException;
 import com.annaru.common.result.PageUtils;
 import com.annaru.common.result.ResultMap;
+import com.annaru.common.util.Constant;
 import com.annaru.upms.controllerutil.SysConfigUtil;
-import com.annaru.upms.entity.*;
-import com.annaru.upms.entity.vo.*;
-import com.annaru.upms.im.rong.models.Result;
-import com.annaru.upms.service.*;
+import com.annaru.upms.entity.ExamAppend;
+import com.annaru.upms.entity.OrderMain;
+import com.annaru.upms.entity.SysConfig;
+import com.annaru.upms.entity.SysMessage;
+import com.annaru.upms.entity.vo.OrderMainVoSumByStatusZ;
+import com.annaru.upms.entity.vo.OrderMainVoZMzlt;
+import com.annaru.upms.entity.vo.OrderMainVoZTC;
+import com.annaru.upms.entity.vo.OrderMainVoZZF;
+import com.annaru.upms.service.IExamAppendService;
+import com.annaru.upms.service.IOrderMainService;
+import com.annaru.upms.service.ISysConfigService;
+import com.annaru.upms.service.ISysMessageService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -33,61 +40,12 @@ import java.util.*;
 public class OrderMainController extends BaseController {
     @Reference
     private IOrderMainService orderMainService;//订单主表
-
-    @Reference
-    private IOrderDetailService orderDetailService;//订单详情表
-
-    @Reference
-    private IOrderCustomerService orderCustomerService;//订单客户表
-
     @Reference
     private ISysConfigService iSysConfigService; //系统配置表
-
-    @Reference
-    private IExamPackageAppendService examPackageAppendService;
-
-    @Reference
-    private IUserFamilyDoctorService userFamilyDoctorService;//家庭医生
-
-    @Reference
-    private IUserRelativesService userRelativesService;//亲属表
-
     @Reference
     private ISysMessageService sysMessageService;// 消息表
-
     @Reference
     private IExamAppendService examAppendService;
-
-
-    /**
-     * 保存家庭医生订单
-     */
-
-    @ApiOperation(value = "家庭医生下订单")
-    @PostMapping("/saveFamilyDoctor")
-   // @RequiresPermissions("upms/orderMain/saveFamilyDoctor")
-    public ResultMap saveFamilyDoctor(@RequestBody OrderMain orderMain) {
-        try {
-            SysConfig sysConfig = SysConfigUtil.getSysConfig(iSysConfigService , SysConfigUtil.ORDERNO);
-            orderMain.setOrderNo(SysConfigUtil.getNoBySysConfig());
-            orderMain.setOrderCates(5);
-            boolean save = orderMainService.save(orderMain);
-            if(save=true){
-                orderMain.getUserFamilyDoctor().setOrderNo(SysConfigUtil.getNoBySysConfig());
-                orderMain.getUserFamilyDoctor().setEffectFrom(new Date());
-                orderMain.getUserFamilyDoctor().setCreationTime(new Date());
-                orderMain.getUserFamilyDoctor().setUserId(orderMain.getUserId());
-                userFamilyDoctorService.save(orderMain.getUserFamilyDoctor());
-            }
-            if(save=true){
-                SysConfigUtil.saveRefNo(sysConfig.getRefNo());
-            }
-            return ResultMap.ok("家庭医生订单成功").put("data",orderMain.getOrderNo());
-        }catch (Exception e) {
-            logger.error(e.getMessage());
-            return ResultMap.error("运行异常，请联系管理员");
-        }
-    }
 
 
     /**
@@ -102,6 +60,7 @@ public class OrderMainController extends BaseController {
             SysConfig sysConfig = SysConfigUtil.getSysConfig(iSysConfigService, SysConfigUtil.ORDERNO);
             orderMain.setOrderNo(SysConfigUtil.getNoBySysConfig());
             orderMain.setCreationtime(new Date());
+            orderMain.setStatus(Constant.PaymentState.UNPAID.getValue());
             i = orderMainService.insertOrderMain(orderMain,RelativeId);
 
 
@@ -135,7 +94,7 @@ public class OrderMainController extends BaseController {
         if (i>0) {
             return ResultMap.ok("添加成功").put("data", orderMain.getOrderNo());
         } else {
-            return ResultMap.error("没有相关亲属，请先添加亲属");
+            return ResultMap.error("添加失败");
         }
     }
 
@@ -314,5 +273,29 @@ public class OrderMainController extends BaseController {
         }
 
     }
+
+
+    /**
+      * @Description:未支付订单 30分钟进行取消
+      * @Author: wh
+      * @Date: 2019/9/17 16:53
+      */
+    @ApiOperation(value = "未支付订单进行取消")
+    @PostMapping("/updateIsDelate")
+    public ResultMap updateIsDelate(String orderNo) {
+        try {
+            Boolean aBoolean = orderMainService.updateisDeleted(orderNo);
+            if(aBoolean){
+                return ResultMap.ok("取消成功！");
+            }
+            return ResultMap.ok("取消失败！");
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return ResultMap.error("运行异常，请联系管理员");
+        }
+
+    }
+
+
 
 }

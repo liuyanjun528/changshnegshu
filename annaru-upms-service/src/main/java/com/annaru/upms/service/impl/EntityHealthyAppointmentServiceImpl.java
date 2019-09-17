@@ -112,7 +112,7 @@ public class EntityHealthyAppointmentServiceImpl extends ServiceImpl<EntityHealt
                         Boolean result=false;
                         for (UserRelatives relative : list) {
                             for (String  rela:RelativeId ){
-                                if (relative.getRelativeId().equals(rela)) {//判断传来的亲属ID 跟数据库保存的亲属是否匹配
+                                if (relative.getRefNo().equals(rela)) {//判断传来的亲属usuerId 跟数据库的是否匹配
                                     result=true;
                                     break;
                                 }
@@ -157,6 +157,11 @@ public class EntityHealthyAppointmentServiceImpl extends ServiceImpl<EntityHealt
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
         }
         return i;
+    }
+
+    @Override
+    public int selectEntityServiceCount(String userId) {
+        return this.baseMapper.selectEntityServiceCount(userId);
     }
 
 

@@ -37,7 +37,7 @@ public interface IUserCardsService extends IService<UserCards> {
      * @param userId 用户ID
      * @return
      */
-    List<UserCardInfoVo> getGreenPassUserInfo(String userId);
+    List<UserCardInfoVo> getGreenPassUserInfo(String userId, String refNo);
 
 
     /**

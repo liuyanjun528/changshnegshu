@@ -9,6 +9,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -35,6 +36,19 @@ public class UserAddressServiceImpl extends ServiceImpl<UserAddressMapper, UserA
     @Override
     public int DeleteAddress(String userId,String sysId) {
         return this.baseMapper.DeleteAddress(userId, sysId);
+    }
+
+    @Override
+    public boolean updateDefaultByUserId(Integer isDefault, String userId, Integer sysId) {
+        if (this.baseMapper.updateDefaultByUserId(isDefault, userId, sysId) > 0){
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public List<UserAddress> getUserAddress(String userId) {
+        return this.baseMapper.getUserAddress(userId);
     }
 
 }

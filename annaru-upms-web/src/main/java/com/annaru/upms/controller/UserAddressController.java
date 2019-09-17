@@ -9,6 +9,7 @@ import com.annaru.upms.service.IUserAddressService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import jodd.util.StringUtil;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.web.bind.annotation.*;
 
@@ -70,8 +71,14 @@ public class UserAddressController extends BaseController {
     //@RequiresPermissions("upms/userAddress/save")
     public ResultMap save(@Valid @RequestBody UserAddress userAddress) {
         try {
-
+            if (userAddress.getIsdefault() == 1){
+                if (userAddressService.getUserAddress(userAddress.getUserId()) != null && userAddressService.getUserAddress(userAddress.getUserId()).size() > 0){
+                    userAddressService.updateDefaultByUserId(0, userAddress.getUserId(), null);
+                }
+            }
+            userAddress.setCreationTime(new Date());
             userAddressService.save(userAddress);
+
             return ResultMap.ok("添加成功");
         } catch (Exception e) {
             logger.error(e.getMessage());
@@ -86,7 +93,11 @@ public class UserAddressController extends BaseController {
     @PostMapping("/update")
     //@RequiresPermissions("upms/userAddress/update")
     public ResultMap update(@RequestBody UserAddress userAddress) {
-
+            if (userAddress.getIsdefault() == 1){
+                if (userAddressService.getUserAddress(userAddress.getUserId()) != null && userAddressService.getUserAddress(userAddress.getUserId()).size() > 0){
+                    userAddressService.updateDefaultByUserId(0, userAddress.getUserId(), null);
+                }
+            }
             userAddress.setEditTime(new Date());
             int i = userAddressService.updateAddress(userAddress);
             if(i>0){
