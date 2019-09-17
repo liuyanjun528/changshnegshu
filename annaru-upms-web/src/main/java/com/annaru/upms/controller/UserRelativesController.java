@@ -17,19 +17,12 @@ import io.swagger.annotations.ApiParam;
 
 import com.annaru.common.base.BaseController;
 import com.annaru.common.result.PageUtils;
-import com.annaru.upms.shiro.ShiroKit;
 import com.annaru.common.result.ResultMap;
 
 import com.annaru.upms.entity.UserRelatives;
 import com.annaru.upms.service.IUserRelativesService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -101,12 +94,17 @@ public class UserRelativesController extends BaseController {
                 return ResultMap.error("该用户已有三条亲属！");
             }
             SysConfig sysConfig = SysConfigUtil.getSysConfig(iSysConfigService, SysConfigUtil.RELATIVENO);
-            userRelativesDetailVoZ.setRelativeId(SysConfigUtil.getNoBySysConfig());
-            if (userRelativesService.saveUserRelatives(userRelativesDetailVoZ)){
-                if (SysConfigUtil.saveRefNo(userRelativesDetailVoZ.getRelativeId())){
-                    return ResultMap.ok("添加成功");
+            String relativeId = SysConfigUtil.getNoBySysConfig();
+            if (SysConfigUtil.saveRefNo(sysConfig)){
+                SysConfig sysConfig1 = SysConfigUtil.getSysConfig(iSysConfigService, SysConfigUtil.USERNO);
+                String userId = SysConfigUtil.getNoBySysConfig();
+                if (SysConfigUtil.saveRefNo(sysConfig1)){
+                    if (userRelativesService.saveUserRelatives(userRelativesDetailVoZ, relativeId, userId)){
+                        return ResultMap.ok("添加成功");
+                    }
                 }
             }
+
             return ResultMap.error("运行异常，请联系管理员");
         } catch (Exception e) {
             logger.error(e.getMessage());

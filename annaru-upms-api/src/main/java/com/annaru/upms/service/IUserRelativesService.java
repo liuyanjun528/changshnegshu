@@ -64,7 +64,7 @@ public interface IUserRelativesService extends IService<UserRelatives> {
      * @author zk
      * @date 2019-07-02
      */
-    boolean saveUserRelatives(UserRelativesDetailVoZ userRelativesDetailVoZ);
+    boolean saveUserRelatives(UserRelativesDetailVoZ userRelativesDetailVoZ, String relativeId, String userId);
 
     /**
      * 删除亲属基本信息

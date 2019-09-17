@@ -123,4 +123,13 @@ public class SysConfigUtil {
         return false;
     }
 
+    public static boolean saveRefNo(SysConfig sysConfig){
+        // 修改系统配置的用户编号
+        sysConfig.setRefNo((Integer.parseInt(sysConfig.getRefNo()) + 1)+"");
+        if (iSysConfigService.updateById(sysConfig)){
+            return true;
+        }
+        return false;
+    }
+
 }
