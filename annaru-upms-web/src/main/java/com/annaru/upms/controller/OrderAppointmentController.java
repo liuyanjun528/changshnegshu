@@ -386,6 +386,7 @@ public class OrderAppointmentController extends BaseController {
                         orderMain.setUserId(userId);
                         orderMain.setAmount(amount);
                         orderAdditionalInfo.setAmount(amount);
+                        orderAdditionalInfo.setOrderNo(orderNoNew);
                         orderMainService.save(orderMain);
                         return ResultMap.ok().put("data",orderNoNew);
                     }
