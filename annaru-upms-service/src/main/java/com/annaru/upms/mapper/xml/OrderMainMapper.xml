@@ -682,4 +682,10 @@ WHERE
 
     </select>
 
+
+    <update id="updateisDeleted">
+        UPDATE order_main SET is_deleted=1 WHERE order_no=#{orderNo}
+    </update>
+
+
 </mapper>

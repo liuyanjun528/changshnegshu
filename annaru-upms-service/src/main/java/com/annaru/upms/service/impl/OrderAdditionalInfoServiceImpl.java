@@ -49,7 +49,7 @@ public class OrderAdditionalInfoServiceImpl extends ServiceImpl<OrderAdditionalI
     }
 
     @Override
-    public UserCards selectUserOrRelativeInfo(String userId, String relativeId) {
+    public List<UserCards> selectUserOrRelativeInfo(String userId, String relativeId) {
         return this.baseMapper.selectUserOrRelativeInfo(userId, relativeId);
     }
 
@@ -102,7 +102,7 @@ public class OrderAdditionalInfoServiceImpl extends ServiceImpl<OrderAdditionalI
                         Boolean result=false;
                         for (UserRelatives relative : list) {
                             for (String  rela:RelativeId ){
-                                if (relative.getRelativeId().equals(rela)) {//判断传来的亲属ID 跟数据库保存的亲属是否匹配
+                                if (relative.getRefNo().equals(rela)) { //判断传来的亲属userId 跟数据库的亲属id是否匹配
                                     result=true;
                                     break;
                                 }

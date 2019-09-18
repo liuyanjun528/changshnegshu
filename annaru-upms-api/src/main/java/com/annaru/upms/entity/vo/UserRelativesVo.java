@@ -24,7 +24,7 @@ public class UserRelativesVo implements Serializable {
 	/**
 	 * 亲属编号
 	 */
-	private String relativeId;
+	private String refNo;
 
 	/**
 	 * 用户亲属姓名
@@ -83,12 +83,12 @@ public class UserRelativesVo implements Serializable {
 		this.userId = userId;
 	}
 
-	public String getRelativeId() {
-		return relativeId;
+	public String getRefNo() {
+		return refNo;
 	}
 
-	public void setRelativeId(String relativeId) {
-		this.relativeId = relativeId;
+	public void setRefNo(String refNo) {
+		this.refNo = refNo;
 	}
 
 	public String getRelativeName() {

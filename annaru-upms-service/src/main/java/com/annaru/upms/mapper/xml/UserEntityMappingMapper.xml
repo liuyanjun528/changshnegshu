@@ -24,8 +24,7 @@
         <result column="entity_name" property="entityName" />
 
         <collection property="userRelativesVo" ofType="com.annaru.upms.entity.vo.UserRelativesVo">
-                <id column="relative_id" property="relativeId" />
-                <result column="user_id" property="userId" />
+                <id column="ref_no" property="refNo" />
                 <result column="relative_name" property="relativeName"/>
                 <result column="relative_gender" property="relativeGender"/>
                 <result column="relative_age" property="relativeAge"/>
@@ -77,7 +76,7 @@
         ub.full_name,
         ub.gender AS user_gender,
         TIMESTAMPDIFF(YEAR, ub.date_of_birth, CURDATE()) AS user_age,
-        ur.relative_id,
+        ur.ref_no,
         ur.relative_name,
         ur.gender AS relative_gender,
         TIMESTAMPDIFF(YEAR, ur.date_of_birth, CURDATE()) AS relative_age,

@@ -274,4 +274,28 @@ public class OrderMainController extends BaseController {
 
     }
 
+
+    /**
+      * @Description:未支付订单 30分钟进行取消
+      * @Author: wh
+      * @Date: 2019/9/17 16:53
+      */
+    @ApiOperation(value = "未支付订单进行取消")
+    @PostMapping("/updateIsDelate")
+    public ResultMap updateIsDelate(String orderNo) {
+        try {
+            Boolean aBoolean = orderMainService.updateisDeleted(orderNo);
+            if(aBoolean){
+                return ResultMap.ok("取消成功！");
+            }
+            return ResultMap.ok("取消失败！");
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return ResultMap.error("运行异常，请联系管理员");
+        }
+
+    }
+
+
+
 }

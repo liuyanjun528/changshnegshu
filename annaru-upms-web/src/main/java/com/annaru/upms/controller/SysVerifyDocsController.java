@@ -181,9 +181,6 @@ public class SysVerifyDocsController extends BaseController {
                 sysVerifyDocs.setImages(sysVerifyDocs.getImages2());
                 sysVerifyDocsService.saveUserVerify(sysVerifyDocs);
             }
-
-
-
             return ResultMap.ok("添加成功");
         } catch (Exception e) {
             logger.error(e.getMessage());
@@ -192,6 +189,22 @@ public class SysVerifyDocsController extends BaseController {
 
     }
 
+    /**
+      * @Description:查询用户是否审核及审核结果
+      * @Author: wh
+      * @Date: 2019/9/18 14:07
+      */
+    @ApiOperation(value = "查询用户是否审核及审核结果")
+    @GetMapping("/selectUserVerify")
+    public Object selectUserVerify(String userId) {
+        try {
+            List<SysVerifyDocs> sysVerifyDocs = sysVerifyDocsService.selectResult(userId);
+            return ResultMap.ok("ok").put("data",sysVerifyDocs);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return ResultMap.error("运行异常，请联系管理员");
+        }
+    }
 
 
 

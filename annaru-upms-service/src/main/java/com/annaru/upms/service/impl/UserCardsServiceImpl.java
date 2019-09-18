@@ -41,8 +41,8 @@ public class UserCardsServiceImpl extends ServiceImpl<UserCardsMapper, UserCards
      * @param userId 用户ID
      * @return
      */
-    public List<UserCardInfoVo> getGreenPassUserInfo(String userId) {
-        return this.baseMapper.getGreenPassUserInfo(userId);
+    public List<UserCardInfoVo> getGreenPassUserInfo(String userId, String refNo) {
+        return this.baseMapper.getGreenPassUserInfo(userId,refNo);
     }
 
     @Override

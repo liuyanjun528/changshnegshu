@@ -139,7 +139,7 @@ public class OrderMainServiceImpl extends ServiceImpl<OrderMainMapper, OrderMain
                     Boolean result=false;
                     for (UserRelatives relative : list) {
                         for (String  rela:RelativeId ){
-                            if (relative.getRelativeId().equals(rela)) {//判断传来的亲属ID 跟数据库保存的亲属是否匹配
+                            if (relative.getRefNo().equals(rela)) {//判断传来的亲属userId 跟数据库的亲属id是否匹配
                                 result=true;
                                 break;
                             }
@@ -232,5 +232,10 @@ public class OrderMainServiceImpl extends ServiceImpl<OrderMainMapper, OrderMain
         Page<ExamReportVo> pageObj = new PageUtils<ExamReportVo>(params).getPage();
         IPage<ExamReportVo> iPage = this.baseMapper.selectExamReportVoPage(pageObj, userId, packageCates, orderCates);
         return new PageUtils(iPage);
+    }
+
+    @Override
+    public Boolean updateisDeleted(String orderNo) {
+        return this.baseMapper.updateisDeleted(orderNo);
     }
 }
