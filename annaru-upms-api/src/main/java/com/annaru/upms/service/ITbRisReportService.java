@@ -2,6 +2,7 @@ package com.annaru.upms.service;
 
 import com.annaru.common.result.PageUtils;
 import com.annaru.upms.entity.medical.TbRisReport;
+import com.annaru.upms.entity.medical.vo.TbRisReportDetailVo;
 import com.annaru.upms.entity.medical.vo.TbRisReportListVo;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -37,6 +38,13 @@ public interface ITbRisReportService extends IService<TbRisReport> {
      * @return
      */
     List<TbRisReportListVo> getYxbg(String kh);
+
+    /**
+     * 根据影像检查报告ID查询影像报告
+     * @param csid 影像检查报告ID
+     * @return
+     */
+    TbRisReportDetailVo getYxbgDetail(String csid);
 
     /**
      * 根据就诊流水号查询影像报告

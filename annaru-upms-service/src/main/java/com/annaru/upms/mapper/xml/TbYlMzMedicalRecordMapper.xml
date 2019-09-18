@@ -63,9 +63,12 @@
 
     <!-- 根据卡号分页查询门诊记录 -->
     <select id="getJzjlPage" parameterType="map" resultMap="BaseResultMapList">
+        SELECT DISTINCT * FROM
+        (
         SELECT
         r.CSID,
         r.JZLSH,
+        r.KH,
         h.HOSPITAL_NAME,
         r.ZZYSXM,
         r.JZKSMC,
@@ -84,7 +87,7 @@
             <if test="params.dateFrom != null and params.dateFrom != '' and params.dateTo != null and params.dateTo != ''">
                 AND to_date(SUBSTR(r.JZKSRQ, 0, 10),'yyyy-mm-dd') Between to_date(#{params.dateFrom},'yyyy-mm-dd') AND to_date(#{params.dateTo},'yyyy-mm-dd')
             </if>
-        ORDER BY r.JZKSRQ DESC
+        ) TB_YL_MZ_Medical_Record1 ORDER BY JZKSRQ DESC
     </select>
 
     <!-- 根据卡号查询门诊记录 -->
@@ -122,7 +125,6 @@
 
     <!-- 根据卡号查询近三年门诊次数最多医院 -->
     <select id="getHospitalNameByKh" parameterType="map" resultMap="BaseResultMapList">
-
 	SELECT max(HOSPITAL_NAME) keep(dense_rank FIRST ORDER BY num DESC) HOSPITAL_NAME
     FROM
      (
@@ -138,20 +140,23 @@
 
     <!-- 根据门诊记录id查询对应的门诊记录详情 -->
     <select id="getJzjlById" parameterType="map" resultMap="BaseResultMapDetail">
+    SELECT DISTINCT *
+    FROM(
     SELECT
-        r.CSID,
-        r.JZLSH,
-        SUBSTR (r.JZKSRQ, 0, 10) AS JZKSRQ,
-        r.ZZYSXM,
-        r.JZKSMC,
-        r.ZS,
-        h.HOSPITAL_NAME,
-        lr.MZZYBZ
-    FROM
-        TB_YL_MZ_Medical_Record r
-    LEFT JOIN TB_HOSPITAL h ON r.YLJGDM = h.HOSPITAL_ID
-    LEFT JOIN TB_LIS_REPORT lr ON lr.JZLSH = r.JZLSH
-    WHERE r.CSID =#{csid}
+            r.CSID,
+            r.JZLSH,
+            SUBSTR (r.JZKSRQ, 0, 10) AS JZKSRQ,
+            r.ZZYSXM,
+            r.JZKSMC,
+            r.ZS,
+            h.HOSPITAL_NAME,
+            lr.MZZYBZ
+        FROM
+            TB_YL_MZ_Medical_Record r
+        LEFT JOIN TB_HOSPITAL h ON r.YLJGDM = h.HOSPITAL_ID
+        LEFT JOIN TB_LIS_REPORT lr ON lr.JZLSH = r.JZLSH
+        WHERE r.CSID =#{csid}
+        ) TB_YL_MZ_Medical_Record1
     </select>
     <!-- 根据门诊流水号查询门诊记录 -->
     <select id="getJzjlByJzlsh" parameterType="map" resultMap="BaseResultMapDetail">

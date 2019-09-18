@@ -3,6 +3,7 @@ package com.annaru.upms.service.impl;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.annaru.common.result.PageUtils;
 import com.annaru.upms.entity.medical.TbRisReport;
+import com.annaru.upms.entity.medical.vo.TbRisReportDetailVo;
 import com.annaru.upms.entity.medical.vo.TbRisReportListVo;
 import com.annaru.upms.entity.medical.vo.TbYlMzMedicalRecordListVo;
 import com.annaru.upms.mapper.TbRisReportMapper;
@@ -11,6 +12,7 @@ import com.baomidou.dynamic.datasource.annotation.DS;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -58,6 +60,17 @@ public class TbRisReportServiceImpl extends ServiceImpl<TbRisReportMapper, TbRis
     @DS("oracle")
     public List<TbRisReportListVo> getYxbg(String kh) {
         return this.baseMapper.getYxbg(kh);
+    }
+
+    /**
+     * 根据影像检查报告ID查询影像报告
+     * @param csid 影像检查报告ID
+     * @return
+     */
+    @Override
+    @DS("oracle")
+    public  TbRisReportDetailVo getYxbgDetail(String csid) {
+        return this.baseMapper.getYxbgDetail(csid);
     }
 
     /**

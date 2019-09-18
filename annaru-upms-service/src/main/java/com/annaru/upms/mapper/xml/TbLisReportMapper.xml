@@ -110,14 +110,15 @@
     </select>
 
     <!-- 根据就诊流水号查询检验报告 -->
-    <select id="getJybgByJzlsh" parameterType="map" resultMap="BaseResultMapDetail">
+    <select id="getJybgByJzlsh" parameterType="map" resultMap="BaseResultMapList">
     SELECT
         r.CSID,
         r.BGDH,
         r.JZLSH,
         r.JYRQ,
         h.HOSPITAL_NAME,
-        r.bgdlb
+        r.bgdlb,
+        r.MZZYBZ
     FROM
         TB_LIS_Report r,
         TB_HOSPITAL h
