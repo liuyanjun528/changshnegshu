@@ -130,7 +130,16 @@ public class UserRelatives extends Model<UserRelatives> implements Serializable 
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
-    /**
+
+	public String getRefNo() {
+		return refNo;
+	}
+
+	public void setRefNo(String refNo) {
+		this.refNo = refNo;
+	}
+
+	/**
      * 获取：亲属姓名
      */
     public String getRelativeName() {

@@ -13,6 +13,8 @@
         <result column="id_no" property="idNo" />
         <result column="creation_time" property="creationTime" />
         <result column="create_by" property="createBy" />
+        <result column="is_approved" property="isApproved" />
+        <result column="remark" property="remark" />
     </resultMap>
 
     <resultMap id="rowVo" type="com.annaru.upms.entity.vo.SysVerifyDocsVoZ" >
@@ -69,7 +71,7 @@
     </select>
 
 
-    <!---->
+    <!--用户实名认证-->
     <select id="saveUserVerify" parameterType="com.annaru.upms.entity.SysVerifyDocs">
         insert into sys_verify_docs
                 (user_id,doc_cates,images,full_name,id_no,creation_time)
@@ -77,5 +79,8 @@
                 (#{userId},#{docCates},#{images},#{fullName},#{idNo},#{creationTime})
     </select>
 
-
+    <!--用户实名认证结果查询-->
+    <select id="selectResult" parameterType="string" resultMap="BaseResultMap">
+        select  * from sys_verify_docs where user_id=#{userId}
+    </select>
 </mapper>
