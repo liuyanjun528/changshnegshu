@@ -173,11 +173,13 @@ public class SysVerifyDocsController extends BaseController {
             if(StringUtils.isNotBlank(sysVerifyDocs.getImages())){
                 sysVerifyDocs.setCreationTime(new Date());
                 sysVerifyDocs.setDocCates(1);
+                sysVerifyDocs.setCates(3);
                 sysVerifyDocsService.saveUserVerify(sysVerifyDocs);
             }
             if(StringUtils.isNotBlank(sysVerifyDocs.getImages2())){
                 sysVerifyDocs.setCreationTime(new Date());
                 sysVerifyDocs.setDocCates(2);
+                sysVerifyDocs.setCates(3);
                 sysVerifyDocs.setImages(sysVerifyDocs.getImages2());
                 sysVerifyDocsService.saveUserVerify(sysVerifyDocs);
             }
