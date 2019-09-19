@@ -200,7 +200,7 @@ public class SysVerifyDocsController extends BaseController {
     @GetMapping("/selectUserVerify")
     public Object selectUserVerify(String userId) {
         try {
-            List<SysVerifyDocs> sysVerifyDocs = sysVerifyDocsService.selectResult(userId);
+            SysVerifyDocs sysVerifyDocs = sysVerifyDocsService.selectResult(userId);
             return ResultMap.ok("ok").put("data",sysVerifyDocs);
         } catch (Exception e) {
             logger.error(e.getMessage());

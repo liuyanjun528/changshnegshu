@@ -52,7 +52,7 @@ public interface SysVerifyDocsMapper extends BaseMapper<SysVerifyDocs> {
       * @Author: wh
       * @Date: 2019/9/18 14:41
       */
-    List<SysVerifyDocs> selectResult(@Param("userId") String userId);
+    SysVerifyDocs selectResult(@Param("userId") String userId);
 
 
 }
