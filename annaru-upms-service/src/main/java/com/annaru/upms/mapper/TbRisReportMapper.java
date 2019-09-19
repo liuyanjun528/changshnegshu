@@ -1,6 +1,7 @@
 package com.annaru.upms.mapper;
 
 import com.annaru.upms.entity.medical.TbRisReport;
+import com.annaru.upms.entity.medical.vo.TbRisReportDetailVo;
 import com.annaru.upms.entity.medical.vo.TbRisReportListVo;
 import com.annaru.upms.entity.medical.vo.TbYlMzMedicalRecordListVo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
@@ -41,6 +42,13 @@ public interface TbRisReportMapper extends BaseMapper<TbRisReport> {
      * @return
      */
     List<TbRisReportListVo> getYxbg(@Param("kh") String kh);
+
+    /**
+     * 根据影像检查报告ID查询影像报告
+     * @param csid 影像检查报告ID
+     * @return
+     */
+    TbRisReportDetailVo getYxbgDetail(@Param("csid") String csid);
 
     /**
      * 根据就诊流水号查询影像报告

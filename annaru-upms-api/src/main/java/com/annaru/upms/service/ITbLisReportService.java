@@ -45,7 +45,7 @@ public interface ITbLisReportService extends IService<TbLisReport> {
      * @param jzlsh 就诊流水号
      * @return
      */
-    List<TbLisReportDetailVo> getJybgByJzlsh(String jzlsh);
+    List<TbLisReportListVo> getJybgByJzlsh(String jzlsh);
 
     /**
      *根据就诊流水号和报告单号查询检验报告
