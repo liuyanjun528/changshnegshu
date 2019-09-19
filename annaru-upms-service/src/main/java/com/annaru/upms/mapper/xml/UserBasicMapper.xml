@@ -59,6 +59,7 @@
         <result column="entity_id" property="entityId" />
         <result column="entity_name" property="entityName" />
         <result column="healthy_doc_status" property="healthyDocStatus" />
+        <result column="is_push" property="isPush" />
     </resultMap>
 
     <!-- 通用查询映射结果 UserBasicVoZ -->
@@ -250,7 +251,8 @@
             uc.card_no cardNo,
             se.entity_id,
             se.entity_name,
-            ub.healthy_doc_status
+            ub.healthy_doc_status,
+            ub.is_push
         FROM
         user_basic ub
         LEFT JOIN user_cards uc ON uc.user_id = ub.user_id

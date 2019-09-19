@@ -242,6 +242,11 @@ public class UserBasic extends Model<UserBasic> implements Serializable {
 	private int healthyDocStatus;//健康档案查看状态(1:可查看/0:不可查看)
 
 	/**
+	 * 是否已推送白名单到卫计委(1:未推送/2:已推送)
+	 */
+	private Integer isPush;
+
+	/**
 	 * 企业用户的购买的服务的 描述 开始时间 结束时间
 	 * @uthor zk
 	 * @date 2019-07-29
@@ -597,6 +602,14 @@ public class UserBasic extends Model<UserBasic> implements Serializable {
 
 	public void setHealthyDocStatus(int healthyDocStatus) {
 		this.healthyDocStatus = healthyDocStatus;
+	}
+
+	public Integer getIsPush() {
+		return isPush;
+	}
+
+	public void setIsPush(Integer isPush) {
+		this.isPush = isPush;
 	}
 
 	@Override
