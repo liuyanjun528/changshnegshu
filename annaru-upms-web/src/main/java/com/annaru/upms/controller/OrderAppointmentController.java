@@ -388,6 +388,8 @@ public class OrderAppointmentController extends BaseController {
                         orderAdditionalInfo.setAmount(amount);
                         orderAdditionalInfo.setOrderNo(orderNoNew);
                         orderMainService.save(orderMain);
+                        orderAdditionalInfoService.save(orderAdditionalInfo);
+                        sysMessageService.save(message);
                         return ResultMap.ok().put("data",orderNoNew);
                     }
                 }else if (orderAppointment.getOption1()==2){
@@ -400,12 +402,12 @@ public class OrderAppointmentController extends BaseController {
                         message.setMsgCate(2);
                         message.setContent("预约成功！请您准时于"+orderAppointment.getAppointDate().getDate()+
                                 "前往"+sysInstitutionService.getInfo(params).getName()+"就诊,迟到将造成无法就诊。");
+                        orderAdditionalInfoService.save(orderAdditionalInfo);
+                        sysMessageService.save(message);
                     }
                 }else {
                     return ResultMap.error("参数错误");
                 }
-                orderAdditionalInfoService.save(orderAdditionalInfo);
-                sysMessageService.save(message);
             }else if (orderAppointment.getAppointmentCates()==2
                     &&orderAppointment.getInstitutionId()!=null
                     &&orderAppointment.getParentNo()!=null
