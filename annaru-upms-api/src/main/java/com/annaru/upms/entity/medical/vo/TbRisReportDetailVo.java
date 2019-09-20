@@ -17,13 +17,13 @@ public class TbRisReportDetailVo extends Model<TbRisReportDetailVo> implements S
 	/** 检查时间*/
 	private String jysj;
 	/** 门诊/住院标志*/
-	private String mzzybz;
+	private Integer mzzybz;
 	/** 病人姓名*/
 	private String brxm;
 	/** 病人性别*/
-	private String brxb;
+	private Integer brxb;
 	/** 病人年齡*/
-	private String brnl;
+	private Integer brnl;
 	/** 检查名称*/
 	private String jcmc;
 	/** 检查诊断或提示*/
@@ -53,11 +53,11 @@ public class TbRisReportDetailVo extends Model<TbRisReportDetailVo> implements S
 		this.jysj = jysj;
 	}
 
-	public String getMzzybz() {
+	public Integer getMzzybz() {
 		return mzzybz;
 	}
 
-	public void setMzzybz(String mzzybz) {
+	public void setMzzybz(Integer mzzybz) {
 		this.mzzybz = mzzybz;
 	}
 
@@ -69,19 +69,19 @@ public class TbRisReportDetailVo extends Model<TbRisReportDetailVo> implements S
 		this.brxm = brxm;
 	}
 
-	public String getBrxb() {
+	public Integer getBrxb() {
 		return brxb;
 	}
 
-	public void setBrxb(String brxb) {
+	public void setBrxb(Integer brxb) {
 		this.brxb = brxb;
 	}
 
-	public String getBrnl() {
+	public Integer getBrnl() {
 		return brnl;
 	}
 
-	public void setBrnl(String brnl) {
+	public void setBrnl(Integer brnl) {
 		this.brnl = brnl;
 	}
 
