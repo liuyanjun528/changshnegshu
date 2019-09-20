@@ -404,6 +404,7 @@ public class OrderAppointmentController extends BaseController {
                                 "前往"+sysInstitutionService.getInfo(params).getName()+"就诊,迟到将造成无法就诊。");
                         orderAdditionalInfoService.save(orderAdditionalInfo);
                         sysMessageService.save(message);
+                        return ResultMap.ok().put("data",orderNo);
                     }
                 }else {
                     return ResultMap.error("参数错误");
