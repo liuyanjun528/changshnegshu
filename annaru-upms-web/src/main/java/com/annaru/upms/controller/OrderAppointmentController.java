@@ -415,7 +415,7 @@ public class OrderAppointmentController extends BaseController {
                 String parentNo = orderAppointment.getParentNo();
                 String msg = "";
                 params.put("orderNo",parentNo);
-                params.put("examId",orderMainService.getReferenceNo(params));
+                params.put("examId",orderMainService.getReferenceNo(params).getReferenceNo());
                 //套餐内项
                 List<ExamExtensionVo> extensionVos = examPackageDetailService.getEEChoosen(params);
                 boolean exist = false;
@@ -441,7 +441,7 @@ public class OrderAppointmentController extends BaseController {
                         ExamMaster examMaster = examMasterService.getItem(params);
                         msg+= examMaster.getName()
                                 + examDetail.getItemName();
-                        amount+= examDetail.getAmount();
+                        amount+= examDetail.getAmount()==null?0:examDetail.getAmount();
                     }
                     exist = false;
                     appointment.setExtensionItemId(sysId);
@@ -480,7 +480,7 @@ public class OrderAppointmentController extends BaseController {
                 String parentNo = orderAppointment.getParentNo();
                 String msg = "";
                 params.put("orderNo",parentNo);
-                params.put("examId",orderMainService.getReferenceNo(params));
+                params.put("examId",orderMainService.getReferenceNo(params).getReferenceNo());
                 //套餐内项
                 List<ExamExtensionVo> extensionVos = examPackageDetailService.getEEChoosen(params);
                 boolean exist = false;
@@ -506,7 +506,7 @@ public class OrderAppointmentController extends BaseController {
                         ExamMaster examMaster = examMasterService.getItem(params);
                         msg+= examMaster.getName()
                                 + examDetail.getItemName();
-                        amount+= examDetail.getAmount();
+                        amount+= examDetail.getAmount()==null?0:examDetail.getAmount();
                     }
                     exist = false;
                     appointment.setExtensionItemId(sysId);
