@@ -34,4 +34,8 @@ public class SysGlobalSettingServiceImpl extends ServiceImpl<SysGlobalSettingMap
         return this.baseMapper.getSetting(params);
     }
 
+    public List<SysGlobalSetting> getAllSetting(){
+        return this.baseMapper.getAllSetting();
+    }
+
 }

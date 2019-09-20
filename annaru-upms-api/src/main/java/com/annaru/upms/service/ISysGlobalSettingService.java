@@ -23,6 +23,8 @@ public interface ISysGlobalSettingService extends IService<SysGlobalSetting> {
 
     SysGlobalSetting getSetting(Map<String,Object> params);
 
+    List<SysGlobalSetting> getAllSetting();
+
 
 }
 

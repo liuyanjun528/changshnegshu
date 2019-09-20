@@ -72,6 +72,8 @@ public class SysGlobalSettingController extends BaseController {
         }
     }
 
+
+
     /**
      * 保存
      */
@@ -115,6 +117,12 @@ public class SysGlobalSettingController extends BaseController {
         return ResultMap.ok().put("data",sysGlobalSetting);
     }
 
+    @ApiOperation(value = "所有配置")
+    @GetMapping("/getAllSetting")
+    @RequiresPermissions("upms/sysGlobalSetting/getAllSetting")
+    public ResultMap getAllSetting(){
+        return ResultMap.ok().put("data",sysGlobalSettingService.getAllSetting());
+    }
     /**
      * 删除
      */

@@ -657,7 +657,7 @@ WHERE
     </select>
 
     <select id="getInfo" parameterType="map" resultMap="BaseResultMap">
-        SELECT * from  order_main where parent_no = #{params.orderNo}
+        SELECT * from  order_main where parent_no = #{params.orderNo} and is_deleted = 0
     </select>
 
     <select id="selectExamReportVoPage" resultMap="ExamReportVoMap">
