@@ -26,4 +26,5 @@ public interface SysGlobalSettingMapper extends BaseMapper<SysGlobalSetting> {
 
     SysGlobalSetting getSetting(@Param("params") Map<String, Object> params);
 
+    List<SysGlobalSetting> getAllSetting();
 }

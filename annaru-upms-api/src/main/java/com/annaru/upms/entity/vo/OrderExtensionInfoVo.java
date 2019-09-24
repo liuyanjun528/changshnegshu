@@ -13,8 +13,17 @@ public class OrderExtensionInfoVo extends Model<OrderExtensionInfoVo> implements
 	private Integer isCancelled;
 	private String orderNo;
 	private Integer appointStatus;
+	private Integer payStatus;
 
 	private List<ExtensionDetail> details;
+
+	public Integer getPayStatus() {
+		return payStatus;
+	}
+
+	public void setPayStatus(Integer payStatus) {
+		this.payStatus = payStatus;
+	}
 
 	public Integer getAppointStatus() {
 		return appointStatus;

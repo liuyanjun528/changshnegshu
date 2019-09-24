@@ -87,5 +87,5 @@ public interface OrderAppointmentMapper extends BaseMapper<OrderAppointment> {
      */
     OrderOppintmentW selectUpDoorOppointment(@Param("orderNo")String orderNo);
 
-
+    int getCount(@Param("orderNo")String orderNo);
 }

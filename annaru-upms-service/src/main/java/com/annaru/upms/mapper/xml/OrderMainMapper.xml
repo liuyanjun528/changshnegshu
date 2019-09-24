@@ -28,6 +28,7 @@
         <result column="order_no" property="orderNo"/>
         <result column="is_cancelled" property="isCancelled"/>
         <result column="status" property="appointStatus"/>
+        <result column="payState" property="payStatus"/>
         <collection property="details" ofType="com.annaru.upms.entity.vo.ExtensionDetail">
             <result column="itemName" property="itemName"/>
             <result column="itemDetailName" property="itemDetailName"/>
@@ -320,6 +321,7 @@
             AND om.user_id = #{params.userId}
         </if>
         GROUP BY om.sys_id,ur.relative_name
+        ORDER BY  om.order_time DESC
     </select>
 
     <!-- 多表页面信息查询分页  套餐订单-->
@@ -533,23 +535,25 @@
     </select>
 
     <select id="getExtensionInfo" parameterType="map" resultMap="BaseResultMapOEVo">
- SELECT
-	oa.appoint_date,
-	em.`name` itemName,
-	oa.status,
-	ed.item_name itemDetailName,
-	oa.order_no,
-	oa.time_from,
-	si.`name` institutionName,
-	oa.is_cancelled
-FROM
-	order_appointment oa
-LEFT JOIN order_extension_exam oee ON oee.sys_id = oa.extensionItem_id
-LEFT JOIN exam_master em ON em.sys_id = oee.exam_master_id
-LEFT JOIN exam_detail ed ON ed.sys_id = oee.exam_detail_id
-LEFT JOIN sys_institution si ON si.institution_id = oa.institution_id
-WHERE
-	oa.parent_no = #{params.orderNo}
+         SELECT
+        	oa.appoint_date,
+        	em.`name` itemName,
+        	oa.status,
+        	om.status payState,
+        	ed.item_name itemDetailName,
+        	oa.order_no,
+        	oa.time_from,
+        	si.`name` institutionName,
+        	oa.is_cancelled
+        FROM
+        	order_appointment oa
+        LEFT JOIN order_extension_exam oee ON oee.sys_id = oa.extensionItem_id
+        LEFT JOIN exam_master em ON em.sys_id = oee.exam_master_id
+        LEFT JOIN exam_detail ed ON ed.sys_id = oee.exam_detail_id
+        LEFT JOIN sys_institution si ON si.institution_id = oa.institution_id
+        LEFT JOIN order_main om ON oa.order_no = om.order_no
+        WHERE
+        	oa.parent_no = #{params.orderNo}
     </select>
 
     <select id="getBase" parameterType="map" resultMap="BaseResultMapVo">
@@ -657,7 +661,7 @@ WHERE
     </select>
 
     <select id="getInfo" parameterType="map" resultMap="BaseResultMap">
-        SELECT * from  order_main where parent_no = #{params.orderNo}
+        SELECT * from  order_main where parent_no = #{params.orderNo} and is_deleted = 0 AND  (order_cates = 1 or order_cates= 3)
     </select>
 
     <select id="selectExamReportVoPage" resultMap="ExamReportVoMap">

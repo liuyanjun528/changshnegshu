@@ -278,7 +278,7 @@ public class TbMedicalController extends BaseController {
      * @return
      */
     @ApiOperation(value = "影像检查报告详情")
-    @GetMapping("/getYxbgByCsid")
+    @GetMapping("/getYxbgDetail")
     @RequiresPermissions("upms/medical/getYxbgDetail")
     public ResultMap getYxbgDetail(@ApiParam(value = "影像检查报告CSID", required = true) @RequestParam String csid){
         Map<String, Object> map = new HashMap<>();

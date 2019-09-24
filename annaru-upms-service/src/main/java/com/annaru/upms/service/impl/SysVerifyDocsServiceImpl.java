@@ -148,7 +148,7 @@ public class SysVerifyDocsServiceImpl extends ServiceImpl<SysVerifyDocsMapper, S
     }
 
     @Override
-    public List<SysVerifyDocs> selectResult(String userId) {
+    public SysVerifyDocs selectResult(String userId) {
         return this.baseMapper.selectResult(userId);
     }
 }

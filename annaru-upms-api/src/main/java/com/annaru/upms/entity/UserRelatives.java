@@ -267,14 +267,6 @@ public class UserRelatives extends Model<UserRelatives> implements Serializable 
 		this.dateOfBirth = dateOfBirth;
 	}
 
-	public String getRefNo() {
-		return refNo;
-	}
-
-	public void setRefNo(String refNo) {
-		this.refNo = refNo;
-	}
-
 	@Override
 	protected Serializable pkVal() {
 		return this.sysId;

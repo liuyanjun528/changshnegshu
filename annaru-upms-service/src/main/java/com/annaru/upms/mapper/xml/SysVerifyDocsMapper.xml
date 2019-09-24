@@ -81,6 +81,11 @@
 
     <!--用户实名认证结果查询-->
     <select id="selectResult" parameterType="string" resultMap="BaseResultMap">
-        select  * from sys_verify_docs where user_id=#{userId}
+        select
+		    is_approved,
+		    remark
+	    from sys_verify_docs where user_id=#{userId}
+	    ORDER BY creation_time DESC
+        LIMIT 0,1
     </select>
 </mapper>
