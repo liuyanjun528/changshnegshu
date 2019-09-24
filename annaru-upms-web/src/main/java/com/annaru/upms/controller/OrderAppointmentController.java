@@ -145,11 +145,6 @@ public class OrderAppointmentController extends BaseController {
         return ResultMap.ok().put("data",pageList);
     }
 
-
-
-
-
-
     /**
      * 个人用户患者信息分页查询
      */
@@ -692,7 +687,18 @@ public class OrderAppointmentController extends BaseController {
     @RequiresPermissions("upms/orderAppointment/update")
     public ResultMap update(@Valid @RequestBody OrderAppointment orderAppointment) {
         try {
+            Map<String,Object> map = new HashMap<>();
+            OrderAppointment oa = orderAppointmentService.getById(orderAppointment.getSysId());
+            int count = orderAppointmentService.getCount(oa.getOrderNo());
+            map.put("category",101);
+            if (count>sysGlobalSettingService.getSetting(map).getChangeCounts()){
+                return ResultMap.error("修改次数已达最大,无法修改");
+            }
+            orderAppointment.setIsCancelled(1);
             orderAppointmentService.updateById(orderAppointment);
+            OrderAppointment newOA = orderAppointmentService.getById(orderAppointment.getSysId());
+            newOA.setIsCancelled(0);
+            orderAppointmentService.save(newOA);
             return ResultMap.ok("修改成功");
         } catch (Exception e) {
             logger.error(e.getMessage());

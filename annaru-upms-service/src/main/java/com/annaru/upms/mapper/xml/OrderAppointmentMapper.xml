@@ -365,4 +365,12 @@ UNION
             WHERE oa.order_no=#{orderNo}
     </select>
 
+    <select id="getCount" resultType="int" parameterType="String">
+        SELECT
+        COUNT(*)
+        FROM
+        order_appointment
+        WHERE
+        order_no = #{orderNo}
+    </select>
 </mapper>
