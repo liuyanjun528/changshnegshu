@@ -698,6 +698,7 @@ public class OrderAppointmentController extends BaseController {
             orderAppointmentService.updateById(orderAppointment);
             OrderAppointment newOA = orderAppointmentService.getById(orderAppointment.getSysId());
             newOA.setIsCancelled(0);
+            newOA.setCreationTime(new Date());
             orderAppointmentService.save(newOA);
             return ResultMap.ok("修改成功");
         } catch (Exception e) {
