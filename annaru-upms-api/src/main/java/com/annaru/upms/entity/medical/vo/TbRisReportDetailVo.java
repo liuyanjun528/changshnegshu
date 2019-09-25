@@ -10,86 +10,94 @@ import java.io.Serializable;
 public class TbRisReportDetailVo extends Model<TbRisReportDetailVo> implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	/** 影像检查报告方射类ID*/
-	private String csid;
-	/** 检查号*/
-	private String studyuid;
-	/** 报告流水号*/
-	private String instanceuid;
-	/** 医疗机构代码*/
-	private String yljgdm;
-	/** 就诊流水号*/
-	private String jzlsh;
+	/** 医院名称*/
+	private String hospitalName;
+	/** 就诊科室名称*/
+	private String jzksmc;
+	/** 检查时间*/
+	private String jysj;
 	/** 门诊/住院标志*/
-	private String mzzybz;
-	/** 卡号*/
-	private String kh;
-	/** 卡类型*/
-	private String klx;
+	private Integer mzzybz;
 	/** 病人姓名*/
 	private String brxm;
 	/** 病人性别*/
-	private String brxb;
-	/** 影像号*/
-	private String patientid;
-	/** 检查项目代码*/
-	private String jcxmdm;
-	/** 检查项目代码（医保）*/
-	private String jcxmdmyb;
-	/** 申请单号*/
-	private String sqdh;
-	/** 开单时间*/
-	private String kdsj;
-	/** 检查时间*/
-	private String jysj;
-	/** 检查类型*/
-	private String examtype;
-	/** 检查设备仪器型号*/
-	private String sbbm;
-	/** 检查仪器号*/
-	private String yqbm;
-	/** 申请科室编码*/
-	private String sqks;
-	/** 申请人工号*/
-	private String sqrgh;
-	/** 申请人姓名*/
-	private String sqrxm;
-	/** 检查科室编码*/
-	private String jcks;
-	/** 检查医生姓名*/
-	private String jcys;
-	/** 检查医生工号*/
-	private String jcysgh;
-	/** 报告日期*/
-	private String bgrq;
-	/** 报告时间*/
-	private String bgsj;
-	/** 报告人工号*/
-	private String bgrgh;
-	/** 报告人姓名*/
-	private String bgrxm;
-	/** 审核人工号*/
-	private String shrgh;
-	/** 审核人姓名*/
-	private String shrxm;
-	/** 检查部位*/
-	private String jcbw;
-	/** 检查方法*/
-	private String jcff;
-	/** 检查部位ACR编码*/
-	private String bwacr;
+	private Integer brxb;
+	/** 病人年齡*/
+	private Integer brnl;
 	/** 检查名称*/
 	private String jcmc;
-	/** 阴阳性*/
-	private String yys;
-	/** 报告临床诊断*/
-	private String bglczd;
-	/** 影像表现或检查所见*/
-	private String yxbx;
 	/** 检查诊断或提示*/
 	private String yxzd;
-	/** 是否有影像*/
-	private String sfyyy;
 
+	public String getHospitalName() {
+		return hospitalName;
+	}
 
+	public void setHospitalName(String hospitalName) {
+		this.hospitalName = hospitalName;
+	}
+
+	public String getJzksmc() {
+		return jzksmc;
+	}
+
+	public void setJzksmc(String jzksmc) {
+		this.jzksmc = jzksmc;
+	}
+
+	public String getJysj() {
+		return jysj;
+	}
+
+	public void setJysj(String jysj) {
+		this.jysj = jysj;
+	}
+
+	public Integer getMzzybz() {
+		return mzzybz;
+	}
+
+	public void setMzzybz(Integer mzzybz) {
+		this.mzzybz = mzzybz;
+	}
+
+	public String getBrxm() {
+		return brxm;
+	}
+
+	public void setBrxm(String brxm) {
+		this.brxm = brxm;
+	}
+
+	public Integer getBrxb() {
+		return brxb;
+	}
+
+	public void setBrxb(Integer brxb) {
+		this.brxb = brxb;
+	}
+
+	public Integer getBrnl() {
+		return brnl;
+	}
+
+	public void setBrnl(Integer brnl) {
+		this.brnl = brnl;
+	}
+
+	public String getJcmc() {
+		return jcmc;
+	}
+
+	public void setJcmc(String jcmc) {
+		this.jcmc = jcmc;
+	}
+
+	public String getYxzd() {
+		return yxzd;
+	}
+
+	public void setYxzd(String yxzd) {
+		this.yxzd = yxzd;
+	}
 }

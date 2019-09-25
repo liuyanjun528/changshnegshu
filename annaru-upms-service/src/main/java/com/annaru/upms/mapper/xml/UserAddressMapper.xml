@@ -36,6 +36,7 @@
                 AND user_id LIKE CONCAT('%', #{params.userId}, '%')
             </if>
         </where>
+        ORDER BY isdefault DESC
     </select>
 
 
@@ -49,6 +50,37 @@
     <delete id="DeleteAddress">
         delete  from user_address where user_id=#{userId} and sys_id=#{sysId}
     </delete>
+
+    <update id="updateDefaultByUserId">
+        UPDATE user_address SET isdefault = #{isDefault}
+        WHERE 1 = 1
+        <if test="userId != null and userId != ''">
+            AND user_id = #{userId}
+        </if>
+        <if test="sysId != null">
+            AND sys_id = #{sysId}
+        </if>
+    </update>
+
+    <select id="getUserAddress" resultMap="BaseResultMap">
+        SELECT
+        sys_id,
+        user_id,
+        province,
+        city,
+        district,
+        address,
+        postal_code,
+        isdefault,
+        creation_time,
+        edit_time
+        FROM user_address
+        <where>
+            <if test="userId != null and userId != ''">
+                AND user_id = #{userId}
+            </if>
+        </where>
+    </select>
 
 
 </mapper>

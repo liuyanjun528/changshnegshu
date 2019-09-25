@@ -87,7 +87,39 @@ public class SysDoctorSchedule extends Model<SysDoctorSchedule> implements Seria
 	@TableField("edit_time")
 	private Date editTime;
 
-    /**
+    private Integer state;
+
+	@ApiModelProperty(value = "1:上门排班/2：门诊排班")
+	@TableField("service_method")
+	private Integer serviceMethod;
+
+    private Integer count;
+
+	public Integer getState() {
+		return state;
+	}
+
+	public void setState(Integer state) {
+		this.state = state;
+	}
+
+	public Integer getCount() {
+		return count;
+	}
+
+	public void setCount(Integer count) {
+		this.count = count;
+	}
+
+	public Integer getServiceMethod() {
+		return serviceMethod;
+	}
+
+	public void setServiceMethod(Integer serviceMethod) {
+		this.serviceMethod = serviceMethod;
+	}
+
+	/**
      * 获取：系统编号
      */
     public Integer getSysId() {
@@ -203,6 +235,7 @@ public class SysDoctorSchedule extends Model<SysDoctorSchedule> implements Seria
 	public void setUserCates(int userCates) {
 		this.userCates = userCates;
 	}
+
 
 	@Override
 	protected Serializable pkVal() {

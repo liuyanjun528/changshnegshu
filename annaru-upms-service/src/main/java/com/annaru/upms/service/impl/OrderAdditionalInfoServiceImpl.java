@@ -4,6 +4,7 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.annaru.common.exception.GlobalException;
 import com.annaru.common.result.PageUtils;
 import com.annaru.upms.entity.OrderAdditionalInfo;
+import com.annaru.upms.entity.SysGlobalSetting;
 import com.annaru.upms.entity.UserCards;
 import com.annaru.upms.entity.UserRelatives;
 import com.annaru.upms.mapper.OrderAdditionalInfoMapper;
@@ -17,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -36,7 +38,8 @@ public class OrderAdditionalInfoServiceImpl extends ServiceImpl<OrderAdditionalI
     private IOrderMainService orderMainService;
     @Autowired
     private IEntityHealthyAppointmentService entityHealthyAppointmentService;
-
+    @Autowired
+    private ISysGlobalSettingService sysGlobalSettingService;//系统全局参数管理
 
     @Override
     public PageUtils getDataPage(Map<String, Object> params){
@@ -46,7 +49,7 @@ public class OrderAdditionalInfoServiceImpl extends ServiceImpl<OrderAdditionalI
     }
 
     @Override
-    public UserCards selectUserOrRelativeInfo(String userId, String relativeId) {
+    public List<UserCards> selectUserOrRelativeInfo(String userId, String relativeId) {
         return this.baseMapper.selectUserOrRelativeInfo(userId, relativeId);
     }
 
@@ -55,8 +58,16 @@ public class OrderAdditionalInfoServiceImpl extends ServiceImpl<OrderAdditionalI
     public int insertGreenPassage(OrderAdditionalInfo orderAdditionalInfo, String[] RelativeId) {
         int i=0;
         try {
+            //查询sys_global_setting 获取陪诊的金额
+            Map<String, Object> params = new HashMap<>();
+            params.put("category",802);
+            SysGlobalSetting setting = sysGlobalSettingService.getSetting(params);
+
             //添加订单主表
             orderAdditionalInfo.getEntityHealthyAppointment().getOrderMain().setCreationtime(new Date());
+            if(orderAdditionalInfo.getOption2()==1){
+                orderAdditionalInfo.getEntityHealthyAppointment().getOrderMain().setAmount(setting.getPrices());
+            }
             orderAdditionalInfo.getEntityHealthyAppointment().getOrderMain().setOrderCates(6);
             boolean save = orderMainService.save(orderAdditionalInfo.getEntityHealthyAppointment().getOrderMain());
 
@@ -91,7 +102,7 @@ public class OrderAdditionalInfoServiceImpl extends ServiceImpl<OrderAdditionalI
                         Boolean result=false;
                         for (UserRelatives relative : list) {
                             for (String  rela:RelativeId ){
-                                if (relative.getRelativeId().equals(rela)) {//判断传来的亲属ID 跟数据库保存的亲属是否匹配
+                                if (relative.getRefNo().equals(rela)) { //判断传来的亲属userId 跟数据库的亲属id是否匹配
                                     result=true;
                                     break;
                                 }

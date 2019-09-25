@@ -71,5 +71,14 @@ public interface IOrderAppointmentService extends IService<OrderAppointment> {
 
     List<OrderAppointmentBase> getAppointInfoByOrderNo(Map<String, Object> params);
 
+    /**
+     * @Description:查看家庭医生服务上门预约信息
+     * @Author: wh
+     * @Date: 2019/8/27 14:18
+     */
+    OrderOppintmentW selectUpDoorOppointment(String orderNo);
+
+    int getCount(String orderNo);
+
 }
 

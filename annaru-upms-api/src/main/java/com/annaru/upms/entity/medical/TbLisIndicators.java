@@ -57,7 +57,7 @@ public class TbLisIndicators extends Model<TbLisIndicators> implements Serializa
 	private String ckz;
 	/** 计量单位*/
 	private String jldw;
-	/** 异常提示*/
+	/** 异常提示 1：正常；2：无法识别的异常；3：异常偏高；4：异常偏低*/
 	private String ycts;
 	/** 相关医嘱ID或处方项目明细编号*/
 	private String yzid;

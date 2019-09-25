@@ -33,7 +33,7 @@ public interface OrderAdditionalInfoMapper extends BaseMapper<OrderAdditionalInf
       * @Author: wh
       * @Date: 2019/7/9 9:18
       */
-    UserCards selectUserOrRelativeInfo(@Param("userId") String userId,@Param("relativeId") String relativeId);
+    List<UserCards> selectUserOrRelativeInfo(@Param("userId") String userId,@Param("relativeId") String relativeId);
 
 
     /**

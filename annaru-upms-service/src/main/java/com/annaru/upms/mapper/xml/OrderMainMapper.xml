@@ -28,6 +28,7 @@
         <result column="order_no" property="orderNo"/>
         <result column="is_cancelled" property="isCancelled"/>
         <result column="status" property="appointStatus"/>
+        <result column="payState" property="payStatus"/>
         <collection property="details" ofType="com.annaru.upms.entity.vo.ExtensionDetail">
             <result column="itemName" property="itemName"/>
             <result column="itemDetailName" property="itemDetailName"/>
@@ -320,6 +321,7 @@
             AND om.user_id = #{params.userId}
         </if>
         GROUP BY om.sys_id,ur.relative_name
+        ORDER BY  om.order_time DESC
     </select>
 
     <!-- 多表页面信息查询分页  套餐订单-->
@@ -362,7 +364,7 @@
         LEFT JOIN user_basic ub ON ub.user_id = om.user_id
         LEFT JOIN order_customer oc ON oc.order_no = om.order_no
         LEFT JOIN user_relatives ur ON ur.relative_id = oc.relative_id
-        LEFT JOIN user_basic ub1 ON ub.user_id = oc.relative_id
+        LEFT JOIN user_basic ub1 ON ub1.user_id = oc.relative_id
         WHERE
         1=1 AND om.is_deleted = 0
         <if test="params.sysId != null and params.sysId != ''">
@@ -533,23 +535,25 @@
     </select>
 
     <select id="getExtensionInfo" parameterType="map" resultMap="BaseResultMapOEVo">
- SELECT
-	oa.appoint_date,
-	em.`name` itemName,
-	oa.status,
-	ed.item_name itemDetailName,
-	oa.order_no,
-	oa.time_from,
-	si.`name` institutionName,
-	oa.is_cancelled
-FROM
-	order_appointment oa
-LEFT JOIN order_extension_exam oee ON oee.sys_id = oa.extensionItem_id
-LEFT JOIN exam_master em ON em.sys_id = oee.exam_master_id
-LEFT JOIN exam_detail ed ON ed.sys_id = oee.exam_detail_id
-LEFT JOIN sys_institution si ON si.institution_id = oa.institution_id
-WHERE
-	oa.parent_no = #{params.orderNo}
+         SELECT
+        	oa.appoint_date,
+        	em.`name` itemName,
+        	oa.status,
+        	om.status payState,
+        	ed.item_name itemDetailName,
+        	oa.order_no,
+        	oa.time_from,
+        	si.`name` institutionName,
+        	oa.is_cancelled
+        FROM
+        	order_appointment oa
+        LEFT JOIN order_extension_exam oee ON oee.sys_id = oa.extensionItem_id
+        LEFT JOIN exam_master em ON em.sys_id = oee.exam_master_id
+        LEFT JOIN exam_detail ed ON ed.sys_id = oee.exam_detail_id
+        LEFT JOIN sys_institution si ON si.institution_id = oa.institution_id
+        LEFT JOIN order_main om ON oa.order_no = om.order_no
+        WHERE
+        	oa.parent_no = #{params.orderNo}
     </select>
 
     <select id="getBase" parameterType="map" resultMap="BaseResultMapVo">
@@ -599,10 +603,13 @@ WHERE
         on epm.sys_id = om.reference_no
         LEFT JOIN order_appointment oa
         on om.order_no = oa.order_no
+        LEFT JOIN order_customer oc
+        on oc.order_no = om.order_no
         WHERE
         (om.order_cates = 3 or om.order_cates = 1)
-        and om.user_id = #{params.userId}
+        and oc.relative_id = #{params.userId}
         and om.is_deleted = 0
+        and om.`status` = 2
         <if test="params.orderNo != null and params.orderNo != ''">
             AND om.order_no = #{params.orderNo}
         </if>
@@ -624,10 +631,13 @@ WHERE
         on epm.sys_id = om.reference_no
         LEFT JOIN order_appointment oa
         on om.order_no = oa.order_no
+        LEFT JOIN order_customer oc
+        on oc.order_no = om.order_no
         WHERE
         (om.order_cates = 3 or om.order_cates = 1)
-        and om.user_id = #{params.userId}
+        and oc.relative_id = #{params.userId}
         and om.is_deleted = 0
+        and om.`status` = 2
         GROUP BY order_no
         ORDER BY oa.creation_time DESC
     </select>
@@ -651,7 +661,7 @@ WHERE
     </select>
 
     <select id="getInfo" parameterType="map" resultMap="BaseResultMap">
-        SELECT * from  order_main where parent_no = #{params.orderNo}
+        SELECT * from  order_main where parent_no = #{params.orderNo} and is_deleted = 0 AND  (order_cates = 1 or order_cates= 3)
     </select>
 
     <select id="selectExamReportVoPage" resultMap="ExamReportVoMap">
@@ -675,5 +685,11 @@ WHERE
         </if>
 
     </select>
+
+
+    <update id="updateisDeleted">
+        UPDATE order_main SET is_deleted=1 WHERE order_no=#{orderNo}
+    </update>
+
 
 </mapper>

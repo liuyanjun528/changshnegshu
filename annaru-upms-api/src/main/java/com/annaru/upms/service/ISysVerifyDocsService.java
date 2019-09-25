@@ -40,6 +40,18 @@ public interface ISysVerifyDocsService extends IService<SysVerifyDocs> {
      */
     SysVerifyDocsVoZ selectVerNurse(String userId,Integer identification);
 
+    /**
+     * @Description:用户实名认证
+     * @Author: wh
+     * @Date: 2019/8/27 11:49
+     */
+    SysVerifyDocs saveUserVerify(SysVerifyDocs sysVerifyDocs);
+    /**
+     * @Description:查询是否审核及审核结果
+     * @Author: wh
+     * @Date: 2019/9/18 14:41
+     */
+    SysVerifyDocs selectResult(String userId);
 
 }
 

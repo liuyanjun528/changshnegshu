@@ -55,7 +55,7 @@ public interface TbLisReportMapper extends BaseMapper<TbLisReport> {
      * @param jzlsh 就诊流水号
      * @return
      */
-    List<TbLisReportDetailVo> getJybgByJzlsh(@Param("jzlsh") String jzlsh);
+    List<TbLisReportListVo> getJybgByJzlsh(@Param("jzlsh") String jzlsh);
 
     /**
      *根据报告单号查询检验报告

@@ -1,6 +1,7 @@
 package com.annaru.upms.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.annaru.upms.entity.SysDoctor;
 import com.annaru.upms.entity.vo.DoctorScheduleVoW;
 import com.annaru.upms.entity.vo.SysDoctorNurseScheduleVo;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -34,8 +35,8 @@ public class SysDoctorNurseScheduleServiceImpl extends ServiceImpl<SysDoctorNurs
     }
 
     @Override
-    public List<SysDoctorNurseScheduleVo> selectSchedulePage(String doctorNo) {
-        return this.baseMapper.selectSchedulePage(doctorNo);
+    public List<SysDoctorNurseScheduleVo> selectSchedulePage(String doctorNo,String dateFrom) {
+        return this.baseMapper.selectSchedulePage(doctorNo,dateFrom);
     }
 
     @Override
@@ -46,6 +47,11 @@ public class SysDoctorNurseScheduleServiceImpl extends ServiceImpl<SysDoctorNurs
     @Override
     public List<DoctorScheduleVoW> selectOutpatient(Map<String, Object> params) {
         return this.baseMapper.selectOutpatient(params);
+    }
+
+    @Override
+    public List<SysDoctorNurseSchedule> selectUpdate(Map<String, Object> params) {
+        return this.baseMapper.selectUpdate(params);
     }
 
     @Override
@@ -65,6 +71,10 @@ public class SysDoctorNurseScheduleServiceImpl extends ServiceImpl<SysDoctorNurs
     @Override
     public void deleteSchedule(int sysId) {
         this.baseMapper.deleteSchedule(sysId);
+    }
+
+    public SysDoctorNurseSchedule isExist(Map<String, Object> params){
+        return this.baseMapper.isExist(params);
     }
 
 }

@@ -71,5 +71,13 @@ public interface IEntityHealthyAppointmentService extends IService<EntityHealthy
      */
     int insertEntityDoctorAppointment(EntityHealthyAppointment entityHealthyAppointment, String []RelativeId);
 
+
+    /**
+     * @Description:查询企业健康服务医生服务次数
+     * @Author: wh
+     * @Date: 2019/8/22 10:57
+     */
+    int selectEntityServiceCount(String userId);
+
 }
 

@@ -311,4 +311,66 @@ UNION
             oa.order_no =  #{params.orderNo}
             and oa.is_cancelled = 0
     </select>
+
+
+
+
+
+    <resultMap id="upDoorMap" type="com.annaru.upms.entity.vo.OrderOppintmentW" >
+        <result column="order_no" property="orderNo" />
+        <result column="appoint_date" property="appointDate" />
+        <result column="address" property="address" />
+        <result column="cellphone_no" property="cellphoneNo" />
+        <collection property="user" ofType="com.annaru.upms.entity.vo.OrderOppintmentW1">
+            <result column="userName" property="userName"/>
+            <result column="userSex" property="userSex"/>
+            <result column="userIdCard" property="userIdCard"/>
+            <result column="userPhone" property="userPhone"/>
+            <result column="userDoctorCard" property="userDoctorCard"/>
+        </collection>
+        <collection property="relative" ofType="com.annaru.upms.entity.vo.OrderOppintmentW2">
+            <result column="relatedName" property="relatedName"/>
+            <result column="relatedSex" property="relatedSex"/>
+            <result column="relatedIdCard" property="relatedIdCard"/>
+            <result column="relatedPhone" property="relatedPhone"/>
+            <result column="relativeDoctorCard" property="relativeDoctorCard"/>
+        </collection>
+    </resultMap>
+
+    <!--查看家庭医生服务上门预约信息-->
+    <select id="selectUpDoorOppointment" parameterType="String" resultMap="upDoorMap">
+     SELECT
+			oa.order_no,
+			oa.appoint_date,
+			oa.address,
+			sd.cellphone_no,
+
+			ub.full_name as userName,
+			ub.gender as userSex,
+			ub.id_card_no as userIdCard,
+			ub.cellphone_no as userPhone,
+			(SELECT card_no from user_cards where user_id=ub.user_id) as  userDoctorCard,
+
+			ur.relative_name as relatedName,
+			ur.gender as relatedSex,
+			ur.id_card_no as relatedIdCard,
+			ur.cellphone_no as relatedPhone,
+			(SELECT card_no from user_cards where user_id=ur.relative_id) as  relativeDoctorCard
+
+	    from order_customer as oc
+            LEFT JOIN user_basic as ub ON ub.user_id=oc.relative_id
+			LEFT JOIN user_relatives as ur ON ur.relative_id=oc.relative_id
+			LEFT JOIN order_appointment as oa ON oa.order_no=oc.order_no
+			LEFT JOIN sys_doctor as sd ON sd.doctor_no=oa.related_no
+            WHERE oa.order_no=#{orderNo}
+    </select>
+
+    <select id="getCount" resultType="int" parameterType="String">
+        SELECT
+        COUNT(*)
+        FROM
+        order_appointment
+        WHERE
+        order_no = #{orderNo}
+    </select>
 </mapper>

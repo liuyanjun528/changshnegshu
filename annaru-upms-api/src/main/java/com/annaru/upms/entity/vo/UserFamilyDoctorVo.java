@@ -12,6 +12,7 @@ public class UserFamilyDoctorVo extends Model<UserFamilyDoctorVo> implements Ser
     private String orderNo;
     private Date effectFrom;
     private Date effectTo;
+    private Integer restCount;
     private Integer isTerminated;
     private Date terminatedTime;
     private String doctorNo;
@@ -37,6 +38,33 @@ public class UserFamilyDoctorVo extends Model<UserFamilyDoctorVo> implements Ser
     private Integer isApproved;
     private Integer restDays;
     private Integer appraisalStatus;
+    private Double userStarCount;//用户评价星级
+    private Double userScores;//用户评价的评分
+
+
+    public Double getUserStarCount() {
+        return userStarCount;
+    }
+
+    public void setUserStarCount(Double userStarCount) {
+        this.userStarCount = userStarCount;
+    }
+
+    public Double getUserScores() {
+        return userScores;
+    }
+
+    public void setUserScores(Double userScores) {
+        this.userScores = userScores;
+    }
+
+    public Integer getRestCount() {
+        return restCount;
+    }
+
+    public void setRestCount(Integer restCount) {
+        this.restCount = restCount;
+    }
 
     public Integer getAppraisalStatus() {
         return appraisalStatus;

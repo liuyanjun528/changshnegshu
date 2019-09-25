@@ -6,12 +6,15 @@
 	<!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.annaru.upms.entity.SysVerifyDocs" >
         <result column="sys_id" property="sysId" />
-        <result column="related_no" property="relatedNo" />
         <result column="cates" property="cates" />
         <result column="doc_cates" property="docCates" />
         <result column="images" property="images" />
+        <result column="full_name" property="fullName" />
+        <result column="id_no" property="idNo" />
         <result column="creation_time" property="creationTime" />
         <result column="create_by" property="createBy" />
+        <result column="is_approved" property="isApproved" />
+        <result column="remark" property="remark" />
     </resultMap>
 
     <resultMap id="rowVo" type="com.annaru.upms.entity.vo.SysVerifyDocsVoZ" >
@@ -30,13 +33,15 @@
         <result column="department_name" property="belongOffice" />
         <result column="job_title" property="jobTitle" />
     </resultMap>
-    
+
     <sql id="BaseClounmSql">
           sys_id,
           related_no,
           cates,
           doc_cates,
           images,
+          full_name，
+          id_no,
           creation_time,
           create_by,
     </sql>
@@ -65,4 +70,22 @@
         where a.user_id = #{userId}
     </select>
 
+
+    <!--用户实名认证-->
+    <select id="saveUserVerify" parameterType="com.annaru.upms.entity.SysVerifyDocs">
+        insert into sys_verify_docs
+                (user_id,doc_cates,images,full_name,id_no,creation_time)
+        VALUES
+                (#{userId},#{docCates},#{images},#{fullName},#{idNo},#{creationTime})
+    </select>
+
+    <!--用户实名认证结果查询-->
+    <select id="selectResult" parameterType="string" resultMap="BaseResultMap">
+        select
+		    is_approved,
+		    remark
+	    from sys_verify_docs where user_id=#{userId}
+	    ORDER BY creation_time DESC
+        LIMIT 0,1
+    </select>
 </mapper>

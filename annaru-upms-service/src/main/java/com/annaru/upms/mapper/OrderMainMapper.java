@@ -123,4 +123,13 @@ public interface OrderMainMapper extends BaseMapper<OrderMain> {
     IPage<ExamReportVo> selectExamReportVoPage(Page page, @Param("userId") String userId,
                                                @Param("packageCates") Integer packageCates,
                                                @Param("orderCates") Integer orderCates);
+
+
+    /**
+      * @Description:取消订单修改状态
+      * @Author: wh
+      * @Date: 2019/9/17 16:44
+      */
+    Boolean updateisDeleted(@Param("orderNo") String orderNo);
+
 }

@@ -143,6 +143,10 @@ public class TbMedicalController extends BaseController {
 
             // 影像检查报告
             List<TbRisReportListVo> tbRisReports = iTbRisReportService.getYxbgByJzlsh(jzjl.getJzlsh());
+            if (tbRisReports != null) {
+                map.put("yxbg", tbRisReports);
+            }
+            /*List<TbRisReportListVo> tbRisReports = iTbRisReportService.getYxbgByJzlsh(jzjl.getJzlsh());
             List<TbRisReport2ListVo> tbRisReports2 = iTbRisReport2Service.getYxbgByJzlsh(jzjl.getJzlsh());
             for (TbRisReport2ListVo r2 : tbRisReports2) {
                 TbRisReportListVo r = new TbRisReportListVo();
@@ -151,12 +155,10 @@ public class TbMedicalController extends BaseController {
                 r.setHospitalName(r2.getHospitalName());
                 r.setJcmc(r2.getJcmc());
                 tbRisReports.add(r);
-            }
-            map.put("yxbg", tbRisReports);
-
+            }*/
             // 检验报告
-            List<TbLisReportDetailVo> tbLisReports = iTbLisReportService.getJybgByJzlsh(jzjl.getJzlsh());
-            map.put("jybg", tbLisReports);
+            List<TbLisReportListVo> tbLisReportList = iTbLisReportService.getJybgByJzlsh(jzjl.getJzlsh());
+            map.put("jybg", tbLisReportList);
             return ResultMap.ok().put("data",map);
         }else {
             return ResultMap.error("就诊记录不存在！");
@@ -239,9 +241,8 @@ public class TbMedicalController extends BaseController {
             map.put("jybg", tbLisReports);
             return ResultMap.ok().put("data",map);
         }else {
-            return ResultMap.error("报告不存在！");
+            return ResultMap.ok().put("data","报告不存在！");
         }
-
     }
 
     /**
@@ -268,6 +269,26 @@ public class TbMedicalController extends BaseController {
         } catch (Exception e) {
             logger.error(e.getMessage());
             return ResultMap.error("运行异常，请联系管理员");
+        }
+    }
+
+    /**
+     * 查询影像检查报告详情
+     * @param csid
+     * @return
+     */
+    @ApiOperation(value = "影像检查报告详情")
+    @GetMapping("/getYxbgDetail")
+    @RequiresPermissions("upms/medical/getYxbgDetail")
+    public ResultMap getYxbgDetail(@ApiParam(value = "影像检查报告CSID", required = true) @RequestParam String csid){
+        Map<String, Object> map = new HashMap<>();
+        TbRisReportDetailVo yxbg = iTbRisReportService.getYxbgDetail(csid);
+        if (yxbg != null) {
+            // 影像检查报告详情
+            map.put("yxbg", yxbg);
+            return ResultMap.ok().put("data",map);
+        }else {
+            return ResultMap.ok().put("data","报告不存在！");
         }
     }
 

@@ -49,9 +49,17 @@ public class SysVerifyDocs extends Model<SysVerifyDocs> implements Serializable 
 	 */
     @ApiModelProperty(value = "图片名称")
 	private String images;
-	/**
-	 * 创建时间
-	 */
+	@TableField(exist = false)
+	private String images2;
+
+	@TableField("full_name")
+	@ApiModelProperty(value = "姓名")
+    private String fullName;
+
+	@TableField("id_no")
+	@ApiModelProperty(value = "身份证号")
+	private String idNo;
+
     @ApiModelProperty(value = "创建时间")
 	@TableField("creation_time")
 	private Date creationTime;
@@ -62,7 +70,32 @@ public class SysVerifyDocs extends Model<SysVerifyDocs> implements Serializable 
 	@TableField("create_by")
 	private String createBy;
 
-    public Integer getSysId() {
+	@ApiModelProperty(value = "审核结果(0:审核未通过1:已审核通过)")
+	@TableField("is_approved")
+	private String isApproved;
+
+	@ApiModelProperty(value = "备注")
+	@TableField("remark")
+	private String remark;
+
+
+	public String getIsApproved() {
+		return isApproved;
+	}
+
+	public void setIsApproved(String isApproved) {
+		this.isApproved = isApproved;
+	}
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+
+	public Integer getSysId() {
         return sysId;
     }
 	public void setSysId(Integer sysId) {
@@ -141,7 +174,31 @@ public class SysVerifyDocs extends Model<SysVerifyDocs> implements Serializable 
 		this.createBy = createBy;
 	}
 
-    @Override
+	public String getImages2() {
+		return images2;
+	}
+
+	public void setImages2(String images2) {
+		this.images2 = images2;
+	}
+
+	public String getFullName() {
+		return fullName;
+	}
+
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
+	}
+
+	public String getIdNo() {
+		return idNo;
+	}
+
+	public void setIdNo(String idNo) {
+		this.idNo = idNo;
+	}
+
+	@Override
 	protected Serializable pkVal() {
 		return this.sysId;
 	}
