@@ -78,5 +78,7 @@ public interface IOrderAppointmentService extends IService<OrderAppointment> {
      */
     OrderOppintmentW selectUpDoorOppointment(String orderNo);
 
+    int getCount(String orderNo);
+
 }
 

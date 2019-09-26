@@ -331,7 +331,6 @@ public class UserBasicController extends BaseController {
      */
     @ApiOperation(value = "上传授权图片的url")
     @PostMapping("/uploadAuthorizationUrl")
-    @RequiresPermissions("upms/userBasic/uploadAuthorizationUrl")
     public ResultMap uploadAuthorizationUrl(@RequestParam String userId, @RequestParam String authorizationUrl) {
         try {
             UserBasic userBasic = userBasicService.selectByUid(userId);
@@ -346,7 +345,6 @@ public class UserBasicController extends BaseController {
             logger.error(e.getMessage());
             return ResultMap.error("运行异常，请联系管理员");
         }
-
     }
 
     /**

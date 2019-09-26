@@ -81,4 +81,8 @@ public class OrderAppointmentServiceImpl extends ServiceImpl<OrderAppointmentMap
         return this.baseMapper.selectUpDoorOppointment(orderNo);
     }
 
+    public int getCount(String orderNo){
+        return this.baseMapper.getCount(orderNo);
+    }
+
 }
