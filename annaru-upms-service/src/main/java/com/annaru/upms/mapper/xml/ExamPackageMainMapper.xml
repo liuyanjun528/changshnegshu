@@ -137,10 +137,11 @@
         LEFT JOIN (
                     SELECT count(om.sys_id) as count_person, pm.sys_id psys_id  FROM order_main om
                     RIGHT JOIN exam_package_main pm ON pm.sys_id = om.reference_no
+                    WHERE pm.is_active = 1
                     GROUP BY om.reference_no
                   ) as op ON op.psys_id = epm.sys_id
         <where>
-            1 = 1
+            1 = 1 AND epm.is_active = 1
             <if test="params.amountFrom != null and params.amountFrom != '' and params.amountTo != null and params.amountTo != '' ">
                 AND epm.amount &gt; #{params.amountFrom} AND epm.amount &lt; #{params.amountTo}
             </if>
