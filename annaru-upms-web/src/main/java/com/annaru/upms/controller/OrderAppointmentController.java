@@ -395,6 +395,8 @@ public class OrderAppointmentController extends BaseController {
                         orderAppointmentService.save(appointment);
                         message.setBusinessCate(3);
                         message.setMsgCate(2);
+                        message.setUserId(userId);
+                        message.setOrderNo(orderNo);
                         message.setContent("预约成功！请您准时于"+orderAppointment.getAppointDate().getDate()+
                                 "前往"+sysInstitutionService.getInfo(params).getName()+"就诊,迟到将造成无法就诊。");
                         orderAdditionalInfoService.save(orderAdditionalInfo);
