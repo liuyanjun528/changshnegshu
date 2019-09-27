@@ -61,34 +61,7 @@
         </where>
     </select>
 
-    <!-- 绑卡查询 -->
-    <select id="selectByStatus" parameterType="map" resultMap="BaseResultMap">
-       select
-              ub.full_name,-- 用户名
-              ub.gender, -- 性别
-			  ub.id_card_no,-- 身份证号
-              uc.cellphone_no, -- 手机号
-              uc.card_cates,-- 卡类型
-              uc.status,-- 是否绑卡
-              uc.card_no-- 卡号
-        from  user_cards as uc
-		LEFT JOIN user_basic as ub ON uc.user_id=ub.user_id
-	    where  uc.user_id=#{userId}
-UNION
-        SELECT
-		      ur.relative_name,-- 亲属名称
-		      ur.gender,-- 亲属性别
-		      ur.id_card_no,-- 亲属身份证号
-		      ur.cellphone_no,-- 亲属手机号
-              uc.card_cates,-- 卡类型
-              uc.status, -- 卡状态
-              uc.card_no,-- 卡号
-              ur.gender
-        FROM user_relatives as ur
-        LEFT  JOIN  user_cards as uc ON uc.user_id=ur.relative_id
-        WHERE ur.user_id=#{userId}
 
-    </select>
 
     <!-- 查询企业门诊绿通预约人信息 -->
     <select id="getGreenPassUserInfo" parameterType="map" resultMap="BaseResultMap1">
@@ -116,10 +89,5 @@ UNION
         where
             ur.ref_no=#{refNo}
     </select>
-
-    <!-- 修改医保卡-->
-    <update id="updateCardAndBasic">
-        UPDATE user_cards set card_no=#{cardNo} WHERE user_id=#{userId}
-    </update>
 
 </mapper>

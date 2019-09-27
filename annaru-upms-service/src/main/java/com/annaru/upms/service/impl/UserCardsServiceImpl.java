@@ -30,12 +30,6 @@ public class UserCardsServiceImpl extends ServiceImpl<UserCardsMapper, UserCards
         return new PageUtils<UserCards>(iPage);
     }
 
-    @Override
-    public List<UserCards> selectByStatus(String userId) {
-        return this.baseMapper.selectByStatus(userId);
-    }
-
-
     /**
      * 查询企业门诊绿通预约人信息
      * @param userId 用户ID
@@ -45,9 +39,5 @@ public class UserCardsServiceImpl extends ServiceImpl<UserCardsMapper, UserCards
         return this.baseMapper.getGreenPassUserInfo(userId,refNo);
     }
 
-    @Override
-    public int updateCardAndBasic(String userId,String cardNo) {
-        return this.baseMapper.updateCardAndBasic(userId, cardNo);
-    }
 
 }

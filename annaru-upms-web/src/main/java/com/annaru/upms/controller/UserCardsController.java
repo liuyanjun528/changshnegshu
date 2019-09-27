@@ -34,22 +34,6 @@ public class UserCardsController extends BaseController {
     @Reference
     private IUserBasicService userBasicService;
 
-    /**
-     * 通过用户ID查询绑卡信息
-     */
-    @ApiOperation(value = "通过用户ID查询绑卡信息")
-    @GetMapping("/selectStatus")
-    //@RequiresPermissions("upms/userCards/selectStatus")
-    public ResultMap selectStatus(String userId) {
-        try {
-            List<UserCards> userCards = userCardsService.selectByStatus(userId);
-            return ResultMap.ok().put("data",userCards);
-        } catch (Exception e) {
-            logger.error(e.getMessage());
-            return ResultMap.error("运行异常，请联系管理员");
-        }
-
-    }
 
     /**
      * 查询企业门诊绿通预约人信息
@@ -101,7 +85,7 @@ public class UserCardsController extends BaseController {
     /**
      * 保存
      */
-    @ApiOperation(value = "添加个人绑卡")
+    @ApiOperation(value = "保存")
     @PostMapping("/save")
     @RequiresPermissions("upms/userCards/save")
     public ResultMap save(@Valid @RequestBody UserCards userCards) {
@@ -116,20 +100,21 @@ public class UserCardsController extends BaseController {
     }
 
     /**
-     * 通过用户编号修改个人信息和医保卡号
+     * 通过用户编号修改个人信息和医保卡号 wh
      */
-    @ApiOperation(value = "修改个人信息和医保卡号")
+    @ApiOperation(value = "修改个人信息和添加医保卡号")
     @PostMapping("/update")
-    //@RequiresPermissions("upms/userCards/update")
     public ResultMap update(@RequestBody UserCardVo userCards) {
 
         int i = userBasicService.updateCardAndBasics(userCards);
         if (i>0){
-            userCardsService.updateCardAndBasic(userCards.getUserId(), userCards.getCardNo());
+            UserCards uc=new UserCards();
+            uc.setCardNo(userCards.getCardNo());
+            uc.setUserId(userCards.getUserId());
+            userCardsService.save(uc);
                 return ResultMap.ok("修改成功");
             }
             return ResultMap.error("运行异常，请联系管理员");
-
 
     }
 

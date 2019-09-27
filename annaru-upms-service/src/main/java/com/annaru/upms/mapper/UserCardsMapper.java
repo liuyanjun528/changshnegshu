@@ -28,28 +28,11 @@ public interface UserCardsMapper extends BaseMapper<UserCards> {
 
 
     /**
-     * 通过已绑卡查询
-     *
-     * @param userId 用户ID
-     * @return
-     */
-    List<UserCards> selectByStatus(@Param("userId") String userId);
-
-
-
-    /**
      * 查询企业门诊绿通预约人信息
      * @param userId 用户ID
      * @return
      */
     List<UserCardInfoVo> getGreenPassUserInfo(@Param("userId") String userId,@Param("refNo") String refNo);
-
-    /**
-      * @Description: 通过用户编号修改个人信息和医保卡号
-      * @Author: wh
-      * @Date: 2019/6/11 11:00
-      */
-    int updateCardAndBasic(@Param("userId") String userId,@Param("cardNo")String cardNo);
 
 
 }
