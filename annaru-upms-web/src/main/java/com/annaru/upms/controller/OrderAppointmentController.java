@@ -67,6 +67,10 @@ public class OrderAppointmentController extends BaseController {
     private ISysGlobalSettingService sysGlobalSettingService;
     @Reference
     private IUserFamilyDoctorService userFamilyDoctorService;
+    @Reference
+    private ISysMessageTemplateService sysMessageTemplateService;
+    @Reference
+    private IUserBasicService userBasicService;
 
     /**
      * 门诊预约确认
@@ -372,7 +376,10 @@ public class OrderAppointmentController extends BaseController {
                         orderAppointmentService.save(appointment);
                         message.setBusinessCate(3);
                         message.setMsgCate(3);
-                        message.setContent("您预约上门服务已被护士接单，请您关注上门时间并且提前做好相应的准备，保持电话畅通。");
+                        message.setContent(sysMessageTemplateService.selectMessageTemplate(4).getContentTemplate()
+                                .replace("[full_name]",userBasicService.selectByUid(userId).getFullName()));
+                        message.setOrderNo(orderNo);
+                        message.setUserId(userId);
                         orderMain.setOrderCates(cates);
                         orderMain.setParentNo(orderNo);
                         String orderNoNew = createOrderNo();
@@ -393,10 +400,15 @@ public class OrderAppointmentController extends BaseController {
                         appointment.setInstitutionId(orderAppointment.getInstitutionId());
                         appointment.setStatus(2);
                         orderAppointmentService.save(appointment);
+                        SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
                         message.setBusinessCate(3);
                         message.setMsgCate(2);
-                        message.setContent("预约成功！请您准时于"+orderAppointment.getAppointDate().getDate()+
-                                "前往"+sysInstitutionService.getInfo(params).getName()+"就诊,迟到将造成无法就诊。");
+                        message.setUserId(userId);
+                        message.setOrderNo(orderNo);
+                        message.setContent(sysMessageTemplateService.selectMessageTemplate(9).getContentTemplate()
+                                .replace("[full_name]",userBasicService.selectByUid(userId).getFullName())
+                                .replace("[appointDate]",fmt.format(orderAppointment.getAppointDate()))
+                                .replace("[hospital]",sysInstitutionService.getInfo(params).getName()));
                         orderAdditionalInfoService.save(orderAdditionalInfo);
                         sysMessageService.save(message);
                         return ResultMap.ok().put("data",orderNo);
@@ -453,7 +465,9 @@ public class OrderAppointmentController extends BaseController {
                     orderAppointmentService.save(appointment);
                 }
                 if (msg!=""||msg!=null){
-                    message.setContent("您已经购买了体检额外项目服务，包含服务项："+msg);
+                    message.setContent(sysMessageTemplateService.selectMessageTemplate(2).getContentTemplate()
+                        .replace("[name]",msg)
+                        .replace("[full_name]",userBasicService.selectByUid(userId).getFullName()));
                     message.setMsgCate(1);
                     message.setUserId(userId);
                     message.setOrderNo(orderNo);
@@ -518,7 +532,9 @@ public class OrderAppointmentController extends BaseController {
                     orderAppointmentService.save(appointment);
                 }
                 if (msg!=""||msg!=null){
-                    message.setContent("您已经购买了体检额外项目服务，包含服务项："+msg);
+                    message.setContent(sysMessageTemplateService.selectMessageTemplate(2).getContentTemplate()
+                            .replace("[name]",msg)
+                            .replace("[full_name]",userBasicService.selectByUid(userId).getFullName()));
                     message.setMsgCate(1);
                     message.setUserId(userId);
                     message.setOrderNo(orderNo);

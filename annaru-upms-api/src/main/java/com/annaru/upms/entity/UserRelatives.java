@@ -106,7 +106,15 @@ public class UserRelatives extends Model<UserRelatives> implements Serializable 
 	@TableField("edit_time")
 	private Date editTime;
 
-    /**
+	public String getRefNo() {
+		return refNo;
+	}
+
+	public void setRefNo(String refNo) {
+		this.refNo = refNo;
+	}
+
+	/**
      * 获取：系统编号
      */
     public Integer getSysId() {
