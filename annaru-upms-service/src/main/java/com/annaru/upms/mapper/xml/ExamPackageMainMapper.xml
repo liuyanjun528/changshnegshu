@@ -142,33 +142,33 @@
                   ) as op ON op.psys_id = epm.sys_id
         <where>
             1 = 1 AND epm.is_active = 1
-            <if test="params.amountFrom != null and params.amountFrom != '' and params.amountTo != null and params.amountTo != '' ">
+            <if test="params.amountFrom != null and params.amountTo != null">
                 AND epm.amount &gt; #{params.amountFrom} AND epm.amount &lt; #{params.amountTo}
             </if>
-            <if test="params.label != null and params.label != ''">
+            <if test="params.label != null">
                 AND epm.label = #{params.label}
             </if>
-            <if test="params.suiteGender != null and params.suiteGender != ''">
+            <if test="params.suiteGender != null">
                 AND epm.suite_gender = #{params.suiteGender}
             </if>
-            <if test="params.examMasterI != null and params.examMasterI != ''">
+            <if test="params.examMasterI != null">
                 AND epd.exam_master_id = #{params.examMasterI}
             </if>
-            <if test="params.cates != null and params.cates != ''">
+            <if test="params.cates != null">
                 AND epm.cates = #{params.cates}
             </if>
         </where>
         GROUP BY epm.package_name
-        <if test="params.sort_count_person != null and params.sort_count_person != '' and params.sort_count_person == 1">
+        <if test="params.sort_count_person != null and params.sort_count_person == 1">
             ORDER BY op.count_person DESC
         </if>
-        <if test="params.sort_count_person != null and params.sort_count_person != '' and params.sort_count_person == 2">
+        <if test="params.sort_count_person != null and params.sort_count_person == 2">
             ORDER BY op.count_person
         </if>
-        <if test="params.amountSort != null and params.amountSort != '' and params.amountSort == 1">
+        <if test="params.amountSort != null and params.amountSort == 1">
             ORDER BY epm.amount DESC
         </if>
-        <if test="params.amountSort != null and params.amountSort != '' and params.amountSort == 2">
+        <if test="params.amountSort != null and params.amountSort == 2">
             ORDER BY epm.amount
         </if>
     </select>
