@@ -39,7 +39,7 @@ public class SysMessageController extends BaseController {
             @ApiParam(value = "当前页")@RequestParam(defaultValue="1") int page,
             @ApiParam(value = "每页数量")@RequestParam(defaultValue = "10") int limit,
             @ApiParam(value = "用户Id")@RequestParam(required = false)String userId,
-            @ApiParam(value = "消息类型")@RequestParam(required = false)int msgCate){
+            @ApiParam(value = "消息类型")@RequestParam(required = false)Integer msgCate){
         Map<String, Object> params = new HashMap<>();
         params.put("page",page);
         params.put("limit", limit);
@@ -52,23 +52,23 @@ public class SysMessageController extends BaseController {
 
 
 
-    /**
-     * 列表
-     */
-    @ApiOperation(value = "列表")
-    @GetMapping("/list")
-    @RequiresPermissions("upms/sysMessage/list")
-    public ResultMap list(@ApiParam(value = "当前页")@RequestParam(defaultValue="1") int page,
-                          @ApiParam(value = "每页数量")@RequestParam(defaultValue = "10") int limit,
-                          @ApiParam(value = "关键字")@RequestParam(required = false)String key){
-
-        Map<String, Object> params = new HashMap<>();
-        params.put("page",page);
-        params.put("limit", limit);
-        params.put("key", key);
-        PageUtils<Map<String, Object>> pageList = sysMessageService.getDataPage(params);
-        return ResultMap.ok().put("data",pageList);
-    }
+//    /**
+//     * 列表
+//     */
+//    @ApiOperation(value = "列表")
+//    @GetMapping("/list")
+//    @RequiresPermissions("upms/sysMessage/list")
+//    public ResultMap list(@ApiParam(value = "当前页")@RequestParam(defaultValue="1") int page,
+//                          @ApiParam(value = "每页数量")@RequestParam(defaultValue = "10") int limit,
+//                          @ApiParam(value = "关键字")@RequestParam(required = false)String key){
+//
+//        Map<String, Object> params = new HashMap<>();
+//        params.put("page",page);
+//        params.put("limit", limit);
+//        params.put("key", key);
+//        PageUtils<Map<String, Object>> pageList = sysMessageService.getDataPage(params);
+//        return ResultMap.ok().put("data",pageList);
+//    }
 
 
     /**

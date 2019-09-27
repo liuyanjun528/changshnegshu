@@ -17,7 +17,7 @@
         <result column="status" property="status" />
     </resultMap>
 
-    <!-- 护士完成的累计单数 -->
+    <!-- 护士的总单数 -->
     <select id="selectSingular" parameterType="string" resultType="integer">
         select 	count(*) as singular
 	      FROM exam_handover_sheet as ehs
@@ -26,24 +26,27 @@
     </select>
 
 
-    <!-- 护士应收入 -->
+    <!-- 护士总收入 -->
         <select id="selectTotalMoney" parameterType="string" resultType="double">
-            select sum(oai.amount) as totalMoney
-              FROM order_appointment as oa
-                LEFT JOIN order_additional_info as oai ON oa.order_no=oai.order_no
-			      WHERE oa.related_no=#{nurseNo} and oa.service_option=1
+            SELECT IFNULL((select sum(oai.amount) as totalMoney
+             FROM order_appointment as oa  LEFT JOIN order_additional_info as oai ON oa.order_no=oai.order_no
+			      WHERE oa.related_no=#{nurseNo} and oa.service_option=1 ),0)
         </select>
+    <!-- 护士本周总收入 -->
+    <select id="selectTotalMoneyByWeek" parameterType="string" resultType="double">
+        SELECT IFNULL((select sum(oai.amount) as totalMoney
+         FROM order_appointment as oa  LEFT JOIN order_additional_info as oai ON oa.order_no=oai.order_no
+			 WHERE oa.related_no=#{nurseNo} and oa.service_option=1
+			      and YEARWEEK(date_format(oa.creation_time,'%Y-%m-%d')) = YEARWEEK(now())),0)
+    </select>
 
     <!-- 我的余额 -->
-        <select id="selectBalance1" parameterType="string" resultType="double">
-        SELECT  SUM(amount) amount FROM user_wallet
-          where trans_cate=2 and user_id=#{userId} and status=2
+        <select id="selectBalance" parameterType="string" resultType="double">
+        SELECT (SELECT IFNULL((SELECT  SUM(amount) amount FROM user_wallet  where trans_cate=2 and user_id=#{userId} and status=2),0) )
+            -
+                (SELECT IFNULL((SELECT  SUM(amount) amount FROM user_wallet where trans_cate=1 and user_id=#{userId} and status=2),0) )as amount
         </select>
 
-        <select id="selectBalance2" parameterType="string" resultType="double">
-            SELECT  SUM(amount) amount FROM user_wallet
-              where trans_cate=1 and user_id=#{userId} and status=2
-        </select>
 
     <!--护士收入明细-->
         <select id="selectMoneyInfoList" parameterType="map" resultMap="WalletMap">

@@ -36,15 +36,17 @@ public class NurseBalanceServiceImpl extends ServiceImpl<NurseBalanceMapper, Nur
         Double aDouble = this.baseMapper.selectTotalMoney(nurseNo);
         return aDouble;
     }
+
     @Override
-    public Double selectBalance1(String userId) {
-        return this.baseMapper.selectBalance1(userId);
+    public Double selectTotalMoneyByWeek(String nurseNo) {
+        return baseMapper.selectTotalMoneyByWeek(nurseNo);
     }
 
     @Override
-    public Double selectBalance2(String userId) {
-        return this.baseMapper.selectBalance2(userId);
+    public Double selectBalance(String userId) {
+        return this.baseMapper.selectBalance(userId);
     }
+
 
     @Override
     public List<UserWallet> selectMoneyInfoList(Map<String, Object> params) {

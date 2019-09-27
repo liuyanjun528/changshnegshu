@@ -34,40 +34,20 @@ public class NurseBalanceController extends BaseController {
     private INurseBalanceService nurseBalanceService;
 
 
-    /**
-     * 护士完成的累计单数
-     */
-    @ApiOperation(value = "护士的累计单数", notes = "护士的累计单数")
-    @GetMapping("/singularInfo")
-    //@RequiresPermissions("upms/nurseBalance/singularInfo")
-    public ResultMap selectSingular(String nurseNo){
-        int i = nurseBalanceService.selectSingular(nurseNo);
-        return ResultMap.ok().put("data",i);
-    }
 
     /**
-     * 护士完成的累计单数
+     * 护士本周收入，总收入，总订单，我的余额
      */
-    @ApiOperation(value = "护士的应收入", notes = "护士的应收入")
-    @GetMapping("/totalMoneyInfo")
-    //@RequiresPermissions("upms/nurseBalance/totalMoneyInfo")
-    public ResultMap totalMoneyInfo(String nurseNo){
-        Double aDouble = nurseBalanceService.selectTotalMoney(nurseNo);
-        return ResultMap.ok().put("data",aDouble);
+    @ApiOperation(value = "护士本周收入，总收入，总订单，我的余额", notes = "护士本周收入，总收入，总订单，我的余额")
+    @GetMapping("/nurseWalletInfo")
+    public ResultMap selectWallet(String nurseNo,String userId){
+        int i = nurseBalanceService.selectSingular(nurseNo);//总订单
+        Double aDouble = nurseBalanceService.selectTotalMoney(nurseNo);//总收入
+        Double bDouble = nurseBalanceService.selectTotalMoneyByWeek(nurseNo);//本周收入
+        Double cDouble = nurseBalanceService.selectBalance(userId);//我的余额
+        return ResultMap.ok().put("data1",i).put("data2",aDouble).put("data3",bDouble).put("data4",cDouble);
     }
 
-    /**
-     * 我的余额  到账金额-提现金额 =余额
-     */
-    @ApiOperation(value = "我的余额", notes = "我的余额")
-    @GetMapping("/myBalance")
-    //@RequiresPermissions("upms/nurseBalance/myBalance")
-    public ResultMap selectMyBalance(String userId){
-        Double aDouble1 = nurseBalanceService.selectBalance1(userId);
-        Double aDouble2 = nurseBalanceService.selectBalance2(userId);
-        Double aDouble=aDouble1-aDouble2;
-        return ResultMap.ok().put("data",aDouble);
-    }
 
     /**
      * 护士收入明细

@@ -78,7 +78,7 @@
     <select id="getUserFDInfo" parameterType="map" resultMap="BaseResultMapVo">
         select
         ufd.order_no,
-        ufd.user_id,
+        sd.user_id,
         ufd.doctor_no,
         ufd.effect_from,
         ufd.effect_to,

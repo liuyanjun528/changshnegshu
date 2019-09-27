@@ -29,14 +29,20 @@ public interface INurseBalanceService extends IService<NurseBalance> {
      * @Date: 2019/7/11 10:25
      */
     Double selectTotalMoney(String nurseNo);
+    /**
+     * @Description:护士本周累计收入
+     * @Author: wh
+     * @Date: 2019/9/26 15:26
+     */
+    Double selectTotalMoneyByWeek( String nurseNo);
 
     /**
      * @Description:护士-我的余额   到账金额-提现金额 =余额
      * @Author: wh
      * @Date: 2019/7/12 15:54
      */
-    Double selectBalance1( String userId);
-    Double selectBalance2( String userId);
+    Double selectBalance( String userId);
+
 
     /**
      * @Description:护士收入明细

@@ -6,18 +6,12 @@ import com.annaru.common.result.PageUtils;
 import com.annaru.common.result.ResultMap;
 import com.annaru.common.util.Constant;
 import com.annaru.upms.controllerutil.SysConfigUtil;
-import com.annaru.upms.entity.ExamAppend;
-import com.annaru.upms.entity.OrderMain;
-import com.annaru.upms.entity.SysConfig;
-import com.annaru.upms.entity.SysMessage;
+import com.annaru.upms.entity.*;
 import com.annaru.upms.entity.vo.OrderMainVoSumByStatusZ;
 import com.annaru.upms.entity.vo.OrderMainVoZMzlt;
 import com.annaru.upms.entity.vo.OrderMainVoZTC;
 import com.annaru.upms.entity.vo.OrderMainVoZZF;
-import com.annaru.upms.service.IExamAppendService;
-import com.annaru.upms.service.IOrderMainService;
-import com.annaru.upms.service.ISysConfigService;
-import com.annaru.upms.service.ISysMessageService;
+import com.annaru.upms.service.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -46,7 +40,10 @@ public class OrderMainController extends BaseController {
     private ISysMessageService sysMessageService;// 消息表
     @Reference
     private IExamAppendService examAppendService;
-
+    @Reference
+    private ISysMessageTemplateService sysMessageTemplateService;
+    @Reference
+    private IUserBasicService userBasicService;
 
     /**
      * 保存Toc下订单
@@ -67,6 +64,12 @@ public class OrderMainController extends BaseController {
             if(i > 0){
                 //查询套餐下的赠送服务
                 List<ExamAppend> examAppends = examAppendService.selectServiceByMainId(orderMain.getReferenceNo());
+                //查询用户名
+                UserBasic userBasic = userBasicService.selectByUid(orderMain.getUserId());
+                String fullName = userBasic.getFullName();
+                //查询套餐模板
+                SysMessageTemplate sysMessageTemplate = sysMessageTemplateService.selectMessageTemplate(1);
+
                 //套餐购买成功往消息表添加一条数据
                 SysMessage sm=new SysMessage();
                 sm.setOrderNo(orderMain.getOrderNo());// 订单号
@@ -80,7 +83,12 @@ public class OrderMainController extends BaseController {
                     String serviceName = exam.getServiceName();
                     s.append(serviceName+",");
                 }
-                sm.setContent("您已经购买了"+examAppends.get(0).getPackageName()+",包含服务项:"+s.toString().substring(0,s.length()-1));//内容
+                String contentTemplate = sysMessageTemplate.getContentTemplate();
+                String message1 = contentTemplate.replace("[full_name]", fullName);//替换过的消息
+                String message2 = message1.replace("[pakg_name]", examAppends.get(0).getPackageName());//替换过的消息
+                String message3 = message2.replace("[append_service]", s.toString().substring(0,s.length()-1));//替换过的消息
+                sm.setContent(message3);
+                //sm.setContent("您已经购买了"+examAppends.get(0).getPackageName()+",包含服务项:"+s.toString().substring(0,s.length()-1));//内容
 
                 sysMessageService.save(sm);
             }
