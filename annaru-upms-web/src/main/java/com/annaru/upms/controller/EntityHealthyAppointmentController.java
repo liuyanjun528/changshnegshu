@@ -58,7 +58,10 @@ public class EntityHealthyAppointmentController extends BaseController {
     private ISysMessageService sysMessageService;// 消息表
     @Reference
     private ISysGlobalSettingService sysGlobalSettingService;//系统全局参数管理
-
+    @Reference
+    private ISysMessageTemplateService sysMessageTemplateService;
+    @Reference
+    private IUserBasicService userBasicService;
 
     /**
      * 删除订单
@@ -251,6 +254,13 @@ public class EntityHealthyAppointmentController extends BaseController {
             int i = entityHealthyAppointmentService.insertEntityDoctorAppointment(entityHealthyAppointment, RelativeId);
 
             if(i > 0){
+                //查询用户名
+                UserBasic userBasic = userBasicService.selectByUid(entityHealthyAppointment.getOrderMain().getUserId());
+                String fullName = userBasic.getFullName();
+                //查询套餐模板
+                SysMessageTemplate sysMessageTemplate = sysMessageTemplateService.selectMessageTemplate(7);
+                String contentTemplate = sysMessageTemplate.getContentTemplate();
+                String message = contentTemplate.replace("[full_name]", fullName);//替换过的消息
                 //企业家庭医生预约成功往消息表添加一条数据
                 SysMessage sm=new SysMessage();
                 sm.setOrderNo(entityHealthyAppointment.getOrderMain().getOrderNo());// 订单号
@@ -258,7 +268,7 @@ public class EntityHealthyAppointmentController extends BaseController {
                 sm.setBusinessCate(3);//3:分布体检预约信息
                 sm.setUserId(entityHealthyAppointment.getOrderMain().getUserId());//用户
                 sm.setCreationTime(new Date());
-                sm.setContent("预约成功，请等待医生进行确认");//内容
+                sm.setContent(message);//内容
                 sysMessageService.save(sm);
             }
 

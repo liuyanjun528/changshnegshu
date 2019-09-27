@@ -20,7 +20,7 @@ public interface NurseBalanceMapper extends BaseMapper<NurseBalance> {
 
 
     /**
-      * @Description:护士完成的累计单数
+      * @Description:护士的总单数
       * @Author: wh
       * @Date: 2019/7/11 10:25
       */
@@ -28,18 +28,27 @@ public interface NurseBalanceMapper extends BaseMapper<NurseBalance> {
 
 
     /**
-     * @Description:护士应收入
+     * @Description:护士累计收入
      * @Author: wh
      * @Date: 2019/7/11 10:25
      */
     Double selectTotalMoney(@Param("nurseNo") String nurseNo);
+
+    /**
+      * @Description:护士本周累计收入
+      * @Author: wh
+      * @Date: 2019/9/26 15:26
+      */
+    Double selectTotalMoneyByWeek(@Param("nurseNo") String nurseNo);
+
+
     /**
       * @Description:护士-我的余额   到账金额-提现金额 =余额
       * @Author: wh
       * @Date: 2019/7/12 15:54
       */
-    Double selectBalance1(@Param("userId") String userId);
-    Double selectBalance2(@Param("userId") String userId);
+    Double selectBalance(@Param("userId") String userId);
+
 
 
     /**

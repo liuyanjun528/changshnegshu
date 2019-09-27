@@ -25,15 +25,4 @@ public interface SysMessageMapper extends BaseMapper<SysMessage> {
     */
     IPage<SysMessage> selectDataPage(Page page, @Param("params") Map<String, Object> params);
 
-    /**
-     * 通过当前用户的消息类型查看消息
-     * @return
-     */
-   // IPage<SysMessage> selectMsgByMsgCate(Page page, @Param("params") Map<String, Object> params);
-
-
-
-
-
-
 }

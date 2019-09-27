@@ -93,14 +93,14 @@ public class UserFamilyDoctorController extends BaseController {
     /**
      * 信息
      */
-    @ApiOperation(value = "查看详情", notes = "查看家庭医生详情")
+    @ApiOperation(value = "查看家庭医生详情", notes = "查看家庭医生详情")
     @GetMapping("/info/{userId}")
     @RequiresPermissions("upms/userFamilyDoctor/info")
     public ResultMap info(@PathVariable("userId") String userId){
         Map<String, Object> params = new HashMap<>();
         params.put("userId",userId);
         UserFamilyDoctorVo userFamilyDoctor = userFamilyDoctorService.getUserFDInfo(params);
-        if (userFamilyDoctor!=null){
+        if (null!=userFamilyDoctor){
             userFamilyDoctor.setRestDays(UUIDGenerator.differentDays(new Date(),userFamilyDoctor.getEffectTo()));
             params.put("docNo",userFamilyDoctor.getDoctorNo());
             SysAppraisal appraisal = sysAppraisalService.selectOne(params);

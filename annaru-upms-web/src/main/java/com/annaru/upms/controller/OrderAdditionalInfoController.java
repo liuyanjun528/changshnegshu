@@ -43,7 +43,10 @@ public class OrderAdditionalInfoController extends BaseController {
     private ISysMessageService sysMessageService;// 消息表
     @Reference
     private ISysGlobalSettingService sysGlobalSettingService;//系统全局参数管理
-
+    @Reference
+    private ISysMessageTemplateService sysMessageTemplateService;
+    @Reference
+    private IUserBasicService userBasicService;
 
     /**
      * 体检人信息 wh
@@ -84,6 +87,13 @@ public class OrderAdditionalInfoController extends BaseController {
             int i = orderAdditionalInfoService.insertGreenPassage(orderAdditionalInfo, RelativeId);
 
             if(i > 0){
+                //查询用户名
+                UserBasic userBasic = userBasicService.selectByUid(orderAdditionalInfo.getEntityHealthyAppointment().getOrderMain().getUserId());
+                String fullName = userBasic.getFullName();
+                //查询套餐模板
+                SysMessageTemplate sysMessageTemplate = sysMessageTemplateService.selectMessageTemplate(7);
+                String contentTemplate = sysMessageTemplate.getContentTemplate();
+                String message = contentTemplate.replace("[full_name]", fullName);//替换过的消息
                 //企业家庭医生预约成功往消息表添加一条数据
                 SysMessage sm=new SysMessage();
                 sm.setOrderNo(orderAdditionalInfo.getEntityHealthyAppointment().getOrderMain().getOrderNo());// 订单号
@@ -91,7 +101,7 @@ public class OrderAdditionalInfoController extends BaseController {
                 sm.setBusinessCate(3);//3:分布体检预约信息
                 sm.setUserId(orderAdditionalInfo.getEntityHealthyAppointment().getOrderMain().getUserId());//用户
                 sm.setCreationTime(new Date());
-                sm.setContent("企业门诊绿通预约成功!");//内容
+                sm.setContent(message);//内容
                 sysMessageService.save(sm);
             }
 

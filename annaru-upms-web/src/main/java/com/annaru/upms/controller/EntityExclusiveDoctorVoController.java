@@ -42,7 +42,7 @@ public class EntityExclusiveDoctorVoController extends BaseController {
 
         EntityExclusiveDoctorVo entityExclusiveDoctorVo = entityExclusiveDoctorVoService.selectExclusiveDoctor(entityId);
         if(null==entityExclusiveDoctorVo){
-            return ResultMap.error().put("data","该企业没有专属医生");
+            return ResultMap.ok().put("data","该企业用户没有专属医生");
         }
 
         Map<String, Object> map=new HashMap();
