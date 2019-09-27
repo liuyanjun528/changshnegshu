@@ -416,6 +416,28 @@
        WHERE user_id=#{userId}
     </update>
 
+    <update id="updateUserBascByParams" parameterType="map">
+        UPDATE user_basic
+        <trim prefix="set" suffixOverrides=",">
+            <if test="params.idCardNo != null and params.idCardNo != ''">
+                id_card_no = #{params.idCardNo},
+            </if>
+            <if test="params.gender != null">
+                gender = #{params.gender},
+            </if>
+            <if test="params.fullName != null and params.fullName != ''">
+                full_name = #{params.fullName},
+            </if>
+            <if test="params.dateOfBirth != null and params.dateOfBirth != ''">
+                date_of_birth = #{params.dateOfBirth},
+            </if>
+        </trim>
+        WHERE 1 = 1
+        <if test="params.userId != null and params.userId != ''">
+            AND user_id = #{params.userId}
+        </if>
+    </update>
+
     <update id="updateLastTimeBySysId" parameterType="com.annaru.upms.entity.UserBasic">
       UPDATE user_basic SET last_logintime = #{userBasic.lastLogintime}
        WHERE sys_id = #{userBasic.sysId}

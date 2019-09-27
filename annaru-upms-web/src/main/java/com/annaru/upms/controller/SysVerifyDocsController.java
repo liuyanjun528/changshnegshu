@@ -34,6 +34,7 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping("upms/sysVerifyDocs")
 public class SysVerifyDocsController extends BaseController {
+
     @Reference
     private ISysVerifyDocsService sysVerifyDocsService;
     @Reference
@@ -42,6 +43,7 @@ public class SysVerifyDocsController extends BaseController {
     private ISysDoctorService iSysDoctorService;
     @Reference
     private ISysNurseService iSysNurseService;
+
     /**
      * 列表
      */

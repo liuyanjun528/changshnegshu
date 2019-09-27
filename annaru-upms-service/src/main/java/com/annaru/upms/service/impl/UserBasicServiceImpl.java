@@ -116,4 +116,12 @@ public class UserBasicServiceImpl extends ServiceImpl<UserBasicMapper, UserBasic
         return false;
     }
 
+    @Override
+    public boolean updateUserBascByParams(Map<String, Object> params) {
+        if (this.baseMapper.updateUserBascByParams(params) > 0){
+            return true;
+        }
+        return false;
+    }
+
 }

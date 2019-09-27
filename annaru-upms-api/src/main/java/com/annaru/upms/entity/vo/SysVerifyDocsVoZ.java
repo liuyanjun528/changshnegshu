@@ -37,7 +37,6 @@ public class SysVerifyDocsVoZ implements Serializable {
 	 * 用户编号
 	 */
 	@ApiModelProperty(value = "用户编号")
-    @TableField("user_id")
 	private String userId;
 	/**
 	 * 图片名称
@@ -48,19 +47,16 @@ public class SysVerifyDocsVoZ implements Serializable {
 	 * 所属机构医院
 	 */
 	@ApiModelProperty(value = "所属机构医院")
-    @TableField("name")
 	private String belongHospital;
 	/**
 	 * 所属科室
 	 */
 	@ApiModelProperty(value = "所属科室")
-    @TableField("department_name")
 	private Integer belongOffice;
 	/**
 	 * 职称
 	 */
 	@ApiModelProperty(value = "职称")
-    @TableField("job_title")
 	private String jobTitle;
 	/**
 	 * 手机号
@@ -91,15 +87,19 @@ public class SysVerifyDocsVoZ implements Serializable {
 	 * @return
 	 */
 	@ApiModelProperty(value = "护士姓名")
-    @TableField("nurse_name")
 	private String nurseName;
 	/**
 	 * 身份证号码
 	 * @return
 	 */
 	@ApiModelProperty(value = "身份证号码")
-    @TableField("id_card_no")
 	private String idCardNo;
+
+	// 姓名
+	private String fullName;
+
+	// 性别(1:男/2:女)
+	private Integer gender;
 
 	private List<String> stringList;
 
@@ -199,6 +199,22 @@ public class SysVerifyDocsVoZ implements Serializable {
 	}
 	public void setStringList(List<String> stringList) {
 		this.stringList = stringList;
+	}
+
+	public String getFullName() {
+		return fullName;
+	}
+
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
+	}
+
+	public Integer getGender() {
+		return gender;
+	}
+
+	public void setGender(Integer gender) {
+		this.gender = gender;
 	}
 
 	@Override

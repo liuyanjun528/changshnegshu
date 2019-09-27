@@ -272,8 +272,17 @@ public class UserRelatives extends Model<UserRelatives> implements Serializable 
 		return this.sysId;
 	}
 
+	public String getRefNo() {
+		return refNo;
+	}
+
+	public void setRefNo(String refNo) {
+		this.refNo = refNo;
+	}
+
 	@Override
 	public String toString() {
         return JacksonUtils.toJson(this);
 	}
+
 }

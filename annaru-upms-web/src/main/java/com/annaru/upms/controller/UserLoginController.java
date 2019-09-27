@@ -70,7 +70,6 @@ public class UserLoginController extends BaseController {
 //        }
 //        return ResultMap.error("短信发送失败！");
         String kaptcha = "123";
-        redisService.set(cellphoneNo, kaptcha);
         redisService.set(cellphoneNo, kaptcha, kaptchaSeconds);
         return ResultMap.ok("短信发送成功！");
 
@@ -80,6 +79,8 @@ public class UserLoginController extends BaseController {
     @PostMapping("/loginInfo")
     @RequiresPermissions("upms/userLogin/loginInfo")
     public ResultMap loginInfo(String cellphoneNo, String password, String type, String loginType, String kaptcha, String openid, String isHr){
+        // 先直接短信判断为123
+        redisService.set(cellphoneNo, kaptcha);
 
         UserBasic userBasic = null;
         String token = null;

@@ -92,4 +92,11 @@ public interface UserBasicMapper extends BaseMapper<UserBasic> {
      */
     int uploadAuthorizationUrl(@Param("sysId") Integer sysId, @Param("authorizationUrl") String authorizationUrl);
 
+    /**
+     * 通过用户编号修改身份证
+     * @uthor zk
+     * @date 2019-9-26
+     */
+    int updateUserBascByParams(@Param("params") Map<String, Object> params);
+
 }

@@ -1,11 +1,14 @@
 package com.annaru.upms.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.annaru.common.util.DateUtil;
 import com.annaru.upms.entity.SysDoctor;
 import com.annaru.upms.entity.SysNurse;
+import com.annaru.upms.entity.UserBasic;
 import com.annaru.upms.entity.vo.SysVerifyDocsVoZ;
 import com.annaru.upms.service.ISysDoctorService;
 import com.annaru.upms.service.ISysNurseService;
+import com.annaru.upms.service.IUserBasicService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -21,10 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 认证资料
@@ -43,6 +43,8 @@ public class SysVerifyDocsServiceImpl extends ServiceImpl<SysVerifyDocsMapper, S
     private ISysVerifyDocsService iSysVerifyDocsService;
     @Autowired
     private SysVerifyDocsMapper sysVerifyDocsMapper;
+    @Resource
+    private IUserBasicService userBasicService;
 
     @Override
     public PageUtils getDataPage(Map<String, Object> params){
@@ -63,6 +65,7 @@ public class SysVerifyDocsServiceImpl extends ServiceImpl<SysVerifyDocsMapper, S
              SysDoctor sysDoctor = new SysDoctor();
              sysDoctor.setDoctorNo(sysVerifyDocsVoZ.getUserNo());
              sysDoctor.setUserId(sysVerifyDocsVoZ.getUserId());
+             sysDoctor.setDoctorName(sysVerifyDocsVoZ.getFullName());
              sysDoctor.setBelongInstitution(sysVerifyDocsVoZ.getBelongHospital());
              sysDoctor.setBelongOffice(getBelongOffice);
              sysDoctor.setJobTitle(sysVerifyDocsVoZ.getJobTitle());
@@ -75,6 +78,7 @@ public class SysVerifyDocsServiceImpl extends ServiceImpl<SysVerifyDocsMapper, S
              SysNurse sysNurse = new SysNurse();
              sysNurse.setNurseNo(sysVerifyDocsVoZ.getUserNo());
              sysNurse.setUserId(sysVerifyDocsVoZ.getUserId());
+             sysNurse.setNurseName(sysVerifyDocsVoZ.getFullName());
              sysNurse.setBelongHospital(sysVerifyDocsVoZ.getBelongHospital());
              sysNurse.setBelongOffice(getBelongOffice);
              sysNurse.setJobTitle(sysVerifyDocsVoZ.getJobTitle());
@@ -94,6 +98,7 @@ public class SysVerifyDocsServiceImpl extends ServiceImpl<SysVerifyDocsMapper, S
             if (iSysVerifyDocsService.save(sysVerifyDocs)){
                 sysVerifyDocs = new SysVerifyDocs();
                 sysVerifyDocs.setUserId(sysVerifyDocsVoZ.getUserId());
+                sysVerifyDocs.setFullName(sysVerifyDocsVoZ.getFullName());
                 sysVerifyDocs.setCates(sysVerifyDocsVoZ.getIdentification());
                 sysVerifyDocs.setDocCates(2);
                 sysVerifyDocs.setImages(sysVerifyDocsVoZ.getImg2());
@@ -106,6 +111,7 @@ public class SysVerifyDocsServiceImpl extends ServiceImpl<SysVerifyDocsMapper, S
                             if (StringUtil.isNotBlank(stringList.get(i))){
                                 sysVerifyDocs = new SysVerifyDocs();
                                 sysVerifyDocs.setUserId(sysVerifyDocsVoZ.getUserId());
+                                sysVerifyDocs.setFullName(sysVerifyDocsVoZ.getFullName());
                                 sysVerifyDocs.setCates(sysVerifyDocsVoZ.getIdentification());
                                 sysVerifyDocs.setDocCates(3);
                                 sysVerifyDocs.setImages(stringList.get(i));
@@ -115,11 +121,18 @@ public class SysVerifyDocsServiceImpl extends ServiceImpl<SysVerifyDocsMapper, S
                         }
                         if (sysVerifyDocsList != null && sysVerifyDocsList.size() > 0){
                             if (iSysVerifyDocsService.saveBatch(sysVerifyDocsList)){
-                                return true;
+                                Map<String, Object> params = new HashMap<>();
+                                params.put("idCardNo", sysVerifyDocsVoZ.getIdCardNo());
+                                params.put("gender", sysVerifyDocsVoZ.getGender());
+                                params.put("fullName", sysVerifyDocsVoZ.getFullName());
+                                params.put("dateOfBirth", getBirthday(sysVerifyDocsVoZ.getIdCardNo()));
+                                params.put("userId", sysVerifyDocsVoZ.getUserId());
+                                if (userBasicService.updateUserBascByParams(params)){
+                                    return true;
+                                }
                             }
                         }
                     }
-                    return true;
                 }
             }
          }
@@ -151,6 +164,36 @@ public class SysVerifyDocsServiceImpl extends ServiceImpl<SysVerifyDocsMapper, S
     public SysVerifyDocs selectResult(String userId) {
         return this.baseMapper.selectResult(userId);
     }
+
+    /**
+     * 根据身份证得到出生年月日
+     * @author zk
+     * @date 2019/9/27
+     * @param cardID
+     * @return
+     */
+    public String getBirthday(String cardID) {
+//        Date returnDate=null;
+        StringBuffer tempStr=null;
+        if(cardID!=null&&cardID.trim().length()>0){
+            if(cardID.trim().length()==15){
+                tempStr=new StringBuffer(cardID.substring(6, 12));
+                tempStr.insert(4, '-');
+                tempStr.insert(2, '-');
+                tempStr.insert(0, "19");
+            }else if(cardID.trim().length()==18){
+                tempStr=new StringBuffer(cardID.substring(6, 14));
+                tempStr.insert(6, '-');
+                tempStr.insert(4, '-');
+            }
+        }
+        if(tempStr!=null&&tempStr.toString().trim().length()>0){
+//            returnDate= DateUtil.stringToDate(tempStr.toString(), DateUtil.DATE_PATTERN.YYYY_MM_DD);
+            return tempStr.toString();
+        }
+        return null;
+    }
+
 }
 
 

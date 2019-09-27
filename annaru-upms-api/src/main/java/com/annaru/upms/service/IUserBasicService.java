@@ -110,5 +110,12 @@ public interface IUserBasicService extends IService<UserBasic> {
      */
     boolean uploadAuthorizationUrl(Integer sysId, String authorizationUrl);
 
+    /**
+     * 通过用户编号修改身份证和性别
+     * @uthor zk
+     * @date 2019-9-26
+     */
+    boolean updateUserBascByParams(Map<String, Object> params);
+
 }
 
