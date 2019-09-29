@@ -38,12 +38,8 @@ public class EntityPurchseMainVoZ implements Serializable {
 	 * logo地址
 	 */
 	private String logoUrl;
-	/**
-	 * 标题 如：企业专属医生家庭健康服务包
-	 */
-	private String ehmDesr;
 
-	private List<EntityPurchseMainDeatailVoZ> entityPurchseMainDeatailVoZList;
+	private List<EntityEhmDesr> entityEhmDesrList;
 
 	public String getEntityNo() {
 		return entityNo;
@@ -77,20 +73,12 @@ public class EntityPurchseMainVoZ implements Serializable {
 		this.logoUrl = logoUrl;
 	}
 
-	public String getEhmDesr() {
-		return ehmDesr;
+	public List<EntityEhmDesr> getEntityEhmDesrList() {
+		return entityEhmDesrList;
 	}
 
-	public void setEhmDesr(String ehmDesr) {
-		this.ehmDesr = ehmDesr;
-	}
-
-	public List<EntityPurchseMainDeatailVoZ> getEntityPurchseMainDeatailVoZList() {
-		return entityPurchseMainDeatailVoZList;
-	}
-
-	public void setEntityPurchseMainDeatailVoZList(List<EntityPurchseMainDeatailVoZ> entityPurchseMainDeatailVoZList) {
-		this.entityPurchseMainDeatailVoZList = entityPurchseMainDeatailVoZList;
+	public void setEntityEhmDesrList(List<EntityEhmDesr> entityEhmDesrList) {
+		this.entityEhmDesrList = entityEhmDesrList;
 	}
 
 	@Override
