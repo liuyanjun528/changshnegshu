@@ -23,14 +23,6 @@ public interface IUserCardsService extends IService<UserCards> {
     */
     PageUtils getDataPage(Map<String, Object> params);
 
-    /**
-     * 通过用户ID查询
-     *
-     * @param userId 用户ID
-     * @return
-     */
-    List<UserCards> selectByStatus(String userId);
-
 
     /**
      * 查询企业门诊绿通预约人信息
@@ -38,14 +30,6 @@ public interface IUserCardsService extends IService<UserCards> {
      * @return
      */
     List<UserCardInfoVo> getGreenPassUserInfo(String userId, String refNo);
-
-
-    /**
-     * @Description: 通过用户编号修改个人信息和医保卡号
-     * @Author: wh
-     * @Date: 2019/6/11 11:00
-     */
-    int updateCardAndBasic(String userId,String cardNo);
 
 }
 

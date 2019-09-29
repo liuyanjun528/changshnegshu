@@ -410,7 +410,7 @@
         and ub.user_id = #{userId}
     </select>
 
-    <!-- 通过用户编号修改个人信息和医保卡号-->
+    <!-- 通过用户编号修改个人信息-->
     <update id="updateCardAndBasics">
       UPDATE user_basic SET full_name=#{fullName},gender=#{gender},id_card_no=#{idCardNo},cellphone_no=#{cellphoneNo},head_image=#{headImage}
        WHERE user_id=#{userId}
@@ -470,7 +470,7 @@
         UPDATE
           user_basic
         SET
-          authorization_url = #{authorizationUrl}
+          authorization_url = #{authorizationUrl},is_push=1
         WHERE
           sys_id = #{sysId}
     </update>

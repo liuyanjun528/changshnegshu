@@ -106,7 +106,6 @@ public class UserRelatives extends Model<UserRelatives> implements Serializable 
 	@TableField("edit_time")
 	private Date editTime;
 
-
 	/**
      * 获取：系统编号
      */
@@ -131,6 +130,7 @@ public class UserRelatives extends Model<UserRelatives> implements Serializable 
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
+
 	/**
      * 获取：亲属姓名
      */
