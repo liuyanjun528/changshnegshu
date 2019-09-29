@@ -40,14 +40,18 @@
         <result column="userId" property="userId" />
         <result column="supplier" property="supplier" />
         <result column="logoUrl" property="logoUrl" />
-        <result column="ehmDesr" property="ehmDesr" />
 
-        <collection property="entityPurchseMainDeatailVoZList" ofType="com.annaru.upms.entity.vo.EntityPurchseMainDeatailVoZ">
-            <result column="ehpDesr" property="ehpDesr" />
-            <result column="introductions" property="introductions" />
-            <result column="counts" property="counts" />
-            <result column="perYear" property="perYear" />
+        <collection property="entityEhmDesrList" ofType="com.annaru.upms.entity.vo.EntityEhmDesr">
+            <result column="ehmDesr" property="ehmDesr" />
+
+            <collection property="entityPurchseMainDeatailVoZList" ofType="com.annaru.upms.entity.vo.EntityPurchseMainDeatailVoZ">
+                <result column="ehpDesr" property="ehpDesr" />
+                <result column="introductions" property="introductions" />
+                <result column="counts" property="counts" />
+                <result column="perYear" property="perYear" />
+            </collection>
         </collection>
+
     </resultMap>
 
     <sql id="BaseClounmSql">

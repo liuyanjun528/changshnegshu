@@ -380,7 +380,7 @@
         SELECT
         om.sys_id sysId,
         om.order_no orderNo,
-        oee.exam_master_item examMasterItem,
+        ed.item_name examMasterItem,
         om.status,
         ub.full_name customerName,
         ub.id_card_no idNo,
@@ -398,6 +398,7 @@
         FROM
         order_main om
         LEFT JOIN order_extension_exam oee ON oee.order_no = om.order_no
+        LEFT JOIN exam_detail ed ON ed.sys_id = oee.exam_detail_id
         LEFT JOIN order_appointment oa ON oa.order_no = om.order_no
         LEFT JOIN sys_institution si ON si.institution_id = oa.institution_id
         LEFT JOIN user_cards uc ON om.user_id = uc.user_id
