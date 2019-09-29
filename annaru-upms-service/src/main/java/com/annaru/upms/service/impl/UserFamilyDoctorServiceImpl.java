@@ -67,6 +67,7 @@ public class UserFamilyDoctorServiceImpl extends ServiceImpl<UserFamilyDoctorMap
             orderMain.setOrderCates(5);
             orderMain.setCreationtime(new Date());
             orderMain.setStatus(Constant.PaymentState.UNPAID.getValue());
+            orderMain.setUserChannel("长生树APP");
             save = orderMainService.save(orderMain);
 
             if(save){

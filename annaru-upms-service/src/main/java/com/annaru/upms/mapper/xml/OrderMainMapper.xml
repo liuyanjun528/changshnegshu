@@ -687,9 +687,12 @@
     </select>
 
 
-    <update id="updateisDeleted">
+    <update id="updateisDeleted" >
         UPDATE order_main SET is_deleted=1 WHERE order_no=#{orderNo}
     </update>
-
+    <select id="selectOrderNonPayment" parameterType="map" resultMap="BaseResultMap">
+        SELECT * from order_main WHERE status=0
+            AND creationtime &lt; DATE_ADD(NOW(), INTERVAL -30 MINUTE)
+    </select>
 
 </mapper>

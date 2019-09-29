@@ -238,4 +238,9 @@ public class OrderMainServiceImpl extends ServiceImpl<OrderMainMapper, OrderMain
     public Boolean updateisDeleted(String orderNo) {
         return this.baseMapper.updateisDeleted(orderNo);
     }
+
+    @Override
+    public List<OrderMain> selectOrderNonPayment() {
+        return this.baseMapper.selectOrderNonPayment();
+    }
 }

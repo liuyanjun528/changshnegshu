@@ -84,6 +84,7 @@ public class EntityHealthyAppointmentServiceImpl extends ServiceImpl<EntityHealt
             //添加订单主表
             entityHealthyAppointment.getOrderMain().setCreationtime(new Date());
             entityHealthyAppointment.getOrderMain().setOrderCates(5);
+            entityHealthyAppointment.getOrderMain().setUserChannel("长生树APP");
             boolean save = orderMainService.save(entityHealthyAppointment.getOrderMain());
 
             //往entityHealthyAppointment 添加数据

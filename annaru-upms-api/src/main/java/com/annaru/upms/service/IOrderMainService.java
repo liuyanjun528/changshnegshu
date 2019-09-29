@@ -122,5 +122,12 @@ public interface IOrderMainService extends IService<OrderMain> {
      */
     Boolean updateisDeleted(String orderNo);
 
+    /**
+     * @Description:查询超过30分钟的未支付订单
+     * @Author: wh
+     * @Date: 2019/9/29 9:28
+     */
+    List<OrderMain> selectOrderNonPayment();
+
 }
 

@@ -69,6 +69,7 @@ public class OrderAdditionalInfoServiceImpl extends ServiceImpl<OrderAdditionalI
                 orderAdditionalInfo.getEntityHealthyAppointment().getOrderMain().setAmount(setting.getPrices());
             }
             orderAdditionalInfo.getEntityHealthyAppointment().getOrderMain().setOrderCates(6);
+            orderAdditionalInfo.getEntityHealthyAppointment().getOrderMain().setUserChannel("长生树APP");
             boolean save = orderMainService.save(orderAdditionalInfo.getEntityHealthyAppointment().getOrderMain());
 
             if (save=true) {

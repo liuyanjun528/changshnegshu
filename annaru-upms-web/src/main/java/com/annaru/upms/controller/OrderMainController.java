@@ -57,6 +57,7 @@ public class OrderMainController extends BaseController {
             SysConfig sysConfig = SysConfigUtil.getSysConfig(iSysConfigService, SysConfigUtil.ORDERNO);
             orderMain.setOrderNo(SysConfigUtil.getNoBySysConfig());
             orderMain.setCreationtime(new Date());
+            orderMain.setUserChannel("长生树APP");
             orderMain.setStatus(Constant.PaymentState.UNPAID.getValue());
             i = orderMainService.insertOrderMain(orderMain,RelativeId);
 
@@ -301,9 +302,16 @@ public class OrderMainController extends BaseController {
             logger.error(e.getMessage());
             return ResultMap.error("运行异常，请联系管理员");
         }
-
     }
 
-
+    /**
+     * 查询超过30分钟的未支付订单 wh
+     */
+    @ApiOperation(value = "查询超过30分钟的未支付订单", notes = "查询超过30分钟的未支付订单")
+    @GetMapping("/orderNonPay")
+    public ResultMap orderNonPay(){
+        List<OrderMain> orderMains = orderMainService.selectOrderNonPayment();
+        return ResultMap.ok().put("data",orderMains);
+    }
 
 }
