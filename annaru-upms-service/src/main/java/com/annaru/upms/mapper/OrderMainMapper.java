@@ -139,5 +139,13 @@ public interface OrderMainMapper extends BaseMapper<OrderMain> {
       */
     List<OrderMain> selectOrderNonPayment();
 
+    /**
+      * @Description:上传完交接单修改订单状态为已完成-2
+      * @Author: wh
+      * @Date: 2019/9/30 15:01
+      */
+    int updateOrderStatus(@Param("orderNo") String orderNo);
+
+
 
 }

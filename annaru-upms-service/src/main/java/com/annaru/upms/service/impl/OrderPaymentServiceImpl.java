@@ -82,7 +82,7 @@ public class OrderPaymentServiceImpl extends ServiceImpl<OrderPaymentMapper, Ord
         }
 
         if(Constant.OrderMainStatus.UNPAID.getValue().equals(orderMain.getStatus())){
-            orderMain.setStatus(Constant.OrderMainStatus.COMPLETED.getValue());
+            orderMain.setStatus(Constant.OrderMainStatus.UNDERWAY.getValue());
             orderMain.updateById();
         }
 
