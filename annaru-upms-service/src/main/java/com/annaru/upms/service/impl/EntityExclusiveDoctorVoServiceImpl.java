@@ -6,6 +6,7 @@ import com.annaru.upms.mapper.EntityExclusiveDoctorVoMapper;
 import com.annaru.upms.service.IEntityExclusiveDoctorVoService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -19,8 +20,8 @@ public class EntityExclusiveDoctorVoServiceImpl extends ServiceImpl<EntityExclus
       * @Author: wh 2019/6/3 14:14
       */
     @Override
-    public EntityExclusiveDoctorVo selectExclusiveDoctor(String entityId) {
-        return this.baseMapper.selectExclusiveDoctor(entityId);
+    public EntityExclusiveDoctorVo selectExclusiveDoctor(String userId) {
+        return this.baseMapper.selectExclusiveDoctor(userId);
 
     }
 }
