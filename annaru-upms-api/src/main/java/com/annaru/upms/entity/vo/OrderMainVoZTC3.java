@@ -12,7 +12,16 @@ import java.io.Serializable;
 public class OrderMainVoZTC3 implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	private Integer edSysId;
 	private String examMasterItem;
+
+	public Integer getEdSysId() {
+		return edSysId;
+	}
+
+	public void setEdSysId(Integer edSysId) {
+		this.edSysId = edSysId;
+	}
 
 	public String getExamMasterItem() {
 		return examMasterItem;

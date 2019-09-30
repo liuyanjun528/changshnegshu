@@ -60,7 +60,7 @@ public class OrderMainVoZDdlb implements Serializable {
 	 */
 	private Double amount;
 
-	private List<OrderMainVoZTC3> orderMainVoZTC3List;
+	private List<OrderMainVoZTC31> orderMainVoZTC31List;
 	private List<OrderMainVoZTC4> orderMainVoZTC4List;
 	private List<OrderMainVoZTC5> orderMainVoZTC5List;
 
@@ -115,11 +115,11 @@ public class OrderMainVoZDdlb implements Serializable {
 	public void setAppointmentCates(Integer appointmentCates) {
 		this.appointmentCates = appointmentCates;
 	}
-	public List<OrderMainVoZTC3> getOrderMainVoZTC3List() {
-		return orderMainVoZTC3List;
+	public List<OrderMainVoZTC31> getOrderMainVoZTC31List() {
+		return orderMainVoZTC31List;
 	}
-	public void setOrderMainVoZTC3List(List<OrderMainVoZTC3> orderMainVoZTC3List) {
-		this.orderMainVoZTC3List = orderMainVoZTC3List;
+	public void setOrderMainVoZTC31List(List<OrderMainVoZTC31> orderMainVoZTC31List) {
+		this.orderMainVoZTC31List = orderMainVoZTC31List;
 	}
 	public List<OrderMainVoZTC4> getOrderMainVoZTC4List() {
 		return orderMainVoZTC4List;

@@ -94,8 +94,16 @@ public class OrderMainVoZZF implements Serializable {
 	 * 预约地址
 	 */
 	private String address;
+	/**
+	 * 检查项目主表 编号
+	 */
+	private Integer emSysId;
+	/**
+	 * 检查项目主表 名称
+	 */
+	private String emName;
 
-	private List<OrderMainVoZTC3> orderMainVoZTC3List;
+	private List<OrderMainVoZTC31> orderMainVoZTC31List;
 
 	public Integer getStatus() {
 		return status;
@@ -185,17 +193,33 @@ public class OrderMainVoZZF implements Serializable {
 	public void setOrderTime(Date orderTime) {
 		this.orderTime = orderTime;
 	}
-	public List<OrderMainVoZTC3> getOrderMainVoZTC3List() {
-		return orderMainVoZTC3List;
+	public List<OrderMainVoZTC31> getOrderMainVoZTC31List() {
+		return orderMainVoZTC31List;
 	}
-	public void setOrderMainVoZTC3List(List<OrderMainVoZTC3> orderMainVoZTC3List) {
-		this.orderMainVoZTC3List = orderMainVoZTC3List;
+	public void setOrderMainVoZTC31List(List<OrderMainVoZTC31> orderMainVoZTC31List) {
+		this.orderMainVoZTC31List = orderMainVoZTC31List;
 	}
 	public String getAddress() {
 		return address;
 	}
 	public void setAddress(String address) {
 		this.address = address;
+	}
+
+	public Integer getEmSysId() {
+		return emSysId;
+	}
+
+	public void setEmSysId(Integer emSysId) {
+		this.emSysId = emSysId;
+	}
+
+	public String getEmName() {
+		return emName;
+	}
+
+	public void setEmName(String emName) {
+		this.emName = emName;
 	}
 
 	@Override

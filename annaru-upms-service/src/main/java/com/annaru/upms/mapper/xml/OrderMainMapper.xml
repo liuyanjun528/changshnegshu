@@ -109,14 +109,21 @@
         <result column="status" property="status" />
         <result column="amount" property="amount" />
 
-        <collection property="orderMainVoZTC3List" ofType="com.annaru.upms.entity.vo.OrderMainVoZTC3">
-            <result column="examMasterItem" property="examMasterItem"/>
-        </collection>
         <collection property="orderMainVoZTC4List" ofType="com.annaru.upms.entity.vo.OrderMainVoZTC4">
             <result column="customerName" property="customerName"/>
         </collection>
         <collection property="orderMainVoZTC5List" ofType="com.annaru.upms.entity.vo.OrderMainVoZTC5">
             <result column="fullName" property="fullName"/>
+        </collection>
+
+        <collection property="orderMainVoZTC31List" ofType="com.annaru.upms.entity.vo.OrderMainVoZTC31">
+            <result column="emSysId" property="emSysId" />
+            <result column="emName" property="emName" />
+
+            <collection property="orderMainVoZTC3List" ofType="com.annaru.upms.entity.vo.OrderMainVoZTC3">
+                <result column="edSysId" property="edSysId" />
+                <result column="examMasterItem" property="examMasterItem"/>
+            </collection>
         </collection>
     </resultMap>
 
@@ -180,9 +187,18 @@
         <result column="amount" property="amount" />
         <result column="address" property="address" />
 
-        <collection property="orderMainVoZTC3List" ofType="com.annaru.upms.entity.vo.OrderMainVoZTC3">
-            <result column="examMasterItem" property="examMasterItem"/>
+
+        <collection property="orderMainVoZTC31List" ofType="com.annaru.upms.entity.vo.OrderMainVoZTC31">
+            <result column="emSysId" property="emSysId" />
+            <result column="emName" property="emName" />
+
+            <collection property="orderMainVoZTC3List" ofType="com.annaru.upms.entity.vo.OrderMainVoZTC3">
+                <result column="edSysId" property="edSysId" />
+                <result column="examMasterItem" property="examMasterItem"/>
+            </collection>
         </collection>
+
+
     </resultMap>
 
     <!-- 通用查询映射结果 门诊绿通订单详情 -->
@@ -296,9 +312,13 @@
         om.order_time orderTime,
         ur.relative_name customerName,
         ub.full_name fullName,
-
         epm.package_name packageName,
-        oex.exam_master_item examMasterItem,
+
+        em.sys_id emSysId,
+        em.name emName,
+        ed.sys_id edSysId,
+        ed.item_name examMasterItem,
+
         om.order_cates appointmentCates,
         oai.option_1 option_1,
         om.parent_no parentNo,
@@ -312,6 +332,8 @@
         LEFT JOIN user_basic ub ON ub.user_id = oc.relative_id
         LEFT JOIN exam_package_main epm ON epm.sys_id = om.reference_no
         LEFT JOIN order_extension_exam oex ON oex.order_no = om.order_no
+        LEFT JOIN exam_master em ON em.sys_id = oex.exam_master_id
+        LEFT JOIN exam_detail ed ON ed.sys_id = oex.exam_detail_id
         WHERE
         1=1 AND om.is_deleted = 0
         <if test="params.status != null and params.status != '' or params.status == 0">
@@ -380,6 +402,9 @@
         SELECT
         om.sys_id sysId,
         om.order_no orderNo,
+        em.sys_id emSysId,
+        em.name emName,
+        ed.sys_id edSysId,
         ed.item_name examMasterItem,
         om.status,
         ub.full_name customerName,
@@ -398,6 +423,7 @@
         FROM
         order_main om
         LEFT JOIN order_extension_exam oee ON oee.order_no = om.order_no
+        LEFT JOIN exam_master em ON em.sys_id = oee.exam_master_id
         LEFT JOIN exam_detail ed ON ed.sys_id = oee.exam_detail_id
         LEFT JOIN order_appointment oa ON oa.order_no = om.order_no
         LEFT JOIN sys_institution si ON si.institution_id = oa.institution_id
