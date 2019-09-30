@@ -159,6 +159,56 @@ public class UserRelativesServiceImpl extends ServiceImpl<UserRelativesMapper, U
 
     @Override
     @Transactional
+    public boolean saveUserRelatives1(UserRelativesDetailVoZ userRelativesDetailVoZ, String relativeId, String userId) {
+
+        UserRelatives userRelatives = new UserRelatives();
+        userRelatives.setUserId(userRelativesDetailVoZ.getUserId());
+        userRelatives.setRelativeId(relativeId);
+        userRelatives.setRefNo(userId);
+        userRelatives.setRelativeName(userRelativesDetailVoZ.getRelativeName());
+        userRelatives.setGender(userRelativesDetailVoZ.getUrGender());
+        userRelatives.setIdCardNo(userRelativesDetailVoZ.getIdCardNo());
+        userRelatives.setDateOfBirth(DateUtil.stringToDate(getYearMonthDayOfIdCard(userRelativesDetailVoZ.getIdCardNo()), DateUtil.DATE_PATTERN.YYYY_MM_DD));
+        userRelatives.setCellphoneNo(userRelativesDetailVoZ.getCellphoneNo());
+        userRelatives.setRemark(userRelativesDetailVoZ.getRemark());
+        userRelatives.setCreationTime(new Date());
+        if (userRelativesService.save(userRelatives)){
+//            UserCards userCards = new UserCards();
+//            userCards.setUserId(userId);
+//            userCards.setUserCates(2);
+//            userCards.setCardCates(2);
+//            userCards.setCardNo(userRelativesDetailVoZ.getCardNo());
+//            userCards.setCellphoneNo(userRelativesDetailVoZ.getCellphoneNo());
+//            userCards.setStatus(1);
+//            userCards.setRemark("2");
+//            userCards.setCreationTime(new Date());
+//            if (userCardsService.save(userCards)){
+                Map<String, Object> params = new HashMap<>();
+                params.put("cellphoneNo", userRelativesDetailVoZ.getCellphoneNo());
+                UserBasic userBasic1 = userBasicService.selectByData(params);
+                if (userBasic1 != null){
+                    return false;
+                }
+                UserBasic userBasic = new UserBasic();
+                userBasic.setUserId(userId);
+                userBasic.setFullName(userRelativesDetailVoZ.getRelativeName());
+                userBasic.setGender(userRelativesDetailVoZ.getUrGender());
+                userBasic.setIdCardNo(userRelativesDetailVoZ.getIdCardNo());
+                userBasic.setCellphoneNo(userRelativesDetailVoZ.getCellphoneNo());
+                userBasic.setPassword("123456");
+                userBasic.setDateOfBirth(DateUtil.stringToDate(getYearMonthDayOfIdCard(userRelativesDetailVoZ.getIdCardNo()), DateUtil.DATE_PATTERN.YYYY_MM_DD));
+                userBasic.setRegistrationTime(new Date());
+                userBasic.setCreationTime(new Date());
+                if (userBasicService.save(userBasic)){
+                    return true;
+                }
+//            }
+        }
+        return false;
+    }
+
+    @Override
+    @Transactional
     public boolean deleteUserRelatives(UserRelatives userRelatives1, UserRelativesDetailVoZ userRelativesDetailVoZ) {
         userRelatives1.setIsDeleted(1);
         if (userRelativesService.updateById(userRelatives1)){
