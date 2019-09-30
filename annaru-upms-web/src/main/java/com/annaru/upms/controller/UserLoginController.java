@@ -79,9 +79,10 @@ public class UserLoginController extends BaseController {
     @PostMapping("/loginInfo")
     @RequiresPermissions("upms/userLogin/loginInfo")
     public ResultMap loginInfo(String cellphoneNo, String password, String type, String loginType, String kaptcha, String openid, String isHr){
-        // 先直接短信判断为123
-        redisService.set(cellphoneNo, kaptcha);
-
+        if (StringUtil.isNotBlank(loginType) && ("1".equals(loginType) || "2".equals(loginType))){
+            // 先直接短信判断为123
+            redisService.set(cellphoneNo, 123);
+        }
         UserBasic userBasic = null;
         String token = null;
         Map<String, Object> map = null;
