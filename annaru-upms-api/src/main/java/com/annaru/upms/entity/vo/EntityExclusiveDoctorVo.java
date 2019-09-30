@@ -55,8 +55,8 @@ public class EntityExclusiveDoctorVo implements Serializable {
     @TableField("effect_to")
     private Date effectTo;	// 结束时间
     private Integer restDay; //剩余天数
-    private int isAppraise; //是否评价
-
+    private Double userScore; //用的评价分数
+    private Double userStartCount; //用户的评价星级
 
     public String getDoctorNo() {
         return doctorNo;
@@ -66,12 +66,20 @@ public class EntityExclusiveDoctorVo implements Serializable {
         this.doctorNo = doctorNo;
     }
 
-    public int getIsAppraise() {
-        return isAppraise;
+    public Double getUserScore() {
+        return userScore;
     }
 
-    public void setIsAppraise(int isAppraise) {
-        this.isAppraise = isAppraise;
+    public void setUserScore(Double userScore) {
+        this.userScore = userScore;
+    }
+
+    public Double getUserStartCount() {
+        return userStartCount;
+    }
+
+    public void setUserStartCount(Double userStartCount) {
+        this.userStartCount = userStartCount;
     }
 
     public String getEntityId() {

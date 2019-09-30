@@ -5,8 +5,9 @@
 
 	<!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.annaru.upms.entity.vo.EntityExclusiveDoctorVo" >
-        <result column="entity_id" property="entityId" />
+        <result column="entity_no" property="entityId" />
         <result column="doctor_name" property="doctorName" />
+        <result column="related_no" property="doctorNo" />
         <result column="degrees" property="degrees" />
         <result column="name" property="name" />
         <result column="level" property="level" />
@@ -17,36 +18,41 @@
         <result column="goodat" property="goodat" />
         <result column="content" property="content" />
         <result column="cellphone_no" property="cellphoneNo" />
+        <result column="userScore" property="userScore" />
+        <result column="userStartCount" property="userStartCount" />
         <result column="effect_from" property="effectFrom" />
         <result column="effect_to" property="effectTo" />
         <result column="restDay" property="restDay" />
-        <result column="isAppraise" property="isAppraise" />
 
     </resultMap>
 
     <!-- 专属医生信息查询 -->
     <select id="selectExclusiveDoctor" parameterType="string" resultMap="BaseResultMap">
-      SELECT
-            eed.entity_id,
-			sd.doctor_no,
-			sd.doctor_name,-- 医生姓名
-			sd.degrees,-- 医生称谓
-			si.name,-- 所属医院
-			si.level,-- 等级
-			sd.belong_office,-- 所属科室
-			sd.star_count,-- 星级
-			sd.score,-- 评分
-			sd.focus_on, -- 专注于
-			sd.goodat, -- 擅长
-			sd.content,-- 简介
-			sd.cellphone_no,-- 联系电话
-			eed.effect_from,-- 开始时间
-			eed.effect_to,	-- 结束时间
-			DATEDIFF(eed.effect_to,NOW()) as restDay
-      FROM entity_exclusive_doctor as eed
-      LEFT JOIN sys_doctor as sd ON eed.doctor_no=sd.doctor_no
-      LEFT JOIN sys_institution as si ON si.institution_id=sd.belong_institution
-      WHERE    eed.entity_id=#{entityId}  and eed.effect_to>NOW() and eed.cates=2
+     select
+	    eha.entity_no, -- 企业编号
+	    sd.doctor_name,-- 医生姓名
+	    eha.related_no, -- 医生编号
+	    sd.degrees,-- 医生称谓
+	    si.name,-- 所属医院
+	    si.level,-- 等级
+	    sd.belong_office,-- 所属科室
+	    sd.star_count,-- 星级
+	    sd.score,-- 医生总评分
+	    sd.focus_on, -- 专注于
+	    sd.goodat, -- 擅长
+	    sd.content,-- 简介
+	    sd.cellphone_no,-- 联系电话
+	    sa.scores as userScore, -- 用户打的分数
+	    sa.star_count as userStartCount, -- 用户打的星级
+	    eed.effect_from,-- 开始时间
+	    eed.effect_to,	-- 结束时间
+	    DATEDIFF(eed.effect_to,NOW()) as restDay
+    from entity_healthy_appointment as eha
+        LEFT JOIN sys_doctor as sd ON eha.related_no=sd.doctor_no
+        LEFT JOIN sys_institution as si ON si.institution_id=eha.institution_id
+        LEFT JOIN entity_exclusive_doctor as eed ON eed.doctor_no=eha.related_no
+        LEFT JOIN sys_appraisal as sa ON sa.user_id=eha.user_id
+        where eha.user_id=#{userId} and eha.entity_no=eed.entity_id and is_terminated=0 and eed.effect_to>NOW()
     </select>
 
 </mapper>
