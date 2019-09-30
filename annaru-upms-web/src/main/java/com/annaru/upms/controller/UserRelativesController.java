@@ -4,9 +4,11 @@ import java.util.*;
 
 import com.annaru.upms.controllerutil.SysConfigUtil;
 import com.annaru.upms.entity.SysConfig;
+import com.annaru.upms.entity.UserBasic;
 import com.annaru.upms.entity.vo.UserRelativesDetailVoZ;
 import com.annaru.upms.entity.vo.UserRelativesVoZ;
 import com.annaru.upms.service.ISysConfigService;
+import com.annaru.upms.service.IUserBasicService;
 import jodd.util.StringUtil;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import com.alibaba.dubbo.config.annotation.Reference;
@@ -22,6 +24,7 @@ import com.annaru.common.result.ResultMap;
 import com.annaru.upms.entity.UserRelatives;
 import com.annaru.upms.service.IUserRelativesService;
 
+import javax.annotation.Resource;
 import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
@@ -42,6 +45,8 @@ public class UserRelativesController extends BaseController {
     private IUserRelativesService userRelativesService;
     @Reference
     private ISysConfigService iSysConfigService; //系统配置表
+    @Reference
+    private IUserBasicService userBasicService;
 
     /**
      * 列表
@@ -181,18 +186,31 @@ public class UserRelativesController extends BaseController {
     @ApiOperation(value = "保存")
     @PostMapping("/save")
     @RequiresPermissions("upms/userRelatives/save")
-    public ResultMap save(@Valid @RequestBody UserRelatives userRelatives) {
+    public ResultMap save(@Valid @RequestBody UserRelativesDetailVoZ userRelativesDetailVoZ) {
         try {
-            SysConfig sysConfig = SysConfigUtil.getSysConfig(iSysConfigService , SysConfigUtil.RELATIVENO);
-            userRelatives.setRelativeId(SysConfigUtil.getNoBySysConfig());
-
-            userRelatives.setCreationTime(new Date());
-            boolean save = userRelativesService.save(userRelatives);
-
-            if (save=true){
-                SysConfigUtil.saveRefNo(sysConfig.getRefNo());
+            Map<String, Object> params = new HashMap<>();
+            params.put("cellphoneNo", userRelativesDetailVoZ.getCellphoneNo());
+            UserBasic userBasic1 = userBasicService.selectByData(params);
+            if (userBasic1 != null){
+                return ResultMap.error("改手机号已存在！");
             }
-            return ResultMap.ok("添加成功");
+            List<UserRelatives> userRelatives1 = userRelativesService.getUserRelativesList(userRelativesDetailVoZ.getUserId());
+            if (userRelatives1 != null && userRelatives1.size() >= 3){
+                return ResultMap.error("该用户已有三条亲属！");
+            }
+            SysConfig sysConfig = SysConfigUtil.getSysConfig(iSysConfigService, SysConfigUtil.RELATIVENO);
+            String relativeId = SysConfigUtil.getNoBySysConfig();
+            if (SysConfigUtil.saveRefNo(sysConfig)){
+                SysConfig sysConfig1 = SysConfigUtil.getSysConfig(iSysConfigService, SysConfigUtil.USERNO);
+                String userId = SysConfigUtil.getNoBySysConfig();
+                if (SysConfigUtil.saveRefNo(sysConfig1)){
+                    if (userRelativesService.saveUserRelatives1(userRelativesDetailVoZ, relativeId, userId)){
+                        return ResultMap.ok("添加成功");
+                    }
+                }
+            }
+
+            return ResultMap.error("运行异常，请联系管理员");
         } catch (Exception e) {
             logger.error(e.getMessage());
             return ResultMap.error("运行异常，请联系管理员");
