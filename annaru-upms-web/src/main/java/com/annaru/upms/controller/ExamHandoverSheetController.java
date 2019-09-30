@@ -2,6 +2,7 @@ package com.annaru.upms.controller;
 
 import java.util.*;
 
+import com.annaru.upms.service.IOrderMainService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import com.alibaba.dubbo.config.annotation.Reference;
 import org.springframework.web.bind.annotation.*;
@@ -32,6 +33,8 @@ import javax.validation.Valid;
 public class ExamHandoverSheetController extends BaseController {
     @Reference
     private IExamHandoverSheetService examHandoverSheetService;
+    @Reference
+    private IOrderMainService orderMainService;
 
     /**
      * 列表
@@ -81,7 +84,11 @@ public class ExamHandoverSheetController extends BaseController {
     public ResultMap updateExamHandoverSheetByOrderNo(@RequestBody ExamHandoverSheet examHandoverSheet) {
         try {
             examHandoverSheet.setHandoverTime(new Date());
-            examHandoverSheetService.updateExamHandoverSheetByOrderNo(examHandoverSheet);
+            int i = examHandoverSheetService.updateExamHandoverSheetByOrderNo(examHandoverSheet);
+            //上传完 修改订单状态 为已完成
+            if(i>0){
+                orderMainService.updateOrderStatus(examHandoverSheet.getOrderNo());
+            }
             return ResultMap.ok("上传成功");
         } catch (Exception e) {
             logger.error(e.getMessage());

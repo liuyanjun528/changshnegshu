@@ -225,6 +225,7 @@ public class UserRelativesController extends BaseController {
     @RequiresPermissions("upms/userRelatives/update")
     public ResultMap update(@Valid @RequestBody UserRelatives userRelatives) {
         try {
+            userRelatives.setEditTime(new Date());
             userRelativesService.updateById(userRelatives);
             return ResultMap.ok("修改成功");
         } catch (Exception e) {

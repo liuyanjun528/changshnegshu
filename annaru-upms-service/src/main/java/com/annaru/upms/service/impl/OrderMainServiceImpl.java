@@ -243,4 +243,9 @@ public class OrderMainServiceImpl extends ServiceImpl<OrderMainMapper, OrderMain
     public List<OrderMain> selectOrderNonPayment() {
         return this.baseMapper.selectOrderNonPayment();
     }
+
+    @Override
+    public int updateOrderStatus(String orderNo) {
+        return this.baseMapper.updateOrderStatus(orderNo);
+    }
 }

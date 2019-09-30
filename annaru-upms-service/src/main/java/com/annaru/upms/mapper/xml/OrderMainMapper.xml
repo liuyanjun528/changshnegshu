@@ -722,4 +722,8 @@
             AND creationtime &lt; DATE_ADD(NOW(), INTERVAL -30 MINUTE)
     </select>
 
+    <update id="updateOrderStatus">
+        UPDATE order_main SET status=2 WHERE order_no=#{orderNo}
+    </update>
+
 </mapper>
