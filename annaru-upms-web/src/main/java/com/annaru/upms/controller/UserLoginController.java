@@ -81,7 +81,7 @@ public class UserLoginController extends BaseController {
     public ResultMap loginInfo(String cellphoneNo, String password, String type, String loginType, String kaptcha, String openid, String isHr){
         if (StringUtil.isNotBlank(loginType) && ("1".equals(loginType) || "2".equals(loginType))){
             // 先直接短信判断为123
-            redisService.set(cellphoneNo, 123);
+            redisService.set(cellphoneNo, "123");
         }
         UserBasic userBasic = null;
         String token = null;
