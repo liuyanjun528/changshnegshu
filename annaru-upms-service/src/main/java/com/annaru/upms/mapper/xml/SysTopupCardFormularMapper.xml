@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.annaru.upms.mapper.SysTopupCardFormularMapper">
+
+	<!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.annaru.upms.entity.SysTopupCardFormular" >
+        <result column="sys_id" property="sysId" />
+        <result column="cates" property="cates" />
+        <result column="descr" property="descr" />
+        <result column="formular_value" property="formularValue" />
+        <result column="seq_no" property="seqNo" />
+        <result column="is_active" property="isActive" />
+        <result column="remark" property="remark" />
+    </resultMap>
+
+    <sql id="BaseClounmSql">
+          sys_id,
+          cates,
+          descr,
+          formular_value,
+          seq_no,
+          is_active,
+          remark
+    </sql>
+
+    <!-- 多表页面信息查询分页 -->
+    <select id="selectDataPage" parameterType="map" resultMap="BaseResultMap">
+
+        SELECT
+            <include refid="BaseClounmSql"></include>
+        FROM
+            sys_topup_card_formular
+
+    </select>
+
+</mapper>
