@@ -107,7 +107,7 @@
     </select>
 
     <delete id="DeleteRelative">
-        delete from user_relatives where user_id=#{userId} and relative_id=#{relativeId}
+        delete from user_relatives where ref_no=#{userId} and relative_id=#{relativeId}
     </delete>
 
 </mapper>
