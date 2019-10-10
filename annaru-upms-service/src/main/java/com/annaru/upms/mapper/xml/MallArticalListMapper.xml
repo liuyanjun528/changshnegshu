@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.annaru.upms.mapper.MallArticalListMapper">
+
+	<!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.annaru.upms.entity.MallArticalList" >
+        <result column="sys_id" property="sysId" />
+        <result column="image_url" property="imageUrl" />
+        <result column="title" property="title" />
+        <result column="content" property="content" />
+        <result column="number_of_reader" property="numberOfReader" />
+        <result column="number_of_fans" property="numberOfFans" />
+        <result column="is_active" property="isActive" />
+        <result column="creation_time" property="creationTime" />
+        <result column="remark" property="remark" />
+    </resultMap>
+
+    <resultMap id="BaseResultMapExtends" type="com.annaru.upms.entity.vo.MallArticalFansLogExtends" >
+        <result column="sys_id" property="sysId" />
+        <result column="image_url" property="imageUrl" />
+        <result column="title" property="title" />
+        <result column="content" property="content" />
+        <result column="number_of_reader" property="numberOfReader" />
+        <result column="number_of_fans" property="numberOfFans" />
+        <result column="is_active" property="isActive" />
+        <result column="creation_time" property="creationTime" />
+        <result column="remark" property="remark" />
+        <result column="countMaflSysId" property="countMaflSysId" />
+    </resultMap>
+    
+    <sql id="BaseClounmSql">
+          sys_id,
+          image_url,
+          title,
+          content,
+          number_of_reader,
+          number_of_fans,
+          is_active,
+          creation_time,
+          remark
+    </sql>
+
+    <!-- 多表页面信息查询分页 -->
+    <select id="selectDataPage" parameterType="map" resultMap="BaseResultMap">
+
+        SELECT
+            <include refid="BaseClounmSql"></include>
+        FROM
+            mall_artical_list
+
+    </select>
+
+    <select id="selectAll" resultMap="BaseResultMap">
+        select
+        <include refid="BaseClounmSql"></include>
+        FROM mall_artical_list
+        WHERE is_active = 1
+    </select>
+
+    <select id="mallArticalDetail" parameterType="map" resultMap="BaseResultMapExtends">
+        SELECT
+          <include refid="BaseClounmSql"></include>
+          ,countMaflSysId
+        FROM mall_artical_list mal
+        LEFT JOIN (
+            SELECT mafl.artical_sysid, COUNT(mafl.sys_id) countMaflSysId FROM mall_artical_fans_log mafl
+            WHERE 1 = 1
+            <if test="params.userId != null and params.userId != ''">
+                AND mafl.user_id = #{params.userId}
+            </if>
+        ) ml ON ml.artical_sysid = mal.sys_id
+        WHERE is_active = 1
+        <if test="params.sysId != null">
+            AND mal.sys_id = #{params.sysId}
+        </if>
+    </select>
+
+    <update id="updateMallArticalByMallArtical" parameterType="com.annaru.upms.entity.MallArticalList">
+        UPDATE mall_artical_list
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="mallArticalList.imageUrl != null and mallArticalList.imageUrl != ''">
+                image_url = #{mallArticalList.imageUrl},
+            </if>
+            <if test="mallArticalList.title != null and mallArticalList.title != ''">
+                title = #{mallArticalList.title},
+            </if>
+            <if test="mallArticalList.content != null and mallArticalList.content != ''">
+                content = #{mallArticalList.content},
+            </if>
+            <if test="mallArticalList.numberOfReader != null and mallArticalList.numberOfReader != ''">
+                number_of_reader = #{mallArticalList.numberOfReader},
+            </if>
+            <if test="mallArticalList.numberOfFans != null and mallArticalList.numberOfFans != ''">
+                number_of_fans = #{mallArticalList.numberOfFans},
+            </if>
+            <if test="mallArticalList.isActive != null and mallArticalList.isActive != ''">
+                is_active = #{mallArticalList.isActive},
+            </if>
+            <if test="mallArticalList.remark != null and mallArticalList.remark != ''">
+                remark = #{mallArticalList.remark},
+            </if>
+        </trim>
+        WHERE 1 = 1
+        <if test="mallArticalList.sysId != null">
+            sys_id = #{mallArticalList.sysId}
+        </if>
+    </update>
+
+</mapper>
