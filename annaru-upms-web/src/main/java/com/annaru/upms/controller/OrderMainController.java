@@ -314,4 +314,33 @@ public class OrderMainController extends BaseController {
         return ResultMap.ok().put("data",orderMains);
     }
 
+    /**
+      * @Description:Hpv下单
+      * @Author: wh
+      * @Date: 2019/10/10 15:52
+      */
+    @ApiOperation(value = "Hpv下单")
+    @PostMapping("/saveHpvOrder")
+    @RequiresPermissions("upms/orderMain/saveHpvOrder")
+    public ResultMap saveHpvOrder(@Valid @RequestBody OrderMain orderMain) {
+        try {
+            SysConfig sysConfig = SysConfigUtil.getSysConfig(iSysConfigService, SysConfigUtil.ORDERNO);
+            orderMain.setOrderNo(SysConfigUtil.getNoBySysConfig());
+            orderMain.setOrderCates(7);
+            orderMain.setUserChannel("长生树APP");
+            orderMain.setOrderTime(new Date());
+            orderMain.setCreationtime(orderMain.getOrderTime());
+            boolean save = orderMainService.save(orderMain);
+            if (save) {
+                SysConfigUtil.saveRefNo(sysConfig.getRefNo());
+            }
+            return ResultMap.ok("Hpv下单成功").put("data", orderMain.getOrderNo());
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return ResultMap.error("运行异常，请联系管理员");
+        }
+    }
+
+
+
 }

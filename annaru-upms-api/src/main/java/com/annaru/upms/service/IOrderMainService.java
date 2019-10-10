@@ -136,5 +136,12 @@ public interface IOrderMainService extends IService<OrderMain> {
      */
     int updateOrderStatus(String orderNo);
 
+    /**
+     * @Description:Hpv下单
+     * @Author: wh
+     * @Date: 2019/10/10 15:55
+     */
+    int insertHpvOrder(OrderMain orderMain);
+
 }
 
