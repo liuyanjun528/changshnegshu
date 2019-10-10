@@ -248,4 +248,9 @@ public class OrderMainServiceImpl extends ServiceImpl<OrderMainMapper, OrderMain
     public int updateOrderStatus(String orderNo) {
         return this.baseMapper.updateOrderStatus(orderNo);
     }
+
+    @Override
+    public int insertHpvOrder(OrderMain orderMain) {
+        return this.baseMapper.insertHpvOrder(orderMain);
+    }
 }
