@@ -1,6 +1,8 @@
 package com.annaru.upms.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.annaru.common.constants.TopupCardEnum;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -24,10 +26,12 @@ import java.util.Map;
 public class SysTopupCardFormularServiceImpl extends ServiceImpl<SysTopupCardFormularMapper, SysTopupCardFormular> implements ISysTopupCardFormularService {
 
     @Override
-    public PageUtils getDataPage(Map<String, Object> params){
-        Page<SysTopupCardFormular> page = new PageUtils<SysTopupCardFormular>(params).getPage();
-        IPage<SysTopupCardFormular> iPage = this.baseMapper.selectDataPage(page, params);
-        return new PageUtils<SysTopupCardFormular>(iPage);
+    public List<SysTopupCardFormular> listFormular(int cates) {
+        QueryWrapper<SysTopupCardFormular> qw = new QueryWrapper<>();
+        qw.eq("cates", cates);
+        qw.eq("is_active", TopupCardEnum.CardIsActive.ACTIVE.getValue());
+        qw.select("sys_id","descr");
+        qw.orderByAsc("seq_no");
+        return this.baseMapper.selectList(qw);
     }
-
 }

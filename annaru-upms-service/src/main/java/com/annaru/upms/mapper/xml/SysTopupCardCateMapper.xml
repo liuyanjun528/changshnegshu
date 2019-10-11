@@ -18,6 +18,13 @@
         <result column="sell_count" property="sellCount" />
         <result column="is_active" property="isActive" />
     </resultMap>
+    <!-- 商城充值卡（列表） -->
+    <resultMap id="BaseResultMapList" type="com.annaru.upms.entity.SysTopupCardCate" >
+        <result column="sys_id" property="sysId" />
+        <result column="image_url" property="imageUrl" />
+        <result column="sell_price" property="sellPrice" />
+        <result column="sell_count" property="sellCount" />
+    </resultMap>
 
     <sql id="BaseClounmSql">
           sys_id,
@@ -34,13 +41,20 @@
           is_active
     </sql>
 
-    <!-- 多表页面信息查询分页 -->
-    <select id="selectDataPage" parameterType="map" resultMap="BaseResultMap">
+    <!-- 商城充值卡（列表） -->
+    <select id="selectDataPage" parameterType="map" resultMap="BaseResultMapList">
 
         SELECT
-            <include refid="BaseClounmSql"></include>
+            sys_id,
+          image_url,
+          sell_price,
+          sell_count
         FROM
             sys_topup_card_cate
+        <where>
+            card_cates = 1
+            AND is_active = 1
+        </where>
 
     </select>
 
