@@ -726,4 +726,11 @@
         UPDATE order_main SET status=2 WHERE order_no=#{orderNo}
     </update>
 
+    <insert id="insertHpvOrder">
+        insert into order_main
+                (order_no,reference_no,total_qty,user_id,order_cates,amount,creationtime,order_time)
+        VALUES
+                (#{orderNo},#{referenceNo},#{totalQty},#{userId},#{orderCates},#{amount},#{creationtime},#{orderTime})
+    </insert>
+
 </mapper>

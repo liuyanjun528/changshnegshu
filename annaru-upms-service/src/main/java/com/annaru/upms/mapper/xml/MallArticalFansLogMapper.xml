@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.annaru.upms.mapper.MallArticalFansLogMapper">
+
+	<!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.annaru.upms.entity.MallArticalFansLog" >
+        <result column="sys_id" property="sysId" />
+        <result column="artical_sysid" property="articalSysid" />
+        <result column="user_id" property="userId" />
+        <result column="creation_time" property="creationTime" />
+    </resultMap>
+    
+    <sql id="BaseClounmSql">
+          sys_id,
+          artical_sysid,
+          user_id,
+          creation_time
+    </sql>
+
+    <!-- 多表页面信息查询分页 -->
+    <select id="selectDataPage" parameterType="map" resultMap="BaseResultMap">
+
+        SELECT
+            <include refid="BaseClounmSql"></include>
+        FROM
+            mall_artical_fans_log
+
+    </select>
+
+    <select id="getOneByMallArticalFansLog" parameterType="com.annaru.upms.entity.MallArticalList" resultMap="BaseResultMap">
+        SELECT
+          <include refid="BaseClounmSql"></include>
+        FROM mall_artical_fans_log
+        WHERE 1 = 1
+        <if test="mallArticalFansLog.articalSysid != null">
+            AND artical_sysid = #{mallArticalFansLog.articalSysid}
+        </if>
+        <if test="mallArticalFansLog.userId != null and mallArticalFansLog.userId != ''">
+            AND user_id = #{mallArticalFansLog.userId}
+        </if>
+    </select>
+
+    <delete id="cancelPraise"  parameterType="com.annaru.upms.entity.MallArticalList">
+        DELETE FROM mall_artical_fans_log
+        WHERE 1 = 1
+        <if test="mallArticalFansLog.articalSysid != null">
+            AND artical_sysid = #{mallArticalFansLog.articalSysid}
+        </if>
+        <if test="mallArticalFansLog.userId != null and mallArticalFansLog.userId != ''">
+            AND user_id = #{mallArticalFansLog.userId}
+        </if>
+    </delete>
+
+</mapper>
