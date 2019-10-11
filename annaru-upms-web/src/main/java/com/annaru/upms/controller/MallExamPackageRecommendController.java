@@ -2,6 +2,7 @@ package com.annaru.upms.controller;
 
 import java.util.*;
 
+import com.annaru.upms.entity.vo.MallExamPackageRecommendExtends;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import com.alibaba.dubbo.config.annotation.Reference;
 import org.springframework.web.bind.annotation.*;
@@ -63,8 +64,8 @@ public class MallExamPackageRecommendController extends BaseController {
     @ApiOperation(value = "根据条件查询商城推荐产品 / 查询所有的")
     @GetMapping("/listAll")
     public ResultMap listAll(){
-        List<MallExamPackageRecommend> mallExamPackageRecommend = mallExamPackageRecommendService.selectAll();
-        return ResultMap.ok().put("data",mallExamPackageRecommend);
+        List<MallExamPackageRecommendExtends> mallExamPackageRecommendExtends = mallExamPackageRecommendService.selectAll();
+        return ResultMap.ok().put("data",mallExamPackageRecommendExtends);
     }
 
 

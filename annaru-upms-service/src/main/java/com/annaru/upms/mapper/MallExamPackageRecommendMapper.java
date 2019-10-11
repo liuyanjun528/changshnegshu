@@ -1,6 +1,7 @@
 package com.annaru.upms.mapper;
 
 import com.annaru.upms.entity.MallExamPackageRecommend;
+import com.annaru.upms.entity.vo.MallExamPackageRecommendExtends;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -28,6 +29,6 @@ public interface MallExamPackageRecommendMapper extends BaseMapper<MallExamPacka
      * @Author: zxk
      * @Date: 2019/10/10
      */
-    List<MallExamPackageRecommend> selectAll();
+    List<MallExamPackageRecommendExtends> selectAll();
 
 }

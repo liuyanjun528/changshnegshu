@@ -1,5 +1,6 @@
 package com.annaru.upms.service;
 
+import com.annaru.upms.entity.vo.MallExamPackageRecommendExtends;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.annaru.common.result.PageUtils;
 import com.annaru.upms.entity.MallExamPackageRecommend;
@@ -25,7 +26,7 @@ public interface IMallExamPackageRecommendService extends IService<MallExamPacka
      * @Author: zxk
      * @Date: 2019/10/10
      */
-    List<MallExamPackageRecommend> selectAll();
+    List<MallExamPackageRecommendExtends> selectAll();
 
 
 }

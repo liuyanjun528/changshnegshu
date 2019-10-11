@@ -1,6 +1,7 @@
 package com.annaru.upms.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.annaru.upms.entity.vo.MallExamPackageRecommendExtends;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -31,7 +32,7 @@ public class MallExamPackageRecommendServiceImpl extends ServiceImpl<MallExamPac
     }
 
     @Override
-    public List<MallExamPackageRecommend> selectAll() {
+    public List<MallExamPackageRecommendExtends> selectAll() {
         return this.baseMapper.selectAll();
     }
 
