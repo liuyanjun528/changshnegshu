@@ -2,17 +2,17 @@ package com.annaru.upms.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.annaru.common.result.PageUtils;
-import com.annaru.upms.entity.SysTopupCardCate;
+import com.annaru.upms.entity.ExamHpvAgreement;
 import java.util.List;
 import java.util.Map;
 
 /**
- * 充值\套餐卡类别
+ * HPV条款
  *
- * @author jyehui
- * @date 2019-10-10 16:48:08
+ * @author wh
+ * @date 2019-10-11 09:35:38
  */
-public interface ISysTopupCardCateService extends IService<SysTopupCardCate> {
+public interface IExamHpvAgreementService extends IService<ExamHpvAgreement> {
 
     /**
     * 多表页面信息查询
@@ -20,13 +20,6 @@ public interface ISysTopupCardCateService extends IService<SysTopupCardCate> {
     * @return
     */
     PageUtils getDataPage(Map<String, Object> params);
-
-    /**
-     * 充值卡详情
-     * @param sysId
-     * @return
-     */
-    SysTopupCardCate detail(int sysId);
 
 
 }

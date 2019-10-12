@@ -1,6 +1,7 @@
 package com.annaru.upms.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -30,4 +31,11 @@ public class SysTopupCardCateServiceImpl extends ServiceImpl<SysTopupCardCateMap
         return new PageUtils<SysTopupCardCate>(iPage);
     }
 
+    @Override
+    public SysTopupCardCate detail(int sysId) {
+        QueryWrapper<SysTopupCardCate> qw = new QueryWrapper<>();
+        qw.eq("sys_id", sysId);
+        qw.select("sys_id", "image_url", "title", "sub_title");
+        return this.baseMapper.selectOne(qw);
+    }
 }

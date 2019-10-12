@@ -157,5 +157,12 @@ public interface IOrderMainService extends IService<OrderMain> {
      */
     int insertHpvOrder(OrderMain orderMain);
 
+    /**
+     * @Description:Hpv疫苗预约
+     * @Author: wh
+     * @Date: 2019/10/11 10:59
+     */
+    int insertHpvAppointment(OrderMain orderMain);
+
 }
 

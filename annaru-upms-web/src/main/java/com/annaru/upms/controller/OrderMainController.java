@@ -7,10 +7,7 @@ import com.annaru.common.result.ResultMap;
 import com.annaru.common.util.Constant;
 import com.annaru.upms.controllerutil.SysConfigUtil;
 import com.annaru.upms.entity.*;
-import com.annaru.upms.entity.vo.OrderMainVoSumByStatusZ;
-import com.annaru.upms.entity.vo.OrderMainVoZMzlt;
-import com.annaru.upms.entity.vo.OrderMainVoZTC;
-import com.annaru.upms.entity.vo.OrderMainVoZZF;
+import com.annaru.upms.entity.vo.*;
 import com.annaru.upms.service.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -44,6 +41,11 @@ public class OrderMainController extends BaseController {
     private ISysMessageTemplateService sysMessageTemplateService;
     @Reference
     private IUserBasicService userBasicService;
+    @Reference
+    private IExamPackageAppendService examPackageAppendService;
+    @Reference
+    private IOrderDetailService orderDetailService;
+
 
     /**
      * 保存Toc下订单
@@ -371,6 +373,23 @@ public class OrderMainController extends BaseController {
             orderMain.setOrderTime(new Date());
             orderMain.setCreationtime(orderMain.getOrderTime());
             boolean save = orderMainService.save(orderMain);
+
+            //根据套餐编号查询 如果有赠送服务
+            List<AppendOrderMain> appendOrderMains = orderMainService.selectAppendByOrderNo(orderMain.getOrderNo());
+            if (save && null!=appendOrderMains ) {
+                List<ExamPackageAppend> examPackageAppends = examPackageAppendService.selectExamName(Integer.parseInt(orderMain.getReferenceNo()));
+                OrderDetail detail = new OrderDetail();
+                detail.setCreationtime(orderMain.getCreationtime());
+                for (ExamPackageAppend exam : examPackageAppends) {
+                    detail.setAppendId(exam.getAppendId());
+                    detail.setTotalCount(exam.getPeriods());
+                    detail.setRestCount(exam.getPeriods());
+                    detail.setCreationtime(orderMain.getOrderTime());
+                    detail.setOrderNo(orderMain.getOrderNo());
+                    orderDetailService.insertOrderDetail(detail);//添订单详情表
+                }
+            }
+
             if (save) {
                 SysConfigUtil.saveRefNo(sysConfig.getRefNo());
             }
@@ -381,6 +400,29 @@ public class OrderMainController extends BaseController {
         }
     }
 
+    /**
+      * @Description:Hpv疫苗预约
+      * @Author: wh
+      * @Date: 2019/10/11 11:39
+      */
+    @ApiOperation(value = "Hpv疫苗预约")
+    @PostMapping("/saveHpvAppointMent")
+    @RequiresPermissions("upms/orderMain/saveHpvAppointMent")
+    public ResultMap saveHpvAppointMent(@Valid @RequestBody OrderMain orderMain) {
+        try {
+            SysConfig sysConfig = SysConfigUtil.getSysConfig(iSysConfigService, SysConfigUtil.ORDERNO);
+            orderMain.setOrderNo(SysConfigUtil.getNoBySysConfig());
+            int i = orderMainService.insertHpvAppointment(orderMain);
+            if (i>0) {
+                SysConfigUtil.saveRefNo(sysConfig.getRefNo());
+                return ResultMap.ok("Hpv疫苗预约成功").put("data", orderMain.getOrderNo());
+            }
+            return ResultMap.error("运行异常，请联系管理员");
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return ResultMap.error("运行异常，请联系管理员");
+        }
+    }
 
 
 }

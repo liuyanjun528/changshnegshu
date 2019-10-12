@@ -3,10 +3,7 @@ package com.annaru.upms.service.impl;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.annaru.common.exception.GlobalException;
 import com.annaru.common.result.PageUtils;
-import com.annaru.upms.entity.ExamPackageAppend;
-import com.annaru.upms.entity.OrderDetail;
-import com.annaru.upms.entity.OrderMain;
-import com.annaru.upms.entity.UserRelatives;
+import com.annaru.upms.entity.*;
 import com.annaru.upms.entity.vo.*;
 import com.annaru.upms.mapper.OrderMainMapper;
 import com.annaru.upms.service.*;
@@ -41,6 +38,10 @@ public class OrderMainServiceImpl extends ServiceImpl<OrderMainMapper, OrderMain
     private IOrderCustomerService orderCustomerService;
     @Autowired
     private IUserRelativesService userRelativesService;
+    @Autowired
+    private IOrderAppointmentService orderAppointmentService;
+    @Autowired
+    private IOrderAdditionalInfoService orderAdditionalInfoService;
 
 
     @Override
@@ -266,5 +267,42 @@ public class OrderMainServiceImpl extends ServiceImpl<OrderMainMapper, OrderMain
     @Override
     public int insertHpvOrder(OrderMain orderMain) {
         return this.baseMapper.insertHpvOrder(orderMain);
+    }
+
+    @Override
+    @Transactional
+    public int insertHpvAppointment(OrderMain orderMain) {
+        int i=0;
+        try {
+            //添加订单主表
+            orderMain.setOrderCates(7);
+            orderMain.setUserChannel("长生树APP");
+            orderMain.setCreationtime(new Date());
+            orderMain.setOrderTime(orderMain.getCreationtime());
+            i = this.baseMapper.insertHpvAppointment(orderMain);
+
+            if(i>0){    //添加预约表
+                OrderAppointment oa=new OrderAppointment();
+                oa.setOrderNo(orderMain.getOrderNo());
+                oa.setUserId(orderMain.getUserId());
+                oa.setAddress(orderMain.getOrderAppointment().getAddress());
+                oa.setAppointmentCates(orderMain.getOrderCates());
+                oa.setCreationTime(orderMain.getOrderTime());
+                boolean save = orderAppointmentService.save(oa);
+
+                if(save){   //添加预约其他信息表
+                    OrderAdditionalInfo oai=new OrderAdditionalInfo();
+                    oai.setOrderNo(orderMain.getOrderNo());
+                    oai.setOption1(orderMain.getOrderAdditionalInfo().getOption1());
+                    oai.setAppointmentCates(orderMain.getOrderCates());
+                    oai.setAmount(orderMain.getAmount());
+                    oai.setCreationTime(orderMain.getOrderTime());
+                    orderAdditionalInfoService.save(oai);
+                }
+            }
+             } catch (Exception e) {
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+        }
+        return i;
     }
 }

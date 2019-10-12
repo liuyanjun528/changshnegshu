@@ -672,7 +672,7 @@
         (om.order_cates = 3 or om.order_cates = 1)
         and oc.relative_id = #{params.userId}
         and om.is_deleted = 0
-        and om.`status` = 2
+        and om.`status` = 1
         <if test="params.orderNo != null and params.orderNo != ''">
             AND om.order_no = #{params.orderNo}
         </if>
@@ -700,7 +700,7 @@
         (om.order_cates = 3 or om.order_cates = 1)
         and oc.relative_id = #{params.userId}
         and om.is_deleted = 0
-        and om.`status` = 2
+        and om.`status` = 1
         GROUP BY order_no
         ORDER BY oa.creation_time DESC
     </select>
@@ -767,6 +767,14 @@
                 (order_no,reference_no,total_qty,user_id,order_cates,amount,creationtime,order_time)
         VALUES
                 (#{orderNo},#{referenceNo},#{totalQty},#{userId},#{orderCates},#{amount},#{creationtime},#{orderTime})
+    </insert>
+
+    <!-- HPV疫苗预约 -->
+    <insert id="insertHpvAppointment">
+        insert into order_main
+                (order_no,cellphone_no,user_id,order_cates,amount,creationtime,order_time,user_channel)
+        VALUES
+                (#{orderNo},#{cellphoneNo},#{userId},#{orderCates},#{amount},#{creationtime},#{orderTime},#{userChannel})
     </insert>
 
 </mapper>
