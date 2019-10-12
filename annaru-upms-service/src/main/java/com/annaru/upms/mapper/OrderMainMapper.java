@@ -152,6 +152,13 @@ public interface OrderMainMapper extends BaseMapper<OrderMain> {
       * @Date: 2019/10/10 15:55
       */
     int insertHpvOrder(OrderMain orderMain);
+    /**
+      * @Description:Hpv疫苗预约
+      * @Author: wh
+      * @Date: 2019/10/11 10:59
+      */
+    int insertHpvAppointment(OrderMain orderMain);
+
 
 
 }

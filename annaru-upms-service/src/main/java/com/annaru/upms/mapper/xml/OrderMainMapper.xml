@@ -733,4 +733,12 @@
                 (#{orderNo},#{referenceNo},#{totalQty},#{userId},#{orderCates},#{amount},#{creationtime},#{orderTime})
     </insert>
 
+    <!-- HPV疫苗预约 -->
+    <insert id="insertHpvAppointment">
+        insert into order_main
+                (order_no,cellphone_no,user_id,order_cates,amount,creationtime,order_time,user_channel)
+        VALUES
+                (#{orderNo},#{cellphoneNo},#{userId},#{orderCates},#{amount},#{creationtime},#{orderTime},#{userChannel})
+    </insert>
+
 </mapper>

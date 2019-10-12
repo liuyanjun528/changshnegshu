@@ -139,6 +139,31 @@ public class OrderMain extends Model<OrderMain> implements Serializable {
 	@TableField(exist = false)
 	private UserFamilyDoctor userFamilyDoctor;
 
+	@ApiModelProperty(value = "订单预约表")
+	@TableField(exist = false)
+	private OrderAppointment orderAppointment;
+
+	@ApiModelProperty(value = "订单预约其他信息表")
+	@TableField(exist = false)
+	private OrderAdditionalInfo orderAdditionalInfo;
+
+
+	public OrderAppointment getOrderAppointment() {
+		return orderAppointment;
+	}
+
+	public void setOrderAppointment(OrderAppointment orderAppointment) {
+		this.orderAppointment = orderAppointment;
+	}
+
+	public OrderAdditionalInfo getOrderAdditionalInfo() {
+		return orderAdditionalInfo;
+	}
+
+	public void setOrderAdditionalInfo(OrderAdditionalInfo orderAdditionalInfo) {
+		this.orderAdditionalInfo = orderAdditionalInfo;
+	}
+
 	public UserFamilyDoctor getUserFamilyDoctor() {
 		return userFamilyDoctor;
 	}
@@ -227,6 +252,7 @@ public class OrderMain extends Model<OrderMain> implements Serializable {
 	 4:进阶体检预约(B端)
 	 5:家庭医生
 	 6.门诊绿通预约
+	 7.HPV
 	 */
 	public void setOrderCates(Integer orderCates) {
 		this.orderCates = orderCates;

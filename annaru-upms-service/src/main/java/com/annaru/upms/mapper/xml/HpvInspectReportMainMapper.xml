@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.annaru.upms.mapper.HpvInspectReportMainMapper">
+
+	<!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.annaru.upms.entity.HpvInspectReportMain" >
+        <result column="sys_id" property="sysId" />
+        <result column="order_no" property="orderNo" />
+        <result column="user_id" property="userId" />
+        <result column="sample_code" property="sampleCode" />
+        <result column="report_no" property="reportNo" />
+        <result column="collect_date" property="collectDate" />
+        <result column="receive_date" property="receiveDate" />
+        <result column="analyse_date" property="analyseDate" />
+        <result column="report_date" property="reportDate" />
+        <result column="report_url" property="reportUrl" />
+        <result column="classify_result" property="classifyResult" />
+        <result column="results" property="results" />
+        <result column="suggestions" property="suggestions" />
+        <result column="suggested_by" property="suggestedBy" />
+        <result column="suggest_time" property="suggestTime" />
+    </resultMap>
+
+    <resultMap id="BaseResultMap1" type="com.annaru.upms.entity.vo.HpvReportMainAndDetail" >
+        <result column="sample_code" property="sampleCode" />
+        <result column="report_date" property="reportDate" />
+        <result column="results" property="results" />
+        <result column="suggestions" property="suggestions" />
+        <result column="item_name" property="itemName" />
+        <result column="exam_result" property="examResult" />
+        <result column="other_info" property="otherInfo" />
+    </resultMap>
+
+
+    <!-- 多表页面信息查询分页 -->
+    <select id="selectDataPage" parameterType="map" resultMap="BaseResultMap">
+        SELECT
+            *
+        FROM
+            hpv_inspect_report_main
+    </select>
+
+    <select id="selectByOrderNo" parameterType="String" resultMap="BaseResultMap1">
+        SELECT
+		    hirm.sample_code,
+		    hirm.report_date,
+		    hirm.results,
+		    hirm.suggestions,
+		    hird.item_name,
+		    hird.exam_result,
+		    hird.other_info
+	FROM   hpv_inspect_report_main  as hirm
+    LEFT JOIN hpv_inspect_report_detail as hird ON hird.report_no=hirm.report_no
+         where hirm.order_no=#{orderNo}
+    </select>
+
+</mapper>
