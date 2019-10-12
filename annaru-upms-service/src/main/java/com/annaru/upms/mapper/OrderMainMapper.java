@@ -28,6 +28,20 @@ public interface OrderMainMapper extends BaseMapper<OrderMain> {
     IPage<OrderMain> selectDataPage(Page page, @Param("params") Map<String, Object> params);
 
     /**
+     * 未开票订单列表
+     * @author zk
+     * @date 2019/10/11
+     */
+    IPage<NotReceiptOrder> notReceiptList(Page page, @Param("params") Map<String, Object> params);
+
+    /**
+     * 开票订单查询（列表）
+     * @author zk
+     * @date 2019/10/12
+     */
+    IPage<NotReceiptOrder> receiptOrderSelectList(Page page, @Param("params") Map<String, Object> params);
+
+    /**
      * 多表页面信息查询 ，查询我的订单列表
      * @param page
      * @param params

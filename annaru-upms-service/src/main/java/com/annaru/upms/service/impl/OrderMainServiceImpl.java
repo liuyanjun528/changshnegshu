@@ -51,6 +51,20 @@ public class OrderMainServiceImpl extends ServiceImpl<OrderMainMapper, OrderMain
     }
 
     @Override
+    public PageUtils notReceiptList(Map<String, Object> params) {
+        Page<NotReceiptOrder> page = new PageUtils<NotReceiptOrder>(params).getPage();
+        IPage<NotReceiptOrder> iPage = this.baseMapper.notReceiptList(page, params);
+        return new PageUtils<NotReceiptOrder>(iPage);
+    }
+
+    @Override
+    public PageUtils receiptOrderSelectList(Map<String, Object> params) {
+        Page<NotReceiptOrder> page = new PageUtils<NotReceiptOrder>(params).getPage();
+        IPage<NotReceiptOrder> iPage = this.baseMapper.receiptOrderSelectList(page, params);
+        return new PageUtils<NotReceiptOrder>(iPage);
+    }
+
+    @Override
     public PageUtils selectOrderPage(Map<String, Object> params) {
         Page<OrderMainVoZDdlb> page = new PageUtils<OrderMainVoZDdlb>(params).getPage();
         IPage<OrderMainVoZDdlb> iPage = this.baseMapper.selectOrderPage(page, params);

@@ -49,13 +49,13 @@
     </select>
 
     <select id="selectAll" resultMap="BaseResultMapExtends">
-        select
+        SELECT
             mepr.sys_id, mepr.package_id, mepr.is_active, mepr.seq_no, mepr.remark, mepr.date_from, mepr.date_to,
             epm.image_url, epm.package_name, epm.amount, o.countOmSysId
         FROM mall_exam_package_recommend mepr
         LEFT JOIN exam_package_main epm ON epm.sys_id = mepr.package_id
         LEFT JOIN (
-            SELECT om.reference_no, COUNT(om.sys_id) countOmSysId FROM order_main om WHERE om.order_cates IN (1, 3, 7) AND om.is_deleted = 0 GROUP BY om.reference_no
+            SELECT om.reference_no, COUNT(om.sys_id) countOmSysId FROM order_main om WHERE om.is_deleted = 0 GROUP BY om.reference_no
         ) o ON o.reference_no = mepr.package_id
         WHERE mepr.is_active = 1 AND epm.is_active = 1
         ORDER BY seq_no

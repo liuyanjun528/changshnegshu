@@ -25,6 +25,20 @@ public interface IOrderMainService extends IService<OrderMain> {
     PageUtils getDataPage(Map<String, Object> params);
 
     /**
+     * 未开票订单列表
+     * @author zk
+     * @date 2019/10/11
+     */
+    PageUtils notReceiptList(Map<String, Object> params);
+
+    /**
+     * 开票订单查询（列表）
+     * @author zk
+     * @date 2019/10/12
+     */
+    PageUtils receiptOrderSelectList(Map<String, Object> params);
+
+    /**
      * 查询我的订单列表
      * @param params
      * @author zk

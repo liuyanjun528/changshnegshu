@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.annaru.upms.mapper.OrderReceiptInfoMapper">
+
+	<!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.annaru.upms.entity.OrderReceiptInfo" >
+        <result column="sys_id" property="sysId" />
+        <result column="receipt_no" property="receiptNo" />
+        <result column="receipt_forms" property="receiptForms" />
+        <result column="receipt_cate" property="receiptCate" />
+        <result column="entity_cate" property="entityCate" />
+        <result column="entity_name" property="entityName" />
+        <result column="tax_no" property="taxNo" />
+        <result column="address" property="address" />
+        <result column="tel_no" property="telNo" />
+        <result column="bank_name" property="bankName" />
+        <result column="account_no" property="accountNo" />
+        <result column="total_amount" property="totalAmount" />
+        <result column="content" property="content" />
+        <result column="email_address" property="emailAddress" />
+        <result column="status" property="status" />
+        <result column="creation_time" property="creationTime" />
+        <result column="edit_time" property="editTime" />
+    </resultMap>
+
+    <resultMap id="receiptOfStatusListBase" type="com.annaru.upms.entity.vo.OrderReceiptInfoExtends" >
+        <result column="sys_id" property="sysId" />
+        <result column="receipt_no" property="receiptNo" />
+        <result column="receipt_forms" property="receiptForms" />
+        <result column="receipt_cate" property="receiptCate" />
+        <result column="entity_cate" property="entityCate" />
+        <result column="entity_name" property="entityName" />
+        <result column="tax_no" property="taxNo" />
+        <result column="address" property="address" />
+        <result column="tel_no" property="telNo" />
+        <result column="bank_name" property="bankName" />
+        <result column="account_no" property="accountNo" />
+        <result column="total_amount" property="totalAmount" />
+        <result column="content" property="content" />
+        <result column="email_address" property="emailAddress" />
+        <result column="status" property="status" />
+        <result column="creation_time" property="creationTime" />
+        <result column="edit_time" property="editTime" />
+
+        <result column="countOomSysId" property="countOomSysId" />
+    </resultMap>
+    
+    <sql id="BaseClounmSql">
+          sys_id,
+          receipt_no,
+          receipt_forms,
+          receipt_cate,
+          entity_cate,
+          entity_name,
+          tax_no,
+          address,
+          tel_no,
+          bank_name,
+          account_no,
+          total_amount,
+          content,
+          email_address,
+          status,
+          creation_time,
+          edit_time
+    </sql>
+
+    <!-- 多表页面信息查询分页 -->
+    <select id="selectDataPage" parameterType="map" resultMap="BaseResultMap">
+
+        SELECT
+            <include refid="BaseClounmSql"></include>
+        FROM
+            order_receipt_info
+
+    </select>
+
+    <select id="receiptOfStatusList" parameterType="map" resultMap="receiptOfStatusListBase">
+        SELECT
+            ori.*, o.countOomSysId
+        FROM order_receipt_info ori
+        LEFT JOIN order_receipt_order_mapping orom ON orom.receipt_no = ori.receipt_no
+        LEFT JOIN order_main om ON om.order_no = orom.order_no
+        LEFT JOIN (
+            SELECT oom.receipt_no, COUNT(oom.sys_id) countOomSysId FROM order_receipt_order_mapping oom GROUP BY oom.receipt_no
+        ) o ON o.receipt_no = ori.receipt_no
+        WHERE 1 = 1
+        <if test="params.userId != null and params.userId != ''">
+            AND om.user_id = #{params.userId}
+        </if>
+        <if test="params.status != null and params.status != ''">
+            AND ori.status = #{params.status}
+        </if>
+        GROUP BY ori.receipt_no
+        ORDER BY ori.creation_time
+    </select>
+
+    <select id="receiptDetail" parameterType="map" resultMap="receiptOfStatusListBase">
+        SELECT
+        ori.*, o.countOomSysId
+        FROM order_receipt_info ori
+        LEFT JOIN order_receipt_order_mapping orom ON orom.receipt_no = ori.receipt_no
+        LEFT JOIN (
+        SELECT oom.receipt_no, COUNT(oom.sys_id) countOomSysId FROM order_receipt_order_mapping oom GROUP BY oom.receipt_no
+        ) o ON o.receipt_no = ori.receipt_no
+        WHERE 1 = 1
+        <if test="receiptNo != null and receiptNo != ''">
+            AND ori.receipt_no = #{receiptNo}
+        </if>
+        GROUP BY ori.receipt_no
+    </select>
+
+</mapper>

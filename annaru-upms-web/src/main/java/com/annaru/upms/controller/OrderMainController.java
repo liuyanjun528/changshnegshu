@@ -107,6 +107,46 @@ public class OrderMainController extends BaseController {
         }
     }
 
+    /**
+     * 未开票订单列表
+     * @author zk
+     * @date 2019/10/11
+     */
+    @ApiOperation(value = "未开票订单列表")
+    @GetMapping("/notReceiptList")
+    @RequiresPermissions("upms/orderMain/notReceiptList")
+    public ResultMap linotReceiptListst(@ApiParam(value = "当前页")@RequestParam(defaultValue="1") int page,
+                                        @ApiParam(value = "每页数量")@RequestParam(defaultValue = "10") int limit,
+                                        @ApiParam(value = "用户编号")@RequestParam String userId){
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("page",page);
+        params.put("limit", limit);
+        params.put("userId", userId);
+        PageUtils<Map<String, Object>> pageList = orderMainService.notReceiptList(params);
+        return ResultMap.ok().put("data",pageList);
+    }
+
+    /**
+     * 开票订单查询（列表）
+     * @author zk
+     * @date 2019/10/12
+     */
+    @ApiOperation(value = "开票订单查询（列表）")
+    @GetMapping("/receiptOrderSelectList")
+    @RequiresPermissions("upms/orderMain/receiptOrderSelectList")
+    public ResultMap receiptOrderSelectList(@ApiParam(value = "当前页")@RequestParam(defaultValue="1") int page,
+                                            @ApiParam(value = "每页数量")@RequestParam(defaultValue = "10") int limit,
+                                            @ApiParam(value = "发票编号")@RequestParam String receiptNo){
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("page",page);
+        params.put("limit", limit);
+        params.put("receiptNo", receiptNo);
+        PageUtils<Map<String, Object>> pageList = orderMainService.receiptOrderSelectList(params);
+        return ResultMap.ok().put("data",pageList);
+    }
+
 
     /**
      * 列表
