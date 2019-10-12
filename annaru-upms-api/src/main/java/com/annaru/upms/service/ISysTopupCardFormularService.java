@@ -15,11 +15,10 @@ import java.util.Map;
 public interface ISysTopupCardFormularService extends IService<SysTopupCardFormular> {
 
     /**
-    * 多表页面信息查询
-    * @param params
-    * @return
-    */
-    PageUtils getDataPage(Map<String, Object> params);
+     * 卡规则
+     * @return
+     */
+    List<SysTopupCardFormular> listFormular(int cates);
 
 
 }

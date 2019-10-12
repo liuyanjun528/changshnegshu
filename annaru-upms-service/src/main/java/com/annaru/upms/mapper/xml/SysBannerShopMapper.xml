@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.annaru.upms.mapper.SysBannerShopMapper">
+
+	<!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.annaru.upms.entity.SysBannerShop" >
+        <result column="sys_id" property="sysId" />
+        <result column="banner_url" property="bannerUrl" />
+        <result column="link_url" property="linkUrl" />
+        <result column="descr" property="descr" />
+        <result column="is_active" property="isActive" />
+        <result column="seq_no" property="seqNo" />
+        <result column="creation_time" property="creationTime" />
+        <result column="edit_time" property="editTime" />
+        <result column="creat_by" property="creatBy" />
+        <result column="edit_by" property="editBy" />
+    </resultMap>
+    
+    <sql id="BaseClounmSql">
+          sys_id,
+          banner_url,
+          link_url,
+          descr,
+          is_active,
+          seq_no,
+          creation_time,
+          edit_time,
+          creat_by,
+          edit_by
+    </sql>
+
+    <!-- 多表页面信息查询分页 -->
+    <select id="selectDataPage" parameterType="map" resultMap="BaseResultMap">
+
+        SELECT
+            <include refid="BaseClounmSql"></include>
+        FROM
+            sys_banner_shop
+
+    </select>
+
+    <select id="selectAll" resultMap="BaseResultMap">
+        select
+        sys_id,
+        banner_url,
+        link_url,
+        descr,
+        seq_no
+        from sys_banner_shop
+        where is_active = 1
+        ORDER BY seq_no
+    </select>
+
+</mapper>

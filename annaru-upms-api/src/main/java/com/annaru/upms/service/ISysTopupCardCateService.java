@@ -21,6 +21,13 @@ public interface ISysTopupCardCateService extends IService<SysTopupCardCate> {
     */
     PageUtils getDataPage(Map<String, Object> params);
 
+    /**
+     * 充值卡详情
+     * @param sysId
+     * @return
+     */
+    SysTopupCardCate detail(int sysId);
+
 
 }
 
