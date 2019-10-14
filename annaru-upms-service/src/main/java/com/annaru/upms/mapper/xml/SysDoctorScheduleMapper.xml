@@ -123,6 +123,7 @@
         and date_from = #{params.appointDate}
         and time_from=#{params.timeFrom}
         and service_method = 2
+        and is_deleted = 0
     </select>
 
 </mapper>

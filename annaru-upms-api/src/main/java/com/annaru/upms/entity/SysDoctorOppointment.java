@@ -95,7 +95,7 @@ public class SysDoctorOppointment extends Model<SysDoctorOppointment> implements
 	@TableField("is_active")
 	private Integer isActive = 1;
 
-    private Integer isConfirmed = 0;
+    private Integer isConfirmed = 1;
 	/**
 	 * 创建时间
 	 */
