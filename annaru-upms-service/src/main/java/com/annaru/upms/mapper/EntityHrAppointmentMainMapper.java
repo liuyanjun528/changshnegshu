@@ -47,6 +47,13 @@ public interface EntityHrAppointmentMainMapper extends BaseMapper<EntityHrAppoin
     List<EntityHrAppointmentMainVoZ2> hrRecordDetail(@Param("params") Map <String, Object> params);
 
     /**
+     * 多表页面信息查询 ，HR记录详情
+     * @param params
+     * @return
+     */
+    List<HrRecordDetail> hrRecordDetail1(@Param("params") Map <String, Object> params);
+
+    /**
      * 多表页面信息查询 ，HR已预约员工列表
      * @param params
      * @return
