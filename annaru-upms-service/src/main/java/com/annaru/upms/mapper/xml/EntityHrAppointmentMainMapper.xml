@@ -66,6 +66,26 @@
     </resultMap>
 
     <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap21" type="com.annaru.upms.entity.vo.HrRecordDetail" >
+
+        <result column="sys_id" property="sysId" />
+        <result column="package_name" property="packageName" />
+        <result column="content" property="content" />
+        <result column="subtitle" property="subtitle" />
+        <result column="entity_name" property="entityName" />
+        <result column="hr_total_count" property="hrTotalCount" />
+        <result column="full_name" property="fullName" />
+        <result column="amount" property="amount" />
+        <result column="creation_time" property="creationTime" />
+        <result column="user_channel" property="userChannel" />
+
+        <collection property="hrRecordDetailExtends1List" ofType="com.annaru.upms.entity.vo.HrRecordDetailExtends1">
+            <result column="service_name" property="serviceName" />
+            <result column="periods" property="periods" />
+        </collection>
+    </resultMap>
+
+    <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMapFw" type="com.annaru.upms.entity.vo.EntityHrAppointmentMainFwVoZ" >
 
         <result column="sysId" property="sysId" />
@@ -214,6 +234,30 @@
             <if test="params.sysId != null and params.sysId != ''">
                 AND eham.sys_id = #{params.sysId}
             </if>
+
+    </select>
+
+    <!-- 多表页面信息查询分页  HR记录详情 -->
+    <select id="hrRecordDetail1" parameterType="map" resultMap="BaseResultMap21">
+
+        SELECT
+        epm.package_name, epm.content, epm.subtitle, ea.service_name, epa.periods,
+        eham.entity_no, se.entity_name, eham.hr_total_count, ub.full_name,
+        eham.amount, eham.creation_time, eham.sys_id, om.user_channel
+        FROM entity_hr_appointment_main eham
+        LEFT JOIN exam_package_main epm ON epm.sys_id = eham.package_id
+        LEFT JOIN exam_package_append epa ON epa.package_main_id = epm.sys_id
+        LEFT JOIN exam_append ea ON ea.sys_id = epa.append_id
+        LEFT JOIN sys_entity se ON se.entity_id = eham.entity_no
+        LEFT JOIN user_basic ub ON ub.user_id = eham.create_by
+        LEFT JOIN order_main om ON om.hr_oppointment_id = eham.sys_id
+
+        WHERE eham.is_cancelled = 0 AND eham.is_deleted = 0
+        AND epm.is_active = 1
+        AND om.is_deleted = 0
+        <if test="params.sysId != null and params.sysId != ''">
+            AND eham.sys_id = #{params.sysId}
+        </if>
 
     </select>
 

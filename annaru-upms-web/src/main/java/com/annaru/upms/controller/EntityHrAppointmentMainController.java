@@ -147,6 +147,25 @@ public class EntityHrAppointmentMainController extends BaseController {
     }
 
 
+//    /**
+//     * HR记录详情
+//     */
+//    @ApiOperation(value = "HR记录详情", notes = "HR记录详情")
+//    @GetMapping("/hrRecordDetail/{sysId}")
+//    @RequiresPermissions("upms/entityHrAppointmentMain/hrRecordDetail")
+//    public ResultMap hrRecordDetail(@RequestParam("sysId") Integer sysId){
+//
+//        try {
+//            Map<String, Object> params = new HashMap<>();
+//            params.put("sysId",sysId);
+//            List<EntityHrAppointmentMainVoZ2> entityHrAppointmentMainVoZ = entityHrAppointmentMainService.hrRecordDetail(params);
+//            return ResultMap.ok().put("data",entityHrAppointmentMainVoZ);
+//        } catch (Exception e) {
+//            logger.error(e.getMessage());
+//            return ResultMap.error("运行异常，请联系管理员");
+//        }
+//    }
+
     /**
      * HR记录详情
      */
@@ -158,7 +177,7 @@ public class EntityHrAppointmentMainController extends BaseController {
         try {
             Map<String, Object> params = new HashMap<>();
             params.put("sysId",sysId);
-            List<EntityHrAppointmentMainVoZ2> entityHrAppointmentMainVoZ = entityHrAppointmentMainService.hrRecordDetail(params);
+            List<HrRecordDetail> entityHrAppointmentMainVoZ = entityHrAppointmentMainService.hrRecordDetail1(params);
             return ResultMap.ok().put("data",entityHrAppointmentMainVoZ);
         } catch (Exception e) {
             logger.error(e.getMessage());

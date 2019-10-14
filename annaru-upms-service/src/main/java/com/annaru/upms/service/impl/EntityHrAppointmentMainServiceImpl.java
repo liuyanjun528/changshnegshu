@@ -49,6 +49,11 @@ public class EntityHrAppointmentMainServiceImpl extends ServiceImpl<EntityHrAppo
     }
 
     @Override
+    public List<HrRecordDetail> hrRecordDetail1(Map<String, Object> params) {
+        return this.baseMapper.hrRecordDetail1(params);
+    }
+
+    @Override
     public List<EntityHrAppointmentMainVoZ> hrYetAppointmentUser(Map<String, Object> params) {
         return this.baseMapper.hrYetAppointmentUser(params);
     }
