@@ -76,7 +76,7 @@ SELECT
 		uc.card_no,-- 亲属医保卡号
 		ur.cellphone_no-- 亲属手机号
 FROM user_relatives as ur
-LEFT JOIN user_cards as uc ON ur.relative_id=uc.user_id
+LEFT JOIN user_cards as uc ON ur.ref_no=uc.user_id
 where ur.ref_no=#{relativeId}
     </select>
 

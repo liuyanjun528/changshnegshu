@@ -68,8 +68,8 @@ public class OrderMainController extends BaseController {
                 //查询套餐下的赠送服务
                 List<ExamAppend> examAppends = examAppendService.selectServiceByMainId(orderMain.getReferenceNo());
                 //查询用户名
-                UserBasic userBasic = userBasicService.selectByUid(orderMain.getUserId());
-                String fullName = userBasic.getFullName();
+//                UserBasic userBasic = userBasicService.selectByUid(orderMain.getUserId());
+//                String fullName = userBasic.getFullName();
                 //查询套餐模板
                 SysMessageTemplate sysMessageTemplate = sysMessageTemplateService.selectMessageTemplate(1);
 
@@ -87,15 +87,12 @@ public class OrderMainController extends BaseController {
                     s.append(serviceName+",");
                 }
                 String contentTemplate = sysMessageTemplate.getContentTemplate();
-                String message1 = contentTemplate.replace("[full_name]", fullName);//替换过的消息
-                String message2 = message1.replace("[pakg_name]", examAppends.get(0).getPackageName());//替换过的消息
-                String message3 = message2.replace("[append_service]", s.toString().substring(0,s.length()-1));//替换过的消息
+                String message1 = contentTemplate.replace("[pakg_name]", examAppends.get(0).getPackageName());//替换过的消息
+                String message2 = message1.replace("[append_service]", s.toString().substring(0,s.length()-1));//替换过的消息
+                String message3 = message2.replace("[order_no]", orderMain.getOrderNo());//替换过的消息
                 sm.setContent(message3);
-                //sm.setContent("您已经购买了"+examAppends.get(0).getPackageName()+",包含服务项:"+s.toString().substring(0,s.length()-1));//内容
-
                 sysMessageService.save(sm);
             }
-
             if (i > 0) {
                     SysConfigUtil.saveRefNo(sysConfig.getRefNo());
                 }

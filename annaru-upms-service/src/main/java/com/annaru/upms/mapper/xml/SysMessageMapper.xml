@@ -18,28 +18,17 @@
 
     <!-- 多表页面信息查询分页 -->
     <select id="selectDataPage" parameterType="map" resultMap="BaseResultMap">
-
         SELECT
-              sys_id,
-              user_id,
-              order_no,
-              msg_cate,
-              business_cate,
-              content,
-              is_read,
-              creation_time,
-              read_time
-        FROM
-            sys_message
-        <where> 1=1
+            sm.*
+        FROM  sys_message as sm
+        LEFT JOIN sys_doctor as sd ON sd.user_id=sm.user_id
+        LEFT JOIN sys_nurse as sn ON sn.user_id=sm.user_id
+        <where>
+             sd.user_id=#{params.userId} or sn.user_id=#{params.userId} or sm.user_id=#{params.userId}
             <if test="params.msgCate != null and params.msgCate != ''">
-                AND msg_cate=#{params.msgCate}
-            </if>
-            <if test="params.userId != null and params.userId != ''">
-                AND user_id LIKE CONCAT('%', #{params.userId}, '%')
+                AND  sm.msg_cate=#{params.msgCate}
             </if>
         </where>
     </select>
-
 
 </mapper>

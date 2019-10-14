@@ -14,6 +14,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 
@@ -47,6 +48,10 @@ public class OrderAdditionalInfoController extends BaseController {
     private ISysMessageTemplateService sysMessageTemplateService;
     @Reference
     private IUserBasicService userBasicService;
+    @Reference
+    private ISysInstitutionService sysInstitutionService;
+    @Reference
+    private ISysDepartmentService sysDepartmentService;
 
     /**
      * 体检人信息 wh
@@ -90,10 +95,20 @@ public class OrderAdditionalInfoController extends BaseController {
                 //查询用户名
                 UserBasic userBasic = userBasicService.selectByUid(orderAdditionalInfo.getEntityHealthyAppointment().getOrderMain().getUserId());
                 String fullName = userBasic.getFullName();
+                //查询医院
+                params.put("institutionId",orderAdditionalInfo.getEntityHealthyAppointment().getInstitutionId());
+                SysInstitution info = sysInstitutionService.getInfo(params);
+                String name=info.getName();//医院名称
+                //查询科室
+                SysDepartment byId = sysDepartmentService.getById(orderAdditionalInfo.getEntityHealthyAppointment().getDepartmentId());
+                String departName=byId.getDepartmentName();
                 //查询套餐模板
-                SysMessageTemplate sysMessageTemplate = sysMessageTemplateService.selectMessageTemplate(7);
+                SysMessageTemplate sysMessageTemplate = sysMessageTemplateService.selectMessageTemplate(25);
                 String contentTemplate = sysMessageTemplate.getContentTemplate();
-                String message = contentTemplate.replace("[full_name]", fullName);//替换过的消息
+                String message = contentTemplate.replace("[full_name]",fullName );//替换过的消息
+                String message1 = message.replace("[name]",name );//替换过的消息
+                String message2 = message1.replace("[department_name]", departName);//替换过的消息
+
                 //企业家庭医生预约成功往消息表添加一条数据
                 SysMessage sm=new SysMessage();
                 sm.setOrderNo(orderAdditionalInfo.getEntityHealthyAppointment().getOrderMain().getOrderNo());// 订单号
@@ -101,7 +116,7 @@ public class OrderAdditionalInfoController extends BaseController {
                 sm.setBusinessCate(3);//3:分布体检预约信息
                 sm.setUserId(orderAdditionalInfo.getEntityHealthyAppointment().getOrderMain().getUserId());//用户
                 sm.setCreationTime(new Date());
-                sm.setContent(message);//内容
+                sm.setContent(message2);//内容
                 sysMessageService.save(sm);
             }
 
