@@ -78,12 +78,17 @@ public class UserSurveyMainController extends BaseController {
         try {
             UserSurveyMain userSurveyMain = new UserSurveyMain();
             userSurveyMain.setUserId(userSurvey.getUserId());
-            int s = userSurveyMainService.saveOne(userSurveyMain);
-            for(int i = 0;i<userSurvey.getSurveyItemsList().size();i++){
-                userSurvey.getSurveyItemsList().get(i).setSurveyId(s);
+            int sum = userSurveyMainService.selectCount(userSurvey.getUserId());
+            if (sum==0){
+                int s = userSurveyMainService.saveOne(userSurveyMain);
+                for(int i = 0;i<userSurvey.getSurveyItemsList().size();i++){
+                    userSurvey.getSurveyItemsList().get(i).setSurveyId(s);
+                }
+                userSurveyItemsService.saveBatch(userSurvey.getSurveyItemsList(),userSurvey.getSurveyItemsList().size());
+                return ResultMap.ok("添加成功");
+            }else {
+                return ResultMap.error("不能重复提交问卷");
             }
-            userSurveyItemsService.saveBatch(userSurvey.getSurveyItemsList(),userSurvey.getSurveyItemsList().size());
-            return ResultMap.ok("添加成功");
         } catch (Exception e) {
             logger.error(e.getMessage());
             return ResultMap.error("运行异常，请联系管理员");

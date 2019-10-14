@@ -560,6 +560,38 @@ public class OrderAppointmentController extends BaseController {
                 if (userFamilyDoctor.getRestCount()==0){
                     return ResultMap.error("家庭医生预约服务次数已用完");
                 }
+                userFamilyDoctor.setRestCount(userFamilyDoctor.getRestCount()-1);
+                String doctorNo = orderAppointment.getRelatedNo();
+                String timeFrom = orderAppointment.getTimeFrom();
+                String timeTo = orderAppointment.getTimeTo();
+                SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
+                String appointDate = fmt.format(orderAppointment.getAppointDate());
+                params.put("doctorNo",doctorNo);
+                params.put("userId",userId);
+                params.put("appointDate",appointDate);
+                params.put("timeFrom",timeFrom);
+                params.put("timeTo",timeTo);
+                SysDoctorSchedule schedule = sysDoctorScheduleService.getCount(params);
+                if (schedule.getCount()==0){
+                    return ResultMap.error("预约人次已满");
+                }
+                int count = schedule.getCount()-1;
+                schedule.setState(1);
+                if (count==0){
+                    schedule.setIsActive(1);
+                }
+                schedule.setCount(count);
+                appointment.setOrderNo(orderAppointment.getOrderNo());
+                appointment.setUserId(userId);
+                appointment.setRelatedNo(doctorNo);
+                appointment.setTimeFrom(timeFrom);
+                appointment.setTimeTo(timeTo);
+                appointment.setAppointDate(orderAppointment.getAppointDate());
+                appointment.setAppointmentCates(5);
+                userFamilyDoctorService.updateById(userFamilyDoctor);
+                sysDoctorScheduleService.updateById(schedule);
+                sysDoctorOppointmentService.updateById(sysDoctorOppointment);
+                orderAppointmentService.save(appointment);
                 sysDoctorOppointment.setOrderNo(orderAppointment.getOrderNo());
                 sysDoctorOppointment.setAppointmentCates(5);
                 sysDoctorOppointment.setUserId(orderAppointment.getUserId());
