@@ -192,7 +192,7 @@ public class UserRelativesController extends BaseController {
             params.put("cellphoneNo", userRelativesDetailVoZ.getCellphoneNo());
             UserBasic userBasic1 = userBasicService.selectByData(params);
             if (userBasic1 != null){
-                return ResultMap.error("改手机号已存在！");
+                return ResultMap.error("该手机号已存在！");
             }
             List<UserRelatives> userRelatives1 = userRelativesService.getUserRelativesList(userRelativesDetailVoZ.getUserId());
             if (userRelatives1 != null && userRelatives1.size() >= 3){

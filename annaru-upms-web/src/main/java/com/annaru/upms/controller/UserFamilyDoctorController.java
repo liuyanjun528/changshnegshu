@@ -6,15 +6,9 @@ import com.annaru.common.result.PageUtils;
 import com.annaru.common.result.ResultMap;
 import com.annaru.common.util.UUIDGenerator;
 import com.annaru.upms.controllerutil.SysConfigUtil;
-import com.annaru.upms.entity.OrderMain;
-import com.annaru.upms.entity.SysAppraisal;
-import com.annaru.upms.entity.SysConfig;
-import com.annaru.upms.entity.UserFamilyDoctor;
+import com.annaru.upms.entity.*;
 import com.annaru.upms.entity.vo.UserFamilyDoctorVo;
-import com.annaru.upms.service.IOrderMainService;
-import com.annaru.upms.service.ISysAppraisalService;
-import com.annaru.upms.service.ISysConfigService;
-import com.annaru.upms.service.IUserFamilyDoctorService;
+import com.annaru.upms.service.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -46,6 +40,10 @@ public class UserFamilyDoctorController extends BaseController {
     private ISysConfigService iSysConfigService; //系统编号配置表
     @Reference
     private IOrderMainService orderMainService; //订单表
+    @Reference
+    private ISysMessageTemplateService sysMessageTemplateService;
+    @Reference
+    private ISysMessageService sysMessageService;// 消息表
 
     /**
      * 保存家庭医生订单
@@ -58,8 +56,31 @@ public class UserFamilyDoctorController extends BaseController {
         try {
             SysConfig sysConfig = SysConfigUtil.getSysConfig(iSysConfigService , SysConfigUtil.ORDERNO);
             orderMain.setOrderNo(SysConfigUtil.getNoBySysConfig());
+            orderMain.setOrderTime(new Date());
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(orderMain.getOrderTime());//设置起时间
+            cal.add(Calendar.YEAR, 1);//增加一年
+            orderMain.getUserFamilyDoctor().setEffectTo(cal.getTime());
 
             Boolean aBoolean = userFamilyDoctorService.saveFamilyDoctor(orderMain);
+
+            //查询套餐模板
+            SysMessageTemplate sysMessageTemplate = sysMessageTemplateService.selectMessageTemplate(46);
+            //套餐购买成功往消息表添加一条数据
+            SysMessage sm=new SysMessage();
+            sm.setOrderNo(orderMain.getOrderNo());// 订单号
+            sm.setMsgCate(2);//1:系统消息
+            sm.setBusinessCate(1);//1:购买套餐
+            sm.setUserId(orderMain.getUserId());//用户
+            sm.setCreationTime(new Date());
+            String contentTemplate = sysMessageTemplate.getContentTemplate();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            String startTime = sdf.format(orderMain.getUserFamilyDoctor().getEffectTo());
+            System.out.println("cessss:"+startTime);
+            String message = contentTemplate.replace("[effect_to]",startTime);//替换过的消息
+            sm.setContent(message);
+            sysMessageService.save(sm);
+
             if(!aBoolean){
                 return ResultMap.error("运行异常，请联系管理员");
             }

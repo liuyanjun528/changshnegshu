@@ -550,9 +550,9 @@
     <!-- TOC下订单 OrderMain-->
     <insert id="insertOrderMain" parameterType="com.annaru.upms.entity.OrderMain">
         insert into order_main
-                (order_no,reference_no,total_qty,user_id,order_cates,amount,creationtime,order_time)
+                (order_no,reference_no,total_qty,user_id,order_cates,amount,creationtime,order_time,user_channel)
         VALUES
-                (#{orderNo},#{referenceNo},#{totalQty},#{userId},#{orderCates},#{amount},#{creationtime},#{orderTime})
+                (#{orderNo},#{referenceNo},#{totalQty},#{userId},#{orderCates},#{amount},#{creationtime},#{orderTime},#{userChannel})
     </insert>
 
     <select id="selectAppendByOrderNo" parameterType="map" resultMap="AppendOrderMain">
@@ -739,7 +739,7 @@
         LEFT JOIN user_entity_mapping uem ON uem.user_id=om.user_id AND uem.is_active=1
         LEFT JOIN sys_entity se ON se.entity_id=uem.entity_id
         WHERE
-        ub.user_id = #{userId} AND om.order_cates not in (5,6)
+        ub.user_id = #{userId} AND om.order_cates not in (5,6) and om.status=2
         <if test="orderCates != null">
             AND om.order_cates = #{orderCates}
         </if>

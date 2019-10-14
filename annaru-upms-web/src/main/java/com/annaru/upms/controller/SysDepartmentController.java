@@ -10,10 +10,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -49,6 +46,17 @@ public class SysDepartmentController extends BaseController {
         params.put("frequentUsedList",frequentUsedList);
         params.put("commonList",commonList);
         return ResultMap.ok().put("data",params);
+    }
+
+
+    /**
+     * 信息
+     */
+    @ApiOperation(value = "查看详情", notes = "查看科室详情")
+    @GetMapping("/info/{sysId}")
+    public ResultMap info(@PathVariable("sysId") Integer sysId){
+        SysDepartment byId = sysDepartmentService.getById(sysId);
+        return ResultMap.ok().put("data",byId);
     }
 
 }

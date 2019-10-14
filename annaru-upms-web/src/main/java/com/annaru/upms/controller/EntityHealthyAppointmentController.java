@@ -18,6 +18,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 
@@ -255,12 +256,15 @@ public class EntityHealthyAppointmentController extends BaseController {
 
             if(i > 0){
                 //查询用户名
-                UserBasic userBasic = userBasicService.selectByUid(entityHealthyAppointment.getOrderMain().getUserId());
-                String fullName = userBasic.getFullName();
+//                UserBasic userBasic = userBasicService.selectByUid(entityHealthyAppointment.getOrderMain().getUserId());
+//                String fullName = userBasic.getFullName();
                 //查询套餐模板
-                SysMessageTemplate sysMessageTemplate = sysMessageTemplateService.selectMessageTemplate(7);
+                SysMessageTemplate sysMessageTemplate = sysMessageTemplateService.selectMessageTemplate(21);
                 String contentTemplate = sysMessageTemplate.getContentTemplate();
-                String message = contentTemplate.replace("[full_name]", fullName);//替换过的消息
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                String startTime = sdf.format(entityHealthyAppointment.getAppointDate());//转换时间
+                String message = contentTemplate.replace("[appoint_date]", startTime);//替换过的消息
+                String message1 = message.replace("[address]", entityHealthyAppointment.getAddress());//替换过的消息
                 //企业家庭医生预约成功往消息表添加一条数据
                 SysMessage sm=new SysMessage();
                 sm.setOrderNo(entityHealthyAppointment.getOrderMain().getOrderNo());// 订单号
@@ -268,7 +272,7 @@ public class EntityHealthyAppointmentController extends BaseController {
                 sm.setBusinessCate(3);//3:分布体检预约信息
                 sm.setUserId(entityHealthyAppointment.getOrderMain().getUserId());//用户
                 sm.setCreationTime(new Date());
-                sm.setContent(message);//内容
+                sm.setContent(message1);//内容
                 sysMessageService.save(sm);
             }
 

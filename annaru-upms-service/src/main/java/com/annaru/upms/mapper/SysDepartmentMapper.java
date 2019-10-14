@@ -12,7 +12,7 @@ import java.util.Map;
 
 /**
  * 科室
- * 
+ *
  * @author xck
  * @date 2019-05-10 10:44:18
  */
@@ -29,4 +29,6 @@ public interface SysDepartmentMapper extends BaseMapper<SysDepartment> {
     List<SysDepartmentVo> getDepartmentCommonList(@Param("params") Map<String, Object> params);
 
     List<SysDepartment> getFrequentUsedList(@Param("params") Map<String, Object> params);
+
+
 }
