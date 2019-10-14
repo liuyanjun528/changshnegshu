@@ -52,6 +52,10 @@ public class SysConfigUtil {
      * 体检预约机构编号编码规则
      */
     public static final int ENTITY_APPOINTMENT = 10;
+    /**
+     * 开票编号
+     */
+    public static final int RECEIPT = 12;
 
     @Reference
     private static ISysConfigService iSysConfigService; //系统配置表

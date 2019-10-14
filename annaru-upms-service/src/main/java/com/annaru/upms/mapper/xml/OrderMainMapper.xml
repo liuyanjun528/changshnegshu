@@ -247,6 +247,15 @@
         <result column="handover_time" property="handoverTime" />
     </resultMap>
 
+    <resultMap id="notReceiptBase" type="com.annaru.upms.entity.vo.NotReceiptOrder">
+        <result column="order_no" property="orderNo" />
+        <result column="package_name" property="packageName" />
+        <result column="order_cates" property="orderCates" />
+        <result column="countOmSysId" property="countOmSysId" />
+        <result column="amount" property="amount" />
+        <result column="image_url" property="imageUrl" />
+    </resultMap>
+
     <sql id="BaseColumn">
         sys_id,
         order_no,
@@ -291,6 +300,33 @@
                 AND user_id LIKE CONCAT('%', #{params.userId}, '%')
             </if>
         </where>
+    </select>
+
+    <select id="notReceiptList" parameterType="map" resultMap="notReceiptBase">
+        SELECT
+        	om.order_no, epm.package_name, om.order_cates, o.countOmSysId, om.amount, epm.image_url
+        FROM order_main om
+        LEFT JOIN exam_package_main epm ON epm.sys_id = om.reference_no
+        LEFT JOIN (
+		  	SELECT om.reference_no, COUNT(om.sys_id) countOmSysId FROM order_main om WHERE om.is_deleted = 0 GROUP BY om.reference_no
+		) o ON o.reference_no = om.reference_no
+        LEFT JOIN order_receipt_order_mapping orom ON orom.order_no = om.order_no
+        WHERE om.reference_no is not null AND om.`status` = 1 AND om.is_deleted = 0 AND epm.is_active = 1
+        AND orom.sys_id is null
+        AND om.user_id = #{params.userId}
+    </select>
+
+    <select id="receiptOrderSelectList" parameterType="map" resultMap="notReceiptBase">
+        SELECT
+            om.order_no, om.user_id, epm.package_name, om.order_cates, o.countOmSysId, om.amount, epm.image_url
+        FROM order_receipt_order_mapping orom
+        LEFT JOIN order_main om ON om.order_no = orom.order_no
+        LEFT JOIN exam_package_main epm ON epm.sys_id = om.reference_no
+        LEFT JOIN (
+            SELECT om.reference_no, COUNT(om.sys_id) countOmSysId FROM order_main om WHERE om.is_deleted = 0 GROUP BY om.reference_no
+        ) o ON o.reference_no = om.reference_no
+        WHERE om.reference_no is not null AND om.`status` = 1 AND om.is_deleted = 0 AND epm.is_active = 1
+        AND orom.receipt_no = #{params.receiptNo}
     </select>
 
     <!-- 订单各状态的总数 -->

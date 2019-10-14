@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.annaru.upms.mapper.OrderReceiptOrderMappingMapper">
+
+	<!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.annaru.upms.entity.OrderReceiptOrderMapping" >
+        <result column="sys_id" property="sysId" />
+        <result column="receipt_no" property="receiptNo" />
+        <result column="order_no" property="orderNo" />
+        <result column="creation_time" property="creationTime" />
+        <result column="edit_time" property="editTime" />
+    </resultMap>
+    
+    <sql id="BaseClounmSql">
+          sys_id,
+          receipt_no,
+          order_no,
+          creation_time,
+          edit_time,
+    </sql>
+
+    <!-- 多表页面信息查询分页 -->
+    <select id="selectDataPage" parameterType="map" resultMap="BaseResultMap">
+
+        SELECT
+            <include refid="BaseClounmSql"></include>
+        FROM
+            order_receipt_order_mapping
+
+    </select>
+
+</mapper>
