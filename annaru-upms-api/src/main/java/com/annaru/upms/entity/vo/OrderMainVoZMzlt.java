@@ -68,13 +68,13 @@ public class OrderMainVoZMzlt implements Serializable {
 	 * 预约开始时间
 	 * @return
 	 */
-	private Date timeFrom;
+	private String timeFrom;
 
 	/**
 	 * 预约结束时间
 	 * @return
 	 */
-	private Date timeTo;
+	private String timeTo;
 	/**
 	 * 下定单时间
 	 * @return
@@ -172,7 +172,7 @@ public class OrderMainVoZMzlt implements Serializable {
 	public Double getAmount() {
 		return amount;
 	}
-	public void setTimeTo(Date timeTo) {
+	public void setTimeTo(String timeTo) {
 		this.timeTo = timeTo;
 	}
 	public String getUserChannel() {
@@ -181,16 +181,16 @@ public class OrderMainVoZMzlt implements Serializable {
 	public void setUserChannel(String userChannel) {
 		this.userChannel = userChannel;
 	}
-	public Date getTimeTo() {
+	public String getTimeTo() {
 		return timeTo;
 	}
 	public void setCardCates(Integer cardCates) {
 		this.cardCates = cardCates;
 	}
-	public Date getTimeFrom() {
+	public String getTimeFrom() {
 		return timeFrom;
 	}
-	public void setTimeFrom(Date timeFrom) {
+	public void setTimeFrom(String timeFrom) {
 		this.timeFrom = timeFrom;
 	}
 

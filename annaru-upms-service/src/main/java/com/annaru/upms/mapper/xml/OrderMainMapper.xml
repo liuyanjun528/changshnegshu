@@ -484,7 +484,7 @@
         ub.full_name customerName,
         ub.id_card_no idNo,
         ub.gender,
-        om.cellphone_no cellphoneNo1,
+        ub.cellphone_no cellphoneNo1,
         uc.card_cates cardCates,
         uc.card_no cardNo,
         si.name siName,
@@ -505,8 +505,8 @@
         LEFT JOIN user_basic ub ON ub.user_id = om.user_id
         LEFT JOIN sys_department sd ON sd.sys_id = oa.department_id
         LEFT JOIN order_additional_info oai ON oai.order_no = om.order_no
-        WHERE
-        1=1 AND om.is_deleted = 0
+        WHERE om.is_deleted = 0
+        AND oa.is_cancelled = 0
         <if test="params.sysId != null and params.sysId != ''">
             AND om.sys_id = #{params.sysId}
         </if>
