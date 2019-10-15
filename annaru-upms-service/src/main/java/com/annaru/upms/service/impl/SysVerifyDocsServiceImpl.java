@@ -93,6 +93,8 @@ public class SysVerifyDocsServiceImpl extends ServiceImpl<SysVerifyDocsMapper, S
             sysVerifyDocs.setUserId(sysVerifyDocsVoZ.getUserId());
             sysVerifyDocs.setCates(sysVerifyDocsVoZ.getIdentification());
             sysVerifyDocs.setDocCates(1);
+            sysVerifyDocs.setFullName(sysVerifyDocsVoZ.getFullName());
+            sysVerifyDocs.setIdNo(sysVerifyDocsVoZ.getIdCardNo());
             sysVerifyDocs.setImages(sysVerifyDocsVoZ.getImg1());
             sysVerifyDocs.setCreationTime(new Date());
             if (iSysVerifyDocsService.save(sysVerifyDocs)){
@@ -101,6 +103,8 @@ public class SysVerifyDocsServiceImpl extends ServiceImpl<SysVerifyDocsMapper, S
                 sysVerifyDocs.setFullName(sysVerifyDocsVoZ.getFullName());
                 sysVerifyDocs.setCates(sysVerifyDocsVoZ.getIdentification());
                 sysVerifyDocs.setDocCates(2);
+                sysVerifyDocs.setFullName(sysVerifyDocsVoZ.getFullName());
+                sysVerifyDocs.setIdNo(sysVerifyDocsVoZ.getIdCardNo());
                 sysVerifyDocs.setImages(sysVerifyDocsVoZ.getImg2());
                 sysVerifyDocs.setCreationTime(new Date());
                 if (iSysVerifyDocsService.save(sysVerifyDocs)){
@@ -114,6 +118,8 @@ public class SysVerifyDocsServiceImpl extends ServiceImpl<SysVerifyDocsMapper, S
                                 sysVerifyDocs.setFullName(sysVerifyDocsVoZ.getFullName());
                                 sysVerifyDocs.setCates(sysVerifyDocsVoZ.getIdentification());
                                 sysVerifyDocs.setDocCates(3);
+                                sysVerifyDocs.setFullName(sysVerifyDocsVoZ.getFullName());
+                                sysVerifyDocs.setIdNo(sysVerifyDocsVoZ.getIdCardNo());
                                 sysVerifyDocs.setImages(stringList.get(i));
                                 sysVerifyDocs.setCreationTime(new Date());
                                 sysVerifyDocsList.add(sysVerifyDocs);
@@ -122,10 +128,10 @@ public class SysVerifyDocsServiceImpl extends ServiceImpl<SysVerifyDocsMapper, S
                         if (sysVerifyDocsList != null && sysVerifyDocsList.size() > 0){
                             if (iSysVerifyDocsService.saveBatch(sysVerifyDocsList)){
                                 Map<String, Object> params = new HashMap<>();
-                                params.put("idCardNo", sysVerifyDocsVoZ.getIdCardNo());
+//                                params.put("idCardNo", sysVerifyDocsVoZ.getIdCardNo());
                                 params.put("gender", sysVerifyDocsVoZ.getGender());
                                 params.put("fullName", sysVerifyDocsVoZ.getFullName());
-                                params.put("dateOfBirth", getBirthday(sysVerifyDocsVoZ.getIdCardNo()));
+//                                params.put("dateOfBirth", getBirthday(sysVerifyDocsVoZ.getIdCardNo()));
                                 params.put("userId", sysVerifyDocsVoZ.getUserId());
                                 if (userBasicService.updateUserBascByParams(params)){
                                     return true;
