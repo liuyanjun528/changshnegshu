@@ -6,6 +6,7 @@
 	<!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.annaru.upms.entity.SysVerifyDocs" >
         <result column="sys_id" property="sysId" />
+        <result column="user_id" property="userId" />
         <result column="cates" property="cates" />
         <result column="doc_cates" property="docCates" />
         <result column="images" property="images" />
@@ -36,14 +37,16 @@
 
     <sql id="BaseClounmSql">
           sys_id,
-          related_no,
+          user_id,
           cates,
           doc_cates,
           images,
-          full_name，
+          full_name,
           id_no,
           creation_time,
           create_by,
+          is_approved,
+          remark
     </sql>
 
     <!-- 多表页面信息查询分页 -->
@@ -88,4 +91,17 @@
 	    ORDER BY creation_time DESC
         LIMIT 0,1
     </select>
+
+    <select id="getListByUserId" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT
+          <include refid="BaseClounmSql"></include>
+        FROM sys_verify_docs
+        WHERE user_id = #{userId}
+    </select>
+
+    <update id="updateByUserId" parameterType="com.annaru.upms.entity.SysVerifyDocs">
+        UPDATE sys_verify_docs SET cates = #{sysVerifyDocs.cates}, is_approved = 0
+        WHERE user_id = #{sysVerifyDocs.userId}
+    </update>
+
 </mapper>

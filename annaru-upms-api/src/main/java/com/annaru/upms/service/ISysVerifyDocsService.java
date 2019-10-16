@@ -53,5 +53,22 @@ public interface ISysVerifyDocsService extends IService<SysVerifyDocs> {
      */
     SysVerifyDocs selectResult(String userId);
 
+    /**
+     * 根据条件修改条件
+     * @author zk
+     * @date 2019/10/16
+     * @return
+     */
+    boolean updateByUserId(SysVerifyDocs sysVerifyDocs);
+
+    /**
+     * 根据用户编号查询集合
+     * @author zk
+     * @date 2019/10/16
+     * @param userId
+     * @return
+     */
+    List<SysVerifyDocs> getListByUserId(String userId);
+
 }
 

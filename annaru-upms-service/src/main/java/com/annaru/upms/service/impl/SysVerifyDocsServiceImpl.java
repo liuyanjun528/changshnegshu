@@ -12,7 +12,6 @@ import com.annaru.upms.service.IUserBasicService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.alibaba.dubbo.config.annotation.Reference;
 import com.annaru.common.result.PageUtils;
 
 import com.annaru.upms.mapper.SysVerifyDocsMapper;
@@ -44,6 +43,8 @@ public class SysVerifyDocsServiceImpl extends ServiceImpl<SysVerifyDocsMapper, S
     @Autowired
     private SysVerifyDocsMapper sysVerifyDocsMapper;
     @Resource
+    private ISysVerifyDocsService sysVerifyDocsService;
+    @Resource
     private IUserBasicService userBasicService;
 
     @Override
@@ -57,6 +58,25 @@ public class SysVerifyDocsServiceImpl extends ServiceImpl<SysVerifyDocsMapper, S
     @Transactional
     public boolean saveDocsBasics(SysVerifyDocsVoZ sysVerifyDocsVoZ) {
          boolean isSave = false;
+
+         int isReturn = 0;
+        // 判断这个 userId 的认证资料集合
+         List<SysVerifyDocs> sysVerifyDocsList1 = sysVerifyDocsService.getListByUserId(sysVerifyDocsVoZ.getUserId());
+         if (sysVerifyDocsList1.size() == 0){
+             // 用户未认证
+             isReturn = 1;
+         }else if (sysVerifyDocsList1.size() == 2){
+             SysVerifyDocs sysVerifyDocs1 = sysVerifyDocsList1.get(0);
+             SysVerifyDocs sysVerifyDocs2 = sysVerifyDocsList1.get(1);
+             if ((sysVerifyDocs1.getDocCates() == 1 && sysVerifyDocs2.getDocCates() == 2) || (sysVerifyDocs1.getDocCates() == 2 && sysVerifyDocs2.getDocCates() == 1)){
+                // 用户已认证
+                 isReturn = 2;
+             }
+         }else if (sysVerifyDocsList1.size() > 2){
+             // 护士已经认证过
+             return false;
+         }
+
          String getBelongOffice = "";
          if (sysVerifyDocsVoZ.getBelongOffice() != null && sysVerifyDocsVoZ.getBelongOffice() != 0){
              getBelongOffice = sysVerifyDocsVoZ.getBelongOffice().toString();
@@ -89,59 +109,78 @@ public class SysVerifyDocsServiceImpl extends ServiceImpl<SysVerifyDocsMapper, S
              }
          }
          if (isSave){
-            SysVerifyDocs sysVerifyDocs = new SysVerifyDocs();
-            sysVerifyDocs.setUserId(sysVerifyDocsVoZ.getUserId());
-            sysVerifyDocs.setCates(sysVerifyDocsVoZ.getIdentification());
-            sysVerifyDocs.setDocCates(1);
-            sysVerifyDocs.setFullName(sysVerifyDocsVoZ.getFullName());
-            sysVerifyDocs.setIdNo(sysVerifyDocsVoZ.getIdCardNo());
-            sysVerifyDocs.setImages(sysVerifyDocsVoZ.getImg1());
-            sysVerifyDocs.setCreationTime(new Date());
-            if (iSysVerifyDocsService.save(sysVerifyDocs)){
-                sysVerifyDocs = new SysVerifyDocs();
+            // 用户未认证
+            if (isReturn == 1){
+                SysVerifyDocs sysVerifyDocs = new SysVerifyDocs();
                 sysVerifyDocs.setUserId(sysVerifyDocsVoZ.getUserId());
-                sysVerifyDocs.setFullName(sysVerifyDocsVoZ.getFullName());
                 sysVerifyDocs.setCates(sysVerifyDocsVoZ.getIdentification());
-                sysVerifyDocs.setDocCates(2);
+                sysVerifyDocs.setDocCates(1);
                 sysVerifyDocs.setFullName(sysVerifyDocsVoZ.getFullName());
                 sysVerifyDocs.setIdNo(sysVerifyDocsVoZ.getIdCardNo());
-                sysVerifyDocs.setImages(sysVerifyDocsVoZ.getImg2());
+                sysVerifyDocs.setImages(sysVerifyDocsVoZ.getImg1());
                 sysVerifyDocs.setCreationTime(new Date());
                 if (iSysVerifyDocsService.save(sysVerifyDocs)){
-                    List<SysVerifyDocs> sysVerifyDocsList = new ArrayList<>();
-                    List<String> stringList = sysVerifyDocsVoZ.getStringList();
-                    if (stringList != null && stringList.size() > 0){
-                        for (int i = 0 ; i < stringList.size() ; i++){
-                            if (StringUtil.isNotBlank(stringList.get(i))){
-                                sysVerifyDocs = new SysVerifyDocs();
-                                sysVerifyDocs.setUserId(sysVerifyDocsVoZ.getUserId());
-                                sysVerifyDocs.setFullName(sysVerifyDocsVoZ.getFullName());
-                                sysVerifyDocs.setCates(sysVerifyDocsVoZ.getIdentification());
-                                sysVerifyDocs.setDocCates(3);
-                                sysVerifyDocs.setFullName(sysVerifyDocsVoZ.getFullName());
-                                sysVerifyDocs.setIdNo(sysVerifyDocsVoZ.getIdCardNo());
-                                sysVerifyDocs.setImages(stringList.get(i));
-                                sysVerifyDocs.setCreationTime(new Date());
-                                sysVerifyDocsList.add(sysVerifyDocs);
-                            }
-                        }
-                        if (sysVerifyDocsList != null && sysVerifyDocsList.size() > 0){
-                            if (iSysVerifyDocsService.saveBatch(sysVerifyDocsList)){
-                                Map<String, Object> params = new HashMap<>();
-//                                params.put("idCardNo", sysVerifyDocsVoZ.getIdCardNo());
-                                params.put("gender", sysVerifyDocsVoZ.getGender());
-                                params.put("fullName", sysVerifyDocsVoZ.getFullName());
-//                                params.put("dateOfBirth", getBirthday(sysVerifyDocsVoZ.getIdCardNo()));
-                                params.put("userId", sysVerifyDocsVoZ.getUserId());
-                                if (userBasicService.updateUserBascByParams(params)){
-                                    return true;
-                                }
-                            }
-                        }
+                    sysVerifyDocs = new SysVerifyDocs();
+                    sysVerifyDocs.setUserId(sysVerifyDocsVoZ.getUserId());
+                    sysVerifyDocs.setFullName(sysVerifyDocsVoZ.getFullName());
+                    sysVerifyDocs.setCates(sysVerifyDocsVoZ.getIdentification());
+                    sysVerifyDocs.setDocCates(2);
+                    sysVerifyDocs.setFullName(sysVerifyDocsVoZ.getFullName());
+                    sysVerifyDocs.setIdNo(sysVerifyDocsVoZ.getIdCardNo());
+                    sysVerifyDocs.setImages(sysVerifyDocsVoZ.getImg2());
+                    sysVerifyDocs.setCreationTime(new Date());
+                    if (iSysVerifyDocsService.save(sysVerifyDocs)){
+                        return dosIf(sysVerifyDocsVoZ);
                     }
                 }
             }
+            // 用户已经认证, 要认证医护, 则先要修改类别和审核状态, 在保存资格证
+            if (isReturn == 2){
+                SysVerifyDocs sysVerifyDocs = new SysVerifyDocs();
+                sysVerifyDocs.setUserId(sysVerifyDocsVoZ.getUserId());
+                sysVerifyDocs.setCates(sysVerifyDocsVoZ.getIdentification());
+                if (sysVerifyDocsService.updateByUserId(sysVerifyDocs)){
+                    return dosIf(sysVerifyDocsVoZ);
+                }
+            }
          }
+         return false;
+    }
+
+    public boolean dosIf(SysVerifyDocsVoZ sysVerifyDocsVoZ){
+
+        SysVerifyDocs sysVerifyDocs = null;
+        List<SysVerifyDocs> sysVerifyDocsList = new ArrayList<>();
+        List<String> stringList = sysVerifyDocsVoZ.getStringList();
+        if (stringList != null && stringList.size() > 0){
+            for (int i = 0 ; i < stringList.size() ; i++){
+                if (StringUtil.isNotBlank(stringList.get(i))){
+                    sysVerifyDocs = new SysVerifyDocs();
+                    sysVerifyDocs.setUserId(sysVerifyDocsVoZ.getUserId());
+                    sysVerifyDocs.setFullName(sysVerifyDocsVoZ.getFullName());
+                    sysVerifyDocs.setCates(sysVerifyDocsVoZ.getIdentification());
+                    sysVerifyDocs.setDocCates(3);
+                    sysVerifyDocs.setFullName(sysVerifyDocsVoZ.getFullName());
+                    sysVerifyDocs.setIdNo(sysVerifyDocsVoZ.getIdCardNo());
+                    sysVerifyDocs.setImages(stringList.get(i));
+                    sysVerifyDocs.setCreationTime(new Date());
+                    sysVerifyDocsList.add(sysVerifyDocs);
+                }
+            }
+            if (sysVerifyDocsList != null && sysVerifyDocsList.size() > 0){
+                if (iSysVerifyDocsService.saveBatch(sysVerifyDocsList)){
+                    Map<String, Object> params = new HashMap<>();
+//                                params.put("idCardNo", sysVerifyDocsVoZ.getIdCardNo());
+                    params.put("gender", sysVerifyDocsVoZ.getGender());
+                    params.put("fullName", sysVerifyDocsVoZ.getFullName());
+//                                params.put("dateOfBirth", getBirthday(sysVerifyDocsVoZ.getIdCardNo()));
+                    params.put("userId", sysVerifyDocsVoZ.getUserId());
+                    if (userBasicService.updateUserBascByParams(params)){
+                        return true;
+                    }
+                }
+            }
+        }
         return false;
     }
 
@@ -169,6 +208,19 @@ public class SysVerifyDocsServiceImpl extends ServiceImpl<SysVerifyDocsMapper, S
     @Override
     public SysVerifyDocs selectResult(String userId) {
         return this.baseMapper.selectResult(userId);
+    }
+
+    @Override
+    public boolean updateByUserId(SysVerifyDocs sysVerifyDocs) {
+        if (this.baseMapper.updateByUserId(sysVerifyDocs) > 0){
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public List<SysVerifyDocs> getListByUserId(String userId) {
+        return this.baseMapper.getListByUserId(userId);
     }
 
     /**

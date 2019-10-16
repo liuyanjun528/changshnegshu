@@ -54,5 +54,21 @@ public interface SysVerifyDocsMapper extends BaseMapper<SysVerifyDocs> {
       */
     SysVerifyDocs selectResult(@Param("userId") String userId);
 
+    /**
+     * 根据条件修改条件
+     * @author zk
+     * @date 2019/10/16
+     * @return
+     */
+    int updateByUserId(@Param("sysVerifyDocs") SysVerifyDocs sysVerifyDocs);
+
+    /**
+     * 根据用户编号查询集合
+     * @author zk
+     * @date 2019/10/16
+     * @param userId
+     * @return
+     */
+    List<SysVerifyDocs> getListByUserId(@Param("userId") String userId);
 
 }
