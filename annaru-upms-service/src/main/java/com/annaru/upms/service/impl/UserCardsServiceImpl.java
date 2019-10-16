@@ -39,5 +39,10 @@ public class UserCardsServiceImpl extends ServiceImpl<UserCardsMapper, UserCards
         return this.baseMapper.getGreenPassUserInfo(userId,refNo);
     }
 
+    @Override
+    public int selectCardNo(String userId) {
+        return this.baseMapper.selectCardNo(userId);
+    }
+
 
 }
