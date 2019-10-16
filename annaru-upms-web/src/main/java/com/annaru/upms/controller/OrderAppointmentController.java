@@ -341,6 +341,7 @@ public class OrderAppointmentController extends BaseController {
         SysMessage message = new SysMessage();
         OrderExtensionExam orderExtensionExam = new OrderExtensionExam();
         OrderMain orderMain = new OrderMain();
+        SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
         Double amount,amountAdditional = 0.0;
         OrderDetail orderDetail = new OrderDetail();
         OrderAdditionalInfo orderAdditionalInfo = new OrderAdditionalInfo();
@@ -377,7 +378,9 @@ public class OrderAppointmentController extends BaseController {
                         message.setBusinessCate(3);
                         message.setMsgCate(3);
                         message.setContent(sysMessageTemplateService.selectMessageTemplate(4).getContentTemplate()
-                                .replace("[full_name]",userBasicService.selectByUid(userId).getFullName()));
+                                .replace("[full_name]",userBasicService.selectByUid(userId).getFullName())
+                        .replace("[appoint_date]",fmt.format(orderAppointment.getAppointDate()))
+                        .replace("[address]",orderAppointment.getAddress()));
                         message.setOrderNo(orderNo);
                         message.setUserId(userId);
                         orderMain.setOrderCates(cates);
@@ -400,15 +403,15 @@ public class OrderAppointmentController extends BaseController {
                         appointment.setInstitutionId(orderAppointment.getInstitutionId());
                         appointment.setStatus(2);
                         orderAppointmentService.save(appointment);
-                        SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
                         message.setBusinessCate(3);
                         message.setMsgCate(2);
                         message.setUserId(userId);
                         message.setOrderNo(orderNo);
-                        message.setContent(sysMessageTemplateService.selectMessageTemplate(9).getContentTemplate()
+                        message.setContent(sysMessageTemplateService.selectMessageTemplate(5).getContentTemplate()
                                 .replace("[full_name]",userBasicService.selectByUid(userId).getFullName())
                                 .replace("[appointDate]",fmt.format(orderAppointment.getAppointDate()))
-                                .replace("[hospital]",sysInstitutionService.getInfo(params).getName()));
+                                .replace("[name]",sysInstitutionService.getInfo(params).getName())
+                        .replace("[adress]",sysInstitutionService.getInfo(params).getAddress()));
                         orderAdditionalInfoService.save(orderAdditionalInfo);
                         sysMessageService.save(message);
                         return ResultMap.ok().put("data",orderNo);
@@ -465,7 +468,7 @@ public class OrderAppointmentController extends BaseController {
                     orderAppointmentService.save(appointment);
                 }
                 if (msg!=""||msg!=null){
-                    message.setContent(sysMessageTemplateService.selectMessageTemplate(2).getContentTemplate()
+                    message.setContent(sysMessageTemplateService.selectMessageTemplate(6).getContentTemplate()
                         .replace("[name]",msg)
                         .replace("[full_name]",userBasicService.selectByUid(userId).getFullName()));
                     message.setMsgCate(1);
@@ -532,7 +535,7 @@ public class OrderAppointmentController extends BaseController {
                     orderAppointmentService.save(appointment);
                 }
                 if (msg!=""||msg!=null){
-                    message.setContent(sysMessageTemplateService.selectMessageTemplate(2).getContentTemplate()
+                    message.setContent(sysMessageTemplateService.selectMessageTemplate(6).getContentTemplate()
                             .replace("[name]",msg)
                             .replace("[full_name]",userBasicService.selectByUid(userId).getFullName()));
                     message.setMsgCate(1);
@@ -564,7 +567,6 @@ public class OrderAppointmentController extends BaseController {
                 String doctorNo = orderAppointment.getRelatedNo();
                 String timeFrom = orderAppointment.getTimeFrom();
                 String timeTo = orderAppointment.getTimeTo();
-                SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
                 String appointDate = fmt.format(orderAppointment.getAppointDate());
                 params.put("doctorNo",doctorNo);
                 params.put("userId",userId);
