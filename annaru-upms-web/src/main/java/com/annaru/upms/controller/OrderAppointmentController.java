@@ -811,4 +811,18 @@ public class OrderAppointmentController extends BaseController {
         return ResultMap.ok().put("data",a);
     }
 
+    /**
+      * @Description:用户端护士上门订单详情
+      * @Author: wh
+      * @Date: 2019/10/17 10:11
+      */
+    @ApiOperation(value = "用户端护士上门订单详情", notes = "用户端护士上门订单详情")
+    @GetMapping("/selectNurseOrderInfo")
+    @RequiresPermissions("upms/orderAppointment/selectNurseOrderInfo")
+    public ResultMap selectNurseOrderInfo(String orderNo){
+        OrderNurseInfoW orderNurseInfoW = orderAppointmentService.selectNurseOrderInfo(orderNo);
+        return ResultMap.ok().put("data",orderNurseInfoW);
+    }
+
+
 }

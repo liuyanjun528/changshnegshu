@@ -85,4 +85,9 @@ public class OrderAppointmentServiceImpl extends ServiceImpl<OrderAppointmentMap
         return this.baseMapper.getCount(orderNo);
     }
 
+    @Override
+    public OrderNurseInfoW selectNurseOrderInfo(String orderNo) {
+        return this.baseMapper.selectNurseOrderInfo(orderNo);
+    }
+
 }
