@@ -141,7 +141,7 @@ public class SysVerifyDocsServiceImpl extends ServiceImpl<SysVerifyDocsMapper, S
                     sysVerifyDocs.setImages(sysVerifyDocsVoZ.getImg2());
                     sysVerifyDocs.setCreationTime(new Date());
                     if (iSysVerifyDocsService.save(sysVerifyDocs)){
-                        return dosIf(sysVerifyDocsVoZ);
+                        return dosIf(sysVerifyDocsVoZ, isReturn);
                     }
                 }
             }
@@ -153,7 +153,7 @@ public class SysVerifyDocsServiceImpl extends ServiceImpl<SysVerifyDocsMapper, S
                 if (sysVerifyDocsService.updateByUserId(sysVerifyDocs)){
                     sysVerifyDocsVoZ.setFullName(sysVerifyDocs1.getFullName());
                     sysVerifyDocsVoZ.setIdCardNo(sysVerifyDocs1.getIdNo());
-                    return dosIf(sysVerifyDocsVoZ);
+                    return dosIf(sysVerifyDocsVoZ, isReturn);
                 }
             }
          }
@@ -167,7 +167,7 @@ public class SysVerifyDocsServiceImpl extends ServiceImpl<SysVerifyDocsMapper, S
      * @param sysVerifyDocsVoZ
      * @return
      */
-    public boolean dosIf(SysVerifyDocsVoZ sysVerifyDocsVoZ){
+    public boolean dosIf(SysVerifyDocsVoZ sysVerifyDocsVoZ, int isReturn){
 
         SysVerifyDocs sysVerifyDocs = null;
         List<SysVerifyDocs> sysVerifyDocsList = new ArrayList<>();
@@ -190,10 +190,12 @@ public class SysVerifyDocsServiceImpl extends ServiceImpl<SysVerifyDocsMapper, S
             if (sysVerifyDocsList != null && sysVerifyDocsList.size() > 0){
                 if (iSysVerifyDocsService.saveBatch(sysVerifyDocsList)){
                     Map<String, Object> params = new HashMap<>();
-//                                params.put("idCardNo", sysVerifyDocsVoZ.getIdCardNo());
+                    if (isReturn == 1){
+                        params.put("idCardNo", sysVerifyDocsVoZ.getIdCardNo());
+                        params.put("dateOfBirth", getBirthday(sysVerifyDocsVoZ.getIdCardNo()));
+                    }
                     params.put("gender", sysVerifyDocsVoZ.getGender());
                     params.put("fullName", sysVerifyDocsVoZ.getFullName());
-//                                params.put("dateOfBirth", getBirthday(sysVerifyDocsVoZ.getIdCardNo()));
                     params.put("userId", sysVerifyDocsVoZ.getUserId());
                     if (userBasicService.updateUserBascByParams(params)){
                         return true;
