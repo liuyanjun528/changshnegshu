@@ -82,7 +82,7 @@
         LEFT JOIN sys_nurse as sn ON oa.related_no=sn.nurse_no
         LEFT JOIN sys_institution as si ON si.institution_id=oa.institution_id
         LEFT JOIN user_basic as ub ON ub.user_id=oa.user_id
-        WHERE ehs.order_no=#{orderNo}
+        WHERE ehs.order_no=#{orderNo} and oa.is_cancelled=0
 
     </select>
 

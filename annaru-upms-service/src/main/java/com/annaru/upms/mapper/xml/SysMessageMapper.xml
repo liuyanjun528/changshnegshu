@@ -24,9 +24,9 @@
         LEFT JOIN sys_doctor as sd ON sd.user_id=sm.user_id
         LEFT JOIN sys_nurse as sn ON sn.user_id=sm.user_id
         <where>
-             sd.user_id=#{params.userId} or sn.user_id=#{params.userId} or sm.user_id=#{params.userId}
+             (sd.user_id=#{params.userId} or sn.user_id=#{params.userId} or sm.user_id=#{params.userId})
             <if test="params.msgCate != null and params.msgCate != ''">
-                AND  sm.msg_cate=#{params.msgCate}
+                AND  sm.msg_cate=#{params.msgCate} ORDER BY creation_time DESC
             </if>
         </where>
     </select>

@@ -108,6 +108,7 @@
         <result column="parentNo" property="parentNo" />
         <result column="status" property="status" />
         <result column="amount" property="amount" />
+        <result column="is_deleted" property="isDeleted" />
 
         <collection property="orderMainVoZTC4List" ofType="com.annaru.upms.entity.vo.OrderMainVoZTC4">
             <result column="customerName" property="customerName"/>
@@ -359,7 +360,8 @@
         oai.option_1 option_1,
         om.parent_no parentNo,
         om.status,
-        om.amount
+        om.amount,
+        om.is_deleted
 
         FROM order_main om
         LEFT JOIN order_additional_info oai ON oai.order_no = om.order_no
@@ -371,7 +373,7 @@
         LEFT JOIN exam_master em ON em.sys_id = oex.exam_master_id
         LEFT JOIN exam_detail ed ON ed.sys_id = oex.exam_detail_id
         WHERE
-        1=1 AND om.is_deleted = 0
+        1=1 AND (om.is_deleted = 0 OR (om.is_deleted = 1 AND om.status = 0))
         <if test="params.status != null and params.status != '' or params.status == 0">
             AND om.status = #{params.status}
         </if>

@@ -61,13 +61,15 @@ public class SysVerifyDocsServiceImpl extends ServiceImpl<SysVerifyDocsMapper, S
 
          int isReturn = 0;
         // 判断这个 userId 的认证资料集合
-         List<SysVerifyDocs> sysVerifyDocsList1 = sysVerifyDocsService.getListByUserId(sysVerifyDocsVoZ.getUserId());
-         if (sysVerifyDocsList1.size() == 0){
+        List<SysVerifyDocs> sysVerifyDocsList1 = sysVerifyDocsService.getListByUserId(sysVerifyDocsVoZ.getUserId());
+        SysVerifyDocs sysVerifyDocs1 = null;
+        SysVerifyDocs sysVerifyDocs2 = null;
+        if (sysVerifyDocsList1.size() == 0){
              // 用户未认证
              isReturn = 1;
          }else if (sysVerifyDocsList1.size() == 2){
-             SysVerifyDocs sysVerifyDocs1 = sysVerifyDocsList1.get(0);
-             SysVerifyDocs sysVerifyDocs2 = sysVerifyDocsList1.get(1);
+             sysVerifyDocs1 = sysVerifyDocsList1.get(0);
+             sysVerifyDocs2 = sysVerifyDocsList1.get(1);
              if ((sysVerifyDocs1.getDocCates() == 1 && sysVerifyDocs2.getDocCates() == 2) || (sysVerifyDocs1.getDocCates() == 2 && sysVerifyDocs2.getDocCates() == 1)){
                 // 用户已认证
                  isReturn = 2;
@@ -76,21 +78,25 @@ public class SysVerifyDocsServiceImpl extends ServiceImpl<SysVerifyDocsMapper, S
              // 护士已经认证过
              return false;
          }
-
          String getBelongOffice = "";
          if (sysVerifyDocsVoZ.getBelongOffice() != null && sysVerifyDocsVoZ.getBelongOffice() != 0){
-             getBelongOffice = sysVerifyDocsVoZ.getBelongOffice().toString();
+            getBelongOffice = sysVerifyDocsVoZ.getBelongOffice().toString();
          }
          if (sysVerifyDocsVoZ.getIdentification() == 2){// 医生
              SysDoctor sysDoctor = new SysDoctor();
              sysDoctor.setDoctorNo(sysVerifyDocsVoZ.getUserNo());
              sysDoctor.setUserId(sysVerifyDocsVoZ.getUserId());
-             sysDoctor.setDoctorName(sysVerifyDocsVoZ.getFullName());
              sysDoctor.setBelongInstitution(sysVerifyDocsVoZ.getBelongHospital());
              sysDoctor.setBelongOffice(getBelongOffice);
              sysDoctor.setJobTitle(sysVerifyDocsVoZ.getJobTitle());
              sysDoctor.setIntroductions(sysVerifyDocsVoZ.getIntroductions());
              sysDoctor.setCreationTime(new Date());
+             if (isReturn == 1){
+                 sysDoctor.setDoctorName(sysVerifyDocsVoZ.getFullName());
+             }
+             if (isReturn == 2){
+                 sysDoctor.setDoctorName(sysVerifyDocs1.getFullName());
+             }
              if (iSysDoctorService.save(sysDoctor)){
                  isSave = true;
              }
@@ -98,12 +104,17 @@ public class SysVerifyDocsServiceImpl extends ServiceImpl<SysVerifyDocsMapper, S
              SysNurse sysNurse = new SysNurse();
              sysNurse.setNurseNo(sysVerifyDocsVoZ.getUserNo());
              sysNurse.setUserId(sysVerifyDocsVoZ.getUserId());
-             sysNurse.setNurseName(sysVerifyDocsVoZ.getFullName());
              sysNurse.setBelongHospital(sysVerifyDocsVoZ.getBelongHospital());
              sysNurse.setBelongOffice(getBelongOffice);
              sysNurse.setJobTitle(sysVerifyDocsVoZ.getJobTitle());
              sysNurse.setIntroductions(sysVerifyDocsVoZ.getIntroductions());
              sysNurse.setCreationTime(new Date());
+             if (isReturn == 1){
+                 sysNurse.setNurseName(sysVerifyDocsVoZ.getFullName());
+             }
+             if (isReturn == 2){
+                 sysNurse.setNurseName(sysVerifyDocs1.getFullName());
+             }
              if (iSysNurseService.save(sysNurse)){
                  isSave = true;
              }
@@ -130,7 +141,7 @@ public class SysVerifyDocsServiceImpl extends ServiceImpl<SysVerifyDocsMapper, S
                     sysVerifyDocs.setImages(sysVerifyDocsVoZ.getImg2());
                     sysVerifyDocs.setCreationTime(new Date());
                     if (iSysVerifyDocsService.save(sysVerifyDocs)){
-                        return dosIf(sysVerifyDocsVoZ);
+                        return dosIf(sysVerifyDocsVoZ, isReturn);
                     }
                 }
             }
@@ -140,14 +151,23 @@ public class SysVerifyDocsServiceImpl extends ServiceImpl<SysVerifyDocsMapper, S
                 sysVerifyDocs.setUserId(sysVerifyDocsVoZ.getUserId());
                 sysVerifyDocs.setCates(sysVerifyDocsVoZ.getIdentification());
                 if (sysVerifyDocsService.updateByUserId(sysVerifyDocs)){
-                    return dosIf(sysVerifyDocsVoZ);
+                    sysVerifyDocsVoZ.setFullName(sysVerifyDocs1.getFullName());
+                    sysVerifyDocsVoZ.setIdCardNo(sysVerifyDocs1.getIdNo());
+                    return dosIf(sysVerifyDocsVoZ, isReturn);
                 }
             }
          }
          return false;
     }
 
-    public boolean dosIf(SysVerifyDocsVoZ sysVerifyDocsVoZ){
+    /**
+     * 保存资格认证
+     * @author zk
+     * @date 2019/10/16
+     * @param sysVerifyDocsVoZ
+     * @return
+     */
+    public boolean dosIf(SysVerifyDocsVoZ sysVerifyDocsVoZ, int isReturn){
 
         SysVerifyDocs sysVerifyDocs = null;
         List<SysVerifyDocs> sysVerifyDocsList = new ArrayList<>();
@@ -170,10 +190,12 @@ public class SysVerifyDocsServiceImpl extends ServiceImpl<SysVerifyDocsMapper, S
             if (sysVerifyDocsList != null && sysVerifyDocsList.size() > 0){
                 if (iSysVerifyDocsService.saveBatch(sysVerifyDocsList)){
                     Map<String, Object> params = new HashMap<>();
-//                                params.put("idCardNo", sysVerifyDocsVoZ.getIdCardNo());
+                    if (isReturn == 1){
+                        params.put("idCardNo", sysVerifyDocsVoZ.getIdCardNo());
+                        params.put("dateOfBirth", getBirthday(sysVerifyDocsVoZ.getIdCardNo()));
+                    }
                     params.put("gender", sysVerifyDocsVoZ.getGender());
                     params.put("fullName", sysVerifyDocsVoZ.getFullName());
-//                                params.put("dateOfBirth", getBirthday(sysVerifyDocsVoZ.getIdCardNo()));
                     params.put("userId", sysVerifyDocsVoZ.getUserId());
                     if (userBasicService.updateUserBascByParams(params)){
                         return true;

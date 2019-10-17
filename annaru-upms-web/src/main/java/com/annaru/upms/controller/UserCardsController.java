@@ -108,6 +108,11 @@ public class UserCardsController extends BaseController {
 
         int i = userBasicService.updateCardAndBasics(userCards);
         if (i>0){
+            //如果 usercard表中 userID已存在 返回 卡号已存在
+            int j = userCardsService.selectCardNo(userCards.getUserId());
+            if(j>0){
+                return ResultMap.error("该用户的医保卡号已存在！");
+            }
             UserCards uc=new UserCards();
             uc.setCardNo(userCards.getCardNo());
             uc.setUserId(userCards.getUserId());

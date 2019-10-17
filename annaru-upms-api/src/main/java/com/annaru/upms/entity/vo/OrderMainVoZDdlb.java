@@ -59,6 +59,10 @@ public class OrderMainVoZDdlb implements Serializable {
 	 * @return
 	 */
 	private Double amount;
+	/**
+	 * 删除标记(0:未删除/1:已删除) ：用来标记已经取消的 status=0 未支付的订单
+	 */
+	private Integer isDeleted;
 
 	private List<OrderMainVoZTC31> orderMainVoZTC31List;
 	private List<OrderMainVoZTC4> orderMainVoZTC4List;
@@ -132,6 +136,14 @@ public class OrderMainVoZDdlb implements Serializable {
 	}
 	public void setOrderMainVoZTC5List(List<OrderMainVoZTC5> orderMainVoZTC5List) {
 		this.orderMainVoZTC5List = orderMainVoZTC5List;
+	}
+
+	public Integer getIsDeleted() {
+		return isDeleted;
+	}
+
+	public void setIsDeleted(Integer isDeleted) {
+		this.isDeleted = isDeleted;
 	}
 
 	@Override
