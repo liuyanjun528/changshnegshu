@@ -79,6 +79,7 @@ public class ExamPackageMainVoTcxqZ implements Serializable {
 	private List<ExamPackageMainVoZsfwZ> examPackageMainVoZsfwZList;
 	private List<ExamPackageMainVoXmZ> examPackageMainVoXmZList;
 
+	private List<NameItemName> nameItemNameList;
 
 	/**
      * 获取：系统编号
@@ -228,6 +229,14 @@ public class ExamPackageMainVoTcxqZ implements Serializable {
 
 	public void setExamPackageMainVoXmZList(List<ExamPackageMainVoXmZ> examPackageMainVoXmZList) {
 		this.examPackageMainVoXmZList = examPackageMainVoXmZList;
+	}
+
+	public List<NameItemName> getNameItemNameList() {
+		return nameItemNameList;
+	}
+
+	public void setNameItemNameList(List<NameItemName> nameItemNameList) {
+		this.nameItemNameList = nameItemNameList;
 	}
 
 	@Override

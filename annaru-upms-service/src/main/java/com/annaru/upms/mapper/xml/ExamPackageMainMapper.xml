@@ -109,6 +109,14 @@
             <result column="remark1" property="remark1"/>
         </collection>
 
+        <collection property="nameItemNameList" ofType="com.annaru.upms.entity.vo.NameItemName">
+            <result column="name" property="name"/>
+
+            <collection property="itemNameList" ofType="com.annaru.upms.entity.vo.ItemName">
+                <result column="item_name" property="itemName"/>
+            </collection>
+        </collection>
+
     </resultMap>
 
 
@@ -241,7 +249,9 @@
         epa.periods periods,
         ea.cates eaCates,
         epm.image_url imageUrl,
-        epm.label
+        epm.label,
+        emj.name,
+        edj.item_name
         FROM
         exam_package_main epm
         LEFT JOIN (
@@ -258,6 +268,9 @@
         LEFT JOIN exam_detail ed3 ON ed3.sys_id = epd3.exam_detail_id
         LEFT JOIN exam_package_append epa ON epa.package_main_id = epm.sys_id
         LEFT JOIN exam_append ea ON ea.sys_id = epa.append_id
+        LEFT JOIN exam_package_extension epx ON epx.pkg_main_id = epm.sys_id
+        LEFT JOIN exam_master emj ON emj.sys_id = epx.exam_master_id
+        LEFT JOIN exam_detail edj ON edj.sys_id = epx.exam_detail_id
         WHERE 1 = 1
             <if test="params.sysId != null and params.sysId != ''">
                 AND epm.sys_id = #{params.sysId}
