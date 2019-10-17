@@ -80,5 +80,12 @@ public interface IOrderAppointmentService extends IService<OrderAppointment> {
 
     int getCount(String orderNo);
 
+    /**
+     * @Description:用户端 护士上门订单详情
+     * @Author: wh
+     * @Date: 2019/10/17 10:15
+     */
+    OrderNurseInfoW selectNurseOrderInfo(String orderNo);
+
 }
 

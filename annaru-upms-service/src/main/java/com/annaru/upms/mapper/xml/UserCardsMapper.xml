@@ -90,4 +90,9 @@
             ur.ref_no=#{refNo}
     </select>
 
+
+    <select id="selectCardNo" parameterType="string" resultType="int">
+        select count(*) from user_cards where user_id=#{userId}
+    </select>
+
 </mapper>

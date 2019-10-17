@@ -88,4 +88,13 @@ public interface OrderAppointmentMapper extends BaseMapper<OrderAppointment> {
     OrderOppintmentW selectUpDoorOppointment(@Param("orderNo")String orderNo);
 
     int getCount(@Param("orderNo")String orderNo);
+
+
+    /**
+      * @Description:用户端 护士上门订单详情
+      * @Author: wh
+      * @Date: 2019/10/17 10:15
+      */
+    OrderNurseInfoW selectNurseOrderInfo(@Param("orderNo")String orderNo);
+
 }

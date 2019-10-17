@@ -373,4 +373,45 @@ UNION
         WHERE
         order_no = #{orderNo}
     </select>
+
+    <resultMap id="nurseOrderInfo" type="com.annaru.upms.entity.vo.OrderNurseInfoW">
+        <result column="option_1" property="option1"/>
+        <result column="status" property="status"/>
+        <result column="full_name" property="fullName"/>
+        <result column="gender" property="gender"/>
+        <result column="id_card_no" property="idCardNo"/>
+        <result column="card_no" property="cardNo"/>
+        <result column="cellphone_no" property="cellphoneNo"/>
+        <result column="appoint_date" property="appointDate"/>
+        <result column="amount" property="amount"/>
+        <result column="address" property="address"/>
+        <result column="order_no" property="orderNo"/>
+        <result column="order_time" property="orderTime"/>
+        <result column="user_channel" property="userChannel"/>
+    </resultMap>
+
+
+    <select id="selectNurseOrderInfo" parameterType="String" resultMap="nurseOrderInfo">
+                select
+                    oai.option_1,
+		            om.status,
+		            ub.full_name,
+		            ub.gender,
+		            ub.id_card_no,
+		            uc.card_no,
+		            ub.cellphone_no,
+		            oa.address,
+		            oa.appoint_date,
+		            om.order_time,
+		            om.amount,
+		            om.order_no ,
+		            om.user_channel
+	            from order_appointment as oa
+            LEFT JOIN order_additional_info as oai ON oai.order_no=oa.order_no
+            LEFT JOIN order_main as om ON om.order_no=oa.order_no
+            LEFT JOIN user_basic as ub ON ub.user_id=om.user_id
+            LEFT JOIN user_cards as uc ON uc.user_id=ub.user_id
+            where oa.order_no=#{orderNo}
+    </select>
+
 </mapper>
