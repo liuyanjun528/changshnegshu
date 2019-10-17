@@ -465,6 +465,7 @@ public class OrderAppointmentController extends BaseController {
                     appointment.setCreateBy(userId);
                     appointment.setOrderNo(orderNo);
                     appointment.setStatus(2);
+                    appointment.setServiceOption(2);
                     orderAppointmentService.save(appointment);
                 }
                 if (msg!=""||msg!=null){
@@ -532,6 +533,7 @@ public class OrderAppointmentController extends BaseController {
                     appointment.setStatus(2);
                     appointment.setCreateBy(userId);
                     appointment.setOrderNo(orderNo);
+                    appointment.setServiceOption(2);
                     orderAppointmentService.save(appointment);
                 }
                 if (msg!=""||msg!=null){
