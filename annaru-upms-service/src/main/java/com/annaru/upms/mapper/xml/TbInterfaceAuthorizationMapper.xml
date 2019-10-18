@@ -24,6 +24,6 @@
         ia.XGBZ,
         ia.PUSH_STATE
        FROM
-        TB_INTERFACE_AUTHORIZATION ia WHERE ia.USER_ID=#{userId}
+        TB_INTERFACE_AUTHORIZATION ia WHERE ia.USER_ID=#{userId,jdbcType=VERCHAR}
     </select>
 </mapper>
