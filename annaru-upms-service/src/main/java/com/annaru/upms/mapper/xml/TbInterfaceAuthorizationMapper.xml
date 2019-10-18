@@ -14,7 +14,7 @@
     </resultMap>
 
     <!-- 用户授权信息 -->
-    <select id="selectByUserId" parameterType="map" resultMap="BaseResultMap">
+    <select id="selectByUserId" parameterType="java.lang.String" resultMap="BaseResultMap">
        SELECT
         ia.CSID,
         ia.USER_ID,
