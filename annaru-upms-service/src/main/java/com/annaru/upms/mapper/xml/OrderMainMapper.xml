@@ -425,7 +425,7 @@
         LEFT JOIN user_relatives ur ON ur.relative_id = oc.relative_id
         LEFT JOIN user_basic ub1 ON ub1.user_id = oc.relative_id
         WHERE
-        1=1 AND om.is_deleted = 0
+        1=1 AND (om.is_deleted = 0 OR (om.is_deleted = 1 AND om.status = 0))
         <if test="params.sysId != null and params.sysId != ''">
             AND om.sys_id = #{params.sysId}
         </if>
@@ -467,7 +467,7 @@
         LEFT JOIN user_cards uc ON om.user_id = uc.user_id
         LEFT JOIN user_basic ub ON ub.user_id = om.user_id
         WHERE
-        1=1 AND om.is_deleted = 0
+        1=1 AND (om.is_deleted = 0 OR (om.is_deleted = 1 AND om.status = 0))
         <if test="params.sysId != null and params.sysId != ''">
             AND om.sys_id = #{params.sysId}
         </if>
@@ -506,7 +506,7 @@
         LEFT JOIN user_basic ub ON ub.user_id = om.user_id
         LEFT JOIN sys_department sd ON sd.sys_id = oa.department_id
         LEFT JOIN order_additional_info oai ON oai.order_no = om.order_no
-        WHERE om.is_deleted = 0
+        WHERE (om.is_deleted = 0 OR (om.is_deleted = 1 AND om.status = 0))
         AND oa.is_cancelled = 0
         <if test="params.sysId != null and params.sysId != ''">
             AND om.sys_id = #{params.sysId}
