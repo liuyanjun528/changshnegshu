@@ -19,6 +19,7 @@
         <result column="full_name" property="fullName" />
         <result column="user_gender" property="userGender"/>
         <result column="user_age" property="userAge"/>
+        <result column="user_card_no" property="userCardNo"/>
         <result column="user_id_card_no" property="userIdCardNo"/>
         <result column="user_cellphone_no" property="userCellphoneNo"/>
         <result column="entity_name" property="entityName" />
@@ -28,6 +29,7 @@
                 <result column="relative_name" property="relativeName"/>
                 <result column="relative_gender" property="relativeGender"/>
                 <result column="relative_age" property="relativeAge"/>
+                <result column="relative_card_no" property="relativeCardNo"/>
                 <result column="relative_id_card_no" property="relativeIdCardNo"/>
                 <result column="relative_cellphone_no" property="relativeCellphoneNo"/>
                 <result column="remark" property="remark"/>
@@ -78,12 +80,19 @@
         SELECT
         ub.user_id,
         ub.full_name,
+        ub.cellphone_no as user_cellphone_no,
+        ub.id_card_no as user_id_card_no,
         ub.gender AS user_gender,
         TIMESTAMPDIFF(YEAR, ub.date_of_birth, CURDATE()) AS user_age,
+        uc.card_no as user_card_no,
+
         ur.ref_no,
         ur.relative_name,
+        ur.cellphone_no as relative_cellphone_no,
+        ur.id_card_no as relative_id_card_no,
         ur.gender AS relative_gender,
         TIMESTAMPDIFF(YEAR, ur.date_of_birth, CURDATE()) AS relative_age,
+        uc.card_no as relative_card_no,
         ur.remark,
         se.entity_id,
         se.entity_name
@@ -91,6 +100,7 @@
         LEFT JOIN sys_entity se ON se.entity_id = uem.entity_id
         LEFT JOIN user_basic ub ON ub.user_id = uem.user_id
         LEFT JOIN user_relatives ur ON ur.user_id = uem.user_id
+        LEFT JOIN user_cards as uc ON uc.user_id=ub.user_id
         where
         <if test="userId != null and userId != ''">
             uem.user_id=#{userId}
