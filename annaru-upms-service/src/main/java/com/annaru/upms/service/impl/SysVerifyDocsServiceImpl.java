@@ -56,25 +56,24 @@ public class SysVerifyDocsServiceImpl extends ServiceImpl<SysVerifyDocsMapper, S
 
     @Override
     @Transactional
-    public boolean saveDocsBasics(SysVerifyDocsVoZ sysVerifyDocsVoZ) {
+    public boolean saveDocsBasics(SysVerifyDocsVoZ sysVerifyDocsVoZ, List<SysVerifyDocs> sysVerifyDocsList1) {
          boolean isSave = false;
 
          int isReturn = 0;
         // 判断这个 userId 的认证资料集合
-        List<SysVerifyDocs> sysVerifyDocsList1 = sysVerifyDocsService.getListByUserId(sysVerifyDocsVoZ.getUserId());
         SysVerifyDocs sysVerifyDocs1 = null;
         SysVerifyDocs sysVerifyDocs2 = null;
         if (sysVerifyDocsList1.size() == 0){
              // 用户未认证
              isReturn = 1;
-         }else if (sysVerifyDocsList1.size() == 2){
+        }else if (sysVerifyDocsList1.size() == 2){
              sysVerifyDocs1 = sysVerifyDocsList1.get(0);
              sysVerifyDocs2 = sysVerifyDocsList1.get(1);
              if ((sysVerifyDocs1.getDocCates() == 1 && sysVerifyDocs2.getDocCates() == 2) || (sysVerifyDocs1.getDocCates() == 2 && sysVerifyDocs2.getDocCates() == 1)){
                 // 用户已认证
                  isReturn = 2;
              }
-         }else if (sysVerifyDocsList1.size() > 2){
+        }else if (sysVerifyDocsList1.size() > 2){
              // 护士已经认证过
              return false;
          }

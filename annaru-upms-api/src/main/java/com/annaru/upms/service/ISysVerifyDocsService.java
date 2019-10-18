@@ -30,7 +30,7 @@ public interface ISysVerifyDocsService extends IService<SysVerifyDocs> {
      * @Author  zk
      * @Date  2019-06-10 11:37
      */
-    public boolean saveDocsBasics(SysVerifyDocsVoZ sysVerifyDocsVoZ);
+    public boolean saveDocsBasics(SysVerifyDocsVoZ sysVerifyDocsVoZ, List<SysVerifyDocs> sysVerifyDocsList1);
 
     /**
      * 查询护士、医生认证信息
