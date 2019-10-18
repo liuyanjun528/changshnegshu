@@ -119,7 +119,15 @@ public class SysVerifyDocsController extends BaseController {
         if (sysNurse != null){
             return ResultMap.error("该护士已经存在！");
         }
-
+        List<SysVerifyDocs> sysVerifyDocsList1 = sysVerifyDocsService.getListByUserId(sysVerifyDocsVoZ.getUserId());
+        if (sysVerifyDocsList1.size() > 2){
+            if (sysVerifyDocsList1.get(0).getCates() == 1){
+                return ResultMap.error("该护士已认证！");
+            }
+            if (sysVerifyDocsList1.get(0).getCates() == 2){
+                return ResultMap.error("该医生已认证！");
+            }
+        }
             SysConfig sysConfig = null;
             if (sysVerifyDocsVoZ.getIdentification() == 2){
                 // 医生
@@ -130,7 +138,7 @@ public class SysVerifyDocsController extends BaseController {
                 sysConfig = SysConfigUtil.getSysConfig(iSysConfigService, SysConfigUtil.NURSE);
                 sysVerifyDocsVoZ.setUserNo(SysConfigUtil.getNoBySysConfig());
             }
-            if (sysVerifyDocsService.saveDocsBasics(sysVerifyDocsVoZ)){
+            if (sysVerifyDocsService.saveDocsBasics(sysVerifyDocsVoZ, sysVerifyDocsList1)){
                 SysConfigUtil.saveRefNo(sysConfig.getRefNo());
                 if (SysConfigUtil.saveRefNo(sysConfig.getRefNo())){
                     return ResultMap.ok("添加成功");
