@@ -87,6 +87,17 @@ public class PatientNumberController extends BaseController {
         return ResultMap.ok().put("data",pn);
     }
 
+    @ApiOperation(value = "护士上门本日总订单/本日未完成订单", notes = "护士上门本日总订单/本日未完成订单")
+    @GetMapping("/nurserCountInfo")
+    public ResultMap nurserCountInfo(String nuserNo,String appointDate){
+        PatientNumber pn=new PatientNumber();
+        //护士上门本日总订单
+        pn.setUnPatientNumber(patientNumberService.selectUpDoorNurse(nuserNo,appointDate));
+        //本日未完成订单
+        pn.setUnUpDoorNumber(patientNumberService.selectUpDorNurseToday(nuserNo,appointDate));
+        return ResultMap.ok().put("data",pn);
+    }
+
 
     /**
       * @Description:医生端上门评估的数量，门诊的数量，下周预约的数量

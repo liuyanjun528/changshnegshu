@@ -14,7 +14,7 @@
     </resultMap>
 
     <!-- 用户授权信息 -->
-    <select id="selectByUserId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    <select id="selectByUserId" parameterType="map" resultMap="BaseResultMap">
        SELECT
         ia.CSID,
         ia.USER_ID,
@@ -24,6 +24,6 @@
         ia.XGBZ,
         ia.PUSH_STATE
        FROM
-        TB_INTERFACE_AUTHORIZATION ia WHERE ia.USER_ID=#{userId,jdbcType=VERCHAR}
+        TB_INTERFACE_AUTHORIZATION ia WHERE ia.USER_ID=#{userId}
     </select>
 </mapper>

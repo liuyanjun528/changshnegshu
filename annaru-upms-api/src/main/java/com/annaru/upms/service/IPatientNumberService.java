@@ -3,9 +3,6 @@ package com.annaru.upms.service;
 import com.annaru.upms.entity.vo.PatientNumber;
 import com.baomidou.mybatisplus.extension.service.IService;
 
-import java.util.Date;
-import java.util.Map;
-
 /**
  * 医生端首页统计信息
  * @author wh
@@ -33,6 +30,10 @@ public interface IPatientNumberService extends IService<PatientNumber> {
     int selectNurse2(String nurseNo);
     //查询待提交样本
     int selectNurse3(String nurseNo);
+    //护士上门本日总订单/本日未完成订单
+    int selectUpDoorNurse(String nurseNo,  String appointDate);
+    int selectUpDorNurseToday(String nurseNo, String appointDate);
+
 
     /**
      * @Description:医生首页统计未完成服务，总服务

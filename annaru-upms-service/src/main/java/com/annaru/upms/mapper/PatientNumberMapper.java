@@ -35,6 +35,9 @@ public interface PatientNumberMapper extends BaseMapper<PatientNumber> {
     int selectNurse2(@Param("nurseNo")String nurseNo);
     //查询待提交样本
     int selectNurse3(@Param("nurseNo")String nurseNo);
+    //护士上门本日总订单/本日未完成订单
+    int selectUpDoorNurse(@Param("nurseNo")String nurseNo,@Param("appointDate") String appointDate);
+    int selectUpDorNurseToday(@Param("nurseNo")String nurseNo,@Param("appointDate") String appointDate);
 
     /**
       * @Description:医生首页统计未完成服务，总服务

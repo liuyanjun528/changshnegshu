@@ -66,13 +66,13 @@
 
             <!-- 护士端首页统计信息-->
             <select id="selectNurse1" parameterType="String" resultType="int">
-              SELECT count(*) FROM sys_doctor_nurse_oppointment
-              WHERE doctor_nurse_no=#{nurseNo} and is_active=1
+              SELECT count(*) FROM order_appointment
+              WHERE related_no=#{nurseNo} and is_cancelled=0 and service_option=1
               and  appoint_date>DATE_FORMAT(DATE_SUB(NOW(),INTERVAL 7 DAY),'%Y-%m-%d')
             </select>
             <select id="selectNurse2" parameterType="String" resultType="int">
-                SELECT count(*) FROM sys_doctor_nurse_oppointment
-                WHERE doctor_nurse_no=#{nurseNo} and is_active=1 and is_confirmed=0
+                SELECT count(*) FROM order_appointment
+                    WHERE related_no=#{nurseNo}  and service_option=1
                 and  appoint_date>DATE_FORMAT(DATE_SUB(NOW(),INTERVAL 7 DAY),'%Y-%m-%d')
             </select>
             <select id="selectNurse3" parameterType="String" resultType="int">
@@ -80,6 +80,17 @@
                 LEFT JOIN order_appointment as oa ON oa.order_no=ehs.order_no
                 WHERE oa.related_no=#{nurseNo}  and is_handovered=0
             </select>
+
+        <select id="selectUpDoorNurse" parameterType="String" resultType="int">
+            SELECT count(*) FROM order_appointment
+              WHERE related_no=#{nurseNo}  and service_option=1  and appoint_date=#{appointDate}
+        </select>
+        <select id="selectUpDorNurseToday" parameterType="String" resultType="int">
+            SELECT count(*) FROM exam_handover_sheet as ehs
+                LEFT JOIN order_appointment as oa ON oa.order_no=ehs.order_no
+                WHERE oa.related_no=#{nurseNo}  and is_handovered=0 and oa.appoint_date=#{appointDate}
+        </select>
+
 
         <select id="selectDoctorIndexCount" parameterType="String" resultMap="BaseResultMap">
                SELECT

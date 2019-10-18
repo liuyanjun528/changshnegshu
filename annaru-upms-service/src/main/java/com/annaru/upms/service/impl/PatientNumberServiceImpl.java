@@ -76,6 +76,16 @@ public class PatientNumberServiceImpl extends ServiceImpl<PatientNumberMapper, P
     }
 
     @Override
+    public int selectUpDoorNurse(String nurseNo, String appointDate) {
+        return this.baseMapper.selectUpDoorNurse(nurseNo,appointDate);
+    }
+
+    @Override
+    public int selectUpDorNurseToday(String nurseNo, String appointDate) {
+        return this.baseMapper.selectUpDorNurseToday(nurseNo,appointDate);
+    }
+
+    @Override
     public PatientNumber selectDoctorIndexCount(String doctorNo, String appointDate) {
         return this.baseMapper.selectDoctorIndexCount(doctorNo,appointDate);
     }
