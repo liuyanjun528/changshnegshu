@@ -12,6 +12,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
+import java.util.Date;
 import java.util.Map;
 
 /**
@@ -72,6 +73,21 @@ public class PatientNumberServiceImpl extends ServiceImpl<PatientNumberMapper, P
     @Override
     public int selectNurse3(String nurseNo) {
         return this.baseMapper.selectSumNumber3(nurseNo);
+    }
+
+    @Override
+    public PatientNumber selectDoctorIndexCount(String doctorNo, String appointDate) {
+        return this.baseMapper.selectDoctorIndexCount(doctorNo,appointDate);
+    }
+
+    @Override
+    public PatientNumber selectOutpatientCountToday(String doctorNo, String appointDate) {
+        return this.baseMapper.selectOutpatientCountToday(doctorNo,appointDate);
+    }
+
+    @Override
+    public PatientNumber selectScheduleCount(String doctorNo, String appointDate) {
+        return this.baseMapper.selectScheduleCount(doctorNo,appointDate);
     }
 
 
