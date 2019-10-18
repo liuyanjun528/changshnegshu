@@ -447,7 +447,7 @@
         ub.full_name customerName,
         ub.id_card_no idNo,
         ub.gender,
-        om.cellphone_no cellphoneNo1,
+        ub.cellphone_no cellphoneNo1,
         uc.card_cates cardCates,
         uc.card_no cardNo,
         si.name siName,
