@@ -8,6 +8,7 @@ import java.util.Date;
 public class OrderNurseInfoW implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    private int sysId;
     private int option1;
     private int status;
     private String fullName;
@@ -22,6 +23,14 @@ public class OrderNurseInfoW implements Serializable {
     private String orderNo ;
     private String userChannel;
 
+
+    public int getSysId() {
+        return sysId;
+    }
+
+    public void setSysId(int sysId) {
+        this.sysId = sysId;
+    }
 
     public int getOption1() {
         return option1;

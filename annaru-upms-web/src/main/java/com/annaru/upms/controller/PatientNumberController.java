@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -86,6 +87,45 @@ public class PatientNumberController extends BaseController {
         return ResultMap.ok().put("data",pn);
     }
 
+    @ApiOperation(value = "护士上门本日总订单/本日未完成订单", notes = "护士上门本日总订单/本日未完成订单")
+    @GetMapping("/nurserCountInfo")
+    public ResultMap nurserCountInfo(String nuserNo,String appointDate){
+        PatientNumber pn=new PatientNumber();
+        //护士上门本日总订单
+        pn.setUnPatientNumber(patientNumberService.selectUpDoorNurse(nuserNo,appointDate));
+        //本日未完成订单
+        pn.setUnUpDoorNumber(patientNumberService.selectUpDorNurseToday(nuserNo,appointDate));
+        return ResultMap.ok().put("data",pn);
+    }
+
+
+    /**
+      * @Description:医生端上门评估的数量，门诊的数量，下周预约的数量
+      * @Author: wh
+      * @Date: 2019/10/18 10:47
+      */
+    @ApiOperation(value = "医生端上门评估的数量门诊的数量下周预约的数量", notes = "医生端上门评估的数量门诊的数量下周预约的数量")
+    @GetMapping("/doctorCountInfo")
+    public ResultMap doctorCountInfo(String doctorNo, String appointDate){
+
+        //医生端上门评估的数量
+        PatientNumber a = patientNumberService.selectDoctorIndexCount(doctorNo, appointDate);
+        //门诊的数量
+        PatientNumber b =patientNumberService.selectOutpatientCountToday(doctorNo,appointDate);
+        //下周预约的数量
+        PatientNumber c = patientNumberService.selectScheduleCount(doctorNo,appointDate);
+
+        PatientNumber pn=new PatientNumber();
+        pn.setSumNumber(a.getSumNumber());
+        pn.setUnscrambleNumber(a.getUnscrambleNumber());
+        pn.setUnUpDoorNumber(b.getUnUpDoorNumber());
+        if(null==c){
+            pn.setUnAppointmentNumber(0);
+        }else {
+            pn.setUnAppointmentNumber(c.getUnAppointmentNumber());
+        }
+        return ResultMap.ok().put("data",pn);
+    }
 
 
 }

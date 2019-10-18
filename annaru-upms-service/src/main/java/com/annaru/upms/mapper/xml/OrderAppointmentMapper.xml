@@ -375,6 +375,7 @@ UNION
     </select>
 
     <resultMap id="nurseOrderInfo" type="com.annaru.upms.entity.vo.OrderNurseInfoW">
+        <result column="sys_id" property="sysId"/>
         <result column="option_1" property="option1"/>
         <result column="status" property="status"/>
         <result column="full_name" property="fullName"/>
@@ -393,6 +394,7 @@ UNION
 
     <select id="selectNurseOrderInfo" parameterType="String" resultMap="nurseOrderInfo">
                 select
+                    om.sys_id,
                     oai.option_1,
 		            om.status,
 		            ub.full_name,
