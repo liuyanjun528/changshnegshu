@@ -84,8 +84,10 @@ public class OrderAdditionalInfoController extends BaseController {
             orderAdditionalInfo.getEntityHealthyAppointment().getOrderMain().setOrderNo(SysConfigUtil.getNoBySysConfig());
             //添加orderAdditionalInfo 表
             orderAdditionalInfo.setOrderNo(orderAdditionalInfo.getEntityHealthyAppointment().getOrderMain().getOrderNo());
-            if(orderAdditionalInfo.getOption2()==1){
+            if(orderAdditionalInfo.getOption2()==1){ // 如果option2为1 是陪诊查询配置表添加金额
                 orderAdditionalInfo.setAmount(setting.getPrices());
+            }else{
+                orderAdditionalInfo.setAmount(0.0); // 否则设置金额为0
             }
             orderAdditionalInfo.setAppointmentCates(6);
             orderAdditionalInfo.setCreationTime(orderAdditionalInfo.getEntityHealthyAppointment().getOrderMain().getCreationtime());

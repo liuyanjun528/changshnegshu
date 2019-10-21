@@ -56,6 +56,9 @@ public class UserBasicVo implements Serializable {
 	private String userCellphoneNo;
 
 
+	private String userCardNo;
+
+
 
 	private int isFillIn;//是否填写健康调查问卷0:未填写 1:已填写
 
@@ -160,5 +163,13 @@ public class UserBasicVo implements Serializable {
 
 	public void setUserRelativesVoList(List<UserRelativesVo> userRelativesVoList) {
 		this.userRelativesVoList = userRelativesVoList;
+	}
+
+	public String getUserCardNo() {
+		return userCardNo;
+	}
+
+	public void setUserCardNo(String userCardNo) {
+		this.userCardNo = userCardNo;
 	}
 }

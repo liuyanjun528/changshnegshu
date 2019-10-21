@@ -67,6 +67,8 @@ public class UserRelativesVo implements Serializable {
 	 */
 	private Date editTime;
 
+	private String relativeCardNo;
+
 	public Integer getSysId() {
 		return sysId;
 	}
@@ -169,5 +171,13 @@ public class UserRelativesVo implements Serializable {
 
 	public void setEditTime(Date editTime) {
 		this.editTime = editTime;
+	}
+
+	public String getRelativeCardNo() {
+		return relativeCardNo;
+	}
+
+	public void setRelativeCardNo(String relativeCardNo) {
+		this.relativeCardNo = relativeCardNo;
 	}
 }
