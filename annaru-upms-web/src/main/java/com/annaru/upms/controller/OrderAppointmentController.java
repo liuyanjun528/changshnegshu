@@ -587,7 +587,7 @@ public class OrderAppointmentController extends BaseController {
                     schedule.setIsActive(1);
                 }
                 schedule.setCount(count);
-                appointment.setOrderNo(orderAppointment.getOrderNo());
+                appointment.setOrderNo(userFamilyDoctor.getOrderNo());
                 appointment.setUserId(userId);
                 appointment.setRelatedNo(doctorNo);
                 appointment.setTimeFrom(timeFrom);
@@ -598,7 +598,7 @@ public class OrderAppointmentController extends BaseController {
                 sysDoctorScheduleService.updateById(schedule);
                 sysDoctorOppointmentService.updateById(sysDoctorOppointment);
                 orderAppointmentService.save(appointment);
-                sysDoctorOppointment.setOrderNo(orderAppointment.getOrderNo());
+                sysDoctorOppointment.setOrderNo(userFamilyDoctor.getOrderNo());
                 sysDoctorOppointment.setAppointmentCates(5);
                 sysDoctorOppointment.setUserId(orderAppointment.getUserId());
                 sysDoctorOppointment.setUserCate("2");
