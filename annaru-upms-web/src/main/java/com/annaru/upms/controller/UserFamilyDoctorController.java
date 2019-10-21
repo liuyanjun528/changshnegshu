@@ -54,38 +54,49 @@ public class UserFamilyDoctorController extends BaseController {
     // @RequiresPermissions("upms/orderMain/saveFamilyDoctor")
     public ResultMap saveFamilyDoctor(@RequestBody OrderMain orderMain) {
         try {
-            SysConfig sysConfig = SysConfigUtil.getSysConfig(iSysConfigService , SysConfigUtil.ORDERNO);
-            orderMain.setOrderNo(SysConfigUtil.getNoBySysConfig());
-            orderMain.setOrderTime(new Date());
-            Calendar cal = Calendar.getInstance();
-            cal.setTime(orderMain.getOrderTime());//设置起时间
-            cal.add(Calendar.YEAR, 1);//增加一年
-            orderMain.getUserFamilyDoctor().setEffectTo(cal.getTime());
+            //添加前的判断
+            //该用户的家庭医生已存在 不允许再购买/已有数据 但是过期了 可以继续购买
+            //如果购买 新的医生 之前有未付款的订单 删除掉重新生成一个新的订单-------》这个目前未进行判断 不确定需求
+            Map<String, Object> params = new HashMap<>();
+            params.put("userId",orderMain.getUserId());
+            UserFamilyDoctorVo userFamilyDoctor = userFamilyDoctorService.getUserFDInfo(params);//查询表中是否存在数据
+            int i=UUIDGenerator.differentDays(new Date(),userFamilyDoctor.getEffectTo());//剩余天数
+            //有医生并且有剩余天数
+            if(userFamilyDoctor!=null&&i>0){
+                return ResultMap.error("该用户已有家庭医生，不可以再购买");
+            } else{ //有医生并且剩余天数<=0||没有医生进行添加家庭医生 都是这个执行这个⬇
+                SysConfig sysConfig = SysConfigUtil.getSysConfig(iSysConfigService , SysConfigUtil.ORDERNO);
+                orderMain.setOrderNo(SysConfigUtil.getNoBySysConfig());
+                orderMain.setOrderTime(new Date());
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(orderMain.getOrderTime());//设置起时间
+                cal.add(Calendar.YEAR, 1);//增加一年
+                orderMain.getUserFamilyDoctor().setEffectTo(cal.getTime());
 
-            Boolean aBoolean = userFamilyDoctorService.saveFamilyDoctor(orderMain);
+                Boolean aBoolean = userFamilyDoctorService.saveFamilyDoctor(orderMain);
 
-            //查询套餐模板
-            SysMessageTemplate sysMessageTemplate = sysMessageTemplateService.selectMessageTemplate(46);
-            //套餐购买成功往消息表添加一条数据
-            SysMessage sm=new SysMessage();
-            sm.setOrderNo(orderMain.getOrderNo());// 订单号
-            sm.setMsgCate(2);//1:系统消息
-            sm.setBusinessCate(1);//1:购买套餐
-            sm.setUserId(orderMain.getUserId());//用户
-            sm.setCreationTime(new Date());
-            String contentTemplate = sysMessageTemplate.getContentTemplate();
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            String startTime = sdf.format(orderMain.getUserFamilyDoctor().getEffectTo());
-            System.out.println("cessss:"+startTime);
-            String message = contentTemplate.replace("[effect_to]",startTime);//替换过的消息
-            sm.setContent(message);
-            sysMessageService.save(sm);
+                //查询套餐模板
+                SysMessageTemplate sysMessageTemplate = sysMessageTemplateService.selectMessageTemplate(46);
+                //套餐购买成功往消息表添加一条数据
+                SysMessage sm=new SysMessage();
+                sm.setOrderNo(orderMain.getOrderNo());// 订单号
+                sm.setMsgCate(2);//1:系统消息
+                sm.setBusinessCate(1);//1:购买套餐
+                sm.setUserId(orderMain.getUserId());//用户
+                sm.setCreationTime(new Date());
+                String contentTemplate = sysMessageTemplate.getContentTemplate();
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                String startTime = sdf.format(orderMain.getUserFamilyDoctor().getEffectTo());
+                System.out.println("cessss:"+startTime);
+                String message = contentTemplate.replace("[effect_to]",startTime);//替换过的消息
+                sm.setContent(message);
+                sysMessageService.save(sm);
 
-            if(!aBoolean){
-                return ResultMap.error("运行异常，请联系管理员");
+                if(!aBoolean){
+                    return ResultMap.error("运行异常，请联系管理员");
+                }
+                SysConfigUtil.saveRefNo(sysConfig.getRefNo());
             }
-            SysConfigUtil.saveRefNo(sysConfig.getRefNo());
-
             return ResultMap.ok("家庭医生订单成功").put("data",orderMain.getOrderNo());
         }catch (Exception e) {
             logger.error(e.getMessage());

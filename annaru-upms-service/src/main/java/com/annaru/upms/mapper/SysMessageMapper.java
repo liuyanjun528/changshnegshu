@@ -25,4 +25,18 @@ public interface SysMessageMapper extends BaseMapper<SysMessage> {
     */
     IPage<SysMessage> selectDataPage(Page page, @Param("params") Map<String, Object> params);
 
+    /**
+     * @Author：wh
+     * @Description：修改消息为已读
+     * @Date:2019/10/21 13:37
+     */
+    int updateSysMessageIsRead(@Param("sysId") int sysId);
+
+    /**
+     * @Author：wh
+     * @Description：清空消息 把消息假删
+     * @Date:2019/10/21 13:37
+     */
+    int updateSysMessageIsDeleted(@Param("userId") String userId);
+
 }

@@ -49,7 +49,7 @@ public interface OrderAppointmentMapper extends BaseMapper<OrderAppointment> {
 
 
     /**
-      * @Description:待确认患者列表
+      * @Description:我的患者列表
       * @Author: wh
       * @Date: 2019/6/17 15:01
       */

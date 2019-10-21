@@ -130,11 +130,11 @@ public interface IOrderMainService extends IService<OrderMain> {
     PageUtils<ExamReportVo> getExamReportVoPage(Integer page, Integer limit, String userId, Integer packageCates, Integer orderCates);
 
     /**
-     * @Description:取消订单修改状态
+     * @Description:取消订单修改状态/关闭订单
      * @Author: wh
      * @Date: 2019/9/17 16:44
      */
-    Boolean updateisDeleted(String orderNo);
+    Boolean updateCloseOrder(String orderNo);
 
     /**
      * @Description:查询超过30分钟的未支付订单

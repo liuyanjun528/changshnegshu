@@ -250,8 +250,8 @@ public class OrderMainServiceImpl extends ServiceImpl<OrderMainMapper, OrderMain
     }
 
     @Override
-    public Boolean updateisDeleted(String orderNo) {
-        return this.baseMapper.updateisDeleted(orderNo);
+    public Boolean updateCloseOrder(String orderNo) {
+        return this.baseMapper.updateCloseOrder(orderNo);
     }
 
     @Override

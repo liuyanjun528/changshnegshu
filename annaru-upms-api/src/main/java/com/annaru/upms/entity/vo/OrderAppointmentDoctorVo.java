@@ -9,51 +9,32 @@ import java.util.Date;
 public class OrderAppointmentDoctorVo  implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    @TableField("user_id")
     private String userId;
-
     private String headImage;
-
+    private String fullName;
+    private int gender;
+    private int userAge;
+    private String entityName;
+    private int isHr;
     private Date effectTo;
 
-    @TableField("full_name")
-    private String fullName;
-
-    @TableField("gender")
-    private int gender;
-
-    @TableField("status")
-    private int status;
-
-    @TableField("user_age")
-    private int userAge;
 
     @TableField("entity_no")
     private String entityNo;
-
     @TableField("entity_id")
     private String entityId;
-
-    @TableField("entity_name")
-    private String entityName;
-
     @TableField("cellphone_no")
     private String cellphoneNo;
-
     @TableField("total_qty")
     private String totalQty;
-
     @TableField("address")
     private String address;
-
     @TableField("appoint_date")
     private String appointDate;
-
     @TableField("is_submitted")
     private int isSubmitted;
-
     private String orderNo;
-    private int isHr;
+
 
 
     public int getIsSubmitted() {
@@ -158,14 +139,6 @@ public class OrderAppointmentDoctorVo  implements Serializable {
 
     public void setEntityName(String entityName) {
         this.entityName = entityName;
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
     }
 
     public String getEntityNo() {

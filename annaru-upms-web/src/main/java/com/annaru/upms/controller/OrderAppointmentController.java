@@ -255,23 +255,25 @@ public class OrderAppointmentController extends BaseController {
     }
 
     /**
-     * 待确认患者列表
+     * 我的患者列表
      */
-    @ApiOperation(value = "待确认患者列表", notes = "待确认患者列表")
+    @ApiOperation(value = "我的患者列表", notes = "我的患者列表")
     @GetMapping("/selectListInfo")
     //@RequiresPermissions("upms/orderAppointment/selectListInfo")
     public ResultMap selectListInfo(
             @ApiParam(value = "当前页")@RequestParam(defaultValue="1") int page,
             @ApiParam(value = "每页数量")@RequestParam(defaultValue = "10") int limit,
             @ApiParam(value = "医生编号")@RequestParam(required = false)String relatedNo,
-            @ApiParam(value = "状态")@RequestParam(required = false) int status,
+            @ApiParam(value = "状态1")@RequestParam(required = false) int status1,
+            @ApiParam(value = "状态2")@RequestParam(required = false) int status2,
             @ApiParam(value = "查询关键字")@RequestParam(required = false) String name){
 
         Map<String, Object> params = new HashMap<>();
         params.put("page",page);
         params.put("limit", limit);
         params.put("relatedNo", relatedNo);
-        params.put("status",status);
+        params.put("status1",status1);
+        params.put("status2",status2);
         params.put("name",name);
         PageUtils<Map<String, Object>> pageList = orderAppointmentService.selectList(params);
         return ResultMap.ok().put("data",pageList);

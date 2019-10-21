@@ -40,7 +40,7 @@ public class OrderCancelTask {
             List<OrderMain> orderMains = orderMainService.selectOrderNonPayment();
         //2.修改订单状态
             for(OrderMain om:orderMains){
-                Boolean aBoolean = orderMainService.updateisDeleted(om.getOrderNo());
+                Boolean aBoolean = orderMainService.updateCloseOrder(om.getOrderNo());
             }
 
         logger.info("已全部执行完成");

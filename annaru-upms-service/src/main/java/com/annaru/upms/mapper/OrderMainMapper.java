@@ -140,11 +140,11 @@ public interface OrderMainMapper extends BaseMapper<OrderMain> {
 
 
     /**
-      * @Description:取消订单修改状态
+      * @Description:超时订单进行关闭
       * @Author: wh
       * @Date: 2019/9/17 16:44
       */
-    Boolean updateisDeleted(@Param("orderNo") String orderNo);
+    Boolean updateCloseOrder(@Param("orderNo") String orderNo);
 
     /**
       * @Description:查询超过30分钟的未支付订单

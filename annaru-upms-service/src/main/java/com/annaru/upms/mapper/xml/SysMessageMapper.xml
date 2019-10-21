@@ -30,5 +30,13 @@
             </if>
         </where>
     </select>
+        <!--已读-->
+    <update id="updateSysMessageIsRead">
+        update sys_message set is_read=1,read_time=now() where sys_id=#{sysId}
+    </update>
+    <!--清空-->
+    <update id="updateSysMessageIsDeleted">
+        update sys_message set is_deleted=1 where user_id=#{userId}
+    </update>
 
 </mapper>

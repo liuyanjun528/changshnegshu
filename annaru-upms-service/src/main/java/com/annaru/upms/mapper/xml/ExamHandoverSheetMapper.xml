@@ -57,7 +57,8 @@
         sample_code=#{sampleCode},
         handover_by=#{handoverBy},
         handover_time=#{handoverTime},
-        images=#{images}
+        images=#{images},
+        is_handovered=1
         WHERE order_no=#{orderNo}
     </update>
 
