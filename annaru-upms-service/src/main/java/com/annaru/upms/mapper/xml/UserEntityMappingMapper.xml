@@ -99,24 +99,21 @@
 
     <select id="getEntityPurchseMainVoZ" parameterType="java.lang.String" resultMap="getEntityPurchseMainVoZBase">
         SELECT
-            uem.entity_id entityNo, uem.user_id userId,
             ehs.supplier, ehs.logo_url logoUrl,
             ehm.descr ehmDesr,
             ehp.descr ehpDesr, ehp.introductions, ehp.counts, ehp.per_year perYear
         FROM
-        user_entity_mapping uem
-        LEFT JOIN entity_purchse_main epm ON epm.entity_no = uem.entity_id
+            entity_purchse_user_pkg_mapping epm
         LEFT JOIN entity_purchse_detail epd ON epd.order_no = epm.order_no
         LEFT JOIN entity_healthy_package_main ehm ON ehm.sys_id = epd.pkg_main_id
-        LEFT JOIN entity_healthy_package_detail ehp ON ehp.main_id = ehm.sys_id
+        LEFT JOIN entity_healthy_package_detail ehp ON ehp.code = epd.pkg_detail_code
         LEFT JOIN entity_healthy_supplier ehs ON ehs.sys_id = ehm.supplier_id
         WHERE 1 = 1
-        AND uem.is_active = 1
-        AND epm.is_active = 1 AND epm.is_terminated = 0
+        AND epm.is_active = 1
         AND epd.is_active = 1 AND epd.is_deleted = 0
         AND ehp.is_active = 1
         <if test="userId != null and userId != ''">
-            AND uem.user_id = #{userId}
+            AND epm.user_id = #{userId}
         </if>
     </select>
 
