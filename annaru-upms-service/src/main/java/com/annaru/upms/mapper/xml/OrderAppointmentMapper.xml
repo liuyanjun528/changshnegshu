@@ -136,7 +136,7 @@
             oa.order_no,
             oa.address,
             oa.appoint_date,
-            oai.amount,
+            om.amount,
             FLOOR(DATEDIFF(now(), ub.date_of_birth)/365.2422) age
             FROM
             order_appointment oa
@@ -144,12 +144,13 @@
             user_basic ub
             on oa.user_id = ub.user_id
             LEFT JOIN
-            order_additional_info oai
-            on oai.order_no = oa.order_no
+            order_main om
+            on om.parent_no = oa.order_no
             LEFT JOIN
             exam_handover_sheet ehs
             on ehs.order_no = oa.order_no
             where oa.related_no = #{params.nurseNo}
+            and om.is_deleted = 0 and om.order_cates = 1 or om.order_cates = 3
             <if test="params.status == 0 ">
             and ehs.person_barcode_confirmed = 0 AND ehs.draw_completed = 0 AND ehs.is_handovered = 0 and oa.is_cancelled = 0
             </if>
