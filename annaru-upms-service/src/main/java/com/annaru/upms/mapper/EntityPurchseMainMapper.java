@@ -47,4 +47,11 @@ public interface EntityPurchseMainMapper extends BaseMapper<EntityPurchseMain> {
      */
     EntityPurchseMain getTimeByUserIdZ(@Param("params") Map<String, Object> params);
 
+    /**
+     * 数据登记主表
+     * @author zk
+     * @date 2019-10-22
+     */
+    EntityPurchseMain getTimeByUserIdZE(@Param("params") Map<String, Object> params);
+
 }
