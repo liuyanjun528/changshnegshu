@@ -460,7 +460,7 @@
         FROM
         order_main om
         LEFT JOIN order_extension_exam oee ON oee.order_no = om.order_no
-        LEFT JOIN exam_master em ON em.sys_id = oee.exam_master_id
+        LEFT JOIN exam_extention_cates em ON em.sys_id = oee.exam_master_id
         LEFT JOIN exam_detail ed ON ed.sys_id = oee.exam_detail_id
         LEFT JOIN order_appointment oa ON oa.order_no = om.order_no
         LEFT JOIN sys_institution si ON si.institution_id = oa.institution_id
