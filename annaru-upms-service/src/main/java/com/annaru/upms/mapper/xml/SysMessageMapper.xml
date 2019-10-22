@@ -38,5 +38,8 @@
     <update id="updateSysMessageIsDeleted">
         update sys_message set is_deleted=1 where user_id=#{userId}
     </update>
-
+    <!--未读条数统计-->
+    <select id="selectNotRead" parameterType="String" resultType="int">
+        SELECT count(*) FROM sys_message WHERE user_id=#{userId} and is_read=0
+    </select>
 </mapper>

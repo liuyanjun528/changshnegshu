@@ -67,17 +67,17 @@ public class PatientNumberServiceImpl extends ServiceImpl<PatientNumberMapper, P
 
     @Override
     public int selectNurse1(String nurseNo) {
-        return this.baseMapper.selectSumNumber1(nurseNo);
+        return this.baseMapper.selectNurse1(nurseNo);
     }
 
     @Override
     public int selectNurse2(String nurseNo) {
-        return this.baseMapper.selectSumNumber2(nurseNo);
+        return this.baseMapper.selectNurse2(nurseNo);
     }
 
     @Override
     public int selectNurse3(String nurseNo) {
-        return this.baseMapper.selectSumNumber3(nurseNo);
+        return this.baseMapper.selectNurse3(nurseNo);
     }
 
     @Override

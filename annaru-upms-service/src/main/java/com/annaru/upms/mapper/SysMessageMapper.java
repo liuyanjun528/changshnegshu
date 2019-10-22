@@ -39,4 +39,10 @@ public interface SysMessageMapper extends BaseMapper<SysMessage> {
      */
     int updateSysMessageIsDeleted(@Param("userId") String userId);
 
+    /**
+     * @Author：wh
+     * @Description：未读条数
+     * @Date:2019/10/22 15:39
+     */
+    int selectNotRead(@Param("userId") String userId);
 }
