@@ -455,7 +455,7 @@ public class OrderAppointmentController extends BaseController {
                         ExamDetail examDetail = examDetailService.getItem(params);
                         ExamMaster examMaster = examMasterService.getItem(params);
                         msg+= examMaster.getName()
-                                + examDetail.getItemName();
+                                + examDetail.getItemName()+",";
                         amount+= examDetail.getAmount()==null?0:examDetail.getAmount();
                     }
                     exist = false;
@@ -471,9 +471,9 @@ public class OrderAppointmentController extends BaseController {
                     orderAppointmentService.save(appointment);
                 }
                 if (msg!=""||msg!=null){
-                    message.setContent(sysMessageTemplateService.selectMessageTemplate(6).getContentTemplate()
-                        .replace("[name]",msg)
-                        .replace("[full_name]",userBasicService.selectByUid(userId).getFullName()));
+                    message.setContent(sysMessageTemplateService.selectMessageTemplate(49).getContentTemplate()
+                        .replace("[exam_name]",msg)
+                        .replace("[order_no]",orderNo));
                     message.setMsgCate(1);
                     message.setUserId(userId);
                     message.setOrderNo(orderNo);
@@ -523,7 +523,7 @@ public class OrderAppointmentController extends BaseController {
                         ExamDetail examDetail = examDetailService.getItem(params);
                         ExamMaster examMaster = examMasterService.getItem(params);
                         msg+= examMaster.getName()
-                                + examDetail.getItemName();
+                                + examDetail.getItemName()+",";
                         amount+= examDetail.getAmount()==null?0:examDetail.getAmount();
                     }
                     exist = false;
@@ -539,9 +539,9 @@ public class OrderAppointmentController extends BaseController {
                     orderAppointmentService.save(appointment);
                 }
                 if (msg!=""||msg!=null){
-                    message.setContent(sysMessageTemplateService.selectMessageTemplate(6).getContentTemplate()
-                            .replace("[name]",msg)
-                            .replace("[full_name]",userBasicService.selectByUid(userId).getFullName()));
+                    message.setContent(sysMessageTemplateService.selectMessageTemplate(49).getContentTemplate()
+                            .replace("[exam_name]",msg)
+                            .replace("[order_no]",orderNo));
                     message.setMsgCate(1);
                     message.setUserId(userId);
                     message.setOrderNo(orderNo);
