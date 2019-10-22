@@ -13,11 +13,16 @@
     </resultMap>
 
     <!-- 查询待确认患者人数 -->
-        <select id="selectUnPatientNumber" parameterType="String" resultType="int">
-            select count(*) from order_appointment as oa
-            LEFT JOIN user_basic as ub ON oa.user_id=ub.user_id
-            where oa.related_no=#{doctorNo}  and oa.status=0 and oa.appointment_cates=5
+        <select id="selectUnPatientNumber1" parameterType="String" resultType="int">
+            select count(*) from user_family_doctor
+            where doctor_no=#{doctorNo} and status=0
         </select>
+        <select id="selectUnPatientNumber2" parameterType="String" resultType="int">
+		      SELECT count(*) from entity_healthy_appointment
+					WHERE related_no=#{doctorNo} and status=0
+        </select>
+
+
 
     <!-- 查询待确认预约人数 -->
         <select id="selectUnAppointmentNumber" parameterType="String" resultType="int">
@@ -46,9 +51,9 @@
 
     <!-- 查询总患者人数 -->
         <select id="selectSumNumber1" parameterType="String" resultType="int">
-            select count(*)from order_appointment as oa
-            LEFT JOIN user_basic as ub ON oa.user_id=ub.user_id
-            where oa.related_no=#{doctorNo}  and oa.status=1 and oa.appointment_cates=5
+           select (select count(*) from user_family_doctor as ufd where ufd.doctor_no=#{doctorNo} and ufd.`status`=2)
+           +
+           (SELECT count(*) from entity_healthy_appointment as eha WHERE eha.related_no=#{doctorNo} and `status`=1) from dual
         </select>
         <select id="selectSumNumber2" parameterType="String" resultType="int">
             SELECT count(*) from order_appointment as oa

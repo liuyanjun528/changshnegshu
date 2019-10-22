@@ -14,8 +14,10 @@ import java.util.Date;
 
 public interface PatientNumberMapper extends BaseMapper<PatientNumber> {
 
-    //查询待确认患者人数
-    int selectUnPatientNumber(@Param("doctorNo")String doctorNo);
+    //查询待确认患者人数--一般套餐下
+    int selectUnPatientNumber1(@Param("doctorNo")String doctorNo);
+    //查询待确认患者人数--企业套餐下
+    int selectUnPatientNumber2(@Param("doctorNo")String doctorNo);
     //查询待确认预约人数
     int selectUnAppointmentNumber(@Param("doctorNo")String doctorNo);
     //查询待上门服务人数

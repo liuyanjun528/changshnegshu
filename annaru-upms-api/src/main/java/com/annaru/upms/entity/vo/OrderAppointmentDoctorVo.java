@@ -18,7 +18,7 @@ public class OrderAppointmentDoctorVo  implements Serializable {
     private int isHr;
     private Date effectTo;
 
-
+    private int status;
     @TableField("entity_no")
     private String entityNo;
     @TableField("entity_id")
@@ -36,6 +36,13 @@ public class OrderAppointmentDoctorVo  implements Serializable {
     private String orderNo;
 
 
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
 
     public int getIsSubmitted() {
         return isSubmitted;

@@ -53,7 +53,7 @@ public interface IOrderAppointmentService extends IService<OrderAppointment> {
      * @Author: wh
      * @Date: 2019/6/19 11:16
      */
-    int updateStatus(int status,String orderNo);
+    int updateStatus(String orderNo);
 
     /**
      * @Description:取消预约

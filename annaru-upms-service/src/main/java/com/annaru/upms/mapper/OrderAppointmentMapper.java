@@ -61,7 +61,7 @@ public interface OrderAppointmentMapper extends BaseMapper<OrderAppointment> {
       * @Author: wh
       * @Date: 2019/6/19 11:16
       */
-    int updateStatus(@Param("status") int status,@Param("orderNo") String orderNo);
+    int updateStatus(@Param("orderNo") String orderNo);
 
     /**
      * @Description:取消预约

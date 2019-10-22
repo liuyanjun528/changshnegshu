@@ -26,8 +26,13 @@ public class PatientNumberServiceImpl extends ServiceImpl<PatientNumberMapper, P
 
 
     @Override
-    public int selectUnPatientNumber(String doctorNo) {
-        return this.baseMapper.selectUnPatientNumber(doctorNo);
+    public int selectUnPatientNumber1(String doctorNo) {
+        return this.baseMapper.selectUnPatientNumber1(doctorNo);
+    }
+
+    @Override
+    public int selectUnPatientNumber2(String doctorNo) {
+        return this.baseMapper.selectUnPatientNumber2(doctorNo);
     }
 
     @Override

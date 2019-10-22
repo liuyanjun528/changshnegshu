@@ -101,23 +101,22 @@
     <!-- 企业用户患者信息查询分页 -->
     <select id="selectDataPage" parameterType="map" resultMap="BaseResultMap2">
         select
-        eha.user_id,-- id
-        ub.head_image,-- 头像
-        ub.full_name,-- 姓名
-        ub.gender,-- 性别
-        TIMESTAMPDIFF(YEAR, ub.date_of_birth, CURDATE()) AS user_age,
-        eha.entity_no,-- 企业编号
-        sent.entity_name,-- 企业名称
-        epm.effect_to,-- 截至时间
-        eha.status, -- 状态
-        ub.is_hr
-        from
-        entity_healthy_appointment as eha
-        LEFT JOIN user_basic as ub ON eha.user_id=ub.user_id
-        LEFT JOIN entity_purchse_main as epm ON eha.entity_no=epm.entity_no
-        LEFT JOIN sys_entity as sent ON eha.entity_no=sent.entity_id
+          eha.user_id,
+          ub.head_image,
+          ub.full_name,-- 姓名
+          ub.gender,-- 性别
+          TIMESTAMPDIFF(YEAR, ub.date_of_birth, CURDATE()) AS user_age,
+          se.entity_name,
+          eed.effect_to,
+          ub.is_hr,
+          eha.order_no,
+          se.entity_id
+        from entity_healthy_appointment as eha
+        LEFT JOIN user_basic as ub ON ub.user_id=eha.user_id
+        LEFT JOIN sys_entity as se ON se.entity_id=eha.entity_no
+        LEFT JOIN entity_exclusive_doctor as eed ON eed.doctor_no=eha.related_no
             <if test="params.relatedNo != null and params.relatedNo != ''">
-                where eha.related_no=#{params.relatedNo} and eha.status=1 and eha.pkg_main_id=8 and eha.pkg_detail_id=801
+                where eha.related_no=#{params.relatedNo} and eha.status=1
             </if>
 
     </select>
@@ -159,7 +158,7 @@
 
     <!--医生接收患者-->
     <update id="updateStatusByOrderNo">
-        update entity_healthy_appointment SET status=#{status} WHERE order_no=#{orderNo}
+        update entity_healthy_appointment SET status=1 WHERE order_no=#{orderNo}
     </update>
 
 

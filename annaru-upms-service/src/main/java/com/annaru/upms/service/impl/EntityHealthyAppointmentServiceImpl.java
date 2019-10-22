@@ -60,8 +60,8 @@ public class EntityHealthyAppointmentServiceImpl extends ServiceImpl<EntityHealt
     }
 
     @Override
-    public int updateStatusByOrderNo(int status,String orderNo) {
-        return this.baseMapper.updateStatusByOrderNo(status,orderNo);
+    public int updateStatusByOrderNo(String orderNo) {
+        return this.baseMapper.updateStatusByOrderNo(orderNo);
     }
 
     @Override

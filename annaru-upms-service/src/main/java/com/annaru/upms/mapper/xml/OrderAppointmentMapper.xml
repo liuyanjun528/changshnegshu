@@ -108,23 +108,22 @@
     <!-- 个人用户患者信息查询分页 -->
     <select id="selectDataPage" parameterType="map" resultMap="BaseResultMap1">
         select
-        ub.user_id,-- id
-        ub.head_image,
-        ub.full_name,-- 姓名
-        ub.gender,-- 性别
-        TIMESTAMPDIFF(YEAR, ub.date_of_birth, CURDATE()) AS user_age,-- 年龄
-        oa.entity_id,-- 企业编号
-        sent.entity_name,-- 公司名称
-        ufd.effect_to,-- 截至时间
-        oa.status, -- 状态
-        ub.is_hr
-        from
-        order_appointment as oa
-        LEFT JOIN user_basic as ub ON oa.user_id=ub.user_id
-        LEFT JOIN user_family_doctor as ufd ON oa.user_id=ufd.user_id
-        LEFT JOIN sys_entity as sent ON oa.entity_id=sent.entity_id
+          ufd.user_id,
+          ub.head_image,
+          ub.full_name,-- 姓名
+          ub.gender,-- 性别
+          TIMESTAMPDIFF(YEAR, ub.date_of_birth, CURDATE()) AS user_age,
+          se.entity_name,
+          ufd.effect_to,
+          ub.is_hr,
+          ufd.order_no,
+          se.entity_id
+        from user_family_doctor as ufd
+        LEFT JOIN user_basic as ub ON ub.user_id=ufd.user_id
+        LEFT JOIN user_entity_mapping as uem ON uem.user_id=ub.user_id
+        LEFT JOIN sys_entity as se On se.entity_id=uem.entity_id
         <if test="params.relatedNo != null and params.relatedNo!=''">
-            where oa.related_no=#{params.relatedNo} and oa.status=1
+            where ufd.doctor_no=#{params.relatedNo} and ufd.status=2
         </if>
     </select>
 
@@ -220,28 +219,49 @@ UNION
 
     <!--确认接收 修改status-->
     <update id="updateStatus">
-        update order_appointment SET status=#{status} WHERE order_no=#{orderNo}
+        update user_family_doctor SET status=2 WHERE order_no=#{orderNo}
     </update>
 
     <!--我的患者详情-->
     <select id="selectInfo" parameterType="map" resultMap="BaseResultMap2">
         select
-            ub.is_hr,-- 标识
-			eha.user_id,-- id
-			ub.head_image,
-		    ub.full_name,-- 姓名
-			ub.gender,-- 性别
-			TIMESTAMPDIFF(YEAR, ub.date_of_birth, CURDATE()) AS user_age,
-			eha.entity_no,-- 企业编号
-			sent.entity_name,-- 公司名称
+            ufd.user_id,
+            ub.head_image,
+            ub.full_name,-- 姓名
+            ub.gender,-- 性别
+            TIMESTAMPDIFF(YEAR, ub.date_of_birth, CURDATE()) AS user_age,
 			ub.id_card_no,-- 身份证号
 			uc.card_no,-- 医保卡号
-			epm.effect_to-- 截至时间
+            se.entity_name,
+            ufd.effect_to,
+            ub.is_hr,
+            ufd.order_no,
+            se.entity_id
+        from user_family_doctor as ufd
+        LEFT JOIN user_basic as ub ON ub.user_id=ufd.user_id
+        LEFT JOIN user_entity_mapping as uem ON uem.user_id=ub.user_id
+		LEFT JOIN user_cards as uc ON ub.user_id = uc.user_id
+        LEFT JOIN sys_entity as se On se.entity_id=uem.entity_id
+        where ufd.user_id=#{userId} and ufd.status=2
+UNION
+        select
+            eha.user_id,
+            ub.head_image,
+            ub.full_name,-- 姓名
+            ub.gender,-- 性别
+            TIMESTAMPDIFF(YEAR, ub.date_of_birth, CURDATE()) AS user_age,
+		    ub.id_card_no,-- 身份证号
+		    uc.card_no,-- 医保卡号
+            se.entity_name,
+            eed.effect_to,
+            ub.is_hr,
+            eha.order_no,
+            se.entity_id
         from entity_healthy_appointment as eha
-        LEFT JOIN user_basic as ub ON eha.user_id=ub.user_id
-				LEFT JOIN user_cards as uc ON ub.user_id = uc.user_id
-				LEFT JOIN entity_purchse_main as epm ON eha.entity_no=epm.entity_no
-				LEFT JOIN sys_entity as sent ON eha.entity_no=sent.entity_id
+        LEFT JOIN user_basic as ub ON ub.user_id=eha.user_id
+        LEFT JOIN sys_entity as se ON se.entity_id=eha.entity_no
+		LEFT JOIN user_cards as uc ON ub.user_id = uc.user_id
+        LEFT JOIN entity_exclusive_doctor as eed ON eed.doctor_no=eha.related_no
         WHERE eha.user_id=#{userId} and eha.status=1
     </select>
 
