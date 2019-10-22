@@ -32,7 +32,12 @@ public interface ISysMessageService extends IService<SysMessage> {
      * @Date:2019/10/21 13:37
      */
     int updateSysMessageIsDeleted(String userId);
-
+    /**
+     * @Author：wh
+     * @Description：未读条数
+     * @Date:2019/10/22 15:39
+     */
+    int selectNotRead(String userId);
 
 }
 

@@ -29,6 +29,18 @@ public class SysMessageController extends BaseController {
     @Reference
     private ISysMessageService sysMessageService;
 
+    /**
+     * @Author：wh
+     * @Description：未读条数
+     * @Date:2019/10/22 15:47
+     */
+    @ApiOperation(value = "未读条数", notes = "未读条数")
+    @GetMapping("/notRead")
+    @RequiresPermissions("upms/sysMessage/notRead")
+    public ResultMap selectNotRead(String userId){
+        int i = sysMessageService.selectNotRead(userId);
+        return ResultMap.ok().put("data",i);
+    }
 
     /**
      * @Author：wh
