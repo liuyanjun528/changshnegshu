@@ -109,6 +109,8 @@
         <if test="params.bs == 2">
             AND DATE_FORMAT(epm.effect_from , '%Y-%m') = DATE_FORMAT(#{params.startDate} , '%Y-%m')
         </if>
+        ORDER BY epm.effect_from DESC
+        LIMIT 0,1
     </select>
 
 
