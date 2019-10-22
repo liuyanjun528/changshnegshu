@@ -38,4 +38,9 @@ public class SysMessageServiceImpl extends ServiceImpl<SysMessageMapper, SysMess
         return this.baseMapper.updateSysMessageIsDeleted(userId);
     }
 
+    @Override
+    public int selectNotRead(String userId) {
+        return this.baseMapper.selectNotRead(userId);
+    }
+
 }
