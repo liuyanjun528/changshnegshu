@@ -332,7 +332,7 @@ public class OrderMainController extends BaseController {
     @PostMapping("/updateIsDelate")
     public ResultMap updateIsDelate(String orderNo) {
         try {
-            Boolean aBoolean = orderMainService.updateisDeleted(orderNo);
+            Boolean aBoolean = orderMainService.updateCloseOrder(orderNo);
             if(aBoolean){
                 return ResultMap.ok("取消成功！");
             }

@@ -41,7 +41,9 @@ public class PatientNumberController extends BaseController {
     public ResultMap info(String doctorNo){
         PatientNumber pn=new PatientNumber();
         //待确认患者人数
-        pn.setUnPatientNumber(patientNumberService.selectUnPatientNumber(doctorNo));
+        int i = patientNumberService.selectUnPatientNumber1(doctorNo);
+        int j = patientNumberService.selectUnPatientNumber2(doctorNo);
+        pn.setUnPatientNumber(i+j);
         //待确认预约人数
         pn.setUnAppointmentNumber(patientNumberService.selectUnAppointmentNumber(doctorNo));
         //待上门服务人数

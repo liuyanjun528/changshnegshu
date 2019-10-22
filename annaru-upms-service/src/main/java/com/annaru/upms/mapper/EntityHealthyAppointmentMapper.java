@@ -40,7 +40,7 @@ public interface EntityHealthyAppointmentMapper extends BaseMapper<EntityHealthy
       * @Author: wh
       * @Date: 2019/6/19 9:26
       */
-    int updateStatusByOrderNo(@Param("status") int status,@Param("orderNo") String orderNo);
+    int updateStatusByOrderNo(@Param("orderNo") String orderNo);
 
     /**
      * 数据登记主表

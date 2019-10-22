@@ -125,10 +125,10 @@ public class EntityHealthyAppointmentController extends BaseController {
     //@RequiresPermissions("upms/entityHealthyAppointment/updateStatus")
     public ResultMap updateStatus(String orderNo) {
         try {
-            //修改健康预约表状态
-            entityHealthyAppointmentService.updateStatusByOrderNo(1,orderNo);
-            //修改订单预约表状态
-            orderAppointmentService.updateStatus(1,orderNo);
+            //修改企业健康预约表状态
+            entityHealthyAppointmentService.updateStatusByOrderNo(orderNo);
+            //修改user_family_doctor表状态
+            orderAppointmentService.updateStatus(orderNo);
             return ResultMap.ok("修改成功");
         } catch (Exception e) {
             logger.error(e.getMessage());

@@ -41,7 +41,7 @@ public interface IOrderAppointmentService extends IService<OrderAppointment> {
     DoctorUserInfo selectInfo(String userId);
 
     /**
-     * @Description:待确认患者列表
+     * @Description:我的患者列表
      * @Author: wh
      * @Date: 2019/6/17 15:01
      */
@@ -53,7 +53,7 @@ public interface IOrderAppointmentService extends IService<OrderAppointment> {
      * @Author: wh
      * @Date: 2019/6/19 11:16
      */
-    int updateStatus(int status,String orderNo);
+    int updateStatus(String orderNo);
 
     /**
      * @Description:取消预约

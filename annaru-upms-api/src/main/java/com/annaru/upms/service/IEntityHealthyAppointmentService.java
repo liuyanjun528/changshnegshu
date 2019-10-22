@@ -39,7 +39,7 @@ public interface IEntityHealthyAppointmentService extends IService<EntityHealthy
      * @Author: wh
      * @Date: 2019/6/19 9:26
      */
-    int updateStatusByOrderNo(int status,String orderNo);
+    int updateStatusByOrderNo(String orderNo);
 
     /**
      * @Description:待上门服务列表

@@ -28,4 +28,14 @@ public class SysMessageServiceImpl extends ServiceImpl<SysMessageMapper, SysMess
         return new PageUtils<SysMessage>(iPage);
     }
 
+    @Override
+    public int updateSysMessageIsRead(int sysId) {
+        return this.baseMapper.updateSysMessageIsRead(sysId);
+    }
+
+    @Override
+    public int updateSysMessageIsDeleted(String userId) {
+        return this.baseMapper.updateSysMessageIsDeleted(userId);
+    }
+
 }

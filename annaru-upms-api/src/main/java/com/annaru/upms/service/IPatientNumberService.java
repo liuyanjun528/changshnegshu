@@ -10,8 +10,10 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IPatientNumberService extends IService<PatientNumber> {
 
-    //查询待确认患者人数
-    int selectUnPatientNumber(String doctorNo);
+    //查询待确认患者人数--一般套餐下
+    int selectUnPatientNumber1(String doctorNo);
+    //查询待确认患者人数--企业套餐下
+    int selectUnPatientNumber2(String doctorNo);
     //查询待确认预约人数
     int selectUnAppointmentNumber(String doctorNo);
     //查询待上门服务人数

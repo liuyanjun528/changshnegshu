@@ -31,6 +31,43 @@ public class SysMessageController extends BaseController {
 
 
     /**
+     * @Author：wh
+     * @Description：修改消息为已读
+     * @Date:2019/10/21 13:45
+     */
+    @ApiOperation(value = "修改消息为已读")
+    @PostMapping("/updateIsReade")
+    @RequiresPermissions("upms/sysMessage/updateIsReade")
+    public ResultMap updateIsReade(int sysId) {
+        try {
+            sysMessageService.updateSysMessageIsRead(sysId);
+            return ResultMap.ok("已读成功");
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return ResultMap.error("运行异常，请联系管理员");
+        }
+    }
+
+    /**
+     * @Author：wh
+     * @Description：清空消息
+     * @Date:2019/10/21 13:51
+     */
+    @ApiOperation(value = "清空消息")
+    @PostMapping("/updateIsDelate")
+    @RequiresPermissions("upms/sysMessage/updateIsDelate")
+    public ResultMap updateIsDelate(String userId) {
+        try {
+            sysMessageService.updateSysMessageIsDeleted(userId);
+            return ResultMap.ok("清空消息成功");
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return ResultMap.error("运行异常，请联系管理员");
+        }
+    }
+
+
+    /**
      * 通过消息类别查看所有消息
      */
     @ApiOperation(value = "通过当前用户的消息类型查看消息", notes = "通过当前用户的消息类型查看消息")

@@ -54,8 +54,8 @@ public class OrderAppointmentServiceImpl extends ServiceImpl<OrderAppointmentMap
     }
 
     @Override
-    public int updateStatus(int status, String orderNo) {
-        return this.baseMapper.updateStatus(status, orderNo);
+    public int updateStatus(String orderNo) {
+        return this.baseMapper.updateStatus(orderNo);
     }
 
     @Override
