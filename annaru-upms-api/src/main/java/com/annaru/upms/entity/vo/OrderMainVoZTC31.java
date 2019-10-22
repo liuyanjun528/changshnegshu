@@ -13,10 +13,28 @@ import java.util.List;
 public class OrderMainVoZTC31 implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	private Integer emSysId1;
+	private String emName1;
 	private Integer emSysId;
 	private String emName;
 
 	private List<OrderMainVoZTC3> orderMainVoZTC3List;
+
+	public Integer getEmSysId1() {
+		return emSysId1;
+	}
+
+	public void setEmSysId1(Integer emSysId1) {
+		this.emSysId1 = emSysId1;
+	}
+
+	public String getEmName1() {
+		return emName1;
+	}
+
+	public void setEmName1(String emName1) {
+		this.emName1 = emName1;
+	}
 
 	public Integer getEmSysId() {
 		return emSysId;
