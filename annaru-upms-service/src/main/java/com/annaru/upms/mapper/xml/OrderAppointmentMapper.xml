@@ -150,7 +150,7 @@
             exam_handover_sheet ehs
             on ehs.order_no = oa.order_no
             where oa.related_no = #{params.nurseNo}
-            and om.is_deleted = 0 and om.order_cates = 1 or om.order_cates = 3
+            and om.is_deleted = 0 and (om.order_cates = 1 or om.order_cates = 3)
             <if test="params.status == 0 ">
             and ehs.person_barcode_confirmed = 0 AND ehs.draw_completed = 0 AND ehs.is_handovered = 0 and oa.is_cancelled = 0
             </if>
