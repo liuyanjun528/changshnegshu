@@ -118,6 +118,8 @@
         </collection>
 
         <collection property="orderMainVoZTC31List" ofType="com.annaru.upms.entity.vo.OrderMainVoZTC31">
+            <result column="emSysId1" property="emSysId1" />
+            <result column="emName1" property="emName1" />
             <result column="emSysId" property="emSysId" />
             <result column="emName" property="emName" />
 
@@ -351,6 +353,8 @@
         ub.full_name fullName,
         epm.package_name packageName,
 
+        em1.sys_id emSysId1,
+        em1.name emName1,
         em.sys_id emSysId,
         em.name emName,
         ed.sys_id edSysId,
@@ -370,6 +374,7 @@
         LEFT JOIN user_basic ub ON ub.user_id = oc.relative_id
         LEFT JOIN exam_package_main epm ON epm.sys_id = om.reference_no
         LEFT JOIN order_extension_exam oex ON oex.order_no = om.order_no
+        LEFT JOIN exam_extention_cates em1 ON em1.sys_id = oex.exam_master_id
         LEFT JOIN exam_master em ON em.sys_id = oex.exam_master_id
         LEFT JOIN exam_detail ed ON ed.sys_id = oex.exam_detail_id
         WHERE

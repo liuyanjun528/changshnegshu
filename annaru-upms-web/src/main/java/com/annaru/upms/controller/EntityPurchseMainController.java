@@ -87,7 +87,8 @@ public class EntityPurchseMainController extends BaseController {
             params.put("bs", bs);
             EntityPurchseVo entityPurchseVo = null;
             EntityPurchseMain entityPurchseMain = entityPurchseMainService.getTimeByUserIdZ(params);
-            if (entityPurchseMain != null){
+            EntityPurchseMain entityPurchseMainE = entityPurchseMainService.getTimeByUserIdZE(params);
+            if (entityPurchseMain != null && entityPurchseMainE != null){
                 entityPurchseVo = new EntityPurchseVo();
                 entityPurchseVo.setSysId(entityPurchseMain.getSysId());
                 entityPurchseVo.setTime(DateUtil.format(entityPurchseMain.getEffectFrom()));
@@ -125,8 +126,8 @@ public class EntityPurchseMainController extends BaseController {
                         }
 
                         entityPurchseVo = new EntityPurchseVo();
-                        entityPurchseVo.setSysId(entityPurchseMain.getSysId());
-                        entityPurchseVo.setTime(DateUtil.format(entityPurchseMain.getEffectTo()));
+                        entityPurchseVo.setSysId(entityPurchseMainE.getSysId());
+                        entityPurchseVo.setTime(DateUtil.format(entityPurchseMainE.getEffectTo()));
                         entityPurchseVo.setSign(5);
                         list.add(entityPurchseVo);
                     }
