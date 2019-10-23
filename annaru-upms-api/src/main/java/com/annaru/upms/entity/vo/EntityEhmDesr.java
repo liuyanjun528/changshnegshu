@@ -6,26 +6,54 @@ import java.util.List;
 public class EntityEhmDesr implements Serializable {
 
     /**
-     * 标题 如：企业专属医生家庭健康服务包
+     * 模块标题
      */
-    private String ehmDesr;
+    private String ehpDesr;
+    /**
+     * 模块标题详情
+     */
+    private String introductions;
+    /**
+     * 次数
+     */
+    private Integer counts;
+    /**
+     * 每几年
+     */
+    private Integer perYear;
 
-    private List<EntityPurchseMainDeatailVoZ> entityPurchseMainDeatailVoZList;
 
-    public String getEhmDesr() {
-        return ehmDesr;
+    public String getEhpDesr() {
+        return ehpDesr;
     }
 
-    public void setEhmDesr(String ehmDesr) {
-        this.ehmDesr = ehmDesr;
+    public void setEhpDesr(String ehpDesr) {
+        this.ehpDesr = ehpDesr;
     }
 
-    public List<EntityPurchseMainDeatailVoZ> getEntityPurchseMainDeatailVoZList() {
-        return entityPurchseMainDeatailVoZList;
+    public String getIntroductions() {
+        return introductions;
     }
 
-    public void setEntityPurchseMainDeatailVoZList(List<EntityPurchseMainDeatailVoZ> entityPurchseMainDeatailVoZList) {
-        this.entityPurchseMainDeatailVoZList = entityPurchseMainDeatailVoZList;
+    public void setIntroductions(String introductions) {
+        this.introductions = introductions;
     }
+
+    public Integer getCounts() {
+        return counts;
+    }
+
+    public void setCounts(Integer counts) {
+        this.counts = counts;
+    }
+
+    public Integer getPerYear() {
+        return perYear;
+    }
+
+    public void setPerYear(Integer perYear) {
+        this.perYear = perYear;
+    }
+
 
 }
