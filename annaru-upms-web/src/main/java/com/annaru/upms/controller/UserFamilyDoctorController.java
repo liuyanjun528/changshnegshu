@@ -53,6 +53,7 @@ public class UserFamilyDoctorController extends BaseController {
     @PostMapping("/saveFamilyDoctor")
     // @RequiresPermissions("upms/orderMain/saveFamilyDoctor")
     public ResultMap saveFamilyDoctor(@RequestBody OrderMain orderMain) {
+        int i=0;
         try {
             //添加前的判断
             //该用户的家庭医生已存在 不允许再购买/已有数据 但是过期了 可以继续购买
@@ -60,7 +61,9 @@ public class UserFamilyDoctorController extends BaseController {
             Map<String, Object> params = new HashMap<>();
             params.put("userId",orderMain.getUserId());
             UserFamilyDoctorVo userFamilyDoctor = userFamilyDoctorService.getUserFDInfo(params);//查询表中是否存在数据
-            int i=UUIDGenerator.differentDays(new Date(),userFamilyDoctor.getEffectTo());//剩余天数
+            if(null!=userFamilyDoctor){
+                i=UUIDGenerator.differentDays(new Date(),userFamilyDoctor.getEffectTo());//剩余天数
+            }
             //有医生并且有剩余天数
             if(userFamilyDoctor!=null&&i>0){
                 return ResultMap.error("该用户已有家庭医生，不可以再购买");
