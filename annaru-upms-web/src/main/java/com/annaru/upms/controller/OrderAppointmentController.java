@@ -367,16 +367,13 @@ public class OrderAppointmentController extends BaseController {
                 appointment.setCreateBy(userId);
                 appointment.setCreationTime(new Date());
                 String orderNo = orderAppointment.getOrderNo();
-                appointment.setOrderNo(orderNo);
                 appointment.setServiceOption(orderAppointment.getOption1());
                 orderAdditionalInfo.setAppointmentCates(cates);
                 orderAdditionalInfo.setCreateBy(userId);
                 orderAdditionalInfo.setOption1(orderAppointment.getOption1());
-                orderAdditionalInfo.setOrderNo(orderNo);
                 if (orderAppointment.getOption1()==1){
                     if (orderAppointment.getAddress()!=null){
                         appointment.setAddress(orderAppointment.getAddress());
-                        orderAppointmentService.save(appointment);
                         message.setBusinessCate(3);
                         message.setMsgCate(3);
                         message.setContent(sysMessageTemplateService.selectMessageTemplate(4).getContentTemplate()
@@ -393,7 +390,10 @@ public class OrderAppointmentController extends BaseController {
                         orderMain.setUserId(userId);
                         orderMain.setAmount(amount);
                         orderAdditionalInfo.setAmount(amount);
+                        appointment.setOrderNo(orderNoNew);
+                        appointment.setParentNo(orderNo);
                         orderAdditionalInfo.setOrderNo(orderNoNew);
+                        orderAppointmentService.save(appointment);
                         orderMainService.save(orderMain);
                         orderAdditionalInfoService.save(orderAdditionalInfo);
                         sysMessageService.save(message);
@@ -404,6 +404,8 @@ public class OrderAppointmentController extends BaseController {
                         params.put("institutionId",orderAppointment.getInstitutionId());
                         appointment.setInstitutionId(orderAppointment.getInstitutionId());
                         appointment.setStatus(2);
+                        appointment.setOrderNo(orderNo);
+                        orderAdditionalInfo.setOrderNo(orderNo);
                         orderAppointmentService.save(appointment);
                         message.setBusinessCate(3);
                         message.setMsgCate(2);
