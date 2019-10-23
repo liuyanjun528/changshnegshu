@@ -3,7 +3,6 @@ package com.annaru.upms.service;
 import com.annaru.common.result.PageUtils;
 import com.annaru.upms.entity.SysAppraisal;
 import com.baomidou.mybatisplus.extension.service.IService;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -34,6 +33,13 @@ public interface ISysAppraisalService extends IService<SysAppraisal> {
     SysAppraisal selectOne(Map<String, Object> params);
 
     SysAppraisal getAppraised(Map<String,Object> params);
+
+    /**
+     * @Author：wh
+     * @Description：通过userId查询*
+     * @Date:2019/10/23 9:06
+     */
+    SysAppraisal selectSysAppraisalInfoByUserId(String userId);
 
 }
 
