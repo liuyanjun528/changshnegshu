@@ -87,7 +87,16 @@
         select
 		    is_approved,
 		    remark
-	    from sys_verify_docs where user_id=#{userId} and cates=#{cates}
+	    from sys_verify_docs where user_id=#{userId}
+        <if test="cates == 1 ">
+            and cates=2
+        </if>
+        <if test="cates == 2 ">
+            and cates=1
+        </if>
+        <if test="cates == 3 ">
+            and cates=3
+        </if>
 	    ORDER BY creation_time DESC
         LIMIT 0,1
     </select>

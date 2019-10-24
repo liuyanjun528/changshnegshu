@@ -121,6 +121,17 @@ public class SysDoctorOppointment extends Model<SysDoctorOppointment> implements
 	@TableField("edit_by")
 	private String editBy;
 
+	@TableField(exist = false)
+    private String doctorName;
+
+	public String getDoctorName() {
+		return doctorName;
+	}
+
+	public void setDoctorName(String doctorName) {
+		this.doctorName = doctorName;
+	}
+
 	public String getAddress() {
 		return address;
 	}

@@ -20,6 +20,7 @@
         <result column="create_by" property="createBy" />
         <result column="edit_time" property="editTime" />
         <result column="edit_by" property="editBy" />
+        <result column="doctor_name" property="doctorName" />
     </resultMap>
 
     <resultMap id="BaseMap" type="com.annaru.upms.entity.vo.DoctorUserOppointmentVo">
@@ -88,23 +89,25 @@
     <!-- 多表页面信息查询分页 -->
     <select id="selectDataPage" parameterType="map" resultMap="BaseResultMap">
         SELECT
-              user_id,
-              user_cate,
-              appointment_cates,
-              doctor_nurse_no,
-              appoint_date,
-              (CASE WHEN time_from = '13:00:00' then '下午' WHEN time_from = '08:00:00' then '上午' end) time_from,
-              time_to,
-              is_confirmed as is_active,
-              creation_time,
-              create_by,
-              edit_time,
-              edit_by
+          sdno.user_id,
+          sdno. user_cate,
+          sdno.appointment_cates,
+          sdno.doctor_nurse_no,
+          sd.doctor_name,
+          sdno.appoint_date,
+          (CASE WHEN sdno.time_from = '13:00:00' then '下午' WHEN sdno.time_from = '08:00:00' then '上午' end) time_from,
+          sdno.time_to,
+          sdno.is_confirmed as is_active,
+          sdno.creation_time,
+          sdno.create_by,
+          sdno.edit_time,
+          sdno.edit_by
         FROM
-        sys_doctor_nurse_oppointment
-        WHERE  user_cate = 2
+            sys_doctor_nurse_oppointment as sdno
+        LEFT JOIN sys_doctor as sd ON sd.doctor_no=sdno.doctor_nurse_no
+          WHERE  sdno.user_cate = 2
         <if test="params.userId != null and params.userId != ''">
-        and  user_id = #{params.userId}
+          and  sdno.user_id = #{params.userId}
         </if>
     </select>
 

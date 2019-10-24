@@ -22,9 +22,9 @@
         SELECT
             sm.*,
         case
-          when sd.doctor_no is null and sn.nurse_no is null then '1'
-          when sd.doctor_no is not null then '2'
-        else '3' end  as userType
+          when sd.doctor_no is null and sn.nurse_no is null then '3'
+          when sd.doctor_no is not null then '1'
+        else '2' end  as userType
         FROM  sys_message as sm
         LEFT JOIN sys_doctor as sd ON sd.user_id=sm.user_id
         LEFT JOIN sys_nurse as sn ON sn.user_id=sm.user_id
