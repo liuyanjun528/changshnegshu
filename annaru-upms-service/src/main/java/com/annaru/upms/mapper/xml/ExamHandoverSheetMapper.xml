@@ -47,7 +47,8 @@
         update exam_handover_sheet set
 			person_barcode_confirmed=#{personBarcodeConfirmed},-- 二维码状态
 			sample_code=#{sampleCode},-- 血液样本编码
-			draw_completed=#{drawCompleted}-- 抽血是否完成
+			draw_completed=#{drawCompleted},-- 抽血是否完成
+			draw_complete_time=#{drawCompleteTime}
         WHERE order_no=#{orderNo}
     </update>
 

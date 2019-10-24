@@ -39,6 +39,11 @@ public class EntityPurchseMainVoZ implements Serializable {
 	 */
 	private String logoUrl;
 
+	/**
+	 * 标题 如：企业专属医生家庭健康服务包
+	 */
+	private String ehmDesr;
+
 	private List<EntityEhmDesr> entityEhmDesrList;
 
 	public String getEntityNo() {
@@ -79,6 +84,14 @@ public class EntityPurchseMainVoZ implements Serializable {
 
 	public void setEntityEhmDesrList(List<EntityEhmDesr> entityEhmDesrList) {
 		this.entityEhmDesrList = entityEhmDesrList;
+	}
+
+	public String getEhmDesr() {
+		return ehmDesr;
+	}
+
+	public void setEhmDesr(String ehmDesr) {
+		this.ehmDesr = ehmDesr;
 	}
 
 	@Override

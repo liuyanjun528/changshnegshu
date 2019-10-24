@@ -61,4 +61,9 @@
         where
         order_no = #{params.orderNo}
     </select>
+
+    <select id="selectSysAppraisalInfoByUserId" parameterType="map" resultMap="BaseResultMap">
+          select  *  from sys_appraisal where  user_id = #{userId}
+    </select>
+
 </mapper>

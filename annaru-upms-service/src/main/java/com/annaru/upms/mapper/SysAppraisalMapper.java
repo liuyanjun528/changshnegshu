@@ -36,4 +36,11 @@ public interface SysAppraisalMapper extends BaseMapper<SysAppraisal> {
     SysAppraisal getOne(@Param("params") Map<String, Object> params);
 
     SysAppraisal getAppraised(@Param("params") Map<String, Object> params);
+
+    /**
+     * @Author：wh
+     * @Description：通过userId查询*
+     * @Date:2019/10/23 9:06
+     */
+    SysAppraisal selectSysAppraisalInfoByUserId(@Param("userId") String userId);
 }
