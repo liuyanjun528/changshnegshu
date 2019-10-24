@@ -145,7 +145,7 @@
             on oa.user_id = ub.user_id
             LEFT JOIN
             order_main om
-            on om.parent_no = oa.order_no
+            on om.order_no = oa.order_no
             LEFT JOIN
             exam_handover_sheet ehs
             on ehs.order_no = oa.order_no
