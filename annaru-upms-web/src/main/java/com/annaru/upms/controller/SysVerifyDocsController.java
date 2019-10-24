@@ -182,7 +182,7 @@ public class SysVerifyDocsController extends BaseController {
         try {
             if(StringUtils.isNotBlank(sysVerifyDocs.getImages())){
                 sysVerifyDocs.setCreationTime(new Date());
-                sysVerifyDocs.setDocCates(1);
+                sysVerifyDocs.setDocCates(1);//正面
                 sysVerifyDocs.setCates(3);
                 sysVerifyDocsService.saveUserVerify(sysVerifyDocs);
             }
@@ -208,9 +208,9 @@ public class SysVerifyDocsController extends BaseController {
       */
     @ApiOperation(value = "查询用户是否审核及审核结果")
     @GetMapping("/selectUserVerify")
-    public Object selectUserVerify(String userId) {
+    public Object selectUserVerify(String userId,Integer cates) {
         try {
-            SysVerifyDocs sysVerifyDocs = sysVerifyDocsService.selectResult(userId);
+            SysVerifyDocs sysVerifyDocs = sysVerifyDocsService.selectResult(userId,cates);
             return ResultMap.ok("ok").put("data",sysVerifyDocs);
         } catch (Exception e) {
             logger.error(e.getMessage());

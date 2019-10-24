@@ -77,17 +77,26 @@
     <!--用户实名认证-->
     <select id="saveUserVerify" parameterType="com.annaru.upms.entity.SysVerifyDocs">
         insert into sys_verify_docs
-                (user_id,doc_cates,images,full_name,id_no,creation_time)
+                (user_id,doc_cates,cates,images,full_name,id_no,creation_time)
         VALUES
-                (#{userId},#{docCates},#{images},#{fullName},#{idNo},#{creationTime})
+                (#{userId},#{docCates},#{cates},#{images},#{fullName},#{idNo},#{creationTime})
     </select>
 
     <!--用户实名认证结果查询-->
-    <select id="selectResult" parameterType="string" resultMap="BaseResultMap">
+    <select id="selectResult" parameterType="map" resultMap="BaseResultMap">
         select
 		    is_approved,
 		    remark
 	    from sys_verify_docs where user_id=#{userId}
+        <if test="cates == 1 ">
+            and cates=2
+        </if>
+        <if test="cates == 2 ">
+            and cates=1
+        </if>
+        <if test="cates == 3 ">
+            and cates=3
+        </if>
 	    ORDER BY creation_time DESC
         LIMIT 0,1
     </select>
