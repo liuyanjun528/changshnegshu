@@ -60,17 +60,18 @@
     <select id="selectMainDetailByUserId" parameterType="map" resultMap="BaseResultMapZ">
 
         SELECT
-          erm.sys_id, erm.order_no, erm.user_id, erm.creation_time, erd.question_id, erd.remark, erd.answer_detail
+            erm.sys_id, erm.order_no, erm.user_id, erm.creation_time, erd.question_id, erd.remark, erd.answer_detail
         FROM
-            (
-                SELECT erm1.sys_id sys_id, erm1.order_no order_no, erm1.user_id user_id,  erm1.creation_time creation_time
-                FROM exam_user_record_main erm1 ORDER BY erm1.creation_time DESC LIMIT 0,2
-            ) erm
+        (
+            SELECT erm1.sys_id sys_id, erm1.order_no order_no, erm1.user_id user_id,  erm1.creation_time creation_time
+            FROM exam_user_record_main erm1
+            WHERE 1 = 1
+            <if test="userId != null and userId != ''">
+                AND erm1.user_id = #{userId}
+            </if>
+            ORDER BY erm1.creation_time DESC LIMIT 0,2
+        ) erm
         LEFT JOIN exam_user_record_detail erd ON erd.main_id = erm.sys_id
-        WHERE 1 = 1
-        <if test="userId != null and userId != ''">
-            AND erm.user_id = #{userId}
-        </if>
         ORDER BY erm.creation_time DESC
 
     </select>

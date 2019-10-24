@@ -1,7 +1,11 @@
 package com.annaru.upms.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import com.annaru.common.util.sdk.utils.DateUtil;
 import com.annaru.upms.entity.vo.ExamUserRecordMainVoZ;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import com.alibaba.dubbo.config.annotation.Reference;
@@ -67,7 +71,42 @@ public class ExamUserRecordMainController extends BaseController {
     public ResultMap selectMainDetailByUserId(@RequestParam("userId") String userId){
         try {
             List<ExamUserRecordMainVoZ> examUserRecordMainVoZ = examUserRecordMainService.selectMainDetailByUserId(userId);
-            return ResultMap.ok().put("data",examUserRecordMainVoZ);
+            List<ExamUserRecordMainVoZ> examUserRecordMainVoZN = null;
+            if (examUserRecordMainVoZ != null && examUserRecordMainVoZ.size() > 0){
+
+                ExamUserRecordMainVoZ recordMain[] = new ExamUserRecordMainVoZ[examUserRecordMainVoZ.size() / 2];
+                examUserRecordMainVoZN = new ArrayList<>();
+
+                Collections.sort(examUserRecordMainVoZ);
+                Pattern pattern = Pattern.compile("^[0-9]*$");
+                for (int i = 0 ; i < examUserRecordMainVoZ.size() ; i++){
+
+                    ExamUserRecordMainVoZ userRecordMainVoZ1 = examUserRecordMainVoZ.get(i * 2);
+                    ExamUserRecordMainVoZ userRecordMainVoZ2 = examUserRecordMainVoZ.get(i * 2 + 1);
+                    // 先判断答案不是数字类型的
+                    Matcher matcher = pattern.matcher(userRecordMainVoZ1.getAnswerDetail());
+                    int index = Integer.parseInt(userRecordMainVoZ1.getQuestionId().substring(1)) - 1;
+                    if (!matcher.matches()){
+                        recordMain[index] = userRecordMainVoZ1;
+                    }else {
+                        if (Double.parseDouble(userRecordMainVoZ1.getAnswerDetail()) > Double.parseDouble(userRecordMainVoZ2.getAnswerDetail())){
+                            userRecordMainVoZ1.setArrows(1);
+                            recordMain[index] = userRecordMainVoZ1;
+                        }else if (Double.parseDouble(userRecordMainVoZ1.getAnswerDetail()) == Double.parseDouble(userRecordMainVoZ2.getAnswerDetail())){
+                            userRecordMainVoZ1.setArrows(3);
+                            recordMain[index] = userRecordMainVoZ1;
+                        }else {
+                            userRecordMainVoZ1.setArrows(2);
+                            recordMain[index] = userRecordMainVoZ1;
+                        }
+                    }
+                    if (i == examUserRecordMainVoZ.size() / 2 - 1){
+                        break;
+                    }
+                }
+                Collections.addAll(examUserRecordMainVoZN, recordMain);
+            }
+            return ResultMap.ok().put("data",examUserRecordMainVoZN);
         } catch (Exception e) {
             logger.error(e.getMessage());
             return ResultMap.error("运行异常，请联系管理员");
