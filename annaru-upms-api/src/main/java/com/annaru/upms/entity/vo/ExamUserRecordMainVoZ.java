@@ -19,7 +19,7 @@ import java.util.Date;
  * @author xck
  * @date 2019-06-17 13:19:24
  */
-public class ExamUserRecordMainVoZ implements Serializable {
+public class ExamUserRecordMainVoZ implements Serializable,Comparable<ExamUserRecordMainVoZ> {
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -50,6 +50,10 @@ public class ExamUserRecordMainVoZ implements Serializable {
 	 * 回答内容
 	 */
 	private String answerDetail;
+	/**
+	 * 标记箭头 1：上箭头 2：下箭头 3：相等
+	 */
+	private Integer arrows;
 	/**
 	 * 获取：问题编号
 	 */
@@ -136,8 +140,21 @@ public class ExamUserRecordMainVoZ implements Serializable {
 		this.creationTime = creationTime;
 	}
 
+	public Integer getArrows() {
+		return arrows;
+	}
+
+	public void setArrows(Integer arrows) {
+		this.arrows = arrows;
+	}
+
 	@Override
 	public String toString() {
         return JacksonUtils.toJson(this);
+	}
+
+	@Override
+	public int compareTo(ExamUserRecordMainVoZ o) {
+		return this.getQuestionId().compareTo(o.getQuestionId());
 	}
 }
