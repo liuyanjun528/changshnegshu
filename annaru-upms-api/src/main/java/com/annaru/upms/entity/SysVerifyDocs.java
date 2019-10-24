@@ -36,7 +36,7 @@ public class SysVerifyDocs extends Model<SysVerifyDocs> implements Serializable 
 	/**
 	 * 类别(1:护士/2:医生)
 	 */
-    @ApiModelProperty(value = "类别(1:护士/2:医生)")
+    @ApiModelProperty(value = "类别(1:护士/2:医生/3:用户)")
 	private Integer cates;
 	/**
 	 * 文档类别(1:身份证正面/2:身份证背面/3:职业资料证)

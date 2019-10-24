@@ -51,7 +51,7 @@ public interface ISysVerifyDocsService extends IService<SysVerifyDocs> {
      * @Author: wh
      * @Date: 2019/9/18 14:41
      */
-    SysVerifyDocs selectResult(String userId);
+    SysVerifyDocs selectResult(String userId,Integer cates);
 
     /**
      * 根据条件修改条件

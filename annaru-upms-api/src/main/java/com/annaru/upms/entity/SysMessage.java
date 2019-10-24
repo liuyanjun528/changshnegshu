@@ -75,7 +75,22 @@ public class SysMessage extends Model<SysMessage> implements Serializable {
 	@TableField("read_time")
 	private Date readTime;
 
-    public Integer getSysId() {
+//	@TableField(exist = false)
+////    private String doctorNo;
+////	@TableField(exist = false)
+////    private String nurseNo;
+	@TableField(exist = false)
+	private int userType;//1用户2医生3护士
+
+	public int getUserType() {
+		return userType;
+	}
+
+	public void setUserType(int userType) {
+		this.userType = userType;
+	}
+
+	public Integer getSysId() {
         return sysId;
     }
 	public void setSysId(Integer sysId) {
