@@ -96,7 +96,7 @@ public class Constant {
      * 订单支付状态
      */
     public enum OrderMainStatus {
-        // 支付状态(0:未支付/1:进行中/2:已完成/3:退款中/4:已退款)
+        // 支付状态(0:未支付/1:已支付进行中/2:已完成/3:退款中/4:已退款/5:超时关闭)
         /**
          * 未支付
          */
@@ -116,7 +116,12 @@ public class Constant {
         /**
          * 已退款
          */
-        ALREADY_REFUND(4);
+        ALREADY_REFUND(4),
+
+        /**
+         * 超时关闭
+         */
+        OVERTIME_CLOUSE(5);
 
         private int value;
 

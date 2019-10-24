@@ -87,13 +87,13 @@ public class EntityHealthyAppointment extends Model<EntityHealthyAppointment> im
 	 */
 	@ApiModelProperty(value = "预约时间")
 	@TableField("time_from")
-	private Date timeFrom;
+	private String timeFrom;
 	/**
 	 * 预约结束时间
 	 */
 	@ApiModelProperty(value = "预约结束时间")
 	@TableField("time_to")
-	private Date timeTo;
+	private String timeTo;
 	/**
 	 * 预约地址
 	 */
@@ -290,30 +290,23 @@ public class EntityHealthyAppointment extends Model<EntityHealthyAppointment> im
 	public void setAppointDate(Date appointDate) {
 		this.appointDate = appointDate;
 	}
-	/**
-	 * 获取：预约时间
-	 */
-	public Date getTimeFrom() {
+
+	public String getTimeFrom() {
 		return timeFrom;
 	}
-	/**
-	 * 设置：预约时间
-	 */
-	public void setTimeFrom(Date timeFrom) {
+
+	public void setTimeFrom(String timeFrom) {
 		this.timeFrom = timeFrom;
 	}
-	/**
-	 * 获取：预约结束时间
-	 */
-	public Date getTimeTo() {
+
+	public String getTimeTo() {
 		return timeTo;
 	}
-	/**
-	 * 设置：预约结束时间
-	 */
-	public void setTimeTo(Date timeTo) {
+
+	public void setTimeTo(String timeTo) {
 		this.timeTo = timeTo;
 	}
+
 	/**
 	 * 获取：预约地址
 	 */

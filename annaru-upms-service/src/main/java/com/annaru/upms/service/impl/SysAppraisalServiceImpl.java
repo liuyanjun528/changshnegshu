@@ -41,4 +41,9 @@ public class SysAppraisalServiceImpl extends ServiceImpl<SysAppraisalMapper, Sys
         return this.baseMapper.getAppraised(params);
     }
 
+    @Override
+    public SysAppraisal selectSysAppraisalInfoByUserId(String userId) {
+        return this.baseMapper.selectSysAppraisalInfoByUserId(userId);
+    }
+
 }

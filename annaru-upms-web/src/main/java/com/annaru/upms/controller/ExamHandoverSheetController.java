@@ -104,7 +104,9 @@ public class ExamHandoverSheetController extends BaseController {
     //@RequiresPermissions("upms/examHandoverSheet/update")
     public ResultMap update(@Valid @RequestBody ExamHandoverSheet examHandoverSheet) {
         try {
-            examHandoverSheet.setDrawCompleteTime(new Date());//抽血完成时间
+            if(examHandoverSheet.getDrawCompleted()==1){
+                examHandoverSheet.setDrawCompleteTime(new Date());//抽血完成时间
+            }
             examHandoverSheetService.updateExamHandoverSheet(examHandoverSheet);
             return ResultMap.ok("修改成功");
         } catch (Exception e) {
