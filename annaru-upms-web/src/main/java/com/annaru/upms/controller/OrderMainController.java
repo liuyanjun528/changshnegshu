@@ -84,14 +84,21 @@ public class OrderMainController extends BaseController {
                 StringBuffer s=new StringBuffer();
                 for(ExamAppend exam:examAppends){
                     String serviceName = exam.getServiceName();
+
                     s.append(serviceName+",");
                 }
                 String contentTemplate = sysMessageTemplate.getContentTemplate();
                 String message1 = contentTemplate.replace("[pakg_name]", examAppends.get(0).getPackageName());//替换过的消息
                 String message2 = message1.replace("[append_service]", s.toString().substring(0,s.length()-1));//替换过的消息
                 String message3 = message2.replace("[order_no]", orderMain.getOrderNo());//替换过的消息
-                sm.setContent(message3);
-                sysMessageService.save(sm);
+                if("null,".equals(s)){//如果赠送服务为null ,不显示赠送服务包含项
+                    String message4 = message3.replace("包含服务：[append_service]，", " ");//替换过的消息
+                    sm.setContent(message4);
+                    sysMessageService.save(sm);
+                }else{
+                    sm.setContent(message3);
+                    sysMessageService.save(sm);
+                }
             }
             if (i > 0) {
                     SysConfigUtil.saveRefNo(sysConfig.getRefNo());

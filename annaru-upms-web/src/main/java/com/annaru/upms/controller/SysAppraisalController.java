@@ -73,13 +73,15 @@ public class SysAppraisalController extends BaseController {
     public ResultMap save(@Valid @RequestBody SysAppraisal sysAppraisal) {
         try {
             SysAppraisal sa = sysAppraisalService.selectSysAppraisalInfoByUserId(sysAppraisal.getUserId());
-            if(sa.getUserId()!=null&&sa.getReferenceNo()!=null&&sa.getCates()==1){// 1医生
-                return ResultMap.error("该用户以对此医生做过评价，不允许再添加");
-            }if(sa.getUserId()!=null&&sa.getReferenceNo()!=null&&sa.getCates()==2){ //2护士
-                return ResultMap.error("该用户以对此护士做过评价，不允许再添加");
-            }else {
+            if(null==sa){
                 sysAppraisalService.save(sysAppraisal);
                 return ResultMap.ok("添加成功");
+            } else if(sa.getUserId()!=null&&sa.getReferenceNo()!=null&&sa.getCates()==1){// 1医生
+                return ResultMap.error("该用户以对此医生做过评价，不允许再添加");
+            }else if(sa.getUserId()!=null&&sa.getReferenceNo()!=null&&sa.getCates()==2){ //2护士
+                return ResultMap.error("该用户以对此护士做过评价，不允许再添加");
+            }else{
+                return ResultMap.error("运行异常，请联系管理员");
             }
         } catch (Exception e) {
             logger.error(e.getMessage());
