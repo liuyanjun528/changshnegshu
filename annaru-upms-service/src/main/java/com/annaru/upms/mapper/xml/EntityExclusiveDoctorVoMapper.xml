@@ -52,7 +52,7 @@
         LEFT JOIN sys_institution as si ON si.institution_id=eha.institution_id
         LEFT JOIN entity_exclusive_doctor as eed ON eed.doctor_no=eha.related_no
         LEFT JOIN sys_appraisal as sa ON sa.user_id=eha.user_id
-        where eha.user_id=#{userId} and eha.entity_no=eed.entity_id and is_terminated=0 and eed.effect_to>NOW()
+        where eha.user_id=#{userId}  and is_terminated=0 and eed.effect_to>NOW()
     </select>
 
 </mapper>
