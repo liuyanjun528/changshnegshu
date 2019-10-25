@@ -3,6 +3,7 @@ package com.annaru.upms.entity.vo;
 import com.annaru.common.util.JacksonUtils;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 
@@ -18,7 +19,34 @@ public class OrderMainVoZTC31 implements Serializable {
 	private Integer emSysId;
 	private String emName;
 
-	private List<OrderMainVoZTC3> orderMainVoZTC3List;
+//	private List<OrderMainVoZTC3> orderMainVoZTC3List;
+	private Integer edSysId;
+	private String examMasterItem;
+
+	/**
+	 * 机构名称
+	 * @return
+	 */
+	private String siName;
+	/**
+	 * 预约日期
+	 */
+	private Date appointDate;
+	/**
+	 * 预约开始时间
+	 * @return
+	 */
+	private String timeFrom;
+
+	/**
+	 * 预约结束时间
+	 * @return
+	 */
+	private String timeTo;
+	/**
+	 * 预约地址
+	 */
+	private String address;
 
 	public Integer getEmSysId1() {
 		return emSysId1;
@@ -52,12 +80,60 @@ public class OrderMainVoZTC31 implements Serializable {
 		this.emName = emName;
 	}
 
-	public List<OrderMainVoZTC3> getOrderMainVoZTC3List() {
-		return orderMainVoZTC3List;
+	public Integer getEdSysId() {
+		return edSysId;
 	}
 
-	public void setOrderMainVoZTC3List(List<OrderMainVoZTC3> orderMainVoZTC3List) {
-		this.orderMainVoZTC3List = orderMainVoZTC3List;
+	public void setEdSysId(Integer edSysId) {
+		this.edSysId = edSysId;
+	}
+
+	public String getExamMasterItem() {
+		return examMasterItem;
+	}
+
+	public void setExamMasterItem(String examMasterItem) {
+		this.examMasterItem = examMasterItem;
+	}
+
+	public String getSiName() {
+		return siName;
+	}
+
+	public void setSiName(String siName) {
+		this.siName = siName;
+	}
+
+	public Date getAppointDate() {
+		return appointDate;
+	}
+
+	public void setAppointDate(Date appointDate) {
+		this.appointDate = appointDate;
+	}
+
+	public String getTimeFrom() {
+		return timeFrom;
+	}
+
+	public void setTimeFrom(String timeFrom) {
+		this.timeFrom = timeFrom;
+	}
+
+	public String getTimeTo() {
+		return timeTo;
+	}
+
+	public void setTimeTo(String timeTo) {
+		this.timeTo = timeTo;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
 	}
 
 	@Override

@@ -59,22 +59,7 @@ public class OrderMainVoZZF implements Serializable {
 	 * @return
 	 */
 	private String cardNo;
-	/**
-	 * 机构名称
-	 * @return
-	 */
-	private String siName;
-	/**
-	 * 预约开始时间
-	 * @return
-	 */
-	private Date timeFrom;
 
-	/**
-	 * 预约结束时间
-	 * @return
-	 */
-	private Date timeTo;
 	/**
 	 * 下定单时间
 	 * @return
@@ -91,10 +76,6 @@ public class OrderMainVoZZF implements Serializable {
 	 */
 	private Double amount;
 	/**
-	 * 预约地址
-	 */
-	private String address;
-	/**
 	 * 检查项目主表 编号
 	 */
 	private Integer emSysId;
@@ -105,105 +86,96 @@ public class OrderMainVoZZF implements Serializable {
 
 	private List<OrderMainVoZTC31> orderMainVoZTC31List;
 
-	public Integer getStatus() {
-		return status;
-	}
-	public void setStatus(Integer status) {
-		this.status = status;
-	}
-	public String getCustomerName() {
-		return customerName;
-	}
-	public void setCustomerName(String customerName) {
-		this.customerName = customerName;
-	}
-	public String getCardNo() {
-		return cardNo;
-	}
-	public void setSysId(Integer sysId) {
-		this.sysId = sysId;
-	}
-	public String getSiName() {
-		return siName;
-	}
-	public void setCardNo(String cardNo) {
-		this.cardNo = cardNo;
-	}
-	public Integer getGender() {
-		return gender;
-	}
-	public void setSiName(String siName) {
-		this.siName = siName;
-	}
-	public void setGender(Integer gender) {
-		this.gender = gender;
-	}
 	public Integer getSysId() {
 		return sysId;
 	}
+
+	public void setSysId(Integer sysId) {
+		this.sysId = sysId;
+	}
+
 	public void setOrderNo(String orderNo) {
 		this.orderNo = orderNo;
 	}
+
+	public Integer getStatus() {
+		return status;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
+
+	public String getCustomerName() {
+		return customerName;
+	}
+
+	public void setCustomerName(String customerName) {
+		this.customerName = customerName;
+	}
+
 	public String getIdNo() {
 		return idNo;
 	}
+
 	public void setIdNo(String idNo) {
 		this.idNo = idNo;
 	}
+
+	public Integer getGender() {
+		return gender;
+	}
+
+	public void setGender(Integer gender) {
+		this.gender = gender;
+	}
+
 	public String getCellphoneNo1() {
 		return cellphoneNo1;
 	}
-	public void setAmount(Double amount) {
-		this.amount = amount;
-	}
-	public Integer getCardCates() {
-		return cardCates;
-	}
+
 	public void setCellphoneNo1(String cellphoneNo1) {
 		this.cellphoneNo1 = cellphoneNo1;
 	}
-	public Double getAmount() {
-		return amount;
+
+	public Integer getCardCates() {
+		return cardCates;
 	}
-	public void setTimeTo(Date timeTo) {
-		this.timeTo = timeTo;
-	}
-	public String getUserChannel() {
-		return userChannel;
-	}
-	public void setUserChannel(String userChannel) {
-		this.userChannel = userChannel;
-	}
-	public Date getTimeTo() {
-		return timeTo;
-	}
+
 	public void setCardCates(Integer cardCates) {
 		this.cardCates = cardCates;
 	}
-	public Date getTimeFrom() {
-		return timeFrom;
+
+	public String getCardNo() {
+		return cardNo;
 	}
-	public void setTimeFrom(Date timeFrom) {
-		this.timeFrom = timeFrom;
+
+	public void setCardNo(String cardNo) {
+		this.cardNo = cardNo;
 	}
 
 	public Date getOrderTime() {
 		return orderTime;
 	}
+
 	public void setOrderTime(Date orderTime) {
 		this.orderTime = orderTime;
 	}
-	public List<OrderMainVoZTC31> getOrderMainVoZTC31List() {
-		return orderMainVoZTC31List;
+
+	public String getUserChannel() {
+		return userChannel;
 	}
-	public void setOrderMainVoZTC31List(List<OrderMainVoZTC31> orderMainVoZTC31List) {
-		this.orderMainVoZTC31List = orderMainVoZTC31List;
+
+	public void setUserChannel(String userChannel) {
+		this.userChannel = userChannel;
 	}
-	public String getAddress() {
-		return address;
+
+	public Double getAmount() {
+		return amount;
 	}
-	public void setAddress(String address) {
-		this.address = address;
+
+	public void setAmount(Double amount) {
+		this.amount = amount;
 	}
 
 	public Integer getEmSysId() {
@@ -220,6 +192,14 @@ public class OrderMainVoZZF implements Serializable {
 
 	public void setEmName(String emName) {
 		this.emName = emName;
+	}
+
+	public List<OrderMainVoZTC31> getOrderMainVoZTC31List() {
+		return orderMainVoZTC31List;
+	}
+
+	public void setOrderMainVoZTC31List(List<OrderMainVoZTC31> orderMainVoZTC31List) {
+		this.orderMainVoZTC31List = orderMainVoZTC31List;
 	}
 
 	@Override

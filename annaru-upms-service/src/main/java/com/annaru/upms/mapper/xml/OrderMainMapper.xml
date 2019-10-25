@@ -182,23 +182,20 @@
         <result column="cellphoneNo1" property="cellphoneNo1" />
         <result column="cardCates" property="cardCates" />
         <result column="cardNo" property="cardNo" />
-        <result column="siName" property="siName" />
-        <result column="timeFrom" property="timeFrom" />
-        <result column="timeTo" property="timeTo" />
         <result column="orderTime" property="orderTime" />
         <result column="userChannel" property="userChannel" />
         <result column="amount" property="amount" />
-        <result column="address" property="address" />
-
 
         <collection property="orderMainVoZTC31List" ofType="com.annaru.upms.entity.vo.OrderMainVoZTC31">
             <result column="emSysId" property="emSysId" />
             <result column="emName" property="emName" />
-
-            <collection property="orderMainVoZTC3List" ofType="com.annaru.upms.entity.vo.OrderMainVoZTC3">
-                <result column="edSysId" property="edSysId" />
-                <result column="examMasterItem" property="examMasterItem"/>
-            </collection>
+            <result column="edSysId" property="edSysId" />
+            <result column="examMasterItem" property="examMasterItem"/>
+            <result column="siName" property="siName" />
+            <result column="appointDate" property="appointDate" />
+            <result column="timeFrom" property="timeFrom" />
+            <result column="timeTo" property="timeTo" />
+            <result column="address" property="address" />
         </collection>
 
 
@@ -416,7 +413,7 @@
         ub1.cellphone_no cellphoneNo1,
         om.status,
         om.user_channel userChannel,
-        (SELECT SUM(ed.sys_id) FROM exam_detail ed WHERE ed.sys_id = epd.exam_detail_id ) itemNameCount
+        e.itemNameCount
         FROM
         order_main om
         LEFT JOIN exam_package_main epm ON epm.sys_id = om.reference_no
@@ -424,6 +421,12 @@
         LEFT JOIN exam_append ea ON ea.sys_id = epa.append_id
         LEFT JOIN exam_package_detail epd ON epd.exam_main_id = epm.sys_id
         LEFT JOIN exam_master em ON em.sys_id = epd.exam_master_id
+        LEFT JOIN (
+            SELECT COUNT(ed.sys_id) itemNameCount, ed.master_id
+            FROM exam_package_detail ed1
+            LEFT JOIN exam_detail ed  ON ed.sys_id = ed1.exam_detail_id
+            GROUP BY ed1.exam_master_id
+        ) e ON e.master_id = epd.exam_master_id
         LEFT JOIN order_extension_exam oee ON oee.order_no = om.order_no
         LEFT JOIN user_basic ub ON ub.user_id = om.user_id
         LEFT JOIN order_customer oc ON oc.order_no = om.order_no
@@ -442,33 +445,34 @@
     <!-- 多表页面信息查询分页  自费订单-->
     <select id="selectPackageAdvance" parameterType="map" resultMap="advanceBaseResultMapZfZ">
         SELECT
-        om.sys_id sysId,
-        om.order_no orderNo,
-        em.sys_id emSysId,
-        em.name emName,
-        ed.sys_id edSysId,
-        ed.item_name examMasterItem,
-        om.status,
-        ub.full_name customerName,
-        ub.id_card_no idNo,
-        ub.gender,
-        ub.cellphone_no cellphoneNo1,
-        uc.card_cates cardCates,
-        uc.card_no cardNo,
-        si.name siName,
-        oa.time_from timeFrom,
-        oa.time_to timeTo,
-        om.order_time orderTime,
-        om.user_channel userChannel,
-        om.amount,
-        oa.address
+            om.sys_id sysId,
+            om.order_no orderNo,
+            em.sys_id emSysId,
+            em.name emName,
+            ed.sys_id edSysId,
+            ed.item_name examMasterItem,
+            om.status,
+            ub.full_name customerName,
+            ub.id_card_no idNo,
+            ub.gender,
+            ub.cellphone_no cellphoneNo1,
+            uc.card_cates cardCates,
+            uc.card_no cardNo,
+            si.name siName,
+            oa.appoint_date appointDate,
+            oa.time_from timeFrom,
+            oa.time_to timeTo,
+            om.order_time orderTime,
+            om.user_channel userChannel,
+            om.amount,
+            oa.address
         FROM
-        order_main om
-        LEFT JOIN order_extension_exam oee ON oee.order_no = om.order_no
-        LEFT JOIN exam_extention_cates em ON em.sys_id = oee.exam_master_id
-        LEFT JOIN exam_detail ed ON ed.sys_id = oee.exam_detail_id
+            order_main om
         LEFT JOIN order_appointment oa ON oa.order_no = om.order_no
         LEFT JOIN sys_institution si ON si.institution_id = oa.institution_id
+        LEFT JOIN order_extension_exam oee ON oee.sys_id = oa.extensionitem_id
+        LEFT JOIN exam_extention_cates em ON em.sys_id = oee.exam_master_id
+        LEFT JOIN exam_detail ed ON ed.sys_id = oee.exam_detail_id
         LEFT JOIN user_cards uc ON om.user_id = uc.user_id
         LEFT JOIN user_basic ub ON ub.user_id = om.user_id
         WHERE
