@@ -232,6 +232,9 @@ public class EntityHealthyAppointmentController extends BaseController {
 
         //总次数-使用次数=剩余次数
         int restCount=counts-i;
+        if(restCount<0){
+            restCount=0;
+        }
 
         return ResultMap.ok().put("data",restCount);
     }
