@@ -359,9 +359,9 @@ UNION
     <!--查看家庭医生服务上门预约信息-->
     <select id="selectUpDoorOppointment" parameterType="String" resultMap="upDoorMap">
      SELECT
-			oa.order_no,
-			oa.appoint_date,
-			oa.address,
+            eha.order_no,
+			eha.appoint_date,
+			eha.address,
 			sd.cellphone_no,
 
 			ub.full_name as userName,
@@ -379,9 +379,9 @@ UNION
 	    from order_customer as oc
             LEFT JOIN user_basic as ub ON ub.user_id=oc.relative_id
 			LEFT JOIN user_relatives as ur ON ur.relative_id=oc.relative_id
-			LEFT JOIN order_appointment as oa ON oa.order_no=oc.order_no
-			LEFT JOIN sys_doctor as sd ON sd.doctor_no=oa.related_no
-            WHERE oa.order_no=#{orderNo}
+			LEFT JOIN entity_healthy_appointment as eha ON eha.order_no=oc.order_no
+			LEFT JOIN sys_doctor as sd ON sd.doctor_no=eha.related_no
+        WHERE eha.order_no=#{orderNo}
     </select>
 
     <select id="getCount" resultType="int" parameterType="String">

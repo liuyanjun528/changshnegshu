@@ -93,7 +93,7 @@ public class EntityHealthyAppointmentController extends BaseController {
             @ApiParam(value = "当前页", defaultValue="1")@RequestParam(required = false) int page,
             @ApiParam(value = "每页数量", defaultValue = "10")@RequestParam(required = false) int limit,
             @ApiParam(value = "医生编号")@RequestParam(required = false)String relatedNo,
-            @ApiParam(value = "待服务0/已完成1")@RequestParam(required = false)Integer status,
+            @ApiParam(value = "待服务1/已完成3")@RequestParam(required = false)Integer status,
             @ApiParam(value = "待评估")@RequestParam(required = false)Integer isSubmitted,
             @ApiParam(value = "时间区间")@RequestParam(required = false)Integer when){
         if(status==null){
