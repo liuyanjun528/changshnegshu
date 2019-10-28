@@ -113,6 +113,8 @@
         <if test="params.userId != null and params.userId != ''">
             AND ufd.user_id= #{params.userId}
         </if>
+        order by ufd.creation_time DESC
+        limit 0,1
     </select>
 
     <select id="getUserFD" parameterType="map" resultMap="BaseResultMap">
