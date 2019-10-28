@@ -53,6 +53,7 @@
         LEFT JOIN entity_exclusive_doctor as eed ON eed.doctor_no=eha.related_no
         LEFT JOIN sys_appraisal as sa ON sa.user_id=eha.user_id
         where eha.user_id=#{userId}  and is_terminated=0 and eed.effect_to>NOW()
+        LIMIT 0,1
     </select>
 
 </mapper>

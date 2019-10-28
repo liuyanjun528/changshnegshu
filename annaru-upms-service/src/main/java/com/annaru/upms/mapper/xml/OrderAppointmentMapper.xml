@@ -172,6 +172,7 @@
             <if test="params.when == 2 ">
             AND to_days(oa.creation_time) = to_days(now())
             </if>
+        ORDER BY oa.creation_time DESC
     </select>
 
     <!--我的患者列表-->
