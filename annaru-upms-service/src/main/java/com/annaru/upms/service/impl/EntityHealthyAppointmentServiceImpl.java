@@ -165,6 +165,13 @@ public class EntityHealthyAppointmentServiceImpl extends ServiceImpl<EntityHealt
         return this.baseMapper.selectEntityServiceCount(userId);
     }
 
+    @Override
+    public boolean updateStatus3ByOrderNo(String orderNo) {
+        if (this.baseMapper.updateStatus3ByOrderNo(orderNo) > 0){
+            return true;
+        }
+        return false;
+    }
 
     @Override
     public Integer updateByOderNo(String orderNo) {
