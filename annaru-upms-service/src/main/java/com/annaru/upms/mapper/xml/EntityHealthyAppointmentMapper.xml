@@ -78,16 +78,14 @@
         SELECT
         eha.sys_id,
         eha.creation_time -- 企业服务预约记录
-        FROM entity_purchse_main epm
-        LEFT JOIN user_entity_mapping uem ON uem.entity_id = epm.entity_no
-        LEFT JOIN entity_healthy_appointment eha ON eha.user_id = uem.user_id AND eha.entity_no = uem.entity_id
+        FROM  entity_healthy_appointment eha
         WHERE 1 = 1
-        AND epm.cates = 2 AND epm.is_active = 1 AND epm.is_terminated = 0
-        AND eha.`status` = 3 AND eha.service_option = 1 AND eha.is_cancelled = 0 AND eha.user_confirm = 1 AND eha.is_deleted = 0
+
+        AND eha.status = 3 AND eha.service_option = 1 AND eha.is_cancelled = 0 AND eha.user_confirm = 1 AND eha.is_deleted = 0
         AND eha.pkg_main_id = 8 AND eha.pkg_detail_id = 801
 
         <if test="params.userId != null and params.userId != ''">
-            AND uem.user_id = #{params.userId}
+            AND eha.user_id = #{params.userId}
         </if>
         <if test="params.bs == 1">
             AND DATE_FORMAT(eha.creation_time , '%Y') = DATE_FORMAT(#{params.startDate} , '%Y')
