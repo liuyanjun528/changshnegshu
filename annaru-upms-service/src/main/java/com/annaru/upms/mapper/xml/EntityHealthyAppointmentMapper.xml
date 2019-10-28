@@ -80,8 +80,7 @@
         eha.creation_time -- 企业服务预约记录
         FROM  entity_healthy_appointment eha
         WHERE 1 = 1
-
-        AND eha.status = 3 AND eha.service_option = 1 AND eha.is_cancelled = 0 AND eha.user_confirm = 1 AND eha.is_deleted = 0
+        AND eha.status = 3 AND eha.service_option = 1 AND eha.is_cancelled = 0 AND eha.is_deleted = 0
         AND eha.pkg_main_id = 8 AND eha.pkg_detail_id = 801
 
         <if test="params.userId != null and params.userId != ''">
@@ -159,6 +158,10 @@
         update entity_healthy_appointment SET status=1 WHERE order_no=#{orderNo}
     </update>
 
+    <!-- 根据订单编号修改医生确认状态 -->
+    <update id="updateStatus3ByOrderNo">
+        update entity_healthy_appointment SET status=3 WHERE order_no=#{orderNo}
+    </update>
 
     <!--待上门服务列表-->
     <select id="selectUpDoorServer" parameterType="map" resultMap="BaseResultMap2">

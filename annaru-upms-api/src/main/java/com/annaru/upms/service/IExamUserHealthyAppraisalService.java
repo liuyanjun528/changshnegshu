@@ -61,6 +61,12 @@ public interface IExamUserHealthyAppraisalService extends IService<ExamUserHealt
      */
     List<ExamUserHealthyAppraisal> getTimeByUserIdZ(Map<String,Object> params);
 
+    /**
+     * @description 健康评估提交
+     * @author zk
+     * @date 2019-10-28
+     */
+    boolean submitExamUserHealthyAppraisal(ExamUserHealthyAppraisal examUserHealthyAppraisal1);
 
 }
 

@@ -79,5 +79,12 @@ public interface IEntityHealthyAppointmentService extends IService<EntityHealthy
      */
     int selectEntityServiceCount(String userId);
 
+    /**
+     * 根据订单编号修改医生确认状态
+     * @author zk
+     * @date 2019-10-28
+     */
+    boolean updateStatus3ByOrderNo(String orderNo);
+
 }
 
