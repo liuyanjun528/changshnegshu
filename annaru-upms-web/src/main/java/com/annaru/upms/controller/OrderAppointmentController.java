@@ -560,7 +560,6 @@ public class OrderAppointmentController extends BaseController {
                 orderMainService.save(orderMain);
                 return ResultMap.ok().put("data",orderNo);
             }else if (orderAppointment.getAppointmentCates()==5
-                    &&orderAppointment.getOrderNo()!=null
                     &&orderAppointment.getRelatedNo()!=null
                     &&orderAppointment.getAppointDate()!=null
                     &&orderAppointment.getTimeFrom()!=null
@@ -609,6 +608,13 @@ public class OrderAppointmentController extends BaseController {
                 sysDoctorOppointment.setTimeFrom(orderAppointment.getTimeFrom());
                 sysDoctorOppointment.setTimeTo(orderAppointment.getTimeTo());
                 sysDoctorOppointmentService.save(sysDoctorOppointment);
+                message.setContent(sysMessageTemplateService.selectMessageTemplate(17).getContentTemplate()
+                        .replace("[appoint_date]",appointDate));
+                message.setMsgCate(2);
+                message.setUserId(userId);
+                message.setOrderNo(userFamilyDoctor.getOrderNo());
+                message.setBusinessCate(9);
+                sysMessageService.save(message);
             }else if (orderAppointment.getAppointmentCates()==6
                     &&orderAppointment.getInstitutionId()!=null
                     &&orderAppointment.getDepartmentId()!=null
