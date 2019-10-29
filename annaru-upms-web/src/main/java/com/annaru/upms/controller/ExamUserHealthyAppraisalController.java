@@ -140,8 +140,8 @@ public class ExamUserHealthyAppraisalController extends BaseController {
             examUserHealthyAppraisal1.setIsSubmitted(1);
             examUserHealthyAppraisal1.setSubmitTime(new Date());
             examUserHealthyAppraisal1.setSubmitBy(submitBy);
-            if (examUserHealthyAppraisalService.updateById(examUserHealthyAppraisal1)){
-                return ResultMap.error("提交成功！");
+            if (examUserHealthyAppraisalService.submitExamUserHealthyAppraisal(examUserHealthyAppraisal1)){
+                return ResultMap.ok("健康评估提交成功");
             }
             return ResultMap.error("运行异常，请联系管理员");
         } catch (Exception e) {

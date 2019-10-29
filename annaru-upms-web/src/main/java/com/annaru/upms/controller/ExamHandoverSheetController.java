@@ -85,10 +85,6 @@ public class ExamHandoverSheetController extends BaseController {
         try {
             examHandoverSheet.setHandoverTime(new Date());
             int i = examHandoverSheetService.updateExamHandoverSheetByOrderNo(examHandoverSheet);
-            //上传完 修改订单状态 为已完成
-            if(i>0){
-                orderMainService.updateOrderStatus(examHandoverSheet.getOrderNo());
-            }
             return ResultMap.ok("上传成功");
         } catch (Exception e) {
             logger.error(e.getMessage());
@@ -106,6 +102,8 @@ public class ExamHandoverSheetController extends BaseController {
         try {
             if(examHandoverSheet.getDrawCompleted()==1){
                 examHandoverSheet.setDrawCompleteTime(new Date());//抽血完成时间
+                //抽血完成 对用户来说订单已完成修改订单状态 为已完成
+                orderMainService.updateOrderStatus(examHandoverSheet.getOrderNo());
             }
             examHandoverSheetService.updateExamHandoverSheet(examHandoverSheet);
             return ResultMap.ok("修改成功");

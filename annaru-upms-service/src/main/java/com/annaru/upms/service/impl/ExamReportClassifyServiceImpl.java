@@ -3,9 +3,12 @@ package com.annaru.upms.service.impl;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.annaru.upms.entity.ExamReportClassify;
 import com.annaru.upms.entity.vo.ExamReportInfoVo;
+import com.annaru.upms.entity.vo.ReportAbnormalW;
 import com.annaru.upms.mapper.ExamReportClassifyMapper;
 import com.annaru.upms.service.IExamReportClassifyService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+
+import java.util.List;
 
 /**
  * 体检报告分类
@@ -20,5 +23,10 @@ public class ExamReportClassifyServiceImpl extends ServiceImpl<ExamReportClassif
     @Override
     public ExamReportInfoVo getReportInfo(String orderNo, String masterId) {
         return this.baseMapper.selectReportInfo(orderNo, masterId);
+    }
+
+    @Override
+    public List<ReportAbnormalW> selectReportAbnormal(String orderNo) {
+        return this.baseMapper.selectReportAbnormal(orderNo);
     }
 }

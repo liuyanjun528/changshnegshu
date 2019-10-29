@@ -70,7 +70,8 @@
 			si.name, -- 机构名称
 			ehs.handover_time, -- 提交时间
 			ehs.handover_by, -- 提交人
-			ehs.images
+			ehs.images,
+			is_handovered
         FROM
 		    exam_handover_sheet as ehs
         LEFT JOIN order_appointment as oa ON ehs.order_no=oa.order_no

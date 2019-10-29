@@ -8,6 +8,7 @@ import com.annaru.upms.entity.OrderExtensionExam;
 import com.annaru.upms.entity.vo.ExamPackageDetailVo;
 import com.annaru.upms.entity.vo.ExamReportInfoVo;
 import com.annaru.upms.entity.vo.ExamReportVo;
+import com.annaru.upms.entity.vo.ReportAbnormalW;
 import com.annaru.upms.service.*;
 import io.swagger.annotations.*;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -99,5 +100,17 @@ public class ExamReportClassifyController extends BaseController {
         return ResultMap.ok().put("data", reportInfo);
     }
 
+    /**
+     * @Author:  wh
+     * @param orderNo
+     * @return
+     */
+
+    @ApiOperation(value = "查看报告异常项")
+    @GetMapping("/getReportAbnormal")
+    public ResultMap getReportAbnormal(String orderNo){
+        List<ReportAbnormalW> reportAbnormalWS = examReportClassifyService.selectReportAbnormal(orderNo);
+        return ResultMap.ok().put("data", reportAbnormalWS);
+    }
 
 }
