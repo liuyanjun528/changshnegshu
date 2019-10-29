@@ -87,7 +87,7 @@
 
 
     <select id="selectCount" parameterType="String" resultType="int">
-      SELECT count(*) from user_survey_main where user_id=#{userId}
+      SELECT count(*) from user_survey_main where user_id=#{userId} and is_active=1
     </select>
 
 </mapper>

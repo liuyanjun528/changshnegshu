@@ -37,6 +37,7 @@
         <result column="XMMC" property="XMMC" />
         <result column="JCJG" property="JCJG" />
         <result column="XMCKZ" property="XMCKZ" />
+        <result column="JGPD" property="JGPD" />
     </resultMap>
 
 
@@ -60,7 +61,8 @@
 	        eir.report_no,
 	        eirc.XMMC,
 	        eirc.JCJG,
-	        eirc.XMCKZ
+	        eirc.XMCKZ,
+	        eirc.JGPD
         FROM exam_report_classify as erc
 	LEFT JOIN exam_report_review err ON err.report_no = erc.report_no AND err.is_deleted = 0
 	LEFT JOIN exam_inspect_report eir ON eir.report_no = erc.report_no

@@ -174,6 +174,11 @@ public class EntityHealthyAppointmentServiceImpl extends ServiceImpl<EntityHealt
     }
 
     @Override
+    public EntityHealthyAppointment selectDoctorByUserId(String userId) {
+        return this.baseMapper.selectDoctorByUserId(userId);
+    }
+
+    @Override
     public Integer updateByOderNo(String orderNo) {
         if(StringUtil.isNotBlank(orderNo)){
             return this.baseMapper.updateByOderNo(orderNo);
