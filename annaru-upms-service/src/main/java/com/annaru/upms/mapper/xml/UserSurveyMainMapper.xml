@@ -80,6 +80,7 @@
         LEFT JOIN user_survey_items usi on usm.survey_id = usi.survey_id
         LEFT JOIN sys_linkage_type slt on usi.question_id = slt.nid
         where usm.user_id = #{params.userId}
+        and usm.is_active = 1
         <if test="params.type != null and params.type != ''">
             and usi.question_id like CONCAT('%', #{params.type}, '%')
         </if>
@@ -88,6 +89,7 @@
 
     <select id="selectCount" parameterType="String" resultType="int">
       SELECT count(*) from user_survey_main where user_id=#{userId}
+      and is_active = 1
     </select>
 
 </mapper>
