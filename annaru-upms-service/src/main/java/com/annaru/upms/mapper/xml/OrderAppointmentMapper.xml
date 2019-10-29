@@ -434,6 +434,8 @@ UNION
             LEFT JOIN user_basic as ub ON ub.user_id=om.user_id
             LEFT JOIN user_cards as uc ON uc.user_id=ub.user_id
             where oa.order_no=#{orderNo} and oa.is_cancelled=0
+            ORDER BY order_time DESC
+						LIMIT 0,1
     </select>
 
 </mapper>
