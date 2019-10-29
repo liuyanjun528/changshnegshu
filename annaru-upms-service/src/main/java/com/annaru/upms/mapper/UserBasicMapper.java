@@ -99,4 +99,7 @@ public interface UserBasicMapper extends BaseMapper<UserBasic> {
      */
     int updateUserBascByParams(@Param("params") Map<String, Object> params);
 
+    String paymentPinnoStatus(@Param("userId")String userId);
+
+    int initPaymentPinno(@Param("userId")String userId, @Param("paymentPinno")String paymentPinno);
 }

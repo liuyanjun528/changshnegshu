@@ -474,5 +474,15 @@
         WHERE
           sys_id = #{sysId}
     </update>
+<!-- 根据用户查询支付密码-->
+    <select id="paymentPinnoStatus" resultType="string">
+        select  payment_pinno from user_basic where user_id=#{userId}
+    </select>
+    <!-- 设置支付密码-->
+    <update id="initPaymentPinno" >
+         UPDATE user_basic SET payment_pinno = #{paymentPinno}
+        WHERE user_id = #{userId}
+
+    </update>
 
 </mapper>
