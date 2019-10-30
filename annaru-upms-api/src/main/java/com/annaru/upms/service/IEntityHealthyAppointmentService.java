@@ -1,11 +1,9 @@
 package com.annaru.upms.service;
 
-import com.annaru.upms.entity.UserBasic;
 import com.annaru.upms.entity.vo.EntityHealthyAppointmentVo;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.annaru.common.result.PageUtils;
 import com.annaru.upms.entity.EntityHealthyAppointment;
-import io.swagger.models.auth.In;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -85,6 +83,13 @@ public interface IEntityHealthyAppointmentService extends IService<EntityHealthy
      * @date 2019-10-28
      */
     boolean updateStatus3ByOrderNo(String orderNo);
+
+    /**
+     * @Author：wh
+     * @Description：给医生发送消息时用
+     * @Date:2019/10/29 13:34
+     */
+    EntityHealthyAppointment selectDoctorByUserId(String userId);
 
 }
 

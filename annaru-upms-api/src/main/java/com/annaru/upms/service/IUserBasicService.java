@@ -1,6 +1,7 @@
 package com.annaru.upms.service;
 
 import com.annaru.common.result.PageUtils;
+import com.annaru.common.result.ResultMap;
 import com.annaru.upms.entity.UserBasic;
 import com.annaru.upms.entity.vo.UserCardVo;
 import com.annaru.upms.entity.vo.UserExamMainDetail;
@@ -117,5 +118,23 @@ public interface IUserBasicService extends IService<UserBasic> {
      */
     boolean updateUserBascByParams(Map<String, Object> params);
 
+    /**
+     * 查询支付密码状态
+     * @param userId
+     * @return
+     */
+    ResultMap  paymentPinnoStatus(String userId);
+
+    /**
+     * 设置支付密码
+     * @param userId
+     * @param paymentPinno
+     * @return
+     */
+    ResultMap initPaymentPinno(String userId, String paymentPinno);
+
+    ResultMap verificationPaymentPinno(String sysId, String paymentPinno);
+
+    ResultMap validated(String userId, String cellphoneNo);
 }
 

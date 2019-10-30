@@ -31,6 +31,7 @@
         <result column="creation_time" property="creationTime" />
         <result column="status" property="status" />
         <result column="review_no" property="reviewNo" />
+        <result column="order_no" property="orderNo" />
     </resultMap>
 
 
@@ -115,10 +116,12 @@
             eir.BRNL,-- 年龄
             eir.BGLX,-- 报告类型
             err.creation_time,-- 报告生成时间
-            err.status-- 报告状态
+            err.status,-- 报告状态
+            erc.order_no
         FROM exam_report_review as err
         LEFT JOIN exam_inspect_report as eir ON err.report_no=eir.report_no
         LEFT JOIN user_basic as ub ON ub.user_id=err.user_id
+        LEFT JOIN exam_report_classify as erc ON erc.report_no=err.report_no
         WHERE err.review_no=#{params.reviewNo}
         <if test="params.status==0 or params.status==1">
             and err.status=#{params.status}

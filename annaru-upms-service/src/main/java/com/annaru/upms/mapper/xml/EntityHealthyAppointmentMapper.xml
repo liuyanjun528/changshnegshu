@@ -217,4 +217,10 @@
 	    where user_id=#{userId} and pkg_detail_id=801
     </select>
 
+    <select id="selectDoctorByUserId" parameterType="string" resultMap="BaseResultMap">
+        SELECT * from entity_healthy_appointment
+          where user_id=#{userId} and related_no!=''
+            limit 0,1
+    </select>
+
 </mapper>

@@ -19,7 +19,15 @@ public class ExamReportReviewVo implements Serializable {
     private Date creationTime;//报告时间
     private String status;//状态(0:未解读/1:已解读)
     private String reviewNo;//解读人
+    private String orderNo;//订单编号
 
+    public String getOrderNo() {
+        return orderNo;
+    }
+
+    public void setOrderNo(String orderNo) {
+        this.orderNo = orderNo;
+    }
 
     public String getUserId() {
         return userId;
