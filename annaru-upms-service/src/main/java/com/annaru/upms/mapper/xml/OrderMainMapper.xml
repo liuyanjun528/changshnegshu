@@ -186,16 +186,20 @@
         <result column="userChannel" property="userChannel" />
         <result column="amount" property="amount" />
 
+
+        <result column="appointDate" property="appointDate" />
+        <result column="timeFrom" property="timeFrom" />
+        <result column="timeTo" property="timeTo" />
+        <result column="address" property="address" />
+        <result column="siName" property="siName" />
+
         <collection property="orderMainVoZTC31List" ofType="com.annaru.upms.entity.vo.OrderMainVoZTC31">
             <result column="emSysId" property="emSysId" />
             <result column="emName" property="emName" />
-            <result column="edSysId" property="edSysId" />
-            <result column="examMasterItem" property="examMasterItem"/>
-            <result column="siName" property="siName" />
-            <result column="appointDate" property="appointDate" />
-            <result column="timeFrom" property="timeFrom" />
-            <result column="timeTo" property="timeTo" />
-            <result column="address" property="address" />
+            <collection property="orderMainVoZTC3List" ofType="com.annaru.upms.entity.vo.OrderMainVoZTC3">
+                <result column="edSysId" property="edSysId" />
+                <result column="examMasterItem" property="examMasterItem"/>
+            </collection>
         </collection>
 
 
