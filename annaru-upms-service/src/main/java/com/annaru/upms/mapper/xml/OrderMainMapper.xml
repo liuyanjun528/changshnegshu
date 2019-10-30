@@ -776,13 +776,13 @@
           LEFT JOIN exam_inspect_report_category as eirc ON eirc.sys_id=eraqm.cate_id
         WHERE
         ub.user_id = #{userId} AND om.order_cates not in (5,6) and om.status=2
-        <if test="cateId != null">
+        <if test="cateId != null and cateId != ''">
             AND eraqm.cate_id=#{cateId}
         </if>
-        <if test="orderCates != null">
+        <if test="orderCates != null and orderCates != ''">
             AND om.order_cates = #{orderCates}
         </if>
-        <if test="packageCates != null">
+        <if test="packageCates != null and packageCates != ''">
             AND epm.cates = #{packageCates}
         </if>
 
