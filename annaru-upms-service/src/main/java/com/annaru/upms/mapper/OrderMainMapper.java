@@ -136,7 +136,8 @@ public interface OrderMainMapper extends BaseMapper<OrderMain> {
      */
     IPage<ExamReportVo> selectExamReportVoPage(Page page, @Param("userId") String userId,
                                                @Param("packageCates") Integer packageCates,
-                                               @Param("orderCates") Integer orderCates);
+                                               @Param("orderCates") Integer orderCates,
+                                               @Param("cateId") Integer cateId);
 
 
     /**

@@ -57,7 +57,6 @@ public class UserFamilyDoctorController extends BaseController {
         try {
             //添加前的判断
             //该用户的家庭医生已存在 不允许再购买/已有数据 但是过期了 可以继续购买
-            //如果购买 新的医生 之前有未付款的订单 删除掉重新生成一个新的订单-------》这个目前未进行判断 不确定需求
             Map<String, Object> params = new HashMap<>();
             params.put("userId",orderMain.getUserId());
             UserFamilyDoctorVo userFamilyDoctor = userFamilyDoctorService.getUserFDInfo(params);//查询表中是否存在数据

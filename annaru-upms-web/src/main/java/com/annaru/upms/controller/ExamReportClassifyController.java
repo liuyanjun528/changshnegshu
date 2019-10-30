@@ -8,6 +8,7 @@ import com.annaru.upms.entity.OrderExtensionExam;
 import com.annaru.upms.entity.vo.ExamPackageDetailVo;
 import com.annaru.upms.entity.vo.ExamReportInfoVo;
 import com.annaru.upms.entity.vo.ExamReportVo;
+import com.annaru.upms.entity.vo.ReportAbnormalW;
 import com.annaru.upms.service.*;
 import io.swagger.annotations.*;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -49,10 +50,11 @@ public class ExamReportClassifyController extends BaseController {
     public ResultMap list(@ApiParam(value = "第几页")@RequestParam(defaultValue="1") int page,
                           @ApiParam(value = "分页数")@RequestParam(defaultValue = "10") int limit,
                           @ApiParam(value = "用户编号")@RequestParam String userId,
-                          @ApiParam(value = "套餐类别【1:标准套餐/2:HPV/3:肺保康/】")@RequestParam Integer packageCates,
-                          @ApiParam(value = "订单类别【1:一般体检预约(C端) 2:进阶体检预约(C端) 3:分布式体检预约(B端) 4:进阶体检预约(B端)】")@RequestParam(required = false) Integer orderCates){
+                          @ApiParam(value = "套餐类别【1:标准套餐/2:HPV/3:肺保康】")@RequestParam Integer packageCates,
+                          @ApiParam(value = "订单类别【1:一般体检预约(C端) 2:进阶体检预约(C端) 3:分布式体检预约(B端) 4:进阶体检预约(B端)】")@RequestParam(required = false) Integer orderCates,
+                          @ApiParam(value = "报告类别【1:检测报告/2:影像报告/3:基因报告/4:其他报告】")@RequestParam(required = false) Integer cateId){
         PageUtils<ExamReportVo> pageList = orderMainService.getExamReportVoPage(page, limit,
-                userId, packageCates, orderCates);
+                userId, packageCates, orderCates,cateId);
         return ResultMap.ok().put("data",pageList);
     }
 
@@ -99,5 +101,17 @@ public class ExamReportClassifyController extends BaseController {
         return ResultMap.ok().put("data", reportInfo);
     }
 
+    /**
+     * @Author:  wh
+     * @param orderNo
+     * @return
+     */
+
+    @ApiOperation(value = "查看报告异常项")
+    @GetMapping("/getReportAbnormal")
+    public ResultMap getReportAbnormal(String orderNo){
+        List<ReportAbnormalW> reportAbnormalWS = examReportClassifyService.selectReportAbnormal(orderNo);
+        return ResultMap.ok().put("data", reportAbnormalWS);
+    }
 
 }

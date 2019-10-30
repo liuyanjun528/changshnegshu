@@ -270,6 +270,16 @@
                 <version>${pdfbox.version}</version>
             </dependency>
             <!-- pdfbox end -->
+            <dependency>
+                <groupId>org.apache.sendmsg</groupId>
+                <artifactId>sendmsg</artifactId>
+                <version>1.1</version>
+            </dependency>
+            <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20180130</version>
+            </dependency>
 
             <!-- hutool begin -->
             <dependency>
@@ -417,11 +427,14 @@
             <!-- spring-boot-admin end -->
 
             <!-- ueditor begin -->
+
             <dependency>
-                <groupId>org.json</groupId>
-                <artifactId>json</artifactId>
-                <version>20180130</version>
+                <groupId>org.apache.sendmsg</groupId>
+                <artifactId>sendmsg</artifactId>
+                <version>1.1</version>
             </dependency>
+
+
             <!-- ueditor end -->
         </dependencies>
     </dependencyManagement>

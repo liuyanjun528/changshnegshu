@@ -7,6 +7,7 @@ import com.annaru.common.result.ResultMap;
 import com.annaru.upms.controllerutil.SysConfigUtil;
 import com.annaru.upms.entity.*;
 import com.annaru.upms.entity.vo.EntityHealthyAppointmentVo;
+import com.annaru.upms.entity.vo.SysDoctorVo;
 import com.annaru.upms.entity.vo.UserBasicVo;
 import com.annaru.upms.entity.vo.UserEntityMappingVo;
 import com.annaru.upms.service.*;
@@ -63,6 +64,8 @@ public class EntityHealthyAppointmentController extends BaseController {
     private ISysMessageTemplateService sysMessageTemplateService;
     @Reference
     private IUserBasicService userBasicService;
+    @Reference
+    private ISysDoctorService sysDoctor;
 
     /**
      * 删除订单
@@ -93,7 +96,7 @@ public class EntityHealthyAppointmentController extends BaseController {
             @ApiParam(value = "当前页", defaultValue="1")@RequestParam(required = false) int page,
             @ApiParam(value = "每页数量", defaultValue = "10")@RequestParam(required = false) int limit,
             @ApiParam(value = "医生编号")@RequestParam(required = false)String relatedNo,
-            @ApiParam(value = "待服务0/已完成1")@RequestParam(required = false)Integer status,
+            @ApiParam(value = "待服务1/已完成3")@RequestParam(required = false)Integer status,
             @ApiParam(value = "待评估")@RequestParam(required = false)Integer isSubmitted,
             @ApiParam(value = "时间区间")@RequestParam(required = false)Integer when){
         if(status==null){
@@ -232,6 +235,9 @@ public class EntityHealthyAppointmentController extends BaseController {
 
         //总次数-使用次数=剩余次数
         int restCount=counts-i;
+        if(restCount<0){
+            restCount=0;
+        }
 
         return ResultMap.ok().put("data",restCount);
     }
@@ -256,8 +262,8 @@ public class EntityHealthyAppointmentController extends BaseController {
 
             if(i > 0){
                 //查询用户名
-//                UserBasic userBasic = userBasicService.selectByUid(entityHealthyAppointment.getOrderMain().getUserId());
-//                String fullName = userBasic.getFullName();
+                UserBasic userBasic = userBasicService.selectByUid(entityHealthyAppointment.getOrderMain().getUserId());
+                String fullName = userBasic.getFullName();
                 //查询套餐模板
                 SysMessageTemplate sysMessageTemplate = sysMessageTemplateService.selectMessageTemplate(21);
                 String contentTemplate = sysMessageTemplate.getContentTemplate();
@@ -274,6 +280,29 @@ public class EntityHealthyAppointmentController extends BaseController {
                 sm.setCreationTime(new Date());
                 sm.setContent(message1);//内容
                 sysMessageService.save(sm);
+                // -------------------------给医生一条消息-----------------------------------
+                //通过userId查询出 这个用户的医生
+                EntityHealthyAppointment eha = entityHealthyAppointmentService.selectDoctorByUserId(entityHealthyAppointment.getOrderMain().getUserId());
+                //拿到医生编号 查询医生的userId
+                Map<String, Object> params = new HashMap<>();
+                params.put("doctorNo",eha.getRelatedNo());
+                SysDoctorVo one = sysDoctor.getOne(params);
+                //查询消息模板
+                SysMessageTemplate smt = sysMessageTemplateService.selectMessageTemplate(40);
+                String ct = smt.getContentTemplate();
+                String ms = ct.replace("[full_name]", fullName);//替换过的消息
+                SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
+                String startTime1 = sdf1.format(entityHealthyAppointment.getAppointDate());//转换时间
+                String ms1 = ms.replace("[appoint_date]", startTime1);//替换过的消息
+                String ms2 = ms1.replace("[address]", entityHealthyAppointment.getAddress());//替换过的消息
+                SysMessage sms=new SysMessage();
+                sms.setOrderNo(entityHealthyAppointment.getOrderMain().getOrderNo());// 订单号
+                sms.setMsgCate(2);//2:通知消息
+                sms.setBusinessCate(3);//3:分布体检预约信息
+                sms.setUserId(one.getUserId());//医生编号
+                sms.setCreationTime(new Date());
+                sms.setContent(ms2);//内容
+                sysMessageService.save(sms);
             }
 
             if(i>0){

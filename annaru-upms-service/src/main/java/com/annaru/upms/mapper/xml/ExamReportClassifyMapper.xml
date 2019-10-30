@@ -32,6 +32,15 @@
         </collection>
     </resultMap>
 
+    <resultMap id="BaseResultMap" type="com.annaru.upms.entity.vo.ReportAbnormalW" >
+        <result column="report_no" property="reportNo" />
+        <result column="XMMC" property="XMMC" />
+        <result column="JCJG" property="JCJG" />
+        <result column="XMCKZ" property="XMCKZ" />
+        <result column="JGPD" property="JGPD" />
+        <result column="XMDW" property="XMDW" />
+    </resultMap>
+
 
     <select id="selectReportInfo" resultMap="ReportInfoVoResultMap">
         SELECT
@@ -48,5 +57,19 @@
         WHERE erc.order_no=#{orderNo} AND em.sys_id=#{masterId}
     </select>
 
+    <select id="selectReportAbnormal" parameterType="map" resultMap="BaseResultMap">
+        SELECT
+	        eir.report_no,
+	        eirc.XMMC,
+	        eirc.JCJG,
+	        eirc.XMCKZ,
+	        eirc.JGPD,
+	        eirc.XMDW
+        FROM exam_report_classify as erc
+	LEFT JOIN exam_report_review err ON err.report_no = erc.report_no AND err.is_deleted = 0
+	LEFT JOIN exam_inspect_report eir ON eir.report_no = erc.report_no
+	LEFT JOIN exam_inspect_report_clinic eirc ON eirc.inspect_report_id = eir.id
+        WHERE erc.order_no = #{orderNo}
+    </select>
 
 </mapper>

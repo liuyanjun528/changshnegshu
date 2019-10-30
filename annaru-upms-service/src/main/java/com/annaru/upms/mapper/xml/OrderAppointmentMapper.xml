@@ -172,6 +172,7 @@
             <if test="params.when == 2 ">
             AND to_days(oa.creation_time) = to_days(now())
             </if>
+        ORDER BY oa.creation_time DESC
     </select>
 
     <!--我的患者列表-->
@@ -359,9 +360,9 @@ UNION
     <!--查看家庭医生服务上门预约信息-->
     <select id="selectUpDoorOppointment" parameterType="String" resultMap="upDoorMap">
      SELECT
-			oa.order_no,
-			oa.appoint_date,
-			oa.address,
+            eha.order_no,
+			eha.appoint_date,
+			eha.address,
 			sd.cellphone_no,
 
 			ub.full_name as userName,
@@ -379,9 +380,9 @@ UNION
 	    from order_customer as oc
             LEFT JOIN user_basic as ub ON ub.user_id=oc.relative_id
 			LEFT JOIN user_relatives as ur ON ur.relative_id=oc.relative_id
-			LEFT JOIN order_appointment as oa ON oa.order_no=oc.order_no
-			LEFT JOIN sys_doctor as sd ON sd.doctor_no=oa.related_no
-            WHERE oa.order_no=#{orderNo}
+			LEFT JOIN entity_healthy_appointment as eha ON eha.order_no=oc.order_no
+			LEFT JOIN sys_doctor as sd ON sd.doctor_no=eha.related_no
+        WHERE eha.order_no=#{orderNo}
     </select>
 
     <select id="getCount" resultType="int" parameterType="String">
@@ -432,7 +433,9 @@ UNION
             LEFT JOIN order_main as om ON om.order_no=oa.order_no
             LEFT JOIN user_basic as ub ON ub.user_id=om.user_id
             LEFT JOIN user_cards as uc ON uc.user_id=ub.user_id
-            where oa.order_no=#{orderNo}
+            where oa.order_no=#{orderNo} and oa.is_cancelled=0
+            ORDER BY order_time DESC
+						LIMIT 0,1
     </select>
 
 </mapper>

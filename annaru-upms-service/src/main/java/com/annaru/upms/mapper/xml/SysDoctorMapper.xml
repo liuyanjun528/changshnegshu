@@ -30,6 +30,7 @@
     </resultMap>
 
     <resultMap id="BaseResultMapVo" type="com.annaru.upms.entity.vo.SysDoctorVo" >
+        <result column="user_id" property="userId" />
         <result column="doctor_no" property="doctorNo" />
         <result column="doctor_name" property="doctorName" />
         <result column="head_image" property="headImage" />
@@ -123,6 +124,7 @@
 
     <select id="getOne" parameterType="map" resultMap="BaseResultMapVo">
         SELECT
+        sd.user_id,
         sd.belong_city,
         sd.belong_district,
         sd.belong_province,

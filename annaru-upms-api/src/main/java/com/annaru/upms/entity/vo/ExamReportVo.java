@@ -72,6 +72,13 @@ public class ExamReportVo implements Serializable {
 	 */
 	private String handoverTime;
 
+	private String itemName;//体检报告名称
+	private int cateId;//对应的千麦的报告类型
+	private String remark;
+	private String BYH;
+
+
+
 	public String getOrderNo() {
 		return orderNo;
 	}
@@ -174,5 +181,37 @@ public class ExamReportVo implements Serializable {
 
 	public void setHandoverTime(String handoverTime) {
 		this.handoverTime = handoverTime;
+	}
+
+	public String getItemName() {
+		return itemName;
+	}
+
+	public void setItemName(String itemName) {
+		this.itemName = itemName;
+	}
+
+	public int getCateId() {
+		return cateId;
+	}
+
+	public void setCateId(int cateId) {
+		this.cateId = cateId;
+	}
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+
+	public String getBYH() {
+		return BYH;
+	}
+
+	public void setBYH(String BYH) {
+		this.BYH = BYH;
 	}
 }
