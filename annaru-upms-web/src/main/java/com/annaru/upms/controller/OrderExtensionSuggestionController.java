@@ -3,6 +3,7 @@ package com.annaru.upms.controller;
 import java.util.*;
 
 import com.annaru.upms.entity.OrderMain;
+import com.annaru.upms.entity.dto.OESaveDto;
 import com.annaru.upms.entity.vo.ExamExtensionVo;
 import com.annaru.upms.entity.vo.OrderExtensionSuggestionVo;
 import com.annaru.upms.service.IExamInspectReportService;
@@ -12,6 +13,7 @@ import io.swagger.annotations.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import com.alibaba.dubbo.config.annotation.Reference;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import com.annaru.common.base.BaseController;
@@ -51,26 +53,21 @@ public class OrderExtensionSuggestionController extends BaseController {
      */
     @ApiOperation(value = "添加建议进阶项目")
     @PostMapping("/savaOE")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "reportNo",value = "检查报告编号",dataType = "spring",paramType = "query"),
-            @ApiImplicitParam(name = "masterIds",value = "进阶检查项目总编号",dataType = "spring",paramType = "query"),
-            @ApiImplicitParam(name = "itemNames",value = "项目名称",dataType = "spring",paramType = "query"),
-            @ApiImplicitParam(name = "sysIds",value = "体检项目编号",dataType = "spring",paramType = "query"),
-            @ApiImplicitParam(name = "doctorNo",value = "医生编号",dataType = "spring",paramType = "query")
-    })
-    public ResultMap savaOE(String reportNo,String masterIds,String itemNames,String sysIds,String doctorNo) {
+    public ResultMap savaOE(@Valid @RequestBody OESaveDto oeSaveDto, BindingResult bindingResult) {
         try {
-            if(StringUtils.isEmpty(reportNo) || StringUtils.isEmpty(itemNames)
-                    || StringUtils.isEmpty(sysIds) || StringUtils.isEmpty(doctorNo) || StringUtils.isEmpty(masterIds)){
-                return ResultMap.error("参数不能为空!");
+            if (bindingResult.hasErrors()) {
+
+                return ResultMap.error(400, bindingResult.getFieldError().getDefaultMessage());
             }
-            String[] sIds = sysIds.split(",");
-            String[] items = itemNames.split(",");
-            String[] masters = masterIds.split(",");
-            if (sIds.length != items.length || sIds.length != masters.length) {
+            String[] sIds = oeSaveDto.getSysIds().split(",");
+            String[] items = oeSaveDto.getItemNames().split(",");
+            String[] masters = oeSaveDto.getMasterIds().split(",");
+            String[] suggestTimes = oeSaveDto.getSuggestTime().split(",");
+            if (sIds.length != items.length || sIds.length != masters.length || sIds.length != suggestTimes.length) {
                 return ResultMap.error("参数有误!");
             }
-            boolean save = orderExtensionSuggestionService.savaOE(reportNo,masters,items,sIds,doctorNo);
+            boolean save = orderExtensionSuggestionService.savaOE(oeSaveDto.getReportNo(), masters, items,
+                    sIds, oeSaveDto.getDoctorNo(), suggestTimes);
             if(!save){
                 return ResultMap.error("添加失败!");
             }
@@ -81,6 +78,38 @@ public class OrderExtensionSuggestionController extends BaseController {
         }
 
     }
+    //@ApiOperation(value = "添加建议进阶项目")
+    //@PostMapping("/savaOE")
+    //@ApiImplicitParams({
+    //        @ApiImplicitParam(name = "reportNo",value = "检查报告编号",dataType = "spring",paramType = "query"),
+    //        @ApiImplicitParam(name = "masterIds",value = "进阶检查项目总编号",dataType = "spring",paramType = "query"),
+    //        @ApiImplicitParam(name = "itemNames",value = "项目名称",dataType = "spring",paramType = "query"),
+    //        @ApiImplicitParam(name = "sysIds",value = "体检项目编号",dataType = "spring",paramType = "query"),
+    //        @ApiImplicitParam(name = "doctorNo",value = "医生编号",dataType = "spring",paramType = "query")
+    //})
+    //public ResultMap savaOE(String reportNo,String masterIds,String itemNames,String sysIds,String doctorNo) {
+    //    try {
+    //        if(StringUtils.isEmpty(reportNo) || StringUtils.isEmpty(itemNames)
+    //                || StringUtils.isEmpty(sysIds) || StringUtils.isEmpty(doctorNo) || StringUtils.isEmpty(masterIds)){
+    //            return ResultMap.error("参数不能为空!");
+    //        }
+    //        String[] sIds = sysIds.split(",");
+    //        String[] items = itemNames.split(",");
+    //        String[] masters = masterIds.split(",");
+    //        if (sIds.length != items.length || sIds.length != masters.length) {
+    //            return ResultMap.error("参数有误!");
+    //        }
+    //        boolean save = orderExtensionSuggestionService.savaOE(reportNo,masters,items,sIds,doctorNo);
+    //        if(!save){
+    //            return ResultMap.error("添加失败!");
+    //        }
+    //        return ResultMap.ok();
+    //    } catch (Exception e) {
+    //        logger.error(e.getMessage());
+    //        return ResultMap.error("运行异常，请联系管理员");
+    //    }
+    //
+    //}
 
     /**
      * 列表

@@ -11,6 +11,7 @@ import com.annaru.upms.mapper.SysDoctorMapper;
 import com.annaru.upms.entity.SysDoctor;
 import com.annaru.upms.service.ISysDoctorService;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -46,6 +47,11 @@ public class SysDoctorServiceImpl extends ServiceImpl<SysDoctorMapper, SysDoctor
     @Override
     public SysDoctor getDoctorByUdD0(String doctorNo, String userId) {
         return this.baseMapper.getDoctorByUdD0(doctorNo, userId);
+    }
+
+    @Override
+    public List<SysDoctor> seleDoctorAll() {
+        return this.baseMapper.seleDoctorAll();
     }
 
 }

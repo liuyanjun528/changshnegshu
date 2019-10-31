@@ -139,4 +139,16 @@
         AND date_from =  #{params.dataFrom}
         and time_to =  #{params.timeTo}
     </select>
+
+    <select id="selectDoctorNextWeekSchedule" parameterType="string" resultType="int">
+        SELECT   count(*)  FROM sys_doctor_nurse_schedule
+          where  doctor_nurse_no = #{doctorNo}  and is_deleted=0
+			  and  YEARWEEK(date_format(date_from,'%Y-%m-%d')) = YEARWEEK(now())+1;
+    </select>
+
+    <select id="selectNurseNextWeekSchedule" parameterType="string" resultType="int">
+        	SELECT   count(*)  FROM sys_doctor_nurse_schedule
+              where  doctor_nurse_no = #{nurseNo}  and is_deleted=0
+			    and  YEARWEEK(date_format(date_from,'%Y-%m-%d')) = YEARWEEK(now())+1;
+    </select>
 </mapper>

@@ -176,6 +176,13 @@ public class UserBasic extends Model<UserBasic> implements Serializable {
     @ApiModelProperty(value = "创建时间")
 	@TableField("creation_time")
 	private Date creationTime;
+
+	/**
+	 * 融云token
+	 */
+	@ApiModelProperty(value = "融云token")
+	@TableField("app_token")
+	private String appToken;
 	/**
 	 * 医生对象
 	 */
@@ -253,6 +260,14 @@ public class UserBasic extends Model<UserBasic> implements Serializable {
 	 */
 	@TableField(exist = false)
 	private List<UserExamMainDetail> userExamMainDetailList;
+
+	public String getAppToken() {
+		return appToken;
+	}
+
+	public void setAppToken(String appToken) {
+		this.appToken = appToken;
+	}
 
 	public boolean isEntityHealthy() {
 		return entityHealthy;

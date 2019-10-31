@@ -10,6 +10,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -36,6 +37,11 @@ public class SysNurseServiceImpl extends ServiceImpl<SysNurseMapper, SysNurse> i
     @Override
     public SysNurseVoZ getOneNurse(Map<String, Object> params) {
         return this.baseMapper.getOneNurse(params);
+    }
+
+    @Override
+    public List<SysNurse> selectAllNurse() {
+        return this.baseMapper.selectAllNurse();
     }
 
 }

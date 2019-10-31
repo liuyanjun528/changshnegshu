@@ -91,8 +91,22 @@ public class OrderExtensionSuggestion extends Model<OrderExtensionSuggestion> im
     @ApiModelProperty(value = "编辑人")
 	@TableField("edit_by")
 	private String editBy;
+	/**
+	 * 建议赴检查的时间
+	 */
+	@ApiModelProperty(value = "建议赴检查的时间")
+	@TableField("suggest_time")
+	private String suggestTime;
 
-    /**
+	public String getSuggestTime() {
+		return suggestTime;
+	}
+
+	public void setSuggestTime(String suggestTime) {
+		this.suggestTime = suggestTime;
+	}
+
+	/**
      * 获取：系统编号
      */
     public Integer getSysId() {

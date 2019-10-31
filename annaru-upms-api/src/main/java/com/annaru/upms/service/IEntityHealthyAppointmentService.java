@@ -91,5 +91,12 @@ public interface IEntityHealthyAppointmentService extends IService<EntityHealthy
      */
     EntityHealthyAppointment selectDoctorByUserId(String userId);
 
+    /**
+     * @Author：wh
+     * @Description：查询医生本周是否有未完成的上门健康评估
+     * @Date:2019/10/31 10:10
+     */
+    int selectIsNotServer(String doctorNo);
+
 }
 

@@ -249,6 +249,10 @@
         <result column="package_cates" property="packageCates" />
         <result column="sample_code" property="sampleCode" />
         <result column="handover_time" property="handoverTime" />
+        <result column="item_name" property="itemName" />
+        <result column="cate_id" property="cateId" />
+        <result column="remark" property="remark" />
+        <result column="BYH" property="BYH" />
     </resultMap>
 
     <resultMap id="notReceiptBase" type="com.annaru.upms.entity.vo.NotReceiptOrder">
@@ -743,22 +747,42 @@
     </select>
 
     <select id="selectExamReportVoPage" resultMap="ExamReportVoMap">
-        SELECT om.order_no, om.order_time, om.order_cates,
-        ub.user_id, ub.full_name AS user_name, ub.gender AS user_gender, se.entity_name AS user_entity_name,
-        epm.sys_id AS package_id, epm.package_name, epm.subtitle AS package_subtitle, epm.cates AS package_cates,
-        ehs.sample_code, ehs.handover_time
-        FROM order_main om
-        LEFT JOIN user_basic ub ON ub.user_id=om.user_id
-        LEFT JOIN exam_package_main epm ON epm.sys_id=om.reference_no
-        LEFT JOIN exam_handover_sheet ehs ON ehs.order_no=om.order_no
-        LEFT JOIN user_entity_mapping uem ON uem.user_id=om.user_id AND uem.is_active=1
-        LEFT JOIN sys_entity se ON se.entity_id=uem.entity_id
+        SELECT
+          om.order_no,
+          om.order_time,
+          om.order_cates,
+          ub.user_id,
+          ub.full_name AS user_name,
+          ub.gender AS user_gender,
+          se.entity_name AS user_entity_name,
+          epm.sys_id AS package_id,
+          epm.package_name,
+          epm.subtitle AS package_subtitle,
+          epm.cates AS package_cates,
+          ehs.sample_code,
+          ehs.handover_time,
+          eirc.item_name,
+          eraqm.cate_id,
+          eraqm.remark,
+          eir.BYH
+        FROM	order_main om
+          LEFT JOIN user_basic ub ON ub.user_id = om.user_id
+          LEFT JOIN exam_package_main epm ON epm.sys_id = om.reference_no
+          LEFT JOIN exam_handover_sheet ehs ON ehs.order_no = om.order_no
+          LEFT JOIN user_entity_mapping uem ON uem.user_id = om.user_id  AND uem.is_active = 1
+          LEFT JOIN sys_entity se ON se.entity_id = uem.entity_id
+          LEFT JOIN exam_inspect_report as eir ON SUBSTR(eir.byh,-11)=ub.user_id
+          LEFT JOIN exam_report_appcate_qmcate_mapping as eraqm ON eir.BGLX=eraqm.qm_rpt_cate
+          LEFT JOIN exam_inspect_report_category as eirc ON eirc.sys_id=eraqm.cate_id
         WHERE
         ub.user_id = #{userId} AND om.order_cates not in (5,6) and om.status=2
-        <if test="orderCates != null">
+        <if test="cateId != null and cateId != ''">
+            AND eraqm.cate_id=#{cateId}
+        </if>
+        <if test="orderCates != null and orderCates != ''">
             AND om.order_cates = #{orderCates}
         </if>
-        <if test="packageCates != null">
+        <if test="packageCates != null and packageCates != ''">
             AND epm.cates = #{packageCates}
         </if>
 

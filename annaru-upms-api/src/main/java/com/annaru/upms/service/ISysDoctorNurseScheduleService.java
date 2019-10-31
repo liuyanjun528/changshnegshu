@@ -76,5 +76,19 @@ public interface ISysDoctorNurseScheduleService extends IService<SysDoctorNurseS
 
     SysDoctorNurseSchedule isExist(@Param("params") Map<String, Object> params);
 
+    /**
+     * @Author：wh
+     * @Description：查询医生下周是否有排班
+     * @Date:2019/10/31 10:34
+     */
+    int selectDoctorNextWeekSchedule(String doctorNo);
+
+    /**
+     * @Author：wh
+     * @Description：查询护士下周是否有排班
+     * @Date:2019/10/31 10:34
+     */
+    int selectNurseNextWeekSchedule(String nurseNo);
+
 }
 

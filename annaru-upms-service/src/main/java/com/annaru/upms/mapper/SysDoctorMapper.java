@@ -47,4 +47,12 @@ public interface SysDoctorMapper extends BaseMapper<SysDoctor> {
      * @Date: 2019-07-04
      */
     SysDoctor getDoctorByUdD0(@Param("doctorNo") String doctorNo, @Param("userId") String userId);
+
+    /**
+     * @Author：wh
+     * @Description：查询全部医生用于定时任务
+     * @Date:2019/10/31 9:42
+     */
+    List<SysDoctor> seleDoctorAll();
+
 }
