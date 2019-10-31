@@ -5,6 +5,7 @@ import com.annaru.upms.entity.SysNurse;
 import com.annaru.upms.entity.vo.SysNurseVoZ;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -34,5 +35,11 @@ public interface ISysNurseService extends IService<SysNurse> {
     SysNurseVoZ getOneNurse(Map <String, Object> params);
 
 
+    /**
+     * @Author：wh
+     * @Description：查询所有护士
+     * @Date:2019/10/31 11:15
+     */
+    List<SysNurse> selectAllNurse();
 }
 

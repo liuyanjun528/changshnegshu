@@ -4,6 +4,8 @@ import com.annaru.upms.entity.vo.SysDoctorVo;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.annaru.common.result.PageUtils;
 import com.annaru.upms.entity.SysDoctor;
+
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -42,6 +44,13 @@ public interface ISysDoctorService extends IService<SysDoctor> {
      * @Date: 2019-07-04
      */
     SysDoctor getDoctorByUdD0(String doctorNo, String userId);
+
+    /**
+     * @Author：wh
+     * @Description：查询全部医生用于定时任务
+     * @Date:2019/10/31 9:42
+     */
+    List<SysDoctor> seleDoctorAll();
 
 }
 

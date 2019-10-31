@@ -93,4 +93,12 @@ public interface EntityHealthyAppointmentMapper extends BaseMapper<EntityHealthy
      * @Date:2019/10/29 13:34
      */
     EntityHealthyAppointment selectDoctorByUserId(@Param("userId") String userId);
+
+    /**
+     * @Author：wh
+     * @Description：查询医生下周是否有未完成的上门健康评估
+     * @Date:2019/10/31 10:10
+     */
+    int selectIsNotServer(@Param("doctorNo") String doctorNo);
+
 }

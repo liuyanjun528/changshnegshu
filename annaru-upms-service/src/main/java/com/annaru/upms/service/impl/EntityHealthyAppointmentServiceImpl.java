@@ -179,6 +179,11 @@ public class EntityHealthyAppointmentServiceImpl extends ServiceImpl<EntityHealt
     }
 
     @Override
+    public int selectIsNotServer(String doctorNo) {
+        return this.baseMapper.selectIsNotServer(doctorNo);
+    }
+
+    @Override
     public Integer updateByOderNo(String orderNo) {
         if(StringUtil.isNotBlank(orderNo)){
             return this.baseMapper.updateByOderNo(orderNo);

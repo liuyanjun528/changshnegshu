@@ -77,4 +77,14 @@ public class SysDoctorNurseScheduleServiceImpl extends ServiceImpl<SysDoctorNurs
         return this.baseMapper.isExist(params);
     }
 
+    @Override
+    public int selectDoctorNextWeekSchedule(String doctorNo) {
+        return this.baseMapper.selectDoctorNextWeekSchedule(doctorNo);
+    }
+
+    @Override
+    public int selectNurseNextWeekSchedule(String nurseNo) {
+        return this.baseMapper.selectNurseNextWeekSchedule(nurseNo);
+    }
+
 }

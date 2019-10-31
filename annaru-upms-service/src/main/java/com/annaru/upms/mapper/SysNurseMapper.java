@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -35,5 +36,12 @@ public interface SysNurseMapper extends BaseMapper<SysNurse> {
      * @return
      */
     SysNurseVoZ getOneNurse(@Param("params") Map <String, Object> params);
+
+    /**
+     * @Author：wh
+     * @Description：查询所有护士
+     * @Date:2019/10/31 11:15
+     */
+    List<SysNurse> selectAllNurse();
 
 }
