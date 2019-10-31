@@ -75,5 +75,11 @@ public class WebserviceTask {
         logger.info("时间段{}-{}，共{}份报告已全部下载完成", startDate, endDate, count);
     }
 
+    public static void main(String args[]){
+
+        WebserviceTask webserviceTask = new WebserviceTask();
+        webserviceTask.downLoadResult();
+
+    }
 
 }

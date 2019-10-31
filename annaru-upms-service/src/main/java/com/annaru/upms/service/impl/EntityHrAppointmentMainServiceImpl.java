@@ -39,7 +39,7 @@ public class EntityHrAppointmentMainServiceImpl extends ServiceImpl<EntityHrAppo
     }
 
     @Override
-    public EntityHrAppointmentMainVoZ htOrderRecord(Map<String, Object> params) {
+    public EntityHrAppointmentMainVoZ31 htOrderRecord(Map<String, Object> params) {
         return this.baseMapper.htOrderRecord(params);
     }
 
