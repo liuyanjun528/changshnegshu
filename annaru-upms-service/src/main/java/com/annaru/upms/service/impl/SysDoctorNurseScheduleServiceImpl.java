@@ -59,14 +59,7 @@ public class SysDoctorNurseScheduleServiceImpl extends ServiceImpl<SysDoctorNurs
         return this.baseMapper.updateDoctorSchedule(params);
     }
 
-    @Override
-    public int selectScheduleCount1(Map<String, Object> params) {
-        return this.baseMapper.selectScheduleCount1(params);
-    }
-    @Override
-    public int selectScheduleCount2(Map<String, Object> params) {
-        return this.baseMapper.selectScheduleCount2(params);
-    }
+
 
     @Override
     public void deleteSchedule(int sysId) {

@@ -63,10 +63,6 @@ public interface ISysDoctorNurseScheduleService extends IService<SysDoctorNurseS
      */
     int updateDoctorSchedule(Map<String, Object> params);
 
-    //当天上午排班的个数
-    int selectScheduleCount1(@Param("params") Map<String, Object> params);
-    //当天下午排班的个数
-    int selectScheduleCount2(@Param("params") Map<String, Object> params);
 
     /**
      * 删除排班
