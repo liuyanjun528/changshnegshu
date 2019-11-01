@@ -413,7 +413,7 @@ public class OrderAppointmentController extends BaseController {
                         message.setOrderNo(orderNo);
                         message.setContent(sysMessageTemplateService.selectMessageTemplate(5).getContentTemplate()
                                 .replace("[full_name]",userBasicService.selectByUid(userId).getFullName())
-                                .replace("[appointDate]",fmt.format(orderAppointment.getAppointDate()))
+                                .replace("[appoint_date]",fmt.format(orderAppointment.getAppointDate()))
                                 .replace("[name]",sysInstitutionService.getInfo(params).getName())
                         .replace("[adress]",sysInstitutionService.getInfo(params).getAddress()));
                         orderAdditionalInfoService.save(orderAdditionalInfo);
@@ -750,7 +750,10 @@ public class OrderAppointmentController extends BaseController {
     public ResultMap update(@Valid @RequestBody OrderAppointment orderAppointment) {
         try {
             Map<String,Object> map = new HashMap<>();
+            SysMessage message = new SysMessage();
+            String msgDetail="",address="";
             OrderAppointment oa = orderAppointmentService.getById(orderAppointment.getSysId());
+            SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
             int count = orderAppointmentService.getCount(oa.getOrderNo());
             map.put("category",101);
             if (count>sysGlobalSettingService.getSetting(map).getChangeCounts()){
@@ -762,6 +765,24 @@ public class OrderAppointmentController extends BaseController {
             newOA.setIsCancelled(0);
             newOA.setCreationTime(new Date());
             orderAppointmentService.save(newOA);
+            if (newOA.getServiceOption()==1){
+                msgDetail = "上门采样>";
+                address = "07点30到09点30"+newOA.getAddress();
+            }else if (newOA.getServiceOption()==2){
+                map.put("institutionId",newOA.getInstitutionId());
+                msgDetail = "机构采样>";
+                address = sysInstitutionService.getInfo(map).getAddress();
+            }
+            message.setBusinessCate(3);
+            message.setMsgCate(3);
+            message.setContent(sysMessageTemplateService.selectMessageTemplate(15).getContentTemplate()
+                    .replace("[full_name]",userBasicService.selectByUid(newOA.getUserId()).getFullName())
+                    .replace("[service_option]",msgDetail)
+                    .replace("[appoint_date]",fmt.format(newOA.getAppointDate()))
+                    .replace("[address]",address));
+            message.setOrderNo(newOA.getOrderNo());
+            message.setUserId(newOA.getUserId());
+            sysMessageService.save(message);
             return ResultMap.ok("修改成功");
         } catch (Exception e) {
             logger.error(e.getMessage());

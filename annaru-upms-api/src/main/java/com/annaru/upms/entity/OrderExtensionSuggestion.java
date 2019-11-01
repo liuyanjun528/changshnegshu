@@ -97,6 +97,20 @@ public class OrderExtensionSuggestion extends Model<OrderExtensionSuggestion> im
 	@ApiModelProperty(value = "建议赴检查的时间")
 	@TableField("suggest_time")
 	private String suggestTime;
+	/**
+	 * 干预时间
+	 */
+	@ApiModelProperty(value = "干预时间")
+	@TableField("intervention_time")
+	private String interventionIime;
+
+	public String getInterventionIime() {
+		return interventionIime;
+	}
+
+	public void setInterventionIime(String interventionIime) {
+		this.interventionIime = interventionIime;
+	}
 
 	public String getSuggestTime() {
 		return suggestTime;

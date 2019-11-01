@@ -635,6 +635,8 @@
         LEFT JOIN order_main om ON oa.order_no = om.order_no
         WHERE
         	oa.parent_no = #{params.orderNo}
+        	AND (oa.appointment_cates = 2 or oa.appointment_cates = 4)
+        	and oa.is_cancelled = 0
     </select>
 
     <select id="getBase" parameterType="map" resultMap="BaseResultMapVo">
@@ -691,7 +693,7 @@
         and oc.relative_id = #{params.userId}
         and om.reference_no is not null
         and om.is_deleted = 0
-        and om.`status` > 0
+        and om.`status` between 1 and 2
         <if test="params.orderNo != null and params.orderNo != ''">
             AND om.order_no = #{params.orderNo}
         </if>

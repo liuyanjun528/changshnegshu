@@ -327,7 +327,7 @@ UNION
             LEFT JOIN sys_institution si
             on si.institution_id = oa.institution_id
             WHERE
-            oa.parent_no =  #{params.orderNo}
+            (oa.parent_no =  #{params.orderNo} or oa.order_no = #{params.orderNo})
             AND (oa.appointment_cates = 1 or oa.appointment_cates = 3)
             and oa.is_cancelled = 0
     </select>

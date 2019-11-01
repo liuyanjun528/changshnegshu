@@ -435,6 +435,9 @@
         entity_hr_appointment_main eham
         WHERE
         eham.entity_no = #{params.entityId}
+        and eham.`status` = 1
+        AND eham.is_deleted = 0
+        AND eham.is_cancelled = 0
         <if test="params.hrOppointmentId != null and params.hrOppointmentId != ''">
             AND eham.sys_id = #{params.hrOppointmentId}
         </if>
