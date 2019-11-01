@@ -105,22 +105,7 @@
 		WHERE doctor_nurse_no=#{params.doctorNo} and sys_id=#{params.sysId}
     </update>
 
-    <!--当天上午排班的个数-->
-    <select id="selectScheduleCount1" parameterType="map" resultType="int">
-          SELECT count(*)
-            FROM sys_doctor_nurse_schedule
-        where  doctor_nurse_no = #{params.doctorNo}
-        and  date_format(date_from,'%Y-%m')=date_format(#{params.dateFrom},'%Y-%m')
-        and time_from='08:00:00' and time_to='11:00:00'
-    </select>
-    <!--当天下午排班的个数-->
-    <select id="selectScheduleCount2" parameterType="map" resultType="int">
-         SELECT count(*)
-        FROM sys_doctor_nurse_schedule
-        where  doctor_nurse_no = #{params.doctorNo}
-        and  date_format(date_from,'%Y-%m')=date_format(#{params.dateFrom},'%Y-%m')
-        and time_from='13:00:00' and time_to='16:00:00'
-    </select>
+
 
     <!--删除排班 修改is_deleted为1-->
     <update id="deleteSchedule" parameterType="com.annaru.upms.entity.SysDoctorNurseSchedule">
@@ -138,5 +123,17 @@
         AND service_method =  #{params.serviceMethod}
         AND date_from =  #{params.dataFrom}
         and time_to =  #{params.timeTo}
+    </select>
+
+    <select id="selectDoctorNextWeekSchedule" parameterType="string" resultType="int">
+        SELECT   count(*)  FROM sys_doctor_nurse_schedule
+          where  doctor_nurse_no = #{doctorNo}  and is_deleted=0
+			  and  YEARWEEK(date_format(date_from,'%Y-%m-%d')) = YEARWEEK(now())+1;
+    </select>
+
+    <select id="selectNurseNextWeekSchedule" parameterType="string" resultType="int">
+        	SELECT   count(*)  FROM sys_doctor_nurse_schedule
+              where  doctor_nurse_no = #{nurseNo}  and is_deleted=0
+			    and  YEARWEEK(date_format(date_from,'%Y-%m-%d')) = YEARWEEK(now())+1;
     </select>
 </mapper>

@@ -49,6 +49,26 @@
     </resultMap>
 
     <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMapHtOrderRecord" type="com.annaru.upms.entity.vo.EntityHrAppointmentMainVoZ31" >
+        <result column="sysId" property="sysId" />
+        <result column="packageName" property="packageName" />
+        <result column="epmAmount" property="epmAmount" />
+        <result column="subtitle" property="subtitle" />
+        <result column="hrTotalCount" property="hrTotalCount" />
+        <result column="entityName" property="entityName" />
+        <result column="fullName" property="fullName" />
+        <result column="amount" property="amount" />
+        <result column="creationTime" property="creationTime" />
+
+        <collection property="entityHrAppointmentMainTcVoZList" ofType="com.annaru.upms.entity.vo.EntityHrAppointmentMainTcVoZ">
+            <result column="serviceName" property="serviceName" />
+            <result column="periods" property="periods" />
+            <result column="cates" property="cates" />
+        </collection>
+
+    </resultMap>
+
+    <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap2" type="com.annaru.upms.entity.vo.EntityHrAppointmentMainVoZ2" >
 
         <result column="sysId" property="sysId" />
@@ -90,6 +110,7 @@
 
         <result column="sysId" property="sysId" />
         <result column="packageName" property="packageName" />
+        <result column="subtitle" property="subtitle" />
         <result column="hrRestCount" property="hrRestCount" />
         <result column="hrTotalCount" property="hrTotalCount" />
 
@@ -158,6 +179,7 @@
         SELECT
             eham.sys_id sysId,
             epm.package_name packageName,
+            epm.subtitle,
             eham.hr_rest_count hrRestCount,
             eham.hr_total_count hrTotalCount,
             epa.periods,
@@ -176,11 +198,18 @@
     </select>
 
     <!-- 多表页面信息查询分页  HR购买记录 -->
-    <select id="htOrderRecord" parameterType="map" resultMap="BaseResultMap1">
+    <select id="htOrderRecord" parameterType="map" resultMap="BaseResultMapHtOrderRecord">
 
         SELECT
             eham.sys_id sysId,
             epm.package_name packageName,
+
+            epm.amount epmAmount,
+            epm.subtitle,
+            epa.periods,
+            ea.service_name serviceName,
+            ea.cates,
+
             eham.hr_total_count hrTotalCount,
             se.entity_name entityName,
             ub.full_name fullName,
@@ -188,10 +217,12 @@
             eham.creation_time creationTime
         FROM entity_hr_appointment_main eham
         LEFT JOIN exam_package_main epm ON epm.sys_id = eham.package_id
+        LEFT JOIN exam_package_append epa ON epa.package_main_id = epm.sys_id
+        LEFT JOIN exam_append ea ON ea.sys_id = epa.append_id
         LEFT JOIN sys_entity se ON se.entity_id = eham.entity_no
         LEFT JOIN user_basic ub ON ub.user_id = eham.create_by
         WHERE
-            1 = 1 AND eham.is_deleted = 0
+        1 = 1 AND eham.is_deleted = 0
             <if test="params.sysId != null and params.sysId != ''">
                 AND eham.sys_id = #{params.sysId}
             </if>

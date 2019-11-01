@@ -5,6 +5,7 @@ import com.annaru.upms.im.rong.RongYunKeyEnum;
 import com.annaru.upms.im.rong.models.Result;
 import com.annaru.upms.im.rong.models.response.TokenResult;
 import com.annaru.upms.im.rong.models.user.UserModel;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,6 +30,9 @@ public class RongUtil {
              *
              * 注册用户，生成用户在融云的唯一身份标识 Token
              */
+            if (StringUtils.isBlank(portrait)) {// 默认头像
+                portrait = "http://www.rongcloud.cn/images/logo.png";
+            }
             UserModel userModel = new UserModel()
                     .setId(id)
                     .setName(name)
@@ -73,7 +77,7 @@ public class RongUtil {
     }
 
     public static void main(String[] args) throws Exception {
-        String getToken = register("123", "123", "http://www.rongcloud.cn/images/logo.png");
+        String getToken = register("123", "123", "");
         System.out.println("Token:"+getToken);
 
         Integer refresh = refresh("123", "123", "http://www.rongcloud.cn/images/logo.png");

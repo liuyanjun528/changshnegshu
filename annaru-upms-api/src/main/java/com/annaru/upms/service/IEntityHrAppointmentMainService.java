@@ -35,7 +35,7 @@ public interface IEntityHrAppointmentMainService extends IService<EntityHrAppoin
      * @param params
      * @return
      */
-    EntityHrAppointmentMainVoZ htOrderRecord(Map <String, Object> params);
+    EntityHrAppointmentMainVoZ31 htOrderRecord(Map <String, Object> params);
 
     /**
      * 多表页面信息查询 ，HR记录详情

@@ -150,7 +150,7 @@ public class UserBasicServiceImpl extends ServiceImpl<UserBasicMapper, UserBasic
                 return ResultMap.ok(mp);
             }
         } catch (Exception e) {
-            log.error(e.getMessage());
+            //log.error(e.getMessage());
             return ResultMap.error("运行异常，请联系管理员");
         }
     }
@@ -176,7 +176,7 @@ public class UserBasicServiceImpl extends ServiceImpl<UserBasicMapper, UserBasic
                 return ResultMap.ok(UserBasicMenu.SHE_ZHI_ZHI_FU_MI_MA_ERROR.getMessage());
             }
         } catch (Exception e) {
-            log.error(e.getMessage());
+            //log.error(e.getMessage());
             return ResultMap.error("运行异常，请联系管理员");
         }
 
@@ -208,7 +208,7 @@ public class UserBasicServiceImpl extends ServiceImpl<UserBasicMapper, UserBasic
                 return ResultMap.ok(mp);
             }
         } catch (Exception e) {
-            log.error(e.getMessage());
+            //log.error(e.getMessage());
             return ResultMap.error("运行异常，请联系管理员");
         }
     }

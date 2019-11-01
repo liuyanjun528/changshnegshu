@@ -37,7 +37,7 @@ public interface EntityHrAppointmentMainMapper extends BaseMapper<EntityHrAppoin
      * @param params
      * @return
      */
-    EntityHrAppointmentMainVoZ htOrderRecord(@Param("params") Map <String, Object> params);
+    EntityHrAppointmentMainVoZ31 htOrderRecord(@Param("params") Map <String, Object> params);
 
     /**
      * 多表页面信息查询 ，HR记录详情

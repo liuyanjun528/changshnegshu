@@ -24,7 +24,16 @@ public class ReportAbnormalW extends Model<ReportAbnormalW> implements Serializa
 	private String JCJG;
 	private String XMCKZ;
 	private String JGPD;
+	private String XMDW;
 
+
+	public String getXMDW() {
+		return XMDW;
+	}
+
+	public void setXMDW(String XMDW) {
+		this.XMDW = XMDW;
+	}
 
 	public String getJGPD() {
 		return JGPD;

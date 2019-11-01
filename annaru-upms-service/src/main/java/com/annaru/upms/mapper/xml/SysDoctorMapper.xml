@@ -238,4 +238,8 @@
         </if>
     </select>
 
+    <select id="seleDoctorAll" parameterType="map" resultMap="BaseResultMap">
+      select * from sys_doctor
+    </select>
+
 </mapper>

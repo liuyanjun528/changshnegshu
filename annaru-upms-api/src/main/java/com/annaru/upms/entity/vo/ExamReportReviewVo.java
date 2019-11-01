@@ -20,6 +20,16 @@ public class ExamReportReviewVo implements Serializable {
     private String status;//状态(0:未解读/1:已解读)
     private String reviewNo;//解读人
     private String orderNo;//订单编号
+    private String entityName;//企业名称
+
+
+    public String getEntityName() {
+        return entityName;
+    }
+
+    public void setEntityName(String entityName) {
+        this.entityName = entityName;
+    }
 
     public String getOrderNo() {
         return orderNo;

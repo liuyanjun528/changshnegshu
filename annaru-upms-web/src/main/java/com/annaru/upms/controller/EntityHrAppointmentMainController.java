@@ -90,14 +90,14 @@ public class EntityHrAppointmentMainController extends BaseController {
     /**
      * HR购买记录
      */
-    @ApiOperation(value = "HR购买记录", notes = "HR购买记录")
+    @ApiOperation(value = "HR购买详情", notes = "HR购买详情")
     @GetMapping("/htOrderRecord/{sysId}")
     @RequiresPermissions("upms/entityHrAppointmentMain/htOrderRecord")
     public ResultMap htOrderRecord(@RequestParam("sysId") Integer sysId){
         try {
             Map<String, Object> params = new HashMap<>();
             params.put("sysId",sysId);
-            EntityHrAppointmentMainVoZ entityHrAppointmentMainVoZ = entityHrAppointmentMainService.htOrderRecord(params);
+            EntityHrAppointmentMainVoZ31 entityHrAppointmentMainVoZ = entityHrAppointmentMainService.htOrderRecord(params);
             return ResultMap.ok().put("data",entityHrAppointmentMainVoZ);
         } catch (Exception e) {
             logger.error(e.getMessage());

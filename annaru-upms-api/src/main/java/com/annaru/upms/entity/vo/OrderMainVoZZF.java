@@ -84,6 +84,31 @@ public class OrderMainVoZZF implements Serializable {
 	 */
 	private String emName;
 
+	/**
+	 * 机构名称
+	 * @return
+	 */
+	private String siName;
+	/**
+	 * 预约日期
+	 */
+	private Date appointDate;
+	/**
+	 * 预约开始时间
+	 * @return
+	 */
+	private String timeFrom;
+
+	/**
+	 * 预约结束时间
+	 * @return
+	 */
+	private String timeTo;
+	/**
+	 * 预约地址
+	 */
+	private String address;
+
 	private List<OrderMainVoZTC31> orderMainVoZTC31List;
 
 	public Integer getSysId() {
@@ -200,6 +225,46 @@ public class OrderMainVoZZF implements Serializable {
 
 	public void setOrderMainVoZTC31List(List<OrderMainVoZTC31> orderMainVoZTC31List) {
 		this.orderMainVoZTC31List = orderMainVoZTC31List;
+	}
+
+	public String getSiName() {
+		return siName;
+	}
+
+	public void setSiName(String siName) {
+		this.siName = siName;
+	}
+
+	public Date getAppointDate() {
+		return appointDate;
+	}
+
+	public void setAppointDate(Date appointDate) {
+		this.appointDate = appointDate;
+	}
+
+	public String getTimeFrom() {
+		return timeFrom;
+	}
+
+	public void setTimeFrom(String timeFrom) {
+		this.timeFrom = timeFrom;
+	}
+
+	public String getTimeTo() {
+		return timeTo;
+	}
+
+	public void setTimeTo(String timeTo) {
+		this.timeTo = timeTo;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
 	}
 
 	@Override

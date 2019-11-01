@@ -127,7 +127,7 @@ public interface IOrderMainService extends IService<OrderMain> {
      * @Date:2019/8/16
      * @return
      */
-    PageUtils<ExamReportVo> getExamReportVoPage(Integer page, Integer limit, String userId, Integer packageCates, Integer orderCates);
+    PageUtils<ExamReportVo> getExamReportVoPage(Integer page, Integer limit, String userId, Integer packageCates, Integer orderCates,Integer cateId);
 
     /**
      * @Description:取消订单修改状态/关闭订单

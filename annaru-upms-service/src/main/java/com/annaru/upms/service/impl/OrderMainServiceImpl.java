@@ -240,12 +240,12 @@ public class OrderMainServiceImpl extends ServiceImpl<OrderMainMapper, OrderMain
     }
 
     @Override
-    public PageUtils<ExamReportVo> getExamReportVoPage(Integer page, Integer limit, String userId, Integer packageCates, Integer orderCates) {
+    public PageUtils<ExamReportVo> getExamReportVoPage(Integer page, Integer limit, String userId, Integer packageCates, Integer orderCates,Integer cateId) {
         Map<String, Object> params = new HashMap<>();
         params.put("page",page);
         params.put("limit", limit);
         Page<ExamReportVo> pageObj = new PageUtils<ExamReportVo>(params).getPage();
-        IPage<ExamReportVo> iPage = this.baseMapper.selectExamReportVoPage(pageObj, userId, packageCates, orderCates);
+        IPage<ExamReportVo> iPage = this.baseMapper.selectExamReportVoPage(pageObj, userId, packageCates, orderCates,cateId);
         return new PageUtils(iPage);
     }
 
