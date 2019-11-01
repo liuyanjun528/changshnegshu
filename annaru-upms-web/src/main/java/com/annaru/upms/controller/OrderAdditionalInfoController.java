@@ -41,6 +41,8 @@ public class OrderAdditionalInfoController extends BaseController {
     private IOrderMainService orderMainService;
 
     @Reference
+    private IOrderDetailService orderDetailService;
+    @Reference
     private ISysMessageService sysMessageService;// 消息表
     @Reference
     private ISysGlobalSettingService sysGlobalSettingService;//系统全局参数管理
@@ -94,6 +96,15 @@ public class OrderAdditionalInfoController extends BaseController {
             int i = orderAdditionalInfoService.insertGreenPassage(orderAdditionalInfo, RelativeId);
 
             if(i > 0){
+                //每预约成功一次  门诊绿通次数 -1
+                Map<String,Object> ps = new HashMap<>();
+                ps.put("userId",orderAdditionalInfo.getEntityHealthyAppointment().getOrderMain().getUserId());
+                OrderDetail orderDetail = orderDetailService.hasRestTimes(ps);
+                Integer restTime = orderDetail.getRestCount();
+                orderDetail.setRestCount(restTime-1);
+                orderDetailService.updateById(orderDetail);
+
+
                 //查询用户名
                 UserBasic userBasic = userBasicService.selectByUid(orderAdditionalInfo.getEntityHealthyAppointment().getOrderMain().getUserId());
                 String fullName = userBasic.getFullName();

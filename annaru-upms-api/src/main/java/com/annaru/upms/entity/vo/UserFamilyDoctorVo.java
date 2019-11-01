@@ -36,10 +36,10 @@ public class UserFamilyDoctorVo extends Model<UserFamilyDoctorVo> implements Ser
     private String duties;
     private String introductions;
     private Integer isApproved;
-    private Integer restDays;
+    private Integer restDay;
     private Integer appraisalStatus;
     private Double userStarCount;//用户评价星级
-    private Double userScores;//用户评价的评分
+    private Double userScore;//用户评价的评分
 
 
     public Double getUserStarCount() {
@@ -50,12 +50,12 @@ public class UserFamilyDoctorVo extends Model<UserFamilyDoctorVo> implements Ser
         this.userStarCount = userStarCount;
     }
 
-    public Double getUserScores() {
-        return userScores;
+    public Double getUserScore() {
+        return userScore;
     }
 
-    public void setUserScores(Double userScores) {
-        this.userScores = userScores;
+    public void setUserScore(Double userScore) {
+        this.userScore = userScore;
     }
 
     public Integer getRestCount() {
@@ -74,12 +74,12 @@ public class UserFamilyDoctorVo extends Model<UserFamilyDoctorVo> implements Ser
         this.appraisalStatus = appraisalStatus;
     }
 
-    public Integer getRestDays() {
-        return restDays;
+    public Integer getRestDay() {
+        return restDay;
     }
 
-    public void setRestDays(Integer restDays) {
-        this.restDays = restDays;
+    public void setRestDay(Integer restDay) {
+        this.restDay = restDay;
     }
 
     public Integer getIsTerminated() {

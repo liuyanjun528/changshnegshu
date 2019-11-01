@@ -78,7 +78,11 @@
       FROM
 		    sys_doctor_nurse_schedule
       WHERE
-	        date_format(date_from,'%Y-%m')=date_format(#{dateFrom},'%Y-%m')
+	        (
+				date_format(date_from,'%Y-%m')=date_format(#{dateFrom},'%Y-%m')
+					or
+				PERIOD_DIFF( date_format( #{dateFrom} , '%Y%m' ) , date_format( date_from, '%Y%m' ) ) =-1
+			)
 	  AND
 	        doctor_nurse_no=#{doctorNurseNo}
     </select>

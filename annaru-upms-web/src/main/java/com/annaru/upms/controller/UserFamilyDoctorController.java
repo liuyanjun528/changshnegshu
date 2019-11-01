@@ -135,12 +135,12 @@ public class UserFamilyDoctorController extends BaseController {
         params.put("userId",userId);
         UserFamilyDoctorVo userFamilyDoctor = userFamilyDoctorService.getUserFDInfo(params);
         if (null!=userFamilyDoctor){
-            userFamilyDoctor.setRestDays(UUIDGenerator.differentDays(new Date(),userFamilyDoctor.getEffectTo()));
+            userFamilyDoctor.setRestDay(UUIDGenerator.differentDays(new Date(),userFamilyDoctor.getEffectTo()));
             params.put("docNo",userFamilyDoctor.getDoctorNo());
             SysAppraisal appraisal = sysAppraisalService.selectOne(params);
             //如果剩余天数<0 设为中止
-            if(userFamilyDoctor.getRestDays()<0){
-                userFamilyDoctor.setRestDays(0);
+            if(userFamilyDoctor.getRestDay()<0){
+                userFamilyDoctor.setRestDay(0);
                 userFamilyDoctor.setIsTerminated(1);
                 userFamilyDoctor.setTerminatedTime(new Date());
             }
@@ -150,7 +150,7 @@ public class UserFamilyDoctorController extends BaseController {
             }else {
                 userFamilyDoctor.setAppraisalStatus(1);
                 userFamilyDoctor.setUserStarCount(appraisal.getStarCount());
-                userFamilyDoctor.setUserScores(appraisal.getScores());
+                userFamilyDoctor.setUserScore(appraisal.getScores());
             }
         }
         return ResultMap.ok().put("data",userFamilyDoctor);
