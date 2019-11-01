@@ -1,6 +1,7 @@
 package com.annaru.upms.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.annaru.common.result.ResultMap;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -25,7 +26,7 @@ import java.util.Map;
 public class SysTopupCardCateServiceImpl extends ServiceImpl<SysTopupCardCateMapper, SysTopupCardCate> implements ISysTopupCardCateService {
 
     @Override
-    public PageUtils getDataPage(Map<String, Object> params){
+    public PageUtils getDataPage(Map<String, Object> params) {
         Page<SysTopupCardCate> page = new PageUtils<SysTopupCardCate>(params).getPage();
         IPage<SysTopupCardCate> iPage = this.baseMapper.selectDataPage(page, params);
         return new PageUtils<SysTopupCardCate>(iPage);
@@ -38,4 +39,21 @@ public class SysTopupCardCateServiceImpl extends ServiceImpl<SysTopupCardCateMap
         qw.select("sys_id", "image_url", "title", "sub_title");
         return this.baseMapper.selectOne(qw);
     }
+
+    @Override
+    public ResultMap activation(String serialNo, String activepin) {
+        try {
+            int count = this.baseMapper.activation(serialNo, activepin);
+            if (count > 0) {
+                return ResultMap.ok("激活成功");
+            } else {
+                return ResultMap.error("激活失败");
+            }
+        } catch (Exception e) {
+            return ResultMap.error();
+        }
+
+
+    }
+
 }

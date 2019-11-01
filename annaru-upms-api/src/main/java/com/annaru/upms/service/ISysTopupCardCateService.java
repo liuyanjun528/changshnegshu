@@ -1,5 +1,6 @@
 package com.annaru.upms.service;
 
+import com.annaru.common.result.ResultMap;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.annaru.common.result.PageUtils;
 import com.annaru.upms.entity.SysTopupCardCate;
@@ -29,5 +30,6 @@ public interface ISysTopupCardCateService extends IService<SysTopupCardCate> {
     SysTopupCardCate detail(int sysId);
 
 
+    ResultMap activation(String serialNo, String activepin);
 }
 

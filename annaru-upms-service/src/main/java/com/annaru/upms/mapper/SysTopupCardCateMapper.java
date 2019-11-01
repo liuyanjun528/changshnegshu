@@ -25,4 +25,5 @@ public interface SysTopupCardCateMapper extends BaseMapper<SysTopupCardCate> {
     IPage<SysTopupCardCate> selectDataPage(Page page, @Param("params") Map<String, Object> params);
 
 
+    int activation(@Param("serialNo") String serialNo,@Param("activepin") String activepin);
 }

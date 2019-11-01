@@ -20,8 +20,8 @@ import com.annaru.common.result.ResultMap;
 
 import com.annaru.upms.entity.SysTopupCardCate;
 import com.annaru.upms.service.ISysTopupCardCateService;
-import javax.validation.Valid;
 
+import javax.validation.Valid;
 
 
 /**
@@ -44,14 +44,14 @@ public class SysTopupCardCateController extends BaseController {
      */
     @ApiOperation(value = "商城充值卡（列表）")
     @GetMapping("/list")
-    public ResultMap list(@ApiParam(value = "当前页")@RequestParam(defaultValue="1") int page,
-                       @ApiParam(value = "每页数量")@RequestParam(defaultValue = "10") int limit){
+    public ResultMap list(@ApiParam(value = "当前页") @RequestParam(defaultValue = "1") int page,
+                          @ApiParam(value = "每页数量") @RequestParam(defaultValue = "10") int limit) {
         try {
             Map<String, Object> params = new HashMap<>();
-            params.put("page",page);
+            params.put("page", page);
             params.put("limit", limit);
             PageUtils<Map<String, Object>> pageList = sysTopupCardCateService.getDataPage(params);
-            return ResultMap.ok().put("data",pageList);
+            return ResultMap.ok().put("data", pageList);
         } catch (Exception e) {
             logger.error(e.getMessage());
             return ResultMap.error("运行异常，请联系管理员");
@@ -63,10 +63,10 @@ public class SysTopupCardCateController extends BaseController {
      */
     @ApiOperation(value = "充值卡详情", notes = "充值卡详情")
     @GetMapping("/info/{sysId}")
-    public ResultMap info(@PathVariable("sysId") Integer sysId){
+    public ResultMap info(@PathVariable("sysId") Integer sysId) {
         try {
             SysTopupCardCate sysTopupCardCate = sysTopupCardCateService.detail(sysId);
-            return ResultMap.ok().put("data",sysTopupCardCate);
+            return ResultMap.ok().put("data", sysTopupCardCate);
         } catch (Exception e) {
             logger.error(e.getMessage());
             return ResultMap.error("运行异常，请联系管理员");
@@ -78,10 +78,10 @@ public class SysTopupCardCateController extends BaseController {
      */
     @ApiOperation(value = "充值卡规则")
     @GetMapping("/formular")
-    public ResultMap formular(){
+    public ResultMap formular() {
         try {
             List<SysTopupCardFormular> list = sysTopupCardFormularService.listFormular(TopupCardEnum.CardFormularCates.TOPUP_CARD.getValue());
-            return ResultMap.ok().put("data",list);
+            return ResultMap.ok().put("data", list);
         } catch (Exception e) {
             logger.error(e.getMessage());
             return ResultMap.error("运行异常，请联系管理员");
@@ -93,14 +93,23 @@ public class SysTopupCardCateController extends BaseController {
      */
     @ApiOperation(value = "充值卡赠送规则")
     @GetMapping("/giveAwayFormular")
-    public ResultMap giveAwayFormular(){
+    public ResultMap giveAwayFormular() {
         try {
             List<SysTopupCardFormular> list = sysTopupCardFormularService.listFormular(TopupCardEnum.CardFormularCates.GIVE_AWAY.getValue());
-            return ResultMap.ok().put("data",list);
+            return ResultMap.ok().put("data", list);
         } catch (Exception e) {
             logger.error(e.getMessage());
             return ResultMap.error("运行异常，请联系管理员");
         }
+    }
+
+    /**
+     * 激活充值卡
+     */
+    @ApiOperation(value = "激活充值卡", notes = "激活充值卡")
+    @PostMapping("/activation")
+    public ResultMap activation(@RequestParam("serialNo") String serialNo, @RequestParam("activepin") String activepin) {
+        return sysTopupCardCateService.activation(serialNo, activepin);
     }
 
 

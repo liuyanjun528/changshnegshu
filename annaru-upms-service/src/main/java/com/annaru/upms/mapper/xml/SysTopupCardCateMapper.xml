@@ -58,4 +58,9 @@
 
     </select>
 
+    <update id="activation">
+        update  sys_topup_card set  is_active=1
+        where serial_no =#{serialNo} and active_pin=#{activepin}
+    </update>
+
 </mapper>
