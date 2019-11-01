@@ -352,7 +352,7 @@ public class UserBasicController extends BaseController {
     @PostMapping("/payment/pinnoStatus")
     public ResultMap paymentPinnoStatus(String userId) {
         if (StringUtils.isEmpty(userId)) {
-            return ResultMap.ok(UserBasicMenu.USER_ID_NOT_NULL.getMessage());
+            return ResultMap.error(UserBasicMenu.USER_ID_NOT_NULL.getMessage());
         }
         return userBasicService.paymentPinnoStatus(userId);
     }
@@ -364,10 +364,10 @@ public class UserBasicController extends BaseController {
     @PostMapping("/init/paymentPinno")
     public ResultMap initPaymentPinno(String userId, String paymentPinno) {
         if (StringUtils.isEmpty(userId)) {
-            return ResultMap.ok(UserBasicMenu.USER_ID_NOT_NULL.getMessage());
+            return ResultMap.error(UserBasicMenu.USER_ID_NOT_NULL.getMessage());
         }
         if (StringUtils.isEmpty(paymentPinno)) {
-            return ResultMap.ok(UserBasicMenu.PAYMENT_PINNO_NOT_NULL.getMessage());
+            return ResultMap.error(UserBasicMenu.PAYMENT_PINNO_NOT_NULL.getMessage());
         }
         return userBasicService.initPaymentPinno(userId, paymentPinno);
     }
@@ -379,10 +379,10 @@ public class UserBasicController extends BaseController {
     @PostMapping("/verification/paymentPinno")
     public ResultMap verificationPaymentPinno(String userId, String paymentPinno) {
         if (StringUtils.isEmpty(userId)) {
-            return ResultMap.ok(UserBasicMenu.USER_ID_NOT_NULL.getMessage());
+            return ResultMap.error(UserBasicMenu.USER_ID_NOT_NULL.getMessage());
         }
         if (StringUtils.isEmpty(paymentPinno)) {
-            return ResultMap.ok(UserBasicMenu.PAYMENT_PINNO_NOT_NULL.getMessage());
+            return ResultMap.error(UserBasicMenu.PAYMENT_PINNO_NOT_NULL.getMessage());
         }
         return userBasicService.verificationPaymentPinno(userId, paymentPinno);
     }
@@ -394,10 +394,10 @@ public class UserBasicController extends BaseController {
     @PostMapping("/update/paymentPinno")
     public ResultMap updatePaymentPinno(String userId, String paymentPinno) {
         if (StringUtils.isEmpty(userId)) {
-            return ResultMap.ok(UserBasicMenu.USER_ID_NOT_NULL.getMessage());
+            return ResultMap.error(UserBasicMenu.USER_ID_NOT_NULL.getMessage());
         }
         if (StringUtils.isEmpty(paymentPinno)) {
-            return ResultMap.ok(UserBasicMenu.PAYMENT_PINNO_NOT_NULL.getMessage());
+            return ResultMap.error(UserBasicMenu.PAYMENT_PINNO_NOT_NULL.getMessage());
         }
         return userBasicService.initPaymentPinno(userId, paymentPinno);
     }
