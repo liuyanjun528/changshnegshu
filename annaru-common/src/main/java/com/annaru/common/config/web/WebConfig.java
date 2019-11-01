@@ -42,7 +42,7 @@ public class WebConfig extends WebMvcConfigurationSupport {
         registry.addResourceHandler("swagger-ui.html").addResourceLocations("classpath:/META-INF/resources/");
         registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
         registry.addResourceHandler("static/**").addResourceLocations("classpath:/static/");
-        registry.addResourceHandler("/upload/**").addResourceLocations("file:D:/changshengshu/upload_file/");
+        registry.addResourceHandler("/upload/**").addResourceLocations("file:C:/Project/changshengshu/upload_file/");
     }
 
     @Override
