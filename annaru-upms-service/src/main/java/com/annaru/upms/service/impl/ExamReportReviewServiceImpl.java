@@ -8,6 +8,7 @@ import com.annaru.upms.entity.vo.ExamReportReviewVo;
 import com.annaru.upms.entity.vo.ReportInfoVo;
 import com.annaru.upms.mapper.ExamReportReviewMapper;
 import com.annaru.upms.service.IExamReportReviewService;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -64,5 +65,13 @@ public class ExamReportReviewServiceImpl extends ServiceImpl<ExamReportReviewMap
     @Override
     public String getSuggestions(String orderNo) {
         return this.baseMapper.selectSuggestions(orderNo);
+    }
+
+    public ExamReportReview isStatus(String reportNo){
+        QueryWrapper<ExamReportReview> qw = new QueryWrapper<>();
+        qw.eq("report_no", reportNo);
+        qw.eq("status", 1);// 已解读
+        qw.last("LIMIT 1");
+        return this.baseMapper.selectOne(qw);
     }
 }
