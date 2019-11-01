@@ -22,6 +22,11 @@ public class EntityHrAppointmentMainFwVoZ implements Serializable {
 	private String packageName;
 
 	/**
+	 * 副标题(逗号分隔)
+	 */
+	private String subtitle;
+
+	/**
 	 * 使用次数
 	 * @return
 	 */

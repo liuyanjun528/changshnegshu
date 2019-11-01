@@ -135,19 +135,14 @@ public class UserBasicServiceImpl extends ServiceImpl<UserBasicMapper, UserBasic
     public ResultMap paymentPinnoStatus(String userId) {
         UserBasic userBasic = this.selectUserBasic(userId);
         if (userBasic == null) {
-            return ResultMap.ok(UserBasicMenu.USER_IS_NULL.getMessage());
+            return ResultMap.error(UserBasicMenu.USER_IS_NULL.getMessage());
         }
-        HashMap<String, Object> mp = new HashMap<>();
         try {
             String paymentPinno = baseMapper.paymentPinnoStatus(userId);
             if (StringUtils.isEmpty(paymentPinno)) {
-                mp.put(UserBasicMenu.CODE.getMessage(), UserBasicMenu.WEI_SHE_ZHI_ZHI_FU_MI_MA.getCode());
-                mp.put(UserBasicMenu.MSG.getMessage(), UserBasicMenu.WEI_SHE_ZHI_ZHI_FU_MI_MA.getMessage());
-                return ResultMap.ok(mp);
+                return ResultMap.ok().put("data","0");
             } else {
-                mp.put(UserBasicMenu.CODE.getMessage(), UserBasicMenu.YI_SHE_ZHI_ZHI_FU_MI_MA.getCode());
-                mp.put(UserBasicMenu.MSG.getMessage(), UserBasicMenu.YI_SHE_ZHI_ZHI_FU_MI_MA.getMessage());
-                return ResultMap.ok(mp);
+                return ResultMap.ok().put("data","1");
             }
         } catch (Exception e) {
             //log.error(e.getMessage());
@@ -166,14 +161,14 @@ public class UserBasicServiceImpl extends ServiceImpl<UserBasicMapper, UserBasic
     public ResultMap initPaymentPinno(String userId, String paymentPinno) {
         UserBasic userBasic = this.selectUserBasic(userId);
         if (userBasic == null) {
-            return ResultMap.ok(UserBasicMenu.USER_IS_NULL.getMessage());
+            return ResultMap.error(UserBasicMenu.USER_IS_NULL.getMessage());
         }
         try {
             int count = baseMapper.initPaymentPinno(userId, paymentPinno);
             if (count > 0) {
-                return ResultMap.ok(UserBasicMenu.SHE_ZHI_ZHI_FU_MI_MA_OK.getMessage());
+                return ResultMap.ok();
             } else {
-                return ResultMap.ok(UserBasicMenu.SHE_ZHI_ZHI_FU_MI_MA_ERROR.getMessage());
+                return ResultMap.error(UserBasicMenu.SHE_ZHI_ZHI_FU_MI_MA_ERROR.getMessage());
             }
         } catch (Exception e) {
             //log.error(e.getMessage());
@@ -193,19 +188,14 @@ public class UserBasicServiceImpl extends ServiceImpl<UserBasicMapper, UserBasic
     public ResultMap verificationPaymentPinno(String userId, String paymentPinno) {
         UserBasic userBasic = this.selectUserBasic(userId);
         if (userBasic == null) {
-            return ResultMap.ok(UserBasicMenu.USER_IS_NULL.getMessage());
+            return ResultMap.error(UserBasicMenu.USER_IS_NULL.getMessage());
         }
-        HashMap<String, Object> mp = new HashMap<>();
         try {
             String paymentPinno2 = baseMapper.paymentPinnoStatus(userId);
             if (paymentPinno2.equals(paymentPinno)) {
-                mp.put(UserBasicMenu.CODE.getMessage(), UserBasicMenu.ZHI_FU_MA_MA_YAN_ZHEN_OK.getCode());
-                mp.put(UserBasicMenu.MSG.getMessage(), UserBasicMenu.ZHI_FU_MA_MA_YAN_ZHEN_OK.getMessage());
-                return ResultMap.ok(mp);
+                return ResultMap.ok();
             } else {
-                mp.put(UserBasicMenu.CODE.getMessage(), UserBasicMenu.ZHI_FU_MA_MA_YAN_ZHEN_ERROR.getCode());
-                mp.put(UserBasicMenu.MSG.getMessage(), UserBasicMenu.ZHI_FU_MA_MA_YAN_ZHEN_ERROR.getMessage());
-                return ResultMap.ok(mp);
+                return ResultMap.error("验证失败");
             }
         } catch (Exception e) {
             //log.error(e.getMessage());
@@ -224,18 +214,13 @@ public class UserBasicServiceImpl extends ServiceImpl<UserBasicMapper, UserBasic
     public ResultMap validated(String userId, String cellphoneNo) {
         UserBasic userBasic = this.selectUserBasic(userId);
         ResultMap resultMap = new ResultMap();
-        HashMap<String, Object> mp = new HashMap<>();
         if (userBasic == null) {
-            return resultMap.ok(UserBasicMenu.USER_IS_NULL.getMessage());
+            return resultMap.error(UserBasicMenu.USER_IS_NULL.getMessage());
         }
         if (userBasic.getCellphoneNo().equals(cellphoneNo)) {
-            mp.put(UserBasicMenu.CODE.getMessage(), UserBasicMenu.YON_HU_PHONENO_VALIDATED_OK.getCode());
-            mp.put(UserBasicMenu.MSG.getMessage(), UserBasicMenu.YON_HU_PHONENO_VALIDATED_OK.getMessage());
-            return resultMap.ok(mp);
+            return resultMap.ok();
         } else {
-            mp.put(UserBasicMenu.CODE.getMessage(), UserBasicMenu.YON_HU_PHONENO_VALIDATED_ERROR.getCode());
-            mp.put(UserBasicMenu.MSG.getMessage(), UserBasicMenu.YON_HU_PHONENO_VALIDATED_ERROR.getMessage());
-            return resultMap.ok(mp);
+            return resultMap.error(UserBasicMenu.YON_HU_PHONENO_VALIDATED_ERROR.getMessage());
         }
     }
 

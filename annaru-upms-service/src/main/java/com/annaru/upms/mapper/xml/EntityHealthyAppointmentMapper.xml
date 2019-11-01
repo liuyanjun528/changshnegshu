@@ -223,4 +223,11 @@
             limit 0,1
     </select>
 
+    <select id="selectIsNotServer" parameterType="string" resultType="int">
+          SELECT  count(*) FROM entity_healthy_appointment as eha
+		    LEFT JOIN exam_user_healthy_appraisal as euha ON euha.order_no=eha.order_no
+			  where  eha.related_no=#{doctorNo}   and  eha.pkg_main_id=8 and eha.pkg_detail_id=803 and euha.is_submitted=0
+                and YEARWEEK(date_format(appoint_date,'%Y-%m-%d')) = YEARWEEK(now())+1;
+    </select>
+
 </mapper>
