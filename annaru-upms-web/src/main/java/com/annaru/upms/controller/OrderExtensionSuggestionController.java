@@ -2,13 +2,14 @@ package com.annaru.upms.controller;
 
 import java.util.*;
 
+import com.annaru.common.exception.GlobalException;
+import com.annaru.common.util.DateUtil;
+import com.annaru.upms.entity.ExamReportReview;
 import com.annaru.upms.entity.OrderMain;
 import com.annaru.upms.entity.dto.OESaveDto;
 import com.annaru.upms.entity.vo.ExamExtensionVo;
 import com.annaru.upms.entity.vo.OrderExtensionSuggestionVo;
-import com.annaru.upms.service.IExamInspectReportService;
-import com.annaru.upms.service.IExamPackageDetailService;
-import com.annaru.upms.service.IOrderMainService;
+import com.annaru.upms.service.*;
 import io.swagger.annotations.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -21,7 +22,7 @@ import com.annaru.common.result.PageUtils;
 import com.annaru.common.result.ResultMap;
 
 import com.annaru.upms.entity.OrderExtensionSuggestion;
-import com.annaru.upms.service.IOrderExtensionSuggestionService;
+
 import javax.validation.Valid;
 
 
@@ -44,9 +45,11 @@ public class OrderExtensionSuggestionController extends BaseController {
     private IOrderMainService orderMainService;
     @Reference
     private IExamPackageDetailService examPackageDetailService;
+    @Reference
+    private IExamReportReviewService examReportReviewService;
 
     /** 添加建议进阶项目
-     * @params: [reportNo, masterId, itemName, sysId, doctorNo]
+     * @params: OESaveDto
      * @return: com.annaru.common.result.ResultMap
      * @Author: jyehui
      * @Date: 2019/7/2 11:11
@@ -63,11 +66,24 @@ public class OrderExtensionSuggestionController extends BaseController {
             String[] items = oeSaveDto.getItemNames().split(",");
             String[] masters = oeSaveDto.getMasterIds().split(",");
             String[] suggestTimes = oeSaveDto.getSuggestTime().split(",");
+            int numberDays = DateUtil.number_Days(oeSaveDto.getSuggestTime());
             if (sIds.length != items.length || sIds.length != masters.length || sIds.length != suggestTimes.length) {
                 return ResultMap.error("参数有误!");
             }
+            if (0 == numberDays) {
+
+                return ResultMap.error("建议赴检查周期时间 格式有误！正确的格式：如一周、半个月、一个月等等");
+            }
+            ExamReportReview status = examReportReviewService.isStatus(oeSaveDto.getReportNo());
+            if (null != status) {// 已解读
+                return ResultMap.error("系统异常：您的报告已解读");
+            }
+            String selectByRno = examInspectReportService.selectByRno(oeSaveDto.getReportNo());
+            if(null == selectByRno || "".equals(selectByRno) ) {
+                return ResultMap.error("系统异常：通过该检查报告编号未解析到对应的订单编号");
+            }
             boolean save = orderExtensionSuggestionService.savaOE(oeSaveDto.getReportNo(), masters, items,
-                    sIds, oeSaveDto.getDoctorNo(), suggestTimes);
+                    sIds, oeSaveDto.getDoctorNo(), suggestTimes, numberDays, selectByRno);
             if(!save){
                 return ResultMap.error("添加失败!");
             }
@@ -78,6 +94,22 @@ public class OrderExtensionSuggestionController extends BaseController {
         }
 
     }
+
+
+    /**
+     * 查看添加的进阶项目
+     */
+    @ApiOperation(value = "查看添加的进阶项目", notes = "查看添加的进阶项目")
+    @GetMapping("/infoSuggestion")
+    public ResultMap infoSuggestion(@ApiParam(value = "体检报告编号")@RequestParam(required = true)String reportNo){
+        if (StringUtils.isBlank(reportNo)) {
+            return ResultMap.error(400, "体检报告编号是必传字段");
+        }
+
+        OrderExtensionSuggestion suggestion = orderExtensionSuggestionService.isExists(examInspectReportService.selectByRno(reportNo));
+        return ResultMap.ok().put("data",suggestion);
+    }
+
     //@ApiOperation(value = "添加建议进阶项目")
     //@PostMapping("/savaOE")
     //@ApiImplicitParams({
@@ -129,16 +161,16 @@ public class OrderExtensionSuggestionController extends BaseController {
     }
 
 
-    /**
-     * 信息
-     */
-    @ApiOperation(value = "查看详情", notes = "查看upms详情")
-    @GetMapping("/info/{sysId}")
-    @RequiresPermissions("upms/orderExtensionSuggestion/info")
-    public ResultMap info(@PathVariable("sysId") Integer sysId){
-        OrderExtensionSuggestion orderExtensionSuggestion = orderExtensionSuggestionService.getById(sysId);
-        return ResultMap.ok().put("data",orderExtensionSuggestion);
-    }
+    ///**
+    // * 信息
+    // */
+    //@ApiOperation(value = "查看详情", notes = "查看upms详情")
+    //@GetMapping("/info/{sysId}")
+    //@RequiresPermissions("upms/orderExtensionSuggestion/info")
+    //public ResultMap info(@PathVariable("sysId") Integer sysId){
+    //    OrderExtensionSuggestion orderExtensionSuggestion = orderExtensionSuggestionService.getById(sysId);
+    //    return ResultMap.ok().put("data",orderExtensionSuggestion);
+    //}
 
     /**
      * 获取基础体检后需要进阶检查的体检项

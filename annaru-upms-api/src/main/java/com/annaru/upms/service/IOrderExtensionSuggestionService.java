@@ -33,7 +33,9 @@ public interface IOrderExtensionSuggestionService extends IService<OrderExtensio
      * @param doctorNo
      * @return
      */
-    boolean savaOE(String reportNo,String[] masterIds,String[] itemNames,String[] sysIds,String doctorNo, String[] suggestTimes);
+    boolean savaOE(String reportNo,String[] masterIds,String[] itemNames,String[] sysIds,String doctorNo, String[] suggestTimes, int dayNumbers, String ReportNo);
+
+    public OrderExtensionSuggestion isExists (String orderNo);
 
 }
 

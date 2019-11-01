@@ -1,9 +1,15 @@
 package com.annaru.common.util;
 
+import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.util.StringUtil;
+
+import java.text.Format;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -254,5 +260,69 @@ public final class DateUtil {
         end.setTime(endDate);
         long n = end.getTimeInMillis() - start.getTimeInMillis();
         return (int) (n / (60 * 1000l));
+    }
+
+    /**
+     * 天数
+     *
+     * @param DateSpeedy 一周、半个月、一个月
+     * @return 天数
+     */
+    public static final int number_Days(String DateSpeedy) {
+
+        if(StringUtils.isBlank(DateSpeedy)){
+            return 0;
+        }
+        int jishu = 30;// 每月天数
+        int yearNumber = 365;// 每年天数
+        int numbers = 0;
+        Map<String, Object> Speedy = new HashMap<>();
+        Speedy.put("一周", 7);
+        Speedy.put("半个月", 15);
+        Speedy.put("一个月", jishu);
+        Speedy.put("两个月", 2*jishu);
+        Speedy.put("三个月", 3*jishu);
+        Speedy.put("四个月", 4*jishu);
+        Speedy.put("五个月", 5*jishu);
+        Speedy.put("六个月", 6*jishu);
+        Speedy.put("七个月", 7*jishu);
+        Speedy.put("八个月", 8*jishu);
+        Speedy.put("九个月", 9*jishu);
+        Speedy.put("十个月", 10*jishu);
+        Speedy.put("十一个月", 11*jishu);
+        Speedy.put("一年", yearNumber);
+        Speedy.put("两年", 2*yearNumber);
+        Speedy.put("三年", 3*yearNumber);
+
+        try {
+            numbers =  (int) Speedy.get(DateSpeedy);
+        }catch (Exception e){
+            return 0;
+        }
+        return numbers;
+    }
+
+    /**
+     * 日期加天数
+     */
+    public static final String date_Days(Date date, int dateNumber) {
+        Calendar c = Calendar.getInstance();
+        c.setTime(new Date());
+        c.add(Calendar.DAY_OF_MONTH, dateNumber);
+        Date sDate = c.getTime();
+        Format f = new SimpleDateFormat("yyyy-MM-dd");
+
+        return f.format(sDate);
+    }
+
+    public static void main(String[] args) {
+
+        int i = number_Days("一周");
+        System.out.println(i);
+
+        String days = date_Days(new Date(), number_Days("一年"));
+        System.out.println(days);
+
+
     }
 }
