@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.annaru.upms.mapper.UserTopupCardMapper">
+
+	<!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.annaru.upms.entity.UserTopupCard" >
+        <result column="sys_id" property="sysId" />
+        <result column="order_no" property="orderNo" />
+        <result column="user_id" property="userId" />
+        <result column="serial_no" property="serialNo" />
+        <result column="ref_no" property="refNo" />
+        <result column="title" property="title" />
+        <result column="sub_title" property="subTitle" />
+        <result column="images" property="images" />
+        <result column="amount" property="amount" />
+        <result column="status" property="status" />
+        <result column="from_user_id" property="fromUserId" />
+        <result column="creation_time" property="creationTime" />
+    </resultMap>
+    
+    <sql id="BaseClounmSql">
+          sys_id,
+          order_no,
+          user_id,
+          serial_no,
+          ref_no,
+          title,
+          sub_title,
+          images,
+          amount,
+          status,
+          from_user_id,
+          creation_time,
+    </sql>
+
+    <!-- 多表页面信息查询分页 -->
+    <select id="selectDataPage" parameterType="map" resultMap="BaseResultMap">
+
+        SELECT
+            <include refid="BaseClounmSql"></include>
+        FROM
+            user_topup_card
+
+    </select>
+
+</mapper>
