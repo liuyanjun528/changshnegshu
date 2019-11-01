@@ -413,7 +413,7 @@ public class OrderAppointmentController extends BaseController {
                         message.setOrderNo(orderNo);
                         message.setContent(sysMessageTemplateService.selectMessageTemplate(5).getContentTemplate()
                                 .replace("[full_name]",userBasicService.selectByUid(userId).getFullName())
-                                .replace("[appointDate]",fmt.format(orderAppointment.getAppointDate()))
+                                .replace("[appoint_date]",fmt.format(orderAppointment.getAppointDate()))
                                 .replace("[name]",sysInstitutionService.getInfo(params).getName())
                         .replace("[adress]",sysInstitutionService.getInfo(params).getAddress()));
                         orderAdditionalInfoService.save(orderAdditionalInfo);
