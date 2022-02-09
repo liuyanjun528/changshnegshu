@@ -75,7 +75,7 @@
         <springboot-admin.version>2.1.1</springboot-admin.version>
 
         <jjwt.version>0.9.1</jjwt.version>
-        <shiro.version>1.4.0</shiro.version>
+        <shiro.version>1.7.1</shiro.version>
         <pac4j.version>3.4.0</pac4j.version>
         <buji.version>4.0.0</buji.version>
 
