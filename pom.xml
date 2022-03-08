@@ -60,7 +60,7 @@
         <!-- dom4j -->
         <dom4j.version>1.6.1</dom4j.version>
 
-        <poi.version>4.0.1</poi.version>
+        <poi.version>5.2.1</poi.version>
         <!-- pdfbox -->
         <pdfbox.version>2.0.13</pdfbox.version>
         <!-- hutool -->
