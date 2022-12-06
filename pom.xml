@@ -50,7 +50,7 @@
         <commons-codec.version>1.9</commons-codec.version>
         <commons-collections.version>3.2.2</commons-collections.version>
         <commons-beanutils.version>1.9.3</commons-beanutils.version>
-        <commons-net.version>3.6</commons-net.version>
+        <commons-net.version>3.9.0</commons-net.version>
         <commons-pool2.version>2.5.0</commons-pool2.version>
         <redisson.version>3.9.1</redisson.version>
         <!-- pinyin4j -->
